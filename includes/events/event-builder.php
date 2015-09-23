@@ -32,7 +32,7 @@ class Event_Builder {
 	 * Calendar.
 	 *
 	 * @access public
-	 * @var null
+	 * @var Calendar
 	 */
 	public $calendar = null;
 
