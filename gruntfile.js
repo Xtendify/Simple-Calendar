@@ -274,7 +274,7 @@ module.exports = function( grunt ) {
 				},
 				expand : true,
 				src    : distFiles,
-				dest   : '/simple-calendar'
+				dest   : '/google-calendar-events'
 			}
 		},
 
