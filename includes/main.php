@@ -234,7 +234,7 @@ final class Plugin {
 		switch( $case ) {
 			case 'codex' :
 			case 'apidocs' :
-				return 'http://api.simplecalendar.io';
+				return 'http://codex.simplecalendar.io';
 			case 'docs' :
 				return 'http://docs.simplecalendar.io';
 			case 'github' :

@@ -215,8 +215,8 @@ class Welcome {
 				<?php $this->intro(); ?>
 				<p class="about-description">
 					<?php printf(
-						__( 'Simple Calendar is developed and maintained by a worldwide team of passionate individuals and backed by an awesome developer community. Want to see your name? <a href="%s">Contribute to Goolge Calendar Events</a>.', 'google-calendar-events' ),
-						'https://github.com/moonstonemedia/WP-Google-Calendar-Events/blob/refactor/contributing.md'
+						__( 'Simple Calendar is developed and maintained by a worldwide growing number of passionate individuals and backed by an awesome developer community. Want to see your name? <a href="%s">Contribute to Simple Calendar</a>.', 'google-calendar-events' ),
+						'https://github.com/moonstonemedia/Simple-Calendar/blob/refactor/contributing.md'
 					); ?>
 				</p>
 				<?php echo $this->contributors(); ?>
@@ -237,7 +237,7 @@ class Welcome {
 				<?php $this->intro(); ?>
 				<p class="about-description">
 					<?php printf(
-						__( 'Simple Calendar has been kindly translated into several other languages thanks to our translation team. Want to see your name? <a href="%s">Translate Simple Calendar</a>.', 'google-calendar-events' ),
+						__( 'Simple Calendar has been kindly translated into several other languages by contributors from all over the World. Want to see your name? <a href="%s">Translate Simple Calendar</a>.', 'google-calendar-events' ),
 						'https://www.transifex.com/moonstonemedia/simple-calendar/'
 					); ?>
 				</p>
