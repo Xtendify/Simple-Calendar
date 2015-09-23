@@ -239,6 +239,8 @@ final class Plugin {
 				return 'http://docs.simplecalendar.io';
 			case 'github' :
 				return 'https://github.com/moonstonemedia/WP-Google-Calendar-Events';
+			case 'newsletter' :
+				return 'https://www.getdrip.com/forms/9434542/submissions/new';
 			case 'support' :
 				return 'https://wordpress.org/support/plugin/google-calendar-events';
 			default :
