@@ -1,14 +1,13 @@
 # Simple Calendar
 
 [![Join the chat at https://gitter.im/moonstonemedia/Simple-Calendar](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/moonstonemedia/Simple-Calendar?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-[![GitHub version](https://badge.fury.io/gh/moonstonemedia%2FWP-Google-Calendar-Events.svg)](https://github.com/moonstonemedia/WP-Google-Calendar-Events/releases)
-[![Dependency Status](https://gemnasium.com/moonstonemedia/WP-Google-Calendar-Events.svg)](https://gemnasium.com/moonstonemedia/WP-Google-Calendar-Events)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/moonstonemedia/Simple-Calendar/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/moonstonemedia/Simple-Calendar/?branch=master)
+[![Dependency Status](https://gemnasium.com/moonstonemedia/Simple-Calendar.svg)](https://gemnasium.com/moonstonemedia/Simple-Calendar)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 A highly configurable and extensible toolkit for [WordPress](https://wordpress.org) to parse calendar feeds and display events on different types of calendar views on WordPress pages, posts or widgets.
 
-[![Download from WordPress.org](https://raw.githubusercontent.com/moonstonemedia/WP-Google-Calendar-Events/refactor/assets/images/wp/wordpress-download-btn.png)](https://wordpress.org/plugins/google-calendar-events/)
+[![Download from WordPress.org](https://raw.githubusercontent.com/moonstonemedia/Simple-Calendar/master/assets/images/wp/wordpress-download-btn.png)](https://wordpress.org/plugins/google-calendar-events/)
 
 You can download the latest available release on [WordPress.org](https://wordpress.org/plugins/google-calendar-events/)
 
