@@ -57,7 +57,7 @@ class Notice {
 	 * If not set, will appear in every dashboard page/screen.
 	 *
 	 * @access public
-	 * @var string|array
+	 * @var array
 	 */
 	public $screen = array();
 
@@ -66,7 +66,7 @@ class Notice {
 	 * If not set, will fallback on $screen rule only.
 	 *
 	 * @access public
-	 * @var int|array
+	 * @var array
 	 */
 	public $post = array();
 
@@ -123,8 +123,8 @@ class Notice {
 
 			// Visibility.
 			$this->capability  = isset( $notice['capability'] )  ? esc_attr( $notice['capability'] ) : '';
-			$this->screen      = isset( $notice['screen'] )      ? ( is_array( $notice['screen'] ) ? array_map( 'esc_attr', $notice['screens'] ) : array( esc_attr( $notice['screen'] ) ) ) : '';
-			$this->post        = isset( $notice['post'] )        ? ( is_array( $notice['post'] ) ? array_map( 'intval', $notice['post'] ) : array( intval( $notice['post'] ) ) ) : '';
+			$this->screen      = isset( $notice['screen'] )      ? ( is_array( $notice['screen'] ) ? array_map( 'esc_attr', $notice['screens'] ) : array( esc_attr( $notice['screen'] ) ) ) : array();
+			$this->post        = isset( $notice['post'] )        ? ( is_array( $notice['post'] ) ? array_map( 'intval', $notice['post'] ) : array( intval( $notice['post'] ) ) ) : array();
 			$this->dismissable = isset( $notice['dismissable'] ) ? ( $notice['dismissable'] === false ? false: true ) : true;
 			$this->visible     = isset( $notice['visible'] )     ? ( $notice['visible'] === false ? false: true ) : true;
 
