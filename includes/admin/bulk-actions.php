@@ -204,7 +204,7 @@ class Bulk_Actions {
 					$message = sprintf( _n( $message['single'], $message['plural'], $post_ids_count, 'google-calendar-events' ), $post_ids_count );
 				}
 
-				$class = "updated notice is-dismissible above-h2";
+				$class = 'updated notice is-dismissible above-h2';
 				if ( ! empty( $message ) ) {
 					echo "<div class=\"{$class}\"><p>{$message}</p></div>";
 				}
