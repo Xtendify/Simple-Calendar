@@ -20,15 +20,19 @@ interface Meta_Box {
 	/**
 	 * Output the meta box markup.
 	 *
-	 * @param \WP_Post $post
+	 * @param  \WP_Post $post
+	 *
+	 * @return void
 	 */
 	public static function html( $post );
 
 	/**
 	 * Validate and save the meta box fields.
 	 *
-	 * @param int      $post_id
-	 * @param \WP_Post $post
+	 * @param  int      $post_id
+	 * @param  \WP_Post $post
+	 *
+	 * @return void
 	 */
 	public static function save( $post_id, $post );
 

@@ -349,7 +349,7 @@ abstract class Calendar {
 	/**
 	 * Get the calendar post data.
 	 *
-	 * @return object
+	 * @return \WP_Post
 	 */
 	public function get_post_data() {
 		return $this->post;

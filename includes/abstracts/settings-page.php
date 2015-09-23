@@ -144,6 +144,7 @@ abstract class Settings_Page {
 	 * Default basic callback for page sections.
 	 *
 	 * @param  array $section
+	 *
 	 * @return string
 	 */
 	public function add_settings_section_callback( $section ) {
@@ -162,6 +163,7 @@ abstract class Settings_Page {
 	 * Callback function for sanitizing and validating options before they are updated.
 	 *
 	 * @param  array $settings Settings inputs.
+	 *
 	 * @return array Sanitized settings.
 	 */
 	public function validate( $settings ) {

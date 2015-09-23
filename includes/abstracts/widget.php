@@ -27,6 +27,8 @@ interface Widget {
 	 *
 	 * @param array $args     Display arguments.
 	 * @param array $instance The settings for the particular instance of the widget.
+	 *
+	 * @return void
 	 */
 	public function widget( $args, $instance );
 

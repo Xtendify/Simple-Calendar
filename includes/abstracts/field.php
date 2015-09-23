@@ -254,6 +254,8 @@ abstract class Field {
 
 	/**
 	 * Outputs the field markup.
+	 *
+	 * @return void
 	 */
 	abstract public function html();
 

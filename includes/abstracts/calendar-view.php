@@ -47,6 +47,8 @@ interface Calendar_View {
 
 	/**
 	 * Add ajax actions.
+	 *
+	 * @return void
 	 */
 	public function add_ajax_actions();
 
@@ -76,6 +78,8 @@ interface Calendar_View {
 	 * Print HTML.
 	 *
 	 * Echoes the view markup.
+	 *
+	 * @return void
 	 */
 	public function html();
 
