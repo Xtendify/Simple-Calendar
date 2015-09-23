@@ -99,7 +99,7 @@ class Objects {
 	 *
 	 * Returns the right type of calendar.
 	 *
-	 * @param  int|object|\WP_Post|Object\Calendar $object
+	 * @param  int|string|object|\WP_Post|Object\Calendar $object
 	 *
 	 * @return null|false|Object\Calendar
 	 */
