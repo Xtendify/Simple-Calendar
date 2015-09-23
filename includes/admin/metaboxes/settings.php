@@ -193,7 +193,7 @@ class Settings implements Meta_Box {
 				'target' => 'calendar-settings-panel',
 				'class'  => array(),
 				'icon'   => 'simcal-icon-calendar'
-			)
+			),
 		), $post->ID );
 
 		// Always keep advanced tab as the last one.
@@ -332,10 +332,10 @@ class Settings implements Meta_Box {
 							'id'      => '_calendar_begins_custom_date',
 							'value'   => get_post_meta( $post->ID, '_calendar_begins_custom_date', true ),
 							'class' => array(
-								'simcal-field-inline'
+								'simcal-field-inline',
 							),
-							'style'   => 'custom_date' != $calendar_begins ? array( 'display' => 'none' ) : ''
-						));
+							'style'   => 'custom_date' != $calendar_begins ? array( 'display' => 'none' ) : '',
+						) );
 
 						?>
 						<i class="simcal-icon-help simcal-help-tip"
@@ -361,10 +361,10 @@ class Settings implements Meta_Box {
 							),
 							'class'   => array(
 								'simcal-field-inline',
-								'simcal-field-tiny'
+								'simcal-field-tiny',
 							),
 							'style'      => ( 'now' != $earliest_event ) && ( 'today' != $earliest_event ) ? array( 'display' => 'none' ) : '',
-						));
+						) );
 
 						?>
 						<select name="_feed_earliest_event_date"
@@ -402,7 +402,7 @@ class Settings implements Meta_Box {
 								'simcal-field-tiny'
 							),
 							'style'      => 'indefinite' != $latest_event ? array( 'display' => 'none' ) : '',
-						));
+						) );
 
 						?>
 						<select name="_feed_latest_event_date"
@@ -490,7 +490,7 @@ class Settings implements Meta_Box {
 	 */
 	private static function advanced_settings_panel( $post ) {
 
-        ?>
+		?>
 		<table>
 			<thead>
 				<tr><th colspan="2"><?php _e( 'Date and Time', 'google-calendar-events' ); ?></th></tr>
@@ -555,8 +555,8 @@ class Settings implements Meta_Box {
 							'name'    => '_calendar_date_format',
 							'id'      => '_calendar_date_format',
 							'value'   => $date_format,
-							'style'   => $date_format_setting != 'use_custom' ? array( 'display' => 'none' ) : ''
-						)); ?>
+							'style'   => $date_format_setting != 'use_custom' ? array( 'display' => 'none' ) : '',
+						) ); ?>
 						<div class="simcal-field-datetime-format-php" id="_calendar_date_format_php_field" style="<?php echo $date_format_setting != 'use_custom_php' ? 'display: none;' : ''; ?>">
 							<br>
 							<label for="_calendar_date_format_php">
@@ -591,9 +591,9 @@ class Settings implements Meta_Box {
 							'tooltip' => __( 'Used to divide date and time when both are shown.', 'google-calendar-events' ),
 							'context' => 'metabox',
 							'class'   => array(
-								'simcal-field-tiny'
+								'simcal-field-tiny',
 							),
-						));
+						) );
 
 						?>
 					</td>
@@ -628,8 +628,8 @@ class Settings implements Meta_Box {
 							'name'    => '_calendar_time_format',
 							'id'      => '_calendar_time_format',
 							'value'   => $time_format,
-							'style'   => $time_format_setting != 'use_custom' ? array( 'display' => 'none' ) : ''
-						)); ?>
+							'style'   => $time_format_setting != 'use_custom' ? array( 'display' => 'none' ) : '',
+						) ); ?>
 						<div class="simcal-field-datetime-format-php" id="_calendar_time_format_php_field" style="<?php echo $time_format_setting != 'use_custom_php' ? 'display: none;' : ''; ?>">
 							<br>
 							<label for="_calendar_date_format_php">
@@ -663,7 +663,7 @@ class Settings implements Meta_Box {
 							id="_calendar_week_starts_on_setting"
 							class="simcal-field simcal-field-select simcal-field-inline simcal-field-show-next"
 							data-show-next-if-value="use_custom">
-							<option value="use_site" <?php selected( 'use_site', $week_starts_setting, true ); ?>><?php printf( _x( 'Site default', 'Use this site default setting', 'google-calendar-events' ) . ' (%s)', date_i18n('l', strtotime( "Sunday + $week_starts_default Days" ) ) ); ?></option>
+							<option value="use_site" <?php selected( 'use_site', $week_starts_setting, true ); ?>><?php printf( _x( 'Site default', 'Use this site default setting', 'google-calendar-events' ) . ' (%s)', date_i18n( 'l', strtotime( "Sunday + $week_starts_default Days" ) ) ); ?></option>
 							<option value="use_custom" <?php selected( 'use_custom', $week_starts_setting, true ); ?>><?php _ex( 'Custom', 'Use a custom setting', 'google-calendar-events' ); ?></option>
 						</select>
 						<select
@@ -733,7 +733,7 @@ class Settings implements Meta_Box {
 			if ( $fields && is_array( $fields ) ) :
 
 				?>
-				<tbody class="simcal-panel-section simcal-panel-section-<?php echo $section; ?>">
+				<tbody class="simcal-panel-section simcal-panel-section-<?php echo esc_attr( $section ); ?>">
 					<?php foreach ( $fields as $key => $field ) :
 
 						$value            = get_post_meta( $post_id, $key, true );
@@ -785,7 +785,7 @@ class Settings implements Meta_Box {
 		wp_set_object_terms( $post_id, $calendar_type, 'calendar_type' );
 		// Set the calendar type view as post meta.
 		$calendar_view = isset( $_POST['_calendar_view'] ) ? $_POST['_calendar_view'] : '';
-		if ( $calendar_view && is_array( $calendar_view )) {
+		if ( $calendar_view && is_array( $calendar_view ) ) {
 			$views = array_map( 'sanitize_title', $calendar_view );
 			update_post_meta( $post_id, '_calendar_view', $views );
 		}
