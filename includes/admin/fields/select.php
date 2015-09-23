@@ -83,7 +83,7 @@ class Select extends Field {
 		echo 'metabox' != $this->context ? $this->tooltip : '';
 
 		?>
-		<select name="<?php echo $this->name; ?><?php if ( $this->multiselect === true ) echo '[]'; ?>"
+		<select name="<?php echo $this->name; ?><?php if ( $this->multiselect === true ) { echo '[]'; } ?>"
 		        id="<?php echo $this->id; ?>"
 		        style="<?php echo $this->style; ?>"
 		        class="<?php echo $this->class; ?>"
