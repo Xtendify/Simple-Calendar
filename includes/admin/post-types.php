@@ -63,7 +63,7 @@ class Post_Types {
 		$shortcode     = array( 'shortcode' => __( 'Shortcode', 'google-calendar-events' ) );
 
 		// Merge with existing columns and rearrange.
-		$columns = array_slice( $columns, 0, 2, true ) + $feed_info + $calendar_info + $shortcode + array_slice( $columns, 2, NULL, true );
+		$columns = array_slice( $columns, 0, 2, true ) + $feed_info + $calendar_info + $shortcode + array_slice( $columns, 2, null, true );
 
 		return $columns;
 	}
