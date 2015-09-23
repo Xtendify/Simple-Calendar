@@ -28,7 +28,7 @@ if ( isset( $settings['installation']['erase_data'] ) ) {
 global $wpdb;
 
 // Delete settings.
-if ( ( $delete_settings === true ) OR ( $erase_data === true ) ) {
+if ( ( $delete_settings === true ) || ( $erase_data === true ) ) {
 	$wpdb->query(
 		"
 DELETE FROM $wpdb->options WHERE option_name LIKE '%simple-calendar%';
