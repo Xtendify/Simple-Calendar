@@ -85,7 +85,7 @@ class Settings_Pages {
 
 		$settings = array();
 
-		if ( $this->settings && is_array( $this->settings ) ) {
+		if ( ! empty( $this->settings ) && is_array( $this->settings ) ) {
 			foreach ( $this->settings as $id => $object ) {
 
 				if ( $object instanceof Settings_Page ) {
@@ -114,7 +114,7 @@ class Settings_Pages {
 
 		$settings = $settings ? $settings : $this->get_settings();
 
-		if ( $settings && is_array( $settings ) ) {
+		if ( ! empty( $settings ) && is_array( $settings ) ) {
 
 			foreach ( $settings as $tab_id => $settings_page ) {
 
@@ -122,7 +122,7 @@ class Settings_Pages {
 
 					$sections = $settings_page['sections'];
 
-					if ( $sections && is_array( $sections ) ) {
+					if ( ! empty( $sections ) && is_array( $sections ) ) {
 
 						foreach ( $sections as $section_id => $section ) {
 
@@ -137,7 +137,7 @@ class Settings_Pages {
 
 								$fields = $section['fields'];
 
-								if ( $fields && is_array( $fields ) ) {
+								if ( ! empty( $fields ) && is_array( $fields ) ) {
 
 									foreach ( $fields as $field ) {
 
@@ -206,12 +206,12 @@ class Settings_Pages {
 
 				// Include settings pages
 				$settings_pages = self::get_settings();
-				if ( $settings_pages && is_array( $settings_pages ) ) {
+				if ( ! empty( $settings_pages ) && is_array( $settings_pages ) ) {
 
 					echo '<h2 class="nav-tab-wrapper simcal-nav-tab-wrapper">';
 
 						// Get tabs for the settings page
-						if ( $settings_pages && is_array( $settings_pages ) ) {
+						if ( ! empty( $settings_pages ) && is_array( $settings_pages ) ) {
 
 							foreach ( $settings_pages as $id => $settings ) {
 
