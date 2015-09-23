@@ -28,7 +28,7 @@ class Assets {
 	private $min = '';
 
 	/**
-	 * Scripts
+	 * Scripts.
 	 *
 	 * @access private
 	 * @var array
@@ -36,7 +36,7 @@ class Assets {
 	private $scripts = array();
 
 	/**
-	 * Styles
+	 * Styles.
 	 *
 	 * @access private
 	 * @var array
@@ -170,7 +170,7 @@ class Assets {
 	 */
 	public function load_scripts( $scripts ) {
 
-		if ( $scripts && is_array( $scripts ) ) {
+		if ( ! empty( $scripts ) && is_array( $scripts ) ) {
 
 			foreach ( $scripts as $script => $v ) {
 
@@ -210,7 +210,7 @@ class Assets {
 	 */
 	public function load_styles( $styles ) {
 
-		if ( $styles && is_array( $styles ) ) {
+		if ( ! empty( $styles ) && is_array( $styles ) ) {
 
 			foreach ( $styles as $style => $v ) {
 
