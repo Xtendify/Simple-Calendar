@@ -34,7 +34,7 @@ tools:
             reflection_fixes: { enabled: false }
             use_statement_fixes: { enabled: true, remove_unused: true, preserve_multiple: false, order_alphabetically: false }
     php_code_sniffer:
-        command: 'phpcs -n -s -p -v'
+        #command: 'phpcs -n -s -p -v'
         filter:
             excluded_paths: ['apigen/*','tests/*']
         config:
