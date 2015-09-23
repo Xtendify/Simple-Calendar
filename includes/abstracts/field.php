@@ -61,17 +61,17 @@ abstract class Field {
 	 * CSS classes.
 	 *
 	 * @access public
-	 * @var array
+	 * @var string
 	 */
-	public $class = array();
+	public $class = '';
 
 	/**
 	 * CSS styles.
 	 *
 	 * @access public
-	 * @var array
+	 * @var string
 	 */
-	public $style = array();
+	public $style = '';
 
 	/**
 	 * Description.
@@ -93,9 +93,9 @@ abstract class Field {
 	 * Attributes.
 	 *
 	 * @access public
-	 * @var array
+	 * @var string
 	 */
-	public $attributes = array();
+	public $attributes = '';
 
 	/**
 	 * Placeholder.
