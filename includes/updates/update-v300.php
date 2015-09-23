@@ -52,7 +52,7 @@ class Update_V300 {
 
 		if ( $api_key == $this->legacy_api_key ) {
 
-			$message  = '<p>' . __( 'It looks like you are using an old Google API Key which was previously bundled with the plugin. You should update this key with a key of your own.' ) . '</p>';
+			$message  = '<p>' . __( 'It looks like you are using an old Google API Key which was previously bundled with the plugin. You should update this key with a key of your own.', 'google-calendar-events' ) . '</p>';
 
 			$notice = new Notice( array(
 				'id'          => 'legacy_api_key',
