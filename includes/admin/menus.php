@@ -40,7 +40,7 @@ class Menus {
 
 		self::$main_menu = 'edit.php?post_type=calendar';
 
-		add_action( 'admin_menu', array( __CLASS__ , 'add_menu_items' ) );
+		add_action( 'admin_menu', array( __CLASS__, 'add_menu_items' ) );
 
 		self::$plugin = plugin_basename( SIMPLE_CALENDAR_MAIN_FILE );
 

@@ -31,9 +31,9 @@ class Ajax {
 
 		$calendars = simcal_get_calendar_types();
 
-		foreach( $calendars as $calendar => $views ) {
+		foreach ( $calendars as $calendar => $views ) {
 
-			foreach( $views as $view ) {
+			foreach ( $views as $view ) {
 
 				$the_view = simcal_get_calendar_view( 0, $calendar . '-' . $view );
 

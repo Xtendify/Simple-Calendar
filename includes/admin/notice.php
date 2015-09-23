@@ -107,7 +107,7 @@ class Notice {
 		if ( isset( $notice['id'] ) && isset( $notice['content'] ) ) {
 
 			// Content.
-			$this->id      = isset( $notice['id'] )      ? ( is_array( $notice['id'] ) ? array_map( 'sanitize_key', $notice['id' ] ) : sanitize_key( $notice['id'] ) ) : '';
+			$this->id      = isset( $notice['id'] )      ? ( is_array( $notice['id'] ) ? array_map( 'sanitize_key', $notice['id'] ) : sanitize_key( $notice['id'] ) ) : '';
 			$this->content = isset( $notice['content'] ) ? wp_kses_post( $notice['content'] ) : '';
 
 			// Type.
@@ -141,7 +141,7 @@ class Notice {
 		if ( ! empty( $this->id ) && ! empty( $this->content ) ) {
 			$notices              = get_option( 'simple-calendar_admin_notices', array() );
 			if ( is_array( $this->id ) ) {
-				foreach( $this->id as $k => $v ) {
+				foreach ( $this->id as $k => $v ) {
 					$notices[ $k ][ $v ] = $this;
 				}
 			} else {
@@ -160,7 +160,7 @@ class Notice {
 		if ( ! empty( $this->id ) && ! empty( $this->content ) ) {
 			$notices = get_option( 'simple-calendar_admin_notices', array() );
 			if ( is_array( $this->id ) ) {
-				foreach( $this->id as $k => $v ) {
+				foreach ( $this->id as $k => $v ) {
 					unset( $notices[ $k ] );
 				}
 			} else {

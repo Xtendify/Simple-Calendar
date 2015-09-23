@@ -100,13 +100,13 @@ function simcal_common_scripts_variables() {
 		'text_dir'  => is_rtl() ? 'rtl' : 'ltr',
 		'months'    => array(
 			'full'  => simcal_get_calendar_names_i18n( 'month', 'full'  ),
-			'short' => simcal_get_calendar_names_i18n( 'month', 'short' )
+			'short' => simcal_get_calendar_names_i18n( 'month', 'short' ),
 		),
 		'days'      => array(
 			'full'  => simcal_get_calendar_names_i18n( 'day', 'full' ),
-			'short' => simcal_get_calendar_names_i18n( 'day', 'short' )
+			'short' => simcal_get_calendar_names_i18n( 'day', 'short' ),
 		),
-		'meridiem' => simcal_get_calendar_names_i18n( 'meridiem' )
+		'meridiem' => simcal_get_calendar_names_i18n( 'meridiem' ),
 	);
 
 	return array_merge( $vars, apply_filters( 'simcal_common_scripts_variables', array() ) );
@@ -132,7 +132,7 @@ function simcal_get_calendars( $exclude = '', $cached = true ) {
 		) );
 
 		$calendars = array();
-		foreach( $posts as $post ) {
+		foreach ( $posts as $post ) {
 			$calendars[ $post->ID ] = $post->post_title;
 		}
 		asort( $calendars );
@@ -180,7 +180,7 @@ function simcal_get_calendar_names_i18n( $group, $style = 'full' ) {
 			$date->next( 6 );
 			$format = 'short' == $style ? 'D' : 'l';
 			$length = 6;
-		} elseif( 'meridiem' == $group ) {
+		} elseif ( 'meridiem' == $group ) {
 			$date->startOfDay();
 			$am = $date->addHour( 1 )->getTimestamp();
 			$pm = $date->addHours( 13 )->getTimestamp();
@@ -188,7 +188,7 @@ function simcal_get_calendar_names_i18n( $group, $style = 'full' ) {
 				'AM' => date_i18n( 'A', $am ),
 				'am' => date_i18n( 'a', $am ),
 				'PM' => date_i18n( 'A', $pm ),
-				'pm' => date_i18n( 'a', $pm )
+				'pm' => date_i18n( 'a', $pm ),
 			);
 		}
 
@@ -247,7 +247,7 @@ function simcal_get_date_format_order( $date_format ) {
 	// @todo When one date piece is not found, perhaps fallback to ISO standard position.
 
 	$order = array();
-	foreach( $pos as $k => $v ) {
+	foreach ( $pos as $k => $v ) {
 		$order[ $k ] = $v;
 	}
 	ksort( $order );

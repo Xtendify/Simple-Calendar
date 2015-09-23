@@ -40,14 +40,14 @@ class Calendars extends Settings_Page {
 
 		$calendars = simcal_get_calendar_types();
 		$calendar_settings = array();
-		if ( $calendars && is_array( $calendars ) ) {
+		if ( ! empty( $calendars ) && is_array( $calendars ) ) {
 			foreach ( $calendars as $calendar => $views ) {
 
 				$calendar_type = simcal_get_calendar( $calendar );
 
 				if ( $calendar_type instanceof Calendar ) {
 					$settings = $calendar_type->settings_fields();
-					if ( $settings ) {
+					if ( ! empty( $settings ) ) {
 						$calendar_settings[ $calendar ] = $settings;
 					}
 				}
@@ -69,17 +69,18 @@ class Calendars extends Settings_Page {
 		$sections = array(
 			'general' => array(
 				'title'       => __( 'General', 'google-calendar-events' ),
-				'description' => ''
-		) );
+				'description' => '',
+			),
+		);
 
 		$calendar_types = $this->calendar_types;
 
-		if ( $calendar_types && is_array( $calendar_types ) ) {
+		if ( ! empty( $calendar_types ) && is_array( $calendar_types ) ) {
 			foreach ( $calendar_types as $calendar_type => $type ) {
 
 				$sections[ $calendar_type ] = array(
 					'title' => $type['name'],
-					'description' => $type['description']
+					'description' => $type['description'],
 				);
 
 			}

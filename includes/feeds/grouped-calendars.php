@@ -38,8 +38,8 @@ class Grouped_Calendars extends Feed {
 
 		parent::__construct( $calendar );
 
-		$this->type   = 'grouped-calendars';
-		$this->name   = __( 'Grouped Calendars', 'google-calendar-events' );
+		$this->type = 'grouped-calendars';
+		$this->name = __( 'Grouped Calendars', 'google-calendar-events' );
 
 		if ( $this->calendar_id > 0 ) {
 			$this->set_source();
@@ -107,7 +107,7 @@ class Grouped_Calendars extends Feed {
 
 			$events = array();
 
-			foreach( $ids as $cal_id ) {
+			foreach ( $ids as $cal_id ) {
 
 				$calendar = simcal_get_calendar( intval( $cal_id ) );
 

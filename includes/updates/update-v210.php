@@ -24,7 +24,7 @@ class Update_V210 {
 
 		if ( ! empty( $posts ) && is_array( $posts ) ) {
 
-			foreach( $posts as $post ) {
+			foreach ( $posts as $post ) {
 
 				$url = get_post_meta( $post->ID, 'gce_feed_url', true );
 

@@ -34,8 +34,8 @@ class Notices {
 
 		if ( ! empty( $notices ) && is_array( $notices ) ) {
 
-			foreach( $notices as $group ) {
-				foreach( $group as $notice ) {
+			foreach ( $notices as $group ) {
+				foreach ( $group as $notice ) {
 
 					if ( $notice instanceof Notice ) {
 

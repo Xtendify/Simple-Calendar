@@ -78,8 +78,8 @@ class Datetime_Format extends Field {
 
 			if ( 'date' == $this->subtype ) {
 
-				$date = array( 'weekday' => '', 'divider' => '', 'day' => '',  'month' => '', 'year' => '' );
-				foreach( $matches as $match ) {
+				$date = array( 'weekday' => '', 'divider' => '', 'day' => '', 'month' => '', 'year' => '' );
+				foreach ( $matches as $match ) {
 					if ( in_array( $match, array( 'D', 'l' ) ) ) {
 						$this->weekday();
 						unset( $date['weekday'] );
@@ -92,7 +92,7 @@ class Datetime_Format extends Field {
 					} elseif ( in_array( $match, array( 'y', 'Y' ) ) ) {
 						$this->year();
 						unset( $date['year'] );
-					} elseif( in_array( $match, array( '.', ',', ':', '/', '-' ) ) ) {
+					} elseif ( in_array( $match, array( '.', ',', ':', '/', '-' ) ) ) {
 						$this->divider();
 						unset( $date['divider'] );
 					}
@@ -120,7 +120,7 @@ class Datetime_Format extends Field {
 					} elseif ( in_array( $match, array( 'A', 'a' ) ) ) {
 						$this->meridiem();
 						unset( $time['meridiem'] );
-					} elseif( in_array( $match, array( '.', ',', ':', '/', '-' ) ) ) {
+					} elseif ( in_array( $match, array( '.', ',', ':', '/', '-' ) ) ) {
 						$this->divider();
 						unset( $time['divider'] );
 					}

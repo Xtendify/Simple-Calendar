@@ -89,7 +89,7 @@ function simcal_delete_feed_transients( $id = '' ) {
 			'nopaging'  => true,
 		) );
 
-		foreach( $posts as $post ) {
+		foreach ( $posts as $post ) {
 			$calendar = simcal_get_calendar( $post );
 			if ( $calendar instanceof \SimpleCalendar\Abstracts\Calendar ) {
 				foreach ( $feed_types as $feed_type ) {
@@ -148,8 +148,8 @@ function simcal_sanitize_input( $var, $func = 'sanitize_text_field'  ) {
 
 	if ( is_array( $var ) ) {
 		$array = array();
-		foreach( $var as $k => $v ) {
-			$array[$k] = simcal_sanitize_input( $v );
+		foreach ( $var as $k => $v ) {
+			$array[ $k ] = simcal_sanitize_input( $v );
 		}
 		return $array;
 	}
@@ -251,7 +251,7 @@ function simcal_ga_campaign_url( $base_url, $source, $medium, $campaign ) {
 	$url = esc_url( add_query_arg( array(
 		'utm_source'   => $source,
 		'utm_medium'   => $medium,
-		'utm_campaign' => $campaign
+		'utm_campaign' => $campaign,
 	), $base_url ) );
 
 	return esc_url( $url );

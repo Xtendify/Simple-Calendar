@@ -196,7 +196,7 @@ abstract class Field {
 		$this->style = '';
 		if ( isset( $field['style'] ) ) {
 			if ( $field['style'] && is_array( $field['style'] ) ) {
-				foreach( $field['style'] as $k => $v ) {
+				foreach ( $field['style'] as $k => $v ) {
 					$this->style .= esc_attr( $k ) . ': ' . esc_attr( $v ) . '; ';
 				}
 			}

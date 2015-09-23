@@ -164,7 +164,7 @@ class Bulk_Actions {
 				$sendback
 			);
 			$sendback = remove_query_arg(
-				array( 'action', 'paged', 'mode', 'action2', 'tags_input', 'post_author', 'comment_status', 'ping_status', '_status',  'post', 'bulk_edit', 'post_view' ),
+				array( 'action', 'paged', 'mode', 'action2', 'tags_input', 'post_author', 'comment_status', 'ping_status', '_status', 'post', 'bulk_edit', 'post_view' ),
 				$sendback
 			);
 

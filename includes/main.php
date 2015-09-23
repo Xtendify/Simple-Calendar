@@ -231,7 +231,7 @@ final class Plugin {
 	 * @return string
 	 */
 	public function get_url( $case ) {
-		switch( $case ) {
+		switch ( $case ) {
 			case 'codex' :
 			case 'apidocs' :
 				return 'http://codex.simplecalendar.io';

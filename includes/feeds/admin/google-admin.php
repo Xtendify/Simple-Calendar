@@ -89,7 +89,7 @@ class Google_Admin {
 					'title'       => __( 'API Key', 'google-calendar-events' ),
 					'validation'  => array( $this, 'check_google_api_key' ),
 				),
-			)
+			),
 		);
 	}
 
@@ -168,7 +168,7 @@ class Google_Admin {
 					'tooltip'     => __( 'Visit your Google Calendar account, choose or subscribe a public calendar, copy and paste its ID here.', 'google-calendar-events' ),
 					'placeholder' => __( 'Enter a valid Google Calendar ID from a public calendar', 'google-calendar-events' ),
 					'escaping'    => array( $this->feed, 'esc_google_calendar_id' ),
-					'validation'  => array( $this, 'test_api_key_connection' )
+					'validation'  => array( $this, 'test_api_key_connection' ),
 				),
 				'_google_events_search_query' => array(
 					'type'        => 'standard',
@@ -177,7 +177,7 @@ class Google_Admin {
 					'id'          => '_google_events_search_query',
 					'title'       => __( 'Search query', 'google-calendar-events' ),
 					'tooltip'     => __( 'Type in keywords if you only want display events that match these terms. You can use basic boolean search operators too.', 'google-calendar-events' ),
-					'placeholder' => __( 'Filter events to display by search terms...', 'google-calendar-events' )
+					'placeholder' => __( 'Filter events to display by search terms...', 'google-calendar-events' ),
 				),
 				'_google_events_recurring' => array(
 					'type'    => 'select',
@@ -203,8 +203,8 @@ class Google_Admin {
 					'default'     => '2500',
 					'attributes' => array(
 						'min'  => '0',
-						'max'  => '2500'
-					)
+						'max'  => '2500',
+					),
 				),
 			)
 		);

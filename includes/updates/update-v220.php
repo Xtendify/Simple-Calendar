@@ -24,7 +24,7 @@ class Update_V220 {
 
 		if ( ! empty( $posts ) && is_array( $posts ) ) {
 
-			foreach( $posts as $post ) {
+			foreach ( $posts as $post ) {
 
 				$gce_list_max_num        = get_post_meta( $post->ID, 'gce_list_max_num', true );
 				$gce_list_max_length     = get_post_meta( $post->ID, 'gce_list_max_length', true );

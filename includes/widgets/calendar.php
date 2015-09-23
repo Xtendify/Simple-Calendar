@@ -139,7 +139,7 @@ class Calendar extends \WP_Widget implements Widget {
 	 */
 	public function form( $instance ) {
 
-		$title = isset( $instance[ 'title' ] ) ? $instance[ 'title' ] : __( 'Calendar', 'google-calendar-events' );
+		$title = isset( $instance['title'] ) ? $instance['title'] : __( 'Calendar', 'google-calendar-events' );
 		$calendar_id = isset( $instance['calendar_id'] ) ? $instance['calendar_id'] : '';
 
 		?>

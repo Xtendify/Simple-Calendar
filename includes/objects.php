@@ -112,12 +112,12 @@ class Objects {
 		if ( is_object( $object ) ) {
 			if ( $object instanceof Object\Calendar ) {
 				return $this->get_object( $object->type, 'feed', $object );
-			} elseif( $object instanceof \WP_Post ) {
+			} elseif ( $object instanceof \WP_Post ) {
 				if ( $type = wp_get_object_terms( $object->ID, 'calendar_type' ) ) {
 					$name = sanitize_title( current( $type )->name );
 					return $this->get_object( $name, 'calendar', $object );
 				}
-			} elseif( isset( $object->type ) && isset( $object->id ) ) {
+			} elseif ( isset( $object->type ) && isset( $object->id ) ) {
 				return $this->get_object( $object->type, 'calendar', $object->id );
 			}
 		}
@@ -183,10 +183,10 @@ class Objects {
 					$feed_name = $object->feed;
 				}
 				return $this->get_object( $feed_name, 'feed', $object );
-			} elseif( $object instanceof \WP_Post ) {
+			} elseif ( $object instanceof \WP_Post ) {
 				$calendar = $this->get_calendar( $object );
 				return $this->get_object( $calendar->feed, 'feed', $calendar );
-			} elseif( isset( $object->feed ) && isset( $object->id ) ) {
+			} elseif ( isset( $object->feed ) && isset( $object->id ) ) {
 				return $this->get_object( $object->feed, 'feed', $object );
 			}
 		}
@@ -281,9 +281,9 @@ class Objects {
 			$namespace = '\\' . __NAMESPACE__ . '\Calendars\Views\\';
 		} elseif ( 'feed' == $type ) {
 			$namespace = '\\' . __NAMESPACE__ . '\Feeds\\';
-		} elseif( 'field' == $type ) {
+		} elseif ( 'field' == $type ) {
 			$namespace = '\\' . __NAMESPACE__ . '\Admin\Fields\\';
-		} elseif( 'settings-page' == $type ) {
+		} elseif ( 'settings-page' == $type ) {
 			$namespace = '\\' . __NAMESPACE__ . '\Admin\Settings\\';
 		} else {
 			return '';

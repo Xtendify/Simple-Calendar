@@ -166,9 +166,9 @@ class Post_Types {
 		$bulk_actions = new Bulk_Actions( 'calendar' );
 
 		$bulk_actions->register_bulk_action( array(
-			'menu_text'    => __( 'Clear cache', 'google-calendar-events' ),
-            'action_name'  => 'clear_calendars_cache',
-            'callback'     => function( $post_ids ) {
+			'menu_text'     => __( 'Clear cache', 'google-calendar-events' ),
+            'action_name'   => 'clear_calendars_cache',
+            'callback'      => function( $post_ids ) {
                 simcal_delete_feed_transients( $post_ids );
             },
 			'admin_notice' => __( 'Cache cleared.', 'google-calendar-events' ),

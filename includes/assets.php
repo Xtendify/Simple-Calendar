@@ -149,13 +149,13 @@ class Assets {
 
 		if ( $disable_js === true ) {
 			$scripts = apply_filters( 'simcal_front_end_scripts', $this->scripts, $this->min );
-			foreach( $scripts as $script => $v ) {
+			foreach ( $scripts as $script => $v ) {
 				wp_dequeue_script( $script );
 			}
 		}
 		if ( $disable_css === true ) {
 			$styles = apply_filters( 'simcal_front_end_styles', $this->styles, $this->min );
-			foreach( $styles as $style => $v ) {
+			foreach ( $styles as $style => $v ) {
 				wp_dequeue_style( $style );
 			}
 		}

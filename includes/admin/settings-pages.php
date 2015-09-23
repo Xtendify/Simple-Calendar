@@ -57,7 +57,7 @@ class Settings_Pages {
 		$tabs = isset( $settings_pages[ $page ] ) ? $settings_pages[ $page ] : false;
 
 		if ( $tabs && is_array( $tabs ) ) {
-			foreach( $tabs as $tab ) {
+			foreach ( $tabs as $tab ) {
 
 				$settings_page = simcal_get_settings_page( $tab );
 

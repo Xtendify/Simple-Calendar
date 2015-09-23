@@ -39,7 +39,7 @@ class Attach_Calendar implements Meta_Box {
 			'value'      => absint( get_post_meta( $post->ID, '_simcal_attach_calendar_id', true ) ),
 			'options'    => simcal_get_calendars(),
 			'attributes' => array(
-				'data-allowclear' => 'true'
+				'data-allowclear' => 'true',
 			)
 		) );
 
@@ -53,7 +53,7 @@ class Attach_Calendar implements Meta_Box {
 			'value'     => $position ? $position : 'after',
 			'options'   => array(
 				'after'  => __( 'After content', 'google-calendar-events' ),
-				'before' => __( 'Before content', 'google-calendar-events' )
+				'before' => __( 'Before content', 'google-calendar-events' ),
 			),
 		) );
 

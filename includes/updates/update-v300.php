@@ -343,7 +343,7 @@ UPDATE {$table} SET `post_type`='calendar' WHERE `post_type`='gce_feed';
 
 			$new_widgets = array();
 
-			foreach( $old_widgets as $i => $old_widget ) {
+			foreach ( $old_widgets as $i => $old_widget ) {
 				if ( isset( $old_widget['id'] ) ) {
 
 					$id = absint( substr( $old_widget['id'], 0, strspn( $old_widget['id'], '0123456789' ) ) );

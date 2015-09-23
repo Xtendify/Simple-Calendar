@@ -40,14 +40,14 @@ class Feeds extends Settings_Page {
 
 		$feeds_settings = array();
 		$feeds = simcal_get_feed_types();
-		if ( $feeds && is_array( $feeds ) ) {
+		if ( ! empty( $feeds ) && is_array( $feeds ) ) {
 			foreach ( $feeds as $feed ) {
 
 				$feed_type = simcal_get_feed( $feed );
 
 				if ( $feed_type instanceof Feed ) {
 					$settings = $feed_type->settings_fields();
-					if ( $settings ) {
+					if ( ! empty( $settings ) ) {
 						$feeds_settings[ $feed ] = $settings;
 					}
 				}
@@ -72,7 +72,7 @@ class Feeds extends Settings_Page {
 
 			$sections[ $feed_type ] = array(
 				'title'       => $type['name'],
-				'description' => $type['description']
+				'description' => $type['description'],
 			);
 
 		}

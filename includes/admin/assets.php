@@ -71,7 +71,7 @@ class Assets {
 				'jquery-ui-sortable',
 				'jquery-ui-datepicker',
 				'simcal-tiptip',
-				'simcal-select2'
+				'simcal-select2',
 			),
 			SIMPLE_CALENDAR_VERSION,
 			true
@@ -139,7 +139,7 @@ class Assets {
 				wp_enqueue_script( 'simcal-admin-add-calendar' );
 				wp_localize_script( 'simcal-admin-add-calendar', 'simcal_admin', array(
 					'locale'   => get_locale(),
-					'text_dir' => is_rtl() ? 'rtl' : 'ltr'
+					'text_dir' => is_rtl() ? 'rtl' : 'ltr',
 				) );
 
 				wp_enqueue_style( 'simcal-admin-add-calendar' );

@@ -60,7 +60,7 @@ class Grouped_Calendars_Admin {
 					'simcal-feed-type',
 					'simcal-feed-type-grouped-calendars',
 				),
-				'icon'    => 'simcal-icon-docs'
+				'icon'    => 'simcal-icon-docs',
 			),
 		));
 	}
@@ -140,7 +140,7 @@ class Grouped_Calendars_Admin {
 								'style'       => 'category' == $source ? '' : array( 'display' => 'none' ),
 								'attributes'  => array(
 									'data-noresults' => __( 'No results found.', 'google-calendar-events' ),
-								)
+								),
 							) );
 
 						} else {

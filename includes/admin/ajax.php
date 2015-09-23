@@ -54,7 +54,7 @@ class Ajax {
 	 */
 	public function date_i18n() {
 
-		$value     = isset( $_POST['value'] )     ? sanitize_text_field( $_POST['value'] ) : ' ';
+		$value     = isset( $_POST['value'] ) ? sanitize_text_field( $_POST['value'] ) : ' ';
 		$timestamp = isset( $_POST['timestamp'] ) ? absint( $_POST['timestamp'] ) : time();
 
 		wp_send_json_success( date_i18n( $value, $timestamp ) );
