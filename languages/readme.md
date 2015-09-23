@@ -2,7 +2,7 @@
 
 To help translate, review, or improve a translation, join our translation community at [Transifex](https://www.transifex.com/moonstonemedia/simple-calendar/).
 
-[Read more on how to contribute](https://github.com/moonstonemedia/WP-Google-Calendar-Events/blob/refactor/contributing.md#add-or-update-translations).
+[Read more on how to contribute](https://github.com/moonstonemedia/Simple-Calendar/blob/refactor/contributing.md#add-or-update-translations).
 
 **Do not send pull requests on GitHub for adding translations files here.**
 

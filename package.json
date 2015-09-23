@@ -7,7 +7,7 @@
   "homepage": "https://simplecalendar.io",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pderksen/WP-Google-Calendar-Events"
+    "url": "https://github.com/moonstonemedia/Simple-Calendar"
   },
   "keywords": [],
   "devDependencies": {
