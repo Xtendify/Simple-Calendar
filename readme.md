@@ -26,4 +26,4 @@ You can also discuss the project altogether with others on [Gitter chat](https:/
 
 Translations are handled on [Transifex](https://www.transifex.com/moonstonemedia/simple-calendar/).
 
-Read further on how to [contribute to this project](https://github.com/moonstonemedia/Simple-Calendar/blob/refactor/contributing.md).
+Read further on how to [contribute to this project](https://github.com/moonstonemedia/Simple-Calendar/blob/master/contributing.md).
