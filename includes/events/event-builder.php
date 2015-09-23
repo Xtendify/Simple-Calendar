@@ -40,7 +40,7 @@ class Event_Builder {
 	 * Datetime.
 	 *
 	 * @access public
-	 * @var \DateTime|Carbon
+	 * @var Carbon
 	 */
 	public $datetime = null;
 
@@ -188,7 +188,7 @@ class Event_Builder {
 	public function process_event_content( $match ) {
 
 		if ( $match[1] == '[' && $match[6] == ']' ) {
-			return substr( $match[0], 1, -1 );
+			return substr( $match[0], 1, - 1 );
 		}
 
 		$tag     = $match[2];                         // Tag name without square brackets.
@@ -204,9 +204,9 @@ class Event_Builder {
 		$event    = $this->event;
 		$datetime = $this->datetime;
 
-		if ( ( $calendar instanceof Calendar ) && ( $event instanceof Event ) ) :
+		if ( ( $calendar instanceof Calendar ) && ( $event instanceof Event ) ) {
 
-			switch ( $tag ) :
+			switch ( $tag ) {
 
 				/* ============
 				 * Content Tags
@@ -241,35 +241,35 @@ class Event_Builder {
 						return '';
 					}
 
-					$allow_html  = $attr['html'] !== false ? true : false;
-					$allow_md    = $attr['markdown'] !== false ? true : false;
+					$allow_html = $attr['html'] !== false ? true : false;
+					$allow_md   = $attr['markdown'] !== false ? true : false;
 
 					$html = '<div class="simcal-event-description">';
 
-						if ( $allow_html || $allow_md ) {
+					if ( $allow_html || $allow_md ) {
 
-							if ( $allow_html && $allow_md ) {
-								$markdown = new \Parsedown();
-								$description = wp_kses_post( $description );
-								$html .= $markdown->text( $description );
-							} elseif( $allow_html ) {
-								$html .= wp_kses_post( $description );
-							} elseif( $allow_md ) {
-								$markdown = new \Parsedown();
-								$html .= $markdown->text( wp_strip_all_tags( $description ) );
-							}
-
-						} else {
-
-							$description = wp_strip_all_tags( $description );
-
-							if ( absint( $limit = intval( $attr['limit'] ) ) > 0  ) {
-								$html .= substr( $description, 0, $limit -1 ) . '&hellip;';
-							} else {
-								$html .= $description;
-							}
-
+						if ( $allow_html && $allow_md ) {
+							$markdown    = new \Parsedown();
+							$description = wp_kses_post( $description );
+							$html .= $markdown->text( $description );
+						} elseif ( $allow_html ) {
+							$html .= wp_kses_post( $description );
+						} elseif ( $allow_md ) {
+							$markdown = new \Parsedown();
+							$html .= $markdown->text( wp_strip_all_tags( $description ) );
 						}
+
+					} else {
+
+						$description = wp_strip_all_tags( $description );
+
+						if ( absint( $limit = intval( $attr['limit'] ) ) > 0 ) {
+							$html .= substr( $description, 0, $limit - 1 ) . '&hellip;';
+						} else {
+							$html .= $description;
+						}
+
+					}
 
 					$html .= '</div>';
 
@@ -289,45 +289,45 @@ class Event_Builder {
 					if ( ! $event->whole_day ) {
 						$time_start = $calendar->datetime_separator .
 						              ' <span class="simcal-event-start simcal-event-start-time" ' .
-						                    'data-event-start="' . $start->getTimestamp() . '" ' .
-						                    'data-event-format="' . $calendar->time_format . '">' .
-						                    $start->format( $calendar->time_format ) .
+						              'data-event-start="' . $start->getTimestamp() . '" ' .
+						              'data-event-format="' . $calendar->time_format . '">' .
+						              $start->format( $calendar->time_format ) .
 						              '</span> ';
 						if ( $end instanceof Carbon ) {
 							$time_end = ' <span class="simcal-event-end simcal-event-end-time" ' .
-							                'data-event-end="' . $end->getTimestamp() . '" ' .
-							                'data-event-format="' . $calendar->time_format . '">' .
-							                $end->format( $calendar->time_format ) .
+							            'data-event-end="' . $end->getTimestamp() . '" ' .
+							            'data-event-format="' . $calendar->time_format . '">' .
+							            $end->format( $calendar->time_format ) .
 							            '</span> ';
 						}
 					}
 
 					if ( $event->multiple_days ) {
 						$output = ' <span class="simcal-event-start simcal-event-start-date" ' .
-						                'data-event-start="' . $start->getTimestamp() . '" ' .
-						                'data-event-format="' . $calendar->date_format . '">' .
-						                $start->format( $calendar->date_format ) .
+						          'data-event-start="' . $start->getTimestamp() . '" ' .
+						          'data-event-format="' . $calendar->date_format . '">' .
+						          $start->format( $calendar->date_format ) .
 						          '</span> ' .
 						          $time_start;
 
 						if ( $end instanceof Carbon ) {
 							$output .= '-' .
 							           ' <span class="simcal-event-start simcal-event-end-date" ' .
-							                'data-event-start="' . $end->getTimestamp() . '" ' .
-							                'data-event-format="' . $calendar->date_format . '">' .
-							                $end->format( $calendar->date_format ) .
+							           'data-event-start="' . $end->getTimestamp() . '" ' .
+							           'data-event-format="' . $calendar->date_format . '">' .
+							           $end->format( $calendar->date_format ) .
 							           '</span> ' .
-										$time_end;
+							           $time_end;
 						}
 					} else {
 						$time_end = ! empty( $time_start ) && ! empty( $time_end ) ? '- ' . $time_end : '';
-						$output = ' <span class="simcal-event-start simcal-event-start-date" ' .
-						                'data-event-start="' . $start->getTimestamp() . '"' .
-						                'data-event-format="' . $calendar->date_format . '">' .
-						                $start->format( $calendar->date_format ) .
-						          '</span> ' .
-						          $time_start .
-						          $time_end;
+						$output   = ' <span class="simcal-event-start simcal-event-start-date" ' .
+						            'data-event-start="' . $start->getTimestamp() . '"' .
+						            'data-event-format="' . $calendar->date_format . '">' .
+						            $start->format( $calendar->date_format ) .
+						            '</span> ' .
+						            $time_start .
+						            $time_end;
 					}
 
 					return trim( $output );
@@ -345,10 +345,10 @@ class Event_Builder {
 					if ( ( 'end' == $bound ) && ! $event->end ) {
 						return '';
 					}
-					$ts = $bound . '_utc';
+					$ts       = $bound . '_utc';
 					$datetime = $datetime->createFromTimestamp( $event->$ts, $calendar->timezone );
 
-					$format = ltrim( strstr( $tag, '-' ), '-' );
+					$format    = ltrim( strstr( $tag, '-' ), '-' );
 					$dt_format = '';
 					if ( ! empty( $attr['format'] ) ) {
 						$dt_format = esc_attr( wp_strip_all_tags( $attr['format'] ) );
@@ -364,24 +364,25 @@ class Event_Builder {
 						$value = $datetime->format( $dt_format );
 					}
 
-					return ' <span class="simcal-event-' . $bound .' ' . 'simcal-event-' . $bound . '-' . $format . '"' .
-								'data-event-' . $bound . '="' . $datetime->getTimestamp() . '"' .
-								'data-event-format="' . $dt_format . '">' .
-								$value .
-							'</span>';
+					return ' <span class="simcal-event-' . $bound . ' ' . 'simcal-event-' . $bound . '-' . $format . '"' .
+					       'data-event-' . $bound . '="' . $datetime->getTimestamp() . '"' .
+					       'data-event-format="' . $dt_format . '">' .
+					       $value .
+					       '</span>';
 
 				case 'length' :
 				case 'duration' :
 					if ( $event->end ) {
 						return ' <span class="simcal-event-duration"' .
-									'data-event-duration="' . strval( $event->start - $event->end )  .'">' .
-									human_time_diff( $event->start, $event->end ) .
-								'</span>';
+						       'data-event-duration="' . strval( $event->start - $event->end ) . '">' .
+						       human_time_diff( $event->start, $event->end ) .
+						       '</span>';
 					}
-					return  '<span class="simcal-event-duration"' .
-								'data-event-duration="-1">' .
-								__( 'Undefined', 'google-calendar-events' ) .
-							'</span>';
+
+					return '<span class="simcal-event-duration"' .
+					       'data-event-duration="-1">' .
+					       __( 'Undefined', 'google-calendar-events' ) .
+					       '</span>';
 
 				case 'location' :
 					$output = '';
@@ -391,6 +392,7 @@ class Event_Builder {
 							$output .= ' - ' . $end_location;
 						}
 					}
+
 					return $output;
 
 				case 'location-link' :
@@ -402,14 +404,16 @@ class Event_Builder {
 					if ( $end_location = $event->end_location['address'] ) {
 						$output .= ' - <a href="' . esc_url( '//maps.google.com?q=' . urlencode( $end_location ) ) . '" ' . $target . '>' . $content . '</a>';
 					}
+
 					return $output;
 
 				case 'start-location' :
 				case 'end-location' :
 					$location = $tag == 'end-location' ? $event->end_location['address'] : $event->start_location['address'];
+
 					return ' <span class=" simcal-event-address simcal-event-start-location">' .
-								wp_strip_all_tags( $location ) .
-							'</span>';
+					       wp_strip_all_tags( $location ) .
+					       '</span>';
 
 				case 'start-location-link':
 				case 'end-location-link' :
@@ -417,6 +421,7 @@ class Event_Builder {
 					$location = $tag == 'end-location' ? $event->end_location['address'] : $event->start_location['address'];
 					if ( $location ) {
 						$target = $attr['newwindow'] !== false ? 'target="_blank"' : '';
+
 						return ' <a href="' . esc_url( '//maps.google.com?q=' . urlencode( $location ) ) . '" ' . $target . '>' . $content . '</a>';
 					}
 					break;
@@ -424,12 +429,13 @@ class Event_Builder {
 				case 'link' :
 					if ( $event->link ) {
 						$target = $attr['newwindow'] !== false ? 'target="_blank"' : '';
+
 						return ' <a href="' . $event->link . '" ' . $target . '>' . $content . '</a>';
 					}
 					break;
 
 				case 'url' :
-					return $attr['autolink'] == 'yes' ? ' '. make_clickable( $event->link ) : ' ' . $event->link;
+					return $attr['autolink'] == 'yes' ? ' ' . make_clickable( $event->link ) : ' ' . $event->link;
 
 				/* ================
 				 * Conditional Tags
@@ -451,14 +457,14 @@ class Event_Builder {
 				case 'if-not-now':
 
 					$start_date = Carbon::createFromTimestamp( $event->start_utc, $calendar->timezone );
-					$start = $start_date->getTimestamp();
+					$start      = $start_date->getTimestamp();
 
 					if ( $event->end_utc ) {
 						$end_date = Carbon::createFromTimestamp( $event->end_utc, $calendar->timezone );
-						$end = $end_date->getTimestamp();
+						$end      = $end_date->getTimestamp();
 					} else {
 						$end_date = $start_date->endOfDay();
-						$end = $end_date->getTimestamp();
+						$end      = $end_date->getTimestamp();
 					}
 
 					$now = $calendar->now;
@@ -486,7 +492,7 @@ class Event_Builder {
 						if ( $start < $now ) {
 							return $calendar->get_event_content( $event, $content );
 						}
-					} elseif( 'if-not-started' == $tag ) {
+					} elseif ( 'if-not-started' == $tag ) {
 						if ( $start > $now ) {
 							return $calendar->get_event_content( $event, $content );
 						}
@@ -507,7 +513,7 @@ class Event_Builder {
 							if ( $end < $now ) {
 								return $calendar->get_event_content( $event, $content );
 							}
-						} elseif( 'if-not-ended' == $tag ) {
+						} elseif ( 'if-not-ended' == $tag ) {
 							if ( $end > $now ) {
 								return $calendar->get_event_content( $event, $content );
 							}
@@ -532,8 +538,9 @@ class Event_Builder {
 				case 'if-first':
 				case 'if-not-first' :
 					$events = $calendar->events;
-					$pos = array_search( $event->start_utc, array_keys( $events ) );
-					$case = $tag == 'if-first' ? $pos === 0 : $pos !== 0;
+					$pos    = array_search( $event->start_utc, array_keys( $events ) );
+					$case   = $tag == 'if-first' ? $pos === 0 : $pos !== 0;
+
 					return $case ? $calendar->get_event_content( $event, $content ) : '';
 
 				case 'if-all-day':
@@ -594,8 +601,8 @@ class Event_Builder {
 				default:
 					return wp_kses_post( $before . $content . $after );
 
-			endswitch;
-		endif;
+			}
+		}
 
 		return '';
 	}
