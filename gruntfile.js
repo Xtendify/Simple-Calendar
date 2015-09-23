@@ -338,8 +338,8 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'pot',      ['checktextdomain', 'makepot', 'shell:txpush'] );
 	grunt.registerTask( 'localize', ['shell:txpull', 'po2mo'] );
 	grunt.registerTask( 'docs',     ['clean:docs', 'shell:apigen'] );
-	grunt.registerTask( 'build',    ['default', 'composer:install:no-dev', 'composer:dump-autoload:optimize:no-dev', 'clean:build', 'copy', 'compress', 'composer:update', 'composer:dump-autoload:optimize'] );
-	grunt.registerTask( 'deploy',   ['test', 'localize', 'build', 'docs', 'wp_deploy'] );
+	grunt.registerTask( 'build',    ['composer:install:no-dev', 'composer:dump-autoload:optimize:no-dev', 'clean:build', 'copy', 'compress', 'composer:update', 'composer:dump-autoload:optimize'] );
+	grunt.registerTask( 'deploy',   ['test', 'localize', 'default', 'build', 'docs', 'wp_deploy'] );
 
 	grunt.util.linefeed = '\n';
 };
