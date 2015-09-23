@@ -57,7 +57,7 @@ class Notice {
 	 * If not set, will appear in every dashboard page/screen.
 	 *
 	 * @access public
-	 * @var array
+	 * @var string|array
 	 */
 	public $screen = array();
 
@@ -66,7 +66,7 @@ class Notice {
 	 * If not set, will fallback on $screen rule only.
 	 *
 	 * @access public
-	 * @var array
+	 * @var int|array
 	 */
 	public $post = array();
 
