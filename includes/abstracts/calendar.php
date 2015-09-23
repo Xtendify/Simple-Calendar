@@ -106,7 +106,7 @@ abstract class Calendar {
 	 * Timezone offset.
 	 *
 	 * @access public
-	 * @var string
+	 * @var int
 	 */
 	public $offset = 0;
 
