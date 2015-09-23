@@ -44,7 +44,7 @@ class Widgets {
 
 		$widgets = $this->widgets;
 
-		if ( $widgets && is_array( $widgets ) ) {
+		if ( ! empty( $widgets ) && is_array( $widgets ) ) {
 			foreach( $widgets as $widget ) {
 				register_widget( $widget );
 			}
