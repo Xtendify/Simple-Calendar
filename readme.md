@@ -9,7 +9,7 @@ A highly configurable and extensible toolkit for [WordPress](https://wordpress.o
 
 [![Download from WordPress.org](https://raw.githubusercontent.com/moonstonemedia/Simple-Calendar/master/assets/images/wp/wordpress-download-btn.png)](https://wordpress.org/plugins/google-calendar-events/)
 
-You can download the latest available release on [WordPress.org](https://wordpress.org/plugins/google-calendar-events/)
+You can download the latest available release on [WordPress.org](https://wordpress.org/plugins/google-calendar-events/) ([changelog](https://wordpress.org/plugins/google-calendar-events/changelog/)).
 
 Here you can browse the source, look at open issues and keep track of development.
 
