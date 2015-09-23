@@ -238,7 +238,7 @@ final class Plugin {
 			case 'docs' :
 				return 'http://docs.simplecalendar.io';
 			case 'github' :
-				return 'https://github.com/moonstonemedia/WP-Google-Calendar-Events';
+				return 'https://github.com/moonstonemedia/Simple-Calendar';
 			case 'support' :
 				return 'https://wordpress.org/support/plugin/google-calendar-events';
 			default :
