@@ -39,7 +39,7 @@ class Calendar extends \WP_Widget implements Widget {
 	/**
 	 * Constructor.
 	 */
-	function __construct() {
+	public function __construct() {
 
 		$id_base        = 'gce_widget'; // old id kept for legacy reasons
 		$name           = __( 'Simple Calendar', 'google-calendar-events' );
