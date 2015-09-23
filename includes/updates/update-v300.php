@@ -71,6 +71,7 @@ class Update_V300 {
 	 * @param $posts
 	 */
 	public function update_posts( $posts ) {
+
 		foreach ( $posts as $post ) {
 
 			$post_id = $post->ID;
@@ -97,7 +98,6 @@ class Update_V300 {
 				$views['default-calendar'] = 'grid';
 			}
 			update_post_meta( $post_id, '_calendar_view', $views );
-			delete_post_meta( $post_id, 'gce_display_mode' );
 
 			// Calendar list type.
 			$list_span  = get_post_meta( $post_id, 'gce_events_per_page', true );
@@ -115,8 +115,6 @@ class Update_V300 {
 			}
 			update_post_meta( $post_id, '_default_calendar_list_range_type', $list_type );
 			update_post_meta( $post_id, '_default_calendar_list_range_span', $list_range );
-			delete_post_meta( $post_id, 'gce_events_per_page' );
-			delete_post_meta( $post_id, 'gce_per_page_num' );
 
 			// Custom calendar range.
 			if ( $range == true ) {
@@ -128,12 +126,9 @@ class Update_V300 {
 				} else {
 					update_post_meta( $post_id, '_calendar_begins', 'today' );
 				}
-				delete_post_meta( $post_id, 'gce_feed_use_range' );
 			} else {
 				update_post_meta( $post_id, '_calendar_begins', 'today' );
 			}
-			delete_post_meta( $post_id, 'gce_feed_range_start' );
-			delete_post_meta( $post_id, 'gce_feed_range_end' );
 
 			// Earliest event.
 			$start_before = get_post_meta( $post_id, 'gce_feed_start', true );
@@ -152,9 +147,6 @@ class Update_V300 {
 				update_post_meta( $post_id, '_feed_earliest_event_date', 'calendar_start' );
 				update_post_meta( $post_id, '_feed_earliest_event_date_range', 1 );
 			}
-			delete_post_meta( $post_id, 'gce_feed_start' );
-			delete_post_meta( $post_id, 'gce_feed_start_num' );
-			delete_post_meta( $post_id, 'gce_feed_start_custom' );
 
 			// Latest event.
 			$end_after = get_post_meta( $post_id, 'gce_feed_end', true );
@@ -173,14 +165,10 @@ class Update_V300 {
 				update_post_meta( $post_id, '_feed_latest_event_date', 'calendar_start' );
 				update_post_meta( $post_id, '_feed_latest_event_date_range', 1 );
 			}
-			delete_post_meta( $post_id, 'gce_feed_end' );
-			delete_post_meta( $post_id, 'gce_feed_end_num' );
-			delete_post_meta( $post_id, 'gce_feed_end_custom' );
 
 			// Static calendar.
 			if ( ! get_post_meta( $post_id, 'gce_paging', true ) ) {
 				update_post_meta( $post_id, '_calendar_is_static', 'yes' );
-				delete_post_meta( $post_id, 'gce_paging' );
 			}
 
 			// Default calendar bubble trigger (click was unavailable before 3.0.0).
@@ -189,7 +177,6 @@ class Update_V300 {
 			// Default calendar multiple day events.
 			if ( get_post_meta( $post_id, 'gce_multi_day_events', true ) ) {
 				update_post_meta( $post_id, '_default_calendar_expand_multi_day_events', 'yes' );
-				delete_post_meta( $post_id, 'gce_multi_day_events' );
 			} else {
 				update_post_meta( $post_id, '_default_calendar_expand_multi_day_events', 'no' );
 			}
@@ -197,7 +184,6 @@ class Update_V300 {
 			// Google Calendar ID.
 			$google_id = get_post_meta( $post_id, 'gce_feed_url', true );
 			update_post_meta( $post_id, '_google_calendar_id', base64_encode( trim( $google_id ) ) );
-			delete_post_meta( $post_id, 'gce_feed_url' );
 
 			// Google max results.
 			update_post_meta( $post_id, '_google_events_max_results', 2500 );
@@ -206,13 +192,12 @@ class Update_V300 {
 			$google_search = get_post_meta( $post_id, 'gce_search_query', true );
 			if ( ! empty( $google_search ) ) {
 				update_post_meta( $post_id, '_google_events_search_query', trim( $google_search ) );
-				delete_post_meta( $post_id, 'gce_search_query' );
 			}
 
 			// Google recurring events.
 			if ( get_post_meta( $post_id, 'gce_expand_recurring', true ) ) {
 				update_post_meta( $post_id, '_google_events_recurring', 'show' );
-				delete_post_meta( $post_id, 'gce_expand_recurring' );
+
 			} else {
 				update_post_meta( $post_id, '_google_events_recurring', 'first-only' );
 			}
@@ -222,7 +207,6 @@ class Update_V300 {
 			if ( ! empty( $date_format ) ) {
 				update_post_meta( $post_id, '_calendar_date_format_setting', 'use_custom_php' );
 				update_post_meta( $post_id, '_calendar_date_format_php', $date_format );
-				delete_post_meta( $post_id, 'gce_date_format' );
 			} else {
 				update_post_meta( $post_id, '_calendar_date_format_setting', 'use_site' );
 			}
@@ -230,7 +214,6 @@ class Update_V300 {
 			if ( ! empty( $time_format ) ) {
 				update_post_meta( $post_id, '_calendar_time_format_setting', 'use_custom_php' );
 				update_post_meta( $post_id, '_calendar_time_format_php', $time_format );
-				delete_post_meta( $post_id, 'gce_time_format' );
 			} else {
 				update_post_meta( $post_id, '_calendar_time_format_setting', 'use_site' );
 			}
@@ -263,35 +246,70 @@ class Update_V300 {
 				update_post_meta( $post_id, '_feed_cache_user_amount', 3600 );
 				update_post_meta( $post_id, '_feed_cache', 7200 );
 			}
-			delete_post_meta( $post_id, 'gce_cache' );
 
-			// Legacy fields.
-			delete_post_meta( $post_id, 'gce_retrieve_from' );
-			delete_post_meta( $post_id, 'gce_retrieve_until' );
-			delete_post_meta( $post_id, 'gce_per_page_from' );
-			delete_post_meta( $post_id, 'gce_per_page_to' );
-			delete_post_meta( $post_id, 'gce_list_start_offset_num' );
-			delete_post_meta( $post_id, 'gce_list_start_offset_direction' );
-			delete_post_meta( $post_id, 'gce_show_tooltips' );
-			delete_post_meta( $post_id, 'gce_custom_from' );
-			delete_post_meta( $post_id, 'gce_custom_until' );
-			delete_post_meta( $post_id, 'gce_display_start' );
-			delete_post_meta( $post_id, 'gce_display_start_text' );
-			delete_post_meta( $post_id, 'gce_display_end' );
-			delete_post_meta( $post_id, 'gce_display_end_text' );
-			delete_post_meta( $post_id, 'gce_display_separator' );
-			delete_post_meta( $post_id, 'gce_display_location' );
-			delete_post_meta( $post_id, 'gce_display_location_text' );
-			delete_post_meta( $post_id, 'gce_display_description' );
-			delete_post_meta( $post_id, 'gce_display_description_text' );
-			delete_post_meta( $post_id, 'gce_display_description_max' );
-			delete_post_meta( $post_id, 'gce_display_link' );
-			delete_post_meta( $post_id, 'gce_display_link_tab' );
-			delete_post_meta( $post_id, 'gce_display_link_text' );
-			delete_post_meta( $post_id, 'gce_display_simple' );
+			$this->delete_post_meta( $post_id );
 
 			// Post updated.
 			update_post_meta( $post_id, '_calendar_version', '3.0.0' );
+		}
+
+	}
+
+	/**
+	 * Delete legacy post meta.
+	 *
+	 * @param int $post_id
+	 */
+	public function delete_post_meta( $post_id ) {
+
+		$post_meta = array(
+			'gce_cache',
+			'gce_custom_from',
+			'gce_custom_until',
+			'gce_date_format',
+			'gce_display_description',
+			'gce_display_description_max',
+			'gce_display_description_text',
+			'gce_display_end',
+			'gce_display_end_text',
+			'gce_display_link',
+			'gce_display_link_tab',
+			'gce_display_link_text',
+			'gce_display_location',
+			'gce_display_location_text',
+			'gce_display_mode',
+			'gce_display_separator',
+			'gce_display_simple',
+			'gce_display_start',
+			'gce_display_start_text',
+			'gce_events_per_page',
+			'gce_expand_recurring',
+			'gce_feed_end',
+			'gce_feed_end_custom',
+			'gce_feed_end_num',
+			'gce_feed_range_end',
+			'gce_feed_range_start',
+			'gce_feed_start',
+			'gce_feed_start_custom',
+			'gce_feed_start_num',
+			'gce_feed_url',
+			'gce_feed_use_range',
+			'gce_list_start_offset_direction',
+			'gce_list_start_offset_num',
+			'gce_multi_day_events',
+			'gce_paging',
+			'gce_per_page_from',
+			'gce_per_page_num',
+			'gce_per_page_to',
+			'gce_retrieve_from',
+			'gce_retrieve_until',
+			'gce_search_query',
+			'gce_show_tooltips',
+			'gce_time_format',
+		);
+
+		foreach ( $post_meta as $meta_key ) {
+			delete_post_meta( $post_id, $meta_key );
 		}
 	}
 
