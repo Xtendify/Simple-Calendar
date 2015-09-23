@@ -87,7 +87,7 @@ abstract class Settings_Page {
 			'description'   => $this->description
 		);
 
-		if ( $this->sections && is_array( $this->sections ) ) {
+		if ( ! empty( $this->sections ) && is_array( $this->sections ) ) {
 
 			foreach ( $this->sections as $section => $content ) {
 
@@ -119,7 +119,7 @@ abstract class Settings_Page {
 
 		$option = $this->values;
 
-		if ( $option && is_array( $option ) ) {
+		if ( ! empty( $option ) && is_array( $option ) ) {
 			return isset( $option[ $section ][ $setting ] ) ? $option[ $section ][ $setting ] : '';
 		}
 

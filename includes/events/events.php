@@ -252,7 +252,7 @@ class Events {
 	 *
 	 * @return Events
 	 */
-	public function past( $present = '') {
+	public function past( $present = '' ) {
 		$first = $this->get_last();
 		$from  = $first instanceof Event ? $first->start_utc : false;
 		if ( $from ) {

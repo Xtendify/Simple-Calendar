@@ -180,7 +180,7 @@ class Post_Types {
 	/**
 	 * Clone a feed post type.
 	 *
-	 * @param $post_id
+	 * @param int $post_id
 	 */
 	private function duplicate_feed( $post_id ) {
 
