@@ -20,14 +20,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Welcome {
 
 	/**
-	 * Tweets.
-	 *
-	 * @access public
-	 * @var array
-	 */
-	public $tweets = array();
-
-	/**
 	 * Install type.
 	 *
 	 * @access public
@@ -40,7 +32,6 @@ class Welcome {
 	 */
 	public function __construct() {
 
-		$this->tweets  = $this->get_tweets();
 		$this->install = isset( $_GET['simcal_install'] ) ? esc_attr( $_GET['simcal_install'] ) : '';
 
 		add_action( 'admin_menu', array( $this, 'welcome_page_tabs' ) );
@@ -116,24 +107,6 @@ class Welcome {
 	}
 
 	/**
-	 * Tweets in random order.
-	 *
-	 * @return array
-	 */
-	private function get_tweets() {
-
-		$tweets = array(
-			sprintf( 'Simple Calendar is a great #WordPress plugin to manage and display calendars! %s', 'https://simplecalendar.io' ),
-			sprintf( 'Simple Calendar is a cool plugin to manage and display calendars in your #WordPress site! %s', 'https://simplecalendar.io' ),
-			sprintf( 'I use Simple Calendar to manage and display calendars in my #WordPress site! Check it out: %s', 'https://simplecalendar.io' ),
-		);
-
-		shuffle( $tweets );
-
-		return $tweets;
-	}
-
-	/**
 	 * Intro shown on every about page screen.
 	 */
 	private function intro() {
@@ -164,38 +137,39 @@ class Welcome {
 			?>
 		</div>
 
-		<div class="simcal-badge"><?php printf( _x( 'Version %s', 'Plugin version', 'google-calendar-events' ), SIMPLE_CALENDAR_VERSION ); ?></div>
+		<div
+			class="simcal-badge"><?php printf( _x( 'Version %s', 'Plugin version', 'google-calendar-events' ), SIMPLE_CALENDAR_VERSION ); ?></div>
 
 		<p>
 			<a href="<?php echo admin_url( 'edit.php?post_type=calendar' ); ?>"
-				class="button button-primary"
+			   class="button button-primary"
 				><?php _e( 'Calendars', 'google-calendar-events' ); ?></a>
 			<a href="<?php echo admin_url( 'admin.php?page=simple-calendar_settings' ); ?>"
-				class="button button-primary"
+			   class="button button-primary"
 				><?php _e( 'Settings', 'google-calendar-events' ); ?></a>
 			<a href="<?php echo \SimpleCalendar\plugin()->get_url( 'docs' ); ?>"
-				class="docs button button-primary"
+			   class="docs button button-primary" target="_blank"
 				><?php _e( 'Docs', 'google-calendar-events' ); ?></a>
-			<!--
-			<a href="https://twitter.com/share"
-				class="twitter-share-button" data-url="https://simplecalendar.io/"
-				data-text="<?php echo esc_attr( $this->tweets[0] ); ?>"
-				data-via="InsertTwitterHandle"
-				data-size="large"
-				>Tweet</a>
-			<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
-			-->
+			<a href="<?php echo \SimpleCalendar\plugin()->get_url( 'newsletter' ); ?>"
+			   class="docs button button-primary" target="_blank"
+				><?php _e( 'Announcements', 'google-calendar-events' ); ?></a>
 		</p>
 
 		<h2 class="nav-tab-wrapper">
-			<a class="nav-tab <?php if ( $_GET['page'] == 'simple-calendar_about' ) echo 'nav-tab-active'; ?>"
-				href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'simple-calendar_about' ), 'index.php' ) ) ); ?>"
+			<a class="nav-tab <?php if ( $_GET['page'] == 'simple-calendar_about' ) {
+				echo 'nav-tab-active';
+			} ?>"
+			   href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'simple-calendar_about' ), 'index.php' ) ) ); ?>"
 				><?php _e( "What's New", 'google-calendar-events' ); ?></a>
-			<a class="nav-tab <?php if ( $_GET['page'] == 'simple-calendar_credits' ) echo 'nav-tab-active'; ?>"
-				href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'simple-calendar_credits' ), 'index.php' ) ) ); ?>"
+			<a class="nav-tab <?php if ( $_GET['page'] == 'simple-calendar_credits' ) {
+				echo 'nav-tab-active';
+			} ?>"
+			   href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'simple-calendar_credits' ), 'index.php' ) ) ); ?>"
 				><?php _e( 'Credits', 'google-calendar-events' ); ?></a>
-			<a class="nav-tab <?php if ( $_GET['page'] == 'simple-calendar_translators' ) echo 'nav-tab-active'; ?>"
-				href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'simple-calendar_translators' ), 'index.php' ) ) ); ?>"
+			<a class="nav-tab <?php if ( $_GET['page'] == 'simple-calendar_translators' ) {
+				echo 'nav-tab-active';
+			} ?>"
+			   href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'simple-calendar_translators' ), 'index.php' ) ) ); ?>"
 				><?php _e( 'Translators', 'google-calendar-events' ); ?></a>
 		</h2>
 		<?php
@@ -213,11 +187,15 @@ class Welcome {
 
 				<?php $this->intro(); ?>
 
-				<hr />
+				<hr/>
 
 				<ul>
-					<li><a href="<?php echo admin_url( 'edit.php?post_type=calendar' ); ?>"><?php _e( 'Go to Calendars', 'google-calendar-events' ); ?></a></li>
-					<li><a href="<?php echo admin_url( 'edit.php?post_type=calendar&page=simple-calendar_settings' ); ?>"><?php _e( 'Go to Settings', 'google-calendar-events' ); ?></a></li>
+					<li>
+						<a href="<?php echo admin_url( 'edit.php?post_type=calendar' ); ?>"><?php _e( 'Go to Calendars', 'google-calendar-events' ); ?></a>
+					</li>
+					<li>
+						<a href="<?php echo admin_url( 'edit.php?post_type=calendar&page=simple-calendar_settings' ); ?>"><?php _e( 'Go to Settings', 'google-calendar-events' ); ?></a>
+					</li>
 				</ul>
 
 			</div>
@@ -292,23 +270,23 @@ class Welcome {
 
 		$contributor_list = '<ul class="wp-people-group">';
 
-			foreach ( $contributors as $contributor ) {
+		foreach ( $contributors as $contributor ) {
 
-				$contributor_list .= '<li class="wp-person">';
-					$contributor_list .= sprintf(
-						'<a href="%s" title="%s">%s</a>',
-						esc_url( 'https://github.com/' . $contributor->login ),
-						esc_html( sprintf( __( 'View %s', 'google-calendar-events' ), $contributor->login ) ),
-						sprintf( '<img src="%s" width="64" height="64" class="gravatar" alt="%s" />', esc_url( $contributor->avatar_url ), esc_html( $contributor->login ) )
-					);
-					$contributor_list .= sprintf(
-						'<a class="web" href="%s">%s</a>',
-						esc_url( 'https://github.com/' . $contributor->login ),
-						esc_html( $contributor->login )
-					);
-				$contributor_list .= '</li>';
+			$contributor_list .= '<li class="wp-person">';
+			$contributor_list .= sprintf(
+				'<a href="%s" title="%s">%s</a>',
+				esc_url( 'https://github.com/' . $contributor->login ),
+				esc_html( sprintf( __( 'View %s', 'google-calendar-events' ), $contributor->login ) ),
+				sprintf( '<img src="%s" width="64" height="64" class="gravatar" alt="%s" />', esc_url( $contributor->avatar_url ), esc_html( $contributor->login ) )
+			);
+			$contributor_list .= sprintf(
+				'<a class="web" href="%s">%s</a>',
+				esc_url( 'https://github.com/' . $contributor->login ),
+				esc_html( $contributor->login )
+			);
+			$contributor_list .= '</li>';
 
-			}
+		}
 
 		$contributor_list .= '</ul>';
 
