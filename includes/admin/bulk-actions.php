@@ -118,7 +118,7 @@ class Bulk_Actions {
 			$action = $wp_list_table->current_action();
 
 			// Allow only defined actions.
-			$allowed_actions = array_keys($this->actions);
+			$allowed_actions = array_keys( $this->actions );
 			if ( ! in_array( $action, $allowed_actions ) ) {
 				return;
 			}
@@ -181,7 +181,7 @@ class Bulk_Actions {
 
 		global $post_type, $pagenow;
 
-		if ( isset( $_REQUEST['ids'] ) ){
+		if ( isset( $_REQUEST['ids'] ) ) {
 			$post_ids = explode( ',', $_REQUEST['ids'] );
 		}
 
