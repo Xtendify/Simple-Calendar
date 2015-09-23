@@ -49,8 +49,12 @@ class Datetime_Format extends Field {
 		parent::__construct( $field );
 
 		if ( empty( $this->value ) ) {
-			if ( 'date' == $this->subtype ) $this->value = 'l, d F Y';
-			if ( 'time' == $this->subtype ) $this->value = 'G:i a';
+			if ( 'date' == $this->subtype ) {
+				$this->value = 'l, d F Y';
+			}
+			if ( 'time' == $this->subtype ) {
+				$this->value = 'G:i a';
+			}
 		}
 	}
 
