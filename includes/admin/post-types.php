@@ -286,7 +286,7 @@ class Post_Types {
 			<div class="simcal-insert-shortcode-panel">
 				<h1><?php _e( 'Add Calendar', 'google-calendar-events' ); ?></h1>
 				<?php _e( 'Add a calendar to your post.', 'google-calendar-events' ); ?>
-				<?php if ( ! empty( $feeds ) ) : ?>
+				<?php if ( ! empty( $calendars ) ) : ?>
 					<p>
 						<label for="simcal-choose-calendar">
 							<select id="simcal-choose-calendar"
