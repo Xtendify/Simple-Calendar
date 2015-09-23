@@ -28,7 +28,7 @@ Parses Google Calendar feeds and displays the events as a calendar grid or list 
 ###Updates###
 
 * [Get notified when major features are announced](https://www.getdrip.com/forms/9434542/submissions/new)
-* [Follow this project on Github](https://github.com/pderksen/WP-Google-Calendar-Events)
+* [Follow this project on Github](https://github.com/moonstonemedia/Simple-Calendar)
 
 This plugin was originally created by [Ross Hanney](http://www.rhanney.co.uk), a web developer based in the UK specialising in WordPress and PHP.
 

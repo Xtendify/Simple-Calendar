@@ -231,7 +231,7 @@ module.exports = function( grunt ) {
 						poedit                 : true,
 						'x-poedit-keywordslist': true,
 						'language'             : 'en_US',
-						'report-msgid-bugs-to' : 'https://github.com/pderksen/Simple-Calendar/issues',
+						'report-msgid-bugs-to' : 'https://github.com/moonstonemedia/Simple-Calendar/issues',
 						'last-translator'      : 'Phil Derksen <pderksen@gmail.com>',
 						'language-Team'        : 'Phil Derksen <pderksen@gmail.com>'
 					},

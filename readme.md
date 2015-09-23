@@ -22,4 +22,4 @@ Use the [WordPress.org support forums](https://wordpress.org/support/plugin/goog
 
 Submit pull requests or open issues here on GitHub.
 
-Read further on how to [contribute to this project](https://github.com/moonstonemedia/WP-Google-Calendar-Events/blob/refactor/contributing.md).
+Read further on how to [contribute to this project](https://github.com/moonstonemedia/Simple-Calendar/blob/refactor/contributing.md).

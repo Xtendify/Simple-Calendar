@@ -2,7 +2,7 @@
 
 Simple Calendar is open source software and community made patches, localizations, bug reports and contributions are always welcome and crucial to make this plugin a quality tool that empowers people, businesses and institutions alike.  
 
-You can contribute to Simple Calendar submitting pull requests or open issues here on [GiHub](https://github.com/moonstonemedia/WP-Google-Calendar-Events).
+You can contribute to Simple Calendar submitting pull requests or open issues here on GitHub.
 
 If you are interested interested in translating Simple Calendar in your language, use [Transifex](https://www.transifex.com/moonstonemedia/simple-calendar/). 
 
@@ -12,7 +12,7 @@ If you are interested interested in translating Simple Calendar in your language
 
 ### Reporting Issues
 
-Reporting issues is a great way to became a contributor as it doesn't require technical skills. In fact you don't even need to know a programming language or to be able to check the code itself, you just need to make sure that everything works as expected and [submit an issue report](https://github.com/moonstonemedia/WP-Google-Calendar-Events/issues) if you spot a bug. Sound like something you're up for? Go for it!
+Reporting issues is a great way to became a contributor as it doesn't require technical skills. In fact you don't even need to know a programming language or to be able to check the code itself, you just need to make sure that everything works as expected and [submit an issue report](https://github.com/moonstonemedia/Simple-Calendar/issues) if you spot a bug. Sound like something you're up for? Go for it!
 
 #### How To Submit An Issue Report
 
@@ -20,7 +20,7 @@ If something isn't working, congratulations you've found a bug! Help us fix it b
 
 1. Isolate your issue, check for theme or plugin compatibility issues first.
 2. Make sure you have a [GitHub account](https://github.com/signup/free).
-3. Search the [Existing Issues](https://github.com/moonstonemedia/WP-Google-Calendar-Events/issues) to be sure that the one you've noticed isn't already there.
+3. Search the [Existing Issues](https://github.com/moonstonemedia/Simple-Calendar/issues) to be sure that the one you've noticed isn't already there.
 4. Submit a report for your issue:
     * Clearly describe the issue.
     * Include steps to reproduce the issue if it's a bug.
