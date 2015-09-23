@@ -105,7 +105,7 @@ class Bulk_Actions {
 	 *
 	 * Based on the post http://wordpress.stackexchange.com/questions/29822/custom-bulk-action
 	 */
-	function custom_bulk_action() {
+	public function custom_bulk_action() {
 
 		global $typenow;
 		$post_type = $typenow;
@@ -177,7 +177,7 @@ class Bulk_Actions {
 	/**
 	 * Step 3: display an admin notice after action.
 	 */
-	function custom_bulk_admin_notices() {
+	public function custom_bulk_admin_notices() {
 
 		global $post_type, $pagenow;
 
