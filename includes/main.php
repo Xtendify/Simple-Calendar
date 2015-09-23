@@ -238,7 +238,7 @@ final class Plugin {
 			case 'docs' :
 				return 'http://docs.simplecalendar.io';
 			case 'github' :
-				return 'https://github.com/moonstonemedia/WP-Google-Calendar-Events';
+				return 'https://github.com/moonstonemedia/Simple-Calendar';
 			case 'newsletter' :
 				return 'https://www.getdrip.com/forms/9434542/submissions/new';
 			case 'support' :
