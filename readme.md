@@ -1,5 +1,7 @@
 # Simple Calendar
 
+[![Join the chat at https://gitter.im/moonstonemedia/Simple-Calendar](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/moonstonemedia/Simple-Calendar?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![GitHub version](https://badge.fury.io/gh/moonstonemedia%2FWP-Google-Calendar-Events.svg)](https://github.com/moonstonemedia/WP-Google-Calendar-Events/releases)
 [![Dependency Status](https://gemnasium.com/moonstonemedia/WP-Google-Calendar-Events.svg)](https://gemnasium.com/moonstonemedia/WP-Google-Calendar-Events)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
