@@ -1,0 +1,112 @@
+
+$default-calendar-button-col: rgb(0, 0, 0);
+
+.simcal-default-calendar {
+
+  // Calendar header.
+  .simcal-current h3 {
+    margin: 0;
+  }
+
+  // Navigation buttons.
+  .simcal-nav-button {
+
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+    color: transparentize($default-calendar-button-col, .4);
+    outline: 0;
+    padding: 0;
+    transition: margin 0.2s ease-out;
+    width: 100%;
+
+    &:focus,
+    &:hover {
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      color: transparentize($default-calendar-button-col, .1);
+      outline: 0;
+    }
+
+    &.simcal-prev:hover {
+      margin-left: -10px;
+    }
+
+    &.simcal-next:hover {
+      margin-right: -10px;
+    }
+
+    &:disabled {
+
+      color: transparentize($default-calendar-button-col, .9);
+
+      &:hover {
+        margin: 0;
+      }
+
+    }
+
+  }
+
+  // Event tooltip bubble.
+  &.simcal-event-bubble {
+
+    background-color: #fff;
+    border: 1px solid rgba(0, 0, 0, .1);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
+
+    // Event bubble triangle.
+    &:before {
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 5px solid #fff;
+      content: ' ';
+      display: block;
+      font-size: 0;
+      height: 0;
+      left: 50%;
+      line-height: 0;
+      margin: -5px 0 0 -5px;
+      position: absolute;
+      width: 0;
+      z-index: 16000;
+    }
+
+    // Event bubble triangle edge border.
+    &:after {
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 5px solid rgba(0, 0, 0, .18);
+      content: ' ';
+      display: block;
+      font-size: 0;
+      height: 0;
+      left: 50%;
+      line-height: 0;
+      margin: -6px 0 0 -5px;
+      position: absolute;
+      top: 0;
+      width: 0;
+      z-index: 14999;
+    }
+
+    ul.simcal-events {
+
+      margin: 0;
+
+      > li.simcal-event {
+        list-style: none;
+      }
+
+    }
+
+  }
+
+  .simcal-tooltip-content {
+    font-size: 12px;
+    line-height: 1.4;
+    padding: 5px;
+  }
+
+}

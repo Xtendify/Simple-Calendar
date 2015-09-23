@@ -1,0 +1,533 @@
+<?php
+/**
+ * Default Calendar - Grid View
+ *
+ * @package SimpleCalendar/Calendars
+ */
+namespace SimpleCalendar\Calendars\Views;
+
+use Carbon\Carbon;
+use SimpleCalendar\Abstracts\Calendar;
+use SimpleCalendar\Abstracts\Calendar_View;
+use SimpleCalendar\Events\Event;
+use SimpleCalendar\Calendars\Default_Calendar;
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * Default Calendar: Grid View.
+ */
+class Default_Calendar_Grid implements Calendar_View {
+
+	/**
+	 * Calendar.
+	 *
+	 * @access public
+	 * @var Default_Calendar
+	 */
+	public $calendar = null;
+
+	/**
+	 * Current display start.
+	 *
+	 * @access private
+	 * @var int
+	 */
+	private $start = 0;
+
+	/**
+	 * Current display end.
+	 *
+	 * @access private
+	 * @var int
+	 */
+	private $end = 0;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param string|Calendar $calendar
+	 */
+	public function __construct( $calendar = '' ) {
+		$this->calendar = $calendar;
+	}
+
+	/**
+	 * Get the view parent calendar type.
+	 *
+	 * @return string
+	 */
+	public function get_parent() {
+		return 'default-calendar';
+	}
+
+	/**
+	 * Get the view type.
+	 *
+	 * @return string
+	 */
+	public function get_type() {
+		return 'grid';
+	}
+
+	/**
+	 * Get the view name.
+	 *
+	 * @return string
+	 */
+	public function get_name() {
+		return __( 'Grid', 'google-calendar-events' );
+	}
+
+	/**
+	 * Add ajax actions.
+	 */
+	public function add_ajax_actions() {
+		add_action( 'wp_ajax_simcal_default_calendar_draw_grid', array( $this, 'draw_grid_ajax' ) );
+		add_action( 'wp_ajax_nopriv_simcal_default_calendar_draw_grid', array( $this, 'draw_grid_ajax' ) );
+	}
+
+	/**
+	 * Default calendar grid scripts.
+	 *
+	 * Scripts to load when this view is displayed.
+	 *
+	 * @param  string $min
+	 *
+	 * @return array
+	 */
+	public function scripts( $min = '' ) {
+		return array(
+			'simcal-qtip' => array(
+				'src'       => SIMPLE_CALENDAR_ASSETS . 'js/vendor/qtip' . $min . '.js',
+				'deps'      => array( 'jquery' ),
+				'ver'       => '2.2.1',
+				'in_footer' => true
+			),
+			'simcal-default-calendar' => array(
+				'src'       => SIMPLE_CALENDAR_ASSETS . 'js/default-calendar' . $min . '.js',
+				'deps'      => array(
+					'jquery',
+					'simcal-qtip'
+				),
+				'var'       => SIMPLE_CALENDAR_VERSION,
+				'in_footer' => true,
+				'localize'  => array(
+					'simcal_default_calendar' => simcal_common_scripts_variables()
+				)
+			),
+		);
+	}
+
+	/**
+	 * Default calendar grid styles.
+	 *
+	 * Stylesheets to load when this view is displayed.
+	 *
+	 * @param  string $min = ''
+	 *
+	 * @return array
+	 */
+	public function styles( $min = '' ) {
+		return array(
+			'simcal-qtip' => array(
+				'src'   => SIMPLE_CALENDAR_ASSETS . 'css/vendor/qtip' . $min . '.css',
+				'deps'  => array(),
+				'ver'   => '2.2.1',
+				'media' => 'all'
+			),
+			'simcal-default-calendar-grid' => array(
+				'src'   => SIMPLE_CALENDAR_ASSETS . 'css/default-calendar-grid' . $min . '.css',
+				'deps'  => array(
+					'simcal-qtip'
+				),
+				'ver'   => SIMPLE_CALENDAR_VERSION,
+				'media' => 'all'
+			),
+		);
+	}
+
+	/**
+	 * Default calendar grid markup.
+	 */
+	public function html() {
+
+		$calendar = $this->calendar;
+
+		if ( $calendar instanceof Default_Calendar ) {
+
+			$locale = \SimpleCalendar\plugin()->locale;
+			$locale = $locale ? substr( $locale, 0, 2 ) : 'en';
+
+			$month = new Carbon( 'now', $calendar->timezone );
+			$month->setLocale( $locale );
+			$month->setTimestamp( $calendar->start );
+
+			?>
+			<table class="simcal-calendar-grid"
+			       data-event-bubble-trigger="<?php echo $calendar->event_bubble_trigger; ?>">
+				<thead class="simcal-calendar-head">
+					<tr>
+						<?php if ( ! $calendar->static ) { ?>
+							<th class="simcal-nav" colspan="1">
+								<button class="simcal-nav-button simcal-month-nav simcal-prev" title="<?php _e( 'Previous Month', 'google-calendar-events' ); ?>"><i class="simcal-icon-left"></i></button>
+							</th>
+						<?php } ?>
+						<th colspan="<?php echo $calendar->static ? '7' : '5'; ?>"
+						    class="simcal-nav simcal-current"
+						    data-calendar-current="<?php echo $calendar->start; ?>">
+							<?php
+
+							echo '<h3>';
+
+								// Display month and year according to user date format preference.
+
+								$year_pos  = strcspn( $calendar->date_format, 'Y y' );
+								$month_pos = strcspn( $calendar->date_format, 'F M m n' );
+
+								$current = array( 'month' => 'F', 'year' => 'Y' );
+
+								if ( $year_pos < $month_pos ) {
+									$current = array_reverse( $current );
+								}
+
+								foreach ( $current as $k => $v ) {
+									echo ' <span class="simcal-current-' . $k , '">' .
+                                            $month->format( $v ) .
+										 '</span> ';
+								}
+
+							echo '</h3>';
+
+							?>
+						</th>
+						<?php if ( ! $calendar->static ) { ?>
+							<th class="simcal-nav" colspan="1">
+								<button class="simcal-nav-button simcal-month-nav simcal-next" title="<?php _e( 'Next Month', 'google-calendar-events' ); ?>"><i class="simcal-icon-right"></i></button>
+							</th>
+						<?php } ?>
+					</tr>
+					<tr>
+						<?php
+
+						// Print day names in short or long form for different viewport sizes.
+
+						$week_starts     = $calendar->week_starts;
+						$week_days_short = simcal_get_calendar_names_i18n( 'day', 'short' );
+						$week_days_full  = simcal_get_calendar_names_i18n( 'day', 'full' );
+
+						for ( $i = $week_starts; $i <= 6; $i ++ ) :
+
+							?>
+							<th class="simcal-week-day simcal-week-day-<?php echo $i ?>"
+							    data-screen-small="<?php echo substr( $week_days_short[ $i ], 0, 1 ); ?>"
+							    data-screen-medium="<?php echo $week_days_short[ $i ]; ?>"
+							    data-screen-large="<?php echo $week_days_full[ $i ]; ?>"><?php echo $week_days_short[ $i ]; ?></th>
+							<?php
+
+						endfor;
+
+						if ( $week_starts !== 0 ) :
+							for ( $i = 0; $i < $week_starts; $i ++ ) :
+
+								?>
+								<th class="simcal-week-day simcal-week-day-<?php echo $i ?>"
+								    data-screen-small="<?php echo substr( $week_days_short[ $i ], 0, 1 ); ?>"
+								    data-screen-medium="<?php echo $week_days_short[ $i ]; ?>"
+								    data-screen-large="<?php echo $week_days_full[ $i ]; ?>"><?php echo $week_days_short[ $i ]; ?></th>
+								<?php
+
+							endfor;
+						endif;
+
+						?>
+					</tr>
+				</thead>
+
+				<?php echo $this->draw_month( $month->format( 'n' ), $month->format( 'Y' ) ); ?>
+
+			</table>
+			<?php
+
+			echo '<div class="simcal-ajax-loader simcal-spinner-top" style="display: none;"><i class="simcal-icon-spinner simcal-icon-spin"></i></div>';
+		}
+	}
+
+	/**
+	 * Make a calendar grid.
+	 *
+	 * Outputs an html calendar according to month and year passed in arguments.
+	 * Loosely inspired by: http://davidwalsh.name/php-calendar
+	 * Adjusted by timezone and with an arbitrary week start day.
+	 *
+	 * @param  int $month The month to print (two digits).
+	 * @param  int $year  The corresponding year (four digits).
+	 * @param  int $id    The calendar id.
+	 *
+	 * @return string
+	 */
+	private function draw_month( $month, $year, $id = 0 ) {
+
+		$calendar = $this->calendar;
+		if ( empty( $calendar ) ) {
+			$calendar = simcal_get_calendar( intval( $id ) );
+			if ( ! $calendar ) {
+				return '';
+			}
+		}
+		$events = $calendar->events;
+
+		// Variables to cycle days in current month and find today in calendar.
+		$now         = $calendar->now;
+		$current     = Carbon::createFromDate( $year, $month, 1, $calendar->timezone )->startOfDay();
+		$current_min = $current->getTimestamp();
+		$current_max = $current->endOfDay()->getTimestamp();
+
+		// Calendar grid variables.
+		$week_starts   = $calendar->week_starts;
+		$week_of_year  = $current->weekOfYear;   // Relative count of the week number of the year.
+		$month_starts  = $current->dayOfWeek;    // Day upon which the month starts.
+		$days_in_month = $current->daysInMonth;  // Number of days in the given month.
+
+		// Set current month events timestamp boundaries.
+		$this->start = $current_min;
+		$this->end   = $current->endOfMonth()->timestamp;
+
+		// Get daily events for this month.
+		if ( $events && is_array( $events ) ) {
+
+			// Filter events within the boundaries previously set above.
+			$timestamps   = array_keys( $events );
+			$lower_bound  = array_filter( $timestamps, array( $this, 'filter_events_before' ) );
+			$higher_bound = array_filter( $lower_bound, array( $this, 'filter_events_after' ) );
+			$filtered     = array_intersect_key( $events, array_combine( $higher_bound, $higher_bound ) );
+
+			// Put resulting events in an associative array, with day of the month as key for easy retrieval in calendar days loop.
+			$day_events = array();
+			foreach ( $filtered as $timestamp => $events_in_day ) {
+				$day = intval( Carbon::createFromTimestamp( $timestamp, $calendar->timezone )->day );
+				$day_events[ $day ][] = $events_in_day;
+			}
+
+			asort( $day_events, SORT_NUMERIC );
+		}
+
+		ob_start();
+
+		echo '<tbody class="simcal-month simcal-month-' . $month . '">' . "\n";
+		echo "\t" . '<tr class="simcal-week simcal-week-' . $week_of_year . '">';
+
+			$days_in_row = 0;
+			// Week may start on an arbitrary day (sun, 0 - sat, 6).
+			$week_day = $week_starts;
+
+			// Void days in first week.
+			for ( $i = $week_starts; $i < $month_starts; $i++ ) :
+
+				echo '<td class="simcal-day simcal-day-void"></td>';
+
+				// Reset day of the week count (sun, 0 - sat, 6).
+				if ( $week_day === 6 ) {
+					$week_day = -1;
+				}
+				$week_day++;
+
+				$days_in_row++;
+
+			endfor;
+
+			// Actual days of the month.
+			for ( $day = 1; $day <= $days_in_month; $day++ ) :
+
+				$count       = 0;
+				$calendar_classes = array();
+				$day_classes = 'simcal-day-' . $day . ' simcal-weekday-' . $week_day;
+
+				// Is this the present, the past or the future, Doc?
+				if ( $current_min <= $now && $current_max >= $now ) {
+					$day_classes .= ' simcal-today simcal-present simcal-day';
+				} elseif ( $current_max < $now ) {
+					$day_classes .= ' simcal-past simcal-day';
+				} elseif ( $current_min > $now ) {
+					$day_classes .= ' simcal-future simcal-day';
+				}
+
+				// Print events for the current day in loop, if found any.
+				if ( isset( $day_events[ $day ] ) ) :
+
+					$list_events = '<ul class="simcal-events">';
+
+					foreach( $day_events[ $day ] as $events ) :
+						foreach( $events as $event ) :
+
+							$event_classes = $event_visibility = '';
+
+							if ( $event instanceof Event ) :
+
+								// Store the calendar id where the event belongs (useful in grouped calendar feeds)
+								$calendar_class  = 'simcal-events-calendar-' . strval( $event->calendar );
+								$calendar_classes[] = $calendar_class ;
+
+								$recurring     = $event->recurrence ? 'simcal-event-recurring ' : '';
+								$has_location  = $event->venue ? 'simcal-event-has-location ' : '';
+
+								$event_classes  .= 'simcal-event ' . $recurring . $has_location . $calendar_class . ' simcal-tooltip';
+
+								// Toggle some events visibility if more than optional limit.
+								if ( ( $calendar->events_limit > -1 )  && ( $count >= $calendar->events_limit ) ) :
+									$event_classes    .= ' simcal-event-toggled';
+									$event_visibility  = ' style="display: none"';
+								endif;
+
+								// Event title in list.
+								$title = ! empty( $event->title ) ? trim( $event->title ) : __( 'Event', 'google-calendar-events' );
+								if ( $calendar->trim_titles >= 1 ) {
+									$title = strlen( $title ) > $calendar->trim_titles ? substr( $title, 0, $calendar->trim_titles ) . '&hellip;' : $title;
+								}
+
+								// Event contents.
+								$list_events .= "\t" . '<li class="' . $event_classes . '"' . $event_visibility . '>' . "\n";
+								$list_events .= "\t\t" . '<span class="simcal-event-title">' . $title . '</span>' . "\n";
+								$list_events .= "\t\t" . '<div class="simcal-event-details simcal-tooltip-content" style="display: none;">' . $calendar->get_event_content( $event ) . '</div>' . "\n";
+								$list_events .= "\t" . '</li>' . "\n";
+
+								$count ++;
+
+							endif;
+
+						endforeach;
+					endforeach;
+
+					if ( ( $current_min <= $now ) && ( $current_max >= $now ) ) {
+						$day_classes .= ' simcal-today-has-events';
+					}
+					$day_classes .= ' simcal-day-has-events simcal-day-has-' . strval( $count ) . '-events';
+
+					if ( $calendar_classes ) {
+						$day_classes .= ' ' . trim( implode( ' ', array_unique( $calendar_classes ) ) );
+					}
+
+					$list_events .= '</ul>' . "\n";
+
+					// Optional button to toggle hidden events in list.
+					if ( ( $calendar->events_limit > -1 ) && ( $count > $calendar->events_limit ) ) :
+						$list_events .= '<button class="simcal-events-toggle"><i class="simcal-icon-down simcal-icon-animate"></i></button>';
+					endif;
+
+				else :
+
+					// Empty cell for day with no events.
+					$list_events = '<span class="simcal-no-events"></span>';
+
+				endif;
+
+				// The actual days with numbers and events in each row cell.
+				echo '<td class="' . $day_classes . '" data-events-count="' . strval( $count ) . '">' . "\n";
+					echo "\t" . '<div>' . "\n";
+					echo "\t\t" . '<span class="simcal-day-label simcal-day-number">' . $day . '</span>' . "\n";
+					echo "\t\t" . $list_events . "\n";
+					echo "\t\t";
+					echo '<span class="simcal-events-dots" style="display: none;">';
+						// Event bullets for calendar mobile mode.
+						for( $i = 0; $i < $count; $i++ ) {
+							echo '<b> &bull; </b>';
+						}
+					echo '</span>' . "\n";
+					echo "\t" . '</div>' . "\n";
+				echo '</td>' . "\n";
+
+				// Reset day of the week count (sun, 0 - sat, 6).
+				if ( $week_day === 6 ) {
+					$week_day = - 1;
+				}
+				$week_day++;
+
+				// Reset count of days for this row (0-6).
+				if ( $days_in_row === 6 ) :
+
+					// Close the week row.
+					echo '</tr>';
+
+					// Open a new week row.
+					if ( $day < $days_in_month ) {
+						echo '<tr class="simcal-week simcal-week-' . $week_of_year++ . '">' . "\n";
+					}
+
+					$days_in_row = -1;
+
+				endif;
+
+				$days_in_row++;
+
+				$current_min = Carbon::createFromTimestamp( $current_min, $calendar->timezone )->addDay()->getTimestamp();
+				$current_max = Carbon::createFromTimestamp( $current_max, $calendar->timezone )->addDay()->getTimestamp();
+
+			endfor;
+
+			// Void days at the end of the month.
+			$remainder_days = 6 - $days_in_row;
+			if ( $remainder_days >= 1 ) {
+
+				for ( $i = 0; $i <= $remainder_days; $i ++ ) {
+
+					echo '<td class="simcal-day simcal-day-void"></td>' . "\n";
+
+					$week_day++;
+				}
+
+			} elseif ( $days_in_row === 6 ) {
+				echo '<td class="simcal-day simcal-day-void"></td>' . "\n";
+			}
+
+		echo "\t" . '</tr>' . "\n";
+		echo '</tbody>' . "\n";
+
+		return ob_get_clean();
+	}
+
+	/**
+	 * Ajax callback to request a new month.
+	 */
+	public function draw_grid_ajax() {
+
+		if ( isset( $_POST['month'] ) && isset( $_POST['year'] ) && isset( $_POST['id'] ) ) {
+
+			$month = absint( $_POST['month'] );
+			$year  = absint( $_POST['year'] );
+			$id    = absint( $_POST['id'] );
+
+			wp_send_json_success( $this->draw_month( $month, $year, $id ) );
+
+		} else {
+
+			wp_send_json_error( 'Missing arguments in default calendar grid ajax request.' );
+
+		}
+
+	}
+
+	/**
+	 * Array filter callback.
+	 *
+	 * @param  int $event Timestamp.
+	 *
+	 * @return bool
+	 */
+	private function filter_events_before( $event ) {
+		return intval( $event ) > intval( $this->start );
+	}
+
+	/**
+	 * Array filter callback.
+	 *
+	 * @param  int $event Timestamp.
+	 *
+	 * @return bool
+	 */
+	private function filter_events_after( $event ) {
+		return intval( $event ) < intval( $this->end );
+	}
+
+}

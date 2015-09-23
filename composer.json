@@ -1,0 +1,47 @@
+{
+  "name": "moonstonemedia/simple-calendar",
+  "description": "A highly configurable and extensible toolkit for WordPress to parse calendar feeds and display events on different types of calendar views on pages, posts or widgets.",
+  "homepage": "https://simplecalendar.io",
+  "type": "wordpress-plugin",
+  "license": "GPLv2.0+",
+  "keywords": [],
+  "authors": [
+    {
+      "name": "Moonstone Media",
+      "email": "phil@moonstonemediagroup.com",
+      "homepage": "http://moonstonemediagroup.com/"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/moonstonemedia/Simple-Calendar/issues",
+    "forum": "https://wordpress.org/plugins/google-calendar-events/",
+    "wiki": "https://github.com/moonstonemedia/Simple-Calendar/wiki",
+    "source": "https://github.com/moonstonemedia/Simple-Calendar/"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=5.3.2",
+    "google/apiclient": "1.*",
+    "cbschuld/Browser.php": "dev-master",
+    "nesbot/carbon": "~1.2",
+    "erusev/parsedown": "^1.5",
+    "nekojira/wp-requirements": "^1.4",
+    "xrstf/composer-php52": "1.*"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*@stable",
+    "whatthejeff/nyancat-phpunit-resultprinter": "~1.2"
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "xrstf\\Composer52\\Generator::onPostInstallCmd"
+    ],
+    "post-update-cmd": [
+      "xrstf\\Composer52\\Generator::onPostInstallCmd"
+    ],
+    "post-autoload-dump": [
+      "xrstf\\Composer52\\Generator::onPostInstallCmd"
+    ]
+  }
+}

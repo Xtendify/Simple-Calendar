@@ -1,0 +1,61 @@
+### IDE ###
+
+# PhpStorm
+.idea
+
+# Netbeans
+nbproject
+
+# Sublime
+*.sublime-project
+*.sublime-workspace
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+
+### Development ###
+
+# Node
+node_modules
+
+# Bower
+bower_components
+
+# Composer
+/vendor
+
+# Sass
+.sass-cache
+
+# Logging
+*.log
+*.logs
+/log
+/logs
+*.tmp
+temp
+tmp
+/tmp
+
+### Build ###
+
+# wordpress.org
+/build
+/release*
+/svn
+
+# ApiGen
+/apidocs
+/docs
+
+# Localization
+languages/*.mo
+
+### OS Files ###
+
+# OSX
+.DS_Store
+
+# Windows
+ehthumbs.db
+Thumbs.db

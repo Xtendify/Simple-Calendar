@@ -1,0 +1,33 @@
+.simcal-calendar {
+  position: relative;
+}
+
+.simcal-ajax-loader {
+
+  background-color: rgba(0, 0, 0, .1);
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+
+  > i {
+    color: rgba( 0, 0, 0, .38);
+    font-size: 48px;
+    left: 50%;
+    line-height: 1;
+    margin: -36px 0 0 -36px;
+    position: absolute;
+    top: 50%;
+  }
+
+  &.simcal-spinner-top > i {
+    top: 20%;
+  }
+
+  &.simcal-spinner-bottom > i {
+    bottom: 20%;
+    top: auto;
+  }
+
+}

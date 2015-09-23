@@ -1,0 +1,153 @@
+.simcal-default-calendar-grid {
+
+  > table {
+
+    table-layout: fixed;
+
+    thead th,
+    tbody td {
+      padding: 0;
+      text-align: center;
+    }
+
+  }
+
+  .simcal-calendar-head {
+    .simcal-nav {
+      padding: 10px 0;
+      vertical-align: middle;
+    }
+  }
+
+  // Table cells.
+  .simcal-day {
+
+    height: 1px;
+    &:hover {
+      background: rgba(0, 0, 0, .1);
+    }
+
+    > div {
+      box-sizing: content-box;
+      display: block;
+      height: 100%;
+    }
+
+    // Today highlighting.
+    &.simcal-today {
+      > div {
+        border: 1px solid rgb(255, 0, 0);
+      }
+      .simcal-day-number {
+        background: rgb(255, 0, 0);
+        color: #fff;
+      }
+      &:hover {
+        background: rgba(200, 0, 0, .1);
+      }
+    }
+    &.simcal-today-has-events {
+      .simcal-day-number {
+        background: rgba(255, 0, 0, .8);
+      }
+      .simcal-events-dots {
+        color: rgba(255, 0, 0, .8);
+      }
+    }
+
+  }
+
+  // Cells in the grid before the start day of the month.
+  .simcal-day-void {
+
+    background-color: rgba(0, 0, 0, .06);
+    border-width: 0;
+    height: 100%;
+    min-height: 60px;
+
+    &:hover {
+      background: rgba(0, 0, 0, .06);
+    }
+
+  }
+
+  // The number of the day in a month.
+  .simcal-day-number {
+    background: rgba(0, 0, 0, .03);
+    display: block;
+    line-height: 1;
+    padding: 2px 4px 3px;
+    vertical-align: middle;
+  }
+
+  // Days with events are highlighted.
+  .simcal-day-has-events {
+    .simcal-day-number {
+      background: rgba(0, 0, 0, .8 );
+      color: #fff;
+    }
+  }
+
+  // When there are no events, this is a spacer.
+  .simcal-no-events {
+    display: block;
+    min-height: 62px;
+  }
+
+  // List of events in a day.
+  ul.simcal-events {
+
+    font-size: 10px;
+    line-height: 1.44;
+    list-style: none;
+    margin: 0;
+    text-align: left;
+
+    // An event.
+    > li.simcal-event {
+
+      border-bottom: 1px solid rgba(0, 0, 0, .06);
+      cursor: pointer;
+      margin-bottom: 2px;
+      padding: 4px;
+
+      &:hover {
+        text-decoration: underline;
+      }
+
+      &:last-child {
+        border-bottom: 0;
+        margin-bottom: 0;
+      }
+
+    }
+
+  }
+
+  // List of events in mobile mode.
+  .simcal-events-dots {
+    cursor: pointer;
+    display: block;
+    line-height: .7;
+    margin: 3px 0;
+    text-align: center;
+  }
+
+  // Button to toggle visibility of events.
+  .simcal-events-toggle {
+
+    background: transparent;
+    color: transparentize($default-calendar-button-col, .4);
+    display: block;
+    font-size: 10px;
+    padding: 2px 0;
+    width: 100%;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #fff;
+    }
+
+  }
+
+}

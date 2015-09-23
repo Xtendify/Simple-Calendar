@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[simple-calendar.simple-calendar]
+file_filter = languages/google-calendar-events-<lang>.po
+source_file = languages/google-calendar-events.pot
+source_lang = en_US
+type = PO

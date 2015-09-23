@@ -1,0 +1,45 @@
+body .select2-container--default .select2-selection--single {
+  border-color: #ccc;
+  border-radius: 0;
+}
+
+// Otherwise ThickBox will conceal select2 drawer.
+body .select2-container {
+  z-index: 1000000;
+}
+
+body.post-type-gce_feed #gce-insert-shortcode-button {
+  display: none;
+}
+
+// Add shortcode media button and panel.
+.wp-media-buttons a.add_calendar span.wp-media-buttons-icon {
+  background: none;
+}
+
+// Add shortcode panel contents.
+.gce-insert-shortcode-panel {
+
+  max-width: 90%;
+  position: relative;
+
+  select {
+    display: block;
+    max-width: 470px;
+    width: 100%;
+  }
+
+}
+
+// Hack to make ThickBox look right
+// see: https://core.trac.wordpress.org/ticket/17249
+body .gce-insert-shortcode-modal {
+  height: 220px !important;
+  margin-left: -250px !important;
+  width: 500px !important;
+}
+body .gce-insert-shortcode-modal-title {
+  background: #fff !important;
+  border-bottom: none !important;
+  height: 0 !important;
+}

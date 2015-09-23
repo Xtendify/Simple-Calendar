@@ -1,0 +1,13 @@
+{
+  "name": "simple-calendar",
+  "main": "/",
+  "license": "GPLv2+",
+  "ignore": [],
+  "devDependencies": {
+    "imagesloaded": "~3.1.8",
+    "jquery-tiptip": "master",
+    "select2": "~4.0",
+    "qtip2": "~2.2.1"
+  },
+  "keywords": []
+}

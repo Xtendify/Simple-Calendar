@@ -1,0 +1,83 @@
+.simcal-default-calendar-list {
+
+  min-height: 100px;
+  padding: 10px 0;
+
+  .simcal-calendar-head {
+
+    display: table;
+    padding-bottom: 10px;
+    width: 100%;
+
+    .simcal-nav {
+      display: table-cell;
+      text-align: center;
+      vertical-align: middle;
+      width: 20%;
+    }
+
+    .simcal-nav:nth-child(2) {
+      width: 60%;
+    }
+
+    .simcal-current span {
+      display: inline-block;
+    }
+
+  }
+
+  dl.simcal-month {
+    margin-bottom: 10px;
+    padding: 0 10px 10px;
+  }
+
+  dd.simcal-day {
+    margin-bottom: 0;
+  }
+
+  dt.simcal-day-label {
+
+    border-bottom: 1px solid transparentize($default-calendar-button-col, .9);
+    font-size: .9em;
+    margin: 20px 0 10px;
+
+    > span {
+      background: transparentize($default-calendar-button-col, .9);
+      display: inline-block;
+      padding: 4px 8px;
+    }
+
+  }
+
+  ul.simcal-events {
+
+    margin: 10px 28px 0;
+
+    li.simcal-event {
+      margin-bottom: 10px;
+    }
+
+  }
+
+  .simcal-event-details {
+    font-size: .84em;
+    line-height: 1.5;
+  }
+
+  .simcal-events-toggle {
+
+    background-color: rgba(0, 0, 0, .05);
+    color: transparentize($default-calendar-button-col, .4);
+    display: inline-block;
+    padding: 0;
+    text-align: center;
+    width: 100%;
+
+    &:hover {
+      background: rgba(0, 0, 0, .08);
+      color: transparentize($default-calendar-button-col, .25);
+    }
+
+  }
+
+}
