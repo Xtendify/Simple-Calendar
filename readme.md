@@ -15,11 +15,15 @@ Here you can browse the source, look at open issues and keep track of developmen
 
 ## Support
 
-Please do not use GitHub issue tickets for support questions or general questions. 
+Please *do not* use GitHub issue tickets for support questions or general questions. 
 Use the [WordPress.org support forums](https://wordpress.org/support/plugin/google-calendar-events) instead.
 
 ## Contributing
 
-Submit pull requests or open issues here on GitHub.
+Submit pull requests or open issues here on GitHub. 
+
+You can also discuss the project altogether with others on [Gitter chat](https://gitter.im/moonstonemedia/Simple-Calendar).
+
+Translations are handled on [Transifex](https://www.transifex.com/moonstonemedia/simple-calendar/).
 
 Read further on how to [contribute to this project](https://github.com/moonstonemedia/Simple-Calendar/blob/refactor/contributing.md).
