@@ -25,18 +25,18 @@ class Google extends Feed {
 	/**
 	 * Google Calendar API key.
 	 *
-	 * @access private
+	 * @access protected
 	 * @var string
 	 */
-	private $google_api_key = '';
+	protected $google_api_key = '';
 
 	/**
 	 * Google Calendar ID.
 	 *
-	 * @access private
+	 * @access protected
 	 * @var string
 	 */
-	private $google_calendar_id = '';
+	protected $google_calendar_id = '';
 
 	/**
 	 * Set properties.
