@@ -138,20 +138,12 @@ abstract class Field {
 	public $context = '';
 
 	/**
-	 * Escaping callback.
+	 * Validation result.
 	 *
 	 * @access public
-	 * @var string|array
+	 * @var string|true
 	 */
-	public $escaping = '';
-
-	/**
-	 * Validation callback.
-	 *
-	 * @access public
-	 * @var string
-	 */
-	public $validation = '';
+	public $validation = true;
 
 	/**
 	 * Construct the field.
@@ -172,13 +164,13 @@ abstract class Field {
 		$this->name         = isset( $field['name'] )        ? esc_attr( $field['name'] ) : '';
 		$this->id           = isset( $field['id'] )          ? esc_attr( $field['id'] ) : '';
 		$this->placeholder  = isset( $field['placeholder'] ) ? esc_attr( $field['placeholder'] ) : '';
-		$this->options      = isset( $field['options'] )     ? array_map( 'esc_attr', (array) $field['options'] ) : '';
+		$this->options      = isset( $field['options'] )     ? array_map( 'esc_attr', (array) $field['options'] ) : array();
 
 		// Escaping.
-		$this->escaping    = isset( $field['escaping'] ) ? $field['escaping'] : '';
-		if ( ! empty( $this->escaping ) ) {
-			$this->default = isset( $field['default'] ) ? $this->escape( $this->escaping, $field['default'] ) : '';
-			$this->value   = isset( $field['value'] )   ? $this->escape( $this->escaping, $field['value'] ) : '';
+		$escaping = isset( $field['escaping'] ) ? $field['escaping'] : '';
+		if ( ! empty( $escaping ) ) {
+			$this->default = isset( $field['default'] ) ? $this->escape( $escaping, $field['default'] ) : '';
+			$this->value   = isset( $field['value'] )   ? $this->escape( $escaping, $field['value'] ) : '';
 		} else {
 			$this->default = isset( $field['default'] ) ? esc_attr( $field['default'] ) : '';
 			$this->value   = isset( $field['value'] )   ? ( is_array( $field['value'] ) ? array_map( 'esc_attr', $field['value'] ) : esc_attr( $field['value'] ) ) : '';
@@ -186,7 +178,7 @@ abstract class Field {
 
 		// Validation.
 		$callback = isset( $field['validation'] ) ? $field['validation'] : '';
-		$this->validation = ! empty( $callback ) ? $this->validate( $callback, $this->value ) : '';
+		$this->validation = ! empty( $callback ) ? $this->validate( $callback, $this->value ) : true;
 
 		// CSS classes and styles.
 		$class       = isset( $field['class'] ) ? implode( ' ', array_map( 'esc_attr', $field['class'] ) ) : '';
@@ -249,7 +241,7 @@ abstract class Field {
 			$screen = function_exists( 'get_current_screen' ) ? get_current_screen() : '';
 			return call_user_func( $callback, $value, $screen );
 		}
-		return '';
+		return true;
 	}
 
 	/**
