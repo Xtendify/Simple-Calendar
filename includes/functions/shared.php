@@ -99,7 +99,7 @@ function simcal_common_scripts_variables() {
 		'locale'    => \SimpleCalendar\plugin()->locale,
 		'text_dir'  => is_rtl() ? 'rtl' : 'ltr',
 		'months'    => array(
-			'full'  => simcal_get_calendar_names_i18n( 'month', 'full'  ),
+			'full'  => simcal_get_calendar_names_i18n( 'month', 'full' ),
 			'short' => simcal_get_calendar_names_i18n( 'month', 'short' ),
 		),
 		'days'      => array(

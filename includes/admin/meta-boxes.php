@@ -54,8 +54,8 @@ class Meta_Boxes {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ), 30 );
 
 		// Process meta boxes.
-		add_action( 'simcal_save_settings_meta','\SimpleCalendar\Admin\Metaboxes\Settings::save', 10, 2  );
-		add_action( 'simcal_save_attach_calendar_meta','\SimpleCalendar\Admin\Metaboxes\Attach_Calendar::save', 10, 2  );
+		add_action( 'simcal_save_settings_meta','\SimpleCalendar\Admin\Metaboxes\Settings::save', 10, 2 );
+		add_action( 'simcal_save_attach_calendar_meta','\SimpleCalendar\Admin\Metaboxes\Attach_Calendar::save', 10, 2 );
 
 		// Save meta boxes data.
 		add_action( 'save_post', array( $this, 'save_meta_boxes' ), 1, 2 );

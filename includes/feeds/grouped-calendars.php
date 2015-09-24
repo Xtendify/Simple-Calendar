@@ -101,7 +101,7 @@ class Grouped_Calendars extends Feed {
 	public function get_events() {
 
 		$ids       = $this->ids;
-		$events    = get_transient( '_simple-calendar_feed_id_' . strval ( $this->calendar_id ) . '_' . $this->type );
+		$events    = get_transient( '_simple-calendar_feed_id_' . strval( $this->calendar_id ) . '_' . $this->type );
 
 		if ( empty( $events ) && ! empty( $ids ) && is_array( $ids ) ) {
 
