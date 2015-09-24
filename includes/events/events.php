@@ -334,9 +334,8 @@ class Events {
 			return $time->setTimezone( $this->timezone );
 		} elseif ( $time instanceof \DateTime ) {
 			return Carbon::instance( $time )->setTimezone( $this->timezone );
-		} else {
-			return null;
 		}
+		return null;
 	}
 
 	/**
