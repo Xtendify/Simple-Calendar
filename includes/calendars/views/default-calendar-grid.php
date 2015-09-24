@@ -307,7 +307,7 @@ class Default_Calendar_Grid implements Calendar_View {
 			// Put resulting events in an associative array, with day of the month as key for easy retrieval in calendar days loop.
 			$day_events = array();
 			foreach ( $filtered as $timestamp => $events_in_day ) {
-				$day = intval( Carbon::createFromTimestamp( $timestamp, $calendar->timezone )->day );
+				$day = intval( Carbon::createFromTimestamp( $timestamp, 'UTC' )->setTimezone( $calendar->timezone )->day );
 				$day_events[ $day ][] = $events_in_day;
 			}
 

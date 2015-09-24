@@ -50,7 +50,7 @@ class Event_Builder {
 	 * @access public
 	 * @var array
 	 */
-	public static $tags = array();
+	public $tags = array();
 
 	/**
 	 * Tag attributes.
@@ -58,7 +58,7 @@ class Event_Builder {
 	 * @access private
 	 * @var array
 	 */
-	public static $tag_attributes = array();
+	public $tag_attributes = array();
 
 	/**
 	 * Constructor.
@@ -71,12 +71,21 @@ class Event_Builder {
 		$this->event    = $event;
 		$this->calendar = $calendar;
 
-		$locale = \SimpleCalendar\plugin()->locale;
-
 		$this->datetime = new Carbon();
-		$this->datetime->setlocale( substr( $locale, 0, 2 ) );
+		$this->datetime->setlocale( substr( \SimpleCalendar\plugin()->locale, 0, 2 ) );
 
-		self::$tags = array(
+		$this->tags = $this->get_content_tags();
+		$this->tag_attributes = $this->get_content_tags_atts();
+
+	}
+
+	/**
+	 * Get content tags.
+	 *
+	 * @return array
+	 */
+	public function get_content_tags() {
+		return  array(
 
 			/* ============ *
 			 * Content Tags *
@@ -146,14 +155,21 @@ class Event_Builder {
 			'if-not-start-location', // Does the event has NOT a start location?
 
 		);
+	}
 
-		self::$tag_attributes = array(
-			'autolink'  => false,       // Description: set to 'yes' to make plaintext URLs clickable.
-			'format'    => '',          // Datetime: print date or time in custom format.
-			'limit'     => 0,           // Trim description or title to specified amount of characters.
-			'html'      => false,       // Description: set to 'yes' to allow HTML (uses `wp_kses_post()`).
-			'markdown'  => false,       // Description: set to 'yes' parses Markdown.
-			'newwindow' => false,       // Links: set to 'new' to open anchor link target to '_blank'.
+	/**
+	 * Get content tags attributes.
+	 *
+	 * @return array
+	 */
+	public function get_content_tags_atts() {
+		return array(
+			'autolink'  => false,   // Description: set to 'yes' to make plaintext URLs clickable.
+			'format'    => '',      // Datetime: print date or time in custom format.
+			'limit'     => 0,       // Trim description or title to specified amount of characters.
+			'html'      => false,   // Description: set to 'yes' to allow HTML (uses `wp_kses_post()`).
+			'markdown'  => false,   // Description: set to 'yes' parses Markdown.
+			'newwindow' => false,   // Links: set to 'new' to open anchor link target to '_blank'.
 		);
 	}
 
@@ -198,11 +214,11 @@ class Event_Builder {
 		$attr    = shortcode_parse_atts( $match[3] ); // Tag attributes in quotes.
 
 		// Default attributes.
-		$attr = array_merge( self::$tag_attributes, (array) $attr );
+		$attr = array_merge( $this->tag_attributes, (array) $attr );
 
 		$calendar = $this->calendar;
 		$event    = $this->event;
-		$datetime = $this->datetime;
+		$datetime = clone $this->datetime;
 
 		if ( ( $calendar instanceof Calendar ) && ( $event instanceof Event ) ) {
 
@@ -281,7 +297,7 @@ class Event_Builder {
 
 				case 'when' :
 
-					$start = $datetime->createFromTimestamp( $event->start_utc, $calendar->timezone );
+					$start = $datetime->createFromTimestamp( $event->start_utc, 'UTC' )->setTimezone( $calendar->timezone );
 					$end   = $event->end_utc ? $datetime->createFromTimestamp( $event->end_utc, $calendar->timezone ) : '';
 
 					$time_start = $time_end = '';
@@ -345,8 +361,9 @@ class Event_Builder {
 					if ( ( 'end' == $bound ) && ! $event->end ) {
 						return '';
 					}
-					$ts       = $bound . '_utc';
-					$datetime = $datetime->createFromTimestamp( $event->$ts, $calendar->timezone );
+					$ts = $bound . '_utc';
+					$datetime->createFromTimestamp( $event->$ts, 'UTC' );
+					$datetime->setTimezone( $calendar->timezone );
 
 					$format    = ltrim( strstr( $tag, '-' ), '-' );
 					$dt_format = '';
@@ -378,7 +395,6 @@ class Event_Builder {
 						       human_time_diff( $event->start, $event->end ) .
 						       '</span>';
 					}
-
 					return '<span class="simcal-event-duration"' .
 					       'data-event-duration="-1">' .
 					       __( 'Undefined', 'google-calendar-events' ) .
@@ -386,13 +402,14 @@ class Event_Builder {
 
 				case 'location' :
 					$output = '';
-					if ( $start_location = $event->start_location['address'] ) {
+					if ( $start_location = $event->start_location['name'] ) {
 						$output = $start_location;
-						if ( $end_location = $event->end_location['address'] ) {
-							$output .= ' - ' . $end_location;
+						if ( $end_location = $event->end_location['name'] ) {
+							if ( ! empty( $end_location ) && $end_location != $start_location ) {
+								$output .= ' - ' . $end_location;
+							}
 						}
 					}
-
 					return $output;
 
 				case 'location-link' :
@@ -402,15 +419,15 @@ class Event_Builder {
 						$output = '<a href="' . esc_url( '//maps.google.com?q=' . urlencode( $start_location ) ) . '" ' . $target . '>' . $content . '</a>';
 					}
 					if ( $end_location = $event->end_location['address'] ) {
-						$output .= ' - <a href="' . esc_url( '//maps.google.com?q=' . urlencode( $end_location ) ) . '" ' . $target . '>' . $content . '</a>';
+						if ( $end_location != $start_location ) {
+							$output .= ' - <a href="' . esc_url( '//maps.google.com?q=' . urlencode( $end_location ) ) . '" ' . $target . '>' . $content . '</a>';
+						}
 					}
-
 					return $output;
 
 				case 'start-location' :
 				case 'end-location' :
 					$location = $tag == 'end-location' ? $event->end_location['address'] : $event->start_location['address'];
-
 					return ' <span class=" simcal-event-address simcal-event-start-location">' .
 					       wp_strip_all_tags( $location ) .
 					       '</span>';
@@ -421,7 +438,6 @@ class Event_Builder {
 					$location = $tag == 'end-location' ? $event->end_location['address'] : $event->start_location['address'];
 					if ( $location ) {
 						$target = $attr['newwindow'] !== false ? 'target="_blank"' : '';
-
 						return ' <a href="' . esc_url( '//maps.google.com?q=' . urlencode( $location ) ) . '" ' . $target . '>' . $content . '</a>';
 					}
 					break;
@@ -429,7 +445,6 @@ class Event_Builder {
 				case 'link' :
 					if ( $event->link ) {
 						$target = $attr['newwindow'] !== false ? 'target="_blank"' : '';
-
 						return ' <a href="' . $event->link . '" ' . $target . '>' . $content . '</a>';
 					}
 					break;
@@ -456,11 +471,11 @@ class Event_Builder {
 				case 'if-now':
 				case 'if-not-now':
 
-					$start_date = Carbon::createFromTimestamp( $event->start_utc, $calendar->timezone );
+					$start_date = Carbon::createFromTimestamp( $event->start_utc, 'UTC' )->setTimezone( $calendar->timezone );
 					$start      = $start_date->getTimestamp();
 
 					if ( $event->end_utc ) {
-						$end_date = Carbon::createFromTimestamp( $event->end_utc, $calendar->timezone );
+						$end_date = Carbon::createFromTimestamp( $event->end_utc, 'UTC' )->setTimezone( $calendar->timezone );
 						$end      = $end_date->getTimestamp();
 					} else {
 						$end_date = $start_date->endOfDay();
@@ -484,7 +499,7 @@ class Event_Builder {
 				case 'if-started':
 				case 'if-not-started':
 
-					$start_date = Carbon::createFromTimestamp( $event->start_utc, $calendar->timezone );
+					$start_date = Carbon::createFromTimestamp( $event->start_utc, 'UTC' )->setTimezone( $calendar->timezone );
 					$start      = $start_date->getTimestamp();
 					$now        = $calendar->now;
 
@@ -505,7 +520,7 @@ class Event_Builder {
 
 					if ( $event->end_utc ) {
 
-						$end_date = Carbon::createFromTimestamp( $event->end_utc, $calendar->timezone );
+						$end_date = Carbon::createFromTimestamp( $event->end_utc, 'UTC' )->setTimezone( $calendar->timezone );
 						$end      = $end_date->getTimestamp();
 						$now      = $calendar->now;
 
@@ -627,7 +642,7 @@ class Event_Builder {
 		// This is largely borrowed on get_shortcode_regex() from WordPress Core.
 		// @see /wp-includes/shortcodes.php (with some modification)
 
-		$tagregexp = implode( '|', array_values( self::$tags ) );
+		$tagregexp = implode( '|', array_values( $this->tags ) );
 
 		return '/'
 		       . '\\['                              // Opening bracket
