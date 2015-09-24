@@ -117,7 +117,7 @@ abstract class Field {
 	 * Value.
 	 *
 	 * @access public
-	 * @var string
+	 * @var array|string
 	 */
 	public $value = '';
 
@@ -125,7 +125,7 @@ abstract class Field {
 	 * Default value.
 	 *
 	 * @access public
-	 * @var string
+	 * @var array|string
 	 */
 	public $default = '';
 
