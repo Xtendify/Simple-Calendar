@@ -168,12 +168,12 @@ abstract class Field {
 
 		// Escaping.
 		$escaping = isset( $field['escaping'] ) ? $field['escaping'] : '';
-		if ( ! empty( $escaping ) ) {
-			$this->default = isset( $field['default'] ) ? $this->escape( $escaping, $field['default'] ) : '';
-			$this->value   = isset( $field['value'] )   ? $this->escape( $escaping, $field['value'] ) : '';
+		if ( ! empty( $escaping ) && ( is_string( $escaping ) || is_array( $escaping ) ) ) {
+			$this->default = isset( $field['default'] ) ? $this->escape_callback( $escaping, $field['default'] ) : '';
+			$this->value   = isset( $field['value'] )   ? $this->escape_callback( $escaping, $field['value'] ) : '';
 		} else {
-			$this->default = isset( $field['default'] ) ? esc_attr( $field['default'] ) : '';
-			$this->value   = isset( $field['value'] )   ? ( is_array( $field['value'] ) ? array_map( 'esc_attr', $field['value'] ) : esc_attr( $field['value'] ) ) : '';
+			$this->default = isset( $field['default'] ) ? $this->escape( $field['default'] ) : '';
+			$this->value   = isset( $field['value'] )   ? $this->escape( $field['value'] ) : '';
 		}
 
 		// Validation.
@@ -210,16 +210,33 @@ abstract class Field {
 	}
 
 	/**
-	 * Escape.
+	 * Escape field value.
+	 *
+	 * Default escape function, a wrapper for esc_attr().
 	 *
 	 * @access protected
 	 *
-	 * @param  $callback
-	 * @param  $value
+	 * @param  array|string|int $value
 	 *
-	 * @return mixed|string
+	 * @return array|string
 	 */
-	protected function escape( $callback, $value ) {
+	protected function escape( $value )  {
+		return ! empty( $value ) ? ( is_array( $value ) ? array_map( 'esc_attr', $value ) : esc_attr( $value ) ) : '';
+	}
+
+	/**
+	 * Escape callback.
+	 *
+	 * Custom escaping function set in field args.
+	 *
+	 * @access protected
+	 *
+	 * @param  array|string $callback
+	 * @param  mixed        $value
+	 *
+	 * @return mixed
+	 */
+	protected function escape_callback( $callback, $value ) {
 		if ( $callback && ( is_string( $callback ) || is_array( $callback ) ) ) {
 			return call_user_func( $callback, $value );
 		}
@@ -227,7 +244,9 @@ abstract class Field {
 	}
 
 	/**
-	 * Validate.
+	 * Validation callback.
+	 *
+	 * Custom field validation callback set in field args.
 	 *
 	 * @access protected
 	 *
