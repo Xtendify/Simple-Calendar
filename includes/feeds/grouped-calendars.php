@@ -41,7 +41,7 @@ class Grouped_Calendars extends Feed {
 		$this->type = 'grouped-calendars';
 		$this->name = __( 'Grouped Calendars', 'google-calendar-events' );
 
-		if ( $this->calendar_id > 0 ) {
+		if ( $this->post_id > 0 ) {
 			$this->set_source();
 			$this->events = $this->get_events();
 		}
@@ -58,19 +58,19 @@ class Grouped_Calendars extends Feed {
 	 */
 	public function set_source( $ids = array() ) {
 
-		$source = get_post_meta( $this->calendar_id, '_grouped_calendars_source', true );
+		$source = get_post_meta( $this->post_id, '_grouped_calendars_source', true );
 
 		if ( 'ids' == $source ) {
 
 			if ( empty( $ids ) ) {
-				$ids = get_post_meta( $this->calendar_id, '_grouped_calendars_ids', true );
+				$ids = get_post_meta( $this->post_id, '_grouped_calendars_ids', true );
 			}
 
 			$this->ids = ! empty( $ids ) && is_array( $ids ) ? array_map( 'absint', $ids ) : array();
 
 		} elseif ( 'category' == $source ) {
 
-			$categories = get_post_meta( $this->calendar_id, '_grouped_calendars_category', true );
+			$categories = get_post_meta( $this->post_id, '_grouped_calendars_category', true );
 
 			if ( $categories && is_array( $categories ) ) {
 
@@ -101,7 +101,7 @@ class Grouped_Calendars extends Feed {
 	public function get_events() {
 
 		$ids       = $this->ids;
-		$events    = get_transient( '_simple-calendar_feed_id_' . strval( $this->calendar_id ) . '_' . $this->type );
+		$events    = get_transient( '_simple-calendar_feed_id_' . strval( $this->post_id ) . '_' . $this->type );
 
 		if ( empty( $events ) && ! empty( $ids ) && is_array( $ids ) ) {
 
@@ -132,7 +132,7 @@ class Grouped_Calendars extends Feed {
 				}
 
 				set_transient(
-					'_simple-calendar_feed_id_' . strval( $this->calendar_id ) . '_' . $this->type,
+					'_simple-calendar_feed_id_' . strval( $this->post_id ) . '_' . $this->type,
 					$events,
 					absint( $this->cache )
 				);

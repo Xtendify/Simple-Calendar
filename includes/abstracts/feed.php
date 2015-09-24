@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 abstract class Feed {
 
 	/**
-	 * Feed Type.
+	 * Feed type.
 	 *
 	 * @access public
 	 * @var string
@@ -28,7 +28,7 @@ abstract class Feed {
 	public $type = '';
 
 	/**
-	 * Feed Name.
+	 * Feed name.
 	 *
 	 * @access public
 	 * @var string
@@ -36,12 +36,12 @@ abstract class Feed {
 	public $name = '';
 
 	/**
-	 * Calendar Post Id.
+	 * Calendar post id.
 	 *
 	 * @access public
 	 * @var int
 	 */
-	public $calendar_id = 0;
+	public $post_id = 0;
 
 	/**
 	 * Calendar opening.
@@ -116,11 +116,11 @@ abstract class Feed {
 
 		if ( $calendar instanceof Calendar ) {
 
-			$this->calendar_id    = isset( $calendar->id ) ? $calendar->id : 0;
-			$this->calendar_start = isset( $calendar->start ) ? $calendar->start : 0;
-			$this->week_starts    = isset( $calendar->week_starts ) ? $calendar->week_starts : get_option( 'start_of_week' );
+			$this->post_id          = isset( $calendar->id ) ? $calendar->id : 0;
+			$this->calendar_start   = isset( $calendar->start ) ? $calendar->start : 0;
+			$this->week_starts      = isset( $calendar->week_starts ) ? $calendar->week_starts : get_option( 'start_of_week' );
 
-			if ( $this->calendar_id > 0 ) {
+			if ( $this->post_id > 0 ) {
 				$this->set_cache();
 				$this->timezone = $calendar->timezone;
 				$this->set_earliest_event();
@@ -152,8 +152,8 @@ abstract class Feed {
 
 			$start = Carbon::createFromTimestamp( $this->calendar_start, $this->timezone );
 
-			$earliest_date  = esc_attr( get_post_meta( $this->calendar_id, '_feed_earliest_event_date', true ) );
-			$earliest_range = max( absint( get_post_meta( $this->calendar_id, '_feed_earliest_event_date_range', true ) ), 1 );
+			$earliest_date  = esc_attr( get_post_meta( $this->post_id, '_feed_earliest_event_date', true ) );
+			$earliest_range = max( absint( get_post_meta( $this->post_id, '_feed_earliest_event_date_range', true ) ), 1 );
 
 			if ( 'days_before' == $earliest_date ) {
 				$earliest = $start->subDays( $earliest_range )->getTimestamp();
@@ -184,8 +184,8 @@ abstract class Feed {
 
 			$start = Carbon::createFromTimestamp( $this->calendar_start, $this->timezone )->endOfDay();
 
-			$latest_date  = esc_attr( get_post_meta( $this->calendar_id, '_feed_latest_event_date', true ) );
-			$latest_range = max( absint( get_post_meta( $this->calendar_id, '_feed_latest_event_date_range', true ) ), 1 );
+			$latest_date  = esc_attr( get_post_meta( $this->post_id, '_feed_latest_event_date', true ) );
+			$latest_range = max( absint( get_post_meta( $this->post_id, '_feed_latest_event_date_range', true ) ), 1 );
 
 			if ( 'days_after' == $latest_date ) {
 				$latest = $start->addDays( $latest_range )->getTimestamp();
@@ -211,7 +211,7 @@ abstract class Feed {
 	 */
 	public function set_cache( $time = 0 ) {
 		if ( $time === 0 || ! is_numeric( $time ) ) {
-			$cache = get_post_meta( $this->calendar_id, '_feed_cache', true );
+			$cache = get_post_meta( $this->post_id, '_feed_cache', true );
 			$time  = is_numeric( $cache ) && $cache > 0 ? absint( $cache ) : $this->cache;
 		}
 		$this->cache = absint( $time );

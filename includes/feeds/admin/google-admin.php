@@ -34,7 +34,7 @@ class Google_Admin {
 	 * @access private;
 	 * @var string
 	 */
-	private $api_key = '';
+	private $google_api_key = '';
 
 	/**
 	 * Google Calendar id.
@@ -42,27 +42,27 @@ class Google_Admin {
 	 * @access private
 	 * @var string
 	 */
-	private $calendar_id = '';
+	private $google_calendar_id = '';
 
 	/**
 	 * Hook in tabs.
 	 *
 	 * @param Google $feed
-	 * @param string $api_key
-	 * @param string $calendar_id
+	 * @param string $google_api_key
+	 * @param string $google_calendar_id
 	 */
-	public function __construct( Google $feed, $api_key, $calendar_id ) {
+	public function __construct( Google $feed, $google_api_key, $google_calendar_id ) {
 
 		$this->feed        = $feed;
-		$this->api_key     = $api_key;
-		$this->calendar_id = $calendar_id;
+		$this->google_api_key     = $google_api_key;
+		$this->google_calendar_id = $google_calendar_id;
 
 		$screen = simcal_is_admin_screen();
 
 		if ( $screen !== false ) {
 
 			if ( 'calendar' == $screen ) {
-				$this->test_api_key_connection( $this->calendar_id );
+				$this->test_api_key_connection( $this->google_calendar_id );
 			}
 
 			add_filter( 'simcal_settings_meta_tabs_li', array( $this, 'add_settings_meta_tab_li' ), 10, 1 );
@@ -110,7 +110,7 @@ class Google_Admin {
 		$has_errors = false;
 
 		if ( empty( $api_key ) ){
-			$api_key = $this->api_key;
+			$api_key = $this->google_api_key;
 			if ( empty( $api_key ) ) {
 				$settings = get_option( 'simple-calendar_settings_feeds' );
 				$api_key = isset( $settings['google']['api_key'] ) ? esc_attr( $settings['google']['api_key'] ) : '';
@@ -213,7 +213,7 @@ class Google_Admin {
 		<div id="google-settings-panel" class="simcal-panel">
 			<table>
 				<thead>
-				<tr><th colspan="2"><?php _e( 'Google Calendar settings', 'google-calendar-events' ); ?></th></tr>
+					<tr><th colspan="2"><?php _e( 'Google Calendar settings', 'google-calendar-events' ); ?></th></tr>
 				</thead>
 				<?php
 
@@ -241,7 +241,7 @@ class Google_Admin {
 
 		global $post;
 		$post_id = isset( $post->ID )  ? $post->ID : 0;
-		$google_calendar_id  = empty( $google_calendar_id ) ? $this->calendar_id : $google_calendar_id;
+		$google_calendar_id  = empty( $google_calendar_id ) ? $this->google_calendar_id : $google_calendar_id;
 
 		$message = $error = '';
 		$has_errors = false;
@@ -274,7 +274,7 @@ class Google_Admin {
 				                 '</p>',
 			) );
 
-			if ( empty( $this->api_key ) ) {
+			if ( empty( $this->google_api_key ) ) {
 
 				$has_errors = true;
 				$no_key_notice->add();

@@ -54,9 +54,9 @@ class Google extends Feed {
 		$settings = get_option( 'simple-calendar_settings_feeds' );
 		$this->google_api_key = isset( $settings['google']['api_key'] ) ? esc_attr( $settings['google']['api_key'] ) : '';
 
-		if ( $this->calendar_id > 0 ) {
+		if ( $this->post_id > 0 ) {
 
-			$this->google_calendar_id = $this->esc_google_calendar_id( get_post_meta( $this->calendar_id, '_google_calendar_id', true ) );
+			$this->google_calendar_id = $this->esc_google_calendar_id( get_post_meta( $this->post_id, '_google_calendar_id', true ) );
 
 			if ( ! is_admin() || defined( 'DOING_AJAX' ) ) {
 
@@ -96,7 +96,7 @@ class Google extends Feed {
 	 */
 	public function get_events() {
 
-		$calendar = get_transient( '_simple-calendar_feed_id_' . strval( $this->calendar_id ) . '_' . $this->type );
+		$calendar = get_transient( '_simple-calendar_feed_id_' . strval( $this->post_id ) . '_' . $this->type );
 
 		if ( empty( $calendar ) && ! empty( $this->google_calendar_id ) ) {
 
@@ -116,7 +116,7 @@ class Google extends Feed {
 				$calendar['events']      = '';
 
 				// If no timezone has been set, use calendar feed.
-				if ( 'use_calendar' == get_post_meta( $this->calendar_id, '_feed_timezone_setting', true ) ) {
+				if ( 'use_calendar' == get_post_meta( $this->post_id, '_feed_timezone_setting', true ) ) {
 					$this->timezone = $calendar['timezone'];
 				}
 
@@ -185,7 +185,7 @@ class Google extends Feed {
 								'link'           => $event->getHtmlLink(),
 								'visibility'     => $visibility,
 								'uid'            => $event->getICalUID(),
-								'calendar'       => $this->calendar_id,
+								'calendar'       => $this->post_id,
 								'timezone'       => $this->timezone,
 								'start'          => $start,
 								'start_utc'      => $start_utc,
@@ -209,7 +209,7 @@ class Google extends Feed {
 
 					if ( ! empty( $calendar['events'] ) ) {
 						set_transient(
-							'_simple-calendar_feed_id_' . strval( $this->calendar_id ) . '_' . $this->type,
+							'_simple-calendar_feed_id_' . strval( $this->post_id ) . '_' . $this->type,
 							$calendar,
 							max( absint( $this->cache ), 60 )
 						);
@@ -253,31 +253,31 @@ class Google extends Feed {
 
 		if ( ! is_null( $client ) ) {
 
-			$calendar_id = $id ? $id : $this->calendar_id;
+			$calendar_id = $id ? $id : $this->post_id;
 			if ( ! empty( $calendar_id ) ) {
 
 				// Build the request args.
 				$args = array();
 
 				// Expand recurring events.
-				$recurring = esc_attr( get_post_meta( $this->calendar_id, '_google_events_recurring', true ) );
+				$recurring = esc_attr( get_post_meta( $this->post_id, '_google_events_recurring', true ) );
 				if ( $recurring == 'show' ) {
 					$args['singleEvents'] = true;
 				}
 
 				// Query events using search terms.
-				$search_query = esc_attr( get_post_meta( $this->calendar_id, '_google_events_search_query', true ) );
+				$search_query = esc_attr( get_post_meta( $this->post_id, '_google_events_search_query', true ) );
 				if ( $search_query ) {
 					$args['q'] = rawurlencode( $search_query );
 				}
 
 				// Max results to query.
-				$max_results        = max( absint( get_post_meta( $this->calendar_id, '_google_events_max_results', true ) ), 1 );
+				$max_results        = max( absint( get_post_meta( $this->post_id, '_google_events_max_results', true ) ), 1 );
 				$args['maxResults'] = $max_results ? strval( $max_results ) : '2500';
 
 				// Specify a timezone.
 				$timezone = '';
-				if ( 'use_calendar' != get_post_meta( $this->calendar_id, '_feed_timezone_setting', true ) ) {
+				if ( 'use_calendar' != get_post_meta( $this->post_id, '_feed_timezone_setting', true ) ) {
 					$args['timeZone'] = $timezone = $this->timezone;
 				}
 
