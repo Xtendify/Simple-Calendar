@@ -20,9 +20,10 @@ $default-calendar-button-col: rgb(0, 0, 0);
     border: 0;
     box-shadow: none;
     color: transparentize($default-calendar-button-col, .4);
+    cursor: pointer;
     outline: 0;
     padding: 0;
-    transition: margin 0.2s ease-out;
+    transition: margin .2s ease-out;
     width: 100%;
 
     &:focus,
@@ -96,11 +97,11 @@ $default-calendar-button-col: rgb(0, 0, 0);
       z-index: 14999;
     }
 
-    ul.simcal-events {
+    .simcal-events {
 
       margin: 0;
 
-      > li.simcal-event {
+      > .simcal-event {
         list-style: none;
       }
 

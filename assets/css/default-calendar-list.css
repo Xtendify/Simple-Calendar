@@ -152,6 +152,7 @@
   border: 0;
   box-shadow: none;
   color: rgba(0, 0, 0, 0.6);
+  cursor: pointer;
   outline: 0;
   padding: 0;
   transition: margin 0.2s ease-out;
@@ -205,9 +206,9 @@
     top: 0;
     width: 0;
     z-index: 14999; }
-  .simcal-default-calendar.simcal-event-bubble ul.simcal-events {
+  .simcal-default-calendar.simcal-event-bubble .simcal-events {
     margin: 0; }
-    .simcal-default-calendar.simcal-event-bubble ul.simcal-events > li.simcal-event {
+    .simcal-default-calendar.simcal-event-bubble .simcal-events > .simcal-event {
       list-style: none; }
 
 .simcal-default-calendar .simcal-tooltip-content {

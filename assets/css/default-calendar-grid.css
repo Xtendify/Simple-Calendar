@@ -152,6 +152,7 @@
   border: 0;
   box-shadow: none;
   color: rgba(0, 0, 0, 0.6);
+  cursor: pointer;
   outline: 0;
   padding: 0;
   transition: margin 0.2s ease-out;
@@ -205,9 +206,9 @@
     top: 0;
     width: 0;
     z-index: 14999; }
-  .simcal-default-calendar.simcal-event-bubble ul.simcal-events {
+  .simcal-default-calendar.simcal-event-bubble .simcal-events {
     margin: 0; }
-    .simcal-default-calendar.simcal-event-bubble ul.simcal-events > li.simcal-event {
+    .simcal-default-calendar.simcal-event-bubble .simcal-events > .simcal-event {
       list-style: none; }
 
 .simcal-default-calendar .simcal-tooltip-content {
@@ -216,7 +217,8 @@
   padding: 5px; }
 
 .simcal-default-calendar-grid > table {
-  table-layout: fixed; }
+  table-layout: fixed;
+  width: 100%; }
   .simcal-default-calendar-grid > table thead th,
   .simcal-default-calendar-grid > table tbody td {
     padding: 0;
@@ -269,20 +271,21 @@
   display: block;
   min-height: 62px; }
 
-.simcal-default-calendar-grid ul.simcal-events {
+.simcal-default-calendar-grid .simcal-events {
   font-size: 10px;
   line-height: 1.44;
   list-style: none;
   margin: 0;
+  padding: 0;
   text-align: left; }
-  .simcal-default-calendar-grid ul.simcal-events > li.simcal-event {
+  .simcal-default-calendar-grid .simcal-events > .simcal-event {
     border-bottom: 1px solid rgba(0, 0, 0, 0.06);
     cursor: pointer;
     margin-bottom: 2px;
     padding: 4px; }
-    .simcal-default-calendar-grid ul.simcal-events > li.simcal-event:hover {
+    .simcal-default-calendar-grid .simcal-events > .simcal-event:hover {
       text-decoration: underline; }
-    .simcal-default-calendar-grid ul.simcal-events > li.simcal-event:last-child {
+    .simcal-default-calendar-grid .simcal-events > .simcal-event:last-child {
       border-bottom: 0;
       margin-bottom: 0; }
 

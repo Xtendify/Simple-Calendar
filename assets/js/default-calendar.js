@@ -329,7 +329,7 @@
 				eventsDots.hide();
 
 				// Cells default min-height value.
-				emptyCells.css( 'min-height', '60px' );
+				emptyCells.css( 'min-height', ( width - 20 ) + 'px' );
 			}
 
 			// Create bubbles for each cell.
