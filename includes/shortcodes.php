@@ -44,6 +44,8 @@ class Shortcodes {
 	 * Print a calendar.
 	 *
 	 * @param  array $attributes
+	 *
+	 * @return string
 	 */
 	public function print_calendar( $attributes ) {
 
@@ -51,19 +53,21 @@ class Shortcodes {
 			'id' => null,
 		), $attributes );
 
-		if ( ! is_numeric( $args['id'] ) ) {
-			return;
-		}
+		$id = absint( $args['id'] );
 
-		if ( ( $id = absint( $args['id'] ) ) > 0 ) {
+		if ( is_singular() && $id > 0 ) {
 
 			$calendar = simcal_get_calendar( $id );
 
 			if ( $calendar instanceof Calendar ) {
+				ob_start();
 				$calendar->html();
+				return ob_get_clean();
 			}
 
 		}
+
+		return '';
 	}
 
 }

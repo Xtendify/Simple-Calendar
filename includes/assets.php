@@ -129,7 +129,7 @@ class Assets {
 						foreach ( $matches as $shortcode ) {
 							if ( 'calendar' === $shortcode[2] || 'gcal' === $shortcode[2] ) {
 								$atts = shortcode_parse_atts( $shortcode[3] );
-								$id   = isset( $atts['id'] ) ? $atts['id'] : 0;
+								$id   = isset( $atts['id'] ) ? intval( $atts['id'] ) : 0;
 							}
 						}
 					}
