@@ -141,7 +141,11 @@
     top: auto; }
 
 .simcal-default-calendar .simcal-current h3 {
-  margin: 0; }
+  margin: 0;
+  padding: 0; }
+
+.simcal-default-calendar .simcal-nav {
+  vertical-align: middle; }
 
 .simcal-default-calendar .simcal-nav-button {
   background: transparent;

@@ -6,8 +6,13 @@ $default-calendar-button-col: rgb(0, 0, 0);
   // Calendar header.
   .simcal-current h3 {
     margin: 0;
+    padding: 0;
   }
 
+  .simcal-nav {
+    vertical-align: middle;
+  }
+  
   // Navigation buttons.
   .simcal-nav-button {
 
