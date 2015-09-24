@@ -445,7 +445,7 @@ class Event_Builder {
 				case 'link' :
 					if ( $event->link ) {
 						$target = $attr['newwindow'] !== false ? 'target="_blank"' : '';
-						return ' <a href="' . $event->link . '" ' . $target . '>' . $content . '</a>';
+						return ' <a href="' . $event->link . '" ' . $target . '>' . $calendar->get_event_content( $event, $content ) . '</a>';
 					}
 					break;
 
