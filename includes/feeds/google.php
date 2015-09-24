@@ -39,6 +39,30 @@ class Google extends Feed {
 	protected $google_calendar_id = '';
 
 	/**
+	 * Google recurring events query setting.
+	 *
+	 * @access protected
+	 * @var string
+	 */
+	protected $google_events_recurring = '';
+
+	/**
+	 * Google search query setting.
+	 *
+	 * @access protected
+	 * @var string
+	 */
+	protected $google_search_query = '';
+
+	/**
+	 * Google max results query setting.
+	 *
+	 * @access protected
+	 * @var int
+	 */
+	protected $google_max_results = 2500;
+
+	/**
 	 * Set properties.
 	 *
 	 * @param string|Calendar $calendar
@@ -56,7 +80,11 @@ class Google extends Feed {
 
 		if ( $this->post_id > 0 ) {
 
-			$this->google_calendar_id = $this->esc_google_calendar_id( get_post_meta( $this->post_id, '_google_calendar_id', true ) );
+			// Google query args.
+			$this->google_calendar_id       = $this->esc_google_calendar_id( get_post_meta( $this->post_id, '_google_calendar_id', true ) );
+			$this->google_events_recurring  = esc_attr( get_post_meta( $this->post_id, '_google_events_recurring', true ) );
+			$this->google_search_query      = esc_attr( get_post_meta( $this->post_id, '_google_events_search_query', true ) );
+			$this->google_max_results       = max( absint( get_post_meta( $this->post_id, '_google_events_max_results', true ) ), 1 );
 
 			if ( ! is_admin() || defined( 'DOING_AJAX' ) ) {
 
