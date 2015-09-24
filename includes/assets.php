@@ -44,11 +44,35 @@ class Assets {
 	private $styles = array();
 
 	/**
+	 * Disable scripts.
+	 *
+	 * @access public
+	 * @var bool
+	 */
+	public $disable_scripts = false;
+
+	/**
+	 * Disable styles.
+	 *
+	 * @access public
+	 * @var bool
+	 */
+	public $disable_styles = false;
+
+	/**
 	 * Hook in tabs.
 	 */
 	public function __construct() {
 
 		$this->min = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG == true ) ? '' : '.min';
+
+		$settings = get_option( 'simple-calendar_settings_advanced' );
+		if ( isset( $settings['assets']['disable_js'] ) ) {
+			$this->disable_scripts = 'yes' == $settings['assets']['disable_js'] ? true : false;
+		}
+		if ( isset( $settings['assets']['disable_css'] ) ) {
+			$this->disable_styles = 'yes' == $settings['assets']['disable_css'] ? true : false;
+		}
 
 		add_action( 'init', array( $this, 'enqueue' ), 20 );
 		add_action( 'wp_print_styles', array( $this, 'disable' ), 100 );
@@ -136,24 +160,13 @@ class Assets {
 	 * Disable scripts and styles.
 	 */
 	public function disable() {
-
-		$disable_css = $disable_js = false;
-
-		$settings = get_option( 'simple-calendar_settings_advanced' );
-		if ( isset( $settings['assets']['disable_js'] ) ) {
-			$disable_js  = 'yes' == $settings['assets']['disable_js'] ? true : false;
-		}
-		if ( isset( $settings['assets']['disable_css'] ) ) {
-			$disable_css = 'yes' == $settings['assets']['disable_css'] ? true : false;
-		}
-
-		if ( $disable_js === true ) {
+		if ( $this->disable_scripts === true ) {
 			$scripts = apply_filters( 'simcal_front_end_scripts', $this->scripts, $this->min );
 			foreach ( $scripts as $script => $v ) {
 				wp_dequeue_script( $script );
 			}
 		}
-		if ( $disable_css === true ) {
+		if ( $this->disable_styles === true ) {
 			$styles = apply_filters( 'simcal_front_end_styles', $this->styles, $this->min );
 			foreach ( $styles as $style => $v ) {
 				wp_dequeue_style( $style );
