@@ -225,7 +225,7 @@ abstract class Calendar {
 		} elseif ( $calendar instanceof Calendar ) {
 			$this->id   = absint( $calendar->id );
 			$this->post = $calendar->post;
-		} elseif( $calendar instanceof \WP_Post ) {
+		} elseif ( $calendar instanceof \WP_Post ) {
 			$this->id   = absint( $calendar->ID );
 			$this->post = $calendar;
 		} elseif ( isset( $calendar->id ) && isset( $calendar->post ) ) {
@@ -554,7 +554,7 @@ abstract class Calendar {
 			$this->start = Carbon::today( $this->timezone )->startOfMonth()->getTimeStamp();
 		} elseif ( 'months_before' == $calendar_begins ) {
 			$this->start = Carbon::today( $this->timezone )->subMonths( $nth )->startOfMonth()->getTimeStamp();
-		} elseif( 'months_after' == $calendar_begins ) {
+		} elseif ( 'months_after' == $calendar_begins ) {
 			$this->start = Carbon::today( $this->timezone )->addMonths( $nth )->startOfMonth()->getTimeStamp();
 		} elseif ( 'this_year' == $calendar_begins ) {
 			$this->start = Carbon::today( $this->timezone )->startOfYear()->getTimestamp();
