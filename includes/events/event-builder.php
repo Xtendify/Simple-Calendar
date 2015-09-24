@@ -503,7 +503,7 @@ class Event_Builder {
 				case 'if-ended':
 				case 'if-not-ended':
 
-					if ( $event->end ) {
+					if ( $event->end_utc ) {
 
 						$end_date = Carbon::createFromTimestamp( $event->end_utc, $calendar->timezone );
 						$end      = $end_date->getTimestamp();

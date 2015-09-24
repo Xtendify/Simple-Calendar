@@ -125,7 +125,7 @@ class Event {
 	 * Event location at event start.
 	 *
 	 * @access public
-	 * @var false|string|array
+	 * @var array
 	 */
 	public $start_location = false;
 
@@ -149,7 +149,7 @@ class Event {
 	 * Event end datetime object.
 	 *
 	 * @access public
-	 * @var Carbon
+	 * @var null|Carbon
 	 */
 	public $end_dt = null;
 
@@ -165,7 +165,7 @@ class Event {
 	 * Event location at event end.
 	 *
 	 * @access public
-	 * @var false|string|array
+	 * @var array
 	 */
 	public $end_location = false;
 
