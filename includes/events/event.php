@@ -282,8 +282,8 @@ class Event {
 		}
 
 		/* ========= *
-         * Event End *
-         * ========= */
+		 * Event End *
+		 * ========= */
 
 		if ( ! empty( $event['end'] ) ) {
 			$this->end = is_numeric( $event['end'] ) ? intval( $event['end'] ) : false;
@@ -299,8 +299,8 @@ class Event {
 		}
 
 		/* ================== *
-         * Event Distribution *
-         * ================== */
+		 * Event Distribution *
+		 * ================== */
 
 		// Whole day event.
 		if ( ! empty( $event['whole_day'] ) ) {
@@ -318,8 +318,8 @@ class Event {
 		}
 
 		/* ========== *
-         * Event Meta *
-         * ========== */
+		 * Event Meta *
+		 * ========== */
 
 		// Event has venue(s).
 		if ( $this->start_location['venue'] || $this->end_location['venue'] ) {
