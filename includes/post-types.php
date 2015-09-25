@@ -162,7 +162,7 @@ class Post_Types {
 				'name'               => _x( 'Calendars', 'Post Type General Name', 'google-calendar-events' ),
 				'singular_name'      => _x( 'Calendar', 'Post Type Singular Name', 'google-calendar-events' ),
 				'menu_name'          => __( 'Calendars', 'google-calendar-events' ),
-				'name_admin_bar'     => __( 'Calendars', 'google-calendar-events' ),
+				'name_admin_bar'     => __( 'Calendar', 'google-calendar-events' ),
 				'parent_item_colon'  => __( 'Parent Calendar:', 'google-calendar-events' ),
 				'all_items'          => __( 'All Calendars', 'google-calendar-events' ),
 				'add_new_item'       => __( 'Add New Calendar', 'google-calendar-events' ),
