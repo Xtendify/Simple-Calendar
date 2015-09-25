@@ -27,7 +27,7 @@ class Grouped_Calendars extends Feed {
 	 * @access public
 	 * @var array
 	 */
-	public $ids = array();
+	public $calendars_ids = array();
 
 	/**
 	 * Set properties.
@@ -66,7 +66,7 @@ class Grouped_Calendars extends Feed {
 				$ids = get_post_meta( $this->post_id, '_grouped_calendars_ids', true );
 			}
 
-			$this->ids = ! empty( $ids ) && is_array( $ids ) ? array_map( 'absint', $ids ) : array();
+			$this->calendars_ids = ! empty( $ids ) && is_array( $ids ) ? array_map( 'absint', $ids ) : array();
 
 		} elseif ( 'category' == $source ) {
 
@@ -87,7 +87,7 @@ class Grouped_Calendars extends Feed {
 					'fields'    => 'ids',
 				) );
 
-				$this->ids = ! empty( $calendars ) && is_array( $calendars ) ? $calendars : array();
+				$this->calendars_ids = ! empty( $calendars ) && is_array( $calendars ) ? $calendars : array();
 			}
 
 		}
@@ -100,8 +100,8 @@ class Grouped_Calendars extends Feed {
 	 */
 	public function get_events() {
 
-		$ids       = $this->ids;
-		$events    = get_transient( '_simple-calendar_feed_id_' . strval( $this->post_id ) . '_' . $this->type );
+		$ids    = $this->calendars_ids;
+		$events = get_transient( '_simple-calendar_feed_id_' . strval( $this->post_id ) . '_' . $this->type );
 
 		if ( empty( $events ) && ! empty( $ids ) && is_array( $ids ) ) {
 
