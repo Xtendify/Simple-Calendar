@@ -288,7 +288,7 @@ class Event {
 		if ( ! empty( $event['end'] ) ) {
 			$this->end = is_numeric( $event['end'] ) ? intval( $event['end'] ) : false;
 			if ( ! empty( $event['end_utc'] ) ) {
-				$this->start_utc = is_numeric( $event['end_utc'] ) ? intval( $event['end_utc'] ) : false;
+				$this->end_utc = is_numeric( $event['end_utc'] ) ? intval( $event['end_utc'] ) : false;
 			}
 			if ( ! empty( $event['end_timezone'] ) ) {
 				$this->end_timezone = esc_attr( $event['end_timezone'] );
@@ -374,12 +374,12 @@ class Event {
 	/**
 	 * Escape coordinate.
 	 *
-	 * @param  int|float $n
+	 * @param  int|float $latlng
 	 *
 	 * @return int|float
 	 */
-	private function esc_coordinate( $n = 0 ) {
-		return is_numeric( $n ) ? floatval( $n ) : 0;
+	private function esc_coordinate( $latlng = 0 ) {
+		return is_numeric( $latlng ) ? floatval( $latlng ) : 0;
 	}
 
 	/**
