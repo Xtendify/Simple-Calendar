@@ -210,6 +210,14 @@ class Event {
 	public $meta = array();
 
 	/**
+	 * Event default template.
+	 *
+	 * @access public
+	 * @var string
+	 */
+	public $template = '';
+
+	/**
 	 * Event constructor.
 	 *
 	 * @param array $event
@@ -255,6 +263,8 @@ class Event {
 		$this->venue            = $this->start_location['venue'] || $this->end_location['venue'] ? true : false;
 		$this->meta             = isset( $event['meta'] )           ? ( is_array( $event['meta'] ) ? array_map( 'esc_attr', $event['meta'] ) : array() ) : array();
 
+		// Event template.
+		$this->template         = isset( $event['template'] )       ? wp_kses_post( $event['template'] ) : '';
 	}
 
 	/**

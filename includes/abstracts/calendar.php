@@ -616,17 +616,18 @@ abstract class Calendar {
 	abstract public function get_view( $view = '' );
 
 	/**
-	 * Get event content.
+	 * Get event HTML parsed by template.
 	 *
-	 * @param  Event  $event   Event to get contents from.
-	 * @param  string $content (optional) Contents to parse.
+	 * @param  Event  $event    Event object to be parsed.
+	 * @param  string $template (optional) To use another template or a partial.
 	 *
 	 * @return string
 	 */
-	public function get_event_content( Event $event, $content = '' ) {
+	public function get_event_html( Event $event, $template = '' ) {
 		$event_builder = new Event_Builder( $event, $this );
-		$content = empty( $content ) ? $this->events_template : $content;
-		return $event_builder->parse_event_template( $content );
+		// Use the event template to parse tags; if empty, fallback to calendar post content.
+		$template = empty( $template ) ? ( empty( $event->template ) ? $this->events_template : $event->template ) : $template;
+		return $event_builder->parse_event_template_tags( $template );
 	}
 
 	/**

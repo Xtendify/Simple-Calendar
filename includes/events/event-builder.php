@@ -176,22 +176,21 @@ class Event_Builder {
 	/**
 	 * Get event content.
 	 *
-	 * @param  string $content_tags
+	 * @param  string $template_tags
 	 *
 	 * @return string
 	 */
-	public function parse_event_template( $content_tags = '' ) {
+	public function parse_event_template_tags( $template_tags = '' ) {
 
+		// Process tags.
 		$result = preg_replace_callback(
 			$this->get_regex(),
 			array( $this, 'process_event_content' ),
-			$content_tags
+			$template_tags
 		);
 
 		// Removes extra consecutive <br> tags.
-		$html = preg_replace('#(<br */?>\s*)+#i', '<br />', trim( $result ) );
-
-		return $html;
+		return preg_replace('#(<br */?>\s*)+#i', '<br />', trim( $result ) );
 	}
 
 	/**
@@ -209,7 +208,7 @@ class Event_Builder {
 
 		$tag     = $match[2];                         // Tag name without square brackets.
 		$before  = $match[1];                         // Before tag.
-		$content = $match[5];                         // HTML between tags.
+		$partial = $match[5];                         // HTML content between tags.
 		$after   = $match[6];                         // After tag.
 		$attr    = shortcode_parse_atts( $match[3] ); // Tag attributes in quotes.
 
@@ -416,11 +415,11 @@ class Event_Builder {
 					$output = array();
 					$target = $attr['newwindow'] !== false ? 'target="_blank"' : '';
 					if ( $start_location = $event->start_location['address'] ) {
-						$output = '<a href="' . esc_url( '//maps.google.com?q=' . urlencode( $start_location ) ) . '" ' . $target . '>' . $content . '</a>';
+						$output = '<a href="' . esc_url( '//maps.google.com?q=' . urlencode( $start_location ) ) . '" ' . $target . '>' . $partial . '</a>';
 					}
 					if ( $end_location = $event->end_location['address'] ) {
 						if ( $end_location != $start_location ) {
-							$output .= ' - <a href="' . esc_url( '//maps.google.com?q=' . urlencode( $end_location ) ) . '" ' . $target . '>' . $content . '</a>';
+							$output .= ' - <a href="' . esc_url( '//maps.google.com?q=' . urlencode( $end_location ) ) . '" ' . $target . '>' . $partial . '</a>';
 						}
 					}
 					return $output;
@@ -438,14 +437,14 @@ class Event_Builder {
 					$location = $tag == 'end-location' ? $event->end_location['address'] : $event->start_location['address'];
 					if ( $location ) {
 						$target = $attr['newwindow'] !== false ? 'target="_blank"' : '';
-						return ' <a href="' . esc_url( '//maps.google.com?q=' . urlencode( $location ) ) . '" ' . $target . '>' . $content . '</a>';
+						return ' <a href="' . esc_url( '//maps.google.com?q=' . urlencode( $location ) ) . '" ' . $target . '>' . $partial . '</a>';
 					}
 					break;
 
 				case 'link' :
 					if ( $event->link ) {
 						$target = $attr['newwindow'] !== false ? 'target="_blank"' : '';
-						return ' <a href="' . $event->link . '" ' . $target . '>' . $calendar->get_event_content( $event, $content ) . '</a>';
+						return ' <a href="' . $event->link . '" ' . $target . '>' . $calendar->get_event_html( $event, $partial ) . '</a>';
 					}
 					break;
 
@@ -458,13 +457,13 @@ class Event_Builder {
 
 				case 'if-title':
 					if ( ! empty( $event->title ) ) {
-						return $calendar->get_event_content( $event, $content );
+						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
 
 				case 'if-description':
 					if ( ! empty( $event->description ) ) {
-						return $calendar->get_event_content( $event, $content );
+						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
 
@@ -486,11 +485,11 @@ class Event_Builder {
 
 					if ( 'if-now' == $tag ) {
 						if ( ( $start <= $now ) && ( $end > $now ) ) {
-							return $calendar->get_event_content( $event, $content );
+							return $calendar->get_event_html( $event, $partial );
 						}
 					} elseif ( 'if-not-now' == $tag ) {
 						if ( $start > $now && $end <= $now ) {
-							return $calendar->get_event_content( $event, $content );
+							return $calendar->get_event_html( $event, $partial );
 						}
 					}
 
@@ -505,11 +504,11 @@ class Event_Builder {
 
 					if ( 'if-started' == $tag ) {
 						if ( $start < $now ) {
-							return $calendar->get_event_content( $event, $content );
+							return $calendar->get_event_html( $event, $partial );
 						}
 					} elseif ( 'if-not-started' == $tag ) {
 						if ( $start > $now ) {
-							return $calendar->get_event_content( $event, $content );
+							return $calendar->get_event_html( $event, $partial );
 						}
 					}
 
@@ -526,11 +525,11 @@ class Event_Builder {
 
 						if ( 'if-ended' == $tag ) {
 							if ( $end < $now ) {
-								return $calendar->get_event_content( $event, $content );
+								return $calendar->get_event_html( $event, $partial );
 							}
 						} elseif ( 'if-not-ended' == $tag ) {
 							if ( $end > $now ) {
-								return $calendar->get_event_content( $event, $content );
+								return $calendar->get_event_html( $event, $partial );
 							}
 						}
 
@@ -540,13 +539,13 @@ class Event_Builder {
 
 				case 'if-end-time':
 					if ( $event->end ) {
-						return $calendar->get_event_content( $event, $content );
+						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
 
 				case 'if-no-end-time':
 					if ( ! $event->end ) {
-						return $calendar->get_event_content( $event, $content );
+						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
 
@@ -556,38 +555,38 @@ class Event_Builder {
 					$pos    = array_search( $event->start_utc, array_keys( $events ) );
 					$case   = $tag == 'if-first' ? $pos === 0 : $pos !== 0;
 
-					return $case ? $calendar->get_event_content( $event, $content ) : '';
+					return $case ? $calendar->get_event_html( $event, $partial ) : '';
 
 				case 'if-all-day':
 				case 'if-whole-day':
 					if ( $event->whole_day === true ) {
-						return $calendar->get_event_content( $event, $content );
+						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
 
 				case 'if-not-all-day':
 				case 'if-not-whole-day':
 					if ( $event->whole_day === false ) {
-						return $calendar->get_event_content( $event, $content );
+						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
 
 				case 'if-recurring' :
 					if ( $event->recurrence ) {
-						return $calendar->get_event_content( $event, $content );
+						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
 
 				case 'if-not-recurring' :
 					if ( ! $event->recurrence ) {
-						return $calendar->get_event_content( $event, $content );
+						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
 
 				case 'if-multi-day':
 					if ( $event->end ) {
 						if ( ( $event->start + $event->end ) > 86400 ) {
-							return $calendar->get_event_content( $event, $content );
+							return $calendar->get_event_html( $event, $partial );
 						}
 					}
 					break;
@@ -595,7 +594,7 @@ class Event_Builder {
 				case 'if-single-day':
 					if ( $event->end ) {
 						if ( ( $event->start + $event->end ) <= 86400 ) {
-							return $calendar->get_event_content( $event, $content );
+							return $calendar->get_event_html( $event, $partial );
 						}
 					}
 					break;
@@ -603,18 +602,18 @@ class Event_Builder {
 				case 'if-location':
 				case 'if-start-location':
 					if ( ! empty( $event->start_location['address'] ) ) {
-						return $calendar->get_event_content( $event, $content );
+						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
 
 				case 'if-end-location':
 					if ( ! empty( $event->end_location['address'] ) ) {
-						return $calendar->get_event_content( $event, $content );
+						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
 
 				default:
-					return wp_kses_post( $before . $content . $after );
+					return wp_kses_post( $before . $partial . $after );
 
 			}
 		}

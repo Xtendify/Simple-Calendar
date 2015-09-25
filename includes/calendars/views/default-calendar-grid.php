@@ -390,7 +390,7 @@ class Default_Calendar_Grid implements Calendar_View {
 								// Event contents.
 								$list_events .= "\t" . '<li class="' . $event_classes . '"' . $event_visibility . '>' . "\n";
 								$list_events .= "\t\t" . '<span class="simcal-event-title">' . $title . '</span>' . "\n";
-								$list_events .= "\t\t" . '<div class="simcal-event-details simcal-tooltip-content" style="display: none;">' . $calendar->get_event_content( $event ) . '</div>' . "\n";
+								$list_events .= "\t\t" . '<div class="simcal-event-details simcal-tooltip-content" style="display: none;">' . $calendar->get_event_html( $event ) . '</div>' . "\n";
 								$list_events .= "\t" . '</li>' . "\n";
 
 								$count ++;

@@ -483,7 +483,7 @@ class Default_Calendar_List implements Calendar_View {
 								endif;
 
 								$list_events .= "\t" . '<li class="' . $event_classes . '"' . $event_visibility . '>' . "\n";
-								$list_events .= "\t\t" . '<div class="simcal-event-details">' . $calendar->get_event_content( $event ) . '</div>' . "\n";
+								$list_events .= "\t\t" . '<div class="simcal-event-details">' . $calendar->get_event_html( $event ) . '</div>' . "\n";
 								$list_events .= "\t" . '</li>' . "\n";
 
 								$count ++;

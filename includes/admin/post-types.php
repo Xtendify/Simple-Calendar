@@ -221,7 +221,7 @@ class Post_Types {
 	 * @return string
 	 */
 	public function default_event_builder( $content, $post ) {
-		return 'calendar' == $post->post_type ? simcal_default_event_builder_content() : $content;
+		return 'calendar' == $post->post_type ? simcal_default_event_template() : $content;
 	}
 
 	/**

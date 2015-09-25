@@ -209,11 +209,11 @@ function simcal_get_calendar_names_i18n( $group, $style = 'full' ) {
 }
 
 /**
- * Default event builder content.
+ * Default event template.
  *
  * @return string
  */
-function simcal_default_event_builder_content() {
+function simcal_default_event_template() {
 
 	$content  = '<strong>' . '[title]' . '</strong>';
 	$content .= '<p>';
@@ -223,7 +223,7 @@ function simcal_default_event_builder_content() {
 	$content .= '[link newwindow="yes"]' . __( 'Click for more details.', 'google-calendar-events' ) . '[/link]';
 	$content .= '</p>';
 
-	return apply_filters( 'simcal_default_event_builder_content', $content );
+	return apply_filters( 'simcal_default_event_template', $content );
 }
 
 /**

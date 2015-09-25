@@ -229,7 +229,8 @@ class Google extends Feed {
 								'meta'           => array(
 									'color'  => $event->getColorId(),
 									'status' => $event->getStatus(),
-								)
+								),
+								'template'       => $this->events_template,
 							);
 
 						}

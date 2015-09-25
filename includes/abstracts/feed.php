@@ -68,6 +68,14 @@ abstract class Feed {
 	public $events = array();
 
 	/**
+	 * Events template.
+	 *
+	 * @access protected
+	 * @var string
+	 */
+	protected $events_template = '';
+
+	/**
 	 * Timezone.
 	 *
 	 * @access public
@@ -119,6 +127,7 @@ abstract class Feed {
 			$this->post_id          = isset( $calendar->id ) ? $calendar->id : 0;
 			$this->calendar_start   = isset( $calendar->start ) ? $calendar->start : 0;
 			$this->week_starts      = isset( $calendar->week_starts ) ? $calendar->week_starts : get_option( 'start_of_week' );
+			$this->events_template  = isset( $calendar->events_template ) ? $calendar->events_template : '';
 
 			if ( $this->post_id > 0 ) {
 				$this->set_cache();
@@ -126,7 +135,6 @@ abstract class Feed {
 				$this->set_earliest_event();
 				$this->set_latest_event();
 			}
-
 		}
 	}
 
