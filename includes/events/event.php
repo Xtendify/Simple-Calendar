@@ -328,7 +328,7 @@ class Event {
 
 		// Event meta.
 		if ( ! empty( $event['meta'] ) ) {
-			$this->meta = is_array( $event['meta'] ) ? array_map( 'esc_attr', $event['meta'] ) : array();
+			$this->meta = is_array( $event['meta'] ) ? $event['meta'] : array();
 		}
 
 		// Event template.

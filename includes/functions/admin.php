@@ -231,30 +231,57 @@ function simcal_print_shortcode_tip( $post_id ) {
 				"onclick='this.select();' value='" . $shortcode . "' />";
 }
 
-/**
- * Add Google Analytics tags to an URL.
- *
- * Used internally on links that point to external documentation resources related to the plugin.
- * We use this exclusively to understand from which link placement a request comes from if the user opens the page on URL target.
- *
- * @internal
- *
- * @param  string $base_url Plain URL to navigate to.
- * @param  string $source   GA "source" tracking value.
- * @param  string $medium   GA "medium" tracking value.
- * @param  string $campaign GA "campaign" tracking value.
- *
- * @return string URL complete with with Google Analytics tags as query args.
- */
-function simcal_ga_campaign_url( $base_url, $source, $medium, $campaign ) {
+if ( ! function_exists( 'mb_detect_encoding' ) ) {
 
-	// $medium examples: 'sidebar_link', 'banner_image'
+	/**
+	 * Fallback function for `mb_detect_encoding()`,
+	 * php_mbstring module in the php.ini could be missing.
+	 *
+	 * @param  string $string
+	 * @param  null   $enc
+	 * @param  null   $ret
+	 *
+	 * @return bool
+	 */
+	function mb_detect_encoding( $string, $enc = null, $ret = null ) {
 
-	$url = esc_url( add_query_arg( array(
-		'utm_source'   => $source,
-		'utm_medium'   => $medium,
-		'utm_campaign' => $campaign,
-	), $base_url ) );
+		static $enclist = array(
+			'UTF-8',
+			'ASCII',
+			'ISO-8859-1',
+			'ISO-8859-2',
+			'ISO-8859-3',
+			'ISO-8859-4',
+			'ISO-8859-5',
+			'ISO-8859-6',
+			'ISO-8859-7',
+			'ISO-8859-8',
+			'ISO-8859-9',
+			'ISO-8859-10',
+			'ISO-8859-13',
+			'ISO-8859-14',
+			'ISO-8859-15',
+			'ISO-8859-16',
+			'Windows-1251',
+			'Windows-1252',
+			'Windows-1254',
+		);
 
-	return esc_url( $url );
+		$result = false;
+
+		foreach ( $enclist as $item ) {
+			$sample = iconv( $item, $item, $string );
+			if ( md5( $sample ) == md5( $string ) ) {
+				if ( $ret === null ) {
+					$result = $item;
+				} else {
+					$result = true;
+				}
+				break;
+			}
+		}
+
+		return $result;
+	}
+
 }
