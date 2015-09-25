@@ -95,7 +95,7 @@ class Assets {
 
 		do_action( 'simcal_enqueue_assets', $this->min );
 
-		if ( $this->disable_scripts === false ) {
+		if ( false === $this->disable_scripts ) {
 			$min = $this->min;
 			// Improves compatibility with themes and plugins using Isotope and Masonry.
 			add_action( 'wp_enqueue_scripts',
@@ -170,13 +170,13 @@ class Assets {
 	 * Disable scripts and styles.
 	 */
 	public function disable() {
-		if ( $this->disable_scripts === true ) {
+		if ( true === $this->disable_scripts ) {
 			$scripts = apply_filters( 'simcal_front_end_scripts', $this->scripts, $this->min );
 			foreach ( $scripts as $script => $v ) {
 				wp_dequeue_script( $script );
 			}
 		}
-		if ( $this->disable_styles === true ) {
+		if ( true === $this->disable_styles ) {
 			$styles = apply_filters( 'simcal_front_end_styles', $this->styles, $this->min );
 			foreach ( $styles as $style => $v ) {
 				wp_dequeue_style( $style );
