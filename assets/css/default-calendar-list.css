@@ -248,10 +248,14 @@
   .simcal-default-calendar-list ul.simcal-events {
     margin: 10px 28px 0; }
     .simcal-default-calendar-list ul.simcal-events li.simcal-event {
+      list-style-type: none;
       margin-bottom: 10px; }
   .simcal-default-calendar-list .simcal-event-details {
     font-size: .84em;
-    line-height: 1.5; }
+    line-height: 1.5;
+    overflow: hidden; }
+    .simcal-default-calendar-list .simcal-event-details p {
+      margin-bottom: 1em; }
   .simcal-default-calendar-list .simcal-events-toggle {
     background-color: rgba(0, 0, 0, 0.05);
     color: rgba(0, 0, 0, 0.6);
