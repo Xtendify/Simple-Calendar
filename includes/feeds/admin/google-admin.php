@@ -53,8 +53,8 @@ class Google_Admin {
 	 */
 	public function __construct( Google $feed, $google_api_key, $google_calendar_id ) {
 
-		$this->feed        = $feed;
-		$this->google_api_key     = $google_api_key;
+		$this->feed = $feed;
+		$this->google_api_key = $google_api_key;
 		$this->google_calendar_id = $google_calendar_id;
 
 		$screen = simcal_is_admin_screen();
@@ -233,17 +233,17 @@ class Google_Admin {
 	/**
 	 * Test a connection to Google Calendar API.
 	 *
-	 * @param  string $google_calendar_id (optional) The google calendar id to test.
+	 * @param  string $google_calendar_id
 	 *
 	 * @return true|string
 	 */
-	public function test_api_key_connection( $google_calendar_id = '' ) {
+	public function test_api_key_connection( $google_calendar_id ) {
 
 		global $post;
-		$post_id = isset( $post->ID )  ? $post->ID : 0;
-		$google_calendar_id  = empty( $google_calendar_id ) ? $this->google_calendar_id : $google_calendar_id;
 
-		$message = $error = '';
+		$post_id = isset( $post->ID ) ? $post->ID : 0;
+		$message = '';
+		$error = '';
 		$has_errors = false;
 
 		if ( empty( $google_calendar_id ) ) {
@@ -284,7 +284,7 @@ class Google_Admin {
 				$no_key_notice->remove();
 
 				try {
-					$this->feed->get_calendar( $google_calendar_id );
+					$this->feed->make_request( $google_calendar_id );
 				} catch( \Exception $e ) {
 					$error = $e->getMessage();
 					$message = ! empty( $error ) ? '<blockquote>' . $error . '</blockquote>' : '';

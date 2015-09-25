@@ -250,6 +250,8 @@ abstract class Calendar {
 			}
 
 			$this->set_timezone();
+			$this->set_start_of_week();
+			$this->set_static();
 
 			// Set calendar start.
 			$this->set_start();
@@ -283,7 +285,6 @@ abstract class Calendar {
 			$this->set_date_format();
 			$this->set_time_format();
 			$this->set_datetime_separator();
-			$this->set_start_of_week();
 
 			// Set earliest and latest event timestamps.
 			if ( $this->events && is_array( $this->events ) ) {
@@ -294,9 +295,7 @@ abstract class Calendar {
 			// Set calendar end.
 			$this->set_end();
 
-			// Set static option.
-			$this->set_static();
-
+			// Set view.
 			if ( ! $view ) {
 
 				$calendar_view = get_post_meta( $this->id, '_calendar_view', true );
@@ -504,11 +503,11 @@ abstract class Calendar {
 		if ( $week_starts < 0 || $week_starts > 6 ) {
 
 			$week_starts_setting = get_post_meta( $this->id, '_calendar_week_starts_on_setting', true );
-			$week_starts         = absint( get_option( 'start_of_week' ) );
+			$week_starts         = intval( get_option( 'start_of_week' ) );
 
 			if ( 'use_custom' == $week_starts_setting ) {
 				$week_starts_on = get_post_meta( $this->id, '_calendar_week_starts_on', true );
-				$week_starts    = is_numeric( $week_starts_on ) ? absint( $week_starts_on ) : $week_starts;
+				$week_starts    = is_numeric( $week_starts_on ) ? intval( $week_starts_on ) : $week_starts;
 			}
 		}
 
