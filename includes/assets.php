@@ -74,31 +74,43 @@ class Assets {
 			$this->disable_styles = 'yes' == $settings['assets']['disable_css'] ? true : false;
 		}
 
-		add_action( 'init', array( $this, 'enqueue' ), 20 );
+		add_action( 'init', array( $this, 'register' ), 20 );
+		add_action( 'init', array( $this, 'enqueue' ), 40 );
 		add_action( 'wp_print_styles', array( $this, 'disable' ), 100 );
 	}
 
 	/**
-	 * Load assets.
+	 * Register scripts and styles.
+	 */
+	public function register() {
+		do_action( 'simcal_register_assets', $this->min );
+	}
+
+	/**
+	 * Enqueue scripts and styles.
 	 */
 	public function enqueue() {
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'load' ), 10 );
 
-		// Improves compatibility with themes and plugins using Isotope and Masonry.
-		$min = $this->min;
-		add_action( 'wp_enqueue_scripts',
-			function() use ( $min ) {
-				if ( wp_script_is( 'simcal-qtip', 'enqueued' )  ) {
-					wp_enqueue_script(
-						'simplecalendar-imagesloaded',
-						SIMPLE_CALENDAR_ASSETS . 'js/vendor/imagesloaded' . $min . '.js',
-						array( 'simcal-qtip' ),
-						'3.1.8',
-						true
-					);
-				}
-		}, 1000 );
+		do_action( 'simcal_enqueue_assets', $this->min );
+
+		if ( $this->disable_scripts === false ) {
+			$min = $this->min;
+			// Improves compatibility with themes and plugins using Isotope and Masonry.
+			add_action( 'wp_enqueue_scripts',
+				function () use ( $min ) {
+					if ( wp_script_is( 'simcal-qtip', 'enqueued' ) ) {
+						wp_enqueue_script(
+							'simplecalendar-imagesloaded',
+							SIMPLE_CALENDAR_ASSETS . 'js/vendor/imagesloaded' . $min . '.js',
+							array( 'simcal-qtip' ),
+							'3.1.8',
+							true
+						);
+					}
+				}, 1000 );
+		}
 	}
 
 	/**
@@ -152,8 +164,6 @@ class Assets {
 
 		$this->styles = apply_filters( 'simcal_front_end_styles', $styles, $this->min );
 		$this->load_styles( $this->styles );
-
-		do_action( 'simcal_load_assets', $this->min );
 	}
 
 	/**
@@ -177,8 +187,6 @@ class Assets {
 	/**
 	 * Scripts.
 	 *
-	 * @access private
-	 *
 	 * @param array $scripts
 	 */
 	public function load_scripts( $scripts ) {
@@ -187,28 +195,25 @@ class Assets {
 
 			foreach ( $scripts as $script => $v ) {
 
-				if ( isset( $v['src'] ) ) {
+				if ( ! empty( $v['src'] ) ) {
 
 					$src        = esc_url( $v['src'] );
-					$deps       = isset( $v['deps'] )      ? $v['deps']      : array();
-					$ver        = isset( $v['ver'] )       ? $v['ver']       : SIMPLE_CALENDAR_VERSION;
-					$in_footer  = isset( $v['in_footer'] ) ? $v['in_footer'] : false;
+					$deps       = isset( $v['deps'] )        ? $v['deps']       : array();
+					$ver        = isset( $v['ver'] )         ? $v['ver']        : SIMPLE_CALENDAR_VERSION;
+					$in_footer  = isset( $v['in_footer'] )   ? $v['in_footer']  : false;
 
 					wp_enqueue_script( $script, $src, $deps, $ver, $in_footer );
-				}
 
-				if ( isset( $v['localize'] ) ) {
-
-					$localize = $v['localize'];
-
-					if ( $localize && is_array( $localize ) ) {
-						foreach ( $localize as $object => $l10n ) {
+					if ( ! empty( $v['localize'] ) && is_array( $v['localize'] ) ) {
+						foreach ( $v['localize'] as $object => $l10n ) {
 							wp_localize_script( $script, $object, $l10n );
 						}
 					}
 
-				}
+				} elseif ( is_string( $v ) && ! empty( $v ) ) {
 
+					wp_enqueue_script( $v );
+				}
 			}
 
 		}
@@ -216,8 +221,6 @@ class Assets {
 
 	/**
 	 * Styles.
-	 *
-	 * @access private
 	 *
 	 * @param array $styles
 	 */
@@ -227,7 +230,7 @@ class Assets {
 
 			foreach ( $styles as $style => $v ) {
 
-				if ( isset( $v['src'] ) ) {
+				if ( ! empty( $v['src'] ) ) {
 
 					$src    = esc_url( $v['src'] );
 					$deps   = isset( $v['deps'] )   ? $v['deps']    : array();
@@ -235,6 +238,10 @@ class Assets {
 					$media  = isset( $v['media'] )  ? $v['media']   : 'all';
 
 					wp_enqueue_style( $style, $src, $deps, $ver, $media );
+
+				} elseif ( is_string( $v ) && ! empty( $v ) ) {
+
+					wp_enqueue_style( $v );
 				}
 
 			}

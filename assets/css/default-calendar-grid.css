@@ -310,3 +310,6 @@
     background-color: rgba(0, 0, 0, 0.5);
     color: #fff;
     outline: none; }
+
+.qtip-content .simcal-event-details p {
+  margin-bottom: 1em; }

@@ -125,7 +125,7 @@ class Default_Calendar_List implements Calendar_View {
 				'src'       => SIMPLE_CALENDAR_ASSETS . 'js/default-calendar' . $min . '.js',
 				'deps'      => array(
 					'jquery',
-					'simcal-qtip'
+					'simcal-qtip',
 				),
 				'var'       => SIMPLE_CALENDAR_VERSION,
 				'in_footer' => true,

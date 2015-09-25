@@ -134,14 +134,13 @@ class Default_Calendar_Grid implements Calendar_View {
 		return array(
 			'simcal-qtip' => array(
 				'src'   => SIMPLE_CALENDAR_ASSETS . 'css/vendor/qtip' . $min . '.css',
-				'deps'  => array(),
 				'ver'   => '2.2.1',
 				'media' => 'all'
 			),
 			'simcal-default-calendar-grid' => array(
 				'src'   => SIMPLE_CALENDAR_ASSETS . 'css/default-calendar-grid' . $min . '.css',
 				'deps'  => array(
-					'simcal-qtip'
+					'simcal-qtip',
 				),
 				'ver'   => SIMPLE_CALENDAR_VERSION,
 				'media' => 'all'

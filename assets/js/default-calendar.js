@@ -272,7 +272,7 @@
 				weekDayNames  = thead.find( 'th.simcal-week-day' ),
 				cells		  = table.find( 'td.simcal-day > div' ),
 				eventsList	  = table.find( 'ul.simcal-events' ),
-				eventTitles	  = table.find( '.simcal-event-title' ),
+				eventTitles	  = eventsList.find( '> li > .simcal-event-title' ),
 				eventsToggle  = table.find( '.simcal-events-toggle' ),
 				eventsDots	  = table.find( 'span.simcal-events-dots' ),
 				events		  = table.find( '.simcal-tooltip-content' ),
