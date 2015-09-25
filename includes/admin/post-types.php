@@ -37,8 +37,8 @@ class Post_Types {
 		// Add bulk actions.
 		add_action( 'admin_init', array( $this, 'bulk_actions' ) );
 
-		// Default calendar post content (event builder).
-		add_filter( 'default_content', array( $this, 'default_event_builder' ), 10, 2 );
+		// Default calendar post type content (default event template).
+		add_filter( 'default_content', array( $this, 'default_event_template' ), 10, 2 );
 
 		// Add a clear cache link in submit post box.
 		add_action( 'post_submitbox_misc_actions', array( $this, 'clear_cache_button' ) );
@@ -220,7 +220,7 @@ class Post_Types {
 	 *
 	 * @return string
 	 */
-	public function default_event_builder( $content, $post ) {
+	public function default_event_template( $content, $post ) {
 		return 'calendar' == $post->post_type ? simcal_default_event_template() : $content;
 	}
 
