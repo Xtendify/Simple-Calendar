@@ -119,7 +119,7 @@ class Event {
 	 * @access public
 	 * @var string
 	 */
-	public $start_timezone = '';
+	public $start_timezone = 'UTC';
 
 	/**
 	 * Event location at event start.
@@ -159,7 +159,7 @@ class Event {
 	 * @access public
 	 * @var string
 	 */
-	public $end_timezone = '';
+	public $end_timezone = 'UTC';
 
 	/**
 	 * Event location at event end.
@@ -224,47 +224,115 @@ class Event {
 	 */
 	public function __construct( array $event ) {
 
-		// Event identifiers.
-		$this->uid              = isset( $event['uid'] )            ? trim( strval( $event['uid'] ) ) : '';
-		$this->calendar         = isset( $event['calendar'] )       ? absint( $event['calendar'] ) : 0;
-		$this->timezone         = isset( $event['timezone'] )       ? esc_attr( $event['timezone'] ) : 'UTC';
+		/* ================= *
+		 * Event Identifiers *
+		 * ================= */
 
-		// Event content.
-		$title                  = isset( $event['title'] )          ? strip_tags( $event['title'] ) : '';
-		$this->title            = esc_attr( iconv( mb_detect_encoding( $title, mb_detect_order(), true ), 'UTF-8', $title ) );
+		// Event unique id.
+		$this->uid = isset( $event['uid'] ) ? trim( strval( $event['uid'] ) ) : '';
 
-		$description            = isset( $event['description'] )    ? $event['description'] : '';
-		$this->description      = esc_attr( iconv( mb_detect_encoding( $description, mb_detect_order(), true ), 'UTF-8', $description ) );
+		// Parent calendar id.
+		$this->calendar = isset( $event['calendar'] ) ? absint( $event['calendar'] ) : 0;
 
-		$this->link             = isset( $event['link'] )           ? esc_url_raw( $event['link'] ) : '';
-		$this->visibility       = isset( $event['visibility'] )     ? esc_attr( $event['visibility'] ) : '';
-		$this->public           = $this->visibility == 'public'     ? true : false;
+		// Parent calendar timezone.
+		$this->timezone = isset( $event['timezone'] ) ? esc_attr( $event['timezone'] ) : 'UTC';
 
-		// Event start properties.
-		$this->start            = isset( $event['start'] )          ? intval( $event['start'] ) : 0;
-		$this->start_utc        = isset( $event['start_utc'] )      ? intval( $event['start_utc'] ) : 0;
-		$this->start_timezone   = isset( $event['start_timezone'] ) ? esc_attr( $event['start_timezone'] )  : '';
-		$this->start_dt         = Carbon::createFromTimestamp( $this->start, $this->start_timezone );
-		$this->start_location   = isset( $event['start_location'] ) ? $this->esc_location( $event['end_location'] ) : $this->esc_location( '' );
+		/* ============= *
+		 * Event Content *
+		 * ============= */
 
-		// Event end properties.
-		$this->end              = isset( $event['end'] )            ? ( is_numeric( $event['end'] ) ? intval( $event['end'] ) : false ) : false;
-		$this->end_utc          = isset( $event['end_utc'] )        ? ( is_numeric( $event['end_utc'] ) ? intval( $event['end_utc'] ) : false ) : false;
-		$this->end_timezone     = isset( $event['end_timezone'] )   ? esc_attr( $event['end_timezone'] ) : '';
-		$this->end_dt           = is_int( $this->end )              ? Carbon::createFromTimestamp( $this->end, $this->end_timezone ) : null;
-		$this->end_location     = isset( $event['end_location'] )   ? $this->esc_location( $event['end_location'] ) : $this->esc_location( '' );
+		// Event title.
+		if ( ! empty( $event['title'] ) ) {
+			$title = strip_tags( $event['title'] );
+			$this->title = esc_attr( iconv( mb_detect_encoding( $title, mb_detect_order(), true ), 'UTF-8', $title ) );
+		}
 
-		// Event position properties.
-		$this->whole_day        = isset( $event['whole_day'] )      ? ( $event['whole_day'] === true ? true : false ) : false;
-		$this->multiple_days    = isset( $event['multiple_days'] )  ? ( $event['multiple_days'] === false ? false : max( absint( $event['multiple_days'] ), 2 ) ) : false;
-		$this->recurrence       = isset( $event['recurrence'] )     ? ( is_array( $event['recurrence'] ) ? array_map( 'esc_attr', $event['recurrence'] ) : false ) : false;
+		// Event description.
+		if ( ! empty( $event['description'] ) ) {
+			$description = $event['description'];
+			$this->description = esc_attr( iconv( mb_detect_encoding( $description, mb_detect_order(), true ), 'UTF-8', $description ) );
+		}
+
+		// Event link URL.
+		if ( ! empty( $event['link'] ) ) {
+			$this->link = esc_url_raw( $event['link'] );
+		}
+
+		// Event visibility.
+		if ( ! empty( $event['visibility'] ) ) {
+			$this->visibility = esc_attr( $event['visibility'] );
+			$this->public = $this->visibility == 'public' ? true : false;
+		}
+
+		/* =========== *
+		 * Event Start *
+		 * =========== */
+
+		if ( ! empty( $event['start'] ) ) {
+			$this->start = is_numeric( $event['start'] ) ? intval( $event['start'] ) : 0;
+			if ( ! empty( $event['start_utc'] ) ) {
+				$this->start_utc = is_numeric( $event['start_utc'] ) ? intval( $event['start_utc'] ) : 0;
+			}
+			if ( ! empty( $event['start_timezone'] ) ) {
+				$this->start_timezone = esc_attr( $event['start_timezone'] );
+			}
+			$this->start_dt = Carbon::createFromTimestamp( $this->start, $this->start_timezone );
+			$start_location = isset( $event['start_location'] ) ? $event['start_location'] : '';
+			$this->start_location = $this->esc_location( $start_location );
+		}
+
+		/* ========= *
+         * Event End *
+         * ========= */
+
+		if ( ! empty( $event['end'] ) ) {
+			$this->end = is_numeric( $event['end'] ) ? intval( $event['end'] ) : false;
+			if ( ! empty( $event['end_utc'] ) ) {
+				$this->start_utc = is_numeric( $event['end_utc'] ) ? intval( $event['end_utc'] ) : false;
+			}
+			if ( ! empty( $event['end_timezone'] ) ) {
+				$this->end_timezone = esc_attr( $event['end_timezone'] );
+			}
+			$this->end_dt = is_int( $this->end ) ? Carbon::createFromTimestamp( $this->end, $this->end_timezone ) : null;
+			$end_location = isset( $event['end_location'] ) ? $event['end_location'] : '';
+			$this->end_location = $this->esc_location( $end_location );
+		}
+
+		/* ================== *
+         * Event Distribution *
+         * ================== */
+
+		// Whole day event.
+		if ( ! empty( $event['whole_day'] ) ) {
+			$this->whole_day = true === $event['whole_day'] ? true: false;
+		}
+
+		// Multi day event.
+		if ( ! empty( $event['multiple_days'] ) ) {
+			$this->multiple_days = max( absint( $event['multiple_days'] ), 2 );
+		}
+
+		// Event recurrence.
+		if ( isset( $event['recurrence'] ) ) {
+			$this->recurrence = is_array( $event['recurrence'] ) ? array_map( 'esc_attr', $event['recurrence'] ) : false;
+		}
+
+		/* ========== *
+         * Event Meta *
+         * ========== */
+
+		// Event has venue(s).
+		if ( $this->start_location['venue'] || $this->end_location['venue'] ) {
+			$this->venue = true;
+		}
 
 		// Event meta.
-		$this->venue            = $this->start_location['venue'] || $this->end_location['venue'] ? true : false;
-		$this->meta             = isset( $event['meta'] )           ? ( is_array( $event['meta'] ) ? array_map( 'esc_attr', $event['meta'] ) : array() ) : array();
+		if ( ! empty( $event['meta'] ) ) {
+			$this->meta = is_array( $event['meta'] ) ? array_map( 'esc_attr', $event['meta'] ) : array();
+		}
 
 		// Event template.
-		$this->template         = isset( $event['template'] )       ? wp_kses_post( $event['template'] ) : '';
+		$this->template  = isset( $event['template'] ) ? wp_kses_post( $event['template'] ) : '';
 	}
 
 	/**
@@ -274,7 +342,7 @@ class Event {
 	 *
 	 * @return array
 	 */
-	private function esc_location( $var ) {
+	private function esc_location( $var = '' ) {
 
 		$location = array();
 
@@ -289,13 +357,29 @@ class Event {
 			$var = (array) $var;
 		}
 
-		$location['name']    = isset( $var['name'] )    ? esc_attr( strip_tags( $var['name'] ) )    : '';
+		$location['name']    = isset( $var['name'] )    ? esc_attr( strip_tags( $var['name'] ) ) : '';
 		$location['address'] = isset( $var['address'] ) ? esc_attr( strip_tags( $var['address'] ) ) : '';
-		$location['lat']     = isset( $var['lat'] )     ? ( is_numeric( $var['lat'] ) ? floatval( $var['lat'] ) : 0 ) : 0;
-		$location['lng']     = isset( $var['lng'] )     ? ( is_numeric( $var['lng'] ) ? floatval( $var['lng'] ) : 0 ) : 0;
-		$location['venue']   = ! empty( $location['name'] ) || ! empty( $location['address'] ) ? true : false;
+		$location['lat']     = isset( $var['lat'] )     ? $this->esc_coordinate( $var['lat'] ) : 0;
+		$location['lng']     = isset( $var['lng'] )     ? $this->esc_coordinate( $var['lng'] ) : 0;
+
+		if ( ! empty( $location['name'] ) || ! empty( $location['address'] ) ) {
+			$location['venue'] = true;
+		} else {
+			$location['venue'] = false;
+		}
 
 		return $location;
+	}
+
+	/**
+	 * Escape coordinate.
+	 *
+	 * @param  int|float $n
+	 *
+	 * @return int|float
+	 */
+	private function esc_coordinate( $n = 0 ) {
+		return is_numeric( $n ) ? floatval( $n ) : 0;
 	}
 
 	/**
