@@ -32,7 +32,7 @@ $default-calendar-button-col: rgb(0, 0, 0);
       border: 0;
       box-shadow: none;
       color: transparentize($default-calendar-button-col, .1);
-      outline: 0;
+      outline: none;
     }
 
     &.simcal-prev:hover {
@@ -53,6 +53,13 @@ $default-calendar-button-col: rgb(0, 0, 0);
 
     }
 
+  }
+
+  // Toggle events button.
+  .simcal-events-toggle {
+    &:focus {
+      outline: none;
+    }
   }
 
   // Event tooltip bubble.

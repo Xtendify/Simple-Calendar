@@ -81,6 +81,7 @@
     &:hover {
       background: rgba(0, 0, 0, .08);
       color: transparentize($default-calendar-button-col, .25);
+      outline: none;
     }
 
   }
