@@ -101,7 +101,7 @@ class Objects {
 	 *
 	 * @param  int|string|object|\WP_Post|Object\Calendar $object
 	 *
-	 * @return null|false|Object\Calendar
+	 * @return null|Object\Calendar
 	 */
 	public function get_calendar( $object ) {
 
@@ -139,7 +139,7 @@ class Objects {
 	 * @param int    $id   Feed post id.
 	 * @param string $name (optional) Name of calendar view.
 	 *
-	 * @return null|false|Object\Calendar_View
+	 * @return null|Object\Calendar_View
 	 */
 	public function get_calendar_view( $id = 0, $name = '' ) {
 
@@ -164,7 +164,7 @@ class Objects {
 	 *
 	 * @param  int|string|object|\WP_Post|Object\Calendar $object
 	 *
-	 * @return null|false|Object\Feed
+	 * @return null|Object\Feed
 	 */
 	public function get_feed( $object ) {
 
@@ -205,7 +205,7 @@ class Objects {
 	 * @param  array  $args Field args.
 	 * @param  string $name Field type.
 	 *
-	 * @return null|false|Object\Field
+	 * @return null|Object\Field
 	 */
 	public function get_field( $args, $name = '' ) {
 
@@ -221,7 +221,7 @@ class Objects {
 	 *
 	 * @param  string $name
 	 *
-	 * @return null|false|Object\Settings_Page
+	 * @return null|Object\Settings_Page
 	 */
 	public function get_settings_page( $name ) {
 		return $name ? $this->get_object( $name, 'settings-page' ) : null;
@@ -236,7 +236,7 @@ class Objects {
 	 * @param  string $type Object type.
 	 * @param  mixed  $args (optional) arguments for the class constructor.
 	 *
-	 * @return null|false|Object
+	 * @return null|Object
 	 */
 	private function get_object( $name, $type, $args = '' ) {
 
@@ -254,7 +254,7 @@ class Objects {
 			$parent     = '\\' . __NAMESPACE__ . '\Abstracts\\' . implode( '_', array_map( 'ucfirst', explode( '-', $type ) ) );
 			$class      = class_exists( $class_name ) ? new $class_name( $args ) : false;
 
-			return $class instanceof $parent ? $class : false;
+			return $class instanceof $parent ? $class : null;
 		}
 
 		return null;

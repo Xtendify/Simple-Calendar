@@ -640,7 +640,7 @@ class System_Status extends Settings_Page {
 	 *
 	 * @param  string $size
 	 *
-	 * @return int|string
+	 * @return int|double|string
 	 */
 	private function let_to_num( $size ) {
 

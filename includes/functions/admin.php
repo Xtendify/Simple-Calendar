@@ -26,7 +26,7 @@ function simcal_get_settings_pages() {
  *
  * @param  string $page
  *
- * @return null|false|\SimpleCalendar\Abstracts\Settings_Page
+ * @return null|\SimpleCalendar\Abstracts\Settings_Page
  */
 function simcal_get_settings_page( $page ) {
 	$objects = \SimpleCalendar\plugin()->objects;
@@ -39,7 +39,7 @@ function simcal_get_settings_page( $page ) {
  * @param array  $args
  * @param string $name
  *
- * @return bool|null|\SimpleCalendar\Abstracts\Field
+ * @return null|\SimpleCalendar\Abstracts\Field
  */
 function simcal_get_field( $args, $name = '' ) {
 	$objects = \SimpleCalendar\plugin()->objects;
@@ -64,7 +64,9 @@ function simcal_print_field( $args, $name = '' ) {
 /**
  * Clear feed transients cache.
  *
- * @param string|int|array|\WP_Post $id
+ * @param  string|int|array|\WP_Post $id
+ *
+ * @return bool
  */
 function simcal_delete_feed_transients( $id = '' ) {
 
@@ -109,7 +111,7 @@ function simcal_delete_feed_transients( $id = '' ) {
 		}
 	}
 
-	delete_transient( '_simple-calendar_feed_ids' );
+	return delete_transient( '_simple-calendar_feed_ids' );
 }
 
 /**

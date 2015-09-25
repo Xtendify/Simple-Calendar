@@ -26,7 +26,7 @@ function simcal_get_feed_types() {
  *
  * @param  string|int|object $object
  *
- * @return null|false|\SimpleCalendar\Abstracts\Feed
+ * @return null|\SimpleCalendar\Abstracts\Feed
  */
 function simcal_get_feed( $object ) {
 	$objects = \SimpleCalendar\plugin()->objects;
