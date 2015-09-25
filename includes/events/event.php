@@ -242,21 +242,13 @@ class Event {
 		 * ============= */
 
 		// Event title.
-		if ( ! empty( $event['title'] ) ) {
-			$title = strip_tags( $event['title'] );
-			$this->title = esc_attr( iconv( mb_detect_encoding( $title, mb_detect_order(), true ), 'UTF-8', $title ) );
-		}
+		$this->title = ! empty( $event['title'] ) ? esc_attr( $event['title'] ) : '';
 
 		// Event description.
-		if ( ! empty( $event['description'] ) ) {
-			$description = $event['description'];
-			$this->description = esc_attr( iconv( mb_detect_encoding( $description, mb_detect_order(), true ), 'UTF-8', $description ) );
-		}
+		$this->description = ! empty( $event['description'] ) ? esc_attr( $event['description'] ) : '';
 
 		// Event link URL.
-		if ( ! empty( $event['link'] ) ) {
-			$this->link = esc_url_raw( $event['link'] );
-		}
+		$this->link = ! empty( $event['link'] ) ? esc_url_raw( $event['link'] ) : '';
 
 		// Event visibility.
 		if ( ! empty( $event['visibility'] ) ) {

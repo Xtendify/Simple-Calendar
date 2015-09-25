@@ -168,6 +168,11 @@ class Google extends Feed {
 								continue;
 							}
 
+							// Event title & description.
+							$title = strip_tags( $event->getSummary() );
+							$title = esc_attr( iconv( mb_detect_encoding( $title, mb_detect_order(), true ), 'UTF-8', $title ) );
+							$description = esc_attr( iconv( mb_detect_encoding( $event->getDescription(), mb_detect_order(), true ), 'UTF-8', $event->getDescription() ) );
+
 							$whole_day = false;
 
 							// Event start properties.
@@ -217,8 +222,8 @@ class Google extends Feed {
 							// Build the event.
 							$calendar['events'][ $start_utc ][] = array(
 								'type'           => 'google-calendar',
-								'title'          => $event->getSummary(),
-								'description'    => $event->getDescription(),
+								'title'          => $title,
+								'description'    => $description,
 								'link'           => $event->getHtmlLink(),
 								'visibility'     => $visibility,
 								'uid'            => $event->getICalUID(),
