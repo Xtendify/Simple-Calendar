@@ -77,7 +77,7 @@ class Notice {
 	 * @access public
 	 * @var bool
 	 */
-	public $dismissable = true;
+	public $dismissible = true;
 
 	/**
 	 * Whether to hide notice while keeping it stored.
@@ -125,7 +125,7 @@ class Notice {
 			$this->capability  = isset( $notice['capability'] )  ? esc_attr( $notice['capability'] ) : '';
 			$this->screen      = isset( $notice['screen'] )      ? ( is_array( $notice['screen'] ) ? array_map( 'esc_attr', $notice['screens'] ) : array( esc_attr( $notice['screen'] ) ) ) : array();
 			$this->post        = isset( $notice['post'] )        ? ( is_array( $notice['post'] ) ? array_map( 'intval', $notice['post'] ) : array( intval( $notice['post'] ) ) ) : array();
-			$this->dismissable = isset( $notice['dismissable'] ) ? ( $notice['dismissable'] === false ? false: true ) : true;
+			$this->dismissible = isset( $notice['dismissible'] ) ? ( $notice['dismissible'] === false ? false: true ) : true;
 			$this->visible     = isset( $notice['visible'] )     ? ( $notice['visible'] === false ? false: true ) : true;
 
 		}

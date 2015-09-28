@@ -90,9 +90,9 @@ class Notices {
 
 				$name         = is_array( $notice->id ) ? key( $notice->id ) : $notice->id;
 				$url          = add_query_arg( array( 'dismiss_simcal_notice' => $name ) );
-				$dismiss_link = $notice->dismissable === true ? sprintf( ' <a class="simcal-dismiss-notice" href="%1$s">' . __( 'Dismiss', 'google-calendar-events' ) . '</a>', $url ) : '';
+				$dismiss_link = $notice->dismissible === true ? sprintf( ' <a class="dashicons-before dashicons-dismiss simcal-dismiss-notice" href="%1$s"></a>', $url ) : '';
 
-				echo '<div class="' . $notice->type . ' simcal-admin-notice" data-notice-id="' . $name . '">' . $notice->content . ' ' . $dismiss_link . '</div>';
+				echo '<div class="' . $notice->type . ' simcal-admin-notice" data-notice-id="' . $name . '">' . $dismiss_link . $notice->content . '</div>';
 			} );
 
 		}
