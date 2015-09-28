@@ -361,7 +361,7 @@ class Event_Builder {
 						return '';
 					}
 					$dt = $bound . '_dt';
-					if ( empty( $event->$dt ) || ! $event->$dt instanceof Carbon ) {
+					if ( ! $event->$dt instanceof Carbon ) {
 						return '';
 					}
 					$event_dt = $event->$dt->setTimezone( $event->timezone );
@@ -377,9 +377,9 @@ class Event_Builder {
 					}
 
 					if ( 'human' == $format ) {
-						$value = $datetime->diffForHumans( Carbon::now( $calendar->timezone ) );
+						$value = $event_dt->diffForHumans( Carbon::now( $calendar->timezone ) );
 					} else {
-						$value = $datetime->format( $dt_format );
+						$value = $event_dt->format( $dt_format );
 					}
 
 					return ' <span class="simcal-event-' . $bound . ' ' . 'simcal-event-' . $bound . '-' . $format . '"' .
@@ -398,7 +398,7 @@ class Event_Builder {
 					}
 					return '<span class="simcal-event-duration"' .
 					       'data-event-duration="-1">' .
-					       __( 'Undefined', 'google-calendar-events' ) .
+					       __( 'No end time', 'google-calendar-events' ) .
 					       '</span>';
 
 				case 'location' :

@@ -268,7 +268,8 @@ class Event {
 			if ( ! empty( $event['start_timezone'] ) ) {
 				$this->start_timezone = esc_attr( $event['start_timezone'] );
 			}
-			$this->start_dt = Carbon::createFromTimestamp( $this->start, $this->start_timezone );
+			$start = new Carbon( 'now', $this->start_timezone );
+			$this->start_dt = $start->setTimestamp( $this->start );
 			$start_location = isset( $event['start_location'] ) ? $event['start_location'] : '';
 			$this->start_location = $this->esc_location( $start_location );
 		}
@@ -285,7 +286,10 @@ class Event {
 			if ( ! empty( $event['end_timezone'] ) ) {
 				$this->end_timezone = esc_attr( $event['end_timezone'] );
 			}
-			$this->end_dt = is_int( $this->end ) ? Carbon::createFromTimestamp( $this->end, $this->end_timezone ) : null;
+			if ( $this->end ) {
+				$end  = new Carbon( 'now', $this->end_timezone );
+				$this->end_dt = $end->setTimestamp( $this->end );
+			}
 			$end_location = isset( $event['end_location'] ) ? $event['end_location'] : '';
 			$this->end_location = $this->esc_location( $end_location );
 		}
