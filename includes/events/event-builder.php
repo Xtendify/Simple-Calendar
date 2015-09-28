@@ -37,14 +37,6 @@ class Event_Builder {
 	public $calendar = null;
 
 	/**
-	 * Datetime.
-	 *
-	 * @access public
-	 * @var Carbon
-	 */
-	public $datetime = null;
-
-	/**
 	 * Tags.
 	 *
 	 * @access public
@@ -67,16 +59,10 @@ class Event_Builder {
 	 * @param Calendar $calendar
 	 */
 	public function __construct( Event $event, Calendar $calendar ) {
-
 		$this->event    = $event;
 		$this->calendar = $calendar;
-
-		$this->datetime = new Carbon();
-		$this->datetime->setlocale( substr( \SimpleCalendar\plugin()->locale, 0, 2 ) );
-
 		$this->tags = $this->get_content_tags();
 		$this->tag_attributes = $this->get_content_tags_atts();
-
 	}
 
 	/**
@@ -217,7 +203,6 @@ class Event_Builder {
 
 		$calendar = $this->calendar;
 		$event    = $this->event;
-		$datetime = clone $this->datetime;
 
 		if ( ( $calendar instanceof Calendar ) && ( $event instanceof Event ) ) {
 
