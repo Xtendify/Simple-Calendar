@@ -38,31 +38,11 @@ class Update_V300 {
 		Post_Types::register_post_types();
 
 		if ( ! empty( $posts ) && is_array( $posts ) ) {
-
 			$this->update_posts( $posts );
 			$this->update_post_type();
 			$this->update_widgets();
-
 		}
-
 		$this->update_options();
-
-		$settings = get_option( 'simple-calendar_settings_feeds' );
-		$api_key = isset( $settings['google']['api_key'] ) ? $settings['google']['api_key'] : '';
-
-		if ( $api_key == $this->legacy_api_key ) {
-
-			$message  = '<p>' . __( 'It looks like you are using an old Google API Key which was previously bundled with the plugin. You should update this key with a key of your own.', 'google-calendar-events' ) . '</p>';
-
-			$notice = new Notice( array(
-				'id'          => 'legacy_api_key',
-				'content'     => $message,
-				'capability'  => 'manage_options',
-				'dismissable' => true,
-			) );
-
-			$notice->add();
-		}
 	}
 
 	/**

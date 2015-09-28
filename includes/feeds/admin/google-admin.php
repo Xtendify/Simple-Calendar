@@ -117,9 +117,6 @@ class Google_Admin {
 				           '//wpdocs.philderksen.com/google-calendar-events/getting-started/api-key-settings/'
 			           ) .
 			           '</p>';
-		} elseif ( $api_key !== 'AIzaSyAssdKVved1mPVY0UJCrx96OUOF9u17AuY' ) {
-			$notices = new Notices();
-			$notices->remove_notice( 'legacy_api_key' );
 		}
 
 		return $has_errors === true ? $message : true;
