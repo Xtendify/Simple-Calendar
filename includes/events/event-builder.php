@@ -296,10 +296,10 @@ class Event_Builder {
 
 				case 'when' :
 
-					$start = $datetime->createFromTimestamp( $event->start_utc, 'UTC' )->setTimezone( $calendar->timezone );
-					$end   = $event->end_utc ? $datetime->createFromTimestamp( $event->end_utc, $calendar->timezone ) : '';
-
-					$time_start = $time_end = '';
+					$start  = $datetime->createFromTimestamp( $event->start_utc, 'UTC' )->setTimezone( $calendar->timezone );
+					$end    = $event->end_utc ? $datetime->createFromTimestamp( $event->end_utc, 'UTC' )->setTimezone( $calendar->timezone ) : null;
+					$time_start = '';
+					$time_end = '';
 
 					if ( ! $event->whole_day ) {
 						$time_start = $calendar->datetime_separator .

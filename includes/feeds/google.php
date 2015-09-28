@@ -179,9 +179,10 @@ class Google extends Feed {
 							// Event start properties.
 							$start_timezone = ! $event->getStart()->timeZone ? $calendar['timezone'] : $event->getStart()->timeZone;
 							if ( is_null( $event->getStart()->dateTime ) ) {
-								$whole_day = true;
+								// Whole day event.
 								$google_start     = Carbon::parse( $event->getStart()->date )->startOfDay()->setTimezone( $start_timezone );
 								$google_start_utc = Carbon::parse( $event->getStart()->date )->startOfDay()->setTimezone( 'UTC' );
+								$whole_day = true;
 							} else {
 								$google_start     = Carbon::parse( $event->getStart()->dateTime )->setTimezone( $start_timezone );
 								$google_start_utc = Carbon::parse( $event->getStart()->dateTime )->setTimezone( 'UTC' );
@@ -189,11 +190,12 @@ class Google extends Feed {
 							// Start.
 							$start = $google_start->getTimestamp();
 							// Start UTC.
-							$start_utc = $google_start_utc->setTimezone( 'UTC' )->getTimestamp();
+							$start_utc = $google_start_utc->getTimestamp();
 
 							// Event end properties.
 							$end_timezone = ! $event->getEnd()->timeZone ? $calendar['timezone'] : $event->getEnd()->timeZone;
 							if ( is_null( $event->getEnd()->dateTime ) ) {
+								// Whole day event.
 								$google_end = Carbon::parse( $event->getEnd()->date )->setTimezone( $end_timezone )->endOfDay();
 								$google_end_utc = Carbon::parse( $event->getEnd()->date )->setTimezone( 'UTC' )->endOfDay();
 							}  else {
