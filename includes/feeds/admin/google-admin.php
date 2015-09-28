@@ -79,7 +79,7 @@ class Google_Admin {
 					'type'        => 'standard',
 					'subtype'     => 'text',
 					'class'       => array( 'regular-text', 'ltr' ),
-					'title'       => __( 'API Key', 'google-calendar-events' ),
+					'title'       => __( 'Google API Key', 'google-calendar-events' ),
 					'validation'  => array( $this, 'check_google_api_key' ),
 				),
 			),
