@@ -21,6 +21,7 @@ $default-calendar-button-col: rgb(0, 0, 0);
     box-shadow: none;
     color: transparentize($default-calendar-button-col, .4);
     cursor: pointer;
+    margin: 0;
     outline: 0;
     padding: 0;
     transition: margin .2s ease-out;
