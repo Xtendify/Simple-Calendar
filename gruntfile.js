@@ -295,12 +295,7 @@ module.exports = function( grunt ) {
 				stderr: true
 			},
 			apigen : {
-				command: [
-					'apigen generate',
-					'cd apigen',
-					'php wordpress-hooks.php',
-					'php builder-tags.php'
-				].join( '&&' )
+				command: 'apigen generate'
 			},
 			txpull : {
 				command: 'tx pull -a -f --minimum-perc=1'
