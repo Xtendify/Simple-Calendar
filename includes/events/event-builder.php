@@ -296,8 +296,8 @@ class Event_Builder {
 
 				case 'when' :
 
-					$start  = $datetime->createFromTimestamp( $event->start_utc, 'UTC' )->setTimezone( $calendar->timezone );
-					$end    = $event->end_utc ? $datetime->createFromTimestamp( $event->end_utc, 'UTC' )->setTimezone( $calendar->timezone ) : null;
+					$start  = $event->start_dt->setTimezone( $event->timezone );
+					$end    = ! is_null( $event->end_dt ) ? $event->end_dt->setTimezone( $event->timezone ) : null;
 					$time_start = '';
 					$time_end = '';
 
@@ -360,9 +360,11 @@ class Event_Builder {
 					if ( ( 'end' == $bound ) && ! $event->end ) {
 						return '';
 					}
-					$ts = $bound . '_utc';
-					$datetime->createFromTimestamp( $event->$ts, 'UTC' );
-					$datetime->setTimezone( $calendar->timezone );
+					$dt = $bound . '_dt';
+					if ( empty( $event->$dt ) || ! $event->$dt instanceof Carbon ) {
+						return '';
+					}
+					$event_dt = $event->$dt->setTimezone( $event->timezone );
 
 					$format    = ltrim( strstr( $tag, '-' ), '-' );
 					$dt_format = '';
@@ -381,16 +383,16 @@ class Event_Builder {
 					}
 
 					return ' <span class="simcal-event-' . $bound . ' ' . 'simcal-event-' . $bound . '-' . $format . '"' .
-					       'data-event-' . $bound . '="' . $datetime->getTimestamp() . '"' .
-					       'data-event-format="' . $dt_format . '">' .
-					       $value .
-					       '</span>';
+				                'data-event-' . $bound . '="' . $event_dt->getTimestamp() . '"' .
+				                'data-event-format="' . $dt_format . '">' .
+				                $value .
+				                '</span>';
 
 				case 'length' :
 				case 'duration' :
 					if ( $event->end ) {
 						return ' <span class="simcal-event-duration"' .
-						       'data-event-duration="' . strval( $event->start - $event->end ) . '">' .
+						       'data-event-duration="' . $event->start - $event->end . '">' .
 						       human_time_diff( $event->start, $event->end ) .
 						       '</span>';
 					}
