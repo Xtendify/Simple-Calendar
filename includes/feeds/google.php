@@ -9,7 +9,7 @@ namespace SimpleCalendar\Feeds;
 use Carbon\Carbon;
 use SimpleCalendar\Abstracts\Calendar;
 use SimpleCalendar\Abstracts\Feed;
-use SimpleCalendar\Feeds\Admin\Google_Admin;
+use SimpleCalendar\Feeds\Admin\Google_Admin as Admin;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -83,8 +83,9 @@ class Google extends Feed {
 	 * Set properties.
 	 *
 	 * @param string|Calendar $calendar
+	 * @param bool $load_admin
 	 */
-	public function __construct( $calendar = '' ) {
+	public function __construct( $calendar = '', $load_admin = true ) {
 
 		parent::__construct( $calendar );
 
@@ -110,8 +111,8 @@ class Google extends Feed {
 			}
 		}
 
-		if ( is_admin() ) {
-			$admin = new Google_Admin( $this, $this->google_api_key, $this->google_calendar_id );
+		if ( is_admin() && $load_admin ) {
+			$admin = new Admin( $this, $this->google_api_key, $this->google_calendar_id );
 			$this->settings = $admin->settings_fields();
 		}
 	}

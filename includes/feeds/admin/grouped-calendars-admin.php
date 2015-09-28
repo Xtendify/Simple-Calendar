@@ -34,13 +34,10 @@ class Grouped_Calendars_Admin {
 
 		$this->feed = $feed;
 
-		if ( simcal_is_admin_screen() !== false ) {
-
+		if ( 'calendar' == simcal_is_admin_screen() ) {
 			add_filter( 'simcal_settings_meta_tabs_li', array( $this, 'add_settings_meta_tab_li' ), 10, 1 );
 			add_action( 'simcal_settings_meta_panels', array( $this, 'add_settings_meta_panel' ), 10, 1 );
-
 		}
-
 		add_action( 'simcal_process_settings_meta', array( $this, 'process_meta' ), 10, 1 );
 	}
 

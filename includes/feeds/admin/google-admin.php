@@ -57,18 +57,11 @@ class Google_Admin {
 		$this->google_api_key = $google_api_key;
 		$this->google_calendar_id = $google_calendar_id;
 
-		$screen = simcal_is_admin_screen();
-
-		if ( $screen !== false ) {
-
-			if ( 'calendar' == $screen ) {
-				$this->test_api_key_connection( $this->google_calendar_id );
-			}
-
+		if ( 'calendar' == simcal_is_admin_screen() ) {
+			$this->test_api_key_connection( $this->google_calendar_id );
 			add_filter( 'simcal_settings_meta_tabs_li', array( $this, 'add_settings_meta_tab_li' ), 10, 1 );
 			add_action( 'simcal_settings_meta_panels', array( $this, 'add_settings_meta_panel' ), 10, 1 );
 		}
-
 		add_action( 'simcal_process_settings_meta', array( $this, 'process_meta' ), 10, 1 );
 	}
 
@@ -215,15 +208,7 @@ class Google_Admin {
 				<thead>
 					<tr><th colspan="2"><?php _e( 'Google Calendar settings', 'google-calendar-events' ); ?></th></tr>
 				</thead>
-				<?php
-
-				$fields = apply_filters( 'simple-calendar_settings_meta_google_fields', $inputs );
-
-				if ( ! empty( $fields ) && is_array( $fields ) ) {
-					Settings::print_panel_fields( $fields, $post_id );
-				}
-
-				?>
+				<?php Settings::print_panel_fields( $inputs, $post_id ); ?>
 			</table>
 		</div>
 		<?php
