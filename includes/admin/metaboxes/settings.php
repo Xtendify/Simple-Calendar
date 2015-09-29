@@ -186,13 +186,13 @@ class Settings implements Meta_Box {
 				'label'   => __( 'Events', 'google-calendar-events' ),
 				'target'  => 'events-settings-panel',
 				'class'   => array( 'active' ),
-				'icon'    => 'simcal-icon-event'
+				'icon'    => 'simcal-icon-event',
 			),
 			'calendar' => array(
 				'label'  => __( 'Appearance', 'google-calendar-events' ),
 				'target' => 'calendar-settings-panel',
 				'class'  => array(),
-				'icon'   => 'simcal-icon-calendar'
+				'icon'   => 'simcal-icon-calendar',
 			),
 		), $post->ID );
 
@@ -201,7 +201,7 @@ class Settings implements Meta_Box {
 			'label'   => __( 'Advanced', 'google-calendar-events' ),
 			'target'  => 'advanced-settings-panel',
 			'class'   => array(),
-			'icon'    => 'simcal-icon-settings'
+			'icon'    => 'simcal-icon-settings',
 		);
 
 		// Output the tabs as list items.
@@ -263,7 +263,7 @@ class Settings implements Meta_Box {
 							),
 							'class'   => array(
 								'simcal-field-inline',
-								'simcal-field-tiny'
+								'simcal-field-tiny',
 							),
 							'style'      => ! $calendar_begins_nth_show ? array( 'display' => 'none' ) : '',
 						) );
@@ -399,7 +399,7 @@ class Settings implements Meta_Box {
 							),
 							'class'      => array(
 								'simcal-field-inline',
-								'simcal-field-tiny'
+								'simcal-field-tiny',
 							),
 							'style'      => 'indefinite' != $latest_event ? array( 'display' => 'none' ) : '',
 						) );
