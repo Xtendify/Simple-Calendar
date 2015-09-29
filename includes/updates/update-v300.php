@@ -328,6 +328,8 @@ UPDATE {$table} SET `post_type`='calendar' WHERE `post_type`='gce_feed';
 		delete_option( 'gce_version' );
 		delete_option( 'gce_options' );
 		delete_option( 'gce_upgrade_has_run' );
+		delete_option( 'gce_v240_update_notices' );
+		delete_option( 'gce_show_admin_install_notice' );
 	}
 
 	/**

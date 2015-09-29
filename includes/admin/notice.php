@@ -36,12 +36,20 @@ class Notice {
 	public $type = '';
 
 	/**
+	 * Nonce.
+	 *
+	 * @access public
+	 * @var int|string
+	 */
+	public $nonce = '';
+
+	/**
 	 * Additional classes.
 	 *
 	 * @access public
-	 * @var array
+	 * @var string
 	 */
-	public $class = array();
+	public $class = '';
 
 	/**
 	 * To which users the notice should be shown.
@@ -107,13 +115,17 @@ class Notice {
 		if ( isset( $notice['id'] ) && isset( $notice['content'] ) ) {
 
 			// Content.
-			$this->id      = isset( $notice['id'] )      ? ( is_array( $notice['id'] ) ? array_map( 'sanitize_key', $notice['id'] ) : sanitize_key( $notice['id'] ) ) : '';
+			$this->id  = isset( $notice['id'] ) ? ( is_array( $notice['id'] ) ? array_map( 'sanitize_key', $notice['id'] ) : sanitize_key( $notice['id'] ) ) : '';
 			$this->content = isset( $notice['content'] ) ? wp_kses_post( $notice['content'] ) : '';
+			$this->nonce = wp_create_nonce( $this->id );
+			if ( ! empty( $notice['class'] ) ) {
+				$this->class = is_array( $notice['class'] ) ? join( ' ', array_map( 'esc_attr', $notice['class'] ) ) : esc_attr( $notice['class'] );
+			}
 
 			// Type.
-			$default    = 'notice';
-			$type       = isset( $notice['type'] ) ? esc_attr( $notice['type'] ) : $default;
-			$types      = array(
+			$default = 'notice';
+			$type = isset( $notice['type'] ) ? esc_attr( $notice['type'] ) : $default;
+			$types = array(
 				'error',
 				'notice',
 				'updated',
@@ -122,12 +134,21 @@ class Notice {
 			$this->type = in_array( $type, $types ) ? $type : $default;
 
 			// Visibility.
-			$this->capability  = isset( $notice['capability'] )  ? esc_attr( $notice['capability'] ) : '';
-			$this->screen      = isset( $notice['screen'] )      ? ( is_array( $notice['screen'] ) ? array_map( 'esc_attr', $notice['screens'] ) : array( esc_attr( $notice['screen'] ) ) ) : array();
-			$this->post        = isset( $notice['post'] )        ? ( is_array( $notice['post'] ) ? array_map( 'intval', $notice['post'] ) : array( intval( $notice['post'] ) ) ) : array();
-			$this->dismissible = isset( $notice['dismissible'] ) ? ( $notice['dismissible'] === false ? false: true ) : true;
-			$this->visible     = isset( $notice['visible'] )     ? ( $notice['visible'] === false ? false: true ) : true;
-
+			if ( ! empty( $notice['capability'] ) ) {
+				$this->capability = esc_attr( $notice['capability'] );
+			}
+			if ( ! empty( $notice['screen'] ) ) {
+				$this->screen = is_array( $notice['screen'] ) ? array_map( 'esc_attr', $notice['screens'] ) : array( esc_attr( $notice['screen'] ) );
+			}
+			if ( ! empty( $notice['post'] ) ) {
+				$this->post = is_array( $notice['post'] ) ? array_map( 'intval', $notice['post'] ) : array( intval( $notice['post'] ) );
+			}
+			if ( ! empty( $notice['dismissible'] ) ) {
+				$this->dismissible = $notice['dismissible'] === false ? false: true;
+			}
+			if ( ! empty( $notice['visible'] ) ) {
+				$this->visible =  $notice['visible'] === false ? false: true;
+			}
 		}
 
 	}
