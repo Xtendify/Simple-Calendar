@@ -147,7 +147,7 @@ class Notice {
 				$this->dismissible = $notice['dismissible'] === false ? false: true;
 			}
 			if ( ! empty( $notice['visible'] ) ) {
-				$this->visible =  $notice['visible'] === false ? false: true;
+				$this->visible = $notice['visible'] === false ? false: true;
 			}
 		}
 
@@ -160,7 +160,7 @@ class Notice {
 	 */
 	public function add() {
 		if ( ! empty( $this->id ) && ! empty( $this->content ) ) {
-			$notices              = get_option( 'simple-calendar_admin_notices', array() );
+			$notices = get_option( 'simple-calendar_admin_notices', array() );
 			if ( is_array( $this->id ) ) {
 				foreach ( $this->id as $k => $v ) {
 					$notices[ $k ][ $v ] = $this;

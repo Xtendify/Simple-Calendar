@@ -30,7 +30,7 @@ class Notices {
 	 */
 	public function process_notices() {
 
-		$notices = get_option( 'simple-calendar_admin_notices' );
+		$notices = $this->get_notices();
 
 		if ( ! empty( $notices ) && is_array( $notices ) ) {
 
@@ -90,9 +90,11 @@ class Notices {
 
 				$name         = is_array( $notice->id ) ? key( $notice->id ) : $notice->id;
 				$url          = add_query_arg( array( 'dismiss_simcal_notice' => $name ) );
-				$dismiss_link = $notice->dismissible === true ? sprintf( ' <a class="dashicons-before dashicons-dismiss simcal-dismiss-notice" href="%1$s"></a>', $url ) : '';
+				$dismiss_link = $notice->dismissible === true
+					? sprintf( '<a class="dashicons-before dashicons-dismiss simcal-dismiss-notice" href="%1$s"></a>', $url )
+					: '';
 
-				echo '<div class="' . $notice->type . ' simcal-admin-notice" data-notice-id="' . $name . '">' . $dismiss_link . $notice->content . '</div>';
+				echo '<div class="' . $notice->type . ' ' . $notice->class . ' simcal-admin-notice" data-notice-id="' . $name . '">' . $dismiss_link . $notice->content . '</div>';
 			} );
 
 		}
@@ -107,7 +109,7 @@ class Notices {
 	 */
 	public function remove_notice( $notice = '' ) {
 
-		$notices = get_option( 'simple-calendar_admin_notices' );
+		$notices = $this->get_notices();
 		$update = false;
 
 		if ( ! empty( $notice ) ) {
@@ -136,7 +138,7 @@ class Notices {
 	 */
 	public function show_notice( $notice ) {
 
-		$notices = get_option( 'simple-calendar_admin_notices' );
+		$notices = $this->get_notices();
 
 		if ( isset( $notices[ $notice ]->visible ) ) {
 			$notices[ $notice ]->visible = true;
@@ -151,7 +153,7 @@ class Notices {
 	 */
 	public function hide_notice( $notice ) {
 
-		$notices = get_option( 'simple-calendar_admin_notices' );
+		$notices = $this->get_notices();
 
 		if ( isset( $notices[ $notice ]->visible ) ) {
 			$notices[ $notice ]->visible = false;
@@ -165,7 +167,10 @@ class Notices {
 	 * @return array
 	 */
 	public function get_notices() {
-		return get_option( 'simple-calendar_admin_notices' );
+		return apply_filters(
+			'simcal_admin_notices',
+			get_option( 'simple-calendar_admin_notices', array() )
+		);
 	}
 
 }
