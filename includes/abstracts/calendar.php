@@ -643,13 +643,8 @@ abstract class Calendar {
 			if ( ! empty( $this->errors ) ) {
 
 				if ( current_user_can( 'manage_options' )  ) {
-
 					echo '<pre><code>';
-
-						foreach ( $this->errors as $error ) {
-							echo $error;
-						}
-
+						foreach ( $this->errors as $error ) { echo $error; }
 					echo '</code></pre>';
 				}
 

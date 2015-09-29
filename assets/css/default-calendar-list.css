@@ -222,7 +222,8 @@
 
 .simcal-default-calendar-list {
   min-height: 100px;
-  padding: 10px 0; }
+  padding: 10px 0;
+  text-align: left; }
   .simcal-default-calendar-list .simcal-calendar-head {
     display: table;
     padding-bottom: 10px;
