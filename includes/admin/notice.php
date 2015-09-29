@@ -155,8 +155,6 @@ class Notice {
 
 	/**
 	 * Add the notice.
-	 *
-	 * @access public
 	 */
 	public function add() {
 		if ( ! empty( $this->id ) && ! empty( $this->content ) ) {
@@ -174,8 +172,6 @@ class Notice {
 
 	/**
 	 * Remove the notice.
-	 *
-	 * @access public
 	 */
 	public function remove() {
 		if ( ! empty( $this->id ) && ! empty( $this->content ) ) {
