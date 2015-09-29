@@ -86,6 +86,8 @@ class Calendars extends Settings_Page {
 			}
 		}
 
+		arsort( $calendar_types );
+
 		return apply_filters( 'simcal_add_' . $this->option_group . '_' . $this->id .'_sections', $sections );
 	}
 

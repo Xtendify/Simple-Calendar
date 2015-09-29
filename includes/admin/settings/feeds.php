@@ -77,6 +77,8 @@ class Feeds extends Settings_Page {
 
 		}
 
+		arsort( $sections );
+
 		return apply_filters( 'simcal_add_' . $this->option_group . '_' . $this->id .'_sections', $sections );
 	}
 
