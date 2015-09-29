@@ -112,7 +112,7 @@ class Notice {
 	 */
 	public function __construct( $notice ) {
 
-		if ( isset( $notice['id'] ) && isset( $notice['content'] ) ) {
+		if ( ! empty( $notice['id'] ) && ! empty( $notice['content'] ) ) {
 
 			// Content.
 			$this->id  = isset( $notice['id'] ) ? ( is_array( $notice['id'] ) ? array_map( 'sanitize_key', $notice['id'] ) : sanitize_key( $notice['id'] ) ) : '';
