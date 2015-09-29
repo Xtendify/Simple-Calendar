@@ -152,11 +152,33 @@ class Event_Builder {
 		return array(
 			'autolink'  => false,   // Description: set to 'yes' to make plaintext URLs clickable.
 			'format'    => '',      // Datetime: print date or time in custom format.
-			'limit'     => 0,       // Trim description or title to specified amount of characters.
+			'limit'     => 0,       // Trim description or title to specified amount of words.
 			'html'      => false,   // Description: set to 'yes' to allow HTML (uses `wp_kses_post()`).
 			'markdown'  => false,   // Description: set to 'yes' parses Markdown.
 			'newwindow' => false,   // Links: set to 'new' to open anchor link target to '_blank'.
 		);
+	}
+
+	/**
+	 * Limit words in text string.
+	 *
+	 * @param  string $text
+	 * @param  int $limit
+	 *
+	 * @return string
+	 */
+	private function limit_words( $text, $limit ) {
+
+		$text = wp_strip_all_tags( $text );
+		$limit = max( absint( $limit ), 0 );
+
+		if ( $limit > 0 && ( str_word_count( $text, 0 ) > $limit ) ) {
+			$words  = str_word_count( $text, 2 );
+			$pos    = array_keys( $words );
+			$text   = trim( substr( $text, 0, $pos[ $limit ] ) ) . '&hellip;';
+		}
+
+		return $text;
 	}
 
 	/**
@@ -220,15 +242,7 @@ class Event_Builder {
 					}
 
 					$title = ' <span class="simcal-event-title">';
-
-					if ( $event->title ) {
-						if ( absint( $limit = intval( $attr['limit'] ) ) > 0 ) {
-							$title .= substr( wp_strip_all_tags( $event->title ), 0, $limit - 1 ) . '&hellip;';
-						} else {
-							$title .= wp_strip_all_tags( $event->title );
-						}
-					}
-
+					$title .= $this->limit_words( $event->title, $attr['limit'] );
 					$title .= '</span>';
 
 					return $title;
@@ -236,7 +250,6 @@ class Event_Builder {
 				case 'description' :
 
 					$description = $event->description;
-
 					if ( empty( $description ) ) {
 						return '';
 					}
@@ -261,13 +274,7 @@ class Event_Builder {
 
 					} else {
 
-						$description = wp_strip_all_tags( $description );
-
-						if ( absint( $limit = intval( $attr['limit'] ) ) > 0 ) {
-							$html .= substr( $description, 0, $limit - 1 ) . '&hellip;';
-						} else {
-							$html .= $description;
-						}
+						$html .= $this->limit_words( $description, $attr['limit'] );
 
 					}
 
