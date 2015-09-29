@@ -63,12 +63,15 @@
   }
 
   .simcal-event-details {
+
     font-size: .84em;
     line-height: 1.5;
     overflow: hidden;
+
     p {
-      margin-bottom: 1em;
+      margin: 0 0 1em;
     }
+
   }
 
   .simcal-events-toggle {

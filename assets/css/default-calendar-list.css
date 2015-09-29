@@ -261,7 +261,7 @@
     line-height: 1.5;
     overflow: hidden; }
     .simcal-default-calendar-list .simcal-event-details p {
-      margin-bottom: 1em; }
+      margin: 0 0 1em; }
   .simcal-default-calendar-list .simcal-events-toggle {
     background-color: rgba(0, 0, 0, 0.05);
     color: rgba(0, 0, 0, 0.6);
