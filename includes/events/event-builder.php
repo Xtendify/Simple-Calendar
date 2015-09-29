@@ -140,6 +140,14 @@ class Event_Builder {
 			'if-not-location',       // @deprecated Alias for 'if-not-start-location'.
 			'if-not-start-location', // Does the event has NOT a start location?
 
+			/* ========= *
+			 * Meta Tags *
+			 * ========= */
+
+			'attachments',          // List of attachments.
+			'attendees',            // list of attendees.
+			'organizer',            // Organizer info.
+
 		);
 	}
 
@@ -230,8 +238,8 @@ class Event_Builder {
 
 			switch ( $tag ) {
 
-				/* ============
-				 * Content Tags
+				/* ============ *
+				 * Content Tags *
 				 * ============ */
 
 				case 'title' :
@@ -262,7 +270,7 @@ class Event_Builder {
 					if ( $allow_html || $allow_md ) {
 
 						if ( $allow_html && $allow_md ) {
-							$markdown    = new \Parsedown();
+							$markdown = new \Parsedown();
 							$description = wp_kses_post( $description );
 							$html .= $markdown->text( $description );
 						} elseif ( $allow_html ) {
@@ -288,8 +296,8 @@ class Event_Builder {
 
 				case 'when' :
 
-					$start  = $event->start_dt->setTimezone( $event->timezone );
-					$end    = ! is_null( $event->end_dt ) ? $event->end_dt->setTimezone( $event->timezone ) : null;
+					$start = $event->start_dt->setTimezone( $event->timezone );
+					$end = ! is_null( $event->end_dt ) ? $event->end_dt->setTimezone( $event->timezone ) : null;
 					$time_start = '';
 					$time_end = '';
 
@@ -445,8 +453,8 @@ class Event_Builder {
 				case 'url' :
 					return $attr['autolink'] == 'yes' ? ' ' . make_clickable( $event->link ) : ' ' . $event->link;
 
-				/* ================
-				 * Conditional Tags
+				/* ================ *
+				 * Conditional Tags *
 				 * ================ */
 
 				case 'if-title':
@@ -606,9 +614,34 @@ class Event_Builder {
 					}
 					break;
 
+				/* ========= *
+				 * Meta Tags *
+				 * ========= */
+
+				case 'attachments' :
+					if ( empty( $event->meta['attachments'] ) ) {
+						$html = '<ul class="simcal-event-attachments">';
+					}
+					break;
+
+				case 'attendees' :
+					if ( empty( $event->meta['attendees'] ) ) {
+
+					}
+					break;
+
+				case 'organizer' :
+					if ( empty( $event->meta['organizer'] ) ) {
+
+					}
+					break;
+
+				/* ======= *
+				 * Default *
+				 * ======= */
+
 				default:
 					return wp_kses_post( $before . $partial . $after );
-
 			}
 		}
 
