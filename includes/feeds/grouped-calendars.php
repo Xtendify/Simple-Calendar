@@ -43,7 +43,9 @@ class Grouped_Calendars extends Feed {
 
 		if ( $this->post_id > 0 ) {
 			$this->set_source();
-			$this->events = $this->get_events();
+			if ( ! is_admin() || defined( 'DOING_AJAX' ) ) {
+				$this->events = $this->get_events();
+			}
 		}
 
 		if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {

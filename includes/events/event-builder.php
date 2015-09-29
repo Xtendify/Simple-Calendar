@@ -59,7 +59,7 @@ class Event_Builder {
 	 * @param Calendar $calendar
 	 */
 	public function __construct( Event $event, Calendar $calendar ) {
-		$this->event    = $event;
+		$this->event = $event;
 		$this->calendar = $calendar;
 		$this->tags = $this->get_content_tags();
 		$this->tag_attributes = $this->get_content_tags_atts();
@@ -145,7 +145,8 @@ class Event_Builder {
 			 * ========= */
 
 			'attachments',          // List of attachments.
-			'attendees',            // list of attendees.
+			'attendees',            // List of attendees.
+			'participants',         // Alias for attendees.
 			'organizer',            // Organizer info.
 
 		);
@@ -619,20 +620,50 @@ class Event_Builder {
 				 * ========= */
 
 				case 'attachments' :
-					if ( empty( $event->meta['attachments'] ) ) {
+					if ( ! empty( $event->meta['attachments'] ) ) {
+
 						$html = '<ul class="simcal-event-attachments">';
+
+						foreach( $event->meta['attachments'] as $attachment ) {
+
+						}
+
+						$html .='</ul>';
+
+						return $html;
 					}
 					break;
 
 				case 'attendees' :
-					if ( empty( $event->meta['attendees'] ) ) {
+				case 'participants' :
+					if ( ! empty( $event->meta['participants'] ) ) {
 
+						$html = '<ul class="simcal-event-attendees">';
+
+						foreach( $event->meta['participants'] as $attendee ) {
+							$html .= '<li class="simcal-event-participant">';
+							$html .= '<a href="mailto:' . $attendee['email'] . '">';
+							$html .= $attendee['name'];
+							$html .= '</a>';
+							$html .= '</li>';
+						}
+
+						$html .='</ul>';
+
+						return $html;
 					}
 					break;
 
 				case 'organizer' :
-					if ( empty( $event->meta['organizer'] ) ) {
+					if ( ! empty( $event->meta['organizer'] ) ) {
 
+						$html = '<div class="simcal-event-organizer">';
+						$html .= '<a href="mailto:' . $event->meta['organizer']['email'] . '">';
+						$html .= $event->meta['organizer']['name'];
+						$html .= '</a>';
+						$html .='</div>';
+
+						return $html;
 					}
 					break;
 
