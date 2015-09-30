@@ -213,7 +213,7 @@ abstract class Calendar {
 	/**
 	 * Constructor.
 	 *
-	 * @param int|Calendar|\WP_Post|object $calendar
+	 * @param int|object|\WP_Post|Calendar $calendar
 	 * @param string $view
 	 */
 	public function __construct( $calendar, $view = '' ) {
@@ -316,7 +316,7 @@ abstract class Calendar {
 	/**
 	 * Set post object and id.
 	 *
-	 * @param Calendar $calendar
+	 * @param int|object|\WP_Post|Calendar $calendar
 	 */
 	public function set_post_object( $calendar ) {
 		if ( is_numeric( $calendar ) ) {

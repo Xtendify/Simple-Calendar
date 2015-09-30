@@ -634,7 +634,7 @@ class Event_Builder {
 						foreach ( $event->meta['attendees'] as $attendee ) {
 							$html .= '<li class="simcal-attendee">';
 							$html .= '<a href="mailto:' . $attendee['email'] . '">';
-							$html .= get_avatar( $attendee['email'], 128  );
+							$html .= get_avatar( $attendee['email'], 128 );
 							$html .= '<span>' . $attendee['name'] . '</span>';
 							$html .= '</a>';
 							$html .= '</li>';
