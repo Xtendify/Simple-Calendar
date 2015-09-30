@@ -505,13 +505,13 @@ class Event_Builder {
 
 		$attr = array_merge( array(
 			'limit'     => 0,       // Trim length to number of words
-			'html'      => false,   // Parse HTML content
-			'markdown'  => false,   // Parse Markdown content
-			'autolink'  => false,   // Automatically convert plaintext URIs to anchors
+			'html'      => 'no',    // Parse HTML content
+			'markdown'  => 'no',    // Parse Markdown content
+			'autolink'  => 'no',    // Automatically convert plaintext URIs to anchors
 		), (array) shortcode_parse_atts( $attr ) );
 
-		$allow_html = $attr['html'] !== false ? true : false;
-		$allow_md   = $attr['markdown'] !== false ? true : false;
+		$allow_html = 'no' != $attr['html']     ? true : false;
+		$allow_md   = 'no' != $attr['markdown'] ? true : false;
 
 		$html = '<div class="simcal-event-description">';
 
@@ -532,7 +532,7 @@ class Event_Builder {
 
 		$html .= '</div>';
 
-		if ( $attr['autolink'] !== false ) {
+		if ( 'no' != $attr['autolink'] ) {
 			$html = ' ' . make_clickable( $html );
 		}
 
@@ -705,20 +705,18 @@ class Event_Builder {
 	 */
 	private function get_attachments( $attachments ) {
 
-		$html = '<ul class="simcal-attachments">';
+		$html = '<ul class="simcal-attachments">' . "\n\t";
 
 		foreach ( $attachments as $attachment ) {
 			$html .= '<li class="simcal-attachment">';
 			$html .= '<a href="' . $attachment['url'] . '" target="_blank">';
-			if ( ! empty( $attachment['icon'] ) ) {
-				$html .= '<img src="' . $attachment['icon'] . '" />';
-			}
+			$html .= ! empty( $attachment['icon'] ) ? '<img src="' . $attachment['icon'] . '" />' : '';
 			$html .= '<span>' . $attachment['name'] . '</span>';
 			$html .= '</a>';
-			$html .= '</li>';
+			$html .= '</li>' . "\n";
 		}
 
-		$html .='</ul>';
+		$html .= '</ul>' . "\n";
 
 		return $html;
 	}
@@ -742,55 +740,55 @@ class Event_Builder {
 			'response'  => '',      // filter attendees by rsvp response (yes/no/maybe)
 		), (array) shortcode_parse_atts( $attr ) );
 
-		$html = '<ul class="simcal-attendees">';
+		$html = '<ul class="simcal-attendees">' . "\n\t";
 
-			$known = 0;
-			$unknown = 0;
+		$known = 0;
+		$unknown = 0;
 
-			foreach ( $attendees as $attendee ) {
+		foreach ( $attendees as $attendee ) {
 
-				if ( $attr['response'] == 'yes' && $attendee['response'] != 'yes' ) {
-					continue;
-				} elseif ( $attr['response'] == 'no' && $attendee['response'] != 'no' ) {
-					continue;
-				} elseif ( $attr['response'] == 'maybe' && ! in_array( $attendee['response'], array( 'yes', 'maybe' ) ) ) {
-					continue;
-				}
-
-				if ( ! empty ( $attendee['name'] ) ) {
-
-					$photo      = $attr['photo'] !== 'hide' ? '<img class="avatar avatar-128 photo" src="' . $attendee['photo'] . '" />' : '';
-					$response   = $attr['rsvp'] == 'show' ? $this->get_rsvp_response( $attendee['response'] ) : '';
-					$guest      = $photo . '<span>' . $attendee['name'] . $response . '</span>';
-
-					if ( ! empty( $attendee['email'] ) && $attr['email'] != 'hide' ) {
-						$guest = sprintf( '<a href="mailto:' . $attendee['email'] . '">%s</a>', $guest );
-					}
-
-					$html .= '<li class="simcal-attendee">' . $guest . '</li>';
-
-					$known++;
-
-				} else {
-
-					$unknown++;
-
-				}
+			if ( 'yes' == $attr['response'] && 'yes' != $attendee['response'] ) {
+				continue;
+			} elseif ( 'no' == $attr['response'] && 'no' != $attendee['response'] ) {
+				continue;
+			} elseif ( 'maybe' == $attr['response'] && ! in_array( $attendee['response'], array( 'yes', 'maybe' ) ) ) {
+				continue;
 			}
 
-			if ( $unknown > 0 ) {
-				if ( $known > 0 ) {
-					$others = sprintf( _n( '1 more attendee', '%s more attendees', $unknown, 'google-calendar-events' ), $unknown );
-				} else {
-					$others = sprintf( _n( '1 anonymous attendee', '%s anonymous attendees', $unknown, 'google-calendar-events' ), $unknown );
-				}
-				$photo = $attr['photo'] !== 'hide' ? get_avatar( '', 128 ) : '';
-				$html .= '<li class="simcal-attendee simcal-attendee-anonymous">' . $photo . '<span>' . $others . '</span></li>';
-			} elseif ( $known === 0 ) {
-				__( 'No one yet', 'google-calendar-events' );
-			}
+			if ( ! empty ( $attendee['name'] ) ) {
 
-		$html .='</ul>';
+				$photo      = 'hide' !== $attr['photo'] ? '<img class="avatar avatar-128 photo" src="' . $attendee['photo'] . '" />' : '';
+				$response   = 'show' == $attr['rsvp'] ? $this->get_rsvp_response( $attendee['response'] ) : '';
+				$guest      = $photo . '<span>' . $attendee['name'] . $response . '</span>';
+
+				if ( ! empty( $attendee['email'] ) && 'hide' != $attr['email'] ) {
+					$guest = sprintf( '<a href="mailto:' . $attendee['email'] . '">%s</a>', $guest );
+				}
+
+				$html .= '<li class="simcal-attendee">' . $guest . '</li>' . "\n";
+
+				$known++;
+
+			} else {
+
+				$unknown++;
+
+			}
+		}
+
+		if ( $unknown > 0 ) {
+			if ( $known > 0 ) {
+				$others = sprintf( _n( '1 more attendee', '%s more attendees', $unknown, 'google-calendar-events' ), $unknown );
+			} else {
+				$others = sprintf( _n( '1 anonymous attendee', '%s anonymous attendees', $unknown, 'google-calendar-events' ), $unknown );
+			}
+			$photo = $attr['photo'] !== 'hide' ? get_avatar( '', 128 ) : '';
+			$html .= '<li class="simcal-attendee simcal-attendee-anonymous">' . $photo . '<span>' . $others . '</span></li>' . "\n";
+		} elseif ( $known === 0 ) {
+			$html .= '<li class="simcal-attendee">' . __( 'No one yet', 'google-calendar-events' ) . '</li>' . "\n";
+		}
+
+		$html .='</ul>' . "\n";
 
 		return $html;
 	}
