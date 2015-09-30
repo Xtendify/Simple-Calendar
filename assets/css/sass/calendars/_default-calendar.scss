@@ -132,6 +132,11 @@ $default-calendar-button-col: rgb(0, 0, 0);
       text-decoration: none;
     }
 
+    small {
+      opacity: .9;
+      text-transform: lowercase;
+    }
+
     img {
       display: inline-block;
       margin: 0 4px;

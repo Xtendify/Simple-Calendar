@@ -226,6 +226,10 @@
   .simcal-default-calendar .simcal-attendee a {
     border-bottom: 0;
     text-decoration: none; }
+  .simcal-default-calendar .simcal-attachment small,
+  .simcal-default-calendar .simcal-attendee small {
+    opacity: .9;
+    text-transform: lowercase; }
   .simcal-default-calendar .simcal-attachment img,
   .simcal-default-calendar .simcal-attendee img {
     display: inline-block;

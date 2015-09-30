@@ -45,24 +45,15 @@ class Event_Builder {
 	public $tags = array();
 
 	/**
-	 * Tag attributes.
-	 *
-	 * @access private
-	 * @var array
-	 */
-	public $tag_attributes = array();
-
-	/**
 	 * Constructor.
 	 *
 	 * @param Event    $event
 	 * @param Calendar $calendar
 	 */
 	public function __construct( Event $event, Calendar $calendar ) {
-		$this->event = $event;
+		$this->event    = $event;
 		$this->calendar = $calendar;
-		$this->tags = $this->get_content_tags();
-		$this->tag_attributes = $this->get_content_tags_atts();
+		$this->tags     = $this->get_content_tags();
 	}
 
 	/**
@@ -94,7 +85,7 @@ class Event_Builder {
 			'duration',              // How long the events lasts, in a human-readable format.
 			'length',                // @deprecated An alias of 'duration' tag.
 
-			'location',              // Start and end location of the event.
+			'location',              // Alias of start-location.
 			'start-location',        // Location name where the event starts.
 			'maps-link',             // @deprecated An alias for 'start-location-link' tag.
 			'start-location-link',   // Link to Google Maps querying the event start location address.
@@ -147,22 +138,6 @@ class Event_Builder {
 			'attendees',            // List of attendees.
 			'organizer',            // Organizer info.
 
-		);
-	}
-
-	/**
-	 * Get content tags attributes.
-	 *
-	 * @return array
-	 */
-	public function get_content_tags_atts() {
-		return array(
-			'autolink'  => false,   // Description: set to 'yes' to make plaintext URLs clickable.
-			'format'    => '',      // Datetime: print date or time in custom format.
-			'limit'     => 0,       // Trim description or title to specified amount of words.
-			'html'      => false,   // Description: set to 'yes' to allow HTML (uses `wp_kses_post()`).
-			'markdown'  => false,   // Description: set to 'yes' parses Markdown.
-			'newwindow' => false,   // Links: set to 'new' to open anchor link target to '_blank'.
 		);
 	}
 
@@ -221,14 +196,11 @@ class Event_Builder {
 			return substr( $match[0], 1, - 1 );
 		}
 
-		$tag     = $match[2];                         // Tag name without square brackets.
-		$before  = $match[1];                         // Before tag.
-		$partial = $match[5];                         // HTML content between tags.
-		$after   = $match[6];                         // After tag.
-		$attr    = shortcode_parse_atts( $match[3] ); // Tag attributes in quotes.
-
-		// Default attributes.
-		$attr = array_merge( $this->tag_attributes, (array) $attr );
+		$tag     = $match[2]; // Tag name without square brackets.
+		$before  = $match[1]; // Before tag.
+		$partial = $match[5]; // HTML content between tags.
+		$after   = $match[6]; // After tag.
+		$attr    = $match[3]; // Tag attributes in quotes.
 
 		$calendar = $this->calendar;
 		$event    = $this->event;
@@ -243,108 +215,13 @@ class Event_Builder {
 
 				case 'title' :
 				case 'event-title' :
-
-					if ( empty( $event->title ) ) {
-						return '';
-					}
-
-					$title = ' <span class="simcal-event-title">';
-					$title .= $this->limit_words( $event->title, $attr['limit'] );
-					$title .= '</span>';
-
-					return $title;
+					return $this->get_title( $event->title, $attr );
 
 				case 'description' :
-
-					$description = $event->description;
-					if ( empty( $description ) ) {
-						return '';
-					}
-
-					$allow_html = $attr['html'] !== false ? true : false;
-					$allow_md   = $attr['markdown'] !== false ? true : false;
-
-					$html = '<div class="simcal-event-description">';
-
-					if ( $allow_html || $allow_md ) {
-
-						if ( $allow_html && $allow_md ) {
-							$markdown = new \Parsedown();
-							$description = wp_kses_post( $description );
-							$html .= $markdown->text( $description );
-						} elseif ( $allow_html ) {
-							$html .= wp_kses_post( $description );
-						} elseif ( $allow_md ) {
-							$markdown = new \Parsedown();
-							$html .= $markdown->text( wp_strip_all_tags( $description ) );
-						}
-
-					} else {
-
-						$html .= $this->limit_words( $description, $attr['limit'] );
-
-					}
-
-					$html .= '</div>';
-
-					if ( $attr['autolink'] !== false ) {
-						$html = ' ' . make_clickable( $html );
-					}
-
-					return $html;
+					return $this->get_description( $event->description, $attr );
 
 				case 'when' :
-
-					$start = $event->start_dt->setTimezone( $event->timezone );
-					$end = ! is_null( $event->end_dt ) ? $event->end_dt->setTimezone( $event->timezone ) : null;
-					$time_start = '';
-					$time_end = '';
-
-					if ( ! $event->whole_day ) {
-						$time_start = $calendar->datetime_separator .
-						              ' <span class="simcal-event-start simcal-event-start-time" ' .
-						              'data-event-start="' . $start->getTimestamp() . '" ' .
-						              'data-event-format="' . $calendar->time_format . '">' .
-						              $start->format( $calendar->time_format ) .
-						              '</span> ';
-						if ( $end instanceof Carbon ) {
-							$time_end = ' <span class="simcal-event-end simcal-event-end-time" ' .
-							            'data-event-end="' . $end->getTimestamp() . '" ' .
-							            'data-event-format="' . $calendar->time_format . '">' .
-							            $end->format( $calendar->time_format ) .
-							            '</span> ';
-						}
-					}
-
-					if ( $event->multiple_days ) {
-						$output = ' <span class="simcal-event-start simcal-event-start-date" ' .
-						          'data-event-start="' . $start->getTimestamp() . '" ' .
-						          'data-event-format="' . $calendar->date_format . '">' .
-						          $start->format( $calendar->date_format ) .
-						          '</span> ' .
-						          $time_start;
-
-						if ( $end instanceof Carbon ) {
-							$output .= '-' .
-							           ' <span class="simcal-event-start simcal-event-end-date" ' .
-							           'data-event-start="' . $end->getTimestamp() . '" ' .
-							           'data-event-format="' . $calendar->date_format . '">' .
-							           $end->format( $calendar->date_format ) .
-							           '</span> ' .
-							           $time_end;
-						}
-					} else {
-						$time_end = ! empty( $time_start ) && ! empty( $time_end ) ? '- ' . $time_end : '';
-						$output   = ' <span class="simcal-event-start simcal-event-start-date" ' .
-						            'data-event-start="' . $start->getTimestamp() . '"' .
-						            'data-event-format="' . $calendar->date_format . '">' .
-						            $start->format( $calendar->date_format ) .
-						            '</span> ' .
-						            $time_start .
-						            $time_end;
-					}
-
-					return trim( $output );
+					return $this->get_when( $event );
 
 				case 'end-date'    :
 				case 'end-custom'  :
@@ -354,90 +231,39 @@ class Event_Builder {
 				case 'start-date'  :
 				case 'start-human' :
 				case 'start-time'  :
-
-					$bound = 0 === strpos( $tag, 'end' ) ? 'end' : 'start';
-					if ( ( 'end' == $bound ) && ! $event->end ) {
-						return '';
-					}
-					$dt = $bound . '_dt';
-					if ( ! $event->$dt instanceof Carbon ) {
-						return '';
-					}
-					$event_dt = $event->$dt->setTimezone( $event->timezone );
-
-					$format    = ltrim( strstr( $tag, '-' ), '-' );
-					$dt_format = '';
-					if ( ! empty( $attr['format'] ) ) {
-						$dt_format = esc_attr( wp_strip_all_tags( $attr['format'] ) );
-					} elseif ( 'date' == $format ) {
-						$dt_format = $calendar->date_format;
-					} elseif ( 'time' == $format ) {
-						$dt_format = $calendar->time_format;
-					}
-
-					if ( 'human' == $format ) {
-						$value = $event_dt->diffForHumans( Carbon::now( $calendar->timezone ) );
-					} else {
-						$value = $event_dt->format( $dt_format );
-					}
-
-					return ' <span class="simcal-event-' . $bound . ' ' . 'simcal-event-' . $bound . '-' . $format . '"' .
-				                'data-event-' . $bound . '="' . $event_dt->getTimestamp() . '"' .
-				                'data-event-format="' . $dt_format . '">' .
-				                $value .
-				                '</span>';
+					return $this->get_date_time( $tag, $event, $attr );
 
 				case 'length' :
 				case 'duration' :
 					if ( $event->end ) {
-						return ' <span class="simcal-event-duration"' .
-						       'data-event-duration="' . $event->start - $event->end . '">' .
-						       human_time_diff( $event->start, $event->end ) .
-						       '</span>';
+						$duration = $event->start - $event->end;
+						$value    = human_time_diff( $event->start, $event->end );
+					} else {
+						$duration = '-1';
+						$value    = __( 'No end time', 'google-calendar-events' );
 					}
-					return '<span class="simcal-event-duration"' .
-					       'data-event-duration="-1">' .
-					       __( 'No end time', 'google-calendar-events' ) .
-					       '</span>';
+					return ' <span class="simcal-event-duration" data-event-duration="' . $duration . '">' . $value . '</span>';
 
 				case 'location' :
-					$output = '';
-					if ( $start_location = $event->start_location['name'] ) {
-						$output = $start_location;
-						if ( $end_location = $event->end_location['name'] ) {
-							if ( ! empty( $end_location ) && $end_location != $start_location ) {
-								$output .= ' - ' . $end_location;
-							}
-						}
-					}
-					return $output;
-
 				case 'start-location' :
 				case 'end-location' :
 					$location = $tag == 'end-location' ? $event->end_location['address'] : $event->start_location['address'];
-					return ' <span class=" simcal-event-address simcal-event-start-location">' .
-					       wp_strip_all_tags( $location ) .
-					       '</span>';
+					return ' <span class="simcal-event-address simcal-event-start-location">' . wp_strip_all_tags( $location ) . '</span>';
 
 				case 'start-location-link':
 				case 'end-location-link' :
 				case 'maps-link' :
-					$location = $tag == 'end-location' ? $event->end_location['address'] : $event->start_location['address'];
-					if ( $location ) {
-						$target = $attr['newwindow'] !== false ? 'target="_blank"' : '';
-						return ' <a href="' . esc_url( '//maps.google.com?q=' . urlencode( $location ) ) . '" ' . $target . '>' . $partial . '</a>';
+					$location = $tag == 'end-location-link' ? $event->end_location['address'] : $event->start_location['address'];
+					if ( ! empty( $location ) ) {
+						$url = '//maps.google.com?q=' . urlencode( $location );
+						return $this->make_link( $tag, $url, $calendar->get_event_html( $event, $partial ), $attr );
 					}
 					break;
 
 				case 'link' :
-					if ( $event->link ) {
-						$target = $attr['newwindow'] !== false ? 'target="_blank"' : '';
-						return ' <a href="' . $event->link . '" ' . $target . '>' . $calendar->get_event_html( $event, $partial ) . '</a>';
-					}
-					break;
-
 				case 'url' :
-					return $attr['autolink'] == 'yes' ? ' ' . make_clickable( $event->link ) : ' ' . $event->link;
+					$content = 'link' == $tag ? $calendar->get_event_html( $event, $partial ) : '';
+					return $this->make_link( $tag, $event->link, $content , $attr );
 
 				/* ================ *
 				 * Conditional Tags *
@@ -606,56 +432,19 @@ class Event_Builder {
 
 				case 'attachments' :
 					if ( ! empty( $event->meta['attachments'] ) ) {
-
-						$html = '<ul class="simcal-attachments">';
-
-						foreach ( $event->meta['attachments'] as $attachment ) {
-							$html .= '<li class="simcal-attachment">';
-							$html .= '<a href="' . $attachment['url'] . '" target="_blank">';
-							if ( ! empty( $attachment['icon'] ) ) {
-								$html .= '<img src="' . $attachment['icon'] . '" />';
-							}
-							$html .= '<span>' . $attachment['name'] . '</span>';
-							$html .= '</a>';
-							$html .= '</li>';
-						}
-
-						$html .='</ul>';
-
-						return $html;
+						return $this->get_attachments( $event->meta['attachments'] );
 					}
 					break;
 
 				case 'attendees' :
 					if ( ! empty( $event->meta['attendees'] ) ) {
-
-						$html = '<ul class="simcal-attendees">';
-
-						foreach ( $event->meta['attendees'] as $attendee ) {
-							$html .= '<li class="simcal-attendee">';
-							$html .= '<a href="mailto:' . $attendee['email'] . '">';
-							$html .= get_avatar( $attendee['email'], 128 );
-							$html .= '<span>' . $attendee['name'] . '</span>';
-							$html .= '</a>';
-							$html .= '</li>';
-						}
-
-						$html .='</ul>';
-
-						return $html;
+						return $this->get_attendees( $event->meta['attendees'], $attr );
 					}
 					break;
 
 				case 'organizer' :
 					if ( ! empty( $event->meta['organizer'] ) ) {
-
-						$html = '<div class="simcal-organizer">';
-						$html .= '<a href="mailto:' . $event->meta['organizer']['email'] . '">';
-						$html .= $event->meta['organizer']['name'];
-						$html .= '</a>';
-						$html .='</div>';
-
-						return $html;
+						return $this->get_organizer( $event->meta['organizer'], $attr );
 					}
 					break;
 
@@ -669,6 +458,384 @@ class Event_Builder {
 		}
 
 		return '';
+	}
+
+	/**
+	 * Get event title.
+	 *
+	 * @access private
+	 *
+	 * @param  $title
+	 * @param  $attr
+	 *
+	 * @return string
+	 */
+	private function get_title( $title, $attr ) {
+
+		if ( empty( $title ) ) {
+			return '';
+		}
+
+		$attr = array_merge( array(
+			'limit' => 0,   // Trim length to amount of words
+		), (array) shortcode_parse_atts( $attr ) );
+
+		$title = ' <span class="simcal-event-title">';
+		$title .= $this->limit_words( $title, $attr['limit'] );
+		$title .= '</span>';
+
+		return $title;
+	}
+
+	/**
+	 * Get event description.
+	 *
+	 * @access private
+	 *
+	 * @param  string $description
+	 * @param  string $attr
+	 *
+	 * @return string
+	 */
+	private function get_description( $description, $attr ) {
+
+		if ( empty( $description ) ) {
+			return '';
+		}
+
+		$attr = array_merge( array(
+			'limit'     => 0,       // Trim length to number of words
+			'html'      => false,   // Parse HTML content
+			'markdown'  => false,   // Parse Markdown content
+			'autolink'  => false,   // Automatically convert plaintext URIs to anchors
+		), (array) shortcode_parse_atts( $attr ) );
+
+		$allow_html = $attr['html'] !== false ? true : false;
+		$allow_md   = $attr['markdown'] !== false ? true : false;
+
+		$html = '<div class="simcal-event-description">';
+
+		if ( $allow_html || $allow_md ) {
+			if ( $allow_html && $allow_md ) {
+				$markdown = new \Parsedown();
+				$description = wp_kses_post( $description );
+				$html .= $markdown->text( $description );
+			} elseif ( $allow_html ) {
+				$html .= wp_kses_post( $description );
+			} elseif ( $allow_md ) {
+				$markdown = new \Parsedown();
+				$html .= $markdown->text( wp_strip_all_tags( $description ) );
+			}
+		} else {
+			$html .= $this->limit_words( $description, $attr['limit'] );
+		}
+
+		$html .= '</div>';
+
+		if ( $attr['autolink'] !== false ) {
+			$html = ' ' . make_clickable( $html );
+		}
+
+		return $html;
+	}
+
+	/**
+	 * Get event start and end date and time.
+	 *
+	 * @access private
+	 *
+	 * @param  Event $event
+	 *
+	 * @return string
+	 */
+	private function get_when( Event $event ) {
+
+		$start = $event->start_dt->setTimezone( $event->timezone );
+		$end = ! is_null( $event->end_dt ) ? $event->end_dt->setTimezone( $event->timezone ) : null;
+		$time_start = '';
+		$time_end = '';
+
+		if ( ! $event->whole_day ) {
+
+			$time_start = $this->calendar->datetime_separator .
+			              ' <span class="simcal-event-start simcal-event-start-time" ' .
+			              'data-event-start="' . $start->getTimestamp() . '" ' .
+			              'data-event-format="' . $this->calendar->time_format . '">' .
+			              $start->format( $this->calendar->time_format ) .
+			              '</span> ';
+
+			if ( $end instanceof Carbon ) {
+
+				$time_end = ' <span class="simcal-event-end simcal-event-end-time" ' .
+				            'data-event-end="' . $end->getTimestamp() . '" ' .
+				            'data-event-format="' . $this->calendar->time_format . '">' .
+				            $end->format( $this->calendar->time_format ) .
+				            '</span> ';
+
+			}
+
+		}
+
+		if ( $event->multiple_days ) {
+
+			$output = ' <span class="simcal-event-start simcal-event-start-date" ' .
+			          'data-event-start="' . $start->getTimestamp() . '" ' .
+			          'data-event-format="' . $this->calendar->date_format . '">' .
+			          $start->format( $this->calendar->date_format ) .
+			          '</span> ' .
+			          $time_start;
+
+			if ( $end instanceof Carbon ) {
+
+				$output .= '-' .
+				           ' <span class="simcal-event-start simcal-event-end-date" ' .
+				           'data-event-start="' . $end->getTimestamp() . '" ' .
+				           'data-event-format="' . $this->calendar->date_format . '">' .
+				           $end->format( $this->calendar->date_format ) .
+				           '</span> ' .
+				           $time_end;
+			}
+
+		} else {
+
+			$time_end = ! empty( $time_start ) && ! empty( $time_end ) ? '- ' . $time_end : '';
+
+			$output = ' <span class="simcal-event-start simcal-event-start-date" ' .
+			            'data-event-start="' . $start->getTimestamp() . '"' .
+			            'data-event-format="' . $this->calendar->date_format . '">' .
+			            $start->format( $this->calendar->date_format ) .
+			            '</span> ' .
+			            $time_start .
+			            $time_end;
+
+		}
+
+		return trim( $output );
+	}
+
+	/**
+	 * Get event date or time.
+	 *
+	 * @access private
+	 *
+	 * @param  string $tag
+	 * @param  Event  $event
+	 * @param  string $attr
+	 *
+	 * @return string
+	 */
+	private function get_date_time( $tag, Event $event, $attr ) {
+
+		$bound = 0 === strpos( $tag, 'end' ) ? 'end' : 'start';
+		if ( ( 'end' == $bound ) && ! $event->end ) {
+			return '';
+		}
+		$dt = $bound . '_dt';
+		if ( ! $event->$dt instanceof Carbon ) {
+			return '';
+		}
+		$event_dt = $event->$dt->setTimezone( $event->timezone );
+
+		$attr = array_merge( array(
+			'format' => '',
+		), (array) shortcode_parse_atts( $attr ) );
+
+		$format = ltrim( strstr( $tag, '-' ), '-' );
+		$dt_format = '';
+		if ( ! empty( $attr['format'] ) ) {
+			$dt_format = esc_attr( wp_strip_all_tags( $attr['format'] ) );
+		} elseif ( 'date' == $format ) {
+			$dt_format = $this->calendar->date_format;
+		} elseif ( 'time' == $format ) {
+			$dt_format = $this->calendar->time_format;
+		}
+
+		if ( 'human' == $format ) {
+			$value = $event_dt->diffForHumans( Carbon::now( $this->calendar->timezone ) );
+		} else {
+			$value = $event_dt->format( $dt_format );
+		}
+
+		return ' <span class="simcal-event-' . $bound . ' ' . 'simcal-event-' . $bound . '-' . $format . '"' .
+		       'data-event-' . $bound . '="' . $event_dt->getTimestamp() . '"' .
+		       'data-event-format="' . $dt_format . '">' .
+		       $value .
+		       '</span>';
+	}
+
+	/**
+	 * Make a link.
+	 *
+	 * @access private
+	 *
+	 * @param  string $tag
+	 * @param  string $url
+	 * @param  string $content
+	 * @param  string $attr
+	 *
+	 * @return string
+	 */
+	private function make_link( $tag, $url, $content, $attr ) {
+
+		if ( empty( $url ) ) {
+			return '';
+		}
+
+		$text = empty( $content ) ? $url : $content;
+
+		$attr = array_merge( array(
+			'autolink'  => false,   // Convert url to link anchor
+			'newwindow' => false,   // If autolink attribute is true, open link in new window
+		), (array) shortcode_parse_atts( $attr ) );
+
+		$anchor = $tag != 'url' ? 'yes' : $attr['autolink'];
+		$target = $attr['newwindow'] !== false ? 'target="_blank"' : '';
+
+		return $anchor !== false ? ' <a href="' . esc_url( $url ) . '" ' . $target . '>' . $text . '</a>' : ' ' . $text;
+	}
+
+	/**
+	 * Get event attachments.
+	 *
+	 * @access private
+	 *
+	 * @param  array $attachments
+	 *
+	 * @return string
+	 */
+	private function get_attachments( $attachments ) {
+
+		$html = '<ul class="simcal-attachments">';
+
+		foreach ( $attachments as $attachment ) {
+			$html .= '<li class="simcal-attachment">';
+			$html .= '<a href="' . $attachment['url'] . '" target="_blank">';
+			if ( ! empty( $attachment['icon'] ) ) {
+				$html .= '<img src="' . $attachment['icon'] . '" />';
+			}
+			$html .= '<span>' . $attachment['name'] . '</span>';
+			$html .= '</a>';
+			$html .= '</li>';
+		}
+
+		$html .='</ul>';
+
+		return $html;
+	}
+
+	/**
+	 * Get attendees.
+	 *
+	 * @access private
+	 *
+	 * @param  array  $attendees
+	 * @param  string $attr
+	 *
+	 * @return string
+	 */
+	private function get_attendees( $attendees, $attr ) {
+
+		$attr = array_merge( array(
+			'photo'     => 'show',  // show/hide attendee photo
+			'email'     => 'hide',  // show/hide attendee email address
+			'rsvp'      => 'hide',  // show/hide rsvp response status
+			'response'  => '',      // filter attendees by rsvp response (yes/no/maybe)
+		), (array) shortcode_parse_atts( $attr ) );
+
+		$html = '<ul class="simcal-attendees">';
+
+			$known = 0;
+			$unknown = 0;
+
+			foreach ( $attendees as $attendee ) {
+
+				if ( $attr['response'] == 'yes' && $attendee['response'] != 'yes' ) {
+					continue;
+				} elseif ( $attr['response'] == 'no' && $attendee['response'] != 'no' ) {
+					continue;
+				} elseif ( $attr['response'] == 'maybe' && ! in_array( $attendee['response'], array( 'yes', 'maybe' ) ) ) {
+					continue;
+				}
+
+				if ( ! empty ( $attendee['name'] ) ) {
+
+					$photo      = $attr['photo'] !== 'hide' ? '<img class="avatar avatar-128 photo" src="' . $attendee['photo'] . '" />' : '';
+					$response   = $attr['rsvp'] == 'show' ? $this->get_rsvp_response( $attendee['response'] ) : '';
+					$guest      = $photo . '<span>' . $attendee['name'] . $response . '</span>';
+
+					if ( ! empty( $attendee['email'] ) && $attr['email'] != 'hide' ) {
+						$guest = sprintf( '<a href="mailto:' . $attendee['email'] . '">%s</a>', $guest );
+					}
+
+					$html .= '<li class="simcal-attendee">' . $guest . '</li>';
+
+					$known++;
+
+				} else {
+
+					$unknown++;
+
+				}
+			}
+
+			if ( $unknown > 0 ) {
+				if ( $known > 0 ) {
+					$others = sprintf( _n( '1 more attendee', '%s more attendees', $unknown, 'google-calendar-events' ), $unknown );
+				} else {
+					$others = sprintf( _n( '1 anonymous attendee', '%s anonymous attendees', $unknown, 'google-calendar-events' ), $unknown );
+				}
+				$photo = $attr['photo'] !== 'hide' ? get_avatar( '', 128 ) : '';
+				$html .= '<li class="simcal-attendee simcal-attendee-anonymous">' . $photo . '<span>' . $others . '</span></li>';
+			} elseif ( $known === 0 ) {
+				__( 'No one yet', 'google-calendar-events' );
+			}
+
+		$html .='</ul>';
+
+		return $html;
+	}
+
+	/**
+	 * Format attendee rsvp response.
+	 *
+	 * @param  $response
+	 *
+	 * @return string
+	 */
+	private function get_rsvp_response( $response ) {
+
+		if ( 'yes' == $response ) {
+			$rsvp = __( 'Attending', 'google-calendar-events' );
+		} elseif ( 'no' == $response ) {
+			$rsvp = __( 'Not attending', 'google-calendar-events' );
+		} elseif ( 'maybe' == $response ) {
+			$rsvp = __( 'Maybe attending', 'google-calendar-events' );
+		} else {
+			$rsvp = __( 'Response pending', 'google-calendar-events' );
+		}
+
+		return ' <small>(' . $rsvp . ')</small>';
+	}
+
+	/**
+	 * Get event organizer.
+	 *
+	 * @access private
+	 *
+	 * @param  array  $organizer
+	 * @param  string $attr
+	 *
+	 * @return string
+	 */
+	private function get_organizer( $organizer, $attr ) {
+
+		$html = '<div class="simcal-organizer">';
+		$html .= '<a href="mailto:' . $organizer['email'] . '">';
+		$html .= $organizer['name'];
+		$html .= '</a>';
+		$html .='</div>';
+
+		return $html;
 	}
 
 	/**
