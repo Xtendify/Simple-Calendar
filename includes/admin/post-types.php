@@ -184,9 +184,7 @@ class Post_Types {
 	 */
 	private function duplicate_feed( $post_id ) {
 
-		$duplicate = get_post( intval( $post_id ), 'ARRAY_A' );
-
-		if ( $duplicate ) {
+		if ( $duplicate = get_post( intval( $post_id ), 'ARRAY_A' ) ) {
 
 			if ( 'calendar' == $duplicate['post_type'] ) {
 
@@ -209,6 +207,7 @@ class Post_Types {
 					add_post_meta( $duplicate_id, $key, maybe_unserialize( $value[0] ) );
 				}
 			}
+
 		}
 	}
 
@@ -229,8 +228,7 @@ class Post_Types {
 	 */
 	public function clear_cache_button() {
 
-		global $post;
-		global $post_type;
+		global $post, $post_type;
 
 		if ( $post_type == 'calendar' && isset( $post->ID ) ) {
 			echo '<a id="simcal-clear-cache" class="button" data-id="' . $post->ID . ' ">' .

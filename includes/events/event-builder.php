@@ -146,7 +146,6 @@ class Event_Builder {
 
 			'attachments',          // List of attachments.
 			'attendees',            // List of attendees.
-			'participants',         // Alias for attendees.
 			'organizer',            // Organizer info.
 
 		);
@@ -622,10 +621,17 @@ class Event_Builder {
 				case 'attachments' :
 					if ( ! empty( $event->meta['attachments'] ) ) {
 
-						$html = '<ul class="simcal-event-attachments">';
+						$html = '<ul class="simcal-attachments">';
 
-						foreach( $event->meta['attachments'] as $attachment ) {
-
+						foreach ( $event->meta['attachments'] as $attachment ) {
+							$html .= '<li class="simcal-attachment">';
+							$html .= '<a href="' . $attachment['url'] . '" target="_blank">';
+							if ( ! empty( $attachment['icon'] ) ) {
+								$html .= '<img src="' . $attachment['icon'] . '" />';
+							}
+							$html .= '<span>' . $attachment['name'] . '</span>';
+							$html .= '</a>';
+							$html .= '</li>';
 						}
 
 						$html .='</ul>';
@@ -635,15 +641,15 @@ class Event_Builder {
 					break;
 
 				case 'attendees' :
-				case 'participants' :
-					if ( ! empty( $event->meta['participants'] ) ) {
+					if ( ! empty( $event->meta['attendees'] ) ) {
 
-						$html = '<ul class="simcal-event-attendees">';
+						$html = '<ul class="simcal-attendees">';
 
-						foreach( $event->meta['participants'] as $attendee ) {
-							$html .= '<li class="simcal-event-participant">';
+						foreach ( $event->meta['attendees'] as $attendee ) {
+							$html .= '<li class="simcal-attendee">';
 							$html .= '<a href="mailto:' . $attendee['email'] . '">';
-							$html .= $attendee['name'];
+							$html .= get_avatar( $attendee['email'], 128  );
+							$html .= '<span>' . $attendee['name'] . '</span>';
 							$html .= '</a>';
 							$html .= '</li>';
 						}
@@ -657,7 +663,7 @@ class Event_Builder {
 				case 'organizer' :
 					if ( ! empty( $event->meta['organizer'] ) ) {
 
-						$html = '<div class="simcal-event-organizer">';
+						$html = '<div class="simcal-organizer">';
 						$html .= '<a href="mailto:' . $event->meta['organizer']['email'] . '">';
 						$html .= $event->meta['organizer']['name'];
 						$html .= '</a>';
@@ -703,10 +709,10 @@ class Event_Builder {
 
 		return '/'
 		       . '\\['                              // Opening bracket
-		       . '(\\[?)'                           // 1: Optional second opening bracket for escaping shortcodes: [[tag]]
-		       . "($tagregexp)"                     // 2: Shortcode name
+		       . '(\\[?)'                           // 1: Optional second opening bracket for escaping tags: [[tag]]
+		       . "($tagregexp)"                     // 2: Tag name
 		       . '(?![\\w-])'                       // Not followed by word character or hyphen
-		       . '('                                // 3: Unroll the loop: Inside the opening shortcode tag
+		       . '('                                // 3: Unroll the loop: Inside the opening tag
 		       .     '[^\\]\\/]*'                   // Not a closing bracket or forward slash
 		       .     '(?:'
 		       .         '\\/(?!\\])'               // A forward slash not followed by a closing bracket
@@ -719,17 +725,17 @@ class Event_Builder {
 		       . '|'
 		       .     '\\]'                          // Closing bracket
 		       .     '(?:'
-		       .         '('                        // 5: Unroll the loop: Optionally, anything between the opening and closing shortcode tags
+		       .         '('                        // 5: Unroll the loop: Optionally, anything between the opening and closing tags
 		       .             '[^\\[]*+'             // Not an opening bracket
 		       .             '(?:'
-		       .                 '\\[(?!\\/\\2\\])' // An opening bracket not followed by the closing shortcode tag
+		       .                 '\\[(?!\\/\\2\\])' // An opening bracket not followed by the closing tag
 		       .                 '[^\\[]*+'         // Not an opening bracket
 		       .             ')*+'
 		       .         ')'
-		       .         '\\[\\/\\2\\]'             // Closing shortcode tag
+		       .         '\\[\\/\\2\\]'             // Closing tag
 		       .     ')?'
 		       . ')'
-		       . '(\\]?)'                           // 6: Optional second closing brocket for escaping shortcodes: [[tag]]
+		       . '(\\]?)'                           // 6: Optional second closing bracket for escaping tags: [[tag]]
 		       . '/s';
 	}
 

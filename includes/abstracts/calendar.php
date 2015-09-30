@@ -219,36 +219,14 @@ abstract class Calendar {
 	public function __construct( $calendar, $view = '' ) {
 
 		// Set the post object.
-		if ( is_numeric( $calendar ) ) {
-			$this->id   = absint( $calendar );
-			$this->post = get_post( $this->id );
-		} elseif ( $calendar instanceof Calendar ) {
-			$this->id   = absint( $calendar->id );
-			$this->post = $calendar->post;
-		} elseif ( $calendar instanceof \WP_Post ) {
-			$this->id   = absint( $calendar->ID );
-			$this->post = $calendar;
-		} elseif ( isset( $calendar->id ) && isset( $calendar->post ) ) {
-			$this->id   = $calendar->id;
-			$this->post = $calendar->post;
-		}
+		$this->set_post_object( $calendar );
 
 		if ( ! is_null( $this->post ) ) {
 
-			// Set calendar type.
-			if ( $type = wp_get_object_terms( $this->id, 'calendar_type' ) ) {
-				$this->type = sanitize_title( current( $type )->name );
-			} else {
-				$this->type = apply_filters( 'simcal_calendar_default_type', 'default-calendar' );
-			}
+			// Set calendar type and events source.
+			$this->set_taxonomies();
 
-			// Set feed type.
-			if ( $feed_type = wp_get_object_terms( $this->id, 'calendar_feed' ) ) {
-				$this->feed = sanitize_title( current( $feed_type )->name );
-			} else {
-				$this->feed = apply_filters( 'simcal_calendar_default_feed', 'google' );
-			}
-
+			// Set calendar default datetime properties.
 			$this->set_timezone();
 			$this->set_start_of_week();
 			$this->set_static();
@@ -259,7 +237,7 @@ abstract class Calendar {
 			// Set the events template.
 			$this->set_events_template();
 
-			// Get feed properties.
+			// Get events source data.
 			$feed = simcal_get_feed( $this );
 			if ( $feed instanceof Feed ) {
 				if ( ! empty( $feed->events ) ) {
@@ -336,6 +314,27 @@ abstract class Calendar {
 	}
 
 	/**
+	 * Set post object and id.
+	 *
+	 * @param Calendar $calendar
+	 */
+	public function set_post_object( $calendar ) {
+		if ( is_numeric( $calendar ) ) {
+			$this->id   = absint( $calendar );
+			$this->post = get_post( $this->id );
+		} elseif ( $calendar instanceof Calendar ) {
+			$this->id   = absint( $calendar->id );
+			$this->post = $calendar->post;
+		} elseif ( $calendar instanceof \WP_Post ) {
+			$this->id   = absint( $calendar->ID );
+			$this->post = $calendar;
+		} elseif ( isset( $calendar->id ) && isset( $calendar->post ) ) {
+			$this->id   = $calendar->id;
+			$this->post = $calendar->post;
+		}
+	}
+
+	/**
 	 * Return the calendar title.
 	 *
 	 * @return string
@@ -352,6 +351,24 @@ abstract class Calendar {
 	 */
 	public function get_post_data() {
 		return $this->post;
+	}
+
+	/**
+	 * Set taxonomies.
+	 */
+	public function set_taxonomies() {
+		// Set calendar type.
+		if ( $type = wp_get_object_terms( $this->id, 'calendar_type' ) ) {
+			$this->type = sanitize_title( current( $type )->name );
+		} else {
+			$this->type = apply_filters( 'simcal_calendar_default_type', 'default-calendar' );
+		}
+		// Set feed type.
+		if ( $feed_type = wp_get_object_terms( $this->id, 'calendar_feed' ) ) {
+			$this->feed = sanitize_title( current( $feed_type )->name );
+		} else {
+			$this->feed = apply_filters( 'simcal_calendar_default_feed', 'google' );
+		}
 	}
 
 	/**
@@ -671,11 +688,11 @@ abstract class Calendar {
 									. 'data-events-last="'    . $this->latest_event . '"'
 									. '>';
 
-					do_action( 'simcal_calendar_html_before', $view );
+					do_action( 'simcal_calendar_html_before', $this->id );
 
 					$view->html();
 
-					do_action( 'simcal_calendar_html_after', $view );
+					do_action( 'simcal_calendar_html_after', $this->id );
 
 				echo '</div>';
 

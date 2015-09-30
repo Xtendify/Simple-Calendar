@@ -8,7 +8,6 @@ namespace SimpleCalendar\Feeds\Admin;
 
 use SimpleCalendar\Admin\Metaboxes\Settings;
 use SimpleCalendar\Admin\Notice;
-use SimpleCalendar\Admin\Notices;
 use SimpleCalendar\Feeds\Google;
 
 if ( ! defined( 'ABSPATH' ) ) {

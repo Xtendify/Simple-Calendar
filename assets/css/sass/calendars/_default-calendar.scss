@@ -117,6 +117,29 @@ $default-calendar-button-col: rgb(0, 0, 0);
 
   }
 
+  .simcal-attachment,
+  .simcal-attendee, {
+
+    margin-bottom: 4px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    a {
+      border-bottom: 0;
+      text-decoration: none;
+    }
+
+    img {
+      display: inline-block;
+      margin: 0 4px;
+      max-height: 24px;
+      max-width: 24px;
+    }
+
+  }
+
   .simcal-tooltip-content {
     font-size: 12px;
     line-height: 1.4;
