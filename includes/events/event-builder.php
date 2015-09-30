@@ -95,7 +95,6 @@ class Event_Builder {
 			'length',                // @deprecated An alias of 'duration' tag.
 
 			'location',              // Start and end location of the event.
-			'location-link',         // Links to Google Maps querying the event start and end locations.
 			'start-location',        // Location name where the event starts.
 			'maps-link',             // @deprecated An alias for 'start-location-link' tag.
 			'start-location-link',   // Link to Google Maps querying the event start location address.
@@ -409,19 +408,6 @@ class Event_Builder {
 							if ( ! empty( $end_location ) && $end_location != $start_location ) {
 								$output .= ' - ' . $end_location;
 							}
-						}
-					}
-					return $output;
-
-				case 'location-link' :
-					$output = array();
-					$target = $attr['newwindow'] !== false ? 'target="_blank"' : '';
-					if ( $start_location = $event->start_location['address'] ) {
-						$output = '<a href="' . esc_url( '//maps.google.com?q=' . urlencode( $start_location ) ) . '" ' . $target . '>' . $partial . '</a>';
-					}
-					if ( $end_location = $event->end_location['address'] ) {
-						if ( $end_location != $start_location ) {
-							$output .= ' - <a href="' . esc_url( '//maps.google.com?q=' . urlencode( $end_location ) ) . '" ' . $target . '>' . $partial . '</a>';
 						}
 					}
 					return $output;
