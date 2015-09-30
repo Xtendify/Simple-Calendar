@@ -120,6 +120,7 @@ $default-calendar-button-col: rgb(0, 0, 0);
   .simcal-attachment,
   .simcal-attendee, {
 
+    list-style: none;
     margin-bottom: 4px;
 
     &:last-child {

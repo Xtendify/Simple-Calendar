@@ -217,6 +217,7 @@
 
 .simcal-default-calendar .simcal-attachment,
 .simcal-default-calendar .simcal-attendee {
+  list-style: none;
   margin-bottom: 4px; }
   .simcal-default-calendar .simcal-attachment:last-child,
   .simcal-default-calendar .simcal-attendee:last-child {

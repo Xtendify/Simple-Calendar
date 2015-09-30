@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use SimpleCalendar\Abstracts\Calendar;
 use SimpleCalendar\Abstracts\Calendar_View;
 use SimpleCalendar\Calendars\Default_Calendar;
+use SimpleCalendar\Events\Event;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -465,39 +466,47 @@ class Default_Calendar_List implements Calendar_View {
 
 						foreach ( $events as $day_events ) :
 							foreach( $day_events as $event ) :
+								if ( $event instanceof Event ) :
 
-								$event_classes = $event_visibility = '';
+									$event_classes = $event_visibility = '';
 
-								$calendar_class     = 'simcal-events-calendar-' . strval( $event->calendar );
-								$calendar_classes[] = $calendar_class;
+									$calendar_class     = 'simcal-events-calendar-' . strval( $event->calendar );
+									$calendar_classes[] = $calendar_class;
 
-								$recurring     = $event->recurrence ? 'simcal-event-recurring ' : '';
-								$has_location  = $event->venue ? 'simcal-event-has-location ' : '';
+									$recurring     = $event->recurrence ? 'simcal-event-recurring ' : '';
+									$has_location  = $event->venue ? 'simcal-event-has-location ' : '';
 
-								$event_classes .= 'simcal-event ' . $recurring . $has_location . $calendar_class;
+									$event_classes .= 'simcal-event ' . $recurring . $has_location . $calendar_class;
 
-								// Toggle some events visibility if more than optional limit.
-								if ( ( $calendar->events_limit > - 1 ) && ( $count >= $calendar->events_limit ) ) :
-									$event_classes .= ' simcal-event-toggled';
-									$event_visibility = ' style="display: none"';
+									// Toggle some events visibility if more than optional limit.
+									if ( ( $calendar->events_limit > - 1 ) && ( $count >= $calendar->events_limit ) ) :
+										$event_classes .= ' simcal-event-toggled';
+										$event_visibility = ' style="display: none"';
+									endif;
+
+									$event_color = '';
+									if ( ! empty( $event->meta['color'] ) ) {
+										$side = is_rtl() ? 'right' : 'left';
+										$event_color = ' style="border-' . $side . ': 4px solid ' . $event->meta['color'] . '; padding-' . $side . ': 8px;"';
+									}
+
+									$list_events .= "\t" . '<li class="' . $event_classes . '"' . $event_visibility . $event_color . '>' . "\n";
+									$list_events .= "\t\t" . '<div class="simcal-event-details">' . $calendar->get_event_html( $event ) . '</div>' . "\n";
+									$list_events .= "\t" . '</li>' . "\n";
+
+									$count ++;
+
+									// Event falls within today.
+									if ( ( $this->end <= $now ) && ( $this->start >= $now ) ) :
+										$day_classes .= ' simcal-today-has-events';
+									endif;
+									$day_classes .= ' simcal-day-has-events simcal-day-has-' . strval( $count ) . '-events';
+
+									if ( $calendar_classes ) :
+										$day_classes .= ' ' . trim( implode( ' ', array_unique( $calendar_classes ) ) );
+									endif;
+
 								endif;
-
-								$list_events .= "\t" . '<li class="' . $event_classes . '"' . $event_visibility . '>' . "\n";
-								$list_events .= "\t\t" . '<div class="simcal-event-details">' . $calendar->get_event_html( $event ) . '</div>' . "\n";
-								$list_events .= "\t" . '</li>' . "\n";
-
-								$count ++;
-
-								// Event falls within today.
-								if ( ( $this->end <= $now ) && ( $this->start >= $now ) ) :
-									$day_classes .= ' simcal-today-has-events';
-								endif;
-								$day_classes .= ' simcal-day-has-events simcal-day-has-' . strval( $count ) . '-events';
-
-								if ( $calendar_classes ) :
-									$day_classes .= ' ' . trim( implode( ' ', array_unique( $calendar_classes ) ) );
-								endif;
-
 							endforeach;
 						endforeach;
 
