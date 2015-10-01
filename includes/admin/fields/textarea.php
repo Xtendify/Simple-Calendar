@@ -28,7 +28,7 @@ class Textarea extends Field {
 
 		parent::__construct( $field );
 
-		if ( ! empty( $field['value' ] ) ) {
+		if ( ! empty( $field['value'] ) ) {
 			$this->value = esc_textarea( $field['value'] );
 		}
 		if ( ! empty( $field['default'] ) ) {

@@ -282,7 +282,7 @@ abstract class Field {
 			$type_class = esc_attr( $this->type_class );
 		}
 		if ( true !== $this->validation && ! empty( $this->validation ) ) {
-			$error =  'simcal-field-error ';
+			$error = 'simcal-field-error ';
 		}
 
 		$this->class = trim( $error . 'simcal-field ' . $type_class . ' ' . $classes );

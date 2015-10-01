@@ -53,12 +53,10 @@ class Standard extends Field {
 		       name="<?php echo $this->name; ?>"
 		       id="<?php echo $this->id; ?>"
 		       value="<?php echo $this->value; ?>"
-		       class="<?php echo $this->class; ?>"
-			   <?php
-			   echo $this->style ? 'style="' . $this->style . '" ' : ' ';
-		       echo $this->placeholder ? 'placeholder="' . $this->placeholder . '"' : ' ';
-		       echo $this->attributes;
-			   ?>/>
+		       class="<?php echo $this->class; ?>"<?php
+				echo $this->style ? 'style="' . $this->style . '" ' : ' ';
+		        echo $this->placeholder ? 'placeholder="' . $this->placeholder . '"' : ' ';
+				echo $this->attributes; ?>/>
 		<?php
 
 		if ( 'metabox' == $this->context ) {
