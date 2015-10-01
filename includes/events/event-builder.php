@@ -193,10 +193,10 @@ class Event_Builder {
 
 				case 'title' :
 				case 'event-title' :
-					return esc_attr( $this->get_title( $event->title, $attr ) );
+					return $this->get_title( $event->title, $attr );
 
 				case 'description' :
-					return esc_attr( $this->get_description( $event->description, $attr ) );
+					return $this->get_description( $event->description, $attr );
 
 				case 'when' :
 					return $this->get_when( $event );
