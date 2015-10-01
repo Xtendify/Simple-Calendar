@@ -210,21 +210,21 @@ class Settings_Pages {
 
 					echo '<h2 class="nav-tab-wrapper simcal-nav-tab-wrapper">';
 
-						// Get tabs for the settings page
-						if ( ! empty( $settings_pages ) && is_array( $settings_pages ) ) {
+					// Get tabs for the settings page
+					if ( ! empty( $settings_pages ) && is_array( $settings_pages ) ) {
 
-							foreach ( $settings_pages as $id => $settings ) {
+						foreach ( $settings_pages as $id => $settings ) {
 
-								$tab_id    = isset( $id ) ? $id : '';
-								$tab_label = isset( $settings['label'] ) ? $settings['label'] : '';
-								$tab_link  = admin_url( 'edit.php?post_type=calendar&page=simple-calendar_' . $this->page . '&tab=' . $tab_id );
+							$tab_id    = isset( $id ) ? $id : '';
+							$tab_label = isset( $settings['label'] ) ? $settings['label'] : '';
+							$tab_link  = admin_url( 'edit.php?post_type=calendar&page=simple-calendar_' . $this->page . '&tab=' . $tab_id );
 
-								echo '<a href="' . $tab_link . '" class="nav-tab ' . ( $current_tab == $tab_id ? 'nav-tab-active' : '' ) . '">' . $tab_label . '</a>';
-							}
-
+							echo '<a href="' . $tab_link . '" class="nav-tab ' . ( $current_tab == $tab_id ? 'nav-tab-active' : '' ) . '">' . $tab_label . '</a>';
 						}
 
-						do_action( 'simple-calendar_settings_tabs' );
+					}
+
+					do_action( 'simple-calendar_settings_tabs' );
 
 					echo '</h2>';
 

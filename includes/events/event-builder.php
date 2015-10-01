@@ -755,13 +755,13 @@ class Event_Builder {
 				continue;
 			}
 
-			if ( ! empty ( $attendee['name'] ) ) {
+			if ( ! empty( $attendee['name'] ) ) {
 
 				$photo      = 'hide' !== $attr['photo'] ? '<img class="avatar avatar-128 photo" src="' . $attendee['photo'] . '" />' : '';
 				$response   = 'show' == $attr['rsvp'] ? $this->get_rsvp_response( $attendee['response'] ) : '';
 				$guest      = $photo . '<span>' . $attendee['name'] . $response . '</span>';
 
-				if ( ! empty( $attendee['email'] ) && 'hide' != $attr['email'] ) {
+				if ( ! empty( $attendee['email'] ) && ( 'show' == $attr['email'] ) ) {
 					$guest = sprintf( '<a href="mailto:' . $attendee['email'] . '">%s</a>', $guest );
 				}
 

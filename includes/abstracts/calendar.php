@@ -661,7 +661,7 @@ abstract class Calendar {
 
 				if ( current_user_can( 'manage_options' )  ) {
 					echo '<pre><code>';
-						foreach ( $this->errors as $error ) { echo $error; }
+					foreach ( $this->errors as $error ) { echo $error; }
 					echo '</code></pre>';
 				}
 
@@ -688,11 +688,11 @@ abstract class Calendar {
 									. 'data-events-last="'    . $this->latest_event . '"'
 									. '>';
 
-					do_action( 'simcal_calendar_html_before', $this->id );
+				do_action( 'simcal_calendar_html_before', $this->id );
 
-					$view->html();
+				$view->html();
 
-					do_action( 'simcal_calendar_html_after', $this->id );
+				do_action( 'simcal_calendar_html_after', $this->id );
 
 				echo '</div>';
 
