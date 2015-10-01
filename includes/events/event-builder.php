@@ -142,28 +142,6 @@ class Event_Builder {
 	}
 
 	/**
-	 * Limit words in text string.
-	 *
-	 * @param  string $text
-	 * @param  int $limit
-	 *
-	 * @return string
-	 */
-	private function limit_words( $text, $limit ) {
-
-		$text = wp_strip_all_tags( $text );
-		$limit = max( absint( $limit ), 0 );
-
-		if ( $limit > 0 && ( str_word_count( $text, 0 ) > $limit ) ) {
-			$words  = str_word_count( $text, 2 );
-			$pos    = array_keys( $words );
-			$text   = trim( substr( $text, 0, $pos[ $limit ] ) ) . '&hellip;';
-		}
-
-		return $text;
-	}
-
-	/**
 	 * Get event content.
 	 *
 	 * @param  string $template_tags
@@ -461,6 +439,28 @@ class Event_Builder {
 	}
 
 	/**
+	 * Limit words in text string.
+	 *
+	 * @param  string $text
+	 * @param  int $limit
+	 *
+	 * @return string
+	 */
+	private function limit_words( $text, $limit ) {
+
+		$text = wp_strip_all_tags( $text );
+		$limit = max( absint( $limit ), 0 );
+
+		if ( $limit > 0 && ( str_word_count( $text, 0 ) > $limit ) ) {
+			$words  = str_word_count( $text, 2 );
+			$pos    = array_keys( $words );
+			$text   = trim( substr( $text, 0, $pos[ $limit ] ) ) . '&hellip;';
+		}
+
+		return $text;
+	}
+
+	/**
 	 * Get event title.
 	 *
 	 * @access private
@@ -480,11 +480,11 @@ class Event_Builder {
 			'limit' => 0,   // Trim length to amount of words
 		), (array) shortcode_parse_atts( $attr ) );
 
-		$title = ' <span class="simcal-event-title">';
-		$title .= $this->limit_words( $title, $attr['limit'] );
-		$title .= '</span>';
+		$text  = ' <span class="simcal-event-title">';
+		$text .= $this->limit_words( $title, $attr['limit'] );
+		$text .= '</span>';
 
-		return $title;
+		return $text;
 	}
 
 	/**
