@@ -220,7 +220,7 @@ function simcal_default_event_template() {
 	$content .= '[when]' . "\n";
 	$content .= '[location]' . "\n";
 	$content .= '[description]' . "\n";
-	$content .= '[link newwindow="yes"]' . __( 'Click for more details.', 'google-calendar-events' ) . '[/link]';
+	$content .= '[link newwindow="yes"]' . __( 'See more details', 'google-calendar-events' ) . '[/link]';
 	$content .= '</p>';
 
 	return apply_filters( 'simcal_default_event_template', $content );
