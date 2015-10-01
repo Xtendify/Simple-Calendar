@@ -155,58 +155,137 @@ abstract class Field {
 	public function __construct( $field ) {
 
 		// Context.
-		$this->context = isset( $field['context'] ) ? $field['context'] : '';
+		if ( isset( $field['context'] ) ) {
+			$this->context = $field['context'];
+		}
 
 		// Field properties.
-		$this->title        = isset( $field['title'] )       ? esc_attr( $field['title'] ) : '';
-		$this->description  = isset( $field['description'] ) ? wp_kses_post( $field['description'] ) : '';
-		$this->type         = isset( $field['type'] )        ? esc_attr( $field['type'] ) : '';
-		$this->name         = isset( $field['name'] )        ? esc_attr( $field['name'] ) : '';
-		$this->id           = isset( $field['id'] )          ? esc_attr( $field['id'] ) : '';
-		$this->placeholder  = isset( $field['placeholder'] ) ? esc_attr( $field['placeholder'] ) : '';
-		$this->options      = isset( $field['options'] )     ? array_map( 'esc_attr', (array) $field['options'] ) : array();
+		if ( isset( $field['title'] ) ) {
+			$this->title = esc_attr( $field['title'] );
+		}
+		if ( isset( $field['description'] ) ) {
+			$this->description = wp_kses_post( $field['description'] );
+		}
+		if ( isset( $field['type'] ) ) {
+			$this->type = esc_attr( $field['type'] );
+		}
+		if ( isset( $field['name'] ) ) {
+			$this->name = esc_attr( $field['name'] );
+		}
+		if ( isset( $field['id'] ) ) {
+			$this->id = esc_attr( $field['id'] );
+		}
+		if ( isset( $field['placeholder'] ) ) {
+			$this->placeholder = esc_attr( $field['placeholder'] );
+		}
+		if ( isset( $field['options'] ) && is_array( $field['options'] ) ) {
+			$this->options = array_map( 'esc_attr', $field['options'] );
+		}
 
 		// Escaping.
-		$escaping = isset( $field['escaping'] ) ? $field['escaping'] : '';
-		if ( ! empty( $escaping ) && ( is_string( $escaping ) || is_array( $escaping ) ) ) {
-			$this->default = isset( $field['default'] ) ? $this->escape_callback( $escaping, $field['default'] ) : '';
-			$this->value   = isset( $field['value'] )   ? $this->escape_callback( $escaping, $field['value'] ) : '';
+		if ( ! empty( $field['escaping'] ) && ( is_string( $field['escaping'] ) || is_array( $field['escaping'] ) ) ) {
+			if ( isset( $field['default'] ) ) {
+				$this->default = $this->escape_callback( $field['escaping'], $field['default'] );
+			}
+			if ( isset( $field['value'] ) ) {
+				$this->value = $this->escape_callback( $field['escaping'], $field['value'] );
+			}
 		} else {
-			$this->default = isset( $field['default'] ) ? $this->escape( $field['default'] ) : '';
-			$this->value   = isset( $field['value'] )   ? $this->escape( $field['value'] ) : '';
+			if ( isset( $field['default'] ) ) {
+				$this->default = $this->escape( $field['default'] );
+			}
+			if ( isset( $field['value'] ) ) {
+				$this->value = $this->escape( $field['value'] );
+			}
 		}
 
 		// Validation.
-		$callback = isset( $field['validation'] ) ? $field['validation'] : '';
-		$this->validation = ! empty( $callback ) ? $this->validate( $callback, $this->value ) : true;
+		if ( ! empty( $field['validation'] ) ) {
+			$this->validation = $this->validate( $field['validation'], $this->value );
+		}
 
 		// CSS classes and styles.
-		$class       = isset( $field['class'] ) ? implode( ' ', array_map( 'esc_attr', $field['class'] ) ) : '';
-		$type_class  = $this->type_class ? esc_attr( $this->type_class ) : '';
-		$error       = $this->validation !== true && ! empty( $this->validation ) ? 'simcal-field-error ' : '';
-		$this->class = trim( $error . 'simcal-field ' . $type_class . ' ' . $class );
-		$this->style = '';
+		$classes = isset( $field['class'] ) ? $field['class'] : '';
+		$this->set_class( $classes );
 		if ( isset( $field['style'] ) ) {
-			if ( $field['style'] && is_array( $field['style'] ) ) {
-				foreach ( $field['style'] as $k => $v ) {
-					$this->style .= esc_attr( $k ) . ': ' . esc_attr( $v ) . '; ';
-				}
-			}
+			$this->set_style( $field['style'] );
 		}
 
 		// Custom attributes.
-		$this->attributes = '';
 		if ( isset( $field['attributes'] ) ) {
-			if ( ! empty( $field['attributes'] ) && is_array( $field['attributes'] ) ) {
-				foreach ( $field['attributes'] as $k => $v ) {
-					$this->attributes .= esc_attr( $k ) . '="' . esc_attr( $v ) . '" ';
-				}
-			}
+			$this->set_attributes( $field['attributes'] );
 		}
 
 		// Tooltip markup.
-		$this->tooltip = isset( $field['tooltip'] ) ? ' <i class="simcal-icon-help simcal-help-tip" data-tip="' . esc_attr( $field['tooltip'] ) . '"></i> ' : '';
+		if ( isset( $field['tooltip'] ) ) {
+			$this->tooltip = ' <i class="simcal-icon-help simcal-help-tip" data-tip="' . esc_attr( $field['tooltip'] ) . '"></i> ' ;
+		}
+	}
 
+	/**
+	 * Set custom HTML attributes.
+	 *
+	 * @param  array $attributes
+	 *
+	 * @return void
+	 */
+	public function set_attributes( $attributes ) {
+
+		$attr = '';
+
+		if ( ! empty( $attributes ) && is_array( $attributes ) ) {
+			foreach ( $attributes as $k => $v ) {
+				$attr .= esc_attr( $k ) . '="' . esc_attr( $v ) . '" ';
+			}
+		}
+
+		$this->attributes = $attr;
+	}
+
+	/**
+	 * Set CSS styles.
+	 *
+	 * @param  array $css
+	 *
+	 * @return void
+	 */
+	public function set_style( $css ) {
+
+		$styles = '';
+
+		if ( ! empty( $css ) && is_array( $css ) ) {
+			foreach ( $css as $k => $v ) {
+				$styles .= esc_attr( $k ) . ': ' . esc_attr( $v ) . '; ';
+			}
+		}
+
+		$this->style = $styles;
+	}
+
+	/**
+	 * Set classes.
+	 *
+	 * @param  array $class
+	 *
+	 * @return void
+	 */
+	public function set_class( $class ) {
+
+		$classes = '';
+		$type_class = '';
+		$error = '';
+
+		if ( ! empty( $class ) && is_array( $class ) ) {
+			$classes = implode( ' ', array_map( 'esc_attr', $class ) );
+		}
+		if ( ! empty( $this->type_class ) ) {
+			$type_class = esc_attr( $this->type_class );
+		}
+		if ( true !== $this->validation && ! empty( $this->validation ) ) {
+			$error =  'simcal-field-error ';
+		}
+
+		$this->class = trim( $error . 'simcal-field ' . $type_class . ' ' . $classes );
 	}
 
 	/**

@@ -63,76 +63,27 @@ class Datetime_Format extends Field {
 	 */
 	public function html() {
 
-		$id    = $this->id ? ' id="' . $this->id . '" ' : '';
-		$class = $this->class ? ' class="' . $this->class . '" ' : '';
-		$style = $this->style ? ' style="' . $this->style . '" ' : '';
-		$attr  = $this->attributes;
+		$id     = $this->id     ? ' id="' . $this->id . '" ' : '';
+		$class  = $this->class  ? ' class="' . $this->class . '" ' : '';
+		$style  = $this->style  ? ' style="' . $this->style . '" ' : '';
+		$attr   = $this->attributes;
 
 		?>
 		<div <?php echo $id . $class . $style . $attr; ?>>
 			<?php
 
-			echo $this->description ? '<p class="description">' . $this->description . '</p>' : '';
+			if ( ! empty( $this->description ) ) {
+				echo '<p class="description">' . $this->description . '</p>';
+			}
 
 			$matches = array_unique( str_split( $this->value ) );
 
 			if ( 'date' == $this->subtype ) {
-
-				$date = array( 'weekday' => '', 'divider' => '', 'day' => '', 'month' => '', 'year' => '' );
-				foreach ( $matches as $match ) {
-					if ( in_array( $match, array( 'D', 'l' ) ) ) {
-						$this->weekday();
-						unset( $date['weekday'] );
-					} elseif ( in_array( $match, array( 'd', 'j' ) ) ) {
-						$this->day();
-						unset( $date['day'] );
-					} elseif ( in_array( $match, array( 'F', 'M', 'm', 'n' ) ) ) {
-						$this->month();
-						unset( $date['month'] );
-					} elseif ( in_array( $match, array( 'y', 'Y' ) ) ) {
-						$this->year();
-						unset( $date['year'] );
-					} elseif ( in_array( $match, array( '.', ',', ':', '/', '-' ) ) ) {
-						$this->divider();
-						unset( $date['divider'] );
-					}
-				}
-				if ( ! empty( $date ) ) {
-					foreach ( $date as $func => $v ) {
-						if ( method_exists( $this, $func ) ) {
-							$this->$func();
-						};
-					}
-				}
-
+				$this->print_date( $matches );
 			}
 
 			if ( 'time' == $this->subtype ) {
-
-				$time = array( 'hours' => '', 'divider' => '', 'minutes' => '', 'meridiem' => '' );
-				foreach ( $matches as $match  ) {
-					if ( in_array( $match, array( 'h', 'H', 'g', 'G' ) ) ) {
-						$this->hours();
-						unset( $time['hours'] );
-					} elseif ( in_array( $match, array( 'i' ) )  ) {
-						$this->minutes();
-						unset( $time['minutes'] );
-					} elseif ( in_array( $match, array( 'A', 'a' ) ) ) {
-						$this->meridiem();
-						unset( $time['meridiem'] );
-					} elseif ( in_array( $match, array( '.', ',', ':', '/', '-' ) ) ) {
-						$this->divider();
-						unset( $time['divider'] );
-					}
-				}
-				if ( ! empty( $time ) ) {
-					foreach ( $time as $func => $v ) {
-						if ( method_exists( $this, $func ) ) {
-							$this->$func();
-						};
-					}
-				}
-
+				$this->print_time( $matches );
 			}
 
 			?>
@@ -146,6 +97,86 @@ class Datetime_Format extends Field {
 		</div>
 		<?php
 
+	}
+
+	/**
+	 * Print date input.
+	 *
+	 * @access private
+	 *
+	 * @param  array $matches
+	 */
+	private function print_date( $matches ) {
+
+		$date = array( 'weekday' => '', 'divider' => '', 'day' => '', 'month' => '', 'year' => '' );
+
+		foreach ( $matches as $match ) {
+			if ( in_array( $match, array( 'D', 'l' ) ) ) {
+				$this->weekday();
+				unset( $date['weekday'] );
+			} elseif ( in_array( $match, array( 'd', 'j' ) ) ) {
+				$this->day();
+				unset( $date['day'] );
+			} elseif ( in_array( $match, array( 'F', 'M', 'm', 'n' ) ) ) {
+				$this->month();
+				unset( $date['month'] );
+			} elseif ( in_array( $match, array( 'y', 'Y' ) ) ) {
+				$this->year();
+				unset( $date['year'] );
+			} elseif ( in_array( $match, array( '.', ',', ':', '/', '-' ) ) ) {
+				$this->divider();
+				unset( $date['divider'] );
+			}
+		}
+
+		$this->print_fields( $date );
+	}
+
+	/**
+	 * Print time input.
+	 *
+	 * @access private
+	 *
+	 * @param  array $matches
+	 */
+	private function print_time( $matches ) {
+
+		$time = array( 'hours' => '', 'divider' => '', 'minutes' => '', 'meridiem' => '' );
+
+		foreach ( $matches as $match  ) {
+			if ( in_array( $match, array( 'h', 'H', 'g', 'G' ) ) ) {
+				$this->hours();
+				unset( $time['hours'] );
+			} elseif ( in_array( $match, array( 'i' ) )  ) {
+				$this->minutes();
+				unset( $time['minutes'] );
+			} elseif ( in_array( $match, array( 'A', 'a' ) ) ) {
+				$this->meridiem();
+				unset( $time['meridiem'] );
+			} elseif ( in_array( $match, array( '.', ',', ':', '/', '-' ) ) ) {
+				$this->divider();
+				unset( $time['divider'] );
+			}
+		}
+
+		$this->print_fields( $time );
+	}
+
+	/**
+	 * Print input fields.
+	 *
+	 * @access private
+	 *
+	 * @param  $fields
+	 */
+	private function print_fields( $fields ) {
+		if ( ! empty( $fields ) && is_array( $fields ) ) {
+			foreach ( $fields as $func => $v ) {
+				if ( method_exists( $this, $func ) ) {
+					$this->$func();
+				};
+			}
+		}
 	}
 
 	/**

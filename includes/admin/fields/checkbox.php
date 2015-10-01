@@ -34,29 +34,30 @@ class Checkbox extends Field {
 	 */
 	public function html() {
 
-		if ( $this->options && count( (array) $this->options ) > 1 ) {
+		if ( ! empty( $this->options ) && count( (array) $this->options ) > 1 ) {
 
-			echo $this->description ? '<p class="description">' . wp_kses_post( $this->description ) . ' ' . $this->tooltip . '</p>' : '';
+			if ( ! empty( $this->description ) ) {
+				echo '<p class="description">' . wp_kses_post( $this->description ) . ' ' . $this->tooltip . '</p>';
+			}
 
 			?>
-			<fieldset class="<?php echo $this->class; ?>" style="<?php echo $this->style; ?>">
+			<fieldset class="<?php echo $this->class; ?>" <?php echo ! empty( $this->style ) ? 'style="' . $this->style . '"' : ''; ?>>
+				<?php
 
-				<?php if ( ! empty( $this->title ) ) : ?>
-					<legend class="screen-reader-text">
-						<span><?php echo $this->title; ?></span>
-					</legend>
-				<?php endif; ?>
+				if ( ! empty( $this->title ) ) {
+					echo '<legend class="screen-reader-text"><span>' . $this->title . '</span></legend>';
+				}
 
+				?>
 				<ul>
 					<?php foreach ( $this->options as $option => $name ) : ?>
 						<li>
 							<label for="<?php echo $this->id . '-' . trim( strval( $option ) ); ?>">
-								<input
-									name="<?php echo $this->name; ?>"
-									id="<?php echo $this->id . '-' . trim( strval( $option ) ); ?>"
-									class="simcal-field simcal-field-checkbox"
-									type="checkbox"
-									value="<?php echo trim( strval( $option ) ); ?>"
+								<input name="<?php echo $this->name; ?>"
+								       id="<?php echo $this->id . '-' . trim( strval( $option ) ); ?>"
+								       class="simcal-field simcal-field-checkbox"
+								       type="checkbox"
+								       value="<?php echo trim( strval( $option ) ); ?>"
 									<?php checked( $this->value, $option, true ); ?>
 									<?php echo $this->attributes; ?>
 									/><?php echo esc_attr( $name ); ?>
@@ -69,7 +70,9 @@ class Checkbox extends Field {
 
 		} else {
 
-			echo 'metabox' != $this->context ? $this->tooltip : '';
+			if ( 'metabox' != $this->context ) {
+				echo $this->tooltip;
+			}
 
 			?>
 			<span class="simcal-field-bool" <?php echo $this->style ? 'style="' . $this->style . '"' : ''; ?>>
@@ -86,9 +89,13 @@ class Checkbox extends Field {
 			</span>
 			<?php
 
-			echo 'metabox' == $this->context ? $this->tooltip : '';
+			if ( 'metabox' == $this->context ) {
+				echo $this->tooltip;
+			}
 
-			echo $this->description ? '<p class="description">' . wp_kses_post( $this->description ) . '</p>' : '';
+			if ( ! empty( $this->description ) ) {
+				echo '<p class="description">' . wp_kses_post( $this->description ) . '</p>';
+			}
 
 		}
 

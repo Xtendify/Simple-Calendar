@@ -80,7 +80,9 @@ class Select extends Field {
 			$this->value = explode( ',', $this->value );
 		}
 
-		echo 'metabox' != $this->context ? $this->tooltip : '';
+		if ( 'metabox' != $this->context ) {
+			echo $this->tooltip;
+		}
 
 		?>
 		<select name="<?php echo $this->name; ?><?php if ( $this->multiselect === true ) { echo '[]'; } ?>"
@@ -88,24 +90,33 @@ class Select extends Field {
 		        style="<?php echo $this->style; ?>"
 		        class="<?php echo $this->class; ?>"
 				<?php echo $this->attributes; ?>
-				<?php echo ( $this->multiselect === true ) ? 'multiple="multiple"' : ''; ?>>
-			<?php if ( $this->allow_void === true ) : ?>
-				<option value="" <?php selected( '', $this->value, true ); ?>></option>
-			<?php endif; ?>
-			<?php foreach ( $this->options as $option => $name ) : ?>
-				<option value="<?php echo $option; ?>"
-					<?php if ( is_array( $this->value ) ) {
-						selected( in_array( $option, $this->value ), true, true );
-					} else {
-						selected( $this->value, trim( strval( $option ) ), true );
-					} ?>><?php echo esc_attr( $name ); ?></option>
-			<?php endforeach; ?>
+				<?php echo ( $this->multiselect === true ) ? ' multiple="multiple"' : ''; ?>>
+			<?php
+
+			if ( $this->allow_void === true ) {
+				echo '<option value=""' . selected( '', $this->value, false ) . '></option>';
+			}
+
+			foreach ( $this->options as $option => $name ) {
+				if ( is_array( $this->value ) ) {
+					$selected =	selected( in_array( $option, $this->value ), true, false );
+				} else {
+					$selected = selected( $this->value, trim( strval( $option ) ), false );
+				}
+				echo '<option value="' . $option . '" ' . $selected . '>' . esc_attr( $name ) . '</option>';
+			}
+
+			?>
 		</select>
 		<?php
 
-		echo 'metabox' == $this->context ? $this->tooltip : '';
+		if ( 'metabox' == $this->context ) {
+			echo $this->tooltip;
+		}
 
-		echo $this->description ? '<p class="description">' . wp_kses_post( $this->description ) . '</p>' : '';
+		if ( ! empty( $this->description ) ) {
+			echo '<p class="description">' . wp_kses_post( $this->description ) . '</p>';
+		}
 
 	}
 

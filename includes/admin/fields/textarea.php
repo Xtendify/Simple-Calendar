@@ -23,10 +23,17 @@ class Textarea extends Field {
 	 * @param array $field
 	 */
 	public function __construct( $field ) {
+
 		$this->type_class = 'simcal-field-textarea';
+
 		parent::__construct( $field );
-		$this->value      = isset( $field['value'] )   ? esc_textarea( $field['value'] )   : '';
-		$this->default    = isset( $field['default'] ) ? esc_textarea( $field['default'] ) : '';
+
+		if ( ! empty( $field['value' ] ) ) {
+			$this->value = esc_textarea( $field['value'] );
+		}
+		if ( ! empty( $field['default'] ) ) {
+			$this->default = esc_textarea( $field['default'] );
+		}
 	}
 
 	/**
@@ -34,22 +41,29 @@ class Textarea extends Field {
 	 */
 	public function html() {
 
-		echo 'metabox' != $this->context ? $this->tooltip : '';
+		if ( 'metabox' != $this->context ) {
+			echo $this->tooltip;
+		}
 
 		?>
 		<textarea
 			name="<?php echo $this->name; ?>"
 			id="<?php echo $this->id; ?>"
-			<?php echo $this->class ? 'class="'  . $this->class . '" ' : ''; ?>
-			<?php echo $this->placeholder ? 'placeholder="'  . $this->placeholder . '" ' : ''; ?>
-			<?php echo $this->style ? 'style="'  . $this->style . '" ' : ''; ?>
-			<?php echo $this->attributes; ?>
-			><?php echo $this->value;  ?></textarea>
+			<?php
+			echo $this->class ? 'class="'  . $this->class . '" ' : '';
+			echo $this->placeholder ? 'placeholder="'  . $this->placeholder . '" ' : '';
+			echo $this->style ? 'style="'  . $this->style . '" ' : '';
+			echo $this->attributes;
+			?>><?php echo $this->value;  ?></textarea>
 		<?php
 
-		echo 'metabox' == $this->context ? $this->tooltip : '';
+		if ( 'metabox' == $this->context ) {
+			echo $this->tooltip;
+		}
 
-		echo $this->description ? '<p class="description">' . wp_kses_post( $this->description ) . '</p>' : '';
+		if ( ! empty( $this->description ) ) {
+			echo '<p class="description">' . wp_kses_post( $this->description ) . '</p>';
+		}
 
 	}
 

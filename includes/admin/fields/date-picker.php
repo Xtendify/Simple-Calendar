@@ -53,6 +53,7 @@ class Date_Picker extends Field {
 			'data-inline' => $this->inline === true ? 'true' : 'false',
 		);
 		$field['attributes'] = isset( $field['attributes'] ) ? array_merge( $field['attributes'], $data ) : $data;
+
 		parent::__construct( $field );
 	}
 
@@ -61,30 +62,36 @@ class Date_Picker extends Field {
 	 */
 	public function html() {
 
-		echo $this->description ? '<p class="description">' . wp_kses_post( $this->description ) . '</p>' : '';
+		if ( ! empty( $this->description ) ) {
+			echo '<p class="description">' . wp_kses_post( $this->description ) . '</p>';
+		}
 
 		?>
 		<div id="<?php echo $this->id; ?>"
 		     class="<?php echo $this->class; ?>"
 		     <?php echo $this->style ? 'style="' . $this->style . '"' : ''; ?>
-			 <?php echo $this->attributes ?>>
+			 <?php echo $this->attributes ?>><?php
 
-			<?php if ( false === $this->range ) : ?>
+			if ( false === $this->range ) {
 
+				?>
 				<i class="simcal-icon-calendar"></i>
 				<input type="<?php echo $this->inline === true ? 'text' : 'hidden'; ?>"
 				       name="<?php echo $this->name; ?>"
 				       value="<?php echo $this->value; ?>"
 				       placeholder="..."
 				       readonly="readonly" />
-				<?php echo $this->inline === true ? $this->tooltip : ''; ?>
+				<?php
 
-			<?php else: ?>
+				if ( true === $this->inline ) {
+					echo $this->tooltip;
+				}
 
-				<?php // @todo when a date range picker will be needed, this can be extended ?>
+			} else {
+			    // @todo when a date range picker will be needed, this can be extended
+			}
 
-			<?php endif; ?>
-
+			?>
 		</div>
 		<?php
 

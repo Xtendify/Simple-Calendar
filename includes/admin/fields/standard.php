@@ -32,8 +32,10 @@ class Standard extends Field {
 	 * @param array $field
 	 */
 	public function __construct( $field ) {
+
 		$this->subtype = isset( $field['subtype'] ) ? esc_attr( $field['subtype'] ) : 'text';
 		$this->type_class = 'simcal-field-' . $this->subtype;
+
 		parent::__construct( $field );
 	}
 
@@ -42,7 +44,9 @@ class Standard extends Field {
 	 */
 	public function html() {
 
-		echo 'metabox' != $this->context ? $this->tooltip : '';
+		if ( 'metabox' != $this->context ) {
+			echo $this->tooltip;
+		}
 
 		?>
 		<input type="<?php echo $this->subtype; ?>"
@@ -50,14 +54,20 @@ class Standard extends Field {
 		       id="<?php echo $this->id; ?>"
 		       value="<?php echo $this->value; ?>"
 		       class="<?php echo $this->class; ?>"
-			   <?php echo $this->style ? ' style="' . $this->style . '"' : ''; ?>
-		       <?php echo $this->placeholder ? ' placeholder="' . $this->placeholder . '"' : ''; ?>
-		       <?php echo $this->attributes ? ' ' . $this->attributes : ''; ?> />
+			   <?php
+			   echo $this->style ? 'style="' . $this->style . '" ' : ' ';
+		       echo $this->placeholder ? 'placeholder="' . $this->placeholder . '"' : ' ';
+		       echo $this->attributes;
+			   ?>/>
 		<?php
 
-		echo 'metabox' == $this->context ? $this->tooltip : '';
+		if ( 'metabox' == $this->context ) {
+			echo $this->tooltip;
+		}
 
-		echo $this->description ? '<p class="description">' . wp_kses_post( $this->description ) . '</p>' : '';
+		if ( ! empty( $this->description ) ) {
+			echo '<p class="description">' . wp_kses_post( $this->description ) . '</p>';
+		}
 
 		if ( is_string( $this->validation ) && ! empty ( $this->validation ) ) {
 			echo $this->validation;

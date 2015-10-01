@@ -238,7 +238,7 @@ class Default_Calendar extends Calendar {
 							'id'      => '_default_calendar_event_bubble_trigger',
 							'tooltip' => __( 'Open event bubbles in calendar grid by clicking or hovering on event titles. On mobile devices it will always default to tapping.', 'google-calendar-events' ),
 							'value'   => $bubbles ? $bubbles : 'hover',
-							'context' => 'metabox',
+							'default' => 'hover',
 							'options' => array(
 								'click' => __( 'Click', 'google-calendar-events' ),
 								'hover' => __( 'Hover', 'google-calendar-events' )
