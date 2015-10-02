@@ -9,8 +9,7 @@
  * Author:      Moonstone Media
  * Author URI:  http://moonstonemediagroup.com
  *
- * Text Domain: simple-calendar
- * Domain Path: /languages/
+ * Text Domain: google-calendar-events
  *
  * @package     SimpleCalendar
  * @copyright   2014-2015 Moonstone Media/Phil Derksen. All rights reserved.

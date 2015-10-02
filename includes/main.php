@@ -196,12 +196,8 @@ final class Plugin {
 	 * Load Localization files.
 	 */
 	public function l10n() {
-
-		$locale = apply_filters( 'plugin_locale', get_locale(), 'google-calendar-events' );
-		load_textdomain( 'google-calendar-events', WP_LANG_DIR . '/simple-calendar/google-calendar-events-' . $locale . '.mo' );
-		load_plugin_textdomain( 'google-calendar-events', false, plugin_basename( SIMPLE_CALENDAR_MAIN_FILE ) . 'languages' );
-
-		$this->locale = $locale;
+		load_plugin_textdomain( 'google-calendar-events' );
+		$this->locale = apply_filters( 'plugin_locale', get_locale(), 'google-calendar-events' );
 	}
 
 	/**
