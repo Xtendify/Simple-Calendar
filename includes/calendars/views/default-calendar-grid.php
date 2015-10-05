@@ -323,7 +323,11 @@ class Default_Calendar_Grid implements Calendar_View {
 			$week_day = $week_starts;
 
 			// This fixes a possible bug when a month starts by Sunday (0).
-			$b = $month_starts === 0 ? 7 : $month_starts;
+			if ( 0 !== $week_starts ) {
+				$b = $month_starts === 0 ? 7 : $month_starts;
+			} else {
+				$b = $month_starts;
+			}
 
 			// Void days in first week.
 			for ( $a = $week_starts; $a < $b; $a++ ) :
