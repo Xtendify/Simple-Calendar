@@ -76,6 +76,14 @@ abstract class Feed {
 	protected $events_template = '';
 
 	/**
+	 * Timezone setting.
+	 *
+	 * @access protected
+	 * @var string
+	 */
+	protected  $timezone_setting = '';
+
+	/**
 	 * Timezone.
 	 *
 	 * @access public
@@ -131,6 +139,7 @@ abstract class Feed {
 
 			if ( $this->post_id > 0 ) {
 				$this->set_cache();
+				$this->timezone_setting = get_post_meta( $this->post_id, '_feed_timezone_setting', true );
 				$this->timezone = $calendar->timezone;
 				$this->set_earliest_event();
 				$this->set_latest_event();

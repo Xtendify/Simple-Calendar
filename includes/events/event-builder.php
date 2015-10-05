@@ -228,7 +228,6 @@ class Event_Builder {
 					$location = $tag == 'end-location' ? $event->end_location['address'] : $event->start_location['address'];
 					return ' <span class="simcal-event-address simcal-event-start-location">' . wp_strip_all_tags( $location ) . '</span>';
 
-
 				case 'start-location-link':
 				case 'end-location-link' :
 				case 'maps-link' :

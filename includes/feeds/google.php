@@ -154,7 +154,7 @@ class Google extends Feed {
 				$calendar = array_merge( $response, array( 'events' => array() ) );
 
 				// If no timezone has been set, use calendar feed.
-				if ( 'use_calendar' == get_post_meta( $this->post_id, '_feed_timezone_setting', true ) ) {
+				if ( 'use_calendar' == $this->timezone_setting ) {
 					$this->timezone = $calendar['timezone'];
 				}
 
@@ -274,7 +274,7 @@ class Google extends Feed {
 		}
 
 		// If no timezone has been set, use calendar feed.
-		if ( empty( $this->timezone ) && isset( $calendar['timezone'] ) ) {
+		if ( 'use_calendar' == $this->timezone_setting && isset( $calendar['timezone'] ) ) {
 			$this->timezone = $calendar['timezone'];
 		}
 
