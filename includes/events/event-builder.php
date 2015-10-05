@@ -201,14 +201,14 @@ class Event_Builder {
 				case 'when' :
 					return $this->get_when( $event );
 
-				case 'end-date'    :
-				case 'end-custom'  :
-				case 'end-human'   :
-				case 'end-time'    :
-				case 'start-custom':
-				case 'start-date'  :
+				case 'end-date' :
+				case 'end-custom' :
+				case 'end-human' :
+				case 'end-time' :
+				case 'start-custom' :
+				case 'start-date' :
 				case 'start-human' :
-				case 'start-time'  :
+				case 'start-time' :
 					return $this->get_date_time( $tag, $event, $attr );
 
 				case 'length' :
@@ -227,6 +227,7 @@ class Event_Builder {
 				case 'end-location' :
 					$location = $tag == 'end-location' ? $event->end_location['address'] : $event->start_location['address'];
 					return ' <span class="simcal-event-address simcal-event-start-location">' . wp_strip_all_tags( $location ) . '</span>';
+
 
 				case 'start-location-link':
 				case 'end-location-link' :
@@ -259,8 +260,8 @@ class Event_Builder {
 					}
 					break;
 
-				case 'if-now':
-				case 'if-not-now':
+				case 'if-now' :
+				case 'if-not-now' :
 
 					$start_date = Carbon::createFromTimestamp( $event->start_utc, 'UTC' )->setTimezone( $calendar->timezone );
 					$start      = $start_date->getTimestamp();
@@ -287,8 +288,8 @@ class Event_Builder {
 
 					break;
 
-				case 'if-started':
-				case 'if-not-started':
+				case 'if-started' :
+				case 'if-not-started' :
 
 					$start_date = Carbon::createFromTimestamp( $event->start_utc, 'UTC' )->setTimezone( $calendar->timezone );
 					$start      = $start_date->getTimestamp();
@@ -306,8 +307,8 @@ class Event_Builder {
 
 					break;
 
-				case 'if-ended':
-				case 'if-not-ended':
+				case 'if-ended' :
+				case 'if-not-ended' :
 
 					if ( $event->end_utc ) {
 
@@ -329,19 +330,19 @@ class Event_Builder {
 
 					break;
 
-				case 'if-end-time':
+				case 'if-end-time' :
 					if ( $event->end ) {
 						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
 
-				case 'if-no-end-time':
+				case 'if-no-end-time' :
 					if ( ! $event->end ) {
 						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
 
-				case 'if-first':
+				case 'if-first' :
 				case 'if-not-first' :
 					$events = $calendar->events;
 					$pos    = array_search( $event->start_utc, array_keys( $events ) );
@@ -349,15 +350,15 @@ class Event_Builder {
 
 					return $case ? $calendar->get_event_html( $event, $partial ) : '';
 
-				case 'if-all-day':
-				case 'if-whole-day':
+				case 'if-all-day' :
+				case 'if-whole-day' :
 					if ( $event->whole_day === true ) {
 						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
 
-				case 'if-not-all-day':
-				case 'if-not-whole-day':
+				case 'if-not-all-day' :
+				case 'if-not-whole-day' :
 					if ( $event->whole_day === false ) {
 						return $calendar->get_event_html( $event, $partial );
 					}
@@ -375,7 +376,7 @@ class Event_Builder {
 					}
 					break;
 
-				case 'if-multi-day':
+				case 'if-multi-day' :
 					if ( $event->end ) {
 						if ( ( $event->start + $event->end ) > 86400 ) {
 							return $calendar->get_event_html( $event, $partial );
@@ -383,7 +384,7 @@ class Event_Builder {
 					}
 					break;
 
-				case 'if-single-day':
+				case 'if-single-day' :
 					if ( $event->end ) {
 						if ( ( $event->start + $event->end ) <= 86400 ) {
 							return $calendar->get_event_html( $event, $partial );
@@ -391,14 +392,14 @@ class Event_Builder {
 					}
 					break;
 
-				case 'if-location':
-				case 'if-start-location':
+				case 'if-location' :
+				case 'if-start-location' :
 					if ( ! empty( $event->start_location['address'] ) ) {
 						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
 
-				case 'if-end-location':
+				case 'if-end-location' :
 					if ( ! empty( $event->end_location['address'] ) ) {
 						return $calendar->get_event_html( $event, $partial );
 					}
@@ -430,7 +431,7 @@ class Event_Builder {
 				 * Default *
 				 * ======= */
 
-				default:
+				default :
 					return wp_kses_post( $before . $partial . $after );
 			}
 		}
@@ -778,14 +779,16 @@ class Event_Builder {
 
 		if ( $unknown > 0 ) {
 			if ( $known > 0 ) {
+				/* translators: One more person attending the event. */
 				$others = sprintf( _n( '1 more attendee', '%s more attendees', $unknown, 'google-calendar-events' ), $unknown );
 			} else {
+				/* translators: One or more persons attending the event whose name is unknown. */
 				$others = sprintf( _n( '1 anonymous attendee', '%s anonymous attendees', $unknown, 'google-calendar-events' ), $unknown );
 			}
 			$photo = $attr['photo'] !== 'hide' ? get_avatar( '', 128 ) : '';
 			$html .= '<li class="simcal-attendee simcal-attendee-anonymous">' . $photo . '<span>' . $others . '</span></li>' . "\n";
 		} elseif ( $known === 0 ) {
-			$html .= '<li class="simcal-attendee">' . __( 'No one yet', 'google-calendar-events' ) . '</li>' . "\n";
+			$html .= '<li class="simcal-attendee">' . _x( 'No one yet', 'No one yet rsvp to attend the event.', 'google-calendar-events' ) . '</li>' . "\n";
 		}
 
 		$html .='</ul>' . "\n";
@@ -803,12 +806,16 @@ class Event_Builder {
 	private function get_rsvp_response( $response ) {
 
 		if ( 'yes' == $response ) {
+			/* translators: Someone replied with 'yes' to a rsvp request. */
 			$rsvp = __( 'Attending', 'google-calendar-events' );
 		} elseif ( 'no' == $response ) {
+			/* translators: Someone replied with 'no' to a rsvp request. */
 			$rsvp = __( 'Not attending', 'google-calendar-events' );
 		} elseif ( 'maybe' == $response ) {
+			/* translators: Someone replied with 'maybe' to a rsvp request. */
 			$rsvp = __( 'Maybe attending', 'google-calendar-events' );
 		} else {
+			/* translators: Someone did not send yet a rsvp confirmation to join an event. */
 			$rsvp = __( 'Response pending', 'google-calendar-events' );
 		}
 
