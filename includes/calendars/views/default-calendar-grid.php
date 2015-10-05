@@ -306,7 +306,7 @@ class Default_Calendar_Grid implements Calendar_View {
 			// Put resulting events in an associative array, with day of the month as key for easy retrieval in calendar days loop.
 			$day_events = array();
 			foreach ( $filtered as $timestamp => $events_in_day ) {
-				$day = intval( Carbon::createFromTimestamp( $timestamp, 'UTC' )->setTimezone( $calendar->timezone )->day );
+				$day = intval( Carbon::createFromTimestamp( $timestamp, $calendar->timezone )->day );
 				$day_events[ $day ][] = $events_in_day;
 			}
 
@@ -322,8 +322,11 @@ class Default_Calendar_Grid implements Calendar_View {
 			// Week may start on an arbitrary day (sun, 0 - sat, 6).
 			$week_day = $week_starts;
 
+			// This fixes a possible bug when a month starts by Sunday (0).
+			$b = $month_starts === 0 ? 7 : $month_starts;
+
 			// Void days in first week.
-			for ( $i = $week_starts; $i < $month_starts; $i++ ) :
+			for ( $a = $week_starts; $a < $b; $a++ ) :
 
 				echo '<td class="simcal-day simcal-day-void"></td>';
 
@@ -340,7 +343,7 @@ class Default_Calendar_Grid implements Calendar_View {
 			// Actual days of the month.
 			for ( $day = 1; $day <= $days_in_month; $day++ ) :
 
-				$count       = 0;
+				$count = 0;
 				$calendar_classes = array();
 				$day_classes = 'simcal-day-' . $day . ' simcal-weekday-' . $week_day;
 

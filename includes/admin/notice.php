@@ -36,14 +36,6 @@ class Notice {
 	public $type = '';
 
 	/**
-	 * Nonce.
-	 *
-	 * @access public
-	 * @var int|string
-	 */
-	public $nonce = '';
-
-	/**
 	 * Additional classes.
 	 *
 	 * @access public
@@ -117,7 +109,6 @@ class Notice {
 			// Content.
 			$this->id = is_array( $notice['id'] ) ? array_map( 'sanitize_key', $notice['id'] ) : sanitize_key( $notice['id'] );
 			$this->content = wp_kses_post( $notice['content'] );
-			$this->nonce = wp_create_nonce( $this->id );
 			if ( ! empty( $notice['class'] ) ) {
 				$this->class = is_array( $notice['class'] ) ? join( ' ', array_map( 'esc_attr', $notice['class'] ) ) : esc_attr( $notice['class'] );
 			}
