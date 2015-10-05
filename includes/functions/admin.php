@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Get settings pages and tabs.
  *
+ * @since  3.0.0
+ *
  * @return array
  */
 function simcal_get_settings_pages() {
@@ -23,6 +25,8 @@ function simcal_get_settings_pages() {
 
 /**
  * Get a settings page tab.
+ *
+ * @since  3.0.0
  *
  * @param  string $page
  *
@@ -36,8 +40,10 @@ function simcal_get_settings_page( $page ) {
 /**
  * Get a field.
  *
- * @param array  $args
- * @param string $name
+ * @since  3.0.0
+ *
+ * @param  array  $args
+ * @param  string $name
  *
  * @return null|\SimpleCalendar\Abstracts\Field
  */
@@ -49,8 +55,12 @@ function simcal_get_field( $args, $name = '' ) {
 /**
  * Print a field.
  *
- * @param array  $args
- * @param string $name
+ * @since  3.0.0
+ *
+ * @param  array  $args
+ * @param  string $name
+ *
+ * @return void
  */
 function simcal_print_field( $args, $name = '' ) {
 
@@ -63,6 +73,8 @@ function simcal_print_field( $args, $name = '' ) {
 
 /**
  * Clear feed transients cache.
+ *
+ * @since  3.0.0
  *
  * @param  string|int|array|\WP_Post $id
  *
@@ -120,6 +132,8 @@ function simcal_delete_feed_transients( $id = '' ) {
  * Recursive helper function to sanitize a variable from input,
  * which could also be a multidimensional array of variable depth.
  *
+ * @since  3.0.0
+ *
  * @param  mixed  $var  Variable to sanitize.
  * @param  string $func Function to use for sanitizing text strings (default 'sanitize_text_field')
  *
@@ -163,6 +177,8 @@ function simcal_sanitize_input( $var, $func = 'sanitize_text_field'  ) {
  * Check if a screen is a plugin admin view.
  * Returns the screen id if true, false (bool) if not.
  *
+ * @since  3.0.0
+ *
  * @return string|bool
  */
 function simcal_is_admin_screen() {
@@ -194,6 +210,8 @@ function simcal_is_admin_screen() {
 /**
  * Get admin notices.
  *
+ * @since  3.0.0
+ *
  * @return array
  */
 function simcal_get_admin_notices() {
@@ -203,6 +221,8 @@ function simcal_get_admin_notices() {
 
 /**
  * Delete admin notices.
+ *
+ * @since 3.0.0
  */
 function simcal_delete_admin_notices() {
 	delete_option( 'simple-calendar_admin_notices' );
@@ -211,7 +231,11 @@ function simcal_delete_admin_notices() {
 /**
  * Print a shortcode tip.
  *
- * @param int $post_id
+ * @since  3.0.0
+ *
+ * @param  int $post_id
+ *
+ * @return void
  */
 function simcal_print_shortcode_tip( $post_id ) {
 
@@ -236,6 +260,8 @@ if ( ! function_exists( 'mb_detect_encoding' ) ) {
 	/**
 	 * Fallback function for `mb_detect_encoding()`,
 	 * php_mbstring module in the php.ini could be missing.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  string $string
 	 * @param  null   $enc

@@ -17,6 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Settings pages class.
  *
  * Handles settings pages and settings UI in admin dashboard.
+ *
+ * @since 3.0.0
  */
 class Settings_Pages {
 
@@ -46,6 +48,8 @@ class Settings_Pages {
 
 	/**
 	 * Constructor.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param string $page
 	 */
@@ -77,6 +81,7 @@ class Settings_Pages {
 	/**
 	 * Get settings pages.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
 	 * @return array
@@ -107,6 +112,8 @@ class Settings_Pages {
 	 * Register settings.
 	 *
 	 * Adds settings sections and fields to settings pages.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param array $settings
 	 */
@@ -187,6 +194,8 @@ class Settings_Pages {
 
 	/**
 	 * Print Settings Pages.
+	 *
+	 * @since 3.0.0
 	 */
 	public function html() {
 

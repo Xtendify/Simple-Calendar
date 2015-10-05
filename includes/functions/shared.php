@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Get events feed types.
  *
+ * @since  3.0.0
+ *
  * @return array
  */
 function simcal_get_feed_types() {
@@ -23,6 +25,8 @@ function simcal_get_feed_types() {
 
 /**
  * Get an events feed.
+ *
+ * @since  3.0.0
  *
  * @param  string|int|object $object
  *
@@ -36,6 +40,8 @@ function simcal_get_feed( $object ) {
 /**
  * Get calendar types.
  *
+ * @since  3.0.0
+ *
  * @return array
  */
 function simcal_get_calendar_types() {
@@ -45,6 +51,8 @@ function simcal_get_calendar_types() {
 
 /**
  * Get a calendar.
+ *
+ * @since  3.0.0
  *
  * @param  string|int|object|WP_Post $object
  *
@@ -58,6 +66,8 @@ function simcal_get_calendar( $object ) {
 /**
  * Get a calendar view.
  *
+ * @since  3.0.0
+ *
  * @param  int    $id
  * @param  string $name
  *
@@ -70,6 +80,8 @@ function simcal_get_calendar_view( $id = 0, $name = '' ) {
 
 /**
  * Print a calendar.
+ *
+ * @since  3.0.0
  *
  * @param  int|object|WP_Post $object
  *
@@ -88,6 +100,8 @@ function simcal_print_calendar( $object ) {
  * Common scripts variables.
  *
  * Variables to print in scripts localization
+ *
+ * @since  3.0.0
  *
  * @return array
  */
@@ -114,6 +128,8 @@ function simcal_common_scripts_variables() {
 
 /**
  * Get feed IDs and names.
+ *
+ * @since  3.0.0
  *
  * @param  string|int|array $exclude Id or array of ids to drop from results.
  * @param  bool $cached Use cached query.
@@ -155,6 +171,8 @@ function simcal_get_calendars( $exclude = '', $cached = true ) {
  * Get localized list of months or day names.
  *
  * Each day or month matches the array index (0-11 for months or 0-6 for days).
+ *
+ * @since  3.0.0
  *
  * @param  string $group Either 'month', 'day' or 'meridiem' names to localize.
  * @param  string $style Return names in 'short' or 'full' form (default full long form).
@@ -211,6 +229,8 @@ function simcal_get_calendar_names_i18n( $group, $style = 'full' ) {
 /**
  * Default event template.
  *
+ * @since  3.0.0
+ *
  * @return string
  */
 function simcal_default_event_template() {
@@ -232,6 +252,8 @@ function simcal_default_event_template() {
  * Returns an array with d, m, y for keys and a order number.
  * If either d, m, y is not found in date format, order value is false.
  *
+ * @since  3.0.0
+ *
  * @param  string $date_format
  *
  * @return array
@@ -244,7 +266,7 @@ function simcal_get_date_format_order( $date_format ) {
 		'y' => strpos( $date_format, strpbrk( $date_format, 'Yy' ) ),
 	);
 
-	// @todo When one date piece is not found, perhaps fallback to ISO standard position.
+	// @TODO When one date piece is not found, perhaps fallback to ISO standard position.
 
 	$order = array();
 	foreach ( $pos as $k => $v ) {
@@ -259,6 +281,8 @@ function simcal_get_date_format_order( $date_format ) {
  * Get WordPress timezone setting.
  *
  * Always returns a valid timezone string even when the setting is a GMT offset.
+ *
+ * @since  3.0.0
  *
  * @return null|string
  */
@@ -278,6 +302,8 @@ function simcal_get_wp_timezone() {
  * Get a timezone from a GMT offset.
  *
  * Converts a numeric offset into a valid timezone string.
+ *
+ * @since  3.0.0
  *
  * @param  string|float $offset
  *
@@ -319,7 +345,9 @@ function simcal_get_timezone_from_gmt_offset( $offset ) {
 /**
  * Convert a timezone string to a numeric offset.
  *
- * @param  $timezone
+ * @since  3.0.0
+ *
+ * @param  string $timezone
  *
  * @return int Unix time offset
  */
@@ -329,6 +357,8 @@ function simcal_get_timezone_offset( $timezone ) {
 
 /**
  * Escape timezone string.
+ *
+ * @since  3.0.0
  *
  * @param  string $tz
  * @param  mixed  $default

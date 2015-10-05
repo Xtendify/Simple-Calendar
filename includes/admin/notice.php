@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Admin notice.
  *
  * An admin notice as an object.
+ *
+ * @since 3.0.0
  */
 class Notice {
 
@@ -100,6 +102,8 @@ class Notice {
 	/**
 	 * Make a notice.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param array $notice
 	 */
 	public function __construct( $notice ) {
@@ -146,6 +150,8 @@ class Notice {
 
 	/**
 	 * Add the notice.
+	 *
+	 * @since 3.0.0
 	 */
 	public function add() {
 		if ( ! empty( $this->id ) && ! empty( $this->content ) ) {
@@ -163,6 +169,8 @@ class Notice {
 
 	/**
 	 * Remove the notice.
+	 *
+	 * @since 3.0.0
 	 */
 	public function remove() {
 		if ( ! empty( $this->id ) && ! empty( $this->content ) ) {

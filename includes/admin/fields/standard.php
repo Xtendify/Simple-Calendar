@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Standard input field.
  *
  * For standard text inputs and subtypes (e.g. number, password, email...).
+ *
+ * @since 3.0.0
  */
 class Standard extends Field {
 
@@ -29,6 +31,8 @@ class Standard extends Field {
 	/**
 	 * Construct.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param array $field
 	 */
 	public function __construct( $field ) {
@@ -41,6 +45,8 @@ class Standard extends Field {
 
 	/**
 	 * Outputs the field markup.
+	 *
+	 * @since 3.0.0
 	 */
 	public function html() {
 

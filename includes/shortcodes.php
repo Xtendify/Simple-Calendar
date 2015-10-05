@@ -16,11 +16,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Shortcodes.
  *
  * Register and handle custom shortcodes.
+ *
+ * @since 3.0.0
  */
 class Shortcodes {
 
 	/**
 	 * Hook in tabs.
+	 *
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 
@@ -30,6 +34,8 @@ class Shortcodes {
 
 	/**
 	 * Register shortcodes.
+	 *
+	 * @since 3.0.0
 	 */
 	public function register() {
 
@@ -42,6 +48,8 @@ class Shortcodes {
 
 	/**
 	 * Print a calendar.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  array $attributes
 	 *

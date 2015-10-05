@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * The Events.
  *
  * A collection of Event objects.
+ *
+ * @since  3.0.0
  */
 class Events {
 
@@ -38,6 +40,8 @@ class Events {
 	/**
 	 * Constructor.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param array $events
 	 */
 	public function __construct( $events = array() ) {
@@ -46,6 +50,8 @@ class Events {
 
 	/**
 	 * Get events.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  string|int $n Amount of events (optional).
 	 *
@@ -62,6 +68,8 @@ class Events {
 	/**
 	 * Set events.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param array $events
 	 */
 	public function set_events( array $events ) {
@@ -70,6 +78,8 @@ class Events {
 
 	/**
 	 * Set timezone.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  string $timezone
 	 *
@@ -82,6 +92,8 @@ class Events {
 
 	/**
 	 * Shift events.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  int $n
 	 *
@@ -99,6 +111,8 @@ class Events {
 	/**
 	 * Filter private events.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return Events
 	 */
 	public function private_only() {
@@ -108,6 +122,8 @@ class Events {
 
 	/**
 	 * Filter public events.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return Events
 	 */
@@ -119,6 +135,8 @@ class Events {
 	/**
 	 * Filter recurring events in the current block.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return Events
 	 */
 	public function recurring() {
@@ -128,6 +146,8 @@ class Events {
 
 	/**
 	 * Filter non recurring events in the current block.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return Events
 	 */
@@ -139,6 +159,8 @@ class Events {
 	/**
 	 * Filter whole day events in the current block.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return Events
 	 */
 	public function whole_day() {
@@ -148,6 +170,8 @@ class Events {
 
 	/**
 	 * Filter non whole day in the current block.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return Events
 	 */
@@ -159,6 +183,8 @@ class Events {
 	/**
 	 * Filter events spanning multiple days in the current block.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return Events
 	 */
 	public function multi_day() {
@@ -168,6 +194,8 @@ class Events {
 
 	/**
 	 * Filter events that do not span multiple days in the current block.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return Events
 	 */
@@ -179,6 +207,8 @@ class Events {
 	/**
 	 * Filter events in the current block that have a location.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return Events
 	 */
 	public function with_location() {
@@ -188,6 +218,8 @@ class Events {
 
 	/**
 	 * Filter events in the current block that do not have a location.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return Events
 	 */
@@ -199,6 +231,7 @@ class Events {
 	/**
 	 * Filter whole day events.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
 	 * @param  string $property
@@ -229,6 +262,8 @@ class Events {
 	/**
 	 * Filter events in the past.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  int|string $present
 	 *
 	 * @return Events
@@ -247,6 +282,8 @@ class Events {
 
 	/**
 	 * Filter events in the future.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  int|string $present
 	 *
@@ -267,6 +304,8 @@ class Events {
 	/**
 	 * Filter events after time.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  int|string|\DateTime|Carbon $time
 	 *
 	 * @return Events
@@ -279,6 +318,8 @@ class Events {
 	/**
 	 * Filter events before time.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  int|string|\DateTime|Carbon $time
 	 *
 	 * @return Events
@@ -290,6 +331,8 @@ class Events {
 
 	/**
 	 * Filter events from a certain time onwards.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  int|string|\DateTime|Carbon $time
 	 *
@@ -306,6 +349,8 @@ class Events {
 	/**
 	 * Filter events up to to a certain time.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  int|string|\DateTime|Carbon $time
 	 *
 	 * @return Events
@@ -320,6 +365,8 @@ class Events {
 
 	/**
 	 * Parse time.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  int|string|\DateTime|Carbon $time
 	 *
@@ -341,6 +388,8 @@ class Events {
 	/**
 	 * Get first event of the current block.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return null|Event
 	 */
 	public function get_first() {
@@ -349,6 +398,8 @@ class Events {
 
 	/**
 	 * Get last event of the current block.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return null|Event
 	 */
@@ -359,6 +410,8 @@ class Events {
 	/**
 	 * Get the closest event in the future.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return null|Event
 	 */
 	public function get_upcoming() {
@@ -367,6 +420,8 @@ class Events {
 
 	/**
 	 * Get the closest event in the past.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return null|Event
 	 */
@@ -377,6 +432,7 @@ class Events {
 	/**
 	 * Get the closest event compared to now.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
 	 * @param  string $dir Direction: 'future' or 'past'.
@@ -395,6 +451,8 @@ class Events {
 	/**
 	 * Get events for the given year.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  int $year Year.
 	 *
 	 * @return array Multidimensional array with month number, week number and Event objects for each weekday.
@@ -410,6 +468,8 @@ class Events {
 
 	/**
 	 * Get events for the given month in the given year.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  int $year  Year.
 	 * @param  int $month Month number.
@@ -432,6 +492,8 @@ class Events {
 
 	/**
 	 * Get events for the given week in the given year.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  int $year Year.
 	 * @param  int $week Week number.
@@ -456,6 +518,8 @@ class Events {
 	/**
 	 * Get events for the given day of the given month in the given year.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  int $year  Year.
 	 * @param  int $month Month number.
 	 * @param  int $day   Day of the month number.
@@ -474,6 +538,8 @@ class Events {
 	/**
 	 * Get events for today.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return array Event objects for today.
 	 */
 	public function get_today() {
@@ -484,6 +550,8 @@ class Events {
 
 	/**
 	 * Get events for tomorrow.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return array Event objects for tomorrow.
 	 */
@@ -496,6 +564,8 @@ class Events {
 	/**
 	 * Get events for yesterday.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return array Event objects for yesterday.
 	 */
 	public function get_yesterday() {
@@ -506,6 +576,9 @@ class Events {
 
 	/**
 	 * Filter events by timestamps.
+	 *
+	 * @since  3.0.0
+	 * @access private
 	 *
 	 * @param  int $from Lower bound timestamp.
 	 * @param  int $to   Upper bound timestamp.

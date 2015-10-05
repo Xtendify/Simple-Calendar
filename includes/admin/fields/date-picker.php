@@ -17,6 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * A special field to choose dates or date ranges.
  * Holds a date value in 'yy-mm-dd' format.
+ *
+ * @since 3.0.0
  */
 class Date_Picker extends Field {
 
@@ -39,6 +41,8 @@ class Date_Picker extends Field {
 	/**
 	 * Construct.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param array $field
 	 */
 	public function __construct( $field ) {
@@ -59,6 +63,8 @@ class Date_Picker extends Field {
 
 	/**
 	 * Output the field markup
+	 *
+	 * @since 3.0.0
 	 */
 	public function html() {
 

@@ -14,11 +14,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Admin notices class.
  *
  * Handles and displays notices in admin dashboard pages.
+ *
+ * @since 3.0.0
  */
 class Notices {
 
 	/**
 	 * Get notices.
+	 *
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 		add_action( 'admin_init', array( $this, 'remove_notice' ), 10 );
@@ -27,6 +31,8 @@ class Notices {
 
 	/**
 	 * Process notices.
+	 *
+	 * @since 3.0.0
 	 */
 	public function process_notices() {
 
@@ -78,9 +84,13 @@ class Notices {
 	/**
 	 * Add notice.
 	 *
-	 * @todo Improve notice dismissal with ajax.
+	 * @TODO Improve notice dismissal with ajax.
 	 *
-	 * @param Notice $notice
+	 * @since  3.0.0
+	 *
+	 * @param  Notice $notice
+	 *
+	 * @return void
 	 */
 	public function add_notice( $notice ) {
 
@@ -103,9 +113,13 @@ class Notices {
 	/**
 	 * Dismiss a notice.
 	 *
-	 * @todo  Improve notice dismissal with ajax.
+	 * @TODO  Improve notice dismissal with ajax.
 	 *
-	 * @param string $notice (optional) The notice id.
+	 * @since  3.0.0
+	 *
+	 * @param  string $notice (optional) The notice id.
+	 *
+	 * @return void
 	 */
 	public function remove_notice( $notice = '' ) {
 
@@ -134,7 +148,11 @@ class Notices {
 	/**
 	 * Show a notice.
 	 *
-	 * @param string $notice
+	 * @since 3.0.0
+	 *
+	 * @param  string $notice
+	 *
+	 * @return void
 	 */
 	public function show_notice( $notice ) {
 
@@ -149,7 +167,11 @@ class Notices {
 	/**
 	 * Hide a notice.
 	 *
-	 * @param string $notice
+	 * @since  3.0.0
+	 *
+	 * @param  string $notice
+	 *
+	 * @return void
 	 */
 	public function hide_notice( $notice ) {
 
@@ -163,6 +185,8 @@ class Notices {
 
 	/**
 	 * Get current notices.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return array
 	 */

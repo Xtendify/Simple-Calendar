@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * The Field.
  *
  * Object for handling an input field in plugin back end.
+ *
+ * @since 3.0.0
  */
 abstract class Field {
 
@@ -150,6 +152,8 @@ abstract class Field {
 	 *
 	 * Escapes and sets every field property.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param array $field Field data.
 	 */
 	public function __construct( $field ) {
@@ -225,6 +229,8 @@ abstract class Field {
 	/**
 	 * Set custom HTML attributes.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  array $attributes
 	 *
 	 * @return void
@@ -245,6 +251,8 @@ abstract class Field {
 	/**
 	 * Set CSS styles.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  array $css
 	 *
 	 * @return void
@@ -264,6 +272,8 @@ abstract class Field {
 
 	/**
 	 * Set classes.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  array $class
 	 *
@@ -293,6 +303,7 @@ abstract class Field {
 	 *
 	 * Default escape function, a wrapper for esc_attr().
 	 *
+	 * @since  3.0.0
 	 * @access protected
 	 *
 	 * @param  array|string|int $value
@@ -308,6 +319,7 @@ abstract class Field {
 	 *
 	 * Custom escaping function set in field args.
 	 *
+	 * @since  3.0.0
 	 * @access protected
 	 *
 	 * @param  array|string $callback
@@ -327,6 +339,7 @@ abstract class Field {
 	 *
 	 * Custom field validation callback set in field args.
 	 *
+	 * @since  3.0.0
 	 * @access protected
 	 *
 	 * @param  array|string $callback
@@ -344,6 +357,8 @@ abstract class Field {
 
 	/**
 	 * Outputs the field markup.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return void
 	 */

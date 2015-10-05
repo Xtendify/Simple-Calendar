@@ -17,6 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Feeds settings.
  *
  * Handles calendar feeds settings and outputs the settings page markup.
+ *
+ * @since 3.0.0
  */
 class Feeds extends Settings_Page {
 
@@ -30,6 +32,8 @@ class Feeds extends Settings_Page {
 
 	/**
 	 * Constructor.
+	 *
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 
@@ -62,6 +66,8 @@ class Feeds extends Settings_Page {
 	/**
 	 * Add sections.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return array
 	 */
 	public function add_sections() {
@@ -84,6 +90,8 @@ class Feeds extends Settings_Page {
 
 	/**
 	 * Add fields.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return array
 	 */

@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Select input field.
  *
  * A standard dropdown or a multiselect field.
+ *
+ * @since 3.0.0
  */
 class Select extends Field {
 
@@ -45,6 +47,8 @@ class Select extends Field {
 	/**
 	 * Construct.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param array $field
 	 */
 	public function __construct( $field ) {
@@ -73,6 +77,8 @@ class Select extends Field {
 
 	/**
 	 * Outputs the field markup.
+	 *
+	 * @since 3.0.0
 	 */
 	public function html() {
 

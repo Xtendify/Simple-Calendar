@@ -17,6 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Calendar settings.
  *
  * Handles settings for specific calendar types and outputs the markup the settings page. a settings page.
+ *
+ * @since 3.0.0
  */
 class Calendars extends Settings_Page {
 
@@ -30,6 +32,8 @@ class Calendars extends Settings_Page {
 
 	/**
 	 * Constructor.
+	 *
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 
@@ -62,6 +66,8 @@ class Calendars extends Settings_Page {
 	/**
 	 * Add sections.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return array
 	 */
 	public function add_sections() {
@@ -93,6 +99,8 @@ class Calendars extends Settings_Page {
 
 	/**
 	 * Add fields.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return array
 	 */

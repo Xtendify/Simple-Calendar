@@ -19,6 +19,8 @@ class Customizer {
 
 	/**
 	 * Hook in tabs.
+	 *
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 		add_action( 'customize_register', array( $this, 'register' ) );
@@ -26,6 +28,8 @@ class Customizer {
 
 	/**
 	 * Register customizer objects.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param \WP_Customize_Manager $wp_customize
 	 */

@@ -18,6 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Grouped calendars feed.
  *
  * Feed made of multiple calendar feeds combined together.
+ *
+ * @since  3.0.0
  */
 class Grouped_Calendars extends Feed {
 
@@ -31,6 +33,8 @@ class Grouped_Calendars extends Feed {
 
 	/**
 	 * Set properties.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param string|Calendar $calendar
 	 */
@@ -55,6 +59,8 @@ class Grouped_Calendars extends Feed {
 
 	/**
 	 * Set source.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param array $ids Array of calendar ids.
 	 */
@@ -97,6 +103,8 @@ class Grouped_Calendars extends Feed {
 
 	/**
 	 * Get events from multiple calendars.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return array
 	 */
@@ -150,6 +158,9 @@ class Grouped_Calendars extends Feed {
 	 *
 	 * `array_filter` does not allow to parse an associative array keys before PHP 5.6.
 	 *
+	 * @since  3.0.0
+	 * @access private
+	 *
 	 * @param  array        $array
 	 * @param  array|string $callback
 	 *
@@ -162,6 +173,9 @@ class Grouped_Calendars extends Feed {
 
 	/**
 	 * Array filter callback.
+	 *
+	 * @since  3.0.0
+	 * @access private
 	 *
 	 * @param  int $event Timestamp.
 	 *
@@ -176,6 +190,9 @@ class Grouped_Calendars extends Feed {
 
 	/**
 	 * Array filter callback.
+	 *
+	 * @since  3.0.0
+	 * @access private
 	 *
 	 * @param  int $event Timestamp.
 	 *

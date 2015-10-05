@@ -18,6 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Default Calendar: Grid View.
+ *
+ * @since  3.0.0
  */
 class Default_Calendar_Grid implements Calendar_View {
 
@@ -48,6 +50,8 @@ class Default_Calendar_Grid implements Calendar_View {
 	/**
 	 * Constructor.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param string|Calendar $calendar
 	 */
 	public function __construct( $calendar = '' ) {
@@ -56,6 +60,8 @@ class Default_Calendar_Grid implements Calendar_View {
 
 	/**
 	 * Get the view parent calendar type.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return string
 	 */
@@ -66,6 +72,8 @@ class Default_Calendar_Grid implements Calendar_View {
 	/**
 	 * Get the view type.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return string
 	 */
 	public function get_type() {
@@ -75,6 +83,8 @@ class Default_Calendar_Grid implements Calendar_View {
 	/**
 	 * Get the view name.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return string
 	 */
 	public function get_name() {
@@ -83,6 +93,8 @@ class Default_Calendar_Grid implements Calendar_View {
 
 	/**
 	 * Add ajax actions.
+	 *
+	 * @since 3.0.0
 	 */
 	public function add_ajax_actions() {
 		add_action( 'wp_ajax_simcal_default_calendar_draw_grid', array( $this, 'draw_grid_ajax' ) );
@@ -93,6 +105,8 @@ class Default_Calendar_Grid implements Calendar_View {
 	 * Default calendar grid scripts.
 	 *
 	 * Scripts to load when this view is displayed.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  string $min
 	 *
@@ -126,6 +140,8 @@ class Default_Calendar_Grid implements Calendar_View {
 	 *
 	 * Stylesheets to load when this view is displayed.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  string $min = ''
 	 *
 	 * @return array
@@ -150,6 +166,8 @@ class Default_Calendar_Grid implements Calendar_View {
 
 	/**
 	 * Default calendar grid markup.
+	 *
+	 * @since  3.0.0
 	 */
 	public function html() {
 
@@ -260,6 +278,9 @@ class Default_Calendar_Grid implements Calendar_View {
 	 * Outputs an html calendar according to month and year passed in arguments.
 	 * Loosely inspired by: http://davidwalsh.name/php-calendar
 	 * Adjusted by timezone and with an arbitrary week start day.
+	 *
+	 * @since  3.0.0
+	 * @access private
 	 *
 	 * @param  int $month The month to print (two digits).
 	 * @param  int $year  The corresponding year (four digits).
@@ -505,6 +526,8 @@ class Default_Calendar_Grid implements Calendar_View {
 
 	/**
 	 * Ajax callback to request a new month.
+	 *
+	 * @since 3.0.0
 	 */
 	public function draw_grid_ajax() {
 
@@ -527,6 +550,9 @@ class Default_Calendar_Grid implements Calendar_View {
 	/**
 	 * Array filter callback.
 	 *
+	 * @since  3.0.0
+	 * @access private
+	 *
 	 * @param  int $event Timestamp.
 	 *
 	 * @return bool
@@ -537,6 +563,9 @@ class Default_Calendar_Grid implements Calendar_View {
 
 	/**
 	 * Array filter callback.
+	 *
+	 * @since  3.0.0
+	 * @access private
 	 *
 	 * @param  int $event Timestamp.
 	 *

@@ -16,11 +16,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Admin post types.
  *
  * Handles admin views and custom content for post types and taxonomies in admin dashboard screens.
+ *
+ * @since 3.0.0
  */
 class Post_Types {
 
 	/**
 	 * Hook in tabs.
+	 *
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 
@@ -51,6 +55,8 @@ class Post_Types {
 	/**
 	 * Add column headers to Calendar feeds custom post type page.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  array $columns Default columns.
 	 *
 	 * @return array Filtered output.
@@ -71,8 +77,12 @@ class Post_Types {
 	/**
 	 * Fill out the Calendar feed post type columns.
 	 *
-	 * @param string $column_name Column identifier.
-	 * @param int    $post_id     The calendar feed post id.
+	 * @since  3.0.0
+	 *
+	 * @param  string $column_name Column identifier.
+	 * @param  int    $post_id     The calendar feed post id.
+	 *
+	 * @return void
 	 */
 	public function calendar_feed_column_content( $column_name, $post_id ) {
 
@@ -117,6 +127,8 @@ class Post_Types {
 	/**
 	 * Add actions to Calendar feed post type row view.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  array    $actions Default actions
 	 * @param  \WP_Post $post    Post object.
 	 *
@@ -135,6 +147,8 @@ class Post_Types {
 
 	/**
 	 * Bulk actions.
+	 *
+	 * @since 3.0.0
 	 */
 	public function bulk_actions() {
 
@@ -180,6 +194,8 @@ class Post_Types {
 	/**
 	 * Clone a feed post type.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param int $post_id
 	 */
 	private function duplicate_feed( $post_id ) {
@@ -214,6 +230,8 @@ class Post_Types {
 	/**
 	 * Default event template builder content.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  string   $content
 	 * @param  \WP_Post $post
 	 *
@@ -225,6 +243,8 @@ class Post_Types {
 
 	/**
 	 * Clear cache button.
+	 *
+	 * @since 3.0.0
 	 */
 	public function clear_cache_button() {
 
@@ -242,8 +262,9 @@ class Post_Types {
 	 * Add a shortcode button.
 	 *
 	 * Adds a button to add a calendar shortcode in WordPress content editor.
+	 * Uses Thickbox. http://codex.wordpress.org/ThickBox
 	 *
-	 * @see http://codex.wordpress.org/ThickBox
+	 * @since 3.0.0
 	 */
 	public function add_shortcode_button() {
 
@@ -274,6 +295,8 @@ class Post_Types {
 	 * Panel for the add shortcode media button.
 	 *
 	 * Prints the panel for choosing a calendar to insert as a shortcode in a page or post.
+	 *
+	 * @since 3.0.0
 	 */
 	public function add_shortcode_panel() {
 

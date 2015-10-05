@@ -20,6 +20,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Default Calendar.
  *
  * The default calendar view bundled with the plugin.
+ *
+ * @since 3.0.0
  */
 class Default_Calendar extends Calendar {
 
@@ -74,6 +76,8 @@ class Default_Calendar extends Calendar {
 	/**
 	 * Constructor.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param int|object|\WP_Post|Calendar $calendar
 	 */
 	public function __construct( $calendar ) {
@@ -104,6 +108,7 @@ class Default_Calendar extends Calendar {
 	/**
 	 * Set properties.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
 	 * @param  $view
@@ -183,6 +188,8 @@ class Default_Calendar extends Calendar {
 	 *
 	 * Returns one of this calendar's views.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  string $view
 	 *
 	 * @return null|Calendar_View
@@ -205,6 +212,8 @@ class Default_Calendar extends Calendar {
 	/**
 	 * Fields inputs for settings page.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return array
 	 */
 	public function settings_fields() {
@@ -213,6 +222,8 @@ class Default_Calendar extends Calendar {
 
 	/**
 	 * Extend the calendar section panel of the settings meta box.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param int $post_id
 	 */
@@ -421,6 +432,8 @@ class Default_Calendar extends Calendar {
 
 	/**
 	 * Process meta fields.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param int $post_id
 	 */

@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Radio input field.
  *
  * Outputs a fieldset of radio inputs for multiple choices.
+ *
+ * @since 3.0.0
  */
 class Radio extends Field {
 
@@ -30,6 +32,8 @@ class Radio extends Field {
 	/**
 	 * Construct.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param array $field
 	 */
 	public function __construct( $field ) {
@@ -42,6 +46,8 @@ class Radio extends Field {
 
 	/**
 	 * Outputs the field markup.
+	 *
+	 * @since 3.0.0
 	 */
 	public function html() {
 

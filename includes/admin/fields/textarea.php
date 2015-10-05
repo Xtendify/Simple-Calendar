@@ -14,11 +14,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Textarea input field.
+ *
+ * @since 3.0.0
  */
 class Textarea extends Field {
 
 	/**
 	 * Construct.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param array $field
 	 */
@@ -38,6 +42,8 @@ class Textarea extends Field {
 
 	/**
 	 * Outputs the field markup.
+	 *
+	 * @since 3.0.0
 	 */
 	public function html() {
 

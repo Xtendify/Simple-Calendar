@@ -213,6 +213,8 @@ abstract class Calendar {
 	/**
 	 * Constructor.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param int|object|\WP_Post|Calendar $calendar
 	 * @param string $view
 	 */
@@ -290,6 +292,8 @@ abstract class Calendar {
 	/**
 	 * Overloading __isset function with post meta.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  mixed $key Post meta key.
 	 *
 	 * @return bool
@@ -300,6 +304,8 @@ abstract class Calendar {
 
 	/**
 	 * Overloading __get function with post meta.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  string $key Post meta key.
 	 *
@@ -315,6 +321,8 @@ abstract class Calendar {
 
 	/**
 	 * Set post object and id.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param int|object|\WP_Post|Calendar $calendar
 	 */
@@ -337,6 +345,8 @@ abstract class Calendar {
 	/**
 	 * Return the calendar title.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return string
 	 */
 	public function get_title() {
@@ -347,6 +357,8 @@ abstract class Calendar {
 	/**
 	 * Get the calendar post data.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return \WP_Post
 	 */
 	public function get_post_data() {
@@ -355,6 +367,8 @@ abstract class Calendar {
 
 	/**
 	 * Set taxonomies.
+	 *
+	 * @since 3.0.0
 	 */
 	public function set_taxonomies() {
 		// Set calendar type.
@@ -374,6 +388,8 @@ abstract class Calendar {
 	/**
 	 * Get events.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return Events
 	 */
 	public function get_events() {
@@ -382,6 +398,8 @@ abstract class Calendar {
 
 	/**
 	 * Set events.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param array $array
 	 */
@@ -403,6 +421,8 @@ abstract class Calendar {
 	/**
 	 * Get the event builder template.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  string $template
 	 *
 	 * @return string
@@ -416,6 +436,8 @@ abstract class Calendar {
 
 	/**
 	 * Set the timezone.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param string $tz Timezone.
 	 */
@@ -447,6 +469,8 @@ abstract class Calendar {
 	/**
 	 * Set date format.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param string $format PHP datetime format.
 	 */
 	public function set_date_format( $format = '' ) {
@@ -471,6 +495,8 @@ abstract class Calendar {
 
 	/**
 	 * Set time format.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param string $format PHP datetime format.
 	 */
@@ -497,6 +523,8 @@ abstract class Calendar {
 	/**
 	 * Set date-time separator.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param string $separator A UTF8 character used as separator.
 	 */
 	public function set_datetime_separator( $separator = '' ) {
@@ -510,6 +538,8 @@ abstract class Calendar {
 
 	/**
 	 * Set start of week.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param int $weekday From 0 (Sunday) to 6 (Friday).
 	 */
@@ -533,6 +563,8 @@ abstract class Calendar {
 
 	/**
 	 * Set calendar start.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param int $timestamp
 	 */
@@ -588,6 +620,8 @@ abstract class Calendar {
 	/**
 	 * Set calendar end.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param int $timestamp
 	 */
 	public function set_end( $timestamp = 0 ) {
@@ -597,6 +631,8 @@ abstract class Calendar {
 
 	/**
 	 * Set the calendar to static.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param string|bool $static
 	 */
@@ -618,12 +654,16 @@ abstract class Calendar {
 	/**
 	 * Input fields for settings page.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @return false|array
 	 */
 	abstract public function settings_fields();
 
 	/**
 	 * Get a calendar view.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param  string $view
 	 *
@@ -633,6 +673,8 @@ abstract class Calendar {
 
 	/**
 	 * Get event HTML parsed by template.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  Event  $event    Event object to be parsed.
 	 * @param  string $template (optional) To use another template or a partial.
@@ -648,6 +690,8 @@ abstract class Calendar {
 
 	/**
 	 * Output the calendar markup.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param string $view The calendar view to display.
 	 */

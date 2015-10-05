@@ -16,11 +16,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Installation.
  *
  * Static class that deals with plugin activation and deactivation events.
+ *
+ * @since 3.0.0
  */
 class Installation {
 
 	/**
 	 * What happens when the plugin is activated.
+	 *
+	 * @since 3.0.0
 	 */
 	public static function activate() {
 
@@ -39,6 +43,8 @@ class Installation {
 
 	/**
 	 * What happens when the plugin is deactivated.
+	 *
+	 * @since 3.0.0
 	 */
 	public static function deactivate() {
 
@@ -49,6 +55,8 @@ class Installation {
 
 	/**
 	 * Create default terms.
+	 *
+	 * @since 3.0.0
 	 */
 	public static function create_terms() {
 
@@ -74,6 +82,8 @@ class Installation {
 
 	/**
 	 * Sets the default options.
+	 *
+	 * @since 3.0.0
 	 */
 	public static function create_options() {
 
@@ -135,6 +145,8 @@ class Installation {
 	 *
 	 * Helper function to set the default value of a field.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  $field
 	 *
 	 * @return mixed
@@ -149,6 +161,8 @@ class Installation {
 
 	/**
 	 * Run upgrade scripts.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param string $version
 	 */

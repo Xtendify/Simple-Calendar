@@ -16,11 +16,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * General settings.
  *
  * Handles the plugin general settings and outputs the markup the settings page.
+ *
+ * @since 3.0.0
  */
 class Advanced extends Settings_Page {
 
 	/**
 	 * Constructor.
+	 *
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 		$this->id           = 'advanced';
@@ -33,6 +37,8 @@ class Advanced extends Settings_Page {
 
 	/**
 	 * Add sections.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return array
 	 */
@@ -51,6 +57,8 @@ class Advanced extends Settings_Page {
 
 	/**
 	 * Add fields.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return array
 	 */

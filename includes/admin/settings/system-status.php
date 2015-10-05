@@ -16,11 +16,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * System status.
  *
  * Generates reports on current installation, with information for debugging or support purposes.
+ *
+ * @since 3.0.0
  */
 class System_Status extends Settings_Page {
 
 	/**
 	 * Constructor.
+	 *
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 
@@ -37,6 +41,8 @@ class System_Status extends Settings_Page {
 
 	/**
 	 * Output page markup.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param string $page
 	 * @param string $tab
@@ -636,6 +642,7 @@ class System_Status extends Settings_Page {
 	 *
 	 * This function transforms the php.ini notation for numbers (like '2M') to an integer.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
 	 * @param  string $size
@@ -672,6 +679,8 @@ class System_Status extends Settings_Page {
 	/**
 	 * Add sections.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return array
 	 */
 	public function add_sections() {
@@ -680,6 +689,8 @@ class System_Status extends Settings_Page {
 
 	/**
 	 * Add fields.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return array
 	 */

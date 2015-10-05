@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Admin Menus.
  *
  * Handles the plugin admin dashboard menus.
+ *
+ * @since 3.0.0
  */
 class Menus {
 
@@ -35,6 +37,8 @@ class Menus {
 
 	/**
 	 * Set properties.
+	 *
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 
@@ -57,6 +61,8 @@ class Menus {
 
 	/**
 	 * Add menu items.
+	 *
+	 * @since 3.0.0
 	 */
 	public static function add_menu_items() {
 
@@ -90,6 +96,8 @@ class Menus {
 	/**
 	 * Action links in plugins page.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  array  $action_links
 	 * @param  string $file
 	 *
@@ -111,6 +119,8 @@ class Menus {
 
 	/**
 	 * Links in plugin meta in plugins page.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  array  $meta_links
 	 * @param  string $file
@@ -136,6 +146,8 @@ class Menus {
 	 * Handle redirects to welcome page after install and updates.
 	 *
 	 * Transient must be present, the user must have access rights, and we must ignore the network/bulk plugin updaters.
+	 *
+	 * @since 3.0.0
 	 */
 	public function admin_redirects() {
 
@@ -165,6 +177,8 @@ class Menus {
 	 * Admin footer text filter callback.
 	 *
 	 * Change this plugin screens admin footer text.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  $footer_text
 	 *

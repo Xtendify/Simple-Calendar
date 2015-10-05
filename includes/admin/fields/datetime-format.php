@@ -38,6 +38,8 @@ class Datetime_Format extends Field {
 	/**
 	 * Constructor.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param array $field
 	 */
 	public function __construct( $field ) {
@@ -60,6 +62,8 @@ class Datetime_Format extends Field {
 
 	/**
 	 * Output field markup.
+	 *
+	 * @since 3.0.0
 	 */
 	public function html() {
 
@@ -102,6 +106,7 @@ class Datetime_Format extends Field {
 	/**
 	 * Print date input.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
 	 * @param  array $matches
@@ -135,6 +140,7 @@ class Datetime_Format extends Field {
 	/**
 	 * Print time input.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
 	 * @param  array $matches
@@ -165,6 +171,7 @@ class Datetime_Format extends Field {
 	/**
 	 * Print input fields.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
 	 * @param  $fields
@@ -182,6 +189,7 @@ class Datetime_Format extends Field {
 	/**
 	 * Print weekday input.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 */
 	private function weekday() {
@@ -204,6 +212,7 @@ class Datetime_Format extends Field {
 	/**
 	 * Print day input.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 */
 	private function day() {
@@ -226,6 +235,7 @@ class Datetime_Format extends Field {
 	/**
 	 * Print month input.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 */
 	private function month() {
@@ -250,6 +260,7 @@ class Datetime_Format extends Field {
 	/**
 	 * Print year input.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 */
 	private function year() {
@@ -272,6 +283,7 @@ class Datetime_Format extends Field {
 	/**
 	 * Print hours input.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 */
 	private function hours() {
@@ -296,6 +308,7 @@ class Datetime_Format extends Field {
 	/**
 	 * Print minutes input.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 */
 	private function minutes() {
@@ -317,6 +330,7 @@ class Datetime_Format extends Field {
 	/**
 	 * Print meridiem input.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 */
 	private function meridiem() {
@@ -339,6 +353,7 @@ class Datetime_Format extends Field {
 	/**
 	 * Print divider input.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 */
 	private function divider() {

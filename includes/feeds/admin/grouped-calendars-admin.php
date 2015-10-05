@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Grouped calendars feed admin.
+ *
+ * @since 3.0.0
  */
 class Grouped_Calendars_Admin {
 
@@ -27,6 +29,8 @@ class Grouped_Calendars_Admin {
 
 	/**
 	 * Hook in tabs.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param Grouped_Calendars $feed
 	 */
@@ -43,6 +47,8 @@ class Grouped_Calendars_Admin {
 
 	/**
 	 * Add a tab to the settings meta box.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  array $tabs
 	 *
@@ -64,6 +70,8 @@ class Grouped_Calendars_Admin {
 
 	/**
 	 * Add a panel to the settings meta box.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param int $post_id
 	 */
@@ -160,6 +168,8 @@ class Grouped_Calendars_Admin {
 
 	/**
 	 * Process meta fields.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param int $post_id
 	 */

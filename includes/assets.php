@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Front end scripts and styles.
  *
  * Loads scripts and styles based on the requested calendar view.
+ *
+ * @since 3.0.0
  */
 class Assets {
 
@@ -61,6 +63,8 @@ class Assets {
 
 	/**
 	 * Hook in tabs.
+	 *
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 
@@ -81,6 +85,8 @@ class Assets {
 
 	/**
 	 * Register scripts and styles.
+	 *
+	 * @since 3.0.0
 	 */
 	public function register() {
 		do_action( 'simcal_register_assets', $this->min );
@@ -88,6 +94,8 @@ class Assets {
 
 	/**
 	 * Enqueue scripts and styles.
+	 *
+	 * @since 3.0.0
 	 */
 	public function enqueue() {
 
@@ -115,6 +123,8 @@ class Assets {
 
 	/**
 	 * Load scripts and styles.
+	 *
+	 * @since 3.0.0
 	 */
 	public function load() {
 
@@ -168,6 +178,8 @@ class Assets {
 
 	/**
 	 * Disable scripts and styles.
+	 *
+	 * @since 3.0.0
 	 */
 	public function disable() {
 		if ( true === $this->disable_scripts ) {
@@ -186,6 +198,8 @@ class Assets {
 
 	/**
 	 * Scripts.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param array $scripts
 	 */
@@ -221,6 +235,8 @@ class Assets {
 
 	/**
 	 * Styles.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param array $styles
 	 */

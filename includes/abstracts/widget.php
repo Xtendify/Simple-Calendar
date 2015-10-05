@@ -14,19 +14,25 @@ if ( ! defined( 'ABSPATH' ) ) {
  * The Widget.
  *
  * Basic widget interface.
+ *
+ * @since 3.0.0
  */
 interface Widget {
 
 	/**
 	 * Constructor.
+	 *
+	 * @since 3.0.0
 	 */
 	public function __construct();
 
 	/**
 	 * Print the widget content.
 	 *
-	 * @param array $args     Display arguments.
-	 * @param array $instance The settings for the particular instance of the widget.
+	 * @since  3.0.0
+	 *
+	 * @param  array $args     Display arguments.
+	 * @param  array $instance The settings for the particular instance of the widget.
 	 *
 	 * @return void
 	 */
@@ -39,6 +45,8 @@ interface Widget {
 	 * The newly-calculated value of `$instance` should be returned.
 	 * If false is returned, the instance won't be saved/updated.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  array $new_instance New settings for this instance as input by the user via
 	 * @param  array $old_instance Old settings for this instance.
 	 *
@@ -48,6 +56,8 @@ interface Widget {
 
 	/**
 	 * Print the settings update form.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  array  $instance Current settings.
 	 *

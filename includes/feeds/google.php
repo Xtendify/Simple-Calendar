@@ -19,6 +19,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Google Calendar feed.
  *
  * A feed using a simple Google API key to pull events from public calendars.
+ *
+ * @since 3.0.0
  */
 class Google extends Feed {
 
@@ -82,6 +84,8 @@ class Google extends Feed {
 	/**
 	 * Set properties.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param string|Calendar $calendar
 	 * @param bool $load_admin
 	 */
@@ -120,6 +124,8 @@ class Google extends Feed {
 	/**
 	 * Decode a calendar id.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  string $id Base64 encoded id.
 	 *
 	 * @return string
@@ -132,6 +138,8 @@ class Google extends Feed {
 	 * Get events feed.
 	 *
 	 * Normalizes Google data into a standard array object to list events.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return string|array
 	 */
@@ -284,13 +292,15 @@ class Google extends Feed {
 	/**
 	 * Query Google Calendar.
 	 *
-	 * @throws \Exception On request failure will throw an exception from Google.
+	 * @since  3.0.0
 	 *
 	 * @param  string $id        A valid Google Calendar ID.
 	 * @param  int    $time_min  Lower bound timestamp.
 	 * @param  int    $time_max  Upper bound timestamp.
 	 *
 	 * @return array
+	 *
+	 * @throws \Exception On request failure will throw an exception from Google.
 	 */
 	public function make_request( $id = '', $time_min = 0, $time_max = 0 ) {
 
@@ -364,6 +374,7 @@ class Google extends Feed {
 	/**
 	 * Google API Client.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
 	 * @return \Google_Client
@@ -382,6 +393,7 @@ class Google extends Feed {
 	/**
 	 * Google Calendar Service.
 	 *
+	 * @since  3.0.0
 	 * @access protected
 	 *
 	 * @return null|\Google_Service_Calendar

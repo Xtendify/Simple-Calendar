@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Admin scripts and styles.
  *
  * Handles the plugin scripts and styles for back end dashboard pages.
+ *
+ * @since 3.0.0
  */
 class Assets {
 
@@ -26,7 +28,9 @@ class Assets {
 	public $min = '';
 
 	/**
-	 * Constructor.
+	 * Hook in tabs.
+	 *
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 
@@ -37,6 +41,8 @@ class Assets {
 
 	/**
 	 * Enqueue scripts and styles.
+	 *
+	 * @since 3.0.0
 	 */
 	public function load() {
 

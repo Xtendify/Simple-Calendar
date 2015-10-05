@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * The Feed.
  *
  * Source of events supplied to calendars.
+ *
+ * @since 3.0.0
  */
 abstract class Feed {
 
@@ -126,6 +128,8 @@ abstract class Feed {
 	/**
 	 * Constructor.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param string|Calendar $calendar
 	 */
 	public function __construct( $calendar = '' ) {
@@ -150,6 +154,8 @@ abstract class Feed {
 	/**
 	 * Input fields for settings page.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return false|array
 	 */
 	public function settings_fields() {
@@ -158,6 +164,8 @@ abstract class Feed {
 
 	/**
 	 * Set earliest event.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param int $timestamp
 	 */
@@ -190,6 +198,8 @@ abstract class Feed {
 
 	/**
 	 * Set latest event.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param int $timestamp
 	 */
@@ -224,6 +234,8 @@ abstract class Feed {
 	/**
 	 * Set cache.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param int $time
 	 */
 	public function set_cache( $time = 0 ) {
@@ -236,6 +248,8 @@ abstract class Feed {
 
 	/**
 	 * Get events feed.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @return array
 	 */

@@ -18,6 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Default Calendar: List View.
+ *
+ * @since  3.0.0
  */
 class Default_Calendar_List implements Calendar_View {
 
@@ -64,6 +66,8 @@ class Default_Calendar_List implements Calendar_View {
 	/**
 	 * Constructor.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param string|Calendar $calendar
 	 */
 	public function __construct( $calendar = '' ) {
@@ -72,6 +76,8 @@ class Default_Calendar_List implements Calendar_View {
 
 	/**
 	 * Get the view parent calendar type.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return string
 	 */
@@ -82,6 +88,8 @@ class Default_Calendar_List implements Calendar_View {
 	/**
 	 * Get the view type.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return string
 	 */
 	public function get_type() {
@@ -91,6 +99,8 @@ class Default_Calendar_List implements Calendar_View {
 	/**
 	 * Get the view name.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return string
 	 */
 	public function get_name() {
@@ -99,6 +109,8 @@ class Default_Calendar_List implements Calendar_View {
 
 	/**
 	 * Add ajax actions.
+	 *
+	 * @since 3.0.0
 	 */
 	public function add_ajax_actions() {
 		add_action( 'wp_ajax_simcal_default_calendar_draw_list', array( $this, 'draw_list_ajax' ) );
@@ -109,6 +121,8 @@ class Default_Calendar_List implements Calendar_View {
 	 * Default calendar list scripts.
 	 *
 	 * Scripts to load when this view is displayed.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  string $min
 	 *
@@ -142,6 +156,8 @@ class Default_Calendar_List implements Calendar_View {
 	 *
 	 * Stylesheets to load when this view is displayed.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  string $min = ''
 	 *
 	 * @return array
@@ -158,6 +174,8 @@ class Default_Calendar_List implements Calendar_View {
 
 	/**
 	 * Default calendar list markup.
+	 *
+	 * @since 3.0.0
 	 */
 	public function html() {
 
@@ -196,6 +214,9 @@ class Default_Calendar_List implements Calendar_View {
 
 	/**
 	 * Get events for current display.
+	 *
+	 * @since  3.0.0
+	 * @access private
 	 *
 	 * @param  int $timestamp
 	 *
@@ -293,6 +314,9 @@ class Default_Calendar_List implements Calendar_View {
 	 *
 	 * Parses calender date format and adapts to current display range.
 	 *
+	 * @since  3.0.0
+	 * @access private
+	 *
 	 * @return array
 	 */
 	private function get_heading() {
@@ -385,6 +409,9 @@ class Default_Calendar_List implements Calendar_View {
 	 * Make a calendar list of events.
 	 *
 	 * Outputs a list of events according to events for the specified range.
+	 *
+	 * @since  3.0.0
+	 * @access private
 	 *
 	 * @param  int $timestamp
 	 * @param  int $id
@@ -558,6 +585,8 @@ class Default_Calendar_List implements Calendar_View {
 
 	/**
 	 * Ajax callback to request a new page.
+	 *
+	 * @since 3.0.0
 	 */
 	public function draw_list_ajax() {
 
@@ -578,6 +607,9 @@ class Default_Calendar_List implements Calendar_View {
 	/**
 	 * Array filter callback.
 	 *
+	 * @since  3.0.0
+	 * @access private
+	 *
 	 * @param  int $event Timestamp.
 	 *
 	 * @return bool
@@ -588,6 +620,9 @@ class Default_Calendar_List implements Calendar_View {
 
 	/**
 	 * Array filter callback.
+	 *
+	 * @since  3.0.0
+	 * @access private
 	 *
 	 * @param  int $event Timestamp.
 	 *

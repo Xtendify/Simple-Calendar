@@ -18,6 +18,8 @@ if ( ! function_exists( 'SimpleCalendar_Autoload' ) ) {
 	 *  <Namespace>/<Subnamespace>.../Class_Name (or Classname)
 	 *  'includes/subdir.../class-name.php' or '...classname.php'
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param $class
 	 */
 	function SimpleCalendar_Autoload( $class ) {

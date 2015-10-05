@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Google Calendar feed admin.
+ *
+ * @since 3.0.0
  */
 class Google_Admin {
 
@@ -46,6 +48,8 @@ class Google_Admin {
 	/**
 	 * Hook in tabs.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param Google $feed
 	 * @param string $google_api_key
 	 * @param string $google_calendar_id
@@ -66,6 +70,8 @@ class Google_Admin {
 
 	/**
 	 * Settings page fields.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return array
 	 */
@@ -91,6 +97,8 @@ class Google_Admin {
 	 * This method only checks if the api key setting is not empty.
 	 * It is not currently possible to check or validate an API Key without performing a full request.
 	 * On the settings page there are no known calendars to use for this so we can only check if there is a string.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  string $api_key Google API key.
 	 *
@@ -124,6 +132,8 @@ class Google_Admin {
 	/**
 	 * Add a tab to the settings meta box.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  array $tabs
 	 *
 	 * @return array
@@ -141,6 +151,8 @@ class Google_Admin {
 
 	/**
 	 * Add a panel to the settings meta box.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param int $post_id
 	 */
@@ -213,6 +225,8 @@ class Google_Admin {
 
 	/**
 	 * Test a connection to Google Calendar API.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  string $google_calendar_id
 	 *
@@ -305,6 +319,8 @@ class Google_Admin {
 
 	/**
 	 * Process meta fields.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param int $post_id
 	 */

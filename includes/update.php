@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Update script.
  *
  * Updates the installed plugin to the current version.
+ *
+ * @since 3.0.0
  */
 class Update {
 
@@ -57,6 +59,8 @@ class Update {
 	/**
 	 * Constructor.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param string $version (optional) Current plugin version, defaults to value in plugin constant.
 	 */
 	public function __construct( $version = SIMPLE_CALENDAR_VERSION ) {
@@ -70,6 +74,8 @@ class Update {
 	 * Update to current version.
 	 *
 	 * Runs all the update scripts through version steps.
+	 *
+	 * @since 3.0.0
 	 */
 	public function run_updates() {
 
@@ -112,6 +118,8 @@ class Update {
 	/**
 	 * Get posts.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  $post_type
 	 *
 	 * @return array
@@ -146,6 +154,8 @@ class Update {
 	 * Update.
 	 *
 	 * Runs an update script for the specified version passed in argument.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param string $version
 	 */

@@ -114,6 +114,8 @@ final class Plugin {
 
 	/**
 	 * Load plugin.
+	 *
+	 * @since 3.0.0
 	 */
 	public function load() {
 
@@ -150,6 +152,8 @@ final class Plugin {
 
 	/**
 	 * Load plugin admin.
+	 *
+	 * @since 3.0.0
 	 */
 	public function load_admin() {
 
@@ -176,6 +180,8 @@ final class Plugin {
 
 	/**
 	 * Init plugin when WordPress initializes.
+	 *
+	 * @since 3.0.0
 	 */
 	public function init() {
 
@@ -194,6 +200,8 @@ final class Plugin {
 
 	/**
 	 * Load Localization files.
+	 *
+	 * @since 3.0.0
 	 */
 	public function l10n() {
 		load_plugin_textdomain( 'google-calendar-events' );
@@ -202,6 +210,8 @@ final class Plugin {
 
 	/**
 	 * Register plugin settings.
+	 *
+	 * @since 3.0.0
 	 */
 	public function register_settings() {
 		if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
@@ -213,6 +223,8 @@ final class Plugin {
 	/**
 	 * Get Ajax URL.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return string
 	 */
 	public function ajax_url() {
@@ -222,7 +234,9 @@ final class Plugin {
 	/**
 	 * Get URL.
 	 *
-	 * @param  $case
+	 * @since  3.0.0
+	 *
+	 * @param  string $case Requested url.
 	 *
 	 * @return string
 	 */

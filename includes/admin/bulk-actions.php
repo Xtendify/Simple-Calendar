@@ -37,6 +37,8 @@ class Bulk_Actions {
 	/**
 	 * Constructor.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param string $post_type
 	 */
 	public function __construct( $post_type ) {
@@ -46,6 +48,8 @@ class Bulk_Actions {
 	/**
 	 * Define all your custom bulk actions and corresponding callbacks
 	 * Define at least $menu_text and $callback parameters
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param array $args
 	 */
@@ -66,6 +70,8 @@ class Bulk_Actions {
 	 * Init.
 	 *
 	 * Callbacks need to be registered before add_actions.
+	 *
+	 * @since 3.0.0
 	 */
 	public function init() {
 		if ( is_admin() ) {
@@ -77,6 +83,8 @@ class Bulk_Actions {
 
 	/**
 	 * Step 1: add the custom Bulk Action to the select menus.
+	 *
+	 * @since 3.0.0
 	 */
 	public function custom_bulk_admin_footer() {
 
@@ -104,6 +112,8 @@ class Bulk_Actions {
 	 * Step 2: handle the custom Bulk Action.
 	 *
 	 * Based on the post http://wordpress.stackexchange.com/questions/29822/custom-bulk-action
+	 *
+	 * @since 3.0.0
 	 */
 	public function custom_bulk_action() {
 
@@ -176,6 +186,8 @@ class Bulk_Actions {
 
 	/**
 	 * Step 3: display an admin notice after action.
+	 *
+	 * @since 3.0.0
 	 */
 	public function custom_bulk_admin_notices() {
 

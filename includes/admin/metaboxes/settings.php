@@ -19,11 +19,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Calendar feed settings.
  *
  * Meta box for handling an individual feed settings.
+ *
+ * @since 3.0.0
  */
 class Settings implements Meta_Box {
 
 	/**
 	 * Output the meta box markup.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param \WP_Post $post
 	 */
@@ -760,6 +764,8 @@ class Settings implements Meta_Box {
 
 	/**
 	 * Validate and save the meta box fields.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param int      $post_id
 	 * @param \WP_Post $post

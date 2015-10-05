@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * The Settings Page.
  *
  * Handles a collection of settings fields and a settings page markup.
+ *
+ * @since 3.0.0
  */
 abstract class Settings_Page {
 
@@ -76,6 +78,8 @@ abstract class Settings_Page {
 	/**
 	 * Get page settings.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return array
 	 */
 	public function get_settings() {
@@ -108,6 +112,7 @@ abstract class Settings_Page {
 	/**
 	 * Get option value.
 	 *
+	 * @since  3.0.0
 	 * @access protected
 	 *
 	 * @param  string $section
@@ -129,6 +134,8 @@ abstract class Settings_Page {
 	/**
 	 * Add sections for this page.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return array
 	 */
 	abstract public function add_sections();
@@ -136,12 +143,16 @@ abstract class Settings_Page {
 	/**
 	 * Get settings fields.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return array
 	 */
 	abstract public function add_fields();
 
 	/**
 	 * Default basic callback for page sections.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  array $section
 	 *
@@ -161,6 +172,8 @@ abstract class Settings_Page {
 	 * Register setting callback.
 	 *
 	 * Callback function for sanitizing and validating options before they are updated.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  array $settings Settings inputs.
 	 *

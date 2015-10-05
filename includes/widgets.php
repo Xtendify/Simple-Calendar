@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Widgets
  *
  * Register and handle widgets.
+ *
+ * @since 3.0.0
  */
 class Widgets {
 
@@ -27,6 +29,8 @@ class Widgets {
 
 	/**
 	 * Register new widgets.
+	 *
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 
@@ -39,6 +43,8 @@ class Widgets {
 
 	/**
 	 * Register widgets.
+	 *
+	 * @since 3.0.0
 	 */
 	public function register() {
 

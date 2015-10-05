@@ -16,11 +16,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Checkbox input field.
  *
  * Outputs one single checkbox or a fieldset of checkboxes for multiple choices.
+ *
+ * @since 3.0.0
  */
 class Checkbox extends Field {
 
 	/**
 	 * Construct.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param array $field
 	 */
@@ -31,6 +35,8 @@ class Checkbox extends Field {
 
 	/**
 	 * Outputs the field markup.
+	 *
+	 * @since 3.0.0
 	 */
 	public function html() {
 

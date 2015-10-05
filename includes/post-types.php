@@ -14,11 +14,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Custom Post Types and Taxonomies.
  *
  * Register and initialize custom post types and custom taxonomies.
+ *
+ * @since 3.0.0
  */
 class Post_Types {
 
 	/**
 	 * Hook in WordPress init to register custom content.
+	 *
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 		// Register custom taxonomies.
@@ -33,6 +37,8 @@ class Post_Types {
 
 	/**
 	 * Register custom taxonomies.
+	 *
+	 * @since 3.0.0
 	 */
 	public static function register_taxonomies() {
 
@@ -150,6 +156,8 @@ class Post_Types {
 
 	/**
 	 * Register custom post types.
+	 *
+	 * @since 3.0.0
 	 */
 	public static function register_post_types() {
 
@@ -215,6 +223,8 @@ class Post_Types {
 
 	/**
 	 * Filter post content to output a calendar.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  string $the_content
 	 *
@@ -283,6 +293,8 @@ class Post_Types {
 	 * Upon posts deletion.
 	 *
 	 * Delete transients and notices when a calendar is deleted.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param $post_id
 	 */

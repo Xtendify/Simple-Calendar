@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Meta boxes class.
  *
  * Handles write panels in post types and post meta.
+ *
+ * @since 3.0.0
  */
 class Meta_Boxes {
 
@@ -37,6 +39,8 @@ class Meta_Boxes {
 
 	/**
 	 * Hook in tabs.
+	 *
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 
@@ -66,6 +70,8 @@ class Meta_Boxes {
 
 	/**
 	 * Add meta boxes.
+	 *
+	 * @since 3.0.0
 	 */
 	public function add_meta_boxes() {
 
@@ -107,8 +113,12 @@ class Meta_Boxes {
 	/**
 	 * Check if we're saving, then trigger action.
 	 *
-	 * @param int    $post_id
-	 * @param object $post
+	 * @since  3.0.0
+	 *
+	 * @param  int    $post_id
+	 * @param  object $post
+	 *
+	 * @return void
 	 */
 	public function save_meta_boxes( $post_id, $post ) {
 

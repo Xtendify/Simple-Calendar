@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Welcome page.
  *
  * Shows a feature overview for the new version (major) and credits.
+ *
+ * @since 3.0.0
  */
 class Welcome {
 
@@ -29,6 +31,8 @@ class Welcome {
 
 	/**
 	 * Hook in tabs.
+	 *
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 
@@ -40,6 +44,8 @@ class Welcome {
 
 	/**
 	 * Add page screens.
+	 *
+	 * @since 3.0.0
 	 */
 	public function welcome_page_tabs() {
 
@@ -87,6 +93,8 @@ class Welcome {
 
 	/**
 	 * Remove dashboard page links.
+	 *
+	 * @since 3.0.0
 	 */
 	public function remove_submenu_pages() {
 		remove_submenu_page( 'index.php', 'simple-calendar_about' );
@@ -96,6 +104,8 @@ class Welcome {
 
 	/**
 	 * Load styles.
+	 *
+	 * @since 3.0.0
 	 */
 	public function styles() {
 		wp_enqueue_style(
@@ -108,6 +118,8 @@ class Welcome {
 
 	/**
 	 * Intro shown on every about page screen.
+	 *
+	 * @since 3.0.0
 	 */
 	private function intro() {
 
@@ -178,6 +190,8 @@ class Welcome {
 
 	/**
 	 * Output the about screen.
+	 *
+	 * @since 3.0.0
 	 */
 	public function about_screen() {
 
@@ -206,6 +220,8 @@ class Welcome {
 
 	/**
 	 * Output the credits screen.
+	 *
+	 * @since 3.0.0
 	 */
 	public function credits_screen() {
 
@@ -228,6 +244,8 @@ class Welcome {
 
 	/**
 	 * Output the translators screen.
+	 *
+	 * @since 3.0.0
 	 */
 	public function translators_screen() {
 
@@ -257,6 +275,8 @@ class Welcome {
 
 	/**
 	 * Render Contributors List.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return string $contributor_list HTML formatted list of contributors.
 	 */
@@ -295,6 +315,8 @@ class Welcome {
 
 	/**
 	 * Retrieve list of contributors from GitHub.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return mixed
 	 */

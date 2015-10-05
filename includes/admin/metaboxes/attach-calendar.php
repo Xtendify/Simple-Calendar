@@ -16,11 +16,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Attach a calendar to a post.
  *
  * Meta box for attaching calendars to WordPress posts.
+ *
+ * @since 3.0.0
  */
 class Attach_Calendar implements Meta_Box {
 
 	/**
 	 * Output the meta box markup.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param \WP_Post $post
 	 */
@@ -61,6 +65,8 @@ class Attach_Calendar implements Meta_Box {
 
 	/**
 	 * Validate and save the meta box fields.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @param int      $post_id
 	 * @param \WP_Post $post

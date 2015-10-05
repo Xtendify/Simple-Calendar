@@ -17,6 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * The Event Builder.
  *
  * Parses event templates from a feed post type for printing on calendar views.
+ *
+ * @since 3.0.0
  */
 class Event_Builder {
 
@@ -47,6 +49,8 @@ class Event_Builder {
 	/**
 	 * Constructor.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param Event    $event
 	 * @param Calendar $calendar
 	 */
@@ -58,6 +62,8 @@ class Event_Builder {
 
 	/**
 	 * Get content tags.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return array
 	 */
@@ -144,6 +150,8 @@ class Event_Builder {
 	/**
 	 * Get event content.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  string $template_tags
 	 *
 	 * @return string
@@ -163,6 +171,8 @@ class Event_Builder {
 
 	/**
 	 * Process event content.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  string $match
 	 *
@@ -441,6 +451,9 @@ class Event_Builder {
 	/**
 	 * Limit words in text string.
 	 *
+	 * @since  3.0.0
+	 * @access private
+	 *
 	 * @param  string $text
 	 * @param  int $limit
 	 *
@@ -463,6 +476,7 @@ class Event_Builder {
 	/**
 	 * Get event title.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
 	 * @param  $title
@@ -490,6 +504,7 @@ class Event_Builder {
 	/**
 	 * Get event description.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
 	 * @param  string $description
@@ -542,6 +557,7 @@ class Event_Builder {
 	/**
 	 * Get event start and end date and time.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
 	 * @param  Event $event
@@ -616,6 +632,7 @@ class Event_Builder {
 	/**
 	 * Get event date or time.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
 	 * @param  string $tag
@@ -666,6 +683,7 @@ class Event_Builder {
 	/**
 	 * Make a link.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
 	 * @param  string $tag
@@ -697,6 +715,7 @@ class Event_Builder {
 	/**
 	 * Get event attachments.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
 	 * @param  array $attachments
@@ -724,6 +743,7 @@ class Event_Builder {
 	/**
 	 * Get attendees.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
 	 * @param  array  $attendees
@@ -798,6 +818,8 @@ class Event_Builder {
 	/**
 	 * Format attendee rsvp response.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  $response
 	 *
 	 * @return string
@@ -824,6 +846,7 @@ class Event_Builder {
 	/**
 	 * Get event organizer.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
 	 * @param  array  $organizer
@@ -854,6 +877,8 @@ class Event_Builder {
 	 *  4 - The self closing /
 	 *  5 - The content of a tag when it wraps some content.
 	 *  6 - An extra ] to allow for escaping tags with double square brackets [[]]
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return string The tag search regular expression result
 	 */

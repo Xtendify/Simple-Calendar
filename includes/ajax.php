@@ -14,11 +14,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Front facing ajax.
+ *
+ * @since 3.0.0
  */
 class Ajax {
 
 	/**
 	 * Hook in tabs.
+	 *
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'add_callbacks' ), 100 );
@@ -26,6 +30,8 @@ class Ajax {
 
 	/**
 	 * Add ajax callbacks.
+	 *
+	 * @since 3.0.0
 	 */
 	public function add_callbacks() {
 

@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Objects factory.
  *
  * Helper class to get the right type of object used across the plugin.
+ *
+ * @since 3.0.0
  */
 class Objects {
 
@@ -23,6 +25,8 @@ class Objects {
 	 * Constructor.
 	 *
 	 * Add default objects.
+	 *
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 
@@ -66,6 +70,8 @@ class Objects {
 	/**
 	 * Get feed types.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return array
 	 */
 	public function get_feed_types() {
@@ -76,6 +82,8 @@ class Objects {
 
 	/**
 	 * Get calendar types.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return array
 	 */
@@ -88,6 +96,8 @@ class Objects {
 	/**
 	 * Get settings pages.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return array
 	 */
 	public function get_settings_pages() {
@@ -98,6 +108,8 @@ class Objects {
 	 * Get a calendar.
 	 *
 	 * Returns the right type of calendar.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  int|string|object|\WP_Post|Object\Calendar $object
 	 *
@@ -136,8 +148,10 @@ class Objects {
 	/**
 	 * Get a calendar view.
 	 *
-	 * @param int    $id   Feed post id.
-	 * @param string $name (optional) Name of calendar view.
+	 * @since  3.0.0
+	 *
+	 * @param  int    $id   Feed post id.
+	 * @param  string $name (optional) Name of calendar view.
 	 *
 	 * @return null|Object\Calendar_View
 	 */
@@ -161,6 +175,8 @@ class Objects {
 	 * Get a feed.
 	 *
 	 * Returns the right type of feed.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @param  int|string|object|\WP_Post|Object\Calendar $object
 	 *
@@ -202,6 +218,8 @@ class Objects {
 	/**
 	 * Get a field.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  array  $args Field args.
 	 * @param  string $name Field type.
 	 *
@@ -219,6 +237,8 @@ class Objects {
 	/**
 	 * Get a settings page.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @param  string $name
 	 *
 	 * @return null|Object\Settings_Page
@@ -230,6 +250,7 @@ class Objects {
 	/**
 	 * Get a plugin object.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
 	 * @param  string $name Object name.
@@ -266,6 +287,7 @@ class Objects {
 	 * Standardizes object naming and class names: <object-name> becomes <Class_Name>.
 	 * The plugin autoloader uses a similar pattern.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
 	 * @param  string $name Object name.

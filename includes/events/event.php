@@ -14,6 +14,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * The Event.
+ *
+ * @since 3.0.0
  */
 class Event {
 
@@ -220,6 +222,8 @@ class Event {
 	/**
 	 * Event constructor.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @param array $event
 	 */
 	public function __construct( array $event ) {
@@ -334,6 +338,9 @@ class Event {
 	/**
 	 * Escape location.
 	 *
+	 * @since  3.0.0
+	 * @access private
+	 *
 	 * @param  string|array $var
 	 *
 	 * @return array
@@ -370,6 +377,9 @@ class Event {
 	/**
 	 * Escape coordinate.
 	 *
+	 * @since  3.0.0
+	 * @access private
+	 *
 	 * @param  int|float $latlng
 	 *
 	 * @return int|float
@@ -380,6 +390,9 @@ class Event {
 
 	/**
 	 * Set timezone.
+	 *
+	 * @since  3.0.0
+	 * @access private
 	 *
 	 * @param  string $tz Timezone.
 	 *
@@ -396,6 +409,8 @@ class Event {
 	/**
 	 * Starts today.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return bool
 	 */
 	public function starts_today() {
@@ -404,6 +419,8 @@ class Event {
 
 	/**
 	 * Ends today.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return bool
 	 */
@@ -414,6 +431,8 @@ class Event {
 	/**
 	 * Starts tomorrow
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return bool
 	 */
 	public function starts_tomorrow() {
@@ -422,6 +441,8 @@ class Event {
 
 	/**
 	 * Ends tomorrow.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return bool
 	 */
@@ -432,6 +453,8 @@ class Event {
 	/**
 	 * Started yesterday.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return bool
 	 */
 	public function started_yesterday() {
@@ -440,6 +463,8 @@ class Event {
 
 	/**
 	 * Ended yesterday.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return bool
 	 */
@@ -450,6 +475,8 @@ class Event {
 	/**
 	 * Starts in the future.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return bool
 	 */
 	public function starts_future() {
@@ -458,6 +485,8 @@ class Event {
 
 	/**
 	 * Ends in the future.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return bool
 	 */
@@ -468,6 +497,8 @@ class Event {
 	/**
 	 * Started in the past.
 	 *
+	 * @since  3.0.0
+	 *
 	 * @return bool
 	 */
 	public function started_past() {
@@ -476,6 +507,8 @@ class Event {
 
 	/**
 	 * Ended in the past.
+	 *
+	 * @since  3.0.0
 	 *
 	 * @return bool
 	 */
