@@ -12,6 +12,34 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
+ * Check if there is a calendar.
+ *
+ * @since  3.0.0
+ *
+ * @return bool
+ */
+function is_simple_calendar() {
+
+	if ( is_singular() ) {
+
+		global $post, $post_type;
+
+		if ( 'calendar' == $post_type ) {
+			return true;
+		} else {
+			if ( false !== get_post_meta( $post->ID, '_simcal_attach_calendar_id', true ) ) {
+				return true;
+			}
+			if ( has_shortcode( $post->post_content, 'calendar' ) ) {
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+/**
  * Get events feed types.
  *
  * @since  3.0.0

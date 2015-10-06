@@ -69,7 +69,7 @@ class Google_Admin {
 	}
 
 	/**
-	 * Settings page fields.
+	 * Feed settings page fields.
 	 *
 	 * @since  3.0.0
 	 *

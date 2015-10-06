@@ -76,6 +76,7 @@ class Assets {
 				'jquery',
 				'jquery-ui-sortable',
 				'jquery-ui-datepicker',
+				'wp-color-picker',
 				'simcal-tiptip',
 				'simcal-select2',
 			),
@@ -103,7 +104,10 @@ class Assets {
 		wp_register_style(
 			'simcal-admin',
 			$css_path . 'admin' . $this->min . '.css',
-			array( 'simcal-select2' ),
+			array(
+				'wp-color-picker',
+				'simcal-select2',
+			),
 			SIMPLE_CALENDAR_VERSION
 		);
 		wp_register_style(

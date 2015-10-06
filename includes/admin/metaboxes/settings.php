@@ -79,7 +79,8 @@ class Settings implements Meta_Box {
 	/**
 	 * Print the meta box settings handle.
 	 *
-	 * @access private
+	 * @since  3.0.0
+	 * @access  private
 	 *
 	 * @param \WP_Post $post
 	 */
@@ -178,9 +179,10 @@ class Settings implements Meta_Box {
 	/**
 	 * Print settings tabs.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
-	 * @param \WP_Post $post
+	 * @param  \WP_Post $post
 	 */
 	private static function settings_tabs( $post ) {
 
@@ -226,9 +228,10 @@ class Settings implements Meta_Box {
 	/**
 	 * Print events settings panel.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
-	 * @param \WP_Post $post
+	 * @param  \WP_Post $post
 	 */
 	private static function events_settings_panel( $post ) {
 
@@ -431,9 +434,10 @@ class Settings implements Meta_Box {
 	/**
 	 * Print the calendar settings panel.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
-	 * @param \WP_Post $post
+	 * @param  \WP_Post $post
 	 */
 	private static function calendar_settings_panel( $post ) {
 
@@ -488,9 +492,10 @@ class Settings implements Meta_Box {
 	/**
 	 * Print the advanced settings panel.
 	 *
+	 * @since  3.0.0
 	 * @access private
 	 *
-	 * @param \WP_Post $post
+	 * @param  \WP_Post $post
 	 */
 	private static function advanced_settings_panel( $post ) {
 
@@ -727,8 +732,12 @@ class Settings implements Meta_Box {
 	/**
 	 * Print fields in a panel.
 	 *
-	 * @param array $array
-	 * @param int   $post_id
+	 * @since  3.0.0
+	 *
+	 * @param  array $array
+	 * @param  int   $post_id
+	 *
+	 * @return void
 	 */
 	public static function print_panel_fields( $array, $post_id ) {
 
@@ -765,10 +774,12 @@ class Settings implements Meta_Box {
 	/**
 	 * Validate and save the meta box fields.
 	 *
-	 * @since 3.0.0
+	 * @since  3.0.0
 	 *
-	 * @param int      $post_id
-	 * @param \WP_Post $post
+	 * @param  int      $post_id
+	 * @param  \WP_Post $post
+	 *
+	 * @return void
 	 */
 	public static function save( $post_id, $post ) {
 

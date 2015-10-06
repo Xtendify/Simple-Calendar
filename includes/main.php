@@ -142,10 +142,6 @@ final class Plugin {
 		// Add Widgets.
 		new Widgets();
 
-		// Customizer additions (is_admin() is false).
-		// @see https://core.trac.wordpress.org/ticket/25104
-		new Admin\Customizer();
-
 		// Deprecated functions for backwards compatibility.
 		include_once 'functions/deprecated.php';
 	}

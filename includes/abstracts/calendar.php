@@ -211,6 +211,14 @@ abstract class Calendar {
 	public $view = null;
 
 	/**
+	 * Calendar settings.
+	 *
+	 * @access protected
+	 * @var array
+	 */
+	protected $settings = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 3.0.0
@@ -656,9 +664,11 @@ abstract class Calendar {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @return false|array
+	 * @return array
 	 */
-	abstract public function settings_fields();
+	public function settings_fields() {
+		return $this->settings;
+	}
 
 	/**
 	 * Get a calendar view.

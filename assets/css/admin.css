@@ -455,6 +455,8 @@ body .simcal-field-textarea {
     box-shadow: 0 0 2px rgba(30, 140, 190, 0.8); }
   #simcal-calendar-settings .select2-selection__choice {
     margin-bottom: 0; }
+  #simcal-calendar-settings .wp-picker-container {
+    vertical-align: inherit; }
 
 .simcal-box-handle {
   display: inline-block;

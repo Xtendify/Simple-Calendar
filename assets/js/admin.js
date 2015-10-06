@@ -116,6 +116,9 @@
 		 * Input Fields *
 		 * ============ */
 
+		// WordPress color picker.
+		$( '.simcal-field-color-picker' ).wpColorPicker();
+
 		// Select2 enhanced select.
 		$( '.simcal-field-select-enhanced' ).each( function( e, i ) {
 
