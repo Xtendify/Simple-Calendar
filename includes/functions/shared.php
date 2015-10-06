@@ -181,14 +181,15 @@ function simcal_get_calendars( $exclude = '', $cached = true ) {
  */
 function simcal_get_calendar_names_i18n( $group, $style = 'full' ) {
 
-	$array = array();
+	$names = array();
 
 	if ( in_array( $group, array( 'month', 'day', 'meridiem' ) ) ) {
 
 		$format = '';
 		$length = 0;
 
-		$date = \Carbon\Carbon::now( 'UTC' );
+		$date = new \Carbon\Carbon( 'now', 'UTC' );
+		$date->setLocale( substr( \SimpleCalendar\plugin()->locale, 0, 2 ) );
 
 		if ( 'month' == $group ) {
 			$date->month( 0 )->startOfMonth();
@@ -217,13 +218,13 @@ function simcal_get_calendar_names_i18n( $group, $style = 'full' ) {
 			} else {
 				$date->addDays( 1 );
 			}
-			$array[ strval( $i ) ] = date_i18n( $format, $date->getTimestamp() );
+			$names[ strval( $i ) ] = $date->format( $format );
 			$i++;
 		}
 
 	}
 
-	return $array;
+	return $names;
 }
 
 /**
