@@ -29,10 +29,8 @@ groups: auto
 accessLevels: [public]
 
 # Generate documentation for elements marked as internal and display internal documentation parts
-internal: false
-
-# Generate documentation for PHP internal classes
-php: false
+internal: true
+php: true
 
 # Generate tree view of classes, interfaces and exceptions
 tree: true
