@@ -267,12 +267,10 @@ function simcal_default_event_template() {
 	$content  = '<strong>' . '[title]' . '</strong>';
 	$content .= '<p>';
 	$content .= '[when]' . "\n";
-	$content .= '[location]' . "\n";
+	$content .= '[location]';
 	$content .= '</p>';
-	$content .= '[description]';
-	$content .= '<p>';
-	$content .= '[link newwindow="yes"]' . __( 'See more details', 'google-calendar-events' ) . '[/link]';
-	$content .= '</p>';
+	$content .= '<div>' . '[description]' . '</div>';
+	$content .= '<p>' . '[link newwindow="yes"]' . __( 'See more details', 'google-calendar-events' ) . '[/link]' . '</p>';
 
 	return apply_filters( 'simcal_default_event_template', $content );
 }
