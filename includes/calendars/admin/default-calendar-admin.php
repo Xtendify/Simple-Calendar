@@ -290,7 +290,7 @@ class Default_Calendar_Admin {
 						<td>
 							<?php
 
-							$saved = get_post_meta( $post_id, '_default_calendar_style_today', true );
+							$saved = get_post_meta( $post_id, '_default_calendar_style_theme', true );
 							$value = ! $saved ? $default_theme : $saved;
 
 							simcal_print_field( array(
@@ -299,6 +299,7 @@ class Default_Calendar_Admin {
 								'id'      => '_default_calendar_style_theme',
 								'value'   => $value,
 								'context' => 'metabox',
+								'tooltip' => __( 'Choose a calendar theme to match your site theme.' ),
 								'options' => array(
 									'light' => __( 'Light', 'google-events-calendar' ),
 									'dark' => __( 'Dark', 'google-events-calendar' )
