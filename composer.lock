@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "14a8a55346096ba3d0f292a5f5a97cea",
-    "content-hash": "78eab37df595536c2c39171c9daefd11",
+    "hash": "0b7b4ae3988bf401e6602d06de6e1a0b",
+    "content-hash": "97f0b9e6a0f9ca37335f6975acf07088",
     "packages": [
         {
             "name": "cbschuld/browser.php",
@@ -127,6 +127,51 @@
                 "google"
             ],
             "time": "2015-09-23 04:19:33"
+        },
+        {
+            "name": "mexitek/phpcolors",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mexitek/phpColors.git",
+                "reference": "89bf30473a68dc8845e46e9db3e536b969e18c11"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mexitek/phpColors/zipball/89bf30473a68dc8845e46e9db3e536b969e18c11",
+                "reference": "89bf30473a68dc8845e46e9db3e536b969e18c11",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "src"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arlo Carreon",
+                    "homepage": "http://arlocarreon.com",
+                    "role": "creator"
+                }
+            ],
+            "description": "A series of methods that let you manipulate colors. Just incase you ever need different shades of one color on the fly.",
+            "homepage": "http://mexitek.github.com/phpColors/",
+            "keywords": [
+                "color",
+                "css",
+                "design",
+                "frontend",
+                "ui"
+            ],
+            "time": "2015-09-09 15:43:06"
         },
         {
             "name": "nekojira/wp-requirements",
@@ -1523,6 +1568,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "cbschuld/browser.php": 20,
+        "mexitek/phpcolors": 20,
         "phpunit/phpunit": 0
     },
     "prefer-stable": true,

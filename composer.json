@@ -27,7 +27,8 @@
     "nesbot/carbon": "~1.2",
     "erusev/parsedown": "^1.5",
     "nekojira/wp-requirements": "^1.4",
-    "xrstf/composer-php52": "1.*"
+    "xrstf/composer-php52": "1.*",
+    "mexitek/phpcolors": "dev-master"
   },
   "require-dev": {
     "phpunit/phpunit": "*@stable",
