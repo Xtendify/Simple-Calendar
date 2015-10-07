@@ -204,7 +204,7 @@ class Menus {
 			if ( ! get_option( 'simple-calendar_admin_footer_text_rated' ) ) {
 
 				$footer_text = sprintf(
-					__( 'If you like <strong>Simple Calendar</strong> please leave us a %s&#9733;&#9733;&#9733;&#9733;&#9733;%s rating on WordPress.org. A huge thank you in advance!', 'google-calendar-events' ),
+					__( 'If you like <strong>Simple Calendar</strong> please leave us a %s&#9733;&#9733;&#9733;&#9733;&#9733; rating on WordPress.org%s. A huge thank you in advance!', 'google-calendar-events' ),
 					'<a href="https://wordpress.org/support/view/plugin-reviews/google-calendar-events?filter=5#postform" target="_blank" class="simcal-rating-link" data-rated="' . esc_attr__( 'Thanks :)', 'google-calendar-events' ) . '">', '</a>'
 				);
 
