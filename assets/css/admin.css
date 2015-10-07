@@ -214,6 +214,9 @@ body .simcal-field-select-enhanced {
   max-width: 500px;
   width: 100%; }
 
+.select2-container {
+  z-index: 999999; }
+
 body .simcal-field-textarea {
   min-height: 64px;
   vertical-align: top; }

@@ -23,6 +23,10 @@ body .simcal-field-select-enhanced {
   max-width: 500px;
   width: 100%;
 }
+// Fixes a bug with customizer.
+.select2-container {
+    z-index: 999999;
+}
 
 // ========
 // Textarea
