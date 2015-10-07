@@ -94,6 +94,11 @@ class Calendars extends Settings_Page {
 
 		arsort( $calendar_types );
 
+		$sections['poweredby'] = array(
+			'title' => __( 'Powered by Simple Calendar', 'google-calendar-events' ),
+			'description' => '',
+		);
+
 		return apply_filters( 'simcal_add_' . $this->option_group . '_' . $this->id .'_sections', $sections );
 	}
 
@@ -165,6 +170,17 @@ class Calendars extends Settings_Page {
 					) );
 
 				}
+
+			} elseif ( 'poweredby' == $section ) {
+
+				$fields[ $section ][] = array(
+					'type'      => 'checkbox',
+					'title'     => __( 'Support this plugin', 'google-calendar-events' ),
+					'tooltip'   => __( ' Show us some love and display a small link to our plugin below your calendars!', 'google-calendar-events' ),
+					'name'      => 'simple-calendar_' . $this->option_group . '_' . $this->id . '[' . $section . '][opt_in]',
+					'id'        => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-poweredby-optin',
+					'value'     => $this->get_option_value( $section, 'opt_in' ),
+				);
 			}
 
 		endforeach;

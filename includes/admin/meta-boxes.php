@@ -52,6 +52,7 @@ class Meta_Boxes {
 		// Load meta boxes to save settings.
 		new Metabox\Settings();
 		new Metabox\Attach_Calendar();
+		new Metabox\Newsletter();
 		do_action( 'simcal_load_meta_boxes' );
 
 		// Add meta boxes.
@@ -82,6 +83,15 @@ class Meta_Boxes {
 			'calendar',
 			'normal',
 			'core'
+		);
+
+		add_meta_box(
+			'simcal-newsletter',
+			__( 'Simple Calendar Newsletter', 'google-calendar-events' ),
+			'\SimpleCalendar\Admin\Metaboxes\Newsletter::html',
+			'calendar',
+			'side',
+			'high'
 		);
 
 		add_meta_box(
