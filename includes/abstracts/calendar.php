@@ -749,7 +749,7 @@ abstract class Calendar {
 				do_action( 'simcal_calendar_html_after', $this->id );
 
 				$settings = get_option( 'simple-calendar_settings_calendars' );
-				$poweredby = isset( $settings['poweredby'] ) ? $settings['poweredby'] : '';
+				$poweredby = isset( $settings['poweredby']['opt_in'] ) ? $settings['poweredby']['opt_in'] : '';
 
 				if ( 'yes' == $poweredby ) {
 					echo __( 'Powered by Simple Calendar', 'google-calendar-events' );
