@@ -333,7 +333,7 @@ class Default_Calendar_Admin {
 						<td>
 							<?php
 
-							$saved = get_post_meta( $post_id, '_default_calendar_style_today', true );
+							$saved = get_post_meta( $post_id, '_default_calendar_style_days_events', true );
 							$value = ! $saved ? $default_days_events_color : $saved;
 
 							simcal_print_field( array(
