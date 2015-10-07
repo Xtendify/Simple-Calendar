@@ -68,6 +68,17 @@ class Menus {
 
 		add_submenu_page(
 			self::$main_menu,
+			__( 'Add ons', 'google-calendar-events' ),
+			__( 'Add ons', 'google-calendar-events' ),
+			'manage_options',
+			'simple-calendar_add_ons',
+			function() {
+				wp_redirect( 'https://simplecalendar.io/addons/' );
+			}
+		);
+
+		add_submenu_page(
+			self::$main_menu,
 			__( 'Settings', 'google-calendar-events' ),
 			__( 'Settings', 'google-calendar-events' ),
 			'manage_options',
