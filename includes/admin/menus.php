@@ -73,7 +73,7 @@ class Menus {
 			'manage_options',
 			'simple-calendar_add_ons',
 			function() {
-				wp_redirect( 'https://simplecalendar.io/addons/' );
+				wp_redirect( \SimpleCalendar\plugin()->get_url( 'addons' ) );
 			}
 		);
 
