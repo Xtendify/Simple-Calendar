@@ -375,6 +375,7 @@
 		 * Misc *
 		 * ==== */
 
+		// Clear carch buttons.
 		$( '#simcal-clear-cache' ).on( 'click', function( e ) {
 
 			e.preventDefault();
@@ -398,6 +399,33 @@
 					console.log( response );
 				}
 			} );
+
+		} );
+
+		// Newsletter signup
+		$( '#simcal-getdrip-signup' ).on( 'click', function( e ) {
+
+			e.preventDefault();
+
+			var nlMetaBox = $( '#simcal-getdrip' ),
+				signupDiv = nlMetaBox.find( '.signup' ),
+				thankYou  = nlMetaBox.find( '.thank-you' ),
+				nlForm    = $( '#simcal-getdrip-form' ),
+				name      = nlMetaBox.find( '#simcal-getdrip-field-first_name' ),
+				nameReal  = nlForm.find( '#simcal-getdrip-real-field-first_name' ),
+				email     = nlMetaBox.find( '#simcal-getdrip-field-email' ),
+				emailReal = nlForm.find( '#simcal-getdrip-real-field-email' );
+
+			console.log( name.val() );
+			console.log( email.val() );
+
+			nameReal.val( name.val() );
+			emailReal.val( email.val() );
+
+			signupDiv.hide();
+			thankYou.show();
+
+			nlForm.submit();
 
 		} );
 

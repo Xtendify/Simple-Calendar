@@ -198,7 +198,32 @@ class Menus {
 	public function admin_footer_text( $footer_text ) {
 
 		// Check to make sure we're on a WooCommerce admin page
-		if ( simcal_is_admin_screen() !== false ) {
+		$screen = simcal_is_admin_screen();
+		if ( $screen !== false ) {
+
+			if ( 'calendar' == $screen ) {
+
+				// Add newsletter signup form (@see Newsletter meta box).
+				?>
+				<form id="simcal-getdrip-form"
+				      method="post"
+				      target="_blank"
+				      action="https://www.getdrip.com/forms/9434542/submissions/"
+				      data-drip-embedded-form="9434542">
+					<input type="hidden"
+					       id="simcal-getdrip-real-field-first_name"
+					       name="fields[first_name]"
+					       value="" />
+					<input type="hidden"
+					       id="simcal-getdrip-real-field-email"
+					       name="fields[email]"
+					       value="" />
+					<input type="submit"
+					       class="hidden"/>
+				</form>
+				<?php
+
+			}
 
 			// Change the footer text
 			if ( ! get_option( 'simple-calendar_admin_footer_text_rated' ) ) {

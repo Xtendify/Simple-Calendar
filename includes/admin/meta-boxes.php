@@ -85,14 +85,18 @@ class Meta_Boxes {
 			'core'
 		);
 
-		add_meta_box(
-			'simcal-newsletter',
-			__( 'Simple Calendar Newsletter', 'google-calendar-events' ),
-			'\SimpleCalendar\Admin\Metaboxes\Newsletter::html',
-			'calendar',
-			'side',
-			'high'
-		);
+		if ( true === apply_filters( 'simcal_show_newsletter_metabox', true ) ) {
+
+			add_meta_box(
+				'simcal-newsletter',
+				__( 'Simple Calendar Newsletter', 'google-calendar-events' ),
+				'\SimpleCalendar\Admin\Metaboxes\Newsletter::html',
+				'calendar',
+				'side',
+				'high'
+			);
+
+		}
 
 		add_meta_box(
 			'simcal-get-shortcode',
