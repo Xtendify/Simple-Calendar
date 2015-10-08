@@ -162,7 +162,10 @@ $default-calendar-white: rgb(255, 255, 255);
     color: transparentize($default-calendar-black, .4);
 
     &:disabled {
-      color: transparentize($default-calendar-white, .1);
+      color: transparentize($default-calendar-white, .1) !important;
+      &:hover {
+        color: transparentize($default-calendar-white, .1) !important;
+      }
     }
     &:focus,
     &:hover {
@@ -194,7 +197,10 @@ $default-calendar-white: rgb(255, 255, 255);
     color: transparentize($default-calendar-white, .4);
 
     &:disabled {
-      color: transparentize($default-calendar-black, .1);
+      color: transparentize($default-calendar-black, .1) !important;
+      &:hover {
+        color: transparentize($default-calendar-black, .1) !important;
+      }
     }
     &:focus,
     &:hover {

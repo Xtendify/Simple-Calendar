@@ -21,16 +21,10 @@
   }
 
   // Table cells.
-  .simcal-day {
-
-    height: 1px;
-
-    > div {
-      box-sizing: content-box;
-      display: block;
-      height: 100%;
-    }
-
+  .simcal-day > div {
+    box-sizing: content-box;
+    display: block;
+    height: 100%;
   }
 
   // Cells in the grid before the start day of the month.
