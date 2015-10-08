@@ -295,7 +295,7 @@
 .simcal-default-calendar-grid .simcal-day-void {
   border-width: 0;
   height: 100%;
-  min-height: 60px; }
+  min-height: 32px; }
 
 .simcal-default-calendar-grid .simcal-day-number {
   display: block;
@@ -305,7 +305,7 @@
 
 .simcal-default-calendar-grid .simcal-no-events {
   display: block;
-  min-height: 62px; }
+  min-height: 32px; }
 
 .simcal-default-calendar-grid.simcal-default-calendar-light .simcal-day:hover {
   background-color: rgba(0, 0, 0, 0.1); }
