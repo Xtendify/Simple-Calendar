@@ -725,11 +725,11 @@ abstract class Calendar {
 				$view_name  = implode( '-', array_map( 'lcfirst', explode( '_', strtolower( get_class( $view ) ) ) ) );
 				$view_class = substr( $view_name, strrpos( $view_name, '\\' ) + 1 );
 
-				$calendar_class = trim( implode( ' ', apply_filters( 'simcal_calendar_class', array(
+				$calendar_class = trim( implode( ' simcal-', apply_filters( 'simcal_calendar_class', array(
 					'simcal-calendar',
-					'simcal-' . $this->type,
-					'simcal-' . $view_class,
-				) ) ) );
+					$this->type,
+					$view_class,
+				), $this->id ) ) );
 
 				echo '<div class="' . $calendar_class . '" '
 									. 'data-calendar-id="'    . $this->id . '" '

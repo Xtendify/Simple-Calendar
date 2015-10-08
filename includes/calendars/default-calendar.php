@@ -75,6 +75,30 @@ class Default_Calendar extends Calendar {
 	public $group_span = 1;
 
 	/**
+	 * Skin theme.
+	 *
+	 * @access public
+	 * @var string
+	 */
+	public $theme = 'light';
+
+	/**
+	 * Today color.
+	 *
+	 * @access public
+	 * @var string
+	 */
+	public $today_color = '#FF0000';
+
+	/**
+	 * Days with events color.
+	 *
+	 * @access public
+	 * @var string
+	 */
+	public $days_events_color = '#000000';
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 3.0.0
@@ -93,8 +117,19 @@ class Default_Calendar extends Calendar {
 		parent::__construct( $calendar );
 
 		if ( ! is_null( $this->post ) ) {
-			$view = $this->view->get_type();
-			$this->set_properties( $view );
+
+			$this->set_properties( $this->view->get_type() );
+
+			$id = $this->id;
+			$theme = $this->theme;
+
+			add_filter( 'simcal_calendar_class', function( $class, $post_id ) use ( $theme, $id ) {
+				if ( in_array( 'default-calendar', $class ) && $post_id === $id ) {
+					array_push( $class, 'default-calendar-' . $theme );
+				}
+				return $class;
+			}, 10, 2 );
+
 		}
 
 		// Calendar settings handling.
@@ -113,6 +148,17 @@ class Default_Calendar extends Calendar {
 	 * @param  $view
 	 */
 	private function set_properties( $view ) {
+
+		// Set styles.
+		if ( 'dark' == get_post_meta( $this->id, '_default_calendar_style_theme', true ) ) {
+			$this->theme = 'dark';
+		}
+		if ( $today_color = get_post_meta( $this->id, '_default_calendar_style_today', true ) ) {
+			$this->today_color = esc_attr(  $today_color );
+		}
+		if ( $day_events_color = get_post_meta( $this->id, '_default_calendar_style_days_events', true ) ) {
+			$this->days_events_color = esc_attr( $day_events_color );
+		}
 
 		// Hide too many events.
 		if ( 'yes' == get_post_meta( $this->id, '_default_calendar_limit_visible_events', true ) ) {

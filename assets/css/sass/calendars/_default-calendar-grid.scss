@@ -24,9 +24,6 @@
   .simcal-day {
 
     height: 1px;
-    &:hover {
-      background: rgba(0, 0, 0, .1);
-    }
 
     > div {
       box-sizing: content-box;
@@ -34,65 +31,76 @@
       height: 100%;
     }
 
-    // Today highlighting.
-    &.simcal-today {
-      > div {
-        border: 1px solid rgb(255, 0, 0);
-      }
-      .simcal-day-number {
-        background: rgb(255, 0, 0);
-        color: #fff;
-      }
-      &:hover {
-        background: rgba(200, 0, 0, .1);
-      }
-    }
-    &.simcal-today-has-events {
-      .simcal-day-number {
-        background: rgba(255, 0, 0, .8);
-      }
-      .simcal-events-dots {
-        color: rgba(255, 0, 0, .8);
-      }
-    }
-
   }
 
   // Cells in the grid before the start day of the month.
   .simcal-day-void {
-
-    background-color: rgba(0, 0, 0, .06);
     border-width: 0;
     height: 100%;
     min-height: 60px;
-
-    &:hover {
-      background: rgba(0, 0, 0, .06);
-    }
-
   }
 
   // The number of the day in a month.
   .simcal-day-number {
-    background: rgba(0, 0, 0, .03);
     display: block;
     line-height: 1;
     padding: 2px 4px 3px;
     vertical-align: middle;
   }
 
-  // Days with events are highlighted.
-  .simcal-day-has-events {
-    .simcal-day-number {
-      background: rgba(0, 0, 0, .8 );
-      color: #fff;
-    }
-  }
-
   // When there are no events, this is a spacer.
   .simcal-no-events {
     display: block;
     min-height: 62px;
+  }
+
+  // Light color theme variations.
+  &.simcal-default-calendar-light {
+
+    .simcal-day {
+      &:hover {
+        background-color: transparentize( $default-calendar-black, .9);
+      }
+    }
+
+    .simcal-day-void {
+
+      background-color: transparentize( $default-calendar-black, .96);
+
+      &:hover {
+        background-color: transparentize( $default-calendar-black, .96);
+      }
+
+    }
+
+    .simcal-day-number {
+      background: transparentize($default-calendar-black, .9);
+    }
+
+  }
+
+  // Dark theme color variations.
+  &.simcal-default-calendar-dark {
+
+    .simcal-day {
+      &:hover {
+        background-color: transparentize( $default-calendar-white, .82);
+      }
+    }
+
+    .simcal-day-void {
+
+      background-color: transparentize( $default-calendar-white, .95);
+
+      &:hover {
+        background-color: transparentize( $default-calendar-white, .95);
+      }
+    }
+
+    .simcal-day-number {
+      background: transparentize($default-calendar-white, .9);
+    }
+
   }
 
   // List of events in a day.
@@ -108,7 +116,8 @@
     // An event.
     > .simcal-event {
 
-      border-bottom: 1px solid rgba(0, 0, 0, .06);
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
       cursor: pointer;
       margin-bottom: 2px;
       padding: 4px;
@@ -126,6 +135,18 @@
 
   }
 
+  &.simcal-default-calendar-light {
+    .simcal-event {
+        border-bottom-color: transparentize($default-calendar-black, .9);
+    }
+  }
+
+  &.simcal-default-calendar-dark {
+    .simcal-event {
+      border-bottom-color: transparentize($default-calendar-white, .9);
+    }
+  }
+
   // List of events in mobile mode.
   .simcal-events-dots {
     cursor: pointer;
@@ -139,17 +160,9 @@
   .simcal-events-toggle {
 
     background: transparent;
-    color: transparentize($default-calendar-button-col, .4);
     display: block;
     font-size: 10px;
     padding: 2px 0;
-    width: 100%;
-
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.5);
-      color: #fff;
-      outline: none;
-    }
 
   }
 

@@ -369,6 +369,18 @@ class Default_Calendar_Admin {
 	 */
 	public function process_meta( $post_id ) {
 
+		// Theme.
+		$theme = isset( $_POST['_default_calendar_style_theme'] ) ? sanitize_key( $_POST['_default_calendar_style_theme'] ) : 'light';
+		update_post_meta( $post_id, '_default_calendar_style_theme', $theme );
+
+		// Today color.
+		$today_color = isset( $_POST['_default_calendar_style_today'] ) ? sanitize_text_field( $_POST['_default_calendar_style_today'] ) : '#FF000';
+		update_post_meta( $post_id, '_default_calendar_style_today', $today_color );
+
+		// Days with events color.
+		$days_events_color = isset( $_POST['_default_calendar_style_days_events'] ) ? sanitize_text_field( $_POST['_default_calendar_style_days_events'] ) : '#000000';
+		update_post_meta( $post_id, '_default_calendar_style_days_events', $days_events_color );
+
 		// List range span.
 		$span = isset( $_POST['_default_calendar_list_range_span'] ) ? max( absint( $_POST['_default_calendar_list_range_span'] ), 1 ) : 1;
 		update_post_meta( $post_id, '_default_calendar_list_range_span', $span );

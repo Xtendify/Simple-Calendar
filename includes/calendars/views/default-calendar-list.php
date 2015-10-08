@@ -7,6 +7,7 @@
 namespace SimpleCalendar\Calendars\Views;
 
 use Carbon\Carbon;
+use Mexitek\PHPColors\Color;
 use SimpleCalendar\Abstracts\Calendar;
 use SimpleCalendar\Abstracts\Calendar_View;
 use SimpleCalendar\Calendars\Default_Calendar;
@@ -185,6 +186,8 @@ class Default_Calendar_List implements Calendar_View {
 
 			$disabled = $calendar->static === true ? ' disabled="disabled"' : '';
 
+			echo '<div class="simcal-calendar-list">';
+
 			echo '<nav class="simcal-calendar-head">' . "\n";
 
 			echo "\t" . '<div class="simcal-nav">' . "\n";
@@ -208,6 +211,8 @@ class Default_Calendar_List implements Calendar_View {
 			echo $this->draw_list( $calendar->start );
 
 			echo '<div class="simcal-ajax-loader simcal-spinner-top" style="display: none;"><i class="simcal-icon-spinner simcal-icon-spin"></i></div>';
+
+			echo '</div>';
 		}
 
 	}
@@ -465,8 +470,19 @@ class Default_Calendar_List implements Calendar_View {
 						$date->setLocale( substr( get_locale(), 0, 2 ) );
 						$date->setTimestamp( $day_ts );
 
-						echo "\t" . '<dt class="simcal-day-label">';
-						echo '<span>';
+						if ( $date->isToday() ) {
+							$the_color = new Color( $calendar->today_color );
+						} else {
+							$the_color = new Color( $calendar->days_events_color );
+						}
+
+						$bg_color = '#' . $the_color->getHex();
+						$color = $the_color->isDark() ? '#ffffff' : '#000000';
+						$border_style = ' style="border-bottom: 1px solid ' . $bg_color . ';" ';
+						$bg_style = ' style="background-color: ' . $bg_color . '; color: ' . $color . ';"';
+
+						echo "\t" . '<dt class="simcal-day-label"' . $border_style . '>';
+						echo '<span' . $bg_style .'>';
 						foreach ( $day_format as $format ) {
 							echo $format ? '<span class="simcal-date-format" data-date-format="' . $format . '">' . $date->format( $format ) . '</span> ' : ' ';
 						}

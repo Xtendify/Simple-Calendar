@@ -7,6 +7,7 @@
 namespace SimpleCalendar\Calendars\Views;
 
 use Carbon\Carbon;
+use Mexitek\PHPColors\Color;
 use SimpleCalendar\Abstracts\Calendar;
 use SimpleCalendar\Abstracts\Calendar_View;
 use SimpleCalendar\Events\Event;
@@ -376,9 +377,15 @@ class Default_Calendar_Grid implements Calendar_View {
 				$calendar_classes = array();
 				$day_classes = 'simcal-day-' . $day . ' simcal-weekday-' . $week_day;
 
+				$border_style = $bg_color = $color = '';
+
 				// Is this the present, the past or the future, Doc?
 				if ( $current_min <= $now && $current_max >= $now ) {
 					$day_classes .= ' simcal-today simcal-present simcal-day';
+					$the_color = new Color( $calendar->today_color );
+					$bg_color = '#' . $the_color->getHex();
+					$color = $the_color->isDark() ? '#ffffff' : '#000000';
+					$border_style = ' style="border: 1px solid ' . $bg_color . ';"';
 				} elseif ( $current_max < $now ) {
 					$day_classes .= ' simcal-past simcal-day';
 				} elseif ( $current_min > $now ) {
@@ -388,7 +395,7 @@ class Default_Calendar_Grid implements Calendar_View {
 				// Print events for the current day in loop, if found any.
 				if ( isset( $day_events[ $day ] ) ) :
 
-					$list_events = '<ul class="simcal-events">';
+					$list_events = '<ul class="simcal-events"' . $border_style . '>';
 
 					foreach( $day_events[ $day ] as $events ) :
 						foreach( $events as $event ) :
@@ -456,14 +463,24 @@ class Default_Calendar_Grid implements Calendar_View {
 				else :
 
 					// Empty cell for day with no events.
-					$list_events = '<span class="simcal-no-events"></span>';
+					$list_events = '<span class="simcal-no-events"' . $border_style . '></span>';
 
 				endif;
 
 				// The actual days with numbers and events in each row cell.
 				echo '<td class="' . $day_classes . '" data-events-count="' . strval( $count ) . '">' . "\n";
+
+					if ( $count > 0 ) {
+						$the_color = new Color( $calendar->days_events_color );
+						$color = ! $color ? ( $the_color->isDark() ? '#ffffff' : '#000000' ) : $color;
+						$bg_color = ! $bg_color ? '#' . $the_color->getHex() : $bg_color;
+						$day_style = ' style="background-color: ' . $bg_color . '; color: ' . $color .'"';
+					} else {
+						$day_style = '';
+					}
+
 					echo "\t" . '<div>' . "\n";
-					echo "\t\t" . '<span class="simcal-day-label simcal-day-number">' . $day . '</span>' . "\n";
+					echo "\t\t" . '<span class="simcal-day-label simcal-day-number"' . $day_style . '>' . $day . '</span>' . "\n";
 					echo "\t\t" . $list_events . "\n";
 					echo "\t\t";
 					echo '<span class="simcal-events-dots" style="display: none;">';

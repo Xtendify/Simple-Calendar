@@ -1,5 +1,6 @@
 
-$default-calendar-button-col: rgb(0, 0, 0);
+$default-calendar-black: rgb(0, 0, 0);
+$default-calendar-white: rgb(255, 255, 255);
 
 .simcal-default-calendar {
 
@@ -19,7 +20,7 @@ $default-calendar-button-col: rgb(0, 0, 0);
     background: transparent;
     border: 0;
     box-shadow: none;
-    color: transparentize($default-calendar-button-col, .4);
+
     cursor: pointer;
     margin: 0;
     outline: 0;
@@ -32,7 +33,6 @@ $default-calendar-button-col: rgb(0, 0, 0);
       background: transparent;
       border: 0;
       box-shadow: none;
-      color: transparentize($default-calendar-button-col, .1);
       outline: none;
     }
 
@@ -45,22 +45,23 @@ $default-calendar-button-col: rgb(0, 0, 0);
     }
 
     &:disabled {
-
-      color: transparentize($default-calendar-button-col, .9);
-
       &:hover {
         margin: 0;
       }
-
     }
 
   }
 
   // Toggle events button.
   .simcal-events-toggle {
+
+    text-align: center;
+    width: 100%;
+
     &:focus {
       outline: none;
     }
+
   }
 
   // Event tooltip bubble.
@@ -72,9 +73,9 @@ $default-calendar-button-col: rgb(0, 0, 0);
 
     // Event bubble triangle.
     &:before {
+      border-bottom: 5px solid #fff;
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
-      border-bottom: 5px solid #fff;
       content: ' ';
       display: block;
       font-size: 0;
@@ -89,9 +90,9 @@ $default-calendar-button-col: rgb(0, 0, 0);
 
     // Event bubble triangle edge border.
     &:after {
+      border-bottom: 5px solid rgba(0, 0, 0, .18);
       border-left: 5px solid transparent;
       border-right: 5px solid transparent;
-      border-bottom: 5px solid rgba(0, 0, 0, .18);
       content: ' ';
       display: block;
       font-size: 0;
@@ -105,14 +106,12 @@ $default-calendar-button-col: rgb(0, 0, 0);
       z-index: 14999;
     }
 
+    .simcal-event {
+      list-style: none;
+    }
+
     .simcal-events {
-
       margin: 0;
-
-      > .simcal-event {
-        list-style: none;
-      }
-
     }
 
   }
@@ -150,6 +149,72 @@ $default-calendar-button-col: rgb(0, 0, 0);
     font-size: 12px;
     line-height: 1.4;
     padding: 5px;
+  }
+
+}
+
+// Light theme variations.
+.simcal-default-calendar-light {
+
+  // Nav buttons in light theme.
+  .simcal-nav-button {
+
+    color: transparentize($default-calendar-black, .4);
+
+    &:disabled {
+      color: transparentize($default-calendar-white, .1);
+    }
+    &:focus,
+    &:hover {
+      color: transparentize($default-calendar-black, .1);
+    }
+
+  }
+
+  // Events toggle in light theme.
+  .simcal-events-toggle {
+
+    color: transparentize($default-calendar-black, .4);
+
+    &:hover {
+      background-color: transparentize($default-calendar-black, .9);
+      color: $default-calendar-white;
+    }
+
+  }
+
+}
+
+// Dark theme variations.
+.simcal-default-calendar-dark {
+
+  // Nav buttons in dark theme.
+  .simcal-nav-button {
+
+    color: transparentize($default-calendar-white, .4);
+
+    &:disabled {
+      color: transparentize($default-calendar-black, .1);
+    }
+    &:focus,
+    &:hover {
+      color: transparentize($default-calendar-white, .1);
+      outline: none;
+    }
+
+  }
+
+  // Events toggle in dark theme.
+  .simcal-events-toggle {
+
+    color: transparentize($default-calendar-white, .4);
+
+    &:hover {
+      background-color: transparentize($default-calendar-white, .9);
+      color: $default-calendar-black;
+      outline: none;
+    }
+
   }
 
 }

@@ -407,6 +407,17 @@ class Event {
 	}
 
 	/**
+	 * Starts or ends today.
+	 *
+	 * @since  3.0.0
+	 *
+	 * @return bool
+	 */
+	public function is_today() {
+		return $this->starts_today() || $this->ends_today();
+	}
+
+	/**
 	 * Starts today.
 	 *
 	 * @since  3.0.0
@@ -425,7 +436,7 @@ class Event {
 	 * @return bool
 	 */
 	public function ends_today() {
-		return ! is_null( $this->end_dt ) ? $this->end_dt->setTimezone( $this->timezone )->isToday() : false;
+		return ! is_null( $this->end_dt ) ? $this->end_dt->setTimezone( $this->timezone )->isToday() : true;
 	}
 
 	/**
