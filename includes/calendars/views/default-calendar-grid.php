@@ -462,6 +462,8 @@ class Default_Calendar_Grid implements Calendar_View {
 
 				else :
 
+					$border_style = ! empty( $the_color ) ? $border_style : '';
+
 					// Empty cell for day with no events.
 					$list_events = '<span class="simcal-no-events"' . $border_style . '></span>';
 

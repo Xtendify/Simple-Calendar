@@ -208,13 +208,12 @@ class Default_Calendar extends Calendar {
 	private function expand_multiple_days_events() {
 
 		$old_events = $this->events;
+		$new_events = array();
 
 		if ( ! empty( $old_events ) ) {
 
-			$new_events = array();
-
-			foreach( $old_events as $events ) {
-				foreach( $events as $event ) {
+			foreach ( $old_events as $events ) {
+				foreach ( $events as $event ) {
 					if ( $event instanceof Event ) {
 						if ( false !== $event->multiple_days ) {
 
@@ -222,21 +221,21 @@ class Default_Calendar extends Calendar {
 							$date = $carbon->createFromTimestamp( $event->start_utc, $event->timezone );
 							$days = $event->multiple_days;
 
-							for( $d = 2; $d < $days; $d++ ) {
+							for ( $d = 1; $d < $days; $d++ ) {
 								$addDay = $date->addDay()->startOfDay();
 								$new_events[ intval( $addDay->getTimestamp() ) ][] = $event;
 							}
 						}
 					}
 				}
+
 			}
 
-			$events = $new_events + $old_events;
-			ksort( $events, SORT_NUMERIC );
-			return $events;
 		}
 
-		return $old_events;
+		$events = $old_events + $new_events;
+		ksort( $events, SORT_NUMERIC );
+		return $events;
 	}
 
 	/**
