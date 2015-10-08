@@ -119,6 +119,10 @@
 .simcal-calendar {
   position: relative; }
 
+.simcal-powered {
+  display: block;
+  margin: -10px 0 20px; }
+
 .simcal-ajax-loader {
   background-color: rgba(0, 0, 0, 0.1);
   height: 100%;

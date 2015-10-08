@@ -752,7 +752,7 @@ abstract class Calendar {
 				$poweredby = isset( $settings['poweredby']['opt_in'] ) ? $settings['poweredby']['opt_in'] : '';
 
 				if ( 'yes' == $poweredby ) {
-					echo '<small>Powered by <a href="https://simplecalendar.io">Simple Calendar</a></small>';
+					echo '<small class="simcal-powered">Powered by <a href="https://simplecalendar.io">Simple Calendar</a></small>';
 				}
 
 				echo '</div>';
