@@ -278,7 +278,6 @@
 				events		  = table.find( '.simcal-tooltip-content' ),
 				hiddenEvents  = table.find( '.simcal-event-toggled' ),
 				bubbleTrigger = table.data( 'event-bubble-trigger' ),
-				emptyCells	  = table.find( 'span.simcal-no-events' ),
 				width		  = cells.first().width();
 
 			if ( width < 60 ) {
@@ -302,7 +301,7 @@
 				bubbleTrigger = 'click';
 				// Adapts cells to be more squareish on mobile.
 				var minH = ( width - 10 ) + 'px';
-				emptyCells.css( 'min-height', minH );
+				cells.css( 'min-height', minH );
 				table.find( 'span.simcal-events-dots:not(:empty)' ).css( 'min-height', minH );
 
 			} else {
@@ -329,7 +328,7 @@
 				eventsDots.hide();
 
 				// Cells default min-height value.
-				emptyCells.css( 'min-height', ( width - 20 ) + 'px' );
+				cells.css( 'min-height', ( width - 20 ) + 'px' );
 			}
 
 			// Create bubbles for each cell.
