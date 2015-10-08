@@ -236,7 +236,7 @@ class Event_Builder {
 				case 'start-location' :
 				case 'end-location' :
 					$location = $tag == 'end-location' ? $event->end_location['address'] : $event->start_location['address'];
-					return ' <span class="simcal-event-address simcal-event-start-location">' . wp_strip_all_tags( $location ) . '</span>';
+					return ' <span class="simcal-event-address simcal-event-start-location" itemprop="location" itemscope itemtype="http://schema.org/Place">' . wp_strip_all_tags( $location ) . '</span>';
 
 				case 'start-location-link':
 				case 'end-location-link' :
@@ -494,7 +494,7 @@ class Event_Builder {
 			'limit' => 0,   // Trim length to amount of words
 		), (array) shortcode_parse_atts( $attr ) );
 
-		$text  = ' <span class="simcal-event-title">';
+		$text  = ' <span class="simcal-event-title" itemprop="name">';
 		$text .= $this->limit_words( $title, $attr['limit'] );
 		$text .= '</span>';
 
@@ -528,7 +528,7 @@ class Event_Builder {
 		$allow_html = 'no' != $attr['html']     ? true : false;
 		$allow_md   = 'no' != $attr['markdown'] ? true : false;
 
-		$html = '<div class="simcal-event-description">';
+		$html = '<div class="simcal-event-description" itemprop="description">';
 
 		if ( $allow_html || $allow_md ) {
 			if ( $allow_html && $allow_md ) {
@@ -576,7 +576,8 @@ class Event_Builder {
 			$time_start = $this->calendar->datetime_separator .
 			              ' <span class="simcal-event-start simcal-event-start-time" ' .
 			              'data-event-start="' . $start->getTimestamp() . '" ' .
-			              'data-event-format="' . $this->calendar->time_format . '">' .
+			              'data-event-format="' . $this->calendar->time_format . '" ' .
+			              'itemprop="startDate" content="' . $start->toIso8601String() . '">' .
 			              $start->format( $this->calendar->time_format ) .
 			              '</span> ';
 
@@ -584,7 +585,8 @@ class Event_Builder {
 
 				$time_end = ' <span class="simcal-event-end simcal-event-end-time" ' .
 				            'data-event-end="' . $end->getTimestamp() . '" ' .
-				            'data-event-format="' . $this->calendar->time_format . '">' .
+				            'data-event-format="' . $this->calendar->time_format . ' ' .
+				            'itemprop="endDate" content="' . $end->toIso8601String() . '">' .
 				            $end->format( $this->calendar->time_format ) .
 				            '</span> ';
 
@@ -596,7 +598,8 @@ class Event_Builder {
 
 			$output = ' <span class="simcal-event-start simcal-event-start-date" ' .
 			          'data-event-start="' . $start->getTimestamp() . '" ' .
-			          'data-event-format="' . $this->calendar->date_format . '">' .
+			          'data-event-format="' . $this->calendar->date_format .
+			          'itemprop="startDate" content="' . $start->toIso8601String() . '">' .
 			          $start->format( $this->calendar->date_format ) .
 			          '</span> ' .
 			          $time_start;
@@ -606,7 +609,8 @@ class Event_Builder {
 				$output .= '-' .
 				           ' <span class="simcal-event-start simcal-event-end-date" ' .
 				           'data-event-start="' . $end->getTimestamp() . '" ' .
-				           'data-event-format="' . $this->calendar->date_format . '">' .
+				           'data-event-format="' . $this->calendar->date_format .
+				           'itemprop="endDate" content="' . $end->toIso8601String() . '">' .
 				           $end->format( $this->calendar->date_format ) .
 				           '</span> ' .
 				           $time_end;
@@ -617,12 +621,12 @@ class Event_Builder {
 			$time_end = ! empty( $time_start ) && ! empty( $time_end ) ? '- ' . $time_end : '';
 
 			$output = ' <span class="simcal-event-start simcal-event-start-date" ' .
-			            'data-event-start="' . $start->getTimestamp() . '"' .
-			            'data-event-format="' . $this->calendar->date_format . '">' .
-			            $start->format( $this->calendar->date_format ) .
-			            '</span> ' .
-			            $time_start .
-			            $time_end;
+			          'data-event-start="' . $start->getTimestamp() . '"' .
+			          'data-event-format="' . $this->calendar->date_format . '">' .
+			          $start->format( $this->calendar->date_format ) .
+			          '</span> ' .
+			          $time_start .
+			          $time_end;
 
 		}
 
@@ -675,7 +679,8 @@ class Event_Builder {
 
 		return ' <span class="simcal-event-' . $bound . ' ' . 'simcal-event-' . $bound . '-' . $format . '"' .
 		       'data-event-' . $bound . '="' . $event_dt->getTimestamp() . '"' .
-		       'data-event-format="' . $dt_format . '">' .
+		       'data-event-format="' . $dt_format . '"' .
+		       'itemprop="' . $bound . 'Date" content="' . $event_dt->toIso8601String() . '">' .
 		       $value .
 		       '</span>';
 	}
@@ -779,13 +784,13 @@ class Event_Builder {
 
 				$photo      = 'hide' !== $attr['photo'] ? '<img class="avatar avatar-128 photo" src="' . $attendee['photo'] . '" />' : '';
 				$response   = 'show' == $attr['rsvp'] ? $this->get_rsvp_response( $attendee['response'] ) : '';
-				$guest      = $photo . '<span>' . $attendee['name'] . $response . '</span>';
+				$guest      = $photo . '<span itemprop="name">' . $attendee['name'] . $response . '</span>';
 
 				if ( ! empty( $attendee['email'] ) && ( 'show' == $attr['email'] ) ) {
-					$guest = sprintf( '<a href="mailto:' . $attendee['email'] . '">%s</a>', $guest );
+					$guest = sprintf( '<a href="mailto:' . $attendee['email'] . '" itemprop="email">%s</a>', $guest );
 				}
 
-				$html .= '<li class="simcal-attendee">' . $guest . '</li>' . "\n";
+				$html .= '<li class="simcal-attendee" itemprop="attendee" itemscope itemtype="http://schema.org/Person">' . $guest . '</li>' . "\n";
 
 				$known++;
 
