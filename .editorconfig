@@ -18,5 +18,8 @@ indent_style = tab
 indent_style = space
 indent_size = 2
 
-[{*.txt,*.dist,*.md,*.yml,*.json}]
+[{*.svg}]
+insert_final_newline = false
+
+[{*.txt,*.dist,*.md,*.yml,*.json,*.svg}]
 trim_trailing_whitespace = false
