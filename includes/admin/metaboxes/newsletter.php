@@ -40,22 +40,18 @@ class Newsletter implements Meta_Box {
 					<?php _e( 'Get notified by email of important updates and major releases.', 'google-calendar-events' ); ?>
 				</p>
 				<p>
-					<label for="simcal-drip-field-email">
-						<input type="email"
-						       placeholder="<?php _e( 'Your Email', 'google-calendar-events' ); ?>"
-						       id="simcal-drip-field-email"
-						       name="fields[email]"
-						       value="<?php echo $current_user->user_email; ?>" />
-					</label>
+					<label for="simcal-drip-field-email"><?php _e( 'Your Email', 'google-calendar-events' ); ?></label><br/>
+					<input type="email"
+					       id="simcal-drip-field-email"
+					       name="fields[email]"
+					       value="<?php echo $current_user->user_email; ?>" />
 				</p>
 				<p>
-					<label for="simcal-drip-field-first_name">
-						<input type="text"
-						       placeholder="<?php _e( 'First Name', 'google-calendar-events' ); ?>"
-						       id="simcal-drip-field-first_name"
-						       name="fields[first_name]"
-						       value="<?php echo $name; ?>" />
-					</label>
+					<label for="simcal-drip-field-first_name"><?php _e( 'First Name', 'google-calendar-events' ); ?></label><br/>
+					<input type="text"
+					       id="simcal-drip-field-first_name"
+					       name="fields[first_name]"
+					       value="<?php echo $name; ?>" />
 				</p>
 				<a href="#"
 				   id="simcal-drip-signup"
