@@ -37,26 +37,29 @@ class Newsletter implements Meta_Box {
 		<div id="simcal-drip">
 			<div class="signup">
 				<p>
-					<label for="simcal-drip-field-first_name">
-						<?php _e( 'Name', 'google-calendar-events' ); ?>
-						<input type="text"
-						       id="simcal-drip-field-first_name"
-						       name="fields[first_name]"
-						       value="<?php echo $name; ?>" />
-					</label>
+					<?php _e( 'Get notified by email of important updates and major releases.', 'google-calendar-events' ); ?>
 				</p>
 				<p>
 					<label for="simcal-drip-field-email">
-						<?php _e( 'Email', 'google-calendar-events' ); ?>
 						<input type="email"
+						       placeholder="<?php _e( 'Your Email', 'google-calendar-events' ); ?>"
 						       id="simcal-drip-field-email"
 						       name="fields[email]"
 						       value="<?php echo $current_user->user_email; ?>" />
 					</label>
 				</p>
+				<p>
+					<label for="simcal-drip-field-first_name">
+						<input type="text"
+						       placeholder="<?php _e( 'First Name', 'google-calendar-events' ); ?>"
+						       id="simcal-drip-field-first_name"
+						       name="fields[first_name]"
+						       value="<?php echo $name; ?>" />
+					</label>
+				</p>
 				<a href="#"
 				   id="simcal-drip-signup"
-				   class="right button button-primary"><?php _e( 'Send Me Updates', 'google-calendar-events' ); ?></a>
+				   class="right button button-primary"><?php _e( 'Subscribe Now', 'google-calendar-events' ); ?></a>
 			</div>
 			<div class="thank-you" style="display: none;">
 				<?php _e( 'Thank you!', 'google-calendar-events' ); ?>

@@ -89,7 +89,7 @@ class Meta_Boxes {
 
 			add_meta_box(
 				'simcal-newsletter',
-				__( 'Simple Calendar Newsletter', 'google-calendar-events' ),
+				__( 'Stay in the Know', 'google-calendar-events' ),
 				'\SimpleCalendar\Admin\Metaboxes\Newsletter::html',
 				'calendar',
 				'side',

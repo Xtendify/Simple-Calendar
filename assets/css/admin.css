@@ -432,6 +432,14 @@ body .simcal-field-textarea {
 #simcal-get-shortcode input {
   width: 100%; }
 
+#simcal-newsletter {
+	background-color: #fcf8e3;
+}
+
+#simcal-newsletter input {
+	width: 100%;
+}
+
 #simcal-calendar-settings {
   display: none; }
   #simcal-calendar-settings .hndle {
