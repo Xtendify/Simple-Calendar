@@ -264,7 +264,7 @@ class Event_Builder {
 
 				case 'calendar' :
 				case 'feed-title' :
-					return esc_attr( $event->calendar );
+					return esc_attr( $event->source );
 
 				case 'id' :
 				case 'event-id' :

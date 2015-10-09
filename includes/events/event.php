@@ -28,6 +28,14 @@ class Event {
 	public $type = '';
 
 	/**
+	 * Event source.
+	 *
+	 * @access public
+	 * @var string
+	 */
+	public $source = '';
+
+	/**
 	 * Event title.
 	 *
 	 * @access public
@@ -234,6 +242,9 @@ class Event {
 
 		// Event unique id.
 		$this->uid = isset( $event['uid'] ) ? trim( strval( $event['uid'] ) ) : '';
+
+		// Event source.
+		$this->source = isset( $event['source'] ) ? esc_attr( $event['source'] ) : '';
 
 		// Parent calendar id.
 		$this->calendar = isset( $event['calendar'] ) ? absint( $event['calendar'] ) : 0;
