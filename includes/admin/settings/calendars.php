@@ -95,7 +95,7 @@ class Calendars extends Settings_Page {
 		arsort( $calendar_types );
 
 		$sections['poweredby'] = array(
-			'title' => __( 'Powered by Simple Calendar', 'google-calendar-events' ),
+			'title' => __( 'Show Some Love', 'google-calendar-events' ),
 			'description' => '',
 		);
 
@@ -175,8 +175,8 @@ class Calendars extends Settings_Page {
 
 				$fields[ $section ][] = array(
 					'type'      => 'checkbox',
-					'title'     => __( 'Support this plugin', 'google-calendar-events' ),
-					'tooltip'   => __( ' Show us some love and display a small link to our plugin below your calendars!', 'google-calendar-events' ),
+					'title'     => __( 'Powered by Simple Calendar', 'google-calendar-events' ),
+					'tooltip'   => __( 'Help our plugin get noticed and display a small link to our plugin below your calendars. Thanks!', 'google-calendar-events' ),
 					'name'      => 'simple-calendar_' . $this->option_group . '_' . $this->id . '[' . $section . '][opt_in]',
 					'id'        => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-poweredby-optin',
 					'value'     => $this->get_option_value( $section, 'opt_in' ),

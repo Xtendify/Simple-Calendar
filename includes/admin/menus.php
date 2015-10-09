@@ -205,17 +205,17 @@ class Menus {
 
 				// Add newsletter signup form (@see Newsletter meta box).
 				?>
-				<form id="simcal-getdrip-form"
+				<form id="simcal-drip-form"
 				      method="post"
 				      target="_blank"
 				      action="https://www.getdrip.com/forms/9434542/submissions/"
 				      data-drip-embedded-form="9434542">
 					<input type="hidden"
-					       id="simcal-getdrip-real-field-first_name"
+					       id="simcal-drip-real-field-first_name"
 					       name="fields[first_name]"
 					       value="" />
 					<input type="hidden"
-					       id="simcal-getdrip-real-field-email"
+					       id="simcal-drip-real-field-email"
 					       name="fields[email]"
 					       value="" />
 					<input type="submit"

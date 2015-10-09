@@ -31,32 +31,35 @@ class Newsletter implements Meta_Box {
 		global $current_user;
 		get_currentuserinfo();
 
-		$name = $current_user->user_firstname ? $current_user->user_firstname : $current_user->display_name;
+		$name = $current_user->user_firstname ? $current_user->user_firstname : '';
 
 		?>
-		<div id="simcal-getdrip">
+		<div id="simcal-drip">
 			<div class="signup">
 				<p>
-					<label for="simcal-getdrip-field-first_name">
-						<?php _e( 'Name', 'google-calendar-events' ); ?>
-						<input type="text"
-						       id="simcal-getdrip-field-first_name"
-						       name="fields[first_name]"
-						       value="<?php echo $name; ?>" />
-					</label>
+					<?php _e( 'Get notified by email of important updates and major releases.', 'google-calendar-events' ); ?>
 				</p>
 				<p>
-					<label for="simcal-getdrip-field-email">
-						<?php _e( 'Email', 'google-calendar-events' ); ?>
+					<label for="simcal-drip-field-email">
 						<input type="email"
-						       id="simcal-getdrip-field-email"
+						       placeholder="<?php _e( 'Your Email', 'google-calendar-events' ); ?>"
+						       id="simcal-drip-field-email"
 						       name="fields[email]"
 						       value="<?php echo $current_user->user_email; ?>" />
 					</label>
 				</p>
+				<p>
+					<label for="simcal-drip-field-first_name">
+						<input type="text"
+						       placeholder="<?php _e( 'First Name', 'google-calendar-events' ); ?>"
+						       id="simcal-drip-field-first_name"
+						       name="fields[first_name]"
+						       value="<?php echo $name; ?>" />
+					</label>
+				</p>
 				<a href="#"
-				   id="simcal-getdrip-signup"
-				   class="right button button-primary"><?php _e( 'Sign up', 'google-calendar-events' ); ?></a>
+				   id="simcal-drip-signup"
+				   class="right button button-primary"><?php _e( 'Subscribe Now', 'google-calendar-events' ); ?></a>
 			</div>
 			<div class="thank-you" style="display: none;">
 				<?php _e( 'Thank you!', 'google-calendar-events' ); ?>
