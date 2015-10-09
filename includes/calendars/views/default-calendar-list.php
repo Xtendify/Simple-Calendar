@@ -459,10 +459,7 @@ class Default_Calendar_List implements Calendar_View {
 
 				foreach( $current_events as $ymd => $events ) :
 
-					// Array acrobatics to take into account expanded multi day events option.
-					$last = end( $events );
-					$day_ts = end( $last )->start;
-					reset( $events );
+					$day_ts = Carbon::createFromFormat( 'Ymd', $ymd, $calendar->timezone )->getTimestamp();
 
 					if ( ! $calendar->compact_list ) :
 

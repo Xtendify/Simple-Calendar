@@ -218,7 +218,7 @@ class Default_Calendar extends Calendar {
 						if ( false !== $event->multiple_days ) {
 							$days = $event->multiple_days;
 							for ( $d = 1; $d < $days; $d++ ) {
-								$new_events[ $event->start_utc + ( $d * DAY_IN_SECONDS ) ][] = $event;
+								$new_events[ intval( $event->start_utc + ( $d * DAY_IN_SECONDS ) ) ][] = $event;
 							}
 						}
 					}

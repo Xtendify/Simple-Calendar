@@ -330,13 +330,13 @@ class Default_Calendar_Grid implements Calendar_View {
 			foreach ( $filtered as $timestamp => $events_in_day ) {
 				foreach( $events_in_day as $event ) {
 					if ( $event instanceof Event ){
-						$day = intval( $event->start_dt->setTimezone( $event->timezone )->day );
-						$day_events[ $day ][] = $events_in_day;
+						$day = intval( Carbon::createFromTimestamp( $timestamp, $event->timezone )->day );
+						$day_events[ $day ][] = $event;
 					}
 				}
 			}
 
-			asort( $day_events, SORT_NUMERIC );
+			ksort( $day_events, SORT_NUMERIC );
 		}
 
 		ob_start();
@@ -397,8 +397,7 @@ class Default_Calendar_Grid implements Calendar_View {
 
 					$list_events = '<ul class="simcal-events"' . $border_style . '>';
 
-					foreach( $day_events[ $day ] as $events ) :
-						foreach( $events as $event ) :
+					foreach( $day_events[ $day ] as $event ) :
 
 							$event_classes = $event_visibility = '';
 
@@ -441,7 +440,6 @@ class Default_Calendar_Grid implements Calendar_View {
 
 							endif;
 
-						endforeach;
 					endforeach;
 
 					if ( ( $current_min <= $now ) && ( $current_max >= $now ) ) {
