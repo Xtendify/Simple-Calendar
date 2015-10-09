@@ -403,18 +403,18 @@
 		} );
 
 		// Newsletter signup
-		$( '#simcal-getdrip-signup' ).on( 'click', function( e ) {
+		$( '#simcal-drip-signup' ).on( 'click', function( e ) {
 
 			e.preventDefault();
 
-			var nlMetaBox = $( '#simcal-getdrip' ),
+			var nlMetaBox = $( '#simcal-drip' ),
 				signupDiv = nlMetaBox.find( '.signup' ),
 				thankYou  = nlMetaBox.find( '.thank-you' ),
-				nlForm    = $( '#simcal-getdrip-form' ),
-				name      = nlMetaBox.find( '#simcal-getdrip-field-first_name' ),
-				nameReal  = nlForm.find( '#simcal-getdrip-real-field-first_name' ),
-				email     = nlMetaBox.find( '#simcal-getdrip-field-email' ),
-				emailReal = nlForm.find( '#simcal-getdrip-real-field-email' );
+				nlForm    = $( '#simcal-drip-form' ),
+				name      = nlMetaBox.find( '#simcal-drip-field-first_name' ),
+				nameReal  = nlForm.find( '#simcal-drip-real-field-first_name' ),
+				email     = nlMetaBox.find( '#simcal-drip-field-email' ),
+				emailReal = nlForm.find( '#simcal-drip-real-field-email' );
 
 			console.log( name.val() );
 			console.log( email.val() );
