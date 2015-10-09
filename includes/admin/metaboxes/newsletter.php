@@ -31,7 +31,7 @@ class Newsletter implements Meta_Box {
 		global $current_user;
 		get_currentuserinfo();
 
-		$name = $current_user->user_firstname ? $current_user->user_firstname : $current_user->display_name;
+		$name = $current_user->user_firstname ? $current_user->user_firstname : '';
 
 		?>
 		<div id="simcal-drip">
