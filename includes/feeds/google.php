@@ -166,6 +166,8 @@ class Google extends Feed {
 					$this->timezone = $calendar['timezone'];
 				}
 
+				$source = isset( $response['title'] ) ? sanitize_text_field( $response['title'] ) : '';
+
 				if ( ! empty( $response['events'] ) && is_array( $response['events'] ) ) {
 					foreach ( $response['events'] as $event ) {
 						if ( $event instanceof \Google_Service_Calendar_Event ) {
@@ -233,6 +235,7 @@ class Google extends Feed {
 							// Build the event.
 							$calendar['events'][ $start_utc ][] = array(
 								'type'           => 'google-calendar',
+								'source'         => $source,
 								'title'          => $title,
 								'description'    => $description,
 								'link'           => $event->getHtmlLink(),

@@ -101,6 +101,15 @@ class Event_Builder {
 			'link',                  // An HTML link to the event URL.
 			'url',                   // A string with the raw event link URL.
 
+			'calendar',              // The title of the source calendar.
+			'feed-title',            // @deprecated An alias of 'calendar'.
+
+			'id',                    // The event unique ID.
+			'event-id',              // @deprecated An alias for 'id' tag.
+			'calendar-id',           // The calendar ID.
+			'feed-id',               // @deprecated An alias for 'calendar-id' tag.
+			'cal-id',                // @deprecated An alias for 'calendar-id' tag.
+
 			/* ================ *
 			 * Conditional Tags *
 			 * ================ */
@@ -252,6 +261,19 @@ class Event_Builder {
 				case 'url' :
 					$content = 'link' == $tag ? $calendar->get_event_html( $event, $partial ) : '';
 					return $this->make_link( $tag, $event->link, $content , $attr );
+
+				case 'calendar' :
+				case 'feed-title' :
+					return esc_attr( $event->calendar );
+
+				case 'id' :
+				case 'event-id' :
+					return $event->uid;
+
+				case 'calendar-id' :
+				case 'cal-id' :
+				case 'feed-id' :
+					return $event->calendar;
 
 				/* ================ *
 				 * Conditional Tags *
