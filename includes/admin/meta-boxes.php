@@ -93,7 +93,7 @@ class Meta_Boxes {
 				'\SimpleCalendar\Admin\Metaboxes\Newsletter::html',
 				'calendar',
 				'side',
-				'high'
+				'default'
 			);
 
 		}
@@ -104,7 +104,7 @@ class Meta_Boxes {
 			'\SimpleCalendar\Admin\Metaboxes\Get_Shortcode::html',
 			'calendar',
 			'side',
-			'high'
+			'default'
 		);
 
 		// Add meta box if there are calendars.
