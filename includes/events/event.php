@@ -265,15 +265,14 @@ class Event {
 		 * =========== */
 
 		if ( ! empty( $event['start'] ) ) {
-			$this->start = is_numeric( $event['start'] ) ? intval( $event['start'] ) : 0;
+			$this->start = is_numeric( $event['start'] ) ? $this->esc_midnight( intval( $event['start'] ), $this->timezone, 'start' ) : 0;
 			if ( ! empty( $event['start_utc'] ) ) {
-				$this->start_utc = is_numeric( $event['start_utc'] ) ? intval( $event['start_utc'] ) : 0;
+				$this->start_utc = is_numeric( $event['start_utc'] ) ? $this->esc_midnight( intval( $event['start_utc'] ), 'UTC', 'start' ) : 0;
 			}
 			if ( ! empty( $event['start_timezone'] ) ) {
 				$this->start_timezone = esc_attr( $event['start_timezone'] );
 			}
-			$start = new Carbon( 'now', $this->start_timezone );
-			$this->start_dt = $start->setTimestamp( $this->start );
+			$this->start_dt = Carbon::createFromTimestamp( $this->start, $this->start_timezone );
 			$start_location = isset( $event['start_location'] ) ? $event['start_location'] : '';
 			$this->start_location = $this->esc_location( $start_location );
 		}
@@ -283,16 +282,13 @@ class Event {
 		 * ========= */
 
 		if ( ! empty( $event['end'] ) ) {
-			$this->end = is_numeric( $event['end'] ) ? intval( $event['end'] ) : false;
-			if ( ! empty( $event['end_utc'] ) ) {
-				$this->end_utc = is_numeric( $event['end_utc'] ) ? intval( $event['end_utc'] ) : false;
-			}
+			$this->end = is_numeric( $event['end'] ) ? $this->esc_midnight( intval( $event['end'] ), $this->timezone, 'end' ) : false;
 			if ( ! empty( $event['end_timezone'] ) ) {
 				$this->end_timezone = esc_attr( $event['end_timezone'] );
 			}
-			if ( $this->end ) {
-				$end  = new Carbon( 'now', $this->end_timezone );
-				$this->end_dt = $end->setTimestamp( $this->end );
+			if ( ! empty( $event['end_utc'] ) ) {
+				$this->end_utc = is_numeric( $event['end_utc'] ) ? $this->esc_midnight( intval( $event['end_utc'] ), 'UTC', 'end' ) : false;
+				$this->end_dt = Carbon::createFromTimestamp( $this->end, $this->end_timezone );
 			}
 			$end_location = isset( $event['end_location'] ) ? $event['end_location'] : '';
 			$this->end_location = $this->esc_location( $end_location );
@@ -333,6 +329,30 @@ class Event {
 
 		// Event template.
 		$this->template  = isset( $event['template'] ) ? wp_kses_post( $event['template'] ) : '';
+	}
+
+	/**
+	 * Check for midnight event boundaries.
+	 *
+	 * Adjust potential inconsistencies when time is exactly at 00:00:00 or 24:00.
+	 *
+	 * @param  int $ts Timestamp
+	 * @param  string|\DateTimezone $tz
+	 * @param  string $bound
+	 *
+	 * @return int Timestamp
+	 */
+	private function esc_midnight( $ts, $tz, $bound ) {
+
+		$time = Carbon::createFromTimestamp( $ts, $tz );
+
+		if ( 'start' == $bound ) {
+			return 0 === intval( $time->format( 'GHi' ) ) ? $ts + 1 : $ts;
+		} elseif ( 'end' == $bound ) {
+			return 240000 === intval( $time->format( 'GHi' ) ) ? $ts - 1 : $ts;
+		} else {
+			return $ts;
+		}
 	}
 
 	/**
