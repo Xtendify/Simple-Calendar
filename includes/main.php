@@ -241,7 +241,7 @@ final class Plugin {
 			case 'codex' :
 			case 'apidocs' :
 				return 'http://codex.simplecalendar.io';
-			case 'addons' :
+			case 'add-ons' :
 				return self::$homepage . '/addons/';
 			case 'docs' :
 				return 'http://docs.simplecalendar.io';
