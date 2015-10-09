@@ -180,7 +180,7 @@ class Google extends Feed {
 							// Event title & description.
 							$title = strip_tags( $event->getSummary() );
 							$title = sanitize_text_field( iconv( mb_detect_encoding( $title, mb_detect_order(), true ), 'UTF-8', $title ) );
-							$description = sanitize_text_field( iconv( mb_detect_encoding( $event->getDescription(), mb_detect_order(), true ), 'UTF-8', $event->getDescription() ) );
+							$description = wp_kses_post( iconv( mb_detect_encoding( $event->getDescription(), mb_detect_order(), true ), 'UTF-8', $event->getDescription() ) );
 
 							$whole_day = false;
 

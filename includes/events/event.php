@@ -249,7 +249,7 @@ class Event {
 		$this->title = ! empty( $event['title'] ) ? esc_attr( $event['title'] ) : '';
 
 		// Event description.
-		$this->description = ! empty( $event['description'] ) ? esc_attr( $event['description'] ) : '';
+		$this->description = ! empty( $event['description'] ) ? $event['description'] : '';
 
 		// Event link URL.
 		$this->link = ! empty( $event['link'] ) ? esc_url_raw( $event['link'] ) : '';
