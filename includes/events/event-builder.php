@@ -531,11 +531,7 @@ class Event_Builder {
 		$html = '<div class="simcal-event-description" itemprop="description">';
 
 		if ( $allow_html || $allow_md ) {
-			if ( $allow_html && $allow_md ) {
-				$markdown = new \Parsedown();
-				$description = wp_kses_post( $description );
-				$html .= $markdown->text( $description );
-			} elseif ( $allow_html ) {
+			if ( $allow_html ) {
 				$html .= wp_kses_post( $description );
 			} elseif ( $allow_md ) {
 				$markdown = new \Parsedown();
