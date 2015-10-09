@@ -216,14 +216,9 @@ class Default_Calendar extends Calendar {
 				foreach ( $events as $event ) {
 					if ( $event instanceof Event ) {
 						if ( false !== $event->multiple_days ) {
-
-							$carbon = new Carbon();
-							$date = $carbon->createFromTimestamp( $event->start_utc, $event->timezone );
 							$days = $event->multiple_days;
-
 							for ( $d = 1; $d < $days; $d++ ) {
-								$addDay = $date->addDay()->startOfDay();
-								$new_events[ intval( $addDay->getTimestamp() ) ][] = $event;
+								$new_events[ $event->start_utc + ( $d * DAY_IN_SECONDS ) ] = $event;
 							}
 						}
 					}
