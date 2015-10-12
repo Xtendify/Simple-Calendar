@@ -264,7 +264,7 @@ class Event_Builder {
 
 				case 'calendar' :
 				case 'feed-title' :
-					return esc_attr( $event->source );
+					return $event->source;
 
 				case 'id' :
 				case 'event-id' :
@@ -725,7 +725,7 @@ class Event_Builder {
 		$anchor = $tag != 'url' ? 'yes' : $attr['autolink'];
 		$target = $attr['newwindow'] !== false ? 'target="_blank"' : '';
 
-		return $anchor !== false ? ' <a href="' . esc_url( $url ) . '" ' . $target . '>' . $text . '</a>' : ' ' . $text;
+		return $anchor !== false ? ' <a href="' . $url . '" ' . $target . '>' . $text . '</a>' : ' ' . $text;
 	}
 
 	/**
