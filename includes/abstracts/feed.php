@@ -136,10 +136,14 @@ abstract class Feed {
 
 		if ( $calendar instanceof Calendar ) {
 
-			$this->post_id          = isset( $calendar->id ) ? $calendar->id : 0;
-			$this->calendar_start   = isset( $calendar->start ) ? $calendar->start : 0;
+			if ( isset( $calendar->id ) ) {
+				$this->post_id = $calendar->id;
+			}
+			if ( isset( $calendar->start ) ) {
+				$this->calendar_start = $calendar->start;
+			}
 			$this->week_starts      = isset( $calendar->week_starts ) ? $calendar->week_starts : get_option( 'start_of_week' );
-			$this->events_template  = isset( $calendar->events_template ) ? $calendar->events_template : '';
+			$this->events_template  = ! empty( $calendar->events_template ) ? $calendar->events_template : simcal_default_event_template();
 
 			if ( $this->post_id > 0 ) {
 				$this->set_cache();
