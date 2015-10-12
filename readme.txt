@@ -1,7 +1,7 @@
 === Simple Calendar - formerly Google Calendar Events ===
 Contributors: moonstonemedia, pderksen, nickyoung87, nekojira, rosshanney
 Tags: calendar, calendars, calendar manager, custom calendar, custom calendars, event, events, events feed, google calendar, google
-Requires at least: 3.9
+Requires at least: 4.0
 Tested up to: 4.3
 Stable tag: 3.0.0
 License: GPLv2 or later
