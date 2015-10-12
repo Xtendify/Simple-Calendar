@@ -353,10 +353,10 @@ class Event {
 		}
 
 		// Event template.
-		if ( ! empty( $event['template'] ) {
+		if ( ! empty( $event['template'] ) ) {
 			$this->template = esc_html( $event['template'] );
 		}
-		
+
 	}
 
 	/**
