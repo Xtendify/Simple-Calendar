@@ -4,7 +4,7 @@
  * Plugin URI:  https://wordpress.org/plugins/google-calendar-events/
  * Description: Show off your Google calendar in grid (month) or list view, in a post, page or widget, and in a style that matches your site.
  *
- * Version:     3.0.0-beta1
+ * Version:     3.0.0-beta2
  *
  * Author:      Moonstone Media
  * Author URI:  http://moonstonemediagroup.com
