@@ -294,15 +294,13 @@ class Event_Builder {
 				case 'if-now' :
 				case 'if-not-now' :
 
-					$start_date = Carbon::createFromTimestamp( $event->start_utc, 'UTC' )->setTimezone( $calendar->timezone );
-					$start      = $start_date->getTimestamp();
+					$start_dt = $event->start_dt->setTimezone( $calendar->timezone );
+					$start = $start_dt->getTimestamp();
 
 					if ( $event->end_utc ) {
-						$end_date = Carbon::createFromTimestamp( $event->end_utc, 'UTC' )->setTimezone( $calendar->timezone );
-						$end      = $end_date->getTimestamp();
+						$end = $event->end_dt->getTimestamp();
 					} else {
-						$end_date = $start_date->endOfDay();
-						$end      = $end_date->getTimestamp();
+						$end = $start_dt->endOfDay()->subSeconds(59)->getTimestamp();
 					}
 
 					$now = $calendar->now;
@@ -322,16 +320,14 @@ class Event_Builder {
 				case 'if-started' :
 				case 'if-not-started' :
 
-					$start_date = Carbon::createFromTimestamp( $event->start_utc, 'UTC' )->setTimezone( $calendar->timezone );
-					$start      = $start_date->getTimestamp();
-					$now        = $calendar->now;
+					$start = $event->start_dt->setTimezone( $calendar->timezone )->getTimestamp();
 
 					if ( 'if-started' == $tag ) {
-						if ( $start < $now ) {
+						if ( $start <  $calendar->now ) {
 							return $calendar->get_event_html( $event, $partial );
 						}
 					} elseif ( 'if-not-started' == $tag ) {
-						if ( $start > $now ) {
+						if ( $start >  $calendar->now ) {
 							return $calendar->get_event_html( $event, $partial );
 						}
 					}
@@ -341,18 +337,16 @@ class Event_Builder {
 				case 'if-ended' :
 				case 'if-not-ended' :
 
-					if ( $event->end_utc ) {
+					if ( $event->end ) {
 
-						$end_date = Carbon::createFromTimestamp( $event->end_utc, 'UTC' )->setTimezone( $calendar->timezone );
-						$end      = $end_date->getTimestamp();
-						$now      = $calendar->now;
+						$end = $event->end_dt->setTimezone( $calendar->timezone )->getTimestamp();
 
 						if ( 'if-ended' == $tag ) {
-							if ( $end < $now ) {
+							if ( $end < $calendar->now ) {
 								return $calendar->get_event_html( $event, $partial );
 							}
 						} elseif ( 'if-not-ended' == $tag ) {
-							if ( $end > $now ) {
+							if ( $end > $calendar->now ) {
 								return $calendar->get_event_html( $event, $partial );
 							}
 						}
@@ -376,7 +370,7 @@ class Event_Builder {
 				case 'if-first' :
 				case 'if-not-first' :
 					$events = $calendar->events;
-					$pos    = array_search( $event->start_utc, array_keys( $events ) );
+					$pos    = array_search( $event->start, array_keys( $events ) );
 					$case   = $tag == 'if-first' ? $pos === 0 : $pos !== 0;
 
 					return $case ? $calendar->get_event_html( $event, $partial ) : '';

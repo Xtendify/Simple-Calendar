@@ -7,6 +7,7 @@
 namespace SimpleCalendar\Feeds;
 
 use Carbon\Carbon;
+use Carbon\CarbonInterval;
 use SimpleCalendar\Abstracts\Calendar;
 use SimpleCalendar\Abstracts\Feed;
 use SimpleCalendar\Feeds\Admin\Google_Admin as Admin;
@@ -190,12 +191,14 @@ class Google extends Feed {
 							$start_timezone = ! $event->getStart()->timeZone ? $calendar['timezone'] : $event->getStart()->timeZone;
 							if ( is_null( $event->getStart()->dateTime ) ) {
 								// Whole day event.
-								$google_start     = Carbon::parse( $event->getStart()->date )->startOfDay()->setTimezone( $start_timezone );
-								$google_start_utc = Carbon::parse( $event->getStart()->date )->startOfDay()->setTimezone( 'UTC' );
+								$date = Carbon::parse( $event->getStart()->date );
+								$google_start = Carbon::createFromDate( $date->year, $date->month, $date->day, $start_timezone )->startOfDay()->addSeconds(59);
+								$google_start_utc = Carbon::createFromDate( $date->year, $date->month, $date->day, 'UTC' )->startOfDay()->addSeconds(59);
 								$whole_day = true;
 							} else {
-								$google_start     = Carbon::parse( $event->getStart()->dateTime )->setTimezone( $start_timezone );
-								$google_start_utc = Carbon::parse( $event->getStart()->dateTime )->setTimezone( 'UTC' );
+								$date = Carbon::parse( $event->getStart()->dateTime );
+								$google_start     = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, $start_timezone );
+								$google_start_utc = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, 'UTC' );
 							}
 							// Start.
 							$start = $google_start->getTimestamp();
@@ -206,11 +209,13 @@ class Google extends Feed {
 							$end_timezone = ! $event->getEnd()->timeZone ? $calendar['timezone'] : $event->getEnd()->timeZone;
 							if ( is_null( $event->getEnd()->dateTime ) ) {
 								// Whole day event.
-								$google_end = Carbon::parse( $event->getEnd()->date )->setTimezone( $end_timezone )->endOfDay();
-								$google_end_utc = Carbon::parse( $event->getEnd()->date )->setTimezone( 'UTC' )->endOfDay();
+								$date = Carbon::parse( $event->getEnd()->date );
+								$google_end = Carbon::createFromDate( $date->year, $date->month, $date->day, $end_timezone )->endOfDay()->subSeconds(59);
+								$google_end_utc = Carbon::createFromDate( $date->year, $date->month, $date->day, 'UTC' )->endOfDay()->subSeconds(59);
 							}  else {
-								$google_end = Carbon::parse( $event->getEnd()->dateTime )->setTimezone( $end_timezone );
-								$google_end_utc = Carbon::parse( $event->getEnd()->dateTime )->setTimezone( 'UTC' );
+								$date = Carbon::parse( $event->getEnd()->dateTime );
+								$google_end     = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, $end_timezone );
+								$google_end_utc = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, 'UTC' );
 							}
 							// End.
 							$end = $google_end->getTimestamp();
@@ -220,11 +225,9 @@ class Google extends Feed {
 							// Count multiple days.
 							$span = 0;
 							if ( false == $event->getEndTimeUnspecified() ) {
-								$a = intval( $google_start_utc->setTimezone( $calendar['timezone'] )->format( 'Ymd' ) );
-								$b = intval( $google_end_utc->setTimezone( $calendar['timezone']  )->format( 'Ymd' ) );
-								$span = max( ( $b - $a ), 0 );
+								$span = $google_start->setTimezone( $calendar['timezone'] )->diffInDays( $google_end->setTimezone( $calendar['timezone' ] ) );
 							}
-							$multiple_days = $span > 0 ? $span + 1 : false;
+							$multiple_days = $span > 1 ? $span : false;
 
 							// Google cannot have two different locations for start and end time.
 							$start_location = $end_location = $event->getLocation();
@@ -233,7 +236,7 @@ class Google extends Feed {
 							$recurrence = $event->getRecurrence();
 
 							// Build the event.
-							$calendar['events'][ $start_utc ][] = array(
+							$calendar['events'][ $start ][] = array(
 								'type'           => 'google-calendar',
 								'source'         => $source,
 								'title'          => $title,

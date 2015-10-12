@@ -275,7 +275,7 @@ class Default_Calendar_List implements Calendar_View {
 
 		} else {
 
-			foreach( $events as $timestamp => $e ) {
+			foreach ( $events as $timestamp => $e ) {
 				$second = 0;
 				foreach( $e as $event ) {
 					$flattened_events[ intval( $timestamp + $second ) ][] = $event;
@@ -286,7 +286,7 @@ class Default_Calendar_List implements Calendar_View {
 
 			$keys  = array_keys( $flattened_events );
 			$current = 0;
-			foreach( $keys as $timestamp ) {
+			foreach ( $keys as $timestamp ) {
 				if ( $timestamp <= $this->start ) {
 					$current++;
 				}
@@ -305,7 +305,7 @@ class Default_Calendar_List implements Calendar_View {
 		// Put resulting events in an associative array, with Ymd date as key for easy retrieval in calendar days loop.
 		foreach ( $paged_events as $timestamp => $events ) {
 			if ( $timestamp < $this->end ) {
-				$date = Carbon::createFromTimestamp( $timestamp, 'UTC' )->setTimezone( $calendar->timezone )->format( 'Ymd' );
+				$date = Carbon::createFromTimestamp( $timestamp, $calendar->timezone )->endOfDay()->format( 'Ymd' );
 				$daily_events[ intval( $date ) ][] = $events;
 			}
 		}
