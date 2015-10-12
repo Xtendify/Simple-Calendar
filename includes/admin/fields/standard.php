@@ -50,10 +50,6 @@ class Standard extends Field {
 	 */
 	public function html() {
 
-		if ( 'metabox' != $this->context ) {
-			echo $this->tooltip;
-		}
-
 		?>
 		<input type="<?php echo $this->subtype; ?>"
 		       name="<?php echo $this->name; ?>"
@@ -65,9 +61,7 @@ class Standard extends Field {
 				echo $this->attributes; ?>/>
 		<?php
 
-		if ( 'metabox' == $this->context ) {
-			echo $this->tooltip;
-		}
+		echo $this->tooltip;
 
 		if ( ! empty( $this->description ) ) {
 			echo '<p class="description">' . wp_kses_post( $this->description ) . '</p>';

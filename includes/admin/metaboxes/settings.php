@@ -460,7 +460,6 @@ class Settings implements Meta_Box {
 							'id'      => '_calendar_is_static',
 							'tooltip' => __( 'Depending on the chosen calendar type, it will prevent browsing the calendar, which will be fixed at its opening state.', 'google-calendar-events' ),
 							'value'   => 'yes' == $fixed ? 'yes' : 'no',
-							'context' => 'metabox',
 						) );
 
 						?>
@@ -475,7 +474,6 @@ class Settings implements Meta_Box {
 							'type'    => 'textarea',
 							'name'    => '_no_events_message',
 							'id'      => '_no_events_message',
-							'context' => 'metabox',
 							'tooltip' => __( 'Some calendars may display a message when no events are found. You can change the default message here.', 'google-calendar-events' ),
 							'value'   => get_post_meta( $post->ID, '_no_events_message', true ),
 						) );
@@ -598,7 +596,6 @@ class Settings implements Meta_Box {
 							'id'      => '_calendar_datetime_separator',
 							'value'   => $separator,
 							'tooltip' => __( 'Used to divide date and time when both are shown.', 'google-calendar-events' ),
-							'context' => 'metabox',
 							'class'   => array(
 								'simcal-field-tiny',
 							),
@@ -751,7 +748,6 @@ class Settings implements Meta_Box {
 
 						$value            = get_post_meta( $post_id, $key, true );
 						$field['value']   = $value ? $value : ( isset( $field['default'] ) ? $field['default'] : '' );
-						$field['context'] = ! empty( $field['context'] ) ? $field['context'] : 'metabox';
 						$the_field = simcal_get_field( $field ); ?>
 
 						<?php if ( $the_field instanceof Field ) : ?>

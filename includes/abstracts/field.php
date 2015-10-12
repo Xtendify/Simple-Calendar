@@ -132,14 +132,6 @@ abstract class Field {
 	public $default = '';
 
 	/**
-	 * Markup context.
-	 *
-	 * @access public
-	 * @var string
-	 */
-	public $context = '';
-
-	/**
 	 * Validation result.
 	 *
 	 * @access public
@@ -157,11 +149,6 @@ abstract class Field {
 	 * @param array $field Field data.
 	 */
 	public function __construct( $field ) {
-
-		// Context.
-		if ( isset( $field['context'] ) ) {
-			$this->context = $field['context'];
-		}
 
 		// Field properties.
 		if ( isset( $field['title'] ) ) {

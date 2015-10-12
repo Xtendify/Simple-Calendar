@@ -76,10 +76,6 @@ class Checkbox extends Field {
 
 		} else {
 
-			if ( 'metabox' != $this->context ) {
-				echo $this->tooltip;
-			}
-
 			?>
 			<span class="simcal-field-bool" <?php echo $this->style ? 'style="' . $this->style . '"' : ''; ?>>
 				<?php if ( ! empty( $this->title ) ) : ?>
@@ -95,9 +91,7 @@ class Checkbox extends Field {
 			</span>
 			<?php
 
-			if ( 'metabox' == $this->context ) {
-				echo $this->tooltip;
-			}
+			echo $this->tooltip;
 
 			if ( ! empty( $this->description ) ) {
 				echo '<p class="description">' . wp_kses_post( $this->description ) . '</p>';

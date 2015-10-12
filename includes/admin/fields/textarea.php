@@ -47,10 +47,6 @@ class Textarea extends Field {
 	 */
 	public function html() {
 
-		if ( 'metabox' != $this->context ) {
-			echo $this->tooltip;
-		}
-
 		?>
 		<textarea
 			name="<?php echo $this->name; ?>"
@@ -63,9 +59,7 @@ class Textarea extends Field {
 			?>><?php echo $this->value;  ?></textarea>
 		<?php
 
-		if ( 'metabox' == $this->context ) {
-			echo $this->tooltip;
-		}
+		echo $this->tooltip;
 
 		if ( ! empty( $this->description ) ) {
 			echo '<p class="description">' . wp_kses_post( $this->description ) . '</p>';

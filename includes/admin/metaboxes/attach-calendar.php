@@ -37,7 +37,6 @@ class Attach_Calendar implements Meta_Box {
 			'type'       => 'select',
 			'id'         => '_simcal_attach_calendar_id',
 			'name'       => '_simcal_attach_calendar_id',
-			'context'    => 'metabox',
 			'enhanced'   => 'enhanced',
 			'allow_void' => 'allow_void',
 			'value'      => absint( get_post_meta( $post->ID, '_simcal_attach_calendar_id', true ) ),
@@ -53,7 +52,6 @@ class Attach_Calendar implements Meta_Box {
 			'type'      => 'radio',
 			'id'        => '_simcal_attach_calendar_position',
 			'name'      => '_simcal_attach_calendar_position',
-			'context'   => 'metabox',
 			'value'     => $position ? $position : 'after',
 			'options'   => array(
 				'after'  => __( 'After content', 'google-calendar-events' ),

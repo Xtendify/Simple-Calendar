@@ -86,10 +86,6 @@ class Select extends Field {
 			$this->value = explode( ',', $this->value );
 		}
 
-		if ( 'metabox' != $this->context ) {
-			echo $this->tooltip;
-		}
-
 		?>
 		<select name="<?php echo $this->name; ?><?php if ( $this->multiselect === true ) { echo '[]'; } ?>"
 		        id="<?php echo $this->id; ?>"
@@ -116,9 +112,7 @@ class Select extends Field {
 		</select>
 		<?php
 
-		if ( 'metabox' == $this->context ) {
-			echo $this->tooltip;
-		}
+		echo $this->tooltip;
 
 		if ( ! empty( $this->description ) ) {
 			echo '<p class="description">' . wp_kses_post( $this->description ) . '</p>';
