@@ -241,7 +241,7 @@
     max-width: 24px; }
 
 .simcal-default-calendar .simcal-tooltip-content {
-  font-size: 12px;
+  font-size: 1.2em;
   line-height: 1.4;
   padding: 5px; }
 
@@ -285,7 +285,6 @@
   .simcal-default-calendar-grid > table thead th,
   .simcal-default-calendar-grid > table tbody td {
     padding: 0;
-    text-align: center;
     vertical-align: top; }
 
 .simcal-default-calendar-grid .simcal-calendar-head .simcal-nav {
@@ -335,7 +334,7 @@
   background: rgba(255, 255, 255, 0.1); }
 
 .simcal-default-calendar-grid .simcal-events {
-  font-size: 10px;
+  font-size: .58em;
   line-height: 1.44;
   list-style: none;
   margin: 0;
