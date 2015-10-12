@@ -99,8 +99,8 @@ class Default_Calendar_Admin {
 							'default' => 'hover',
 							'options' => array(
 								'click' => __( 'Click', 'google-calendar-events' ),
-								'hover' => __( 'Hover', 'google-calendar-events' )
-							)
+								'hover' => __( 'Hover', 'google-calendar-events' ),
+							),
 						) );
 
 						?>
@@ -117,14 +117,13 @@ class Default_Calendar_Admin {
 							'type'        => 'checkbox',
 							'name'        => '_default_calendar_trim_titles',
 							'id'          => '_default_calendar_trim_titles',
-							'context'     => 'metabox',
 							'class'       => array(
 								'simcal-field-show-next',
 							),
 							'value'       => 'yes' == $trim ? 'yes' : 'no',
 							'attributes'  => array(
-								'data-show-next-if-value' => 'yes'
-							)
+								'data-show-next-if-value' => 'yes',
+							),
 						) );
 
 						simcal_print_field( array(
@@ -136,11 +135,10 @@ class Default_Calendar_Admin {
 							'class'      => array(
 								'simcal-field-tiny',
 							),
-							'context'    => 'metabox',
 							'value'      => 'yes' == $trim ? strval( max( absint( get_post_meta( $post_id, '_default_calendar_trim_titles_chars', true ) ), 1 ) ) : '20',
 							'attributes' => array(
-								'min'     => '1'
-							)
+								'min'     => '1',
+							),
 						) );
 
 						?>
@@ -162,10 +160,9 @@ class Default_Calendar_Admin {
 								'simcal-field-tiny',
 								'simcal-field-inline',
 							),
-							'context' => 'metabox',
 							'value'   => strval( $list_span ),
 							'attributes'  => array(
-								'min' => '1'
+								'min' => '1',
 							),
 						) );
 
@@ -176,7 +173,6 @@ class Default_Calendar_Admin {
 							'name'    => '_default_calendar_list_range_type',
 							'id'      => '_default_calendar_list_range_type',
 							'tooltip' => __( 'Range of events to show on each calendar page.', 'google-calendar-events' ),
-							'context' => 'metabox',
 							'class'   => array(
 								'simcal-field-inline',
 							),
@@ -205,7 +201,6 @@ class Default_Calendar_Admin {
 							'id'      => '_default_calendar_compact_list',
 							'tooltip' => __( 'Make an events list more compact by grouping together events from different days in a single list.', 'google-calendar-events' ),
 							'value'   => 'yes' == $compact ? 'yes' : 'no',
-							'context' => 'metabox',
 						) );
 
 						?>
@@ -222,13 +217,12 @@ class Default_Calendar_Admin {
 							'type'        => 'checkbox',
 							'name'        => '_default_calendar_limit_visible_events',
 							'id'          => '_default_calendar_limit_visible_events',
-							'context'     => 'metabox',
 							'value'       => 'yes' == $limit ? 'yes' : 'no',
 							'class'       => array(
 								'simcal-field-show-next',
 							),
 							'attributes'  => array(
-								'data-show-next-if-value' => 'yes'
+								'data-show-next-if-value' => 'yes',
 							)
 						) );
 
@@ -244,10 +238,9 @@ class Default_Calendar_Admin {
 							'class'      => array(
 								'simcal-field-tiny',
 							),
-							'context'    => 'metabox',
 							'value'      => $visible_events,
 							'attributes' => array(
-								'min'     => '1'
+								'min'     => '1',
 							)
 						) );
 
@@ -265,7 +258,6 @@ class Default_Calendar_Admin {
 							'id'      => '_default_calendar_expand_multi_day_events',
 							'tooltip' => __( 'Show events spanning multiple days on each day.', 'google-calendar-events' ),
 							'value'   => get_post_meta( $post_id, '_default_calendar_expand_multi_day_events', true ),
-							'context' => 'metabox',
 						) );
 
 						?>
@@ -298,7 +290,6 @@ class Default_Calendar_Admin {
 								'name'    => '_default_calendar_style_theme',
 								'id'      => '_default_calendar_style_theme',
 								'value'   => $value,
-								'context' => 'metabox',
 								'tooltip' => __( 'Choose a calendar theme to match your site theme.' ),
 								'options' => array(
 									'light' => __( 'Light', 'google-events-calendar' ),
@@ -323,7 +314,6 @@ class Default_Calendar_Admin {
 								'name'    => '_default_calendar_style_today',
 								'id'      => '_default_calendar_style_today',
 								'value'   => $value,
-								'context' => 'metabox',
 							) );
 
 							?>
@@ -343,7 +333,6 @@ class Default_Calendar_Admin {
 								'name'    => '_default_calendar_style_days_events',
 								'id'      => '_default_calendar_style_days_events',
 								'value'   => $value,
-								'context' => 'metabox',
 							) );
 
 							?>

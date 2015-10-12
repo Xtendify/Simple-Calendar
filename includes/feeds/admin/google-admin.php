@@ -245,12 +245,13 @@ class Google_Admin {
 
 			$has_errors = true;
 
-			$message .= '<p class="description">' . sprintf(
-					__( '1. Set the Google Calendar you want to use as "public" (<a href="%1s" target="_blank">see documentation</a>).', 'google-calendar-events' ) . '<br />' .
-					__( '2. Find and paste in the field above your Google Calendar ID (<a href="%2s" target="_blank">see documentation</a>).', 'google-calendar-events' ),
-					'//wpdocs.philderksen.com/google-calendar-events/getting-started/set-calendar-public/',
-					'//wpdocs.philderksen.com/google-calendar-events/getting-started/find-calendar-id/'
-				) . '</p>';
+			$message .= '<p class="description">' .
+			            sprintf(
+				            __( '1. Set the Google Calendar you want to use as "public" (<a href="%1s" target="_blank">see documentation</a>).', 'google-calendar-events' ) . '<br />' .
+				            __( '2. Find and paste in the field above your Google Calendar ID (<a href="%2s" target="_blank">see documentation</a>).', 'google-calendar-events' ),
+				            '//wpdocs.philderksen.com/google-calendar-events/getting-started/set-calendar-public/',
+				            '//wpdocs.philderksen.com/google-calendar-events/getting-started/find-calendar-id/'
+			            ) . '</p>';
 
 		} elseif ( $post_id > 0 ) {
 
@@ -267,7 +268,8 @@ class Google_Admin {
 					                 admin_url( 'edit.php?post_type=calendar&page=simple-calendar_settings&tab=feeds' )
 				                 ) .
 				                 '</p>',
-			) );
+				)
+			);
 
 			if ( empty( $this->google_api_key ) ) {
 
@@ -297,7 +299,8 @@ class Google_Admin {
 					                 '<br>' .  $message . '<br>' .
 					                 __( 'Please ensure that both your Google Calendar ID and API Key are valid and that the Google Calendar you want to display is public.', 'google-calendar-events' ) .
 					                 '</p>',
-				) );
+					)
+				);
 
 				$feed = null;
 				if ( $feed_type = wp_get_object_terms( $post_id, 'calendar_feed' ) ) {

@@ -47,7 +47,7 @@ class Date_Picker extends Field {
 	 */
 	public function __construct( $field ) {
 
-		$this->range  = isset( $field['range'] )  ? ( $field['range']  === true ? true : false ) : false;
+		$this->range  = isset( $field['range'] )  ? ( $field['range'] === true ? true : false ) : false;
 		$this->inline = isset( $field['inline'] ) ? ( $field['inline'] === true ? true : false ) : true;
 
 		$subtype = $this->range === true ? 'simcal-field-date-picker-range ' : '';
@@ -76,7 +76,8 @@ class Date_Picker extends Field {
 		<div id="<?php echo $this->id; ?>"
 		     class="<?php echo $this->class; ?>"
 		     <?php echo $this->style ? 'style="' . $this->style . '"' : ''; ?>
-			 <?php echo $this->attributes ?>><?php
+			 <?php echo $this->attributes ?>>
+			<?php
 
 			if ( false === $this->range ) {
 
@@ -94,7 +95,7 @@ class Date_Picker extends Field {
 				}
 
 			} else {
-			    // @todo when a date range picker will be needed, this can be extended
+			    // @todo eventually if a date range picker is needed, this can be extended
 			}
 
 			?>

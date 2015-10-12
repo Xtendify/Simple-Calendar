@@ -143,7 +143,7 @@ class Notices {
 		if ( $update === true ) {
 			update_option( 'simple-calendar_admin_notices', $notices );
 		}
-    }
+	}
 
 	/**
 	 * Show a notice.

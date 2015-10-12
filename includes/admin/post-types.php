@@ -64,9 +64,9 @@ class Post_Types {
 	public function add_calendar_feed_column_headers( $columns ) {
 
 		// New columns.
-		$feed_info     = array( 'feed'      => __( 'Events Source', 'google-calendar-events' ) );
-		$calendar_info = array( 'calendar'  => __( 'Calendar Type', 'google-calendar-events' ) );
-		$shortcode     = array( 'shortcode' => __( 'Shortcode', 'google-calendar-events' ) );
+		$feed_info = array( 'feed' => __( 'Events Source', 'google-calendar-events' ) );
+		$calendar_info = array( 'calendar' => __( 'Calendar Type', 'google-calendar-events' ) );
+		$shortcode = array( 'shortcode' => __( 'Shortcode', 'google-calendar-events' ) );
 
 		// Merge with existing columns and rearrange.
 		$columns = array_slice( $columns, 0, 2, true ) + $feed_info + $calendar_info + $shortcode + array_slice( $columns, 2, null, true );
@@ -181,12 +181,13 @@ class Post_Types {
 
 		$bulk_actions->register_bulk_action( array(
 			'menu_text'     => __( 'Clear cache', 'google-calendar-events' ),
-            'action_name'   => 'clear_calendars_cache',
-            'callback'      => function( $post_ids ) {
-                simcal_delete_feed_transients( $post_ids );
-            },
-			'admin_notice' => __( 'Cache cleared.', 'google-calendar-events' ),
-		) );
+			'action_name'   => 'clear_calendars_cache',
+			'callback'      => function( $post_ids ) {
+				simcal_delete_feed_transients( $post_ids );
+			},
+			'admin_notice'  => __( 'Cache cleared.', 'google-calendar-events' ),
+			)
+		);
 
 		$bulk_actions->init();
 	}
@@ -252,8 +253,8 @@ class Post_Types {
 
 		if ( $post_type == 'calendar' && isset( $post->ID ) ) {
 			echo '<a id="simcal-clear-cache" class="button" data-id="' . $post->ID . ' ">' .
-			        '<i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i> ' .
-			        __( 'Clear cache', 'google-calendar-events' ) .
+			     '<i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i> ' .
+			     __( 'Clear cache', 'google-calendar-events' ) .
 			     '</a>';
 		}
 	}

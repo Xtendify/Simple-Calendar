@@ -130,7 +130,7 @@ class Grouped_Calendars_Admin {
 						if ( ! empty( $terms ) ) {
 
 							$categories = array();
-							foreach( $terms as $term ) {
+							foreach ( $terms as $term ) {
 								$categories[ $term->term_id ] = $term->name;
 							}
 
@@ -150,7 +150,7 @@ class Grouped_Calendars_Admin {
 
 						} else {
 
-							$style  = 'category' == $source ? '' : 'display: none;';
+							$style = 'category' == $source ? '' : 'display: none;';
 							$style .= ' width: 100%; max-width: 500px';
 							echo '<input type="text" disabled="disabled" name="_grouped_calendars_category" id="_grouped_calendars_category" style="' . $style . '" placeholder="' . __( 'There are no calendar categories yet.', 'google-calendar-events' ) . '" />';
 

@@ -88,7 +88,7 @@ abstract class Settings_Page {
 
 		$settings[ $this->id ] = array(
 			'label'         => $this->label,
-			'description'   => $this->description
+			'description'   => $this->description,
 		);
 
 		if ( ! empty( $this->sections ) && is_array( $this->sections ) ) {

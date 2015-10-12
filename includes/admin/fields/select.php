@@ -63,7 +63,7 @@ class Select extends Field {
 
 		$multiselect = isset( $field['multiselect'] ) ? $field['multiselect'] : '';
 		if ( 'multiselect' == $multiselect ) {
-			$this->multiselect  = true;
+			$this->multiselect = true;
 			$class .= ' simcal-field-multiselect';
 		}
 

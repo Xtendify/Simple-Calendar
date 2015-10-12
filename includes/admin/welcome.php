@@ -127,7 +127,6 @@ class Welcome {
 		unset( $version[ count( $version ) - 1 ] );
 		$major_version = join( '.', $version );
 
-
 		?>
 		<h1>
 			<?php

@@ -172,7 +172,7 @@ function simcal_get_calendars( $exclude = '', $cached = true ) {
 
 		$posts = get_posts( array(
 			'post_type' => 'calendar',
-			'nopaging'  => true
+			'nopaging'  => true,
 		) );
 
 		$calendars = array();

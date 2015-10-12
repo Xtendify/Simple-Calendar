@@ -192,8 +192,8 @@ class Google extends Feed {
 							if ( is_null( $event->getStart()->dateTime ) ) {
 								// Whole day event.
 								$date = Carbon::parse( $event->getStart()->date );
-								$google_start = Carbon::createFromDate( $date->year, $date->month, $date->day, $start_timezone )->startOfDay()->addSeconds(59);
-								$google_start_utc = Carbon::createFromDate( $date->year, $date->month, $date->day, 'UTC' )->startOfDay()->addSeconds(59);
+								$google_start = Carbon::createFromDate( $date->year, $date->month, $date->day, $start_timezone )->startOfDay()->addSeconds( 59 );
+								$google_start_utc = Carbon::createFromDate( $date->year, $date->month, $date->day, 'UTC' )->startOfDay()->addSeconds( 59 );
 								$whole_day = true;
 							} else {
 								$date = Carbon::parse( $event->getStart()->dateTime );
@@ -210,8 +210,8 @@ class Google extends Feed {
 							if ( is_null( $event->getEnd()->dateTime ) ) {
 								// Whole day event.
 								$date = Carbon::parse( $event->getEnd()->date );
-								$google_end = Carbon::createFromDate( $date->year, $date->month, $date->day, $end_timezone )->endOfDay()->subSeconds(59);
-								$google_end_utc = Carbon::createFromDate( $date->year, $date->month, $date->day, 'UTC' )->endOfDay()->subSeconds(59);
+								$google_end = Carbon::createFromDate( $date->year, $date->month, $date->day, $end_timezone )->endOfDay()->subSeconds( 59 );
+								$google_end_utc = Carbon::createFromDate( $date->year, $date->month, $date->day, 'UTC' )->endOfDay()->subSeconds( 59 );
 							}  else {
 								$date = Carbon::parse( $event->getEnd()->dateTime );
 								$google_end     = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, $end_timezone );
@@ -225,7 +225,7 @@ class Google extends Feed {
 							// Count multiple days.
 							$span = 0;
 							if ( false == $event->getEndTimeUnspecified() ) {
-								$span = $google_start->setTimezone( $calendar['timezone'] )->diffInDays( $google_end->setTimezone( $calendar['timezone' ] ) );
+								$span = $google_start->setTimezone( $calendar['timezone'] )->diffInDays( $google_end->setTimezone( $calendar['timezone'] ) );
 							}
 							$multiple_days = $span > 1 ? $span : false;
 

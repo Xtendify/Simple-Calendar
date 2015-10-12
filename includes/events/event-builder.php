@@ -110,6 +110,14 @@ class Event_Builder {
 			'feed-id',               // @deprecated An alias for 'calendar-id' tag.
 			'cal-id',                // @deprecated An alias for 'calendar-id' tag.
 
+			/* ========= *
+			 * Meta Tags *
+			 * ========= */
+
+			'attachments',          // List of attachments.
+			'attendees',            // List of attendees.
+			'organizer',            // Organizer info.
+
 			/* ================ *
 			 * Conditional Tags *
 			 * ================ */
@@ -144,14 +152,6 @@ class Event_Builder {
 			'if-start-location',     // Does the event has a start location?
 			'if-not-location',       // @deprecated Alias for 'if-not-start-location'.
 			'if-not-start-location', // Does the event has NOT a start location?
-
-			/* ========= *
-			 * Meta Tags *
-			 * ========= */
-
-			'attachments',          // List of attachments.
-			'attendees',            // List of attendees.
-			'organizer',            // Organizer info.
 
 		);
 	}
@@ -228,7 +228,7 @@ class Event_Builder {
 				case 'start-date' :
 				case 'start-human' :
 				case 'start-time' :
-					return $this->get_date_time( $tag, $event, $attr );
+					return $this->get_dt( $tag, $event, $attr );
 
 				case 'length' :
 				case 'duration' :
@@ -275,6 +275,28 @@ class Event_Builder {
 				case 'feed-id' :
 					return $event->calendar;
 
+				/* ========= *
+				 * Meta Tags *
+				 * ========= */
+
+				case 'attachments' :
+					if ( ! empty( $event->meta['attachments'] ) ) {
+						return $this->get_attachments( $event->meta['attachments'] );
+					}
+					break;
+
+				case 'attendees' :
+					if ( ! empty( $event->meta['attendees'] ) ) {
+						return $this->get_attendees( $event->meta['attendees'], $attr );
+					}
+					break;
+
+				case 'organizer' :
+					if ( ! empty( $event->meta['organizer'] ) ) {
+						return $this->get_organizer( $event->meta['organizer'], $attr );
+					}
+					break;
+
 				/* ================ *
 				 * Conditional Tags *
 				 * ================ */
@@ -303,14 +325,12 @@ class Event_Builder {
 						$end = $start_dt->endOfDay()->subSeconds(59)->getTimestamp();
 					}
 
-					$now = $calendar->now;
-
 					if ( 'if-now' == $tag ) {
-						if ( ( $start <= $now ) && ( $end > $now ) ) {
+						if ( ( $start <= $calendar->now ) && ( $end > $calendar->now ) ) {
 							return $calendar->get_event_html( $event, $partial );
 						}
 					} elseif ( 'if-not-now' == $tag ) {
-						if ( $start > $now && $end <= $now ) {
+						if ( $start > $calendar->now && $end <= $calendar->now ) {
 							return $calendar->get_event_html( $event, $partial );
 						}
 					}
@@ -323,11 +343,11 @@ class Event_Builder {
 					$start = $event->start_dt->setTimezone( $calendar->timezone )->getTimestamp();
 
 					if ( 'if-started' == $tag ) {
-						if ( $start <  $calendar->now ) {
+						if ( $start < $calendar->now ) {
 							return $calendar->get_event_html( $event, $partial );
 						}
 					} elseif ( 'if-not-started' == $tag ) {
-						if ( $start >  $calendar->now ) {
+						if ( $start > $calendar->now ) {
 							return $calendar->get_event_html( $event, $partial );
 						}
 					}
@@ -430,28 +450,6 @@ class Event_Builder {
 					}
 					break;
 
-				/* ========= *
-				 * Meta Tags *
-				 * ========= */
-
-				case 'attachments' :
-					if ( ! empty( $event->meta['attachments'] ) ) {
-						return $this->get_attachments( $event->meta['attachments'] );
-					}
-					break;
-
-				case 'attendees' :
-					if ( ! empty( $event->meta['attendees'] ) ) {
-						return $this->get_attendees( $event->meta['attendees'], $attr );
-					}
-					break;
-
-				case 'organizer' :
-					if ( ! empty( $event->meta['organizer'] ) ) {
-						return $this->get_organizer( $event->meta['organizer'], $attr );
-					}
-					break;
-
 				/* ======= *
 				 * Default *
 				 * ======= */
@@ -546,6 +544,7 @@ class Event_Builder {
 
 		$html = '<div class="simcal-event-description" itemprop="description">';
 
+		// Markdown and HTML don't play well together, use one or the other in the same tag.
 		if ( $allow_html || $allow_md ) {
 			if ( $allow_html ) {
 				$html .= wp_kses_post( $description );
@@ -630,7 +629,7 @@ class Event_Builder {
 
 		} else {
 
-			$time_end = ! empty( $time_start ) && ! empty( $time_end ) ? '- ' . $time_end : '';
+			$time_end = ! empty( $time_start ) && ! empty( $time_end ) ? ' - ' . $time_end : '';
 
 			$output = ' <span class="simcal-event-start simcal-event-start-date" ' .
 			          'data-event-start="' . $start->getTimestamp() . '"' .
@@ -657,7 +656,7 @@ class Event_Builder {
 	 *
 	 * @return string
 	 */
-	private function get_date_time( $tag, Event $event, $attr ) {
+	private function get_dt( $tag, Event $event, $attr ) {
 
 		$bound = 0 === strpos( $tag, 'end' ) ? 'end' : 'start';
 		if ( ( 'end' == $bound ) && ! $event->end ) {
