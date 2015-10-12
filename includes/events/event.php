@@ -241,29 +241,43 @@ class Event {
 		 * ================= */
 
 		// Event unique id.
-		$this->uid = isset( $event['uid'] ) ? trim( strval( $event['uid'] ) ) : '';
+		if ( ! empty( $event['uid'] ) ) {
+			$this->uid = esc_attr( $event['uid'] );
+		}
 
 		// Event source.
-		$this->source = isset( $event['source'] ) ? esc_attr( $event['source'] ) : '';
+		if ( ! empty( $event['source'] ) ) {
+			$this->source = esc_attr( $event['source'] );
+		}
 
-		// Parent calendar id.
-		$this->calendar = isset( $event['calendar'] ) ? absint( $event['calendar'] ) : 0;
+		// Event parent calendar id.
+		if ( ! empty( $event['calendar'] ) ) {
+			$this->calendar = max( intval( $event['calendar'] ), 0 );
+		}
 
-		// Parent calendar timezone.
-		$this->timezone = isset( $event['timezone'] ) ? esc_attr( $event['timezone'] ) : 'UTC';
+		// Event parent calendar timezone.
+		if ( ! empty( $event['timezone'] ) ) {
+			$this->timezone = esc_attr( $event['timezone'] );
+		}
 
 		/* ============= *
 		 * Event Content *
 		 * ============= */
 
 		// Event title.
-		$this->title = ! empty( $event['title'] ) ? esc_attr( $event['title'] ) : '';
+		if ( ! empty( $event['title'] ) ) {
+			$this->title = esc_attr( $event['title'] );
+		}
 
 		// Event description.
-		$this->description = ! empty( $event['description'] ) ? $event['description'] : '';
+		if ( ! empty( $event['description'] ) ) {
+			$this->description = esc_html( $event['description'] );
+		}
 
 		// Event link URL.
-		$this->link = ! empty( $event['link'] ) ? esc_url_raw( $event['link'] ) : '';
+		if ( ! empty( $event['link'] ) ) {
+			$this->link = esc_url_raw( $event['link'] );
+		}
 
 		// Event visibility.
 		if ( ! empty( $event['visibility'] ) ) {
@@ -339,7 +353,10 @@ class Event {
 		}
 
 		// Event template.
-		$this->template  = isset( $event['template'] ) ? wp_kses_post( $event['template'] ) : '';
+		if ( ! empty( $event['template'] ) {
+			$this->template = esc_html( $event['template'] );
+		}
+		
 	}
 
 	/**
