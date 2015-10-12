@@ -302,7 +302,7 @@ class Default_Calendar_Grid implements Calendar_View {
 
 		// Variables to cycle days in current month and find today in calendar.
 		$now         = $calendar->now;
-		$current     = Carbon::createFromDate( $year, $month, 1, $calendar->timezone )->startOfDay();
+		$current     = Carbon::create( $year, $month, 1, 0, 0, 59, $calendar->timezone );
 		$current_min = $current->getTimestamp();
 		$current_max = $current->endOfDay()->getTimestamp();
 
@@ -470,26 +470,28 @@ class Default_Calendar_Grid implements Calendar_View {
 				// The actual days with numbers and events in each row cell.
 				echo '<td class="' . $day_classes . '" data-events-count="' . strval( $count ) . '">' . "\n";
 
-					if ( $count > 0 ) {
-						$the_color = new Color( $calendar->days_events_color );
-						$color = ! $color ? ( $the_color->isDark() ? '#ffffff' : '#000000' ) : $color;
-						$bg_color = ! $bg_color ? '#' . $the_color->getHex() : $bg_color;
-						$day_style = ' style="background-color: ' . $bg_color . '; color: ' . $color .'"';
-					} else {
-						$day_style = '';
-					}
+				if ( $color ) {
+					$day_style = ' style="background-color: ' . $bg_color . '; color: ' . $color .'"';
+				} elseif ( $count > 0 ) {
+					$the_color = new Color( $calendar->days_events_color );
+					$color = ! $color ? ( $the_color->isDark() ? '#ffffff' : '#000000' ) : $color;
+					$bg_color = ! $bg_color ? '#' . $the_color->getHex() : $bg_color;
+					$day_style = ' style="background-color: ' . $bg_color . '; color: ' . $color .'"';
+				} else {
+					$day_style = '';
+				}
 
-					echo "\t" . '<div>' . "\n";
-					echo "\t\t" . '<span class="simcal-day-label simcal-day-number"' . $day_style . '>' . $day . '</span>' . "\n";
-					echo "\t\t" . $list_events . "\n";
-					echo "\t\t";
-					echo '<span class="simcal-events-dots" style="display: none;">';
-						// Event bullets for calendar mobile mode.
-						for( $i = 0; $i < $count; $i++ ) {
-							echo '<b> &bull; </b>';
-						}
-					echo '</span>' . "\n";
-					echo "\t" . '</div>' . "\n";
+				echo "\t" . '<div>' . "\n";
+				echo "\t\t" . '<span class="simcal-day-label simcal-day-number"' . $day_style . '>' . $day . '</span>' . "\n";
+				echo "\t\t" . $list_events . "\n";
+				echo "\t\t";
+				echo '<span class="simcal-events-dots" style="display: none;">';
+					// Event bullets for calendar mobile mode.
+					for( $i = 0; $i < $count; $i++ ) {
+						echo '<b> &bull; </b>';
+					}
+				echo '</span>' . "\n";
+				echo "\t" . '</div>' . "\n";
 				echo '</td>' . "\n";
 
 				// Reset day of the week count (sun, 0 - sat, 6).
