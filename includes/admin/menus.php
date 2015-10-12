@@ -73,7 +73,9 @@ class Menus {
 			'manage_options',
 			'simple-calendar_add_ons',
 			function() {
-				wp_redirect( \SimpleCalendar\plugin()->get_url( 'add-ons' ) );
+				$url = \SimpleCalendar\plugin()->get_url( 'add-ons' );
+				wp_redirect( $url );
+				exit;
 			}
 		);
 
