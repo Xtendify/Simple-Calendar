@@ -127,8 +127,14 @@ class Welcome {
 		unset( $version[ count( $version ) - 1 ] );
 		$major_version = join( '.', $version );
 
-		// Translators: %s prints the current major version of the plugin. ?>
-		<h1><?php printf( __( 'Welcome to Simple Calendar %s', 'google-calendar-events' ), $major_version ); ?></h1>
+
+		?>
+		<h1>
+			<?php
+			/* translators: %s prints the current major version of the plugin. */
+			printf( __( 'Welcome to Simple Calendar %s', 'google-calendar-events' ), $major_version );
+			?>
+		</h1>
 
 		<div class="about-text calendar-about-text">
 			<?php
@@ -143,14 +149,15 @@ class Welcome {
 
 			echo $message;
 
-			// Translators: %s prints the current major version of the plugin.
+			/* translators: %s prints the current major version of the plugin. */
 			printf( ' ' . __( 'Simple Calendar %s is more powerful, stable and secure than ever before. We hope you really enjoy using it.', 'google-calendar-events' ), $major_version );
 
 			?>
 		</div>
 
-		<div
-			class="simcal-badge"><?php printf( _x( 'Version %s', 'Plugin version', 'google-calendar-events' ), SIMPLE_CALENDAR_VERSION ); ?></div>
+		<div class="simcal-badge">
+			<?php printf( _x( 'Version %s', 'Plugin version', 'google-calendar-events' ), SIMPLE_CALENDAR_VERSION ); ?>
+		</div>
 
 		<p>
 			<a href="<?php echo admin_url( 'edit.php?post_type=calendar' ); ?>"
@@ -230,10 +237,14 @@ class Welcome {
 			<div class="wrap about-wrap">
 				<?php $this->intro(); ?>
 				<p class="about-description">
-					<?php printf(
+					<?php
+
+					printf(
 						__( 'Simple Calendar is developed and maintained by a worldwide growing number of passionate individuals and backed by an awesome developer community. Want to see your name? <a href="%s">Contribute to Simple Calendar</a>.', 'google-calendar-events' ),
 						'https://github.com/moonstonemedia/Simple-Calendar/blob/refactor/contributing.md'
-					); ?>
+					);
+
+					?>
 				</p>
 				<?php echo $this->contributors(); ?>
 			</div>
@@ -254,10 +265,14 @@ class Welcome {
 			<div class="wrap about-wrap simcal-welcome">
 				<?php $this->intro(); ?>
 				<p class="about-description">
-					<?php printf(
+					<?php
+
+					printf(
 						__( 'Simple Calendar has been kindly translated into several other languages by contributors from all over the World. Want to see your name? <a href="%s">Translate Simple Calendar</a>.', 'google-calendar-events' ),
 						'https://www.transifex.com/moonstonemedia/simple-calendar/'
-					); ?>
+					);
+
+					?>
 				</p>
 				<?php
 
@@ -265,6 +280,8 @@ class Welcome {
 				// Otherwise something like this would be possible:
 				// `json_decode( 'https://www.transifex.com/api/2/project/simple-calendar/languages/', true );`
 				// Since this is not possible, this has to be done manually.
+
+				// @TODO switch to WordPress language packs and try to pull list of translators from there
 
 				?>
 			</div>

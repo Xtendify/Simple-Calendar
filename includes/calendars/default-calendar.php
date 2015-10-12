@@ -154,7 +154,7 @@ class Default_Calendar extends Calendar {
 			$this->theme = 'dark';
 		}
 		if ( $today_color = get_post_meta( $this->id, '_default_calendar_style_today', true ) ) {
-			$this->today_color = esc_attr(  $today_color );
+			$this->today_color = esc_attr( $today_color );
 		}
 		if ( $day_events_color = get_post_meta( $this->id, '_default_calendar_style_days_events', true ) ) {
 			$this->days_events_color = esc_attr( $day_events_color );
