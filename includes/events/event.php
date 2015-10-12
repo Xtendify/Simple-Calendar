@@ -354,7 +354,7 @@ class Event {
 
 		// Event template.
 		if ( ! empty( $event['template'] ) ) {
-			$this->template = esc_html( $event['template'] );
+			$this->template = wp_kses_post( $event['template'] );
 		}
 
 	}
