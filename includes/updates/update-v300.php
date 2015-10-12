@@ -20,14 +20,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Update_V300 {
 
 	/**
-	 * Legacy bundled api key.
-	 *
-	 * @access private
-	 * @var string
-	 */
-	private $legacy_api_key = 'AIzaSyAssdKVved1mPVY0UJCrx96OUOF9u17AuY';
-
-	/**
 	 * Update posts and options.
 	 *
 	 * @param array $posts
@@ -319,7 +311,7 @@ UPDATE {$table} SET `post_type`='calendar' WHERE `post_type`='gce_feed';
 		$new_settings_advanced = get_option( 'simple-calendar_settings_advanced' );
 
 		// If empty probably using a legacy hardcoded key (no longer recommended).
-		$new_settings_feeds['google']['api_key'] = ! empty( $old_settings['api_key'] ) ? $old_settings['api_key'] : $this->legacy_api_key;
+		$new_settings_feeds['google']['api_key'] = ! empty( $old_settings['api_key'] ) ? $old_settings['api_key'] : '';
 		update_option( 'simple-calendar_settings_feeds', $new_settings_feeds );
 
 		$new_settings_advanced['assets']['disable_css'] = ! empty( $old_settings['disable_css'] ) ? 'yes' : '';
