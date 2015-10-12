@@ -158,7 +158,7 @@ class Google extends Feed {
 				$error .= $e->getMessage();
 			}
 
-			if ( isset( $response['events'] ) && isset( $response['timezone'] ) ) {
+			if ( empty( $error ) && isset( $response['events'] ) && isset( $response['timezone'] ) ) {
 
 				$calendar = array_merge( $response, array( 'events' => array() ) );
 

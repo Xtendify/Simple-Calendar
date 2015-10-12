@@ -56,14 +56,16 @@ class Update_V300 {
 
 			$post_id = $post->ID;
 
-			// Feed type.
+			// Assign a feed taxonomy term (feed type) to legacy posts.
 			wp_set_object_terms( $post_id, 'google', 'calendar_feed' );
 
-			// Calendar type.
+			// Assign a calendar taxonomy term (calendar type) to legacy posts.
 			wp_set_object_terms( $post_id, 'default-calendar', 'calendar_type' );
+
+			// Convert legacy list/grid view to default calendar view.
 			$display = get_post_meta( $post_id, 'gce_display_mode', true );
-			$views   = array();
-			$range   = false;
+			$views = array();
+			$range = false;
 			if ( 'list' == $display ) {
 				$views['default-calendar'] = 'list';
 			} elseif ( 'list-grouped' == $display ) {
@@ -79,7 +81,7 @@ class Update_V300 {
 			}
 			update_post_meta( $post_id, '_calendar_view', $views );
 
-			// Calendar list type.
+			// List calendar settings.
 			$list_span  = get_post_meta( $post_id, 'gce_events_per_page', true );
 			$list_range = max( absint( get_post_meta( $post_id, 'gce_per_page_num', true ) ), 1 );
 			if ( 'days' == $list_span ) {
@@ -112,7 +114,7 @@ class Update_V300 {
 
 			// Earliest event.
 			$start_before = get_post_meta( $post_id, 'gce_feed_start', true );
-			$start_amt    = absint( get_post_meta( $post_id, 'gce_feed_start_num', true ) );
+			$start_amt = absint( get_post_meta( $post_id, 'gce_feed_start_num', true ) );
 			if ( $start_amt > 0 ) {
 				if ( 'years' == $start_before ) {
 					$earliest = 'years_before';
@@ -147,7 +149,7 @@ class Update_V300 {
 			}
 
 			// Static calendar.
-			if ( ! get_post_meta( $post_id, 'gce_paging', true ) ) {
+			if ( false === get_post_meta( $post_id, 'gce_paging', true ) ) {
 				update_post_meta( $post_id, '_calendar_is_static', 'yes' );
 			}
 
@@ -177,7 +179,6 @@ class Update_V300 {
 			// Google recurring events.
 			if ( get_post_meta( $post_id, 'gce_expand_recurring', true ) ) {
 				update_post_meta( $post_id, '_google_events_recurring', 'show' );
-
 			} else {
 				update_post_meta( $post_id, '_google_events_recurring', 'first-only' );
 			}
