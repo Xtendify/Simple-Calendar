@@ -43,7 +43,13 @@ class Licenses extends Settings_Page {
 	 * @return array
 	 */
 	public function add_sections() {
-		return apply_filters( 'simcal_add_' . $this->option_group . '_' . $this->id .'_sections', array() );
+		$sections = array(
+			'add-ons' => array(
+				'title' => __( 'Add-ons', 'google-calendar-events' ),
+				'description' => __( 'Manage here your license keys for premium add-ons', 'google-calendar-events' ),
+			),
+		);
+		return apply_filters( 'simcal_add_' . $this->option_group . '_' . $this->id .'_sections', $sections );
 	}
 
 	/**
@@ -54,7 +60,41 @@ class Licenses extends Settings_Page {
 	 * @return array
 	 */
 	public function add_fields() {
-		return apply_filters( 'simcal_add_' . $this->option_group . '_' . $this->id . '_fields', array() );
+
+		$fields = array();
+		$this->values = get_option( 'simple-calendar_' . $this->option_group . '_' . $this->id );
+
+		foreach ( $this->sections as $section => $contents ) {
+
+			if ( $section == 'add-ons' ) {
+
+				$addons = apply_filters( 'simcal_installed_addons', array() );
+
+				if ( ! empty( $addons ) && is_array( $addons ) ) {
+
+					foreach ( $addons as $key => $name ) {
+
+						$fields[ $section ][ $key ] = array(
+							'type'      => 'standard',
+							'subtype'   => 'text',
+							'title'     => esc_attr( $name ),
+							'name'      => 'simple-calendar_' . $this->option_group . '_' . $this->id . '[add-ons][' . $key . ']',
+							'id'        => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-add-ons-' . sanitize_key( $key ),
+							'value'     => $this->get_option_value( $section, $key ),
+							'class'     => array(
+								'regular-text',
+							)
+						);
+
+					}
+
+				}
+
+			}
+
+		}
+
+		return apply_filters( 'simcal_add_' . $this->option_group . '_' . $this->id . '_fields', $fields );
 	}
 
 }
