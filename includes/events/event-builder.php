@@ -175,7 +175,7 @@ class Event_Builder {
 		);
 
 		// Removes extra consecutive <br> tags.
-		return preg_replace('#(<br */?>\s*)+#i', '<br />', trim( $result ) );
+		return preg_replace( '#(<br */?>\s*)+#i', '<br />', trim( $result ) );
 	}
 
 	/**
@@ -322,7 +322,7 @@ class Event_Builder {
 					if ( $event->end_utc ) {
 						$end = $event->end_dt->getTimestamp();
 					} else {
-						$end = $start_dt->endOfDay()->subSeconds(59)->getTimestamp();
+						$end = $start_dt->endOfDay()->subSeconds( 59 )->getTimestamp();
 					}
 
 					if ( 'if-now' == $tag ) {
@@ -826,7 +826,7 @@ class Event_Builder {
 			$html .= '<li class="simcal-attendee">' . _x( 'No one yet', 'No one yet rsvp to attend the event.', 'google-calendar-events' ) . '</li>' . "\n";
 		}
 
-		$html .='</ul>' . "\n";
+		$html .= '</ul>' . "\n";
 
 		return $html;
 	}
@@ -876,7 +876,7 @@ class Event_Builder {
 		$html .= '<a href="mailto:' . $organizer['email'] . '">';
 		$html .= $organizer['name'];
 		$html .= '</a>';
-		$html .='</div>';
+		$html .= '</div>';
 
 		return $html;
 	}

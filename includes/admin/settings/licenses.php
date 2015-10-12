@@ -66,7 +66,7 @@ class Licenses extends Settings_Page {
 
 		foreach ( $this->sections as $section => $contents ) {
 
-			if ( $section == 'add-ons' ) {
+			if ( 'add-ons' == $section ) {
 
 				$addons = apply_filters( 'simcal_installed_addons', array() );
 

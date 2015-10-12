@@ -119,19 +119,19 @@ class Default_Calendar_Grid implements Calendar_View {
 				'src'       => SIMPLE_CALENDAR_ASSETS . 'js/vendor/qtip' . $min . '.js',
 				'deps'      => array( 'jquery' ),
 				'ver'       => '2.2.1',
-				'in_footer' => true
+				'in_footer' => true,
 			),
 			'simcal-default-calendar' => array(
 				'src'       => SIMPLE_CALENDAR_ASSETS . 'js/default-calendar' . $min . '.js',
 				'deps'      => array(
 					'jquery',
-					'simcal-qtip'
+					'simcal-qtip',
 				),
 				'var'       => SIMPLE_CALENDAR_VERSION,
 				'in_footer' => true,
 				'localize'  => array(
-					'simcal_default_calendar' => simcal_common_scripts_variables()
-				)
+					'simcal_default_calendar' => simcal_common_scripts_variables(),
+				),
 			),
 		);
 	}
@@ -160,7 +160,7 @@ class Default_Calendar_Grid implements Calendar_View {
 					'simcal-qtip',
 				),
 				'ver'   => SIMPLE_CALENDAR_VERSION,
-				'media' => 'all'
+				'media' => 'all',
 			),
 		);
 	}
@@ -200,22 +200,22 @@ class Default_Calendar_Grid implements Calendar_View {
 
 							echo '<h3>';
 
-								// Display month and year according to user date format preference.
+							// Display month and year according to user date format preference.
 
-								$year_pos  = strcspn( $calendar->date_format, 'Y y' );
-								$month_pos = strcspn( $calendar->date_format, 'F M m n' );
+							$year_pos  = strcspn( $calendar->date_format, 'Y y' );
+							$month_pos = strcspn( $calendar->date_format, 'F M m n' );
 
-								$current = array( 'month' => 'F', 'year' => 'Y' );
+							$current = array( 'month' => 'F', 'year' => 'Y' );
 
-								if ( $year_pos < $month_pos ) {
-									$current = array_reverse( $current );
-								}
+							if ( $year_pos < $month_pos ) {
+								$current = array_reverse( $current );
+							}
 
-								foreach ( $current as $k => $v ) {
-									echo ' <span class="simcal-current-' . $k , '">' .
-                                            $month->format( $v ) .
-										 '</span> ';
-								}
+							foreach ( $current as $k => $v ) {
+								echo ' <span class="simcal-current-' . $k , '">' .
+                                        $month->format( $v ) .
+									 '</span> ';
+							}
 
 							echo '</h3>';
 
@@ -344,198 +344,198 @@ class Default_Calendar_Grid implements Calendar_View {
 		echo '<tbody class="simcal-month simcal-month-' . $month . '">' . "\n";
 		echo "\t" . '<tr class="simcal-week simcal-week-' . $week_of_year . '">';
 
-			$days_in_row = 0;
-			// Week may start on an arbitrary day (sun, 0 - sat, 6).
-			$week_day = $week_starts;
+		$days_in_row = 0;
+		// Week may start on an arbitrary day (sun, 0 - sat, 6).
+		$week_day = $week_starts;
 
-			// This fixes a possible bug when a month starts by Sunday (0).
-			if ( 0 !== $week_starts ) {
-				$b = $month_starts === 0 ? 7 : $month_starts;
-			} else {
-				$b = $month_starts;
+		// This fixes a possible bug when a month starts by Sunday (0).
+		if ( 0 !== $week_starts ) {
+			$b = $month_starts === 0 ? 7 : $month_starts;
+		} else {
+			$b = $month_starts;
+		}
+
+		// Void days in first week.
+		for ( $a = $week_starts; $a < $b; $a++ ) :
+
+			echo '<td class="simcal-day simcal-day-void"></td>';
+
+			// Reset day of the week count (sun, 0 - sat, 6).
+			if ( $week_day === 6 ) {
+				$week_day = -1;
+			}
+			$week_day++;
+
+			$days_in_row++;
+
+		endfor;
+
+		// Actual days of the month.
+		for ( $day = 1; $day <= $days_in_month; $day++ ) :
+
+			$count = 0;
+			$calendar_classes = array();
+			$day_classes = 'simcal-day-' . $day . ' simcal-weekday-' . $week_day;
+
+			$border_style = $bg_color = $color = '';
+
+			// Is this the present, the past or the future, Doc?
+			if ( $current_min <= $now && $current_max >= $now ) {
+				$day_classes .= ' simcal-today simcal-present simcal-day';
+				$the_color = new Color( $calendar->today_color );
+				$bg_color = '#' . $the_color->getHex();
+				$color = $the_color->isDark() ? '#ffffff' : '#000000';
+				$border_style = ' style="border: 1px solid ' . $bg_color . ';"';
+			} elseif ( $current_max < $now ) {
+				$day_classes .= ' simcal-past simcal-day';
+			} elseif ( $current_min > $now ) {
+				$day_classes .= ' simcal-future simcal-day';
 			}
 
-			// Void days in first week.
-			for ( $a = $week_starts; $a < $b; $a++ ) :
+			// Print events for the current day in loop, if found any.
+			if ( isset( $day_events[ $day ] ) ) :
 
-				echo '<td class="simcal-day simcal-day-void"></td>';
+				$list_events = '<ul class="simcal-events"' . $border_style . '>';
 
-				// Reset day of the week count (sun, 0 - sat, 6).
-				if ( $week_day === 6 ) {
-					$week_day = -1;
-				}
-				$week_day++;
+				foreach ( $day_events[ $day ] as $event ) :
 
-				$days_in_row++;
+					$event_classes = $event_visibility = '';
 
-			endfor;
+					if ( $event instanceof Event ) :
 
-			// Actual days of the month.
-			for ( $day = 1; $day <= $days_in_month; $day++ ) :
+						// Store the calendar id where the event belongs (useful in grouped calendar feeds)
+						$calendar_class  = 'simcal-events-calendar-' . strval( $event->calendar );
+						$calendar_classes[] = $calendar_class ;
 
-				$count = 0;
-				$calendar_classes = array();
-				$day_classes = 'simcal-day-' . $day . ' simcal-weekday-' . $week_day;
+						$recurring     = $event->recurrence ? 'simcal-event-recurring ' : '';
+						$has_location  = $event->venue ? 'simcal-event-has-location ' : '';
 
-				$border_style = $bg_color = $color = '';
+						$event_classes  .= 'simcal-event ' . $recurring . $has_location . $calendar_class . ' simcal-tooltip';
 
-				// Is this the present, the past or the future, Doc?
-				if ( $current_min <= $now && $current_max >= $now ) {
-					$day_classes .= ' simcal-today simcal-present simcal-day';
-					$the_color = new Color( $calendar->today_color );
-					$bg_color = '#' . $the_color->getHex();
-					$color = $the_color->isDark() ? '#ffffff' : '#000000';
-					$border_style = ' style="border: 1px solid ' . $bg_color . ';"';
-				} elseif ( $current_max < $now ) {
-					$day_classes .= ' simcal-past simcal-day';
-				} elseif ( $current_min > $now ) {
-					$day_classes .= ' simcal-future simcal-day';
-				}
+						// Toggle some events visibility if more than optional limit.
+						if ( ( $calendar->events_limit > -1 )  && ( $count >= $calendar->events_limit ) ) :
+							$event_classes    .= ' simcal-event-toggled';
+							$event_visibility  = ' style="display: none"';
+						endif;
 
-				// Print events for the current day in loop, if found any.
-				if ( isset( $day_events[ $day ] ) ) :
+						// Event title in list.
+						$title = ! empty( $event->title ) ? trim( $event->title ) : __( 'Event', 'google-calendar-events' );
+						if ( $calendar->trim_titles >= 1 ) {
+							$title = strlen( $title ) > $calendar->trim_titles ? substr( $title, 0, $calendar->trim_titles ) . '&hellip;' : $title;
+						}
 
-					$list_events = '<ul class="simcal-events"' . $border_style . '>';
+						// Event color.
+						$color = '';
+						if ( ! empty( $event->meta['color'] ) ) {
+							$color = '<span style="color: ' . $event->meta['color'] . '">&#9632;</span> ';
+						}
 
-					foreach( $day_events[ $day ] as $event ) :
+						// Event contents.
+						$list_events .= "\t" . '<li class="' . $event_classes . '"' . $event_visibility . ' itemprop="event" itemscope itemtype="http://schema.org/Event">' . "\n";
+						$list_events .= "\t\t" . '<span class="simcal-event-title">' . $color . $title . '</span>' . "\n";
+						$list_events .= "\t\t" . '<div class="simcal-event-details simcal-tooltip-content" style="display: none;">' . $calendar->get_event_html( $event ) . '</div>' . "\n";
+						$list_events .= "\t" . '</li>' . "\n";
 
-							$event_classes = $event_visibility = '';
+						$count ++;
 
-							if ( $event instanceof Event ) :
-
-								// Store the calendar id where the event belongs (useful in grouped calendar feeds)
-								$calendar_class  = 'simcal-events-calendar-' . strval( $event->calendar );
-								$calendar_classes[] = $calendar_class ;
-
-								$recurring     = $event->recurrence ? 'simcal-event-recurring ' : '';
-								$has_location  = $event->venue ? 'simcal-event-has-location ' : '';
-
-								$event_classes  .= 'simcal-event ' . $recurring . $has_location . $calendar_class . ' simcal-tooltip';
-
-								// Toggle some events visibility if more than optional limit.
-								if ( ( $calendar->events_limit > -1 )  && ( $count >= $calendar->events_limit ) ) :
-									$event_classes    .= ' simcal-event-toggled';
-									$event_visibility  = ' style="display: none"';
-								endif;
-
-								// Event title in list.
-								$title = ! empty( $event->title ) ? trim( $event->title ) : __( 'Event', 'google-calendar-events' );
-								if ( $calendar->trim_titles >= 1 ) {
-									$title = strlen( $title ) > $calendar->trim_titles ? substr( $title, 0, $calendar->trim_titles ) . '&hellip;' : $title;
-								}
-
-								// Event color.
-								$color = '';
-								if ( ! empty( $event->meta['color'] ) ) {
-									$color = '<span style="color: ' . $event->meta['color'] . '">&#9632;</span> ';
-								}
-
-								// Event contents.
-								$list_events .= "\t" . '<li class="' . $event_classes . '"' . $event_visibility . ' itemprop="event" itemscope itemtype="http://schema.org/Event">' . "\n";
-								$list_events .= "\t\t" . '<span class="simcal-event-title">' . $color . $title . '</span>' . "\n";
-								$list_events .= "\t\t" . '<div class="simcal-event-details simcal-tooltip-content" style="display: none;">' . $calendar->get_event_html( $event ) . '</div>' . "\n";
-								$list_events .= "\t" . '</li>' . "\n";
-
-								$count ++;
-
-							endif;
-
-					endforeach;
-
-					if ( ( $current_min <= $now ) && ( $current_max >= $now ) ) {
-						$day_classes .= ' simcal-today-has-events';
-					}
-					$day_classes .= ' simcal-day-has-events simcal-day-has-' . strval( $count ) . '-events';
-
-					if ( $calendar_classes ) {
-						$day_classes .= ' ' . trim( implode( ' ', array_unique( $calendar_classes ) ) );
-					}
-
-					$list_events .= '</ul>' . "\n";
-
-					// Optional button to toggle hidden events in list.
-					if ( ( $calendar->events_limit > -1 ) && ( $count > $calendar->events_limit ) ) :
-						$list_events .= '<button class="simcal-events-toggle"><i class="simcal-icon-down simcal-icon-animate"></i></button>';
 					endif;
 
-				else :
+				endforeach;
 
-					$border_style = ! empty( $the_color ) ? $border_style : '';
+				if ( ( $current_min <= $now ) && ( $current_max >= $now ) ) {
+					$day_classes .= ' simcal-today-has-events';
+				}
+				$day_classes .= ' simcal-day-has-events simcal-day-has-' . strval( $count ) . '-events';
 
-					// Empty cell for day with no events.
-					$list_events = '<span class="simcal-no-events"' . $border_style . '></span>';
+				if ( $calendar_classes ) {
+					$day_classes .= ' ' . trim( implode( ' ', array_unique( $calendar_classes ) ) );
+				}
 
+				$list_events .= '</ul>' . "\n";
+
+				// Optional button to toggle hidden events in list.
+				if ( ( $calendar->events_limit > -1 ) && ( $count > $calendar->events_limit ) ) :
+					$list_events .= '<button class="simcal-events-toggle"><i class="simcal-icon-down simcal-icon-animate"></i></button>';
 				endif;
 
-				// The actual days with numbers and events in each row cell.
-				echo '<td class="' . $day_classes . '" data-events-count="' . strval( $count ) . '">' . "\n";
+			else :
 
-				if ( $color ) {
-					$day_style = ' style="background-color: ' . $bg_color . '; color: ' . $color .'"';
-				} elseif ( $count > 0 ) {
-					$the_color = new Color( $calendar->days_events_color );
-					$color = ! $color ? ( $the_color->isDark() ? '#ffffff' : '#000000' ) : $color;
-					$bg_color = ! $bg_color ? '#' . $the_color->getHex() : $bg_color;
-					$day_style = ' style="background-color: ' . $bg_color . '; color: ' . $color .'"';
-				} else {
-					$day_style = '';
-				}
+				$border_style = ! empty( $the_color ) ? $border_style : '';
 
-				echo "\t" . '<div>' . "\n";
-				echo "\t\t" . '<span class="simcal-day-label simcal-day-number"' . $day_style . '>' . $day . '</span>' . "\n";
-				echo "\t\t" . $list_events . "\n";
-				echo "\t\t";
-				echo '<span class="simcal-events-dots" style="display: none;">';
-					// Event bullets for calendar mobile mode.
-					for( $i = 0; $i < $count; $i++ ) {
-						echo '<b> &bull; </b>';
-					}
-				echo '</span>' . "\n";
-				echo "\t" . '</div>' . "\n";
-				echo '</td>' . "\n";
+				// Empty cell for day with no events.
+				$list_events = '<span class="simcal-no-events"' . $border_style . '></span>';
 
-				// Reset day of the week count (sun, 0 - sat, 6).
-				if ( $week_day === 6 ) {
-					$week_day = - 1;
-				}
-				$week_day++;
+			endif;
 
-				// Reset count of days for this row (0-6).
-				if ( $days_in_row === 6 ) :
+			// The actual days with numbers and events in each row cell.
+			echo '<td class="' . $day_classes . '" data-events-count="' . strval( $count ) . '">' . "\n";
 
-					// Close the week row.
-					echo '</tr>';
-
-					// Open a new week row.
-					if ( $day < $days_in_month ) {
-						echo '<tr class="simcal-week simcal-week-' . $week_of_year++ . '">' . "\n";
-					}
-
-					$days_in_row = -1;
-
-				endif;
-
-				$days_in_row++;
-
-				$current_min = Carbon::createFromTimestamp( $current_min, $calendar->timezone )->addDay()->getTimestamp();
-				$current_max = Carbon::createFromTimestamp( $current_max, $calendar->timezone )->addDay()->getTimestamp();
-
-			endfor;
-
-			// Void days at the end of the month.
-			$remainder_days = 6 - $days_in_row;
-			if ( $remainder_days >= 1 ) {
-
-				for ( $i = 0; $i <= $remainder_days; $i ++ ) {
-
-					echo '<td class="simcal-day simcal-day-void"></td>' . "\n";
-
-					$week_day++;
-				}
-
-			} elseif ( $days_in_row === 6 ) {
-				echo '<td class="simcal-day simcal-day-void"></td>' . "\n";
+			if ( $color ) {
+				$day_style = ' style="background-color: ' . $bg_color . '; color: ' . $color .'"';
+			} elseif ( $count > 0 ) {
+				$the_color = new Color( $calendar->days_events_color );
+				$color = ! $color ? ( $the_color->isDark() ? '#ffffff' : '#000000' ) : $color;
+				$bg_color = ! $bg_color ? '#' . $the_color->getHex() : $bg_color;
+				$day_style = ' style="background-color: ' . $bg_color . '; color: ' . $color .'"';
+			} else {
+				$day_style = '';
 			}
+
+			echo "\t" . '<div>' . "\n";
+			echo "\t\t" . '<span class="simcal-day-label simcal-day-number"' . $day_style . '>' . $day . '</span>' . "\n";
+			echo "\t\t" . $list_events . "\n";
+			echo "\t\t";
+			echo '<span class="simcal-events-dots" style="display: none;">';
+				// Event bullets for calendar mobile mode.
+				for( $i = 0; $i < $count; $i++ ) {
+					echo '<b> &bull; </b>';
+				}
+			echo '</span>' . "\n";
+			echo "\t" . '</div>' . "\n";
+			echo '</td>' . "\n";
+
+			// Reset day of the week count (sun, 0 - sat, 6).
+			if ( $week_day === 6 ) {
+				$week_day = - 1;
+			}
+			$week_day++;
+
+			// Reset count of days for this row (0-6).
+			if ( $days_in_row === 6 ) :
+
+				// Close the week row.
+				echo '</tr>';
+
+				// Open a new week row.
+				if ( $day < $days_in_month ) {
+					echo '<tr class="simcal-week simcal-week-' . $week_of_year++ . '">' . "\n";
+				}
+
+				$days_in_row = -1;
+
+			endif;
+
+			$days_in_row++;
+
+			$current_min = Carbon::createFromTimestamp( $current_min, $calendar->timezone )->addDay()->getTimestamp();
+			$current_max = Carbon::createFromTimestamp( $current_max, $calendar->timezone )->addDay()->getTimestamp();
+
+		endfor;
+
+		// Void days at the end of the month.
+		$remainder_days = 6 - $days_in_row;
+		if ( $remainder_days >= 1 ) {
+
+			for ( $i = 0; $i <= $remainder_days; $i ++ ) {
+
+				echo '<td class="simcal-day simcal-day-void"></td>' . "\n";
+
+				$week_day++;
+			}
+
+		} elseif ( $days_in_row === 6 ) {
+			echo '<td class="simcal-day simcal-day-void"></td>' . "\n";
+		}
 
 		echo "\t" . '</tr>' . "\n";
 		echo '</tbody>' . "\n";

@@ -244,7 +244,7 @@ class Default_Calendar extends Calendar {
 	 *
 	 * @return null|Calendar_View
 	 */
-	public function get_view( $view ='' ) {
+	public function get_view( $view = '' ) {
 
 		$view = ! empty( $view ) ? $view : 'grid';
 

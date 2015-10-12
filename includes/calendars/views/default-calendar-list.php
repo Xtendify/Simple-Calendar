@@ -135,7 +135,7 @@ class Default_Calendar_List implements Calendar_View {
 				'src'       => SIMPLE_CALENDAR_ASSETS . 'js/vendor/qtip' . $min . '.js',
 				'deps'      => array( 'jquery' ),
 				'ver'       => '2.2.1',
-				'in_footer' => true
+				'in_footer' => true,
 			),
 			'simcal-default-calendar' => array(
 				'src'       => SIMPLE_CALENDAR_ASSETS . 'js/default-calendar' . $min . '.js',
@@ -146,8 +146,8 @@ class Default_Calendar_List implements Calendar_View {
 				'var'       => SIMPLE_CALENDAR_VERSION,
 				'in_footer' => true,
 				'localize'  => array(
-					'simcal_default_calendar' => simcal_common_scripts_variables()
-				)
+					'simcal_default_calendar' => simcal_common_scripts_variables(),
+				),
 			),
 		);
 	}
@@ -168,7 +168,7 @@ class Default_Calendar_List implements Calendar_View {
 			'simcal-default-calendar-list' => array(
 				'src'   => SIMPLE_CALENDAR_ASSETS . 'css/default-calendar-list' . $min . '.css',
 				'ver'   => SIMPLE_CALENDAR_VERSION,
-				'media' => 'all'
+				'media' => 'all',
 			),
 		);
 	}
@@ -446,7 +446,7 @@ class Default_Calendar_List implements Calendar_View {
 
 		$data_heading = '';
 		$heading = $this->get_heading();
-		foreach( $heading as $k => $v ) {
+		foreach ( $heading as $k => $v ) {
 			$data_heading .= ' data-heading-' . $k . '="' . $v . '"';
 		}
 
@@ -457,7 +457,7 @@ class Default_Calendar_List implements Calendar_View {
 
 			if ( ! empty( $current_events ) && is_array( $current_events ) ) :
 
-				foreach( $current_events as $ymd => $events ) :
+				foreach ( $current_events as $ymd => $events ) :
 
 					$day_ts = Carbon::createFromFormat( 'Ymd', $ymd, $calendar->timezone )->getTimestamp();
 
@@ -490,65 +490,65 @@ class Default_Calendar_List implements Calendar_View {
 
 					$list_events = '<ul class="simcal-events">' . "\n";
 
-						$calendar_classes = array();
-						$day_classes = 'simcal-weekday-' . date( 'w', $day_ts );
+					$calendar_classes = array();
+					$day_classes = 'simcal-weekday-' . date( 'w', $day_ts );
 
-						// Is this the present, the past or the future, Doc?
-						if ( $timestamp <= $now && $timestamp >= $now ) {
-							$day_classes .= ' simcal-today simcal-present simcal-day';
-						} elseif ( $timestamp < $now ) {
-							$day_classes .= ' simcal-past simcal-day';
-						} elseif ( $this->end > $now ) {
-							$day_classes .= ' simcal-future simcal-day';
-						}
+					// Is this the present, the past or the future, Doc?
+					if ( $timestamp <= $now && $timestamp >= $now ) {
+						$day_classes .= ' simcal-today simcal-present simcal-day';
+					} elseif ( $timestamp < $now ) {
+						$day_classes .= ' simcal-past simcal-day';
+					} elseif ( $this->end > $now ) {
+						$day_classes .= ' simcal-future simcal-day';
+					}
 
-						$count = 0;
+					$count = 0;
 
-						foreach ( $events as $day_events ) :
-							foreach( $day_events as $event ) :
-								if ( $event instanceof Event ) :
+					foreach ( $events as $day_events ) :
+						foreach( $day_events as $event ) :
+							if ( $event instanceof Event ) :
 
-									$event_classes = $event_visibility = '';
+								$event_classes = $event_visibility = '';
 
-									$calendar_class     = 'simcal-events-calendar-' . strval( $event->calendar );
-									$calendar_classes[] = $calendar_class;
+								$calendar_class     = 'simcal-events-calendar-' . strval( $event->calendar );
+								$calendar_classes[] = $calendar_class;
 
-									$recurring     = $event->recurrence ? 'simcal-event-recurring ' : '';
-									$has_location  = $event->venue ? 'simcal-event-has-location ' : '';
+								$recurring     = $event->recurrence ? 'simcal-event-recurring ' : '';
+								$has_location  = $event->venue ? 'simcal-event-has-location ' : '';
 
-									$event_classes .= 'simcal-event ' . $recurring . $has_location . $calendar_class;
+								$event_classes .= 'simcal-event ' . $recurring . $has_location . $calendar_class;
 
-									// Toggle some events visibility if more than optional limit.
-									if ( ( $calendar->events_limit > - 1 ) && ( $count >= $calendar->events_limit ) ) :
-										$event_classes .= ' simcal-event-toggled';
-										$event_visibility = ' style="display: none"';
-									endif;
-
-									$event_color = '';
-									if ( ! empty( $event->meta['color'] ) ) {
-										$side = is_rtl() ? 'right' : 'left';
-										$event_color = ' style="border-' . $side . ': 4px solid ' . $event->meta['color'] . '; padding-' . $side . ': 8px;"';
-									}
-
-									$list_events .= "\t" . '<li class="' . $event_classes . '"' . $event_visibility . $event_color . ' itemprop="event" itemscope itemtype="http://schema.org/Event">' . "\n";
-									$list_events .= "\t\t" . '<div class="simcal-event-details">' . $calendar->get_event_html( $event ) . '</div>' . "\n";
-									$list_events .= "\t" . '</li>' . "\n";
-
-									$count ++;
-
-									// Event falls within today.
-									if ( ( $this->end <= $now ) && ( $this->start >= $now ) ) :
-										$day_classes .= ' simcal-today-has-events';
-									endif;
-									$day_classes .= ' simcal-day-has-events simcal-day-has-' . strval( $count ) . '-events';
-
-									if ( $calendar_classes ) :
-										$day_classes .= ' ' . trim( implode( ' ', array_unique( $calendar_classes ) ) );
-									endif;
-
+								// Toggle some events visibility if more than optional limit.
+								if ( ( $calendar->events_limit > - 1 ) && ( $count >= $calendar->events_limit ) ) :
+									$event_classes .= ' simcal-event-toggled';
+									$event_visibility = ' style="display: none"';
 								endif;
-							endforeach;
+
+								$event_color = '';
+								if ( ! empty( $event->meta['color'] ) ) {
+									$side = is_rtl() ? 'right' : 'left';
+									$event_color = ' style="border-' . $side . ': 4px solid ' . $event->meta['color'] . '; padding-' . $side . ': 8px;"';
+								}
+
+								$list_events .= "\t" . '<li class="' . $event_classes . '"' . $event_visibility . $event_color . ' itemprop="event" itemscope itemtype="http://schema.org/Event">' . "\n";
+								$list_events .= "\t\t" . '<div class="simcal-event-details">' . $calendar->get_event_html( $event ) . '</div>' . "\n";
+								$list_events .= "\t" . '</li>' . "\n";
+
+								$count ++;
+
+								// Event falls within today.
+								if ( ( $this->end <= $now ) && ( $this->start >= $now ) ) :
+									$day_classes .= ' simcal-today-has-events';
+								endif;
+								$day_classes .= ' simcal-day-has-events simcal-day-has-' . strval( $count ) . '-events';
+
+								if ( $calendar_classes ) :
+									$day_classes .= ' ' . trim( implode( ' ', array_unique( $calendar_classes ) ) );
+								endif;
+
+							endif;
 						endforeach;
+					endforeach;
 
 					$list_events .= '</ul>' . "\n";
 
