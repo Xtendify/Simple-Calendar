@@ -200,7 +200,7 @@ final class Plugin {
 	 * @since 3.0.0
 	 */
 	public function l10n() {
-		load_plugin_textdomain( 'google-calendar-events' );
+		load_plugin_textdomain( 'google-calendar-events', false, dirname( plugin_basename( SIMPLE_CALENDAR_MAIN_FILE ) ) . '/languages/' );
 		$this->locale = apply_filters( 'plugin_locale', get_locale(), 'google-calendar-events' );
 	}
 

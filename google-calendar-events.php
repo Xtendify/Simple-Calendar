@@ -10,6 +10,7 @@
  * Author URI:  http://moonstonemediagroup.com
  *
  * Text Domain: google-calendar-events
+ * Domain Path: /languages
  *
  * @package     SimpleCalendar
  * @copyright   2014-2015 Moonstone Media/Phil Derksen. All rights reserved.
