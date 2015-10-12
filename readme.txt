@@ -1,5 +1,5 @@
-=== Simple Calendar (formerly Google Calendar Events) ===
-Contributors: pderksen, nickyoung87, nekojira, rosshanney
+=== Simple Calendar - formerly Google Calendar Events ===
+Contributors: moonstonemedia, pderksen, nickyoung87, nekojira, rosshanney
 Tags: calendar, calendars, calendar manager, custom calendar, custom calendars, event, events, events feed, google calendar, google
 Requires at least: 3.9
 Tested up to: 4.3
