@@ -73,6 +73,18 @@ class Update_V300 {
 			}
 			update_post_meta( $post_id, '_calendar_view', $views );
 
+			// Check for start offset
+			$offset                          = false;
+			$calendar_begins                 = 'today';
+			$gce_list_start_offset_direction = get_post_meta( $post_id, 'gce_list_start_offset_direction', true );
+			$gce_list_start_offset_num       = absint( get_post_meta( $post_id, 'gce_list_start_offset_num', true ) );
+
+			if ( $gce_list_start_offset_num > 0 ) {
+				$offset              = true;
+				$calendar_begins_nth = $gce_list_start_offset_num;
+				$calendar_begins     = ( $gce_list_start_offset_direction == 'back' ? 'days_before' : 'days_after' );
+			}
+
 			// List calendar settings.
 			$list_span  = get_post_meta( $post_id, 'gce_events_per_page', true );
 			$list_range = max( absint( get_post_meta( $post_id, 'gce_per_page_num', true ) ), 1 );
@@ -101,7 +113,11 @@ class Update_V300 {
 					update_post_meta( $post_id, '_calendar_begins', 'today' );
 				}
 			} else {
-				update_post_meta( $post_id, '_calendar_begins', 'today' );
+				if ( $offset === true ) {
+					update_post_meta( $post_id, '_calendar_begins_nth', $calendar_begins_nth );
+				}
+
+				update_post_meta( $post_id, '_calendar_begins', $calendar_begins );
 			}
 
 			// Earliest event.
