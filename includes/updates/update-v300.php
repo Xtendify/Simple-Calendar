@@ -91,7 +91,7 @@ class Update_V300 {
 			update_post_meta( $post_id, '_default_calendar_list_range_span', $list_range );
 
 			// Custom calendar range.
-			if ( $range == true ) {
+			if ( $range === true ) {
 				$begins = get_post_meta( $post_id, 'gce_feed_range_start', true );
 				$ends   = get_post_meta( $post_id, 'gce_feed_range_end', true );
 				if ( $begins && $ends ) {
