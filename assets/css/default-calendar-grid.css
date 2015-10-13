@@ -123,6 +123,12 @@
   display: block;
   margin: -10px 0 20px; }
 
+.simcal-align-left {
+  text-align: left; }
+
+.simcal-align-right {
+  text-align: right; }
+
 .simcal-ajax-loader {
   background-color: rgba(0, 0, 0, 0.1);
   height: 100%;
@@ -157,7 +163,7 @@
   box-shadow: none;
   cursor: pointer;
   margin: 0;
-  outline: 0;
+  outline: none;
   padding: 0;
   transition: margin 0.2s ease-out;
   width: 100%; }
@@ -175,9 +181,15 @@
     margin: 0; }
 
 .simcal-default-calendar .simcal-events-toggle {
+  border: 0;
+  box-shadow: none;
   text-align: center;
   width: 100%; }
-  .simcal-default-calendar .simcal-events-toggle:focus {
+  .simcal-default-calendar .simcal-events-toggle:active,
+  .simcal-default-calendar .simcal-events-toggle:focus,
+  .simcal-default-calendar .simcal-events-toggle:hover {
+    border: 0;
+    box-shadow: none;
     outline: none; }
 
 .simcal-default-calendar.simcal-event-bubble {
@@ -269,22 +281,21 @@
       color: rgba(0, 0, 0, 0.9) !important; }
   .simcal-default-calendar-dark .simcal-nav-button:focus,
   .simcal-default-calendar-dark .simcal-nav-button:hover {
-    color: rgba(255, 255, 255, 0.9);
-    outline: none; }
+    color: rgba(255, 255, 255, 0.9); }
 
 .simcal-default-calendar-dark .simcal-events-toggle {
   color: rgba(255, 255, 255, 0.6); }
   .simcal-default-calendar-dark .simcal-events-toggle:hover {
     background-color: rgba(255, 255, 255, 0.1);
-    color: black;
-    outline: none; }
+    color: black; }
 
 .simcal-default-calendar-grid > table {
   table-layout: fixed;
   width: 100%; }
   .simcal-default-calendar-grid > table thead th,
   .simcal-default-calendar-grid > table tbody td {
-    padding: 0;
+    padding: 0 !important;
+    text-align: center;
     vertical-align: top; }
 
 .simcal-default-calendar-grid .simcal-calendar-head .simcal-nav {
@@ -334,8 +345,8 @@
   background: rgba(255, 255, 255, 0.1); }
 
 .simcal-default-calendar-grid .simcal-events {
-  font-size: .58em;
-  line-height: 1.44;
+  font-size: .68em;
+  line-height: 1.4;
   list-style: none;
   margin: 0;
   padding: 0;
@@ -344,7 +355,8 @@
     border-bottom-style: solid;
     border-bottom-width: 1px;
     cursor: pointer;
-    margin-bottom: 2px;
+    list-style: none;
+    margin: 0 0 2px 0;
     padding: 4px; }
     .simcal-default-calendar-grid .simcal-events > .simcal-event:hover {
       text-decoration: underline; }

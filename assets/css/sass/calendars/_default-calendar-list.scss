@@ -33,12 +33,14 @@
   }
 
   dd.simcal-day {
+    list-style: none;
     margin: 0;
   }
 
   dt.simcal-day-label {
 
     font-size: .9em;
+    list-style: none;
     margin: 20px 0 10px;
 
     > span {

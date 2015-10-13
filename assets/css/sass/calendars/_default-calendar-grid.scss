@@ -7,7 +7,8 @@
 
     thead th,
     tbody td {
-      padding: 0;
+      padding: 0 !important;
+      text-align: center;
       vertical-align: top;
     }
 
@@ -100,8 +101,8 @@
   // List of events in a day.
   .simcal-events {
 
-    font-size: .58em;
-    line-height: 1.44;
+    font-size: .68em;
+    line-height: 1.4;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -113,7 +114,8 @@
       border-bottom-style: solid;
       border-bottom-width: 1px;
       cursor: pointer;
-      margin-bottom: 2px;
+      list-style: none;
+      margin: 0 0 2px 0;
       padding: 4px;
 
       &:hover {

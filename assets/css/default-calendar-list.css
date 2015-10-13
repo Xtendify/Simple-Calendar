@@ -123,6 +123,12 @@
   display: block;
   margin: -10px 0 20px; }
 
+.simcal-align-left {
+  text-align: left; }
+
+.simcal-align-right {
+  text-align: right; }
+
 .simcal-ajax-loader {
   background-color: rgba(0, 0, 0, 0.1);
   height: 100%;
@@ -157,7 +163,7 @@
   box-shadow: none;
   cursor: pointer;
   margin: 0;
-  outline: 0;
+  outline: none;
   padding: 0;
   transition: margin 0.2s ease-out;
   width: 100%; }
@@ -175,9 +181,15 @@
     margin: 0; }
 
 .simcal-default-calendar .simcal-events-toggle {
+  border: 0;
+  box-shadow: none;
   text-align: center;
   width: 100%; }
-  .simcal-default-calendar .simcal-events-toggle:focus {
+  .simcal-default-calendar .simcal-events-toggle:active,
+  .simcal-default-calendar .simcal-events-toggle:focus,
+  .simcal-default-calendar .simcal-events-toggle:hover {
+    border: 0;
+    box-shadow: none;
     outline: none; }
 
 .simcal-default-calendar.simcal-event-bubble {
@@ -269,15 +281,13 @@
       color: rgba(0, 0, 0, 0.9) !important; }
   .simcal-default-calendar-dark .simcal-nav-button:focus,
   .simcal-default-calendar-dark .simcal-nav-button:hover {
-    color: rgba(255, 255, 255, 0.9);
-    outline: none; }
+    color: rgba(255, 255, 255, 0.9); }
 
 .simcal-default-calendar-dark .simcal-events-toggle {
   color: rgba(255, 255, 255, 0.6); }
   .simcal-default-calendar-dark .simcal-events-toggle:hover {
     background-color: rgba(255, 255, 255, 0.1);
-    color: black;
-    outline: none; }
+    color: black; }
 
 .simcal-default-calendar-list {
   min-height: 100px;
@@ -300,9 +310,11 @@
     margin-bottom: 10px;
     padding: 0 10px 10px; }
   .simcal-default-calendar-list dd.simcal-day {
+    list-style: none;
     margin: 0; }
   .simcal-default-calendar-list dt.simcal-day-label {
     font-size: .9em;
+    list-style: none;
     margin: 20px 0 10px; }
     .simcal-default-calendar-list dt.simcal-day-label > span {
       display: inline-block;

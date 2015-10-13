@@ -20,10 +20,9 @@ $default-calendar-white: rgb(255, 255, 255);
     background: transparent;
     border: 0;
     box-shadow: none;
-
     cursor: pointer;
     margin: 0;
-    outline: 0;
+    outline: none;
     padding: 0;
     transition: margin .2s ease-out;
     width: 100%;
@@ -55,10 +54,16 @@ $default-calendar-white: rgb(255, 255, 255);
   // Toggle events button.
   .simcal-events-toggle {
 
+    border: 0;
+    box-shadow: none;
     text-align: center;
     width: 100%;
 
-    &:focus {
+    &:active,
+    &:focus,
+    &:hover {
+      border: 0;
+      box-shadow: none;
       outline: none;
     }
 
@@ -205,7 +210,6 @@ $default-calendar-white: rgb(255, 255, 255);
     &:focus,
     &:hover {
       color: transparentize($default-calendar-white, .1);
-      outline: none;
     }
 
   }
@@ -218,7 +222,6 @@ $default-calendar-white: rgb(255, 255, 255);
     &:hover {
       background-color: transparentize($default-calendar-white, .9);
       color: $default-calendar-black;
-      outline: none;
     }
 
   }
