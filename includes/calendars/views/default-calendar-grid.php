@@ -423,14 +423,14 @@ class Default_Calendar_Grid implements Calendar_View {
 						}
 
 						// Event color.
-						$color = '';
+						$event_color = '';
 						if ( ! empty( $event->meta['color'] ) ) {
-							$color = '<span style="color: ' . $event->meta['color'] . '">&#9632;</span> ';
+							$event_color = '<span style="color: ' . $event->meta['color'] . ';">&#9632;</span> ';
 						}
 
 						// Event contents.
 						$list_events .= "\t" . '<li class="' . $event_classes . '"' . $event_visibility . ' itemprop="event" itemscope itemtype="http://schema.org/Event">' . "\n";
-						$list_events .= "\t\t" . '<span class="simcal-event-title">' . $color . $title . '</span>' . "\n";
+						$list_events .= "\t\t" . '<span class="simcal-event-title">' . $event_color . $title . '</span>' . "\n";
 						$list_events .= "\t\t" . '<div class="simcal-event-details simcal-tooltip-content" style="display: none;">' . $calendar->get_event_html( $event ) . '</div>' . "\n";
 						$list_events .= "\t" . '</li>' . "\n";
 
