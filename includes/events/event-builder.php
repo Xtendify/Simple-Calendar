@@ -116,7 +116,7 @@ class Event_Builder {
 
 			'attachments',          // List of attachments.
 			'attendees',            // List of attendees.
-			'organizer',            // Organizer info.
+			'creator',              // Creator info.
 
 			/* ================ *
 			 * Conditional Tags *
@@ -280,20 +280,23 @@ class Event_Builder {
 				 * ========= */
 
 				case 'attachments' :
-					if ( ! empty( $event->meta['attachments'] ) ) {
-						return $this->get_attachments( $event->meta['attachments'] );
+					$attachments = $event->get_attachments();
+					if ( ! empty( $attachments ) ) {
+						return $this->get_attachments( $attachments );
 					}
 					break;
 
 				case 'attendees' :
-					if ( ! empty( $event->meta['attendees'] ) ) {
-						return $this->get_attendees( $event->meta['attendees'], $attr );
+					$attendees = $event->get_attendees();
+					if ( ! empty( $attendees ) ) {
+						return $this->get_attendees( $attendees, $attr );
 					}
 					break;
 
 				case 'organizer' :
-					if ( ! empty( $event->meta['organizer'] ) ) {
-						return $this->get_organizer( $event->meta['organizer'], $attr );
+					$organizer = $event->get_organizer();
+					if ( ! empty( $creator ) ) {
+						return $this->get_organizer( $organizer, $attr );
 					}
 					break;
 
@@ -776,7 +779,7 @@ class Event_Builder {
 			'response'  => '',      // filter attendees by rsvp response (yes/no/maybe)
 		), (array) shortcode_parse_atts( $attr ) );
 
-		$html = '<ul class="simcal-attendees">' . "\n\t";
+		$html = '<ul class="simcal-attendees" itemprop="attendees">' . "\n\t";
 
 		$known = 0;
 		$unknown = 0;
@@ -793,8 +796,8 @@ class Event_Builder {
 
 			if ( ! empty( $attendee['name'] ) ) {
 
-				$photo      = 'hide' !== $attr['photo'] ? '<img class="avatar avatar-128 photo" src="' . $attendee['photo'] . '" />' : '';
-				$response   = 'show' == $attr['rsvp'] ? $this->get_rsvp_response( $attendee['response'] ) : '';
+				$photo      = 'hide' != $attr['photo'] ? '<img class="avatar avatar-128 photo" src="' . $attendee['photo'] . '" itemprop="image" />' : '';
+				$response   = 'hide' != $attr['rsvp'] ? $this->get_rsvp_response( $attendee['response'] ) : '';
 				$guest      = $photo . '<span itemprop="name">' . $attendee['name'] . $response . '</span>';
 
 				if ( ! empty( $attendee['email'] ) && ( 'show' == $attr['email'] ) ) {
@@ -872,13 +875,19 @@ class Event_Builder {
 	 */
 	private function get_organizer( $organizer, $attr ) {
 
-		$html = '<div class="simcal-organizer">';
-		$html .= '<a href="mailto:' . $organizer['email'] . '">';
-		$html .= $organizer['name'];
-		$html .= '</a>';
-		$html .= '</div>';
+		$attr = array_merge( array(
+			'photo' => 'show',  // show/hide attendee photo
+			'email' => 'hide',  // show/hide attendee email address
+		), (array) shortcode_parse_atts( $attr ) );
 
-		return $html;
+		$photo      = 'hide' != $attr['photo'] ? '<img class="avatar avatar-128 photo" src="' . $organizer['photo'] . '" itemprop="image"  />' : '';
+		$organizer  = $photo . '<span itemprop="name">' . $organizer['name'] . '</span>';
+
+		if ( ! empty( $organizer['email'] ) && ( 'show' == $attr['email'] ) ) {
+			$organizer = sprintf( '<a href="mailto:' . $organizer['email'] . '" itemprop="email">%s</a>', $organizer );
+		}
+
+		return '<div class="simcal-organizer" itemprop="organizer" itemscope itemtype="https://schema.org/Person">' . $organizer . '</div>';
 	}
 
 	/**

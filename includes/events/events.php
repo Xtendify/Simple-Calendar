@@ -42,10 +42,12 @@ class Events {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $events
+	 * @param array $e Events.
+	 * @param string|\DateTimeZone $tz Timezone.
 	 */
-	public function __construct( $events = array() ) {
-		$this->set_events( $events );
+	public function __construct( $e = array(), $tz = 'UTC' ) {
+		$this->set_events( $e );
+		$this->set_timezone( $tz );
 	}
 
 	/**
@@ -70,10 +72,10 @@ class Events {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param array $events
+	 * @param array $ev Events.
 	 */
-	public function set_events( array $events ) {
-		$this->events = $events;
+	public function set_events( array $ev ) {
+		$this->events = $ev;
 	}
 
 	/**
@@ -81,12 +83,15 @@ class Events {
 	 *
 	 * @since  3.0.0
 	 *
-	 * @param  string $timezone
+	 * @param  string|\DateTimeZone $tz Timezone.
 	 *
 	 * @return Events
 	 */
-	public function set_timezone( $timezone ) {
-		$this->timezone = simcal_esc_timezone( $timezone, $this->timezone );
+	public function set_timezone( $tz ) {
+		if ( $tz instanceof \DateTimeZone ) {
+			$tz = $tz->getName();
+		}
+		$this->timezone = simcal_esc_timezone( $tz, $this->timezone );
 		return $this;
 	}
 

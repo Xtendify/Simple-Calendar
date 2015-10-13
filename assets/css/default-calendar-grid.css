@@ -237,20 +237,24 @@
   .simcal-default-calendar .simcal-attachment:last-child,
   .simcal-default-calendar .simcal-attendee:last-child {
     margin-bottom: 0; }
-  .simcal-default-calendar .simcal-attachment a,
-  .simcal-default-calendar .simcal-attendee a {
-    border-bottom: 0;
-    text-decoration: none; }
   .simcal-default-calendar .simcal-attachment small,
   .simcal-default-calendar .simcal-attendee small {
     opacity: .9;
     text-transform: lowercase; }
-  .simcal-default-calendar .simcal-attachment img,
-  .simcal-default-calendar .simcal-attendee img {
-    display: inline-block;
-    margin: 0 4px;
-    max-height: 24px;
-    max-width: 24px; }
+
+.simcal-default-calendar .simcal-attachment a,
+.simcal-default-calendar .simcal-attendee a,
+.simcal-default-calendar .simcal-organizer a {
+  border-bottom: 0;
+  text-decoration: none; }
+
+.simcal-default-calendar .simcal-attachment img,
+.simcal-default-calendar .simcal-attendee img,
+.simcal-default-calendar .simcal-organizer img {
+  display: inline-block;
+  margin: 0 4px;
+  max-height: 24px;
+  max-width: 24px; }
 
 .simcal-default-calendar .simcal-tooltip-content {
   font-size: 1.2em;

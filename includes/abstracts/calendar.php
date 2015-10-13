@@ -401,7 +401,7 @@ abstract class Calendar {
 	 * @return Events
 	 */
 	public function get_events() {
-		return new Events( $this->events );
+		return new Events( $this->events, $this->timezone );
 	}
 
 	/**

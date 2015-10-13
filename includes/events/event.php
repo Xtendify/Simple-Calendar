@@ -551,4 +551,37 @@ class Event {
 		return ! is_null( $this->end_dt ) ? $this->end_dt->setTimezone( $this->timezone )->isPast() : false;
 	}
 
+	/**
+	 * Get attachments.
+	 *
+	 * @since  3.0.0
+	 *
+	 * @return array
+	 */
+	public function get_attachments() {
+		return isset( $this->meta['attachments'] ) ? $this->meta['attachments'] : array();
+	}
+
+	/**
+	 * Get attendees.
+	 *
+	 * @since  3.0.0
+	 *
+	 * @return array
+	 */
+	public function get_attendees() {
+		return isset( $this->meta['attendees'] ) ? $this->meta['attendees'] : array();
+	}
+
+	/**
+	 * Get organizer.
+	 *
+	 * @since  3.0.0
+	 *
+	 * @return array
+	 */
+	public function get_organizer() {
+		return isset( $this->meta['organizer'] ) ? $this->meta['organizer'] : array();
+	}
+
 }
