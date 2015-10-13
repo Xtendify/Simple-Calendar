@@ -298,9 +298,10 @@
   width: 100%; }
   .simcal-default-calendar-grid > table thead th,
   .simcal-default-calendar-grid > table tbody td {
-    padding: 0 !important;
     text-align: center;
     vertical-align: top; }
+  .simcal-default-calendar-grid > table tbody td {
+    padding: 0 !important; }
 
 .simcal-default-calendar-grid .simcal-calendar-head .simcal-nav {
   padding: 10px 0;

@@ -7,9 +7,12 @@
 
     thead th,
     tbody td {
-      padding: 0 !important;
       text-align: center;
       vertical-align: top;
+    }
+
+    tbody td {
+      padding: 0 !important;
     }
 
   }
