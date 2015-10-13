@@ -152,7 +152,7 @@ class Default_Calendar_Grid implements Calendar_View {
 			'simcal-qtip' => array(
 				'src'   => SIMPLE_CALENDAR_ASSETS . 'css/vendor/qtip' . $min . '.css',
 				'ver'   => '2.2.1',
-				'media' => 'all'
+				'media' => 'all',
 			),
 			'simcal-default-calendar-grid' => array(
 				'src'   => SIMPLE_CALENDAR_ASSETS . 'css/default-calendar-grid' . $min . '.css',
@@ -212,9 +212,7 @@ class Default_Calendar_Grid implements Calendar_View {
 							}
 
 							foreach ( $current as $k => $v ) {
-								echo ' <span class="simcal-current-' . $k , '">' .
-                                        $month->format( $v ) .
-									 '</span> ';
+								echo ' <span class="simcal-current-' . $k , '">' . $month->format( $v ) . '</span> ';
 							}
 
 							echo '</h3>';
@@ -486,10 +484,12 @@ class Default_Calendar_Grid implements Calendar_View {
 			echo "\t\t" . $list_events . "\n";
 			echo "\t\t";
 			echo '<span class="simcal-events-dots" style="display: none;">';
-				// Event bullets for calendar mobile mode.
-				for( $i = 0; $i < $count; $i++ ) {
-					echo '<b> &bull; </b>';
-				}
+
+			// Event bullets for calendar mobile mode.
+			for( $i = 0; $i < $count; $i++ ) {
+				echo '<b> &bull; </b>';
+			}
+
 			echo '</span>' . "\n";
 			echo "\t" . '</div>' . "\n";
 			echo '</td>' . "\n";
