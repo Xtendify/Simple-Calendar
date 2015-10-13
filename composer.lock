@@ -804,16 +804,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.0.4",
+            "version": "5.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "6b3a71e90026801f6bcfd1d72cce4a06685c2637"
+                "reference": "65134b2c2e47f48a9afb54a28f67b4d46a2304d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/6b3a71e90026801f6bcfd1d72cce4a06685c2637",
-                "reference": "6b3a71e90026801f6bcfd1d72cce4a06685c2637",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/65134b2c2e47f48a9afb54a28f67b4d46a2304d1",
+                "reference": "65134b2c2e47f48a9afb54a28f67b4d46a2304d1",
                 "shasum": ""
             },
             "require": {
@@ -874,7 +874,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-10-07 10:45:35"
+            "time": "2015-10-12 03:40:23"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
@@ -1166,16 +1166,16 @@
         },
         {
             "name": "sebastian/global-state",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/global-state.git",
-                "reference": "23af31f402993cfd94e99cbc4b782e9a78eb0e97"
+                "reference": "bc37d50fea7d017d3d340f230811c9f1d7280af4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/23af31f402993cfd94e99cbc4b782e9a78eb0e97",
-                "reference": "23af31f402993cfd94e99cbc4b782e9a78eb0e97",
+                "url": "https://api.github.com/repos/sebastianbergmann/global-state/zipball/bc37d50fea7d017d3d340f230811c9f1d7280af4",
+                "reference": "bc37d50fea7d017d3d340f230811c9f1d7280af4",
                 "shasum": ""
             },
             "require": {
@@ -1213,7 +1213,7 @@
             "keywords": [
                 "global state"
             ],
-            "time": "2015-06-21 15:11:22"
+            "time": "2015-10-12 03:26:01"
         },
         {
             "name": "sebastian/recursion-context",
