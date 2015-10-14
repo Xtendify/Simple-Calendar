@@ -342,6 +342,3 @@ Find the plugin documentation at [Simple Calendar website](http://docs.simplecal
 
 = 3.0.0 = 
 Plugin refactored from ground with breaking changes. Make sure you have backups before updating.  
-
-= 2.1.0 =
-Updated to use Google Calendar API version 3. Version 2 was deprecated on November 2014.
