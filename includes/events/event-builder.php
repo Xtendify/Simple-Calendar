@@ -597,8 +597,16 @@ class Event_Builder {
 	 */
 	private function get_when( Event $event ) {
 
+		$locale = substr( \SimpleCalendar\plugin()->locale, 0, 2 );
+
 		$start = $event->start_dt->setTimezone( $event->timezone );
-		$end = ! is_null( $event->end_dt ) ? $event->end_dt->setTimezone( $event->timezone ) : null;
+		$start->setLocale( $locale );
+
+		$end = null;
+		if ( ! is_null( $event->end_dt ) ) {
+			$end = $event->end_dt->setTimezone( $event->timezone );
+			$end->setLocale( $locale );
+		}
 
 		$time_start = '';
 		$time_end = '';
@@ -688,6 +696,7 @@ class Event_Builder {
 			return '';
 		}
 		$event_dt = $event->$dt->setTimezone( $event->timezone );
+		$event_dt->setLocale( substr( \SimpleCalendar\plugin()->locale, 0, 2 ) );
 
 		$attr = array_merge( array(
 			'format' => '',
