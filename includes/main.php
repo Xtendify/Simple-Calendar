@@ -98,6 +98,7 @@ final class Plugin {
 
 		// Load plugin.
 		require_once 'autoload.php';
+		$this->locale = apply_filters( 'plugin_locale', get_locale(), 'google-calendar-events' );
 		$this->load();
 
 		// Installation hooks.
@@ -185,23 +186,13 @@ final class Plugin {
 		do_action( 'before_simcal_init' );
 
 		// Set up localization.
-		$this->l10n();
+		load_plugin_textdomain( 'google-calendar-events', false, dirname( plugin_basename( SIMPLE_CALENDAR_MAIN_FILE ) ) . '/languages/' );
 
 		// Init objects factory.
 		$this->objects = new Objects();
 
 		// Upon init action hook.
 		do_action( 'simcal_init' );
-	}
-
-	/**
-	 * Load Localization files.
-	 *
-	 * @since 3.0.0
-	 */
-	public function l10n() {
-		load_plugin_textdomain( 'google-calendar-events', false, dirname( plugin_basename( SIMPLE_CALENDAR_MAIN_FILE ) ) . '/languages/' );
-		$this->locale = apply_filters( 'plugin_locale', get_locale(), 'google-calendar-events' );
 	}
 
 	/**
