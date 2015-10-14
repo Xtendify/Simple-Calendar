@@ -43,20 +43,28 @@ There are two ways to install this plugin:
 
 = Admin Dashboard =
 
-1. From your WordPress admin dashboard, go to `Plugins > Add`.
-2. Search for `Simple Calendar`.
-3. Find the plugin that's labeled `Simple Calendar`.
-4. Click `Install Now`.
-5. Activate the plugin.
+= Admin Search =
+1. In your WordPress admin, go to `Plugins > Add`.
+1. Search for `Simple Calendar`.
+1. Find the plugin that's labeled `Simple Calendar` by `Moonstone Media`.
+1. Click `Install Now`.
+1. Activate the plugin.
+1. A new menu item `Calendars` will appear in the main menu.
 
 = Admin Upload =
+1. Download the plugin zip file using the large orange button to the right.
+1. In your WordPress admin, go to `Plugins > Add`.
+1. Select `Upload Plugin` at the top.
+1. Find and upload the zip file you just downloaded.
+1. Activate the plugin.
+1. A new menu item `Calendars` will appear in the main menu.
 
-1. Go to [the plugin page on the WordPress plugin directory](https://wordpress.org/plugins/google-calendar-events/).
-2. Click on the `Download` button to download the latest version.  
-3. In your WordPress dashboard admin, go to `Plugins > Add`.
-4. Select `Upload Plugin` at the top of the page.
-5. Find and upload the zip file you just downloaded.
-6. Activate the plugin.
+= FTP Upload =
+1. Download the plugin zip file using the large orange button to the right.
+1. Unzip the zip file contents.
+1. Upload the `google-calendar-events` folder to the `/wp-content/plugins/` directory of your site.
+1. Activate the plugin on the `Installed Plugins` listing.
+1. A new menu item `Calendars` will appear in the main menu.
 
 == Frequently Asked Questions ==
 
