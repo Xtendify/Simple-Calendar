@@ -246,7 +246,7 @@ function simcal_get_calendar_names_i18n( $group, $style = 'full' ) {
 			} else {
 				$date->addDays( 1 );
 			}
-			$names[ strval( $i ) ] = $date->formatLocalized( $format );
+			$names[ strval( $i ) ] = $date->format( $format );
 			$i++;
 		}
 

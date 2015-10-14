@@ -345,19 +345,19 @@ class Default_Calendar_List implements Calendar_View {
 		if ( ( $start->day == $end->day ) && ( $start->month == $end->month ) && ( $start->year == $end->year ) ) {
 			// Start and end on the same day.
 			// e.g. 1 February 2020
-			$large = $small = $start->formatLocalized( $calendar->date_format );
+			$large = $small = $start->format( $calendar->date_format );
 			if ( ( $date_order['d'] !== false ) && ( $date_order['m'] !== false ) ) {
 				if ( $date_order['m'] > $date_order['d'] ) {
 					if ( $date_order['y'] !== false && $date_order['y'] > $date_order['m'] ) {
-						$small = $start->formatLocalized( 'Y, d M' );
+						$small = $start->format( 'Y, d M' );
 					} else {
-						$small = $start->formatLocalized( 'd M Y' );
+						$small = $start->format( 'd M Y' );
 					}
 				} else {
 					if ( $date_order['y'] !== false && $date_order['y'] > $date_order['m'] ) {
-						$small = $start->formatLocalized( 'Y, M d' );
+						$small = $start->format( 'Y, M d' );
 					} else {
-						$small = $start->formatLocalized( 'M d Y' );
+						$small = $start->format( 'M d Y' );
 					}
 				}
 			}
@@ -366,16 +366,16 @@ class Default_Calendar_List implements Calendar_View {
 			// e.g. August 2020
 			if ( $date_order['y'] === false ) {
 				// August.
-				$large = $small = $start->formatLocalized( 'F' );
+				$large = $small = $start->format( 'F' );
 			} else {
 				if ( $date_order['y'] < $date_order['m'] ) {
 					// 2020 August.
-					$large = $start->formatLocalized( 'Y F' );
-					$small = $start->formatLocalized( 'Y M' );
+					$large = $start->format( 'Y F' );
+					$small = $start->format( 'Y M' );
 				} else {
 					// August 2020.
-					$large = $start->formatLocalized( 'F Y' );
-					$small = $start->formatLocalized( 'M Y' );
+					$large = $start->format( 'F Y' );
+					$small = $start->format( 'M Y' );
 				}
 			}
 		} elseif ( $start->year == $end->year ) {
@@ -383,25 +383,25 @@ class Default_Calendar_List implements Calendar_View {
 			// e.g. August - September 2020
 			if ( $date_order['y'] === false ) {
 				// August - September.
-				$large = $start->formatLocalized( 'F' ) . ' - ' . $end->formatLocalized( 'F' );
-				$small = $start->formatLocalized( 'M' ) . ' - ' . $end->formatLocalized( 'M' );
+				$large = $start->format( 'F' ) . ' - ' . $end->format( 'F' );
+				$small = $start->format( 'M' ) . ' - ' . $end->format( 'M' );
 			} else {
 				if ( $date_order['y'] < $date_order['m'] ) {
 					// 2020, August - September.
-					$large  = $small = $start->formatLocalized( 'Y' ) . ', ';
-					$large .= $start->formatLocalized( 'F' ) . ' - ' . $end->formatLocalized( 'F' );
-					$small .= $start->formatLocalized( 'M' ) . ' - ' . $end->formatLocalized( 'M' );
+					$large  = $small = $start->format( 'Y' ) . ', ';
+					$large .= $start->format( 'F' ) . ' - ' . $end->format( 'F' );
+					$small .= $start->format( 'M' ) . ' - ' . $end->format( 'M' );
 				} else {
 					// August - September, 2020.
-					$large  = $start->formatLocalized( 'F' ) . ' - ' . $end->formatLocalized( 'F' ) . ', ';
-					$small  = $start->formatLocalized( 'M' ) . ' - ' . $end->formatLocalized( 'M' ) . ' ';
-					$year    = $start->formatLocalized( 'Y' );
+					$large  = $start->format( 'F' ) . ' - ' . $end->format( 'F' ) . ', ';
+					$small  = $start->format( 'M' ) . ' - ' . $end->format( 'M' ) . ' ';
+					$year    = $start->format( 'Y' );
 					$large .= $year;
 					$small .= $year;
 				}
 			}
 		} else {
-			$large = $small = $start->formatLocalized( 'Y' ) . ' - ' . $end->formatLocalized( 'Y' );
+			$large = $small = $start->format( 'Y' ) . ' - ' . $end->format( 'Y' );
 		}
 
 		return array(
@@ -481,7 +481,7 @@ class Default_Calendar_List implements Calendar_View {
 					echo "\t" . '<dt class="simcal-day-label"' . $border_style . '>';
 					echo '<span' . $bg_style .'>';
 					foreach ( $day_format as $format ) {
-						echo $format ? '<span class="simcal-date-format" data-date-format="' . $format . '">' . $date->formatLocalized( $format ) . '</span> ' : ' ';
+						echo $format ? '<span class="simcal-date-format" data-date-format="' . $format . '">' . $date->format( $format ) . '</span> ' : ' ';
 					}
 					echo '</span>';
 					echo '</dt>' . "\n";
@@ -580,8 +580,8 @@ class Default_Calendar_List implements Calendar_View {
 
 						$date = new Carbon( 'now', $calendar->timezone );
 						$date->setLocale( substr( get_locale(), 0, 2 ) );
-						$from = $date->setTimestamp( $this->start )->formatLocalized( $calendar->date_format );
-						$to   = $date->setTimestamp( $this->end - 1 )->formatLocalized( $calendar->date_format );
+						$from = $date->setTimestamp( $this->start )->format( $calendar->date_format );
+						$to   = $date->setTimestamp( $this->end - 1 )->format( $calendar->date_format );
 
 						printf( __( 'Nothing from %1$s to %2$s.', 'google-calendar-events' ), $from, $to );
 					}
