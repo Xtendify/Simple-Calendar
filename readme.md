@@ -1,6 +1,5 @@
 # Simple Calendar
 
-[![Join the chat at https://gitter.im/moonstonemedia/Simple-Calendar](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/moonstonemedia/Simple-Calendar?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/moonstonemedia/Simple-Calendar/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/moonstonemedia/Simple-Calendar/?branch=master)
 [![Dependency Status](https://gemnasium.com/moonstonemedia/Simple-Calendar.svg)](https://gemnasium.com/moonstonemedia/Simple-Calendar)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
@@ -21,8 +20,6 @@ Use the [WordPress.org support forums](https://wordpress.org/support/plugin/goog
 ## Contributing
 
 Submit pull requests or open issues here on GitHub. 
-
-You can also discuss the project altogether with others on [Gitter chat](https://gitter.im/moonstonemedia/Simple-Calendar).
 
 Translations are handled on [Transifex](https://www.transifex.com/moonstonemedia/simple-calendar/).
 
