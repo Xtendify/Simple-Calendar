@@ -105,6 +105,7 @@ class Event_Builder {
 			'feed-title',            // @deprecated An alias of 'calendar'.
 
 			'id',                    // The event unique ID.
+			'uid',                   // An alias of ID.
 			'event-id',              // @deprecated An alias for 'id' tag.
 			'calendar-id',           // The calendar ID.
 			'feed-id',               // @deprecated An alias for 'calendar-id' tag.
@@ -116,7 +117,7 @@ class Event_Builder {
 
 			'attachments',          // List of attachments.
 			'attendees',            // List of attendees.
-			'creator',              // Creator info.
+			'organizer',            // Creator info.
 
 			/* ================ *
 			 * Conditional Tags *
@@ -150,8 +151,10 @@ class Event_Builder {
 
 			'if-location',           // @deprecated Alias for 'if-start-location'.
 			'if-start-location',     // Does the event has a start location?
+			'if-end-location',       // Does the event has an end location?
 			'if-not-location',       // @deprecated Alias for 'if-not-start-location'.
 			'if-not-start-location', // Does the event has NOT a start location?
+			'if-not-end-location',   // Does the event has NOT an end location?
 
 		);
 	}
@@ -267,6 +270,7 @@ class Event_Builder {
 					return $event->source;
 
 				case 'id' :
+				case 'uid' :
 				case 'event-id' :
 					return $event->uid;
 
@@ -295,7 +299,7 @@ class Event_Builder {
 
 				case 'organizer' :
 					$organizer = $event->get_organizer();
-					if ( ! empty( $creator ) ) {
+					if ( ! empty( $organizer ) ) {
 						return $this->get_organizer( $organizer, $attr );
 					}
 					break;
@@ -445,13 +449,26 @@ class Event_Builder {
 					if ( ! empty( $event->start_location['address'] ) ) {
 						return $calendar->get_event_html( $event, $partial );
 					}
-					break;
+					return false;
+
+				case 'if-not-location' :
+				case 'if-not-start-location' :
+					if ( empty( $event->start_location['address'] ) ) {
+						return $calendar->get_event_html( $event, $partial );
+					}
+					return '';
+
+				case 'if-not-end-location' :
+					if ( empty( $event->end_location['address'] ) ) {
+						return $calendar->get_event_html( $event, $partial );
+					}
+					return '';
 
 				case 'if-end-location' :
 					if ( ! empty( $event->end_location['address'] ) ) {
 						return $calendar->get_event_html( $event, $partial );
 					}
-					break;
+					return '';
 
 				/* ======= *
 				 * Default *
@@ -582,6 +599,7 @@ class Event_Builder {
 
 		$start = $event->start_dt->setTimezone( $event->timezone );
 		$end = ! is_null( $event->end_dt ) ? $event->end_dt->setTimezone( $event->timezone ) : null;
+
 		$time_start = '';
 		$time_end = '';
 

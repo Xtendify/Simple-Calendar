@@ -205,28 +205,32 @@ class Google extends Feed {
 							// Start UTC.
 							$start_utc = $google_start_utc->getTimestamp();
 
-							// Event end properties.
-							$end_timezone = ! $event->getEnd()->timeZone ? $calendar['timezone'] : $event->getEnd()->timeZone;
-							if ( is_null( $event->getEnd()->dateTime ) ) {
-								// Whole day event.
-								$date = Carbon::parse( $event->getEnd()->date );
-								$google_end = Carbon::createFromDate( $date->year, $date->month, $date->day, $end_timezone )->endOfDay()->subSeconds( 59 );
-								$google_end_utc = Carbon::createFromDate( $date->year, $date->month, $date->day, 'UTC' )->endOfDay()->subSeconds( 59 );
-							}  else {
-								$date = Carbon::parse( $event->getEnd()->dateTime );
-								$google_end     = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, $end_timezone );
-								$google_end_utc = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, 'UTC' );
-							}
-							// End.
-							$end = $google_end->getTimestamp();
-							// End UTC.
-							$end_utc = $google_end_utc->getTimestamp();
-
-							// Count multiple days.
+							$end = $end_utc = $end_timezone = '';
 							$span = 0;
-							if ( false == $event->getEndTimeUnspecified() ) {
+							if ( false !== $event->getEndTimeUnspecified() ) {
+
+								// Event end properties.
+								$end_timezone = ! $event->getEnd()->timeZone ? $calendar['timezone'] : $event->getEnd()->timeZone;
+								if ( is_null( $event->getEnd()->dateTime ) ) {
+									// Whole day event.
+									$date           = Carbon::parse( $event->getEnd()->date );
+									$google_end     = Carbon::createFromDate( $date->year, $date->month, $date->day, $end_timezone )->endOfDay()->subSeconds( 59 );
+									$google_end_utc = Carbon::createFromDate( $date->year, $date->month, $date->day, 'UTC' )->endOfDay()->subSeconds( 59 );
+								} else {
+									$date           = Carbon::parse( $event->getEnd()->dateTime );
+									$google_end     = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, $end_timezone );
+									$google_end_utc = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, 'UTC' );
+								}
+								// End.
+								$end = $google_end->getTimestamp();
+								// End UTC.
+								$end_utc = $google_end_utc->getTimestamp();
+
+								// Count multiple days.
 								$span = $google_start->setTimezone( $calendar['timezone'] )->diffInDays( $google_end->setTimezone( $calendar['timezone'] ) );
 							}
+
+							// Multiple days.
 							$multiple_days = $span > 1 ? $span : false;
 
 							// Google cannot have two different locations for start and end time.
