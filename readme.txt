@@ -21,22 +21,6 @@ Add Google Calendar events to your site in minutes. Beautiful calendar displays.
 * Finely tune events content, calendar appearance, time and date format, and much more.
 * Fully extensible (add on support).
 
-= Documentation and Updates = 
-
-Find the plugin documentation hosted at [Simple Calendar website](http://docs.simplecalendar.io/?utm_source=wordpress_org&utm_medium=link&utm_campaign=gce_lite).
-
-To receive updates on upcoming features, and useful tips and tricks on how to use the plugin, [subscribe to Simple Calendar mailing list](https://www.getdrip.com/forms/9434542/submissions/new).
-
-= Contributing =
-
-Development of Simple Calendar occurs on [GitHub](https://github.com/moonstonemedia/Simple-Calendar).
-
-Please read the [contribution guide](https://github.com/moonstonemedia/Simple-Calendar/blob/master/contributing.md) before opening tickets or pull requests.
-
-= Add ons = 
-
-Visit [Simple Calendar homepage](https://simplecalendar.io) to find out more.
-
 == Installation ==
 
 There are two ways to install this plugin:
