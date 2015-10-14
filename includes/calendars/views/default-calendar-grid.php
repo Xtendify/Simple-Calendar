@@ -176,8 +176,7 @@ class Default_Calendar_Grid implements Calendar_View {
 
 		if ( $calendar instanceof Default_Calendar ) {
 
-			$locale = \SimpleCalendar\plugin()->locale;
-			$locale = $locale ? substr( $locale, 0, 2 ) : 'en';
+			$locale = substr( \SimpleCalendar\plugin()->locale, 0, 2 );
 
 			$month = new Carbon( 'now', $calendar->timezone );
 			$month->setLocale( $locale );
@@ -212,7 +211,7 @@ class Default_Calendar_Grid implements Calendar_View {
 							}
 
 							foreach ( $current as $k => $v ) {
-								echo ' <span class="simcal-current-' . $k , '">' . $month->format( $v ) . '</span> ';
+								echo ' <span class="simcal-current-' . $k , '">' . $month->formatLocalized( $v ) . '</span> ';
 							}
 
 							echo '</h3>';
@@ -262,7 +261,7 @@ class Default_Calendar_Grid implements Calendar_View {
 					</tr>
 				</thead>
 
-				<?php echo $this->draw_month( $month->format( 'n' ), $month->format( 'Y' ) ); ?>
+				<?php echo $this->draw_month( $month->formatLocalized( 'n' ), $month->formatLocalized( 'Y' ) ); ?>
 
 			</table>
 			<?php
