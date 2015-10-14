@@ -755,7 +755,7 @@ class Event_Builder {
 		$anchor = $tag != 'url' ? 'yes' : $attr['autolink'];
 		$target = $attr['newwindow'] !== false ? 'target="_blank"' : '';
 
-		return $anchor !== false ? ' <a href="' . $url . '" ' . $target . '>' . $text . '</a>' : ' ' . $text;
+		return $anchor !== false ? ' <a href="' . esc_url( $url ) . '" ' . $target . '>' . $text . '</a>' : ' ' . $text;
 	}
 
 	/**
