@@ -618,7 +618,7 @@ class Event_Builder {
 			              'data-event-start="' . $start->getTimestamp() . '" ' .
 			              'data-event-format="' . $this->calendar->time_format . '" ' .
 			              'itemprop="startDate" content="' . $start->toIso8601String() . '">' .
-			              $start->format( $this->calendar->time_format ) .
+			              $start->formatLocalized( $this->calendar->time_format ) .
 			              '</span> ';
 
 			if ( $end instanceof Carbon ) {
@@ -627,7 +627,7 @@ class Event_Builder {
 				            'data-event-end="' . $end->getTimestamp() . '" ' .
 				            'data-event-format="' . $this->calendar->time_format . ' ' .
 				            'itemprop="endDate" content="' . $end->toIso8601String() . '">' .
-				            $end->format( $this->calendar->time_format ) .
+				            $end->formatLocalized( $this->calendar->time_format ) .
 				            '</span> ';
 
 			}
@@ -640,7 +640,7 @@ class Event_Builder {
 			          'data-event-start="' . $start->getTimestamp() . '" ' .
 			          'data-event-format="' . $this->calendar->date_format .
 			          'itemprop="startDate" content="' . $start->toIso8601String() . '">' .
-			          $start->format( $this->calendar->date_format ) .
+			          $start->formatLocalized( $this->calendar->date_format ) .
 			          '</span> ' .
 			          $time_start;
 
@@ -651,7 +651,7 @@ class Event_Builder {
 				           'data-event-start="' . $end->getTimestamp() . '" ' .
 				           'data-event-format="' . $this->calendar->date_format .
 				           'itemprop="endDate" content="' . $end->toIso8601String() . '">' .
-				           $end->format( $this->calendar->date_format ) .
+				           $end->formatLocalized( $this->calendar->date_format ) .
 				           '</span> ' .
 				           $time_end;
 			}
@@ -663,7 +663,7 @@ class Event_Builder {
 			$output = ' <span class="simcal-event-start simcal-event-start-date" ' .
 			          'data-event-start="' . $start->getTimestamp() . '"' .
 			          'data-event-format="' . $this->calendar->date_format . '">' .
-			          $start->format( $this->calendar->date_format ) .
+			          $start->formatLocalized( $this->calendar->date_format ) .
 			          '</span> ' .
 			          $time_start .
 			          $time_end;
@@ -715,7 +715,7 @@ class Event_Builder {
 		if ( 'human' == $format ) {
 			$value = $event_dt->diffForHumans( Carbon::now( $this->calendar->timezone ) );
 		} else {
-			$value = $event_dt->format( $dt_format );
+			$value = $event_dt->formatLocalized( $dt_format );
 		}
 
 		return ' <span class="simcal-event-' . $bound . ' ' . 'simcal-event-' . $bound . '-' . $format . '"' .
