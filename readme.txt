@@ -15,13 +15,28 @@ Add Google Calendar events to your site in minutes. Beautiful calendar displays.
 
 >[Looking for more? Check out our Google Calendar Pro Add-on](https://simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme)
 
-= Features =
+= SIMPLE CALENDAR FEATURES =
 
-* Get events from Google Calendar into WordPress (and other sources with add ons).
-* Manage and display your events on different calendars in posts, pages or widgets.
-* Blend calendars together, also from different sources.
-* Finely tune events content, calendar appearance, time and date format, and much more.
-* Fully extensible (add on support).
+* Display events from any public Google Calendar.
+* Keep managing events in Google Calendar. No need to create events in WordPress.
+* Out-of-the-box designs that match your theme’s look and feel.
+* Fully responsive monthly grid and list views.
+* Customize event content display using simple tags. No coding required.
+* Combine multiple calendars into single displays explicitly or using categories.
+* Intuitive admin settings for simple configuration changes.
+* Advanced settings to adjust time zones, date and time formats, start of the week.
+* Many translations available with more being added on a regular basis. [Translations welcome!](https://wordpress.org/support/topic/translating-this-plugin-in-your-language)
+* Fully extensible to support add-ons with advanced features and specific functionality.
+* Open source with code hosted on GitHub. [Contributions welcome!](https://github.com/moonstonemedia/Simple-Calendar)
+
+= GOOGLE CALENDAR PRO ADD-ON FEATURES =
+
+* Display events from **Private** Google Calendars.
+* Secure connection established between your site and Google using the OAuth standard.
+* Highlight events with colors that match those selected within each Google Calendar event.
+* Display event guest information for any private or public event such as their avatar and if they’re attending.
+* Display event organizer information.
+* Display a list of attachments with links to their original source.
 
 >[Get More Features with the Google Calendar Pro Add-on](https://simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme)
 
