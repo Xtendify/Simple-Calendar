@@ -7,11 +7,11 @@ Stable tag: 3.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Get events from Google Calendar or other sources and display them on your site using unique calendar views.
+Add Google Calendar events to your site in minutes. Beautiful calendar displays. Fully responsive.
 
 == Description ==
 
-A highly configurable and extensible toolkit to manage calendars and display events on WordPress pages, posts or widgets.
+**Simple Calendar** is the easiest way to add Google Calendar events to your WordPress sites. Keep managing everything in Google Calendar. Fine tune the display of your calendars to your liking. Add specific functionality with add-ons.
 
 = Features =
 
