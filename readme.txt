@@ -81,6 +81,22 @@ Find the plugin documentation at [Simple Calendar website](http://docs.simplecal
 7. Add a calendar widget.
 8. Plugin settings
 
+== Available Translations ==
+
+* Catalan - Provided by Toni Ginard & Monica Grau of [agora.xtec.cat](http://agora.xtec.cat/)
+* Dutch - Provided by Henri van Werkhoven
+* Finnish - Provided by Ville Myllymäki
+* French - Provided by Vincent Bray
+* German - Provided by Stefanie Drucker of [kreativhuhn.at](http://www.kreativhuhn.at/)
+* Italian - Provided by Francesco Paccagnella of [pacca.it](http://www.pacca.it/)
+* Lithuanian - Provided by Andrius Mazeika of [mazeika.info](http://mazeika.info/)
+* Norwegian - Provided by Tore Hjartland of [aliom.no](http://www.aliom.no/)
+* Polish - Provided by Michał Pasternak of [iplweb.pl](http://iplweb.pl/)
+* Portuguese (Brazilian) - Provided by CodeLayer
+* Russian - Provided by Vadim Reutskiy
+* Spanish - Provided by Eduardo Larequi of [educacion.navarra.es/web/pnte/](http://www.educacion.navarra.es/web/pnte/
+* Swedish - Provided by Familjedaghemmet Chicos of [chicos.nu](http://www.chicos.nu/)
+
 == Changelog ==
 
 = 3.0.0 - ________ __, 2015 =
