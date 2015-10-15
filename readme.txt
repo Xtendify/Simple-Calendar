@@ -27,7 +27,7 @@ Add Google Calendar events to your site in minutes. Beautiful calendar displays.
 * Advanced settings to adjust time zones, date and time formats, start of the week.
 * Many translations available with more being added on a regular basis. [Translations welcome!](https://wordpress.org/support/topic/translating-this-plugin-in-your-language)
 * Fully extensible to support add-ons with advanced features and specific functionality.
-* Open source and hosted on GitHub. [Contributions welcome!](https://github.com/moonstonemedia/Simple-Calendar)
+* Open source with code hosted on GitHub. [Contributions welcome!](https://github.com/moonstonemedia/Simple-Calendar)
 
 = GOOGLE CALENDAR PRO ADD-ON FEATURES =
 
