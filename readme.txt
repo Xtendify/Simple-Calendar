@@ -42,38 +42,13 @@ Add Google Calendar events to your site in minutes. Beautiful calendar displays.
 
 == Installation ==
 
-There are two ways to install this plugin:
-
-= Admin Dashboard =
-
-= Admin Search =
-1. In your WordPress admin, go to `Plugins > Add`.
-1. Search for `Simple Calendar`.
-1. Find the plugin that's labeled `Simple Calendar` by `Moonstone Media`.
-1. Click `Install Now`.
-1. Activate the plugin.
-1. A new menu item `Calendars` will appear in the main menu.
-
-= Admin Upload =
-1. Download the plugin zip file using the large orange button to the right.
-1. In your WordPress admin, go to `Plugins > Add`.
-1. Select `Upload Plugin` at the top.
-1. Find and upload the zip file you just downloaded.
-1. Activate the plugin.
-1. A new menu item `Calendars` will appear in the main menu.
-
-= FTP Upload =
-1. Download the plugin zip file using the large orange button to the right.
-1. Unzip the zip file contents.
-1. Upload the `google-calendar-events` folder to the `/wp-content/plugins/` directory of your site.
-1. Activate the plugin on the `Installed Plugins` listing.
-1. A new menu item `Calendars` will appear in the main menu.
+[Plugin installation instructions](http://docs.simplecalendar.io/simple-calendar-installation/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=installation)
 
 == Frequently Asked Questions ==
 
 = Where's your plugin documentation? =
 
-[docs.simplecalendar.io](http://docs.simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=faq)
+Find our docs at [docs.simplecalendar.io](http://docs.simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=faq)
 
 = How do I contribute to Simple Calendar? =
 
