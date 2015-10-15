@@ -7,13 +7,13 @@ Stable tag: 3.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Add Google Calendar events to your site in minutes. Beautiful calendar displays. Fully responsive.
+Add Google Calendar events to your WordPress site in minutes. Beautiful calendar displays. Fully responsive.
 
 == Description ==
 
-**Simple Calendar** is the easiest way to add Google Calendar events to your WordPress sites. Keep managing everything in Google Calendar. Fine tune the display of your calendars to your liking. Add specific functionality with add-ons.
+**Simple Calendar** is the easiest way to add Google Calendar events to your WordPress site. Keep managing everything in Google Calendar. Fine tune the display of your calendars to your liking. Add specific functionality with add-ons.
 
->**[Looking for more? Check out our Google Calendar Pro Add-on](https://simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)**
+>**[Looking for more? Check out our Google Calendar PRO Add-on](https://simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)**
 
 = SIMPLE CALENDAR FEATURES =
 
@@ -26,6 +26,7 @@ Add Google Calendar events to your site in minutes. Beautiful calendar displays.
 * Intuitive admin settings for simple configuration changes.
 * Advanced settings to adjust time zones, date and time formats, start of the week.
 * Many translations available with more being added on a regular basis. [Translations welcome!](https://wordpress.org/support/topic/translating-this-plugin-in-your-language)
+* Filters and hooks to delight developers.
 * Fully extensible to support add-ons with advanced features and specific functionality.
 * Open source with code hosted on GitHub. [Contributions welcome!](https://github.com/moonstonemedia/Simple-Calendar)
 
@@ -37,8 +38,10 @@ Add Google Calendar events to your site in minutes. Beautiful calendar displays.
 * Display event guest information for any private or public event such as their avatar and if they’re attending.
 * Display event organizer information.
 * Display a list of attachments with links to their original source.
+* Automatic easy updates through your site's dashboard.
+* Priority email support with a 24-hour response time during weekdays backed by a top-notch team.
 
->**[Get More Features with the Google Calendar Pro Add-on](https://simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)**
+>**[Get More with the Google Calendar PRO Add-on](https://simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)**
 
 == Installation ==
 
