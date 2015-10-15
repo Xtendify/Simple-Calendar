@@ -216,8 +216,7 @@ function simcal_get_calendar_names_i18n( $group, $style = 'full' ) {
 		$format = '';
 		$length = 0;
 
-		$date = new \Carbon\Carbon( 'now', 'UTC' );
-		$date->setLocale( substr( \SimpleCalendar\plugin()->locale, 0, 2 ) );
+		$date = Carbon\Carbon::now( 'UTC' );
 
 		if ( 'month' == $group ) {
 			$date->month( 0 )->startOfMonth();
@@ -246,7 +245,7 @@ function simcal_get_calendar_names_i18n( $group, $style = 'full' ) {
 			} else {
 				$date->addDays( 1 );
 			}
-			$names[ strval( $i ) ] = $date->format( $format );
+			$names[ strval( $i ) ] = date_i18n( $format, $date->getTimestamp() );
 			$i++;
 		}
 
