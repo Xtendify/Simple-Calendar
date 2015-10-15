@@ -597,16 +597,8 @@ class Event_Builder {
 	 */
 	private function get_when( Event $event ) {
 
-		$locale = substr( \SimpleCalendar\plugin()->locale, 0, 2 );
-
 		$start = $event->start_dt->setTimezone( $event->timezone );
-		$start->setLocale( $locale );
-
-		$end = null;
-		if ( ! is_null( $event->end_dt ) ) {
-			$end = $event->end_dt->setTimezone( $event->timezone );
-			$end->setLocale( $locale );
-		}
+		$end = ! is_null( $event->end_dt ) ? $event->end_dt->setTimezone( $event->timezone ) : null;
 
 		$time_start = '';
 		$time_end = '';
@@ -618,7 +610,7 @@ class Event_Builder {
 			              'data-event-start="' . $start->getTimestamp() . '" ' .
 			              'data-event-format="' . $this->calendar->time_format . '" ' .
 			              'itemprop="startDate" content="' . $start->toIso8601String() . '">' .
-			              $start->format( $this->calendar->time_format ) .
+			              date_i18n( $this->calendar->time_format, $start->getTimestamp() ) .
 			              '</span> ';
 
 			if ( $end instanceof Carbon ) {
@@ -627,7 +619,7 @@ class Event_Builder {
 				            'data-event-end="' . $end->getTimestamp() . '" ' .
 				            'data-event-format="' . $this->calendar->time_format . ' ' .
 				            'itemprop="endDate" content="' . $end->toIso8601String() . '">' .
-				            $end->format( $this->calendar->time_format ) .
+				            date_i18n( $this->calendar->time_format, $end->getTimestamp() ) .
 				            '</span> ';
 
 			}
@@ -640,7 +632,7 @@ class Event_Builder {
 			          'data-event-start="' . $start->getTimestamp() . '" ' .
 			          'data-event-format="' . $this->calendar->date_format .
 			          'itemprop="startDate" content="' . $start->toIso8601String() . '">' .
-			          $start->format( $this->calendar->date_format ) .
+			          date_i18n( $this->calendar->date_format, $start->getTimestamp() ) .
 			          '</span> ' .
 			          $time_start;
 
@@ -651,7 +643,7 @@ class Event_Builder {
 				           'data-event-start="' . $end->getTimestamp() . '" ' .
 				           'data-event-format="' . $this->calendar->date_format .
 				           'itemprop="endDate" content="' . $end->toIso8601String() . '">' .
-				           $end->format( $this->calendar->date_format ) .
+				           date_i18n( $this->calendar->date_format, $end->getTimestamp() ) .
 				           '</span> ' .
 				           $time_end;
 			}
@@ -663,7 +655,7 @@ class Event_Builder {
 			$output = ' <span class="simcal-event-start simcal-event-start-date" ' .
 			          'data-event-start="' . $start->getTimestamp() . '"' .
 			          'data-event-format="' . $this->calendar->date_format . '">' .
-			          $start->format( $this->calendar->date_format ) .
+			          date_i18n( $this->calendar->date_format, $start->getTimestamp() ) .
 			          '</span> ' .
 			          $time_start .
 			          $time_end;
@@ -696,7 +688,6 @@ class Event_Builder {
 			return '';
 		}
 		$event_dt = $event->$dt->setTimezone( $event->timezone );
-		$event_dt->setLocale( substr( \SimpleCalendar\plugin()->locale, 0, 2 ) );
 
 		$attr = array_merge( array(
 			'format' => '',
@@ -713,9 +704,9 @@ class Event_Builder {
 		}
 
 		if ( 'human' == $format ) {
-			$value = $event_dt->diffForHumans( Carbon::now( $this->calendar->timezone ) );
+			$value = human_time_diff( $event_dt->getTimestamp(), Carbon::now( $event->timezone )->getTimestamp() );
 		} else {
-			$value = $event_dt->format( $dt_format );
+			$value = date_i18n( $dt_format, $event_dt->getTimestamp() );
 		}
 
 		return ' <span class="simcal-event-' . $bound . ' ' . 'simcal-event-' . $bound . '-' . $format . '"' .

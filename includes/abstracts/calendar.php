@@ -119,6 +119,14 @@ abstract class Calendar {
 	public $timezone = 'UTC';
 
 	/**
+	 * Site timezone.
+	 *
+	 * @access public
+	 * @var string
+	 */
+	public $site_timezone = 'UTC';
+
+	/**
 	 * Date format.
 	 *
 	 * @access public
@@ -377,8 +385,9 @@ abstract class Calendar {
 	 * Set taxonomies.
 	 *
 	 * @since 3.0.0
+	 * @access protected
 	 */
-	public function set_taxonomies() {
+	protected function set_taxonomies() {
 		// Set calendar type.
 		if ( $type = wp_get_object_terms( $this->id, 'calendar_type' ) ) {
 			$this->type = sanitize_title( current( $type )->name );
@@ -451,12 +460,14 @@ abstract class Calendar {
 	 */
 	public function set_timezone( $tz = '' ) {
 
+		$site_tz = esc_attr( simcal_get_wp_timezone() );
+
 		if ( empty( $tz ) ) {
 
 			$timezone_setting = get_post_meta( $this->id, '_feed_timezone_setting', true );
 
 			if ( 'use_site' == $timezone_setting ) {
-				$tz = esc_attr( simcal_get_wp_timezone() );
+				$tz = $site_tz;
 			} elseif ( 'use_custom' == $timezone_setting ) {
 				$custom_timezone = esc_attr( get_post_meta( $this->id, '_feed_timezone', true ) );
 				// One may be using a non standard timezone in GMT (UTC) offset format.
@@ -471,7 +482,8 @@ abstract class Calendar {
 			return;
 		}
 
-		$this->timezone = in_array( $tz, timezone_identifiers_list() ) ? $tz : $this->timezone;
+		$this->site_timezone = $site_tz;
+		$this->timezone = simcal_esc_timezone( $tz, $this->timezone );
 	}
 
 	/**
@@ -742,11 +754,13 @@ abstract class Calendar {
 									. 'data-events-last="'    . $this->latest_event . '"'
 									. '>';
 
+				date_default_timezone_set( $this->timezone );
 				do_action( 'simcal_calendar_html_before', $this->id );
 
 				$view->html();
 
 				do_action( 'simcal_calendar_html_after', $this->id );
+				date_default_timezone_set( $this->site_timezone );
 
 				$settings = get_option( 'simple-calendar_settings_calendars' );
 				$poweredby = isset( $settings['poweredby']['opt_in'] ) ? $settings['poweredby']['opt_in'] : '';

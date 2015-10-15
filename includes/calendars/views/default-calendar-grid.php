@@ -176,13 +176,6 @@ class Default_Calendar_Grid implements Calendar_View {
 
 		if ( $calendar instanceof Default_Calendar ) {
 
-			$locale = \SimpleCalendar\plugin()->locale;
-			$locale = $locale ? substr( $locale, 0, 2 ) : 'en';
-
-			$month = new Carbon( 'now', $calendar->timezone );
-			$month->setLocale( $locale );
-			$month->setTimestamp( $calendar->start );
-
 			?>
 			<table class="simcal-calendar-grid"
 			       data-event-bubble-trigger="<?php echo $calendar->event_bubble_trigger; ?>">
@@ -212,7 +205,7 @@ class Default_Calendar_Grid implements Calendar_View {
 							}
 
 							foreach ( $current as $k => $v ) {
-								echo ' <span class="simcal-current-' . $k , '">' . $month->format( $v ) . '</span> ';
+								echo ' <span class="simcal-current-' . $k , '">' . date_i18n( $v, $calendar->start ) . '</span> ';
 							}
 
 							echo '</h3>';
@@ -262,7 +255,7 @@ class Default_Calendar_Grid implements Calendar_View {
 					</tr>
 				</thead>
 
-				<?php echo $this->draw_month( $month->format( 'n' ), $month->format( 'Y' ) ); ?>
+				<?php echo $this->draw_month( date( 'n', $calendar->start ), date( 'Y', $calendar->start ) ); ?>
 
 			</table>
 			<?php
