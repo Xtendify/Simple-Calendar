@@ -103,8 +103,8 @@ There are two ways to install this plugin:
 == Changelog ==
 
 = 3.0.0 - ________ __, 2015 =
-* Announcement: The plugin has been renamed to Simple Calendar.
-* Announcement: Visit https:/simplecalendar.io, Simple Calendar new home!
+* Announcement: Plugin renamed to Simple Calendar.
+* Announcement: Visit our new website at [simplecalendar.io](https://simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)!
 * Feature: Modular and extensible plugin, add-ons ready.
 * Feature: Reworked default calendar views, now fully responsive (and titles in grid).
 * Feature: Completely redesigned the admin user interface.
