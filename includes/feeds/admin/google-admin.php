@@ -259,32 +259,32 @@ class Google_Admin {
 
 		} elseif ( $post_id > 0 ) {
 
-			if ( 'google' == $this->feed->type ) {
+			$no_key_notice = new Notice( array(
+					'id'          => array( 'calendar_' . $post_id => 'google-no-api-key' ),
+					'type'        => 'error',
+					'screen'      => 'calendar',
+					'post'        => $post_id,
+					'dismissable' => false,
+					'content'     => '<p>' .
+					                 '<i class="simcal-icon-warning"></i> ' .
+					                 sprintf(
+						                 __( 'If you want to add events from a Google Calendar feed, you need to set a Google API Key first. <a href="%s">Go to settings to add one</a>.', 'google-calendar-events' ),
+						                 admin_url( 'edit.php?post_type=calendar&page=simple-calendar_settings&tab=feeds' )
+					                 ) .
+					                 '</p>',
+				)
+			);
 
-				$no_key_notice = new Notice( array(
-						'id'          => array( 'calendar_' . $post_id => 'google-no-api-key' ),
-						'type'        => 'error',
-						'screen'      => 'calendar',
-						'post'        => $post_id,
-						'dismissable' => false,
-						'content'     => '<p>' .
-						                 '<i class="simcal-icon-warning"></i> ' .
-						                 sprintf(
-							                 __( 'If you want to add events from a Google Calendar feed, you need to set a Google API Key first. <a href="%s">Go to settings to add one</a>.', 'google-calendar-events' ),
-							                 admin_url( 'edit.php?post_type=calendar&page=simple-calendar_settings&tab=feeds' )
-						                 ) .
-						                 '</p>',
-					)
-				);
+			if ( empty( $this->google_api_key ) && 'google' == $this->feed->type ) {
 
-				if ( empty( $this->google_api_key ) ) {
+				$has_errors = true;
+				$no_key_notice->add();
 
-					$has_errors = true;
-					$no_key_notice->add();
+			} else {
 
-				} else {
+				$no_key_notice->remove();
 
-					$no_key_notice->remove();
+				if ( 'google' == $this->feed->type ) {
 
 					try {
 						$this->feed->make_request( $google_calendar_id );
@@ -320,10 +320,10 @@ class Google_Admin {
 						$error_notice->remove();
 						$has_errors = false;
 					}
-				}
 
+				}
 			}
-			
+
 		}
 
 		return $has_errors === true ? $message : true;
