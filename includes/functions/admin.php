@@ -223,6 +223,36 @@ function simcal_addon_updater( $_api_url, $_plugin_file, $_api_data = null ) {
 }
 
 /**
+ * Get add-on license key.
+ *
+ * @since  3.0.0
+ *
+ * @param  string $addon Unique add-on slug.
+ *
+ * @return null|string
+ */
+function simcal_get_license_key( $addon ) {
+	$licenses = get_option( 'simple-calendar_settings_licenses', array() );
+	return isset( $licenses[ $addon ] ) ? $licenses[ $addon ] : null;
+}
+
+/**
+ * Get add-on license status.
+ *
+ * Without passing arguments returns all the statuses array.
+ *
+ * @since  3.0.0
+ *
+ * @param  string $addon Unique add-on slug.
+ *
+ * @return array|string
+ */
+function simcal_get_license_status( $addon = null ) {
+	$licenses = get_option( 'simple-calendar_licenses_status', array() );
+	return isset( $licenses[ $addon ] ) ? $licenses[ $addon ] : $licenses;
+}
+
+/**
  * Get admin notices.
  *
  * @since  3.0.0

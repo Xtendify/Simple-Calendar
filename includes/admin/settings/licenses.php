@@ -72,17 +72,18 @@ class Licenses extends Settings_Page {
 
 				if ( ! empty( $addons ) && is_array( $addons ) ) {
 
-					foreach ( $addons as $key => $name ) {
+					foreach ( $addons as $addon_slug => $addon_name ) {
 
-						$fields[ $section ][ $key ] = array(
-							'type'      => 'standard',
-							'subtype'   => 'text',
-							'title'     => esc_attr( $name ),
-							'name'      => 'simple-calendar_' . $this->option_group . '_' . $this->id . '[add-ons][' . $key . ']',
-							'id'        => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-add-ons-' . sanitize_key( $key ),
-							'value'     => $this->get_option_value( $section, $key ),
+						$fields[ $section ][ $addon_slug ] = array(
+							'type'      => 'license',
+							'addon'     => $addon_slug,
+							'title'     => esc_attr( $addon_name ),
+							'name'      => 'simple-calendar_' . $this->option_group . '_' . $this->id . '[add-ons][' . $addon_slug . ']',
+							'id'        => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-add-ons-' . sanitize_key( $addon_slug ),
+							'value'     => $this->get_option_value( $section, $addon_slug ),
 							'class'     => array(
 								'regular-text',
+								'ltr',
 							)
 						);
 

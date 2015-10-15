@@ -6,6 +6,8 @@
  */
 namespace SimpleCalendar;
 
+use SimpleCalendar\Admin\License_Manager;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -168,6 +170,9 @@ final class Plugin {
 
 		// Init menus and settings.
 		new Admin\Menus();
+
+		// Add-ons license manager.
+		new Admin\License_Manager();
 
 		if ( defined( 'DOING_AJAX' ) ) {
 			// Admin ajax callbacks.

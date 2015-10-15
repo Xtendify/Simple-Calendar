@@ -122,9 +122,7 @@ class Updater {
 			if ( false !== $version_info && is_object( $version_info ) && isset( $version_info->new_version ) ) {
 
 				if ( version_compare( $this->version, $version_info->new_version, '<' ) ) {
-
 					$_transient_data->response[ $this->name ] = $version_info;
-
 				}
 
 				$_transient_data->last_checked = time();
@@ -177,15 +175,12 @@ class Updater {
 				set_transient( $cache_key, $version_info, 3600 );
 			}
 
-
 			if ( ! is_object( $version_info ) ) {
 				return;
 			}
 
 			if ( version_compare( $this->version, $version_info->new_version, '<' ) ) {
-
 				$update_cache->response[ $this->name ] = $version_info;
-
 			}
 
 			$update_cache->last_checked = time();
@@ -312,7 +307,7 @@ class Updater {
 			return;
 		}
 
-		if( $this->api_url == home_url() ) {
+		if ( $this->api_url == home_url() ) {
 			return false; // Don't allow a plugin to ping itself
 		}
 

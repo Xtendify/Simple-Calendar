@@ -40,6 +40,17 @@ function is_simple_calendar() {
 }
 
 /**
+ * Get plugin URL.
+ *
+ * @param  string $url
+ *
+ * @return string
+ */
+function simcal_get_url( $url ) {
+	return \SimpleCalendar\plugin()->get_url( $url );
+}
+
+/**
  * Get events feed types.
  *
  * @since  3.0.0
