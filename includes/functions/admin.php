@@ -208,6 +208,21 @@ function simcal_is_admin_screen() {
 }
 
 /**
+ * Update add-on.
+ *
+ * @since 3.0.0
+ *
+ * @param string $_api_url     The URL pointing to the custom API end
+ * @param string $_plugin_file Path to the plugin file.
+ * @param array  $_api_data    Optional data to send with API calls.
+ *
+ * @return \SimpleCalendar\Admin\Updater
+ */
+function simcal_addon_updater( $_api_url, $_plugin_file, $_api_data = null ) {
+	return new \SimpleCalendar\Admin\Updater( $_api_url, $_plugin_file, $_api_data );
+}
+
+/**
  * Get admin notices.
  *
  * @since  3.0.0
