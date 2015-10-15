@@ -259,66 +259,71 @@ class Google_Admin {
 
 		} elseif ( $post_id > 0 ) {
 
-			$no_key_notice = new Notice( array(
-				'id'          => array( 'calendar_' . $post_id => 'google-no-api-key' ),
-				'type'        => 'error',
-				'screen'      => 'calendar',
-				'post'        => $post_id,
-				'dismissable' => false,
-				'content'     => '<p>' .
-				                 '<i class="simcal-icon-warning"></i> ' .
-				                 sprintf(
-					                 __( 'If you want to add events from a Google Calendar feed, you need to set a Google API Key first. <a href="%s">Go to settings to add one</a>.', 'google-calendar-events' ),
-					                 admin_url( 'edit.php?post_type=calendar&page=simple-calendar_settings&tab=feeds' )
-				                 ) .
-				                 '</p>',
-				)
-			);
+			if ( 'google' == $this->feed->type ) {
 
-			if ( empty( $this->google_api_key ) ) {
-
-				$has_errors = true;
-				$no_key_notice->add();
-
-			} else {
-
-				$no_key_notice->remove();
-
-				try {
-					$this->feed->make_request( $google_calendar_id );
-				} catch( \Exception $e ) {
-					$error = $e->getMessage();
-					$message = ! empty( $error ) ? '<blockquote>' . $error . '</blockquote>' : '';
-				}
-
-				$error_notice = new Notice( array(
-					'id'          => array( 'calendar_' . $post_id => 'google-error-response' ),
-					'type'        => 'error',
-					'screen'      => 'calendar',
-					'post'        => $post_id,
-					'dismissable' => false,
-					'content'     => '<p>' .
-					                 '<i class="simcal-icon-warning"></i> ' .
-					                 __( 'While trying to retrieve events, Google returned an error:', 'google-calendar-events' ) .
-					                 '<br>' .  $message . '<br>' .
-					                 __( 'Please ensure that both your Google Calendar ID and API Key are valid and that the Google Calendar you want to display is public.', 'google-calendar-events' ) .
-					                 '</p>',
+				$no_key_notice = new Notice( array(
+						'id'          => array( 'calendar_' . $post_id => 'google-no-api-key' ),
+						'type'        => 'error',
+						'screen'      => 'calendar',
+						'post'        => $post_id,
+						'dismissable' => false,
+						'content'     => '<p>' .
+						                 '<i class="simcal-icon-warning"></i> ' .
+						                 sprintf(
+							                 __( 'If you want to add events from a Google Calendar feed, you need to set a Google API Key first. <a href="%s">Go to settings to add one</a>.', 'google-calendar-events' ),
+							                 admin_url( 'edit.php?post_type=calendar&page=simple-calendar_settings&tab=feeds' )
+						                 ) .
+						                 '</p>',
 					)
 				);
 
-				$feed = null;
-				if ( $feed_type = wp_get_object_terms( $post_id, 'calendar_feed' ) ) {
-					$feed = sanitize_title( current( $feed_type )->name );
+				if ( empty( $this->google_api_key ) ) {
+
+					$has_errors = true;
+					$no_key_notice->add();
+
+				} else {
+
+					$no_key_notice->remove();
+
+					try {
+						$this->feed->make_request( $google_calendar_id );
+					} catch ( \Exception $e ) {
+						$error   = $e->getMessage();
+						$message = ! empty( $error ) ? '<blockquote>' . $error . '</blockquote>' : '';
+					}
+
+					$error_notice = new Notice( array(
+							'id'          => array( 'calendar_' . $post_id => 'google-error-response' ),
+							'type'        => 'error',
+							'screen'      => 'calendar',
+							'post'        => $post_id,
+							'dismissable' => false,
+							'content'     => '<p>' .
+							                 '<i class="simcal-icon-warning"></i> ' .
+							                 __( 'While trying to retrieve events, Google returned an error:', 'google-calendar-events' ) .
+							                 '<br>' . $message . '<br>' .
+							                 __( 'Please ensure that both your Google Calendar ID and API Key are valid and that the Google Calendar you want to display is public.', 'google-calendar-events' ) .
+							                 '</p>',
+						)
+					);
+
+					$feed = null;
+					if ( $feed_type = wp_get_object_terms( $post_id, 'calendar_feed' ) ) {
+						$feed = sanitize_title( current( $feed_type )->name );
+					}
+
+					if ( ! empty( $error ) && ( $feed == $this->feed->type ) ) {
+						$error_notice->add();
+						$has_errors = true;
+					} else {
+						$error_notice->remove();
+						$has_errors = false;
+					}
 				}
 
-				if ( ! empty( $error ) && ( $feed == $this->feed->type ) ) {
-					$error_notice->add();
-					$has_errors = true;
-				} else {
-					$error_notice->remove();
-					$has_errors = false;
-				}
 			}
+			
 		}
 
 		return $has_errors === true ? $message : true;
