@@ -13,7 +13,7 @@ Add Google Calendar events to your site in minutes. Beautiful calendar displays.
 
 **Simple Calendar** is the easiest way to add Google Calendar events to your WordPress sites. Keep managing everything in Google Calendar. Fine tune the display of your calendars to your liking. Add specific functionality with add-ons.
 
->[Looking for more? Check out our Google Calendar Pro Add-on](https://simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme)
+>[Looking for more? Check out our Google Calendar Pro Add-on](https://simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)
 
 = SIMPLE CALENDAR FEATURES =
 
@@ -38,7 +38,7 @@ Add Google Calendar events to your site in minutes. Beautiful calendar displays.
 * Display event organizer information.
 * Display a list of attachments with links to their original source.
 
->[Get More Features with the Google Calendar Pro Add-on](https://simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme)
+>[Get More Features with the Google Calendar Pro Add-on](https://simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)
 
 == Installation ==
 
