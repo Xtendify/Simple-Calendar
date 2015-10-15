@@ -377,7 +377,7 @@
 							fixed : true,
 							effect: false,
 							event : bubbleTrigger == 'click' ? 'unfocus' : 'mouseleave',
-							delay: 500
+							delay: 100
 						},
 						events  : {
 							show: function( event, current ) {
