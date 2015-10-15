@@ -71,7 +71,7 @@ There are two ways to install this plugin:
 
 == Frequently Asked Questions ==
 
-Find the plugin documentation at [Simple Calendar website](http://docs.simplecalendar.io/?utm_source=wordpress_org&utm_medium=link&utm_campaign=gce_lite).
+[Plugin documenation found here](http://docs.simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=faq)
 
 == Screenshots ==
 
