@@ -60,11 +60,11 @@ class License extends Field {
 
 			$license = simcal_get_license_key( $this->addon );
 
-			if ( $license !== false ) {
+			if ( false !== $license ) {
 
 				$status  = simcal_get_license_status( $this->addon );
 
-				if ( $status !== false && $status == 'valid' ) {
+				if ( false !== $status && 'valid' == $status ) {
 					echo '<span style="color:green;">' . __( 'active', 'google-calendar-events' ) . '</span>';
 					echo '<input type="submit" class="button-secondary" name="simcal_license_deactivate" value="' . __( 'Deactivate', 'google-calendar-events' ) . '"/>';
 				} else {

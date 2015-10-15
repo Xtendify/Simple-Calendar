@@ -125,10 +125,10 @@ class License_Manager {
 
 				// Data to send in API request.
 				$deactivation = array(
-					'edd_action'=> 'deactivate_license',
-					'license' 	=> $license,
-					'item_name' => urlencode( $addon ),
-					'url'       => home_url()
+					'edd_action' => 'deactivate_license',
+					'license'    => $license,
+					'item_name'  => urlencode( $addon ),
+					'url'        => home_url()
 				);
 
 				// Call the custom API.

@@ -101,7 +101,7 @@ class Updater {
 	 *
 	 * @param  array $_transient_data Update array build by WordPress.
 	 *
-	 * @return array Modified update array with custom plugin data.
+	 * @return array|\stdClass Modified update array with custom plugin data.
 	 */
 	public function check_update( $_transient_data ) {
 
@@ -240,7 +240,7 @@ class Updater {
 	 */
 	public function plugins_api_filter( $_data, $_action = '', $_args = null ) {
 
-		if ( $_action != 'plugin_information' ) {
+		if ( 'plugin_information' != $_action ) {
 			return $_data;
 		}
 
@@ -274,7 +274,7 @@ class Updater {
 	 *
 	 * @param  array  $args
 	 * @param  string $url
-	 * @return object $array
+	 * @return object|array $array
 	 */
 	public function http_request_args( $args, $url ) {
 		// If it is an https request and we are performing a package download, disable ssl verification

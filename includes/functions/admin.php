@@ -243,7 +243,7 @@ function simcal_get_license_key( $addon ) {
  *
  * @since  3.0.0
  *
- * @param  string $addon Unique add-on slug.
+ * @param  null|string $addon Unique add-on slug.
  *
  * @return array|string
  */
