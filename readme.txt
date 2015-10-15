@@ -27,7 +27,7 @@ Add Google Calendar events to your site in minutes. Beautiful calendar displays.
 * Advanced settings to adjust time zones, date and time formats, start of the week.
 * Many translations available with more being added on a regular basis. [Translations welcome!](https://wordpress.org/support/topic/translating-this-plugin-in-your-language)
 * Fully extensible to support add-ons with advanced features and specific functionality.
-* Open source with code hosted on GitHub. [Contributions welcome!](https://github.com/moonstonemedia/Simple-Calendar)
+* Open source and hosted on GitHub. [Contributions welcome!](https://github.com/moonstonemedia/Simple-Calendar)
 
 = GOOGLE CALENDAR PRO ADD-ON FEATURES =
 
@@ -71,7 +71,17 @@ There are two ways to install this plugin:
 
 == Frequently Asked Questions ==
 
-[Plugin documenation found here](http://docs.simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=faq)
+= Where's your plugin documentation? =
+
+[docs.simplecalendar.io](http://docs.simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=faq)
+
+= How do I contribute to Simple Calendar? =
+
+We'd love your help! Here's a few things you can do:
+
+* Help answer questions in our [community support forum](https://wordpress.org/support/plugin/google-calendar-events).
+* Report bugs (with steps to reproduce) or submit pull requests [on GitHub](https://github.com/moonstonemedia/Simple-Calendar).
+* Help add or update a [plugin translation](https://wordpress.org/support/topic/translating-this-plugin-in-your-language).
 
 == Screenshots ==
 
