@@ -289,6 +289,7 @@ class Default_Calendar_Grid implements Calendar_View {
 				return '';
 			}
 		}
+		date_default_timezone_set( $calendar->timezone );
 		$events = $calendar->events;
 
 		// Variables to cycle days in current month and find today in calendar.
@@ -532,6 +533,8 @@ class Default_Calendar_Grid implements Calendar_View {
 
 		echo "\t" . '</tr>' . "\n";
 		echo '</tbody>' . "\n";
+
+		date_default_timezone_set( $calendar->site_timezone );
 
 		return ob_get_clean();
 	}

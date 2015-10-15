@@ -424,6 +424,8 @@ class Default_Calendar_List implements Calendar_View {
 			}
 		}
 
+		date_default_timezone_set( $calendar->timezone );
+
 		$now = $calendar->now;
 		$current_events = $this->get_events( $timestamp );
 		$day_format = explode( ' ', $calendar->date_format );
@@ -582,6 +584,8 @@ class Default_Calendar_List implements Calendar_View {
 		endif;
 
 		echo '</' . $block_tag . '>';
+
+		date_default_timezone_set( $calendar->site_timezone );
 
 		return ob_get_clean();
 	}
