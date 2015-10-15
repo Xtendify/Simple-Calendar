@@ -81,14 +81,15 @@ class Google_Admin {
 	public function settings_fields() {
 		return array(
 			'name' => $this->feed->name,
-			'description' => '',
+			'description' => __( 'Use Google Calendar to read events from public Google calendars only.', 'google-calendar-events' ),
 			'fields' => array(
 				'api_key' => array(
-					'type'        => 'standard',
-					'subtype'     => 'text',
-					'class'       => array( 'regular-text', 'ltr' ),
-					'title'       => __( 'Google API Key', 'google-calendar-events' ),
-					'validation'  => array( $this, 'check_google_api_key' ),
+					'type'       => 'standard',
+					'subtype'    => 'text',
+					'class'      => array( 'regular-text', 'ltr' ),
+					'title'      => __( 'Google API Server Key', 'google-calendar-events' ),
+					'tooltip'    => __( 'You need to set your own key with Google Developers Console to read events from Google Calendar public calendars', 'google-calendar-events' ),
+					'validation' => array( $this, 'check_google_api_key' ),
 				),
 			),
 		);
@@ -210,7 +211,7 @@ class Google_Admin {
 						'max'  => '2500',
 					),
 				),
-			)
+			),
 		);
 
 		?>
