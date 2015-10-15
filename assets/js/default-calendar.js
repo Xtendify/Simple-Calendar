@@ -376,7 +376,8 @@
 						hide    : {
 							fixed : true,
 							effect: false,
-							event : bubbleTrigger == 'click' ? 'unfocus' : 'mouseleave'
+							event : bubbleTrigger == 'click' ? 'unfocus' : 'mouseleave',
+							delay: 500
 						},
 						events  : {
 							show: function( event, current ) {
