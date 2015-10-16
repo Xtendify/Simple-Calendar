@@ -103,6 +103,7 @@ class Ajax {
 			wp_send_json_error( 'Please enter a valid license key first.' );
 		}
 
+		// Get the add-on name from slug.
 		$installed_addons = apply_filters( 'simcal_installed_addons', array() );
 		$addon_name = '';
 		if ( isset( $installed_addons[ $addon ] ) ) {
@@ -123,7 +124,7 @@ class Ajax {
 
 		// Call the custom API.
 		$response = wp_remote_post(
-			simcal_get_url( 'home' ),
+			defined( 'SIMPLE_CALENDAR_STORE_URL' ) ? SIMPLE_CALENDAR_STORE_URL : simcal_get_url( 'home' ),
 			array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_request )
 		);
 
