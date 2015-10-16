@@ -303,6 +303,28 @@ function simcal_print_shortcode_tip( $post_id ) {
 				"onclick='this.select();' value='" . $shortcode . "' />";
 }
 
+/**
+ * Google Analytics campaign URL.
+ *
+ * @since   3.0.0
+ *
+ * @param  string  $base_url Plain URL to navigate to
+ * @param  string  $source   GA "source" tracking value
+ * @param  string  $medium   GA "medium" tracking value
+ * @param  string  $campaign GA "campaign" tracking value
+ *
+ * @return string  $url Full Google Analytics campaign URL
+ */
+function simcal_ga_campaign_url( $base_url, $source, $medium, $campaign ) {
+	// $medium examples: 'sidebar_link', 'banner_image'
+	$url = esc_url( add_query_arg( array(
+		'utm_source'   => $source,
+		'utm_medium'   => $medium,
+		'utm_campaign' => $campaign
+	), $base_url ) );
+	return esc_url( $url );
+}
+
 if ( ! function_exists( 'mb_detect_encoding' ) ) {
 
 	/**
