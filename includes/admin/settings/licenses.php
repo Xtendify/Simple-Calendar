@@ -30,7 +30,7 @@ class Licenses extends Settings_Page {
 
 		$this->id           = 'licenses';
 		$this->option_group = 'settings';
-		$this->label        = __( 'Licenses', 'google-calendar-events' );
+		$this->label        = __( 'Add-ons Licenses', 'google-calendar-events' );
 		$this->description  = __( 'Manage add-ons licenses.', 'google-calendar-events' );
 		$this->sections     = $this->add_sections();
 		$this->fields       = $this->add_fields();
