@@ -86,7 +86,7 @@ class License extends Field {
 				     __( 'Activate', 'google-calendar-events' ) .
 			         '</button>';
 
-				echo ' <span class="error" style="color: red; display: none">' . __( 'An error occurred:', 'google-calendar-events' ). ' </span>';
+				echo ' <span class="error" style="color: red; display: none"> </span>';
 
 				echo '</span>';
 
