@@ -233,7 +233,10 @@ function simcal_addon_updater( $_api_url, $_plugin_file, $_api_data = null ) {
  */
 function simcal_get_license_key( $addon ) {
 	$licenses = get_option( 'simple-calendar_settings_licenses', array() );
-	return isset( $licenses['add-ons'][ $addon ] ) ? $licenses['add-ons'][ $addon ] : null;
+	if ( isset( $licenses['add-ons'][ $addon ] ) ) {
+		return empty( $licenses['add-ons'][ $addon ] ) ? null : $licenses['add-ons'][ $addon ];
+	}
+	return null;
 }
 
 /**

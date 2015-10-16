@@ -171,9 +171,6 @@ final class Plugin {
 		// Init menus and settings.
 		new Admin\Menus();
 
-		// Add-ons license manager.
-		new Admin\License_Manager();
-
 		if ( defined( 'DOING_AJAX' ) ) {
 			// Admin ajax callbacks.
 			new Admin\Ajax();

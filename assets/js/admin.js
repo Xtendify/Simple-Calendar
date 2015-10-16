@@ -375,7 +375,7 @@
 		 * Misc *
 		 * ==== */
 
-		// Clear carch buttons.
+		// Clear cache buttons.
 		$( '#simcal-clear-cache' ).on( 'click', function( e ) {
 
 			e.preventDefault();
@@ -426,6 +426,41 @@
 			thankYou.show();
 
 			nlForm.submit();
+
+		} );
+
+		/* ========================= *
+		 * Add-on License Management *
+		 * ========================= */
+
+		$( '.simcal-addon-manage-license' ).on( 'click', function() {
+
+			var manage_license_action = '';
+
+			if ( $( this ).hasClass( 'activate' ) ) {
+				manage_license_action = 'activate_license';
+			} else if ( $( this ).hasClass( 'deactivate' ) ) {
+				manage_license_action = 'deactivate_license';
+			} else {
+				return;
+			}
+
+			$.ajax( {
+				url       : simcal_admin.ajax_url,
+				method    : 'POST',
+				data      : {
+					action        : 'manage_add_on_license',
+					add_on        : $( this ).data( 'add-on' ),
+					license_action: manage_license_action,
+					nonce         : $( '#simcal_license_manager' ).val()
+				},
+				success   : function( response ) {
+					console.log( response );
+				},
+				error     : function( response ) {
+					console.log( response );
+				}
+			} );
 
 		} );
 
