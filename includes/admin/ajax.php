@@ -103,13 +103,21 @@ class Ajax {
 			wp_send_json_error( 'Please enter a valid license key first.' );
 		}
 
+		$installed_addons = apply_filters( 'simcal_installed_addons', array() );
+		$addon_name = '';
+		if ( isset( $installed_addons[ $addon ] ) ) {
+			$addon_name = $installed_addons[ $addon ];
+		} else {
+			wp_send_json_error( 'Could not find the add-on name.' );
+		}
+
 		$status = simcal_get_license_status();
 
 		// Data to send in API request.
 		$api_request = array(
 			'edd_action' => $action,
 			'license'    => $license,
-			'item_name'  => urlencode( $addon ),
+			'item_name'  => urlencode( $addon_name ),
 			'url'        => home_url()
 		);
 
