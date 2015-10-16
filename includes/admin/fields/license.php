@@ -64,18 +64,31 @@ class License extends Field {
 
 				$status  = simcal_get_license_status( $this->addon );
 
+				echo '<span class="simcal-addon-manage-license-buttons">';
+
 				if ( false !== $status && 'valid' == $status ) {
-					echo '<span style="color:green;">' . __( '(active)', 'google-calendar-events' ) . '</span>';
-					echo '<button class="button-secondary simcal-addon-manage-license deactivate" data-add-on="' . $this->addon . '" name="simcal_license_deactivate">' .
-					     '<i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i> ' .
-					     __( 'Deactivate', 'google-calendar-events' ) .
-					     '</button>';
+					$display_activate = 'display: inline-block';
+					$display_deactivate = 'display: none';
 				} else {
-					echo '<button class="button-secondary simcal-addon-manage-license activate" data-add-on="' . $this->addon . '" name="simcal_license_activate">' .
-					     '<i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i> ' .
-					     __( 'Activate', 'google-calendar-events' ) .
-				         '</button>';
+					$display_activate = 'display: none';
+					$display_deactivate = 'display: inline-block';
 				}
+
+				echo '<strong class="label" style="color:green; ' . $display_activate . ' ">' . __( '(active)', 'google-calendar-events' ) . '</strong> ';
+
+				echo '<button class="button-secondary simcal-addon-manage-license deactivate" data-add-on="' . $this->addon . '" style="' . $display_activate . '">' .
+				     '<i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i> ' .
+				     __( 'Deactivate', 'google-calendar-events' ) .
+				     '</button>';
+
+				echo '<button class="button-secondary simcal-addon-manage-license activate" data-add-on="' . $this->addon . '" style="' . $display_deactivate . '">' .
+				     '<i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i> ' .
+				     __( 'Activate', 'google-calendar-events' ) .
+			         '</button>';
+
+				echo ' <span class="error" style="color: red; display: none">' . __( 'An error occurred:', 'google-calendar-events' ). ' </span>';
+
+				echo '</span>';
 
 			}
 		}

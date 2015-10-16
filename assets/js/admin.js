@@ -433,10 +433,14 @@
 		 * Add-on License Management *
 		 * ========================= */
 
-		$( '.simcal-addon-manage-license' ).on( 'click', function() {
+		$( '.simcal-addon-manage-license' ).on( 'click', function( e ) {
+
+			e.preventDefault();
 
 			var manage_license_action = '',
-				spinner = $( this ).find( 'i' );
+				button = $( this ),
+				container = button.closest( '.simcal-addon-manage-license-buttons'),
+				spinner = button.find( 'i' );
 
 			if ( $( this ).hasClass( 'activate' ) ) {
 				manage_license_action = 'activate_license';
@@ -461,6 +465,23 @@
 				success   : function( response ) {
 					console.log( response );
 					spinner.fadeToggle();
+					if ( 'activate_license' == manage_license_action ) {
+						if ( 'valid' == response.data ) {
+							button.hide();
+							$( container ).find( '.label' ).show();
+							$( container ).find( '.deactivate' ).show();
+						} else {
+							$( container ).find( '.error' ).show().append( ' "' + response.data + '"' );
+						}
+					} else {
+						if ( 'deactivated' == response.data ) {
+							button.hide();
+							$( container ).find( '.label' ).hide();
+							$( container ).find( '.activate' ).show();
+						} else {
+							$( container ).find( '.error' ).show().append( ' "' + response.data + '"' );;
+						}
+					}
 				},
 				error     : function( response ) {
 					console.log( response );

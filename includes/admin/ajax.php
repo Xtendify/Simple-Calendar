@@ -129,7 +129,7 @@ class Ajax {
 
 		// Make sure there is a response.
 		if ( is_wp_error( $response ) ) {
-			wp_send_json_error( sprintf( 'There was an error processing your request: %s', $response->get_error_messages() ) );
+			wp_send_json_error( sprintf( 'There was an error processing your request: %s', $response->get_error_message() ) );
 		}
 
 		// Decode the license data and save.
@@ -137,13 +137,13 @@ class Ajax {
 		if ( 'deactivated' == $license_data->license  ) {
 			unset( $status[ $addon ] );
 			update_option( 'simple-calendar_licenses_status', $status );
-			wp_send_json_success( 'deactivated' );
+			wp_send_json_success( $license_data->license );
  		} elseif ( in_array( $license_data->license, array( 'valid', 'invalid' ) ) ) {
 			$status[ $addon ] = $license_data->license;
 			update_option( 'simple-calendar_licenses_status', $status );
-			wp_send_json_success( 'activated' );
+			wp_send_json_success( $license_data->license );
 		} else {
-			wp_send_json_error( sprintf( 'Could not manage "%1$s" add-on license. Remote server response: %2$s', $addon, $response->get_error_messages() ) );
+			wp_send_json_error( sprintf( 'Could not manage "%1$s" license. An error occurred.', $action ) );
 		}
 	}
 
