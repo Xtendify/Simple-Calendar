@@ -240,7 +240,7 @@ class Google extends Feed {
 							$recurrence = $event->getRecurrence();
 
 							// Build the event.
-							$calendar['events'][ $start ][] = array(
+							$calendar['events'][ intval( $start ) ][] = array(
 								'type'           => 'google-calendar',
 								'source'         => $source,
 								'title'          => $title,
