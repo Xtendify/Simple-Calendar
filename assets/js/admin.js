@@ -450,7 +450,7 @@
 				url       : simcal_admin.ajax_url,
 				method    : 'POST',
 				data      : {
-					action        : 'manage_add_on_license',
+					action        : 'simcal_manage_add_on_license',
 					add_on        : $( this ).data( 'add-on' ),
 					license_action: manage_license_action,
 					nonce         : $( '#simcal_license_manager' ).val()
