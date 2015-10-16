@@ -435,7 +435,8 @@
 
 		$( '.simcal-addon-manage-license' ).on( 'click', function() {
 
-			var manage_license_action = '';
+			var manage_license_action = '',
+				spinner = $( this ).find( 'i' );
 
 			if ( $( this ).hasClass( 'activate' ) ) {
 				manage_license_action = 'activate_license';
@@ -454,11 +455,16 @@
 					license_action: manage_license_action,
 					nonce         : $( '#simcal_license_manager' ).val()
 				},
+				beforeSend: function() {
+					spinner.fadeToggle();
+				},
 				success   : function( response ) {
 					console.log( response );
+					spinner.fadeToggle();
 				},
 				error     : function( response ) {
 					console.log( response );
+					spinner.fadeToggle();
 				}
 			} );
 

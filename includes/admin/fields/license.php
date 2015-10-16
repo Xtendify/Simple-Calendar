@@ -66,9 +66,15 @@ class License extends Field {
 
 				if ( false !== $status && 'valid' == $status ) {
 					echo '<span style="color:green;">' . __( '(active)', 'google-calendar-events' ) . '</span>';
-					echo '<input type="submit" class="button-secondary simcal-addon-manage-license deactivate" data-add-on="' . $this->addon . '" name="simcal_license_deactivate" value="' . __( 'Deactivate', 'google-calendar-events' ) . '" />';
+					echo '<button class="button-secondary simcal-addon-manage-license deactivate" data-add-on="' . $this->addon . '" name="simcal_license_deactivate">' .
+					     '<i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i> ' .
+					     __( 'Deactivate', 'google-calendar-events' ) .
+					     '</button>';
 				} else {
-					echo '<input type="submit" class="button-secondary simcal-addon-manage-license activate" data-add-on="' . $this->addon . '" name="simcal_license_activate" value="' . __( 'Activate', 'google-calendar-events' ) . '" />';
+					echo '<button class="button-secondary simcal-addon-manage-license activate" data-add-on="' . $this->addon . '" name="simcal_license_activate">' .
+					     '<i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i> ' .
+					     __( 'Activate', 'google-calendar-events' ) .
+				         '</button>';
 				}
 
 			}
