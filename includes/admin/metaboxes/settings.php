@@ -247,7 +247,7 @@ class Settings implements Meta_Box {
 						<?php
 
 						$calendar_begins = esc_attr( get_post_meta( $post->ID, '_calendar_begins', true ) );
-						$calendar_begins_nth = max( absint( get_post_meta( $post->ID, '_calendar_begins_nth', true ) ), 2 );
+						$calendar_begins_nth = max( absint( get_post_meta( $post->ID, '_calendar_begins_nth', true ) ), 1 );
 						$calendar_begins_nth_show = in_array( $calendar_begins, array(
 							'days_before',
 							'days_after',
