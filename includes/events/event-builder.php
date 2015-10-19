@@ -235,7 +235,7 @@ class Event_Builder {
 
 				case 'length' :
 				case 'duration' :
-					if ( $event->end ) {
+					if ( false !== $event->end ) {
 						$duration = $event->start - $event->end;
 						$value    = human_time_diff( $event->start, $event->end );
 					} else {
@@ -326,7 +326,7 @@ class Event_Builder {
 					$start_dt = $event->start_dt->setTimezone( $calendar->timezone );
 					$start = $start_dt->getTimestamp();
 
-					if ( $event->end_utc ) {
+					if ( false !== $event->end_utc ) {
 						$end = $event->end_dt->getTimestamp();
 					} else {
 						$end = $start_dt->endOfDay()->subSeconds( 59 )->getTimestamp();
@@ -364,7 +364,7 @@ class Event_Builder {
 				case 'if-ended' :
 				case 'if-not-ended' :
 
-					if ( $event->end ) {
+					if ( false !== $event->end ) {
 
 						$end = $event->end_dt->setTimezone( $calendar->timezone )->getTimestamp();
 
@@ -383,13 +383,13 @@ class Event_Builder {
 					break;
 
 				case 'if-end-time' :
-					if ( $event->end ) {
+					if ( false !== $event->end ) {
 						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
 
 				case 'if-no-end-time' :
-					if ( ! $event->end ) {
+					if ( false === $event->end ) {
 						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
@@ -404,20 +404,16 @@ class Event_Builder {
 
 				case 'if-all-day' :
 				case 'if-whole-day' :
-					if ( $event->whole_day === true ) {
-						return $calendar->get_event_html( $event, $partial );
-					}
-					break;
-
 				case 'if-not-all-day' :
 				case 'if-not-whole-day' :
-					if ( $event->whole_day === false ) {
+					$bool = strstr( $tag, 'not' ) ? false : true;
+					if ( $bool === $event->whole_day ) {
 						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
 
 				case 'if-recurring' :
-					if ( $event->recurrence ) {
+					if ( false !== $event->recurrence ) {
 						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
@@ -429,7 +425,7 @@ class Event_Builder {
 					break;
 
 				case 'if-multi-day' :
-					if ( $event->end ) {
+					if ( false !== $event->end ) {
 						if ( ( $event->start + $event->end ) > 86400 ) {
 							return $calendar->get_event_html( $event, $partial );
 						}
@@ -437,8 +433,8 @@ class Event_Builder {
 					break;
 
 				case 'if-single-day' :
-					if ( $event->end ) {
-						if ( ( $event->start + $event->end ) <= 86400 ) {
+					if ( false !== $event->end ) {
+						if ( ( $event->start - $event->end ) <= 86400 ) {
 							return $calendar->get_event_html( $event, $partial );
 						}
 					}
