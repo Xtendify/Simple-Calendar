@@ -62,8 +62,8 @@ We'd love your help! Here's a few things you can do:
 
 == Screenshots ==
 
-1. Default Calendar Grid
-2. Default Calendar List
+1. Default Calendar List on Twenty Fifteen theme
+2. Default Calendar Grid on Twenty Fifteen theme
 3. Calendar settings dashboard
 4. Calendar appearance settings
 5. Google Calendar events source settings
