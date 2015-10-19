@@ -191,6 +191,7 @@ function simcal_is_admin_screen() {
 		$screens = array(
 			'customize',
 			'calendar',
+			'calendar_page_simple-calendar_add_ons',
 			'calendar_page_simple-calendar_settings',
 			'calendar_page_simple-calendar_tools',
 			'edit-calendar',

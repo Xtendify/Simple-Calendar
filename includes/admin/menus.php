@@ -73,9 +73,8 @@ class Menus {
 			'manage_options',
 			'simple-calendar_add_ons',
 			function() {
-				$url = \SimpleCalendar\plugin()->get_url( 'add-ons' );
-				wp_redirect( $url );
-				exit;
+				$page = new Pages( 'add-ons' );
+				$page->html();
 			}
 		);
 
@@ -86,8 +85,8 @@ class Menus {
 			'manage_options',
 			'simple-calendar_settings',
 			function () {
-				$settings_pages = new Settings_Pages( 'settings' );
-				$settings_pages->html();
+				$page = new Pages( 'settings' );
+				$page->html();
 			}
 		);
 
@@ -98,8 +97,8 @@ class Menus {
 			'manage_options',
 			'simple-calendar_tools',
 			function () {
-				$settings_pages = new Settings_Pages( 'tools' );
-				$settings_pages->html();
+				$page = new Pages( 'tools' );
+				$page->html();
 			}
 		);
 

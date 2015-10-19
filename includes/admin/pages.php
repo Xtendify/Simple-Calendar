@@ -14,13 +14,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Settings pages class.
+ * Admin pages class.
  *
  * Handles settings pages and settings UI in admin dashboard.
  *
  * @since 3.0.0
  */
-class Settings_Pages {
+class Pages {
 
 	/**
 	 * Current settings page.
@@ -75,7 +75,7 @@ class Settings_Pages {
 
 		$this->tab = isset( $tabs[0] ) ? $tabs[0] : '';
 
-		do_action( 'simcal_settings_pages', $page );
+		do_action( 'simcal_admin_pages', $page );
 	}
 
 	/**
@@ -204,7 +204,7 @@ class Settings_Pages {
 		// Get current tab/section
 		$current_tab = empty( $_GET['tab'] ) ? $this->tab : sanitize_title( $_GET['tab'] );
 
-		do_action( 'simcal_settings_page_start' );
+		do_action( 'simcal_admin_page_start' );
 
 		?>
 		<div class="wrap" id="simcal-settings-page">
@@ -233,7 +233,7 @@ class Settings_Pages {
 
 					}
 
-					do_action( 'simple-calendar_settings_tabs' );
+					do_action( 'simple-calendar_admin_page_tabs' );
 
 					echo '</h2>';
 
@@ -251,7 +251,7 @@ class Settings_Pages {
 
 					}
 
-					do_action( 'simcal_settings_page', $this->page, $current_tab );
+					do_action( 'simcal_admin_page', $this->page, $current_tab );
 				}
 
 				$submit = apply_filters( 'simcal_settings_page_submit', true );
@@ -264,7 +264,7 @@ class Settings_Pages {
 		</div>
 		<?php
 
-		do_action( 'simcal_settings_page_end' );
+		do_action( 'simcal_admin_page_end' );
 	}
 
 }

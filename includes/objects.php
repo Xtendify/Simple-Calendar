@@ -52,6 +52,9 @@ class Objects {
 		if ( $is_admin = is_admin() ) {
 			add_filter( 'simcal_get_admin_pages', function( $admin_pages ) {
 				return array_merge( $admin_pages, array(
+					'add-ons' => array(
+						'add-ons',
+					),
 					'settings' => array(
 						'feeds',
 						'calendars',

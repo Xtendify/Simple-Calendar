@@ -204,7 +204,7 @@ final class Plugin {
 	 */
 	public function register_settings() {
 		if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
-			$settings = new Admin\Settings_Pages();
+			$settings = new Admin\Pages();
 			$settings->register_settings( $settings->get_settings() );
 		}
 	}

@@ -36,7 +36,7 @@ class System_Status extends Admin_Page {
 		$this->fields       = $this->add_fields();
 
 		add_filter( 'simcal_settings_page_submit', function() { return false; } );
-		add_action( 'simcal_settings_page', array( $this, 'html' ), 10, 2 );
+		add_action( 'simcal_admin_page', array( $this, 'html' ), 10, 2 );
 	}
 
 	/**

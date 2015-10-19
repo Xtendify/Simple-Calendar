@@ -6,7 +6,7 @@
  */
 namespace SimpleCalendar;
 
-use SimpleCalendar\Admin\Settings_Pages;
+use SimpleCalendar\Admin\Pages;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -91,7 +91,7 @@ class Installation {
 
 		$default = '';
 		$page    = 'settings';
-		$settings_pages  = new Settings_Pages( $page );
+		$settings_pages  = new Pages( $page );
 		$plugin_settings = $settings_pages->get_settings();
 
 		if ( $plugin_settings && is_array( $plugin_settings ) ) {

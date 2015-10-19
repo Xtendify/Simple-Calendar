@@ -11,16 +11,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * The Settings Page.
- *
- * Handles a collection of settings fields and a settings page markup.
+ * The Admin Page.
  *
  * @since 3.0.0
  */
 abstract class Admin_Page {
 
 	/**
-	 * Settings page ID.
+	 * Admin page ID.
 	 *
 	 * @access public
 	 * @var string
@@ -36,7 +34,7 @@ abstract class Admin_Page {
 	public $option_group = '';
 
 	/**
-	 * Settings Page label.
+	 * Admin Page label.
 	 *
 	 * @access public
 	 * @var string
@@ -44,7 +42,7 @@ abstract class Admin_Page {
 	public $label = '';
 
 	/**
-	 * Settings Page description.
+	 * Admin Page description.
 	 *
 	 * @access public
 	 * @var string
@@ -52,7 +50,7 @@ abstract class Admin_Page {
 	public $description = '';
 
 	/**
-	 * Settings Page sections.
+	 * Amdin Page settings sections.
 	 *
 	 * @access public
 	 * @var array Associative array with section id (key) and section name (value)
@@ -60,7 +58,7 @@ abstract class Admin_Page {
 	public $sections;
 
 	/**
-	 * Settings Page fields.
+	 * Admin Page settings fields.
 	 *
 	 * @access public
 	 * @var array
@@ -76,7 +74,7 @@ abstract class Admin_Page {
 	protected $values = array();
 
 	/**
-	 * Get page settings.
+	 * Get admin page settings.
 	 *
 	 * @since  3.0.0
 	 *
