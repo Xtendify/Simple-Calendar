@@ -177,8 +177,10 @@
     margin-left: -10px; }
   .simcal-default-calendar .simcal-nav-button.simcal-next:hover {
     margin-right: -10px; }
-  .simcal-default-calendar .simcal-nav-button:disabled:hover {
-    margin: 0; }
+  .simcal-default-calendar .simcal-nav-button:disabled {
+    cursor: default; }
+    .simcal-default-calendar .simcal-nav-button:disabled:hover {
+      margin: 0; }
 
 .simcal-default-calendar .simcal-events-toggle {
   border: 0;

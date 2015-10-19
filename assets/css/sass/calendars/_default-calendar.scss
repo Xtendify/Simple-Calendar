@@ -44,6 +44,7 @@ $default-calendar-white: rgb(255, 255, 255);
     }
 
     &:disabled {
+      cursor: default;
       &:hover {
         margin: 0;
       }
