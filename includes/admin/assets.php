@@ -25,7 +25,7 @@ class Assets {
 	 * @access public
 	 * @var string
 	 */
-	public $min = '';
+	public $min = '.min';
 
 	/**
 	 * Hook in tabs.

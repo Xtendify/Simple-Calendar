@@ -27,7 +27,7 @@ class Assets {
 	 * @access private
 	 * @var string
 	 */
-	private $min = '';
+	private $min = '.min';
 
 	/**
 	 * Scripts.
