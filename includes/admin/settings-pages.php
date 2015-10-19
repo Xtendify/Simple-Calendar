@@ -7,7 +7,7 @@
 namespace SimpleCalendar\Admin;
 
 use SimpleCalendar\Abstracts\Field;
-use SimpleCalendar\Abstracts\Settings_Page;
+use SimpleCalendar\Abstracts\Admin_Page;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -56,16 +56,16 @@ class Settings_Pages {
 	public function __construct( $page = 'settings' ) {
 
 		$this->page = $page;
-		$settings_pages = ! is_null( \SimpleCalendar\plugin()->objects ) ? simcal_get_settings_pages() : '';
+		$settings_pages = ! is_null( \SimpleCalendar\plugin()->objects ) ? simcal_get_admin_pages() : '';
 		$settings_page_tabs = array();
 		$tabs = isset( $settings_pages[ $page ] ) ? $settings_pages[ $page ] : false;
 
 		if ( $tabs && is_array( $tabs ) ) {
 			foreach ( $tabs as $tab ) {
 
-				$settings_page = simcal_get_settings_page( $tab );
+				$settings_page = simcal_get_admin_page( $tab );
 
-				if ( $settings_page instanceof Settings_Page ) {
+				if ( $settings_page instanceof Admin_Page ) {
 					$settings_page_tabs[ $settings_page->id ] = $settings_page;
 				}
 			}
@@ -93,7 +93,7 @@ class Settings_Pages {
 		if ( ! empty( $this->settings ) && is_array( $this->settings ) ) {
 			foreach ( $this->settings as $id => $object ) {
 
-				if ( $object instanceof Settings_Page ) {
+				if ( $object instanceof Admin_Page ) {
 
 					$settings_page = $object->get_settings();
 
@@ -172,12 +172,12 @@ class Settings_Pages {
 
 							} // are there fields?
 
-							$page = simcal_get_settings_page( $tab_id );
+							$page = simcal_get_admin_page( $tab_id );
 
 							register_setting(
 								'simple-calendar_' . $this->page . '_' . $tab_id,
 								'simple-calendar_' . $this->page . '_' . $tab_id,
-								$page instanceof Settings_Page ? array( $page, 'validate' ) : ''
+								$page instanceof Admin_Page ? array( $page, 'validate' ) : ''
 							);
 
 						} // loop sections

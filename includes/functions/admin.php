@@ -18,9 +18,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return array
  */
-function simcal_get_settings_pages() {
+function simcal_get_admin_pages() {
 	$objects = \SimpleCalendar\plugin()->objects;
-	return $objects instanceof \SimpleCalendar\Objects ? $objects->get_settings_pages() : array();
+	return $objects instanceof \SimpleCalendar\Objects ? $objects->get_admin_pages() : array();
 }
 
 /**
@@ -30,11 +30,11 @@ function simcal_get_settings_pages() {
  *
  * @param  string $page
  *
- * @return null|\SimpleCalendar\Abstracts\Settings_Page
+ * @return null|\SimpleCalendar\Abstracts\Admin_Page
  */
-function simcal_get_settings_page( $page ) {
+function simcal_get_admin_page( $page ) {
 	$objects = \SimpleCalendar\plugin()->objects;
-	return $objects instanceof \SimpleCalendar\Objects ? $objects->get_settings_page( $page ) : null;
+	return $objects instanceof \SimpleCalendar\Objects ? $objects->get_admin_page( $page ) : null;
 }
 
 /**
@@ -308,19 +308,19 @@ function simcal_print_shortcode_tip( $post_id ) {
  *
  * @since   3.0.0
  *
- * @param  string  $base_url Plain URL to navigate to
- * @param  string  $source   GA "source" tracking value
- * @param  string  $medium   GA "medium" tracking value
- * @param  string  $campaign GA "campaign" tracking value
+ * @param  string $base_url Plain URL to navigate to
+ * @param  string $source   GA "source" tracking value
+ * @param  string $medium   GA "medium" tracking value
+ * @param  string $campaign GA "campaign" tracking value
  *
- * @return string  $url Full Google Analytics campaign URL
+ * @return string $url Full Google Analytics campaign URL
  */
 function simcal_ga_campaign_url( $base_url, $source, $medium, $campaign ) {
 	// $medium examples: 'sidebar_link', 'banner_image'
 	$url = esc_url( add_query_arg( array(
 		'utm_source'   => $source,
 		'utm_medium'   => $medium,
-		'utm_campaign' => $campaign
+		'utm_campaign' => $campaign,
 	), $base_url ) );
 	return esc_url( $url );
 }

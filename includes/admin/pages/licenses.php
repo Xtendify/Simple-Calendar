@@ -4,9 +4,9 @@
  *
  * @package SimpleCalendar/Admin
  */
-namespace SimpleCalendar\Admin\Settings;
+namespace SimpleCalendar\Admin\Pages;
 
-use SimpleCalendar\Abstracts\Settings_Page;
+use SimpleCalendar\Abstracts\Admin_Page;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-class Licenses extends Settings_Page {
+class Licenses extends Admin_Page {
 
 	/**
 	 * Constructor.

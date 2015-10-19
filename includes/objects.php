@@ -50,8 +50,8 @@ class Objects {
 
 		// Add default admin objects.
 		if ( $is_admin = is_admin() ) {
-			add_filter( 'simcal_get_settings_pages', function( $setting_pages ) {
-				return array_merge( $setting_pages, array(
+			add_filter( 'simcal_get_admin_pages', function( $admin_pages ) {
+				return array_merge( $admin_pages, array(
 					'settings' => array(
 						'feeds',
 						'calendars',
@@ -94,14 +94,14 @@ class Objects {
 	}
 
 	/**
-	 * Get settings pages.
+	 * Get admin pages.
 	 *
 	 * @since  3.0.0
 	 *
 	 * @return array
 	 */
-	public function get_settings_pages() {
-		return apply_filters( 'simcal_get_settings_pages', array() );
+	public function get_admin_pages() {
+		return apply_filters( 'simcal_get_admin_pages', array() );
 	}
 
 	/**
@@ -241,10 +241,10 @@ class Objects {
 	 *
 	 * @param  string $name
 	 *
-	 * @return null|Object\Settings_Page
+	 * @return null|Object\Admin_Page
 	 */
-	public function get_settings_page( $name ) {
-		return $name ? $this->get_object( $name, 'settings-page' ) : null;
+	public function get_admin_page( $name ) {
+		return $name ? $this->get_object( $name, 'admin-page' ) : null;
 	}
 
 	/**
@@ -262,11 +262,11 @@ class Objects {
 	private function get_object( $name, $type, $args = '' ) {
 
 		$types = array(
+			'admin-page',
 			'calendar',
 			'calendar-view',
 			'feed',
 			'field',
-			'settings-page',
 		);
 
 		if ( in_array( $type, $types ) ) {
@@ -305,8 +305,8 @@ class Objects {
 			$namespace = '\\' . __NAMESPACE__ . '\Feeds\\';
 		} elseif ( 'field' == $type ) {
 			$namespace = '\\' . __NAMESPACE__ . '\Admin\Fields\\';
-		} elseif ( 'settings-page' == $type ) {
-			$namespace = '\\' . __NAMESPACE__ . '\Admin\Settings\\';
+		} elseif ( 'admin-page' == $type ) {
+			$namespace = '\\' . __NAMESPACE__ . '\Admin\Pages\\';
 		} else {
 			return '';
 		}

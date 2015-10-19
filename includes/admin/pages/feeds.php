@@ -4,10 +4,10 @@
  *
  * @package SimpleCalendar/Admin
  */
-namespace SimpleCalendar\Admin\Settings;
+namespace SimpleCalendar\Admin\Pages;
 
 use SimpleCalendar\Abstracts\Feed;
-use SimpleCalendar\Abstracts\Settings_Page;
+use SimpleCalendar\Abstracts\Admin_Page;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-class Feeds extends Settings_Page {
+class Feeds extends Admin_Page {
 
 	/**
 	 * Feed types.

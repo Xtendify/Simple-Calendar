@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-abstract class Settings_Page {
+abstract class Admin_Page {
 
 	/**
 	 * Settings page ID.
