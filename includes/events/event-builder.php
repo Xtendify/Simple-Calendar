@@ -397,7 +397,7 @@ class Event_Builder {
 				case 'if-first' :
 				case 'if-not-first' :
 					$events = $calendar->events;
-					$found  = array_search( $event->start, array_keys( $events ) );
+					$found  = array_key_exists( $event->start, $events );
 					if ( 'if-first' == $tag ) {
 						$case = $found === false ? false : true;
 					} else {
