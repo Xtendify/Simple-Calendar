@@ -397,9 +397,12 @@ class Event_Builder {
 				case 'if-first' :
 				case 'if-not-first' :
 					$events = $calendar->events;
-					$pos    = array_search( $event->start, array_keys( $events ) );
-					$case   = $tag == 'if-first' ? $pos === 0 : $pos !== 0;
-
+					$found  = array_search( $event->start, array_keys( $events ) );
+					if ( 'if-first' == $tag ) {
+						$case = $found === false ? false : true;
+					} else {
+						$case = $found === false ? true : false;
+					}
 					return $case ? $calendar->get_event_html( $event, $partial ) : '';
 
 				case 'if-all-day' :
