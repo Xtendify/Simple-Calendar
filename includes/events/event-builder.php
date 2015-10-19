@@ -140,9 +140,6 @@ class Event_Builder {
 			'if-end-time',           // If the event has a set end time.
 			'if-no-end-time',        // If the event has NOT a set end time.
 
-			'if-first',              // If the event is the first of the day.
-			'if-not-first',          // If the event is not the first of the day.
-
 			'if-multi-day',          // If the event spans multiple days.
 			'if-single-day',         // If the event does not span multiple days.
 
@@ -393,17 +390,6 @@ class Event_Builder {
 						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
-
-				case 'if-first' :
-				case 'if-not-first' :
-					$events = $calendar->events;
-					$found  = array_key_exists( $event->start, $events );
-					if ( 'if-first' == $tag ) {
-						$case = $found === false ? false : true;
-					} else {
-						$case = $found === false ? true : false;
-					}
-					return $case ? $calendar->get_event_html( $event, $partial ) : '';
 
 				case 'if-all-day' :
 				case 'if-whole-day' :
