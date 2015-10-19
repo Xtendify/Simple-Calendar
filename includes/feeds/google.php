@@ -207,7 +207,7 @@ class Google extends Feed {
 
 							$end = $end_utc = $end_timezone = '';
 							$span = 0;
-							if ( false !== $event->getEndTimeUnspecified() ) {
+							if ( false == $event->getEndTimeUnspecified() ) {
 
 								// Event end properties.
 								$end_timezone = ! $event->getEnd()->timeZone ? $calendar['timezone'] : $event->getEnd()->timeZone;

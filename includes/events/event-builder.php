@@ -676,9 +676,10 @@ class Event_Builder {
 	private function get_dt( $tag, Event $event, $attr ) {
 
 		$bound = 0 === strpos( $tag, 'end' ) ? 'end' : 'start';
-		if ( ( 'end' == $bound ) && ! $event->end ) {
+		if ( ( 'end' == $bound ) && ( false === $event->end ) ) {
 			return '';
 		}
+
 		$dt = $bound . '_dt';
 		if ( ! $event->$dt instanceof Carbon ) {
 			return '';
