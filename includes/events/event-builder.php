@@ -323,20 +323,19 @@ class Event_Builder {
 					$start_dt = $event->start_dt->setTimezone( $calendar->timezone );
 					$start = $start_dt->getTimestamp();
 
-					if ( false !== $event->end_utc ) {
-						$end = $event->end_dt->getTimestamp();
+					if ( $event->end_utc instanceof Carbon ) {
+						$end = $event->end_dt->setTimezone( $calendar->timezone )->getTimestamp();
 					} else {
-						$end = $start_dt->endOfDay()->subSeconds( 59 )->getTimestamp();
+						$end = clone $start_dt;
+						$end->endOfDay()->subSecond()->getTimestamp();
 					}
 
-					if ( 'if-now' == $tag ) {
-						if ( ( $start <= $calendar->now ) && ( $end > $calendar->now ) ) {
-							return $calendar->get_event_html( $event, $partial );
-						}
-					} elseif ( 'if-not-now' == $tag ) {
-						if ( $start > $calendar->now && $end <= $calendar->now ) {
-							return $calendar->get_event_html( $event, $partial );
-						}
+					$now = ( $start <= $calendar->now ) && ( $end >= $calendar->now );
+
+					if ( ( 'if-now' == $tag ) && $now ) {
+						return $calendar->get_event_html( $event, $partial );
+					} elseif ( ( 'if-not-now' == $tag ) && ( false == $now ) ) {
+						return $calendar->get_event_html( $event, $partial );
 					}
 
 					break;
@@ -402,30 +401,26 @@ class Event_Builder {
 					break;
 
 				case 'if-recurring' :
-					if ( false !== $event->recurrence ) {
+					if ( ! empty( $event->recurrence ) ) {
 						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
 
 				case 'if-not-recurring' :
-					if ( ! $event->recurrence ) {
+					if ( false === $event->recurrence ) {
 						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
 
 				case 'if-multi-day' :
-					if ( false !== $event->end ) {
-						if ( ( $event->start + $event->end ) > 86400 ) {
-							return $calendar->get_event_html( $event, $partial );
-						}
+					if ( false !== $event->multiple_days ) {
+						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
 
 				case 'if-single-day' :
-					if ( false !== $event->end ) {
-						if ( ( $event->start - $event->end ) <= 86400 ) {
-							return $calendar->get_event_html( $event, $partial );
-						}
+					if ( false === $event->multiple_days ) {
+						return $calendar->get_event_html( $event, $partial );
 					}
 					break;
 
