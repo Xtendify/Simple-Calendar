@@ -290,10 +290,10 @@ class Default_Calendar_Admin {
 								'name'    => '_default_calendar_style_theme',
 								'id'      => '_default_calendar_style_theme',
 								'value'   => $value,
-								'tooltip' => __( 'Choose a calendar theme to match your site theme.' ),
+								'tooltip' => __( 'Choose a calendar theme to match your site theme.', 'google-calendar-events' ),
 								'options' => array(
-									'light' => __( 'Light', 'google-events-calendar' ),
-									'dark' => __( 'Dark', 'google-events-calendar' )
+									'light' => __( 'Light', 'google-calendar-events' ),
+									'dark' => __( 'Dark', 'google-calendar-events' ),
 								),
 							) );
 

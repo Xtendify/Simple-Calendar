@@ -153,7 +153,7 @@ class Calendars extends Admin_Page {
 				$fields[ $section ][] = array(
 					'type'      => 'checkbox',
 					'title'     => __( 'Hide calendar styles options', 'google-calendar-events' ),
-					'tooltip'   => __( 'Do not show calendar styles options in individual calendars, use default settings when applicable.', 'google-calednar-events' ),
+					'tooltip'   => __( 'Do not show calendar styles options in individual calendars, use default settings when applicable.', 'google-calendar-events' ),
 					'name'      => 'simple-calendar_' . $this->option_group . '_' . $this->id . '[' . $section . '][hide_calendar_styles_options]',
 					'id'        => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-hide-calendar-styles-options',
 					'value'     => $this->get_option_value( $section, 'hide_calendar_styles_options' ),
