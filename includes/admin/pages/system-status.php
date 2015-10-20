@@ -68,23 +68,23 @@ class System_Status extends Admin_Page {
 			$panels   = array(
 				'wordpress' => array(
 					'label'  => __( 'WordPress Installation', 'google-calendar-events' ),
-					'export' => 'WordPress Installation'
+					'export' => 'WordPress Installation',
 				),
 				'theme'     => array(
 					'label'  => __( 'Active Theme', 'google-calendar-events' ),
-					'export' => 'Active Theme'
+					'export' => 'Active Theme',
 				),
 				'plugins'   => array(
 					'label'  => __( 'Active Plugins', 'google-calendar-events' ),
-					'export' => 'Active Plugins'
+					'export' => 'Active Plugins',
 				),
 				'server'    => array(
 					'label'  => __( 'Server Environment', 'google-calendar-events' ),
-					'export' => 'Server Environment'
+					'export' => 'Server Environment',
 				),
 				'client'    => array(
 					'label'  => __( 'Client Information', 'google-calendar-events' ),
-					'export' => 'Client Information'
+					'export' => 'Client Information',
 				)
 			);
 
@@ -125,7 +125,7 @@ class System_Status extends Admin_Page {
 				'name'          => array(
 					'label'  => __( 'Site Name', 'google-calendar-events' ),
 					'label_export' => 'Site Name',
-					'result' => get_bloginfo( 'name' )
+					'result' => get_bloginfo( 'name' ),
 				),
 				'home_url'      => array(
 					'label'  => __( 'Home URL', 'google-calendar-events' ),
@@ -162,12 +162,12 @@ class System_Status extends Admin_Page {
 					'label'  => __( 'Permalinks', 'google-calendar-events' ),
 					'label_export' => 'Permalinks',
 					'result' => '<code>' . $permalinks . '</code>',
-					'result_export' => $permalinks
+					'result_export' => $permalinks,
 				),
 				'memory_limit'  => array(
 					'label'  => 'WP Memory Limit',
 					'result' => $memory,
-					'result_export' => $memory_export
+					'result_export' => $memory_export,
 				),
 				'debug_mode'    => array(
 					'label'  => 'WP Debug Mode',
@@ -204,7 +204,7 @@ class System_Status extends Admin_Page {
 
 			$api = themes_api( 'theme_information', array(
 				'slug'   => get_template(),
-				'fields' => array( 'sections' => false, 'tags' => false )
+				'fields' => array( 'sections' => false, 'tags' => false ),
 			) );
 			if ( $api && ! is_wp_error( $api ) ) {
 				$theme_update_version = $api->version;
@@ -254,19 +254,19 @@ class System_Status extends Admin_Page {
 					'label'  => __( 'Theme Information', 'google-calendar-events' ),
 					'label_export' => 'Theme',
 					'result' => $theme,
-					'result_export' => $theme_export
+					'result_export' => $theme_export,
 				),
 				'theme_child'   => array(
 					'label'  => __( 'Child Theme', 'google-calendar-events' ),
 					'label_export' => 'Child Theme',
 					'result' => $is_child_theme ? __( 'Yes', 'google-calendar-events' ) : __( 'No', 'google-calendar-events' ),
-					'result_export' => $is_child_theme ? 'Yes' : 'No'
+					'result_export' => $is_child_theme ? 'Yes' : 'No',
 				),
 				'theme_parent'   => array(
 					'label'  => __( 'Parent Theme', 'google-calendar-events' ),
 					'label_export' => 'Parent Theme',
 					'result' => $parent_theme,
-					'result_export' => $parent_theme_export
+					'result_export' => $parent_theme_export,
 				),
 			);
 
@@ -298,7 +298,7 @@ class System_Status extends Admin_Page {
 							'slug'   => $plugin_data['Name'],
 							'fields' => array(
 								'version' => true,
-							)
+							),
 						) );
 						if ( $api && ! is_wp_error( $api ) ) {
 							if ( ! empty( $api->version ) ) {
@@ -323,7 +323,7 @@ class System_Status extends Admin_Page {
 						'label'  => $plugin_name,
 						'label_export' => strip_tags( $plugin_data['Title'] ),
 						'result' => $plugin,
-						'result_export' => $plugin_data['Version']
+						'result_export' => $plugin_data['Version'],
 					);
 				}
 			}
@@ -367,8 +367,8 @@ class System_Status extends Admin_Page {
 			$response = wp_safe_remote_post( 'https://www.paypal.com/cgi-bin/webscr', array(
 				'timeout'    => 60,
 				'body'       => array(
-					'cmd'    => '_notify-validate'
-				)
+					'cmd'    => '_notify-validate',
+				),
 			) );
 			if ( ! is_wp_error( $response ) && $response['response']['code'] >= 200 && $response['response']['code'] < 300 ) {
 				$wp_post_export = 'Yes';
@@ -418,35 +418,35 @@ class System_Status extends Admin_Page {
 				'host'                => array(
 					'label'  => __( 'Web Server', 'google-calendar-events' ),
 					'label_export' => 'Web Server',
-					'result' => $host
+					'result' => $host,
 				),
 				'php_version'         => array(
 					'label'  => __( 'PHP Version', 'google-calendar-events' ),
 					'label_export' => 'PHP Version',
 					'result' => $php,
-					'result_export' => PHP_VERSION
+					'result_export' => PHP_VERSION,
 				),
 				'mysql_version'       => array(
 					'label'  => __( 'MySQL Version', 'google-calendar-events' ),
 					'label_export' => 'MySQL Version',
 					'result' => version_compare( $mysql, '5.5', '>' ) ? '<mark class="ok">' . $mysql . '</mark>' : $mysql,
-					'result_export' => $mysql
+					'result_export' => $mysql,
 				),
 				'server_timezone'     => array(
 					'label'  => __( 'Server Timezone', 'google-calendar-events' ),
 					'label_export' => 'Server Timezone',
 					'result' => $server_timezone,
-					'result_export' => $server_timezone_export
+					'result_export' => $server_timezone_export,
 				),
 				'display_errors'      => array(
 					'label'  => 'Display Errors',
 					'result' => ( ini_get( 'display_errors' ) ) ? __( 'Yes', 'google-calendar-events' ) . ' (' . ini_get( 'display_errors' ) . ')' : '-',
-					'result_export' => ( ini_get( 'display_errors' ) ) ? 'Yes' : 'No'
+					'result_export' => ( ini_get( 'display_errors' ) ) ? 'Yes' : 'No',
 				),
 				'php_safe_mode'       => array(
 					'label'  => 'Safe Mode',
 					'result' => ( ini_get( 'safe_mode' ) ) ? __( 'Yes', 'google-calendar-events' ) : __( 'No', 'google-calendar-events' ),
-					'result_export' => ( ini_get( 'safe_mode' ) ) ? 'Yes' : 'No'
+					'result_export' => ( ini_get( 'safe_mode' ) ) ? 'Yes' : 'No',
 				),
 				'php_memory_limit'    => array(
 					'label'  => 'Memory Limit',
@@ -454,49 +454,49 @@ class System_Status extends Admin_Page {
 				),
 				'upload_max_filesize' => array(
 					'label'  => 'Upload Max Filesize',
-					'result' => $php_max_upload_filesize ? $php_max_upload_filesize : '-'
+					'result' => $php_max_upload_filesize ? $php_max_upload_filesize : '-',
 				),
 				'post_max_size'       => array(
 					'label'  => 'Post Max Size',
-					'result' => $php_post_max_size ? $php_post_max_size : '-'
+					'result' => $php_post_max_size ? $php_post_max_size : '-',
 				),
 				'max_execution_time'  => array(
 					'label'  => 'Max Execution Time',
-					'result' => $php_max_execution_time ? $php_max_execution_time : '-'
+					'result' => $php_max_execution_time ? $php_max_execution_time : '-',
 				),
 				'max_input_vars'      => array(
 					'label'  => 'Max Input Vars',
-					'result' => $php_max_input_vars ? $php_max_input_vars : '-'
+					'result' => $php_max_input_vars ? $php_max_input_vars : '-',
 				),
 				'fsockopen'           => array(
 					'label'  => 'fsockopen',
 					'result' => function_exists( 'fsockopen' ) ? __( 'Yes', 'google-calendar-events' ) : __( 'No', 'google-calendar-events' ),
-					'result_export' => function_exists( 'fsockopen' ) ? 'Yes' : 'No'
+					'result_export' => function_exists( 'fsockopen' ) ? 'Yes' : 'No',
 				),
 				'curl_init'           => array(
 					'label'  => 'cURL',
 					'result' => function_exists( 'curl_init' ) ? __( 'Yes', 'google-calendar-events' ) : __( 'No', 'google-calendar-events' ),
-					'result_export' => function_exists( 'curl_init' ) ? 'Yes' : 'No'
+					'result_export' => function_exists( 'curl_init' ) ? 'Yes' : 'No',
 				),
 				'soap'                => array(
 					'label'  => 'SOAP',
 					'result' => class_exists( 'SoapClient' ) ? __( 'Yes', 'google-calendar-events' ) : __( 'No', 'google-calendar-events' ),
-					'result_export' => class_exists( 'SoapClient' ) ? 'Yes' : 'No'
+					'result_export' => class_exists( 'SoapClient' ) ? 'Yes' : 'No',
 				),
 				'suhosin'             => array(
 					'label'  => 'SUHOSIN',
 					'result' => extension_loaded( 'suhosin' ) ? __( 'Yes', 'google-calendar-events' ) : __( 'No', 'google-calendar-events' ),
-					'result_export' => extension_loaded( 'suhosin' ) ? 'Yes' : 'No'
+					'result_export' => extension_loaded( 'suhosin' ) ? 'Yes' : 'No',
 				),
 				'wp_remote_post'      => array(
 					'label'  => 'WP Remote POST',
 					'result' => $wp_post,
-					'result_export' => $wp_post_export
+					'result_export' => $wp_post_export,
 				),
 				'wp_remote_get'       => array(
 					'label'  => 'WP Remote GET',
 					'result' => $wp_get,
-					'result_export' => $wp_get_export
+					'result_export' => $wp_get_export,
 				),
 			);
 
@@ -524,12 +524,12 @@ class System_Status extends Admin_Page {
 				'user_ip' => array(
 					'label'  => __( 'IP Address', 'google-calendar-events' ),
 					'label_export' => 'IP Address',
-					'result' => $_SERVER['SERVER_ADDR']
+					'result' => $_SERVER['SERVER_ADDR'],
 				),
 				'browser' => array(
 					'label'  => __( 'Browser', 'google-calendar-events' ),
 					'result' => $browser,
-					'result_export' => $browser_export
+					'result_export' => $browser_export,
 				)
 			);
 
