@@ -326,8 +326,7 @@ class Event_Builder {
 					if ( $event->end_utc instanceof Carbon ) {
 						$end = $event->end_dt->setTimezone( $calendar->timezone )->getTimestamp();
 					} else {
-						$end = clone $start_dt;
-						$end->endOfDay()->subSecond()->getTimestamp();
+						return '';
 					}
 
 					$now = ( $start <= $calendar->now ) && ( $end >= $calendar->now );
