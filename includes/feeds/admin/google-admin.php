@@ -124,8 +124,8 @@ class Google_Admin {
 		if ( empty( $api_key ) ) {
 			$has_errors = true;
 			$message = '<p class="description">' .
-			           sprintf( __( 'Please enter a valid Google API Key (<a href="%s" target="_blank">see documentation</a>). ', 'google-calendar-events' ),
-				           '//wpdocs.philderksen.com/google-calendar-events/getting-started/api-key-settings/'
+			           sprintf( __( 'Please enter your Google API Key. <a href="%s" target="_blank">Detailed instructions</a> ', 'google-calendar-events' ),
+				           simcal_ga_campaign_url( \SimpleCalendar\plugin()->get_url( 'docs' ) . '/google-api-key/', 'core-plugin', 'settings-link' )
 			           ) .
 			           '</p>';
 		}
@@ -256,10 +256,10 @@ class Google_Admin {
 
 			$message .= '<p class="description">' .
 			            sprintf(
-				            __( '1. Set the Google Calendar you want to use as "public" (<a href="%1s" target="_blank">see documentation</a>).', 'google-calendar-events' ) . '<br />' .
-				            __( '2. Find and paste in the field above your Google Calendar ID (<a href="%2s" target="_blank">see documentation</a>).', 'google-calendar-events' ),
-				            '//wpdocs.philderksen.com/google-calendar-events/getting-started/set-calendar-public/',
-				            '//wpdocs.philderksen.com/google-calendar-events/getting-started/find-calendar-id/'
+				            __( '1. Set the Google Calendar you want to use as "public." <a href="%1s" target="_blank">Detailed instructions</a>', 'google-calendar-events' ) . '<br />' .
+				            __( '2. Copy and paste your Google Calendar ID here. <a href="%2s" target="_blank">Detailed instructions</a>', 'google-calendar-events' ),
+				            simcal_ga_campaign_url( \SimpleCalendar\plugin()->get_url( 'docs' ) . '/make-your-google-calendar-public/', 'core-plugin', 'settings-link' ),
+				            simcal_ga_campaign_url( \SimpleCalendar\plugin()->get_url( 'docs' ) . '/find-your-google-calendar-id/', 'core-plugin', 'settings-link' )
 			            ) . '</p>';
 
 		} elseif ( $post_id > 0 && ! is_null( $feed ) && ! empty( $this->feed->type ) ) {

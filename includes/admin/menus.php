@@ -145,8 +145,10 @@ class Menus {
 
 			$links = array();
 			$links['github']         = '<a href="' . \SimpleCalendar\plugin()->get_url( 'github' ) . '" target="_blank" >GitHub</a>';
-			$links['documentation']  = '<a href="' . \SimpleCalendar\plugin()->get_url( 'docs' ) . '" target="_blank" >' . __( 'Documentation', 'google-calendar-events' ) . '</a>';
-			$links['support']        = '<a href="' . \SimpleCalendar\plugin()->get_url( 'support' ) . '" target="_blank" >' . __( 'Support', 'google-calendar-events' ) . '</a>';
+			$links['documentation']  = '<a href="' . simcal_ga_campaign_url( \SimpleCalendar\plugin()->get_url( 'docs' ), 'core-plugin', 'plugin-listing' ) .
+			                           '" target="_blank" >' . __( 'Documentation', 'google-calendar-events' ) . '</a>';
+			$links['support']        = '<a href="' . \SimpleCalendar\plugin()->get_url( 'support' ) . '" target="_blank" >' .
+			                           __( 'Support', 'google-calendar-events' ) . '</a>';
 
 			return apply_filters( 'simcal_plugin_action_links', array_merge( $meta_links, $links ) );
 		}
