@@ -69,7 +69,8 @@ class Welcome {
 
 			case 'simple-calendar_credits' :
 				$page = add_dashboard_page(
-					$welcome_page_title, $welcome_page_name,
+					$welcome_page_title,
+					$welcome_page_name,
 					'manage_options',
 					'simple-calendar_credits',
 					array( $this, 'credits_screen' )
@@ -264,8 +265,8 @@ class Welcome {
 					<?php
 
 					printf(
-						__( 'Simple Calendar has been kindly translated into several other languages by contributors from all over the World. Want to see your name? <a href="%s">Translate Simple Calendar</a>.', 'google-calendar-events' ),
-						'https://www.transifex.com/moonstonemedia/simple-calendar/'
+						__( 'Simple Calendar has been kindly translated into several other languages by contributors from all over the World. <a href="%s">Translate Simple Calendar</a>.', 'google-calendar-events' ),
+						'https://translate.wordpress.org/projects/wp-plugins/google-calendar-events'
 					);
 
 					?>

@@ -878,16 +878,16 @@
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "3.0.2",
+            "version": "3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "3324b035ed1822df22b2c99f2ae22547085eb7a8"
+                "reference": "382c729a52b7ef682e94c73fd6868f5ee8116ba7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/3324b035ed1822df22b2c99f2ae22547085eb7a8",
-                "reference": "3324b035ed1822df22b2c99f2ae22547085eb7a8",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/382c729a52b7ef682e94c73fd6868f5ee8116ba7",
+                "reference": "382c729a52b7ef682e94c73fd6868f5ee8116ba7",
                 "shasum": ""
             },
             "require": {
@@ -930,7 +930,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2015-10-16 12:26:30"
+            "time": "2015-10-18 07:55:54"
         },
         {
             "name": "sebastian/comparator",
