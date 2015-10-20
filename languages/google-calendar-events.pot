@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Simple Calendar package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Simple Calendar 3.0.0-beta1\n"
+"Project-Id-Version: Simple Calendar 3.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://github.com/moonstonemedia/Simple-Calendar/issues\n"
 "POT-Creation-Date: 2015-10-01 17:17:03+00:00\n"
