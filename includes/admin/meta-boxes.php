@@ -85,7 +85,8 @@ class Meta_Boxes {
 			'core'
 		);
 
-		if ( true === apply_filters( 'simcal_show_newsletter_metabox', true ) ) {
+		$addons = apply_filters( 'simcal_installed_addons', array() );
+		if ( ! empty( $addons ) ) {
 
 			add_meta_box(
 				'simcal-newsletter',
