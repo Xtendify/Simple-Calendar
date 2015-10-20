@@ -168,9 +168,6 @@ class Welcome {
 			<a href="<?php echo \SimpleCalendar\plugin()->get_url( 'docs' ); ?>"
 			   class="docs button button-primary" target="_blank"
 				><?php _e( 'Docs', 'google-calendar-events' ); ?></a>
-			<a href="<?php echo \SimpleCalendar\plugin()->get_url( 'newsletter' ); ?>"
-			   class="docs button button-primary" target="_blank"
-				><?php _e( 'Announcements', 'google-calendar-events' ); ?></a>
 		</p>
 
 		<h2 class="nav-tab-wrapper">
