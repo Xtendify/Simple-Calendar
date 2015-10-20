@@ -198,19 +198,22 @@ class Menus {
 	 */
 	public function admin_footer_text( $footer_text ) {
 
-		// Check to make sure we're on a WooCommerce admin page
+		// Check to make sure we're on a SimpleCal admin page
 		$screen = simcal_is_admin_screen();
 		if ( $screen !== false ) {
 
 			if ( 'calendar' == $screen ) {
 
-				// Add newsletter signup form (@see Newsletter meta box).
+				// Add Drip promo signup form (@see Newsletter meta box).
+
+				$drip_form_id = '9817628';
+
 				?>
 				<form id="simcal-drip-form"
 				      method="post"
 				      target="_blank"
-				      action="https://www.getdrip.com/forms/9434542/submissions/"
-				      data-drip-embedded-form="9434542">
+				      action="https://www.getdrip.com/forms/<?php echo $drip_form_id; ?>/submissions/"
+				      data-drip-embedded-form="<?php echo $drip_form_id; ?>">
 					<input type="hidden"
 					       id="simcal-drip-real-field-first_name"
 					       name="fields[first_name]"

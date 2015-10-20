@@ -37,7 +37,10 @@ class Newsletter implements Meta_Box {
 		<div id="simcal-drip">
 			<div class="signup">
 				<p>
-					<?php _e( 'Get notified by email of important updates and major releases.', 'google-calendar-events' ); ?>
+					<?php _e( 'Need to do more with Google Calendar?', 'google-calendar-events' ); ?>
+				</p>
+				<p>
+					<?php _e( "Enter your name and email and we'll send you a coupon code for 20% off our GCal Pro add-on.", 'google-calendar-events' ); ?>
 				</p>
 				<p>
 					<label for="simcal-drip-field-email"><?php _e( 'Your Email', 'google-calendar-events' ); ?></label><br/>

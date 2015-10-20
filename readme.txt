@@ -20,11 +20,11 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 * Display events from any public Google Calendar.
 * Keep managing events in Google Calendar. No need to create events in WordPress.
 * Out-of-the-box designs that match your theme’s look and feel.
-* Fully responsive monthly grid and list views.
+* Fully responsive and mobile-friendly monthly grid and list views.
 * Customize event content display using simple tags. No coding required.
 * Combine multiple calendars into single displays explicitly or using categories.
 * Intuitive admin settings for simple configuration changes.
-* Advanced settings to adjust time zones, date and time formats, start of the week.
+* Advanced settings to adjust time zones, date/time formats and start of the week.
 * Many translations available with more being added on a regular basis. [Translations welcome!](https://wordpress.org/support/topic/translating-this-plugin-in-your-language)
 * Fully extensible to support add-ons with advanced features and specific functionality.
 * Open source with code hosted on GitHub. [Contributions welcome!](https://github.com/moonstonemedia/Simple-Calendar)
@@ -75,7 +75,7 @@ We'd love your help! Here's a few things you can do:
 
 = 3.0.0 - ________ __, 2015 =
 * Announcement: Plugin renamed to Simple Calendar.
-* Announcement: Visit our new website at [simplecalendar.io](https://simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)!
+* Announcement: Visit our new website at [simplecalendar.io](https://simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=changelog)!
 * Feature: Modular and extensible plugin, add-ons ready.
 * Feature: Reworked default calendar views, now fully responsive (and titles in grid).
 * Feature: Completely redesigned the admin user interface.

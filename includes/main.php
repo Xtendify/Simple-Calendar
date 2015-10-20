@@ -240,8 +240,12 @@ final class Plugin {
 				return 'http://docs.simplecalendar.io';
 			case 'github' :
 				return 'https://github.com/moonstonemedia/Simple-Calendar';
+			/*
 			case 'newsletter' :
 				return 'https://www.getdrip.com/forms/9434542/submissions/new';
+			case 'gcal-promo' :
+				return 'https://www.getdrip.com/forms/9817628/submissions/new';
+			*/
 			case 'support' :
 				return 'https://wordpress.org/support/plugin/google-calendar-events';
 			default :
