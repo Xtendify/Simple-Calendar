@@ -328,7 +328,9 @@ class Event_Builder {
 					} else {
 						return '';
 					}
-					
+
+					$now = ( $start <= $calendar->now ) && ( $end >= $calendar->now );
+
 					if ( ( 'if-now' == $tag ) && $now ) {
 						return $calendar->get_event_html( $event, $partial );
 					} elseif ( ( 'if-not-now' == $tag ) && ( false == $now ) ) {
