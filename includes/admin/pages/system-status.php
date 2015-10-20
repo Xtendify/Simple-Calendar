@@ -572,10 +572,7 @@ class System_Status extends Admin_Page {
 
 			endforeach;
 
-			do_action( 'simcal_system_status_report' );
-
 			$this->inline_scripts();
-
 		}
 
 	}
