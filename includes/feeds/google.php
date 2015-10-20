@@ -238,6 +238,10 @@ class Google extends Feed {
 
 							// Recurring event.
 							$recurrence = $event->getRecurrence();
+							$recurring_id = $event->getRecurringEventId();
+							if ( ! $recurrence && $recurring_id ) {
+								$recurrence = true;
+							}
 
 							// Build the event.
 							$calendar['events'][ intval( $start ) ][] = array(
@@ -260,7 +264,7 @@ class Google extends Feed {
 								'end_location'   => $end_location,
 								'whole_day'      => $whole_day,
 								'multiple_days'  => $multiple_days,
-								'recurrence'     => $recurrence ? $recurrence : false,
+								'recurrence'     => $recurrence,
 								'template'       => $this->events_template,
 							);
 

@@ -335,7 +335,7 @@ class Event {
 
 		// Event recurrence.
 		if ( isset( $event['recurrence'] ) ) {
-			$this->recurrence = is_array( $event['recurrence'] ) ? array_map( 'esc_attr', $event['recurrence'] ) : false;
+			$this->recurrence = ! empty( $event['recurrence'] ) ? $event['recurrence'] : false;
 		}
 
 		/* ========== *
