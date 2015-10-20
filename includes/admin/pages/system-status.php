@@ -574,66 +574,80 @@ class System_Status extends Admin_Page {
 
 			do_action( 'simcal_system_status_report' );
 
-			?>
-			<script type="text/javascript">
-
-				var report = '';
-
-				jQuery( '.simcal-system-status-report-panel thead, .simcal-system-status-report-panel tbody' ).each( function() {
-
-					if ( jQuery( this ).is( 'thead' ) ) {
-
-						var label = jQuery( this ).find( 'th' ).data( 'export' );
-						report = report + '\n### ' + jQuery.trim( label ) + ' ###\n\n';
-
-					} else {
-
-						jQuery( 'tr', jQuery( this ) ).each( function() {
-
-							var label       = jQuery( this ).find( 'td:eq(1)' ).data( 'export' );
-							var the_name    = jQuery.trim( label ).replace( /(<([^>]+)>)/ig, '' ); // Remove HTML
-							var image       = jQuery( this ).find( 'td:eq(2)' ).find( 'img' ); // Get WP 4.2 emojis
-							var prefix      = ( undefined === image.attr( 'alt' ) ) ? '' : image.attr( 'alt' ) + ' '; // Remove WP 4.2 emojis
-							var the_value   = jQuery.trim( prefix + jQuery( this ).find( 'td:eq(2)' ).data( 'export' ) );
-							var value_array = the_value.split( ', ' );
-							if ( value_array.length > 1 ) {
-								var temp_line ='';
-								jQuery.each( value_array, function( key, line ) {
-									temp_line = temp_line + line + '\n';
-								});
-								the_value = temp_line;
-							}
-
-							report = report + '' + the_name.trim() + ': ' + the_value.trim() + '\n';
-						});
-
-					}
-
-				});
-
-				try {
-					jQuery( '#simcal-system-status-report textarea' ).val( report ).focus().select();
-				} catch( e ){
-					console.log( e );
-				}
-
-				function downloadReport( text, name, type ) {
-					var a = document.getElementById( 'simcal-system-status-report-download' );
-					var file = new Blob( [text], { type: type } );
-					a.href = URL.createObjectURL(file);
-					a.download = name;
-				}
-
-				jQuery( '#simcal-system-status-report-download' ).on( 'click', function() {
-					var file = new Blob( [ report ], { type: 'text/plain' } );
-					jQuery( this ).attr( 'href', URL.createObjectURL( file ) );
-					jQuery( this ).attr( 'download', '<?php echo sanitize_title( str_replace( array( 'http://', 'https://' ), '', get_bloginfo( 'url' ) ) . '-system-report-' . date( 'Y-m-d', time() ) ); ?>' );
-				} );
-
-			</script>
-			<?php
+			$this->inline_scripts();
 
 		}
+
+	}
+
+	/**
+	 * Print inline scripts.
+	 *
+	 * @since  3.0.0
+	 * @access private
+	 *
+	 * @return void
+	 */
+	private function inline_scripts() {
+
+		?>
+		<script type="text/javascript">
+
+			var report = '';
+
+			jQuery( '.simcal-system-status-report-panel thead, .simcal-system-status-report-panel tbody' ).each( function() {
+
+				if ( jQuery( this ).is( 'thead' ) ) {
+
+					var label = jQuery( this ).find( 'th' ).data( 'export' );
+					report = report + '\n### ' + jQuery.trim( label ) + ' ###\n\n';
+
+				} else {
+
+					jQuery( 'tr', jQuery( this ) ).each( function() {
+
+						var label       = jQuery( this ).find( 'td:eq(1)' ).data( 'export' );
+						var the_name    = jQuery.trim( label ).replace( /(<([^>]+)>)/ig, '' ); // Remove HTML
+						var image       = jQuery( this ).find( 'td:eq(2)' ).find( 'img' ); // Get WP 4.2 emojis
+						var prefix      = ( undefined === image.attr( 'alt' ) ) ? '' : image.attr( 'alt' ) + ' '; // Remove WP 4.2 emojis
+						var the_value   = jQuery.trim( prefix + jQuery( this ).find( 'td:eq(2)' ).data( 'export' ) );
+						var value_array = the_value.split( ', ' );
+						if ( value_array.length > 1 ) {
+							var temp_line ='';
+							jQuery.each( value_array, function( key, line ) {
+								temp_line = temp_line + line + '\n';
+							});
+							the_value = temp_line;
+						}
+
+						report = report + '' + the_name.trim() + ': ' + the_value.trim() + '\n';
+					});
+
+				}
+
+			});
+
+			try {
+				jQuery( '#simcal-system-status-report textarea' ).val( report ).focus().select();
+			} catch( e ){
+				console.log( e );
+			}
+
+			function downloadReport( text, name, type ) {
+				var a = document.getElementById( 'simcal-system-status-report-download' );
+				var file = new Blob( [text], { type: type } );
+				a.href = URL.createObjectURL(file);
+				a.download = name;
+			}
+
+			jQuery( '#simcal-system-status-report-download' ).on( 'click', function() {
+				var file = new Blob( [ report ], { type: 'text/plain' } );
+				jQuery( this ).attr( 'href', URL.createObjectURL( file ) );
+				jQuery( this ).attr( 'download', '<?php echo sanitize_title( str_replace( array( 'http://', 'https://' ), '', get_bloginfo( 'url' ) ) . '-system-report-' . date( 'Y-m-d', time() ) ); ?>' );
+			} );
+
+		</script>
+		<?php
 
 	}
 
