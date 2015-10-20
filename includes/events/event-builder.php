@@ -323,14 +323,12 @@ class Event_Builder {
 					$start_dt = $event->start_dt->setTimezone( $calendar->timezone );
 					$start = $start_dt->getTimestamp();
 
-					if ( $event->end_utc instanceof Carbon ) {
+					if ( $event->end_dt instanceof Carbon ) {
 						$end = $event->end_dt->setTimezone( $calendar->timezone )->getTimestamp();
 					} else {
 						return '';
 					}
-
-					$now = ( $start <= $calendar->now ) && ( $end >= $calendar->now );
-
+					
 					if ( ( 'if-now' == $tag ) && $now ) {
 						return $calendar->get_event_html( $event, $partial );
 					} elseif ( ( 'if-not-now' == $tag ) && ( false == $now ) ) {
