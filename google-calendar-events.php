@@ -32,7 +32,7 @@ if ( version_compare( PHP_VERSION, '5.3.0' ) === -1 ) {
 $this_plugin_path = trailingslashit( dirname( __FILE__ ) );
 $this_plugin_dir  = plugin_dir_url( __FILE__ );
 $this_plugin_constants = array(
-	'SIMPLE_CALENDAR_VERSION'   => '3.0.0-beta2',
+	'SIMPLE_CALENDAR_VERSION'   => '3.0.0',
 	'SIMPLE_CALENDAR_MAIN_FILE' => __FILE__,
 	'SIMPLE_CALENDAR_URL'       => $this_plugin_dir,
 	'SIMPLE_CALENDAR_ASSETS'    => $this_plugin_dir  . 'assets/',
