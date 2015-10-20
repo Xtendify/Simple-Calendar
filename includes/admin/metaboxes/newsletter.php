@@ -37,10 +37,7 @@ class Newsletter implements Meta_Box {
 		<div id="simcal-drip">
 			<div class="signup">
 				<p>
-					<?php _e( 'Need to do more with Google Calendar?', 'google-calendar-events' ); ?>
-				</p>
-				<p>
-					<?php _e( "Enter your name and email and we'll send you a coupon code for 20% off our GCal Pro add-on.", 'google-calendar-events' ); ?>
+					<?php _e( "Enter your name and email and we'll send you a coupon code for 20% off our Google Calendar Pro add-on.", 'google-calendar-events' ); ?>
 				</p>
 				<p>
 					<label for="simcal-drip-field-email"><?php _e( 'Your Email', 'google-calendar-events' ); ?></label><br/>
@@ -58,7 +55,7 @@ class Newsletter implements Meta_Box {
 				</p>
 				<a href="#"
 				   id="simcal-drip-signup"
-				   class="right button button-primary"><?php _e( 'Keep Me in the Loop', 'google-calendar-events' ); ?></a>
+				   class="right button button-primary"><?php _e( 'Send me the coupon', 'google-calendar-events' ); ?></a>
 			</div>
 			<div class="thank-you" style="display: none;">
 				<?php _e( 'Thank you!', 'google-calendar-events' ); ?>
