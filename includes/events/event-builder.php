@@ -504,14 +504,19 @@ class Event_Builder {
 		}
 
 		$attr = array_merge( array(
+			'html'  => '',  // Parse HTML
 			'limit' => 0,   // Trim length to amount of words
 		), (array) shortcode_parse_atts( $attr ) );
 
-		$text  = ' <span class="simcal-event-title" itemprop="name">';
-		$text .= $this->limit_words( $title, $attr['limit'] );
-		$text .= '</span>';
+		if ( $attr['html'] ) {
+			$title = wp_kses_post( $title );
+			$tag = 'div';
+		} else {
+			$title = $this->limit_words( $title, $attr['limit'] );
+			$tag = 'span';
+		}
 
-		return $text;
+		return '<' . $tag . ' class="simcal-event-title" itemprop="name">' . $title . '</' . $tag . '>';
 	}
 
 	/**
@@ -670,7 +675,7 @@ class Event_Builder {
 		$event_dt = $event->$dt->setTimezone( $event->timezone );
 
 		$attr = array_merge( array(
-			'format' => '',
+			'format'    => '',
 		), (array) shortcode_parse_atts( $attr ) );
 
 		$format = ltrim( strstr( $tag, '-' ), '-' );

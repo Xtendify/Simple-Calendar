@@ -266,7 +266,7 @@ class Event {
 
 		// Event title.
 		if ( ! empty( $event['title'] ) ) {
-			$this->title = esc_attr( $event['title'] );
+			$this->title = esc_html( $event['title'] );
 		}
 
 		// Event description.
