@@ -206,7 +206,7 @@ class Post_Types {
 
 		if ( 'edit-calendar' == $screen ) {
 			add_action( 'in_admin_footer', function() {
-				
+
 			} );
 		}
 	}
