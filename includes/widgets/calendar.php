@@ -211,9 +211,10 @@ class Calendar extends \WP_Widget implements Widget {
 			<p>
 				<label for="<?php echo $this->get_field_id( 'calendar_id' ); ?>"><?php _e( 'Calendar:', 'google-calendar-events' ); ?></label>
 				<br>
+				<?php $multiselect = count( $this->calendars ) > 15 ? ' simcal-field-select-enhanced' : ''; ?>
 				<select name="<?php echo $this->get_field_name( 'calendar_id' ) ?>"
 				        id="<?php echo $this->get_field_id( 'calendar_id' ) ?>"
-						class="simcal-field simcal-field-select simcal-field-select-enhanced"
+						class="simcal-field simcal-field-select<?php echo $multiselect; ?>"
 						data-noresults="<?php __( 'No calendars found.', 'google-calendar-events' ); ?>">
 						<?php foreach ( $this->calendars as $id => $name ) : ?>
 							<option value="<?php echo $id; ?>" <?php selected( $id, $calendar_id, true ); ?>><?php echo $name; ?></option>

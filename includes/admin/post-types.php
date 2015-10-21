@@ -310,9 +310,10 @@ class Post_Types {
 				<?php _e( 'Add a calendar to your post.', 'google-calendar-events' ); ?>
 				<?php if ( ! empty( $calendars ) ) : ?>
 					<p>
+						<?php $multiselect = count( $this->calendars ) > 15 ? ' simcal-field-select-enhanced' : ''; ?>
 						<label for="simcal-choose-calendar">
 							<select id="simcal-choose-calendar"
-							        class="simcal-field simcal-field-select simcal-field-select-enhanced"
+							        class="simcal-field simcal-field-select<?php echo $multiselect; ?>"
 							        name="">
 								<?php foreach ( $calendars as $id => $title ) : ?>
 									<option value="<?php echo $id ?>"><?php echo $title ?></option>

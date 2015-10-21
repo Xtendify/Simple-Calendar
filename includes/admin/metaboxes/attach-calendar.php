@@ -33,14 +33,16 @@ class Attach_Calendar implements Meta_Box {
 		// @see Meta_Boxes::save_meta_boxes()
 		wp_nonce_field( 'simcal_save_data', 'simcal_meta_nonce' );
 
+		$calendars = simcal_get_calendars();
+
 		simcal_print_field( array(
 			'type'       => 'select',
 			'id'         => '_simcal_attach_calendar_id',
 			'name'       => '_simcal_attach_calendar_id',
-			'enhanced'   => 'enhanced',
+			'enhanced'   => count( $calendars ) > 15 ? 'enhanced' : '',
 			'allow_void' => 'allow_void',
 			'value'      => absint( get_post_meta( $post->ID, '_simcal_attach_calendar_id', true ) ),
-			'options'    => simcal_get_calendars(),
+			'options'    => $calendars,
 			'attributes' => array(
 				'data-allowclear' => 'true',
 			)
