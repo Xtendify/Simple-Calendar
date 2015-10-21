@@ -204,9 +204,9 @@ class Post_Types {
 
 		$screen = simcal_is_admin_screen();
 
-		if( 'edit-calendar' == $screen ) {
+		if ( 'edit-calendar' == $screen ) {
 			add_action( 'in_admin_footer', function() {
-				echo '<div><p>Get Google Calendar Pro!</p></div>';
+				
 			} );
 		}
 	}
