@@ -508,7 +508,7 @@ class Event_Builder {
 			'limit' => 0,   // Trim length to amount of words
 		), (array) shortcode_parse_atts( $attr ) );
 
-		if ( $attr['html'] ) {
+		if ( ! empty( $attr['html'] ) ) {
 			$title = wp_kses_post( $title );
 			$tag = 'div';
 		} else {
