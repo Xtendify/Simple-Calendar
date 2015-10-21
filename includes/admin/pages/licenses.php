@@ -81,8 +81,6 @@ class Licenses extends Admin_Page {
 
 					foreach ( $addons as $addon_id => $addon_name ) {
 
-						$addon_id = strval( $addon_id );
-
 						$fields[ $section ][ $addon_id ] = array(
 							'type'      => 'license',
 							'addon'     => $addon_id,
