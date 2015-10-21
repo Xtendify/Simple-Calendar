@@ -105,7 +105,7 @@ class Ajax {
 
 		$status = simcal_get_license_status();
 		// Converts edd_{id_no} to {id_no}.
-		$id = intval( strpos( $addon, 0, 4 ) );
+		$id = intval( substr( $addon, 7 ) );
 
 		// Data to send in API request.
 		$api_request = array(
