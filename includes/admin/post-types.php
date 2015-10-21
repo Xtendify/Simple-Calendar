@@ -308,10 +308,10 @@ class Post_Types {
 			<div class="simcal-insert-shortcode-panel">
 				<h1><?php _e( 'Add Calendar', 'google-calendar-events' ); ?></h1>
 				<?php _e( 'Add a calendar to your post.', 'google-calendar-events' ); ?>
-				<?php if ( ! empty( $calendars ) ) : ?>
+				<?php if ( ! empty( $calendars ) && is_array( $calendars ) ) : ?>
 					<p>
-						<?php $multiselect = count( $this->calendars ) > 15 ? ' simcal-field-select-enhanced' : ''; ?>
 						<label for="simcal-choose-calendar">
+							<?php $multiselect = count( $calendars ) > 15 ? ' simcal-field-select-enhanced' : ''; ?>
 							<select id="simcal-choose-calendar"
 							        class="simcal-field simcal-field-select<?php echo $multiselect; ?>"
 							        name="">

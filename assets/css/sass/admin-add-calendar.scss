@@ -1,3 +1,10 @@
+
+// Select field for calendars dropdown.
+body #_simcal_attach_calendar_id,
+body .simcal-calendar-widget-settings select {
+  width: 100%;
+}
+
 body .select2-container--default .select2-selection--single {
   border-color: #ccc;
   border-radius: 0;
