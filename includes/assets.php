@@ -169,11 +169,49 @@ class Assets {
 			}
 		}
 
+		$this->get_widgets_assets();
+
 		$this->scripts = apply_filters( 'simcal_front_end_scripts', $scripts, $this->min );
 		$this->load_scripts( $this->scripts );
 
 		$this->styles = apply_filters( 'simcal_front_end_styles', $styles, $this->min );
 		$this->load_styles( $this->styles );
+	}
+
+	/**
+	 * Get widgets assets.
+	 *
+	 * @since 3.0.0
+	 */
+	public function get_widgets_assets() {
+
+		$widgets = get_option( 'widget_gce_widget' );
+
+		if ( ! empty( $widgets ) && is_array( $widgets ) ) {
+
+			foreach ( $widgets as $settings ) {
+
+				if ( ! empty( $settings ) && is_array( $settings ) ) {
+
+					if ( isset( $settings['calendar_id'] ) ) {
+
+						$view = simcal_get_calendar_view( absint( $settings['calendar_id'] ) );
+
+						if ( $view instanceof Calendar_View ) {
+							add_filter( 'simcal_front_end_scripts', function ( $scripts, $min ) use ( $view ) {
+								return array_merge( $scripts, $view->scripts( $min ) );
+							}, 100, 2 );
+							add_filter( 'simcal_front_end_styles', function ( $styles, $min ) use ( $view ) {
+								return array_merge( $styles, $view->styles( $min ) );
+							}, 100, 2 );
+						}
+
+					}
+
+				}
+			}
+
+		}
 	}
 
 	/**

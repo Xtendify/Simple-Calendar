@@ -59,36 +59,6 @@ class Calendar extends \WP_Widget implements Widget {
 			} else {
 				$this->calendars = get_transient( '_simple-calendar_feed_ids' );
 			}
-		} else {
-			add_action( 'init', array( $this, 'load_assets' ) );
-		}
-	}
-
-	/**
-	 * Load assets for widgetized calendars.
-	 *
-	 * @since 3.0.0
-	 */
-	public function load_assets() {
-
-		$settings = $this->get_settings();
-		$settings = $settings ? array_pop( $settings ) : '';
-
-		if ( isset( $settings['calendar_id'] ) ) {
-
-			$view = simcal_get_calendar_view( absint( $settings['calendar_id'] ) );
-
-			if ( $view instanceof Calendar_View ) {
-
-				$this->view = $view;
-
-				add_filter( 'simcal_front_end_scripts', function( $scripts, $min ) use ( $view ) {
-					return array_merge( $scripts, $view->scripts( $min ) );
-				}, 100, 2 );
-				add_filter( 'simcal_front_end_styles', function( $styles, $min ) use ( $view ) {
-					return array_merge( $styles, $view->styles( $min ) );
-				}, 100, 2 );
-			}
 		}
 	}
 
