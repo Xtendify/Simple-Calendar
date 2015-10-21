@@ -129,27 +129,6 @@
 .simcal-align-right {
   text-align: right; }
 
-.simcal-ajax-loader {
-  background-color: rgba(0, 0, 0, 0.1);
-  height: 100%;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 100%; }
-  .simcal-ajax-loader > i {
-    color: rgba(0, 0, 0, 0.38);
-    font-size: 48px;
-    left: 50%;
-    line-height: 1;
-    margin: -36px 0 0 -36px;
-    position: absolute;
-    top: 50%; }
-  .simcal-ajax-loader.simcal-spinner-top > i {
-    top: 20%; }
-  .simcal-ajax-loader.simcal-spinner-bottom > i {
-    bottom: 20%;
-    top: auto; }
-
 .simcal-default-calendar .simcal-current h3 {
   margin: 0;
   padding: 0; }
@@ -263,6 +242,25 @@
   line-height: 1.4;
   padding: 5px; }
 
+.simcal-default-calendar .simcal-ajax-loader {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%; }
+  .simcal-default-calendar .simcal-ajax-loader > i {
+    font-size: 48px;
+    left: 50%;
+    line-height: 1;
+    margin: -36px 0 0 -36px;
+    position: absolute;
+    top: 50%; }
+  .simcal-default-calendar .simcal-ajax-loader.simcal-spinner-top > i {
+    top: 20%; }
+  .simcal-default-calendar .simcal-ajax-loader.simcal-spinner-bottom > i {
+    bottom: 20%;
+    top: auto; }
+
 .simcal-default-calendar-light .simcal-nav-button {
   color: rgba(0, 0, 0, 0.6); }
   .simcal-default-calendar-light .simcal-nav-button:disabled {
@@ -279,6 +277,11 @@
     background-color: rgba(0, 0, 0, 0.1);
     color: white; }
 
+.simcal-default-calendar-light .simcal-ajax-loader {
+  background-color: rgba(0, 0, 0, 0.1); }
+  .simcal-default-calendar-light .simcal-ajax-loader > i {
+    color: rgba(0, 0, 0, 0.3); }
+
 .simcal-default-calendar-dark .simcal-nav-button {
   color: rgba(255, 255, 255, 0.6); }
   .simcal-default-calendar-dark .simcal-nav-button:disabled {
@@ -294,6 +297,11 @@
   .simcal-default-calendar-dark .simcal-events-toggle:hover {
     background-color: rgba(255, 255, 255, 0.1);
     color: black; }
+
+.simcal-default-calendar-dark .simcal-ajax-loader {
+  background-color: rgba(255, 255, 255, 0.1); }
+  .simcal-default-calendar-dark .simcal-ajax-loader > i {
+    color: rgba(255, 255, 255, 0.3); }
 
 .simcal-default-calendar-grid > table {
   table-layout: fixed;

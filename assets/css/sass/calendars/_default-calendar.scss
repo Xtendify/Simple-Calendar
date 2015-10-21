@@ -163,6 +163,35 @@ $default-calendar-white: rgb(255, 255, 255);
     padding: 5px;
   }
 
+  .simcal-ajax-loader {
+
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+
+    > i {
+      font-size: 48px;
+      left: 50%;
+      line-height: 1;
+      margin: -36px 0 0 -36px;
+      position: absolute;
+      top: 50%;
+    }
+
+    &.simcal-spinner-top > i {
+      top: 20%;
+    }
+
+    &.simcal-spinner-bottom > i {
+      bottom: 20%;
+      top: auto;
+    }
+
+  }
+
+
 }
 
 // Light theme variations.
@@ -198,6 +227,16 @@ $default-calendar-white: rgb(255, 255, 255);
 
   }
 
+  .simcal-ajax-loader {
+
+    background-color: transparentize($default-calendar-black, .9);
+
+    > i {
+      color: transparentize($default-calendar-black, .7);
+    }
+
+  }
+
 }
 
 // Dark theme variations.
@@ -229,6 +268,16 @@ $default-calendar-white: rgb(255, 255, 255);
     &:hover {
       background-color: transparentize($default-calendar-white, .9);
       color: $default-calendar-black;
+    }
+
+  }
+
+  .simcal-ajax-loader {
+
+    background-color: transparentize($default-calendar-white, .9);
+
+    > i {
+      color: transparentize($default-calendar-white, .7);
     }
 
   }
