@@ -40,6 +40,8 @@ class Post_Types {
 		add_filter( 'post_row_actions', array( $this, 'row_actions' ), 10, 2 );
 		// Add bulk actions.
 		add_action( 'admin_init', array( $this, 'bulk_actions' ) );
+		// Add content to edit calendars page.
+		add_action( 'load-edit.php', array( $this, 'edit_table_hooks' ) );
 
 		// Default calendar post type content (default event template).
 		add_filter( 'default_content', array( $this, 'default_event_template' ), 10, 2 );
@@ -190,6 +192,23 @@ class Post_Types {
 		);
 
 		$bulk_actions->init();
+	}
+
+	/**
+	 * Edit calendars table hooks.
+	 *
+	 * @since 3.0.0
+	 * @internal
+	 */
+	public function edit_table_hooks() {
+
+		$screen = simcal_is_admin_screen();
+
+		if( 'edit-calendar' == $screen ) {
+			add_action( 'in_admin_footer', function() {
+				echo '<div><p>Get Google Calendar Pro!</p></div>';
+			} );
+		}
 	}
 
 	/**
