@@ -228,7 +228,7 @@ function simcal_addon_updater( $_api_url, $_plugin_file, $_api_data = null ) {
  *
  * @since  3.0.0
  *
- * @param  string $addon Unique add-on slug.
+ * @param  string $addon Unique add-on id.
  *
  * @return null|string
  */

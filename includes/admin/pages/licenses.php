@@ -79,15 +79,17 @@ class Licenses extends Admin_Page {
 
 				if ( ! empty( $addons ) && is_array( $addons ) ) {
 
-					foreach ( $addons as $addon_slug => $addon_name ) {
+					foreach ( $addons as $addon_id => $addon_name ) {
 
-						$fields[ $section ][ $addon_slug ] = array(
+						$addon_id = strval( $addon_id );
+
+						$fields[ $section ][ $addon_id ] = array(
 							'type'      => 'license',
-							'addon'     => $addon_slug,
+							'addon'     => $addon_id,
 							'title'     => esc_attr( $addon_name ),
-							'name'      => 'simple-calendar_' . $this->option_group . '_' . $this->id . '[add-ons][' . $addon_slug . ']',
-							'id'        => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-add-ons-' . sanitize_key( $addon_slug ),
-							'value'     => $this->get_option_value( $section, $addon_slug ),
+							'name'      => 'simple-calendar_' . $this->option_group . '_' . $this->id . '[add-ons][' . $addon_id . ']',
+							'id'        => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-add-ons-' . sanitize_key( $addon_id ),
+							'value'     => $this->get_option_value( $section, $addon_id ),
 							'class'     => array(
 								'regular-text',
 								'ltr',
