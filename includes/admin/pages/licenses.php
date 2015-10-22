@@ -53,7 +53,9 @@ class Licenses extends Admin_Page {
 		$sections = array(
 			'add-ons' => array(
 				'title' => __( 'Add-ons', 'google-calendar-events' ),
-				'description' => __( 'Manage here your license keys for premium add-ons', 'google-calendar-events' ),
+				'description' => __( 'Manage here your license keys for premium add-ons.', 'google-calendar-events' ) .
+				                 '<br>' .
+				                 __( 'Enter a license key in the corresponding field, save changes, then activate it to receive automatic updates according to your license terms.', 'google-calendar-events' ),
 			),
 		);
 		return apply_filters( 'simcal_add_' . $this->option_group . '_' . $this->id .'_sections', $sections );
