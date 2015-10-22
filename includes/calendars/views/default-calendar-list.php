@@ -517,9 +517,11 @@ class Default_Calendar_List implements Calendar_View {
 							endif;
 
 							$event_color = '';
-							if ( ! empty( $event->meta['color'] ) ) {
+							$bullet = '';
+							$event_color = $event->get_color();
+							if ( ! empty( $event_color ) ) {
 								$side = is_rtl() ? 'right' : 'left';
-								$event_color = ' style="border-' . $side . ': 4px solid ' . $event->meta['color'] . '; padding-' . $side . ': 8px;"';
+								$event_color = ' style="border-' . $side . ': 4px solid ' . $event_color . '; padding-' . $side . ': 8px;"';
 							}
 
 							$list_events .= "\t" . '<li class="' . $event_classes . '"' . $event_visibility . $event_color . ' itemprop="event" itemscope itemtype="http://schema.org/Event">' . "\n";

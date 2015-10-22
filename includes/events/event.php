@@ -552,6 +552,22 @@ class Event {
 	}
 
 	/**
+	 * Get color.
+	 *
+	 * @since  3.0.0
+	 *
+	 * @param  string $default
+	 *
+	 * @return string
+	 */
+	public function get_color( $default = '' ) {
+		if ( isset( $this->meta['color'] ) ) {
+			return ! empty( $this->meta['color'] ) ? esc_attr( $this->meta['color'] ) : $default;
+		}
+		return $default;
+	}
+
+	/**
 	 * Get attachments.
 	 *
 	 * @since  3.0.0
