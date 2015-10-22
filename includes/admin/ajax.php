@@ -88,11 +88,6 @@ class Ajax {
 		$key    = isset( $_POST['license_key'] )    ? esc_attr( $_POST['license_key'] ) : '';
 		$nonce  = isset( $_POST['nonce'] )          ? esc_attr( $_POST['nonce'] ) : '';
 
-		// Verify that there is a license key.
-		if ( empty( $key ) ) {
-			wp_send_json_error( __( 'Please enter a license key.', 'google-calendar-events' ) );
-		}
-
 		// Verify that there are valid variables to process.
 		if ( false === $addon || ! in_array( $action, array( 'activate_license', 'deactivate_license' ) ) ) {
 			wp_send_json_error( __( 'Add-on unspecified or invalid action.', 'google-calendar-events' ) );
@@ -102,11 +97,6 @@ class Ajax {
 		if ( ! wp_verify_nonce( $nonce, 'simcal_license_manager' ) ) {
 			wp_send_json_error( sprintf( __( 'An error occurred: %s', 'google-calendar-events' ), 'Nonce verification failed.' ) );
 		}
-
-		// Update license in db.
-		$keys = get_option( 'simple-calendar_settings_licenses', array() );
-		$new_keys = array_merge( (array) $keys, array( 'keys' => array( $addon => $key ) ) );
-		update_option( 'simple-calendar_settings_licenses', $new_keys );
 
 		// Removes the prefix and converts simcal_{id_no} to {id_no}.
 		$id = intval( substr( $addon, 7 ) );
@@ -129,6 +119,11 @@ class Ajax {
 			)
 		);
 
+		// Update license in db.
+		$keys = get_option( 'simple-calendar_settings_licenses', array() );
+		$new_keys = array_merge( (array) $keys, array( 'keys' => array( $addon => $key ) ) );
+		update_option( 'simple-calendar_settings_licenses', $new_keys );
+
 		// Make sure there is a response.
 		if ( is_wp_error( $response ) ) {
 			wp_send_json_error( sprintf( __( 'There was an error processing your request: %s', 'google-calendar-events' ), $response->get_error_message() ) );
@@ -140,13 +135,16 @@ class Ajax {
 		if ( 'deactivated' == $license_data->license  ) {
 			unset( $status[ $addon ] );
 			update_option( 'simple-calendar_licenses_status', $status );
+			unset( $new_keys['keys'][ $addon ] );
+			update_option( 'simple-calendar_settings_licenses', $new_keys );
 			wp_send_json_success( $license_data->license );
  		} elseif ( in_array( $license_data->license, array( 'valid', 'invalid' ) ) ) {
 			$status[ $addon ] = $license_data->license;
 			update_option( 'simple-calendar_licenses_status', $status );
-			wp_send_json_success( $license_data->license );
+			$message = 'valid' == $license_data->license ? 'valid' : __( 'License key is invalid.', 'google-calendar-events' );
+			wp_send_json_success( $message );
 		} else {
-			wp_send_json_error( __( 'Could not manage license. An unknown error occurred.', 'google-calendar-events' ) );
+			die();
 		}
 	}
 

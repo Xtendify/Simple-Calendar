@@ -49,19 +49,7 @@ class License extends Field {
 
 		if ( ! empty( $this->addon ) ) {
 
-			echo '<div class="simcal-addon-manage-license-field" data-addon="' . $this->addon . '">';
-
-			?>
-			<input type="text"
-			       name="<?php echo $this->name; ?>"
-			       id="<?php echo $this->id; ?>"
-			       value="<?php echo $this->value; ?>"
-			       class="<?php echo $this->class; ?>" />
-			<?php
-
 			$status  = simcal_get_license_status( $this->addon );
-
-			echo '<span class="simcal-addon-manage-license-buttons">';
 
 			if ( false !== $status && 'valid' == $status ) {
 				$display_activate = 'display: inline-block';
@@ -71,23 +59,33 @@ class License extends Field {
 				$display_deactivate = 'display: inline-block';
 			}
 
-			echo '<strong class="label" style="color:green; ' . $display_activate . ' ">' . __( '(active)', 'google-calendar-events' ) . '</strong> ';
+			?>
+			<div class="simcal-addon-manage-license-field" data-addon="<?php echo $this->addon; ?>">
 
-			echo '<button class="button-secondary simcal-addon-manage-license deactivate" data-add-on="' . $this->addon . '" style="' . $display_activate . '">' .
-			     '<i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i> ' .
-			     __( 'Deactivate', 'google-calendar-events' ) .
-			     '</button>';
+				<input type="text"
+				       name="<?php echo $this->name; ?>"
+				       id="<?php echo $this->id; ?>"
+				       value="<?php echo $this->value; ?>"
+				       class="<?php echo $this->class; ?>" />
 
-			echo '<button class="button-secondary simcal-addon-manage-license activate" data-add-on="' . $this->addon . '" style="' . $display_deactivate . '">' .
-			     '<i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i> ' .
-			     __( 'Activate', 'google-calendar-events' ) .
-		         '</button>';
+				<span class="simcal-addon-manage-license-buttons">
 
-			echo ' <span class="error" style="color: red; display: none"> </span>';
+					<button class="button-secondary simcal-addon-manage-license deactivate" data-add-on="<?php echo $this->addon; ?>" style="<?php echo $display_activate; ?>">
+				        <i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i><?php _e( 'Deactivate', 'google-calendar-events' ); ?>
+					</button>
 
-			echo '</span>';
+					<button class="button-secondary simcal-addon-manage-license activate" data-add-on="<?php echo $this->addon; ?>" style="<?php echo $display_deactivate; ?>">
+						<i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i><?php _e( 'Activate', 'google-calendar-events' ); ?>
+					</button>
 
-			echo '</div>';
+					<span class="error" style="color: red; display: none"> </span>
+
+					<strong class="label" style="color:green; <?php echo $display_activate; ?>"> <?php _e( '(active)', 'google-calendar-events' ); ?></strong>
+
+				</span>
+
+			</div>
+			<?php
 
 		}
 
