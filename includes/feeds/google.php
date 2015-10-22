@@ -243,13 +243,20 @@ class Google extends Feed {
 								$recurrence = true;
 							}
 
+							// Event link.
+							if ( 'use_calendar' == $this->timezone_setting ) {
+								$link = add_query_arg( array( 'ctz' => $this->timezone ), $event->getHtmlLink() );
+							} else {
+								$link = $event->getHtmlLink();
+							}
+
 							// Build the event.
 							$calendar['events'][ intval( $start ) ][] = array(
 								'type'           => 'google-calendar',
 								'source'         => $source,
 								'title'          => $title,
 								'description'    => $description,
-								'link'           => $event->getHtmlLink(),
+								'link'           => $link,
 								'visibility'     => $visibility,
 								'uid'            => $event->getICalUID(),
 								'calendar'       => $this->post_id,
