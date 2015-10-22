@@ -22,7 +22,7 @@
   "prefer-stable": true,
   "require": {
     "php": ">=5.3.2",
-    "google/apiclient": "1.*",
+    "google/apiclient": "1.1.5",
     "cbschuld/Browser.php": "dev-master",
     "nesbot/carbon": "~1.2",
     "erusev/parsedown": "^1.5",
