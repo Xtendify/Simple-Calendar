@@ -53,7 +53,7 @@ class Licenses extends Admin_Page {
 	 */
 	public function add_sections() {
 		$sections = array(
-			'add-ons' => array(
+			'keys' => array(
 				'title' => __( 'Add-ons', 'google-calendar-events' ),
 				'description' => __( 'Manage here your license keys for premium add-ons.', 'google-calendar-events' ) .
 				                 '<br>' .
@@ -77,7 +77,7 @@ class Licenses extends Admin_Page {
 
 		foreach ( $this->sections as $section => $contents ) {
 
-			if ( 'add-ons' == $section ) {
+			if ( 'keys' == $section ) {
 
 				$addons = apply_filters( 'simcal_installed_addons', array() );
 
@@ -89,8 +89,8 @@ class Licenses extends Admin_Page {
 							'type'      => 'license',
 							'addon'     => $addon_id,
 							'title'     => esc_attr( $addon_name ),
-							'name'      => 'simple-calendar_' . $this->option_group . '_' . $this->id . '[add-ons][' . $addon_id . ']',
-							'id'        => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-add-ons-' . sanitize_key( $addon_id ),
+							'name'      => 'simple-calendar_' . $this->option_group . '_' . $this->id . '[' . $section . '][' . $addon_id . ']',
+							'id'        => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-' . $section . '-' . sanitize_key( $addon_id ),
 							'value'     => $this->get_option_value( $section, $addon_id ),
 							'class'     => array(
 								'regular-text',

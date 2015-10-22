@@ -439,8 +439,9 @@
 
 			var manage_license_action = '',
 				button = $( this ),
-				container = button.closest( '.simcal-addon-manage-license-buttons'),
-				error = container.find( '.error' ),
+				buttons = button.closest( '.simcal-addon-manage-license-buttons' ),
+				field = button.closest( '.simcal-addon-manage-license-field' ).find( '> input' ),
+				error = buttons.find( '.error' ),
 				spinner = button.find( 'i' );
 
 			if ( $( this ).hasClass( 'activate' ) ) {
@@ -456,7 +457,8 @@
 				method    : 'POST',
 				data      : {
 					action        : 'simcal_manage_add_on_license',
-					add_on        : $( this ).data( 'add-on' ),
+					add_on        : $(this).data('add-on'),
+					license_key   : field.val(),
 					license_action: manage_license_action,
 					nonce         : $( '#simcal_license_manager' ).val()
 				},
@@ -468,8 +470,8 @@
 					if ( 'activate_license' == manage_license_action ) {
 						if ( 'valid' == response.data ) {
 							button.hide();
-							$( container ).find( '.label' ).show();
-							$( container ).find( '.deactivate' ).show();
+							$( buttons ).find( '.label' ).show();
+							$( buttons ).find( '.deactivate' ).show();
 							error.hide();
 						} else {
 							error.show().text( response.data );
@@ -477,8 +479,8 @@
 					} else {
 						if ( 'deactivated' == response.data ) {
 							button.hide();
-							$( container ).find( '.label' ).hide();
-							$( container ).find( '.activate' ).show();
+							$( buttons ).find( '.label' ).hide();
+							$( buttons ).find( '.activate' ).show();
 							error.hide();
 						} else {
 							error.show().text( response.data );
