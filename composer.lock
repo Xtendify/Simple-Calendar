@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0b7b4ae3988bf401e6602d06de6e1a0b",
-    "content-hash": "97f0b9e6a0f9ca37335f6975acf07088",
+    "hash": "0c105ae1ed8d1734d55e52c9a78e78ab",
+    "content-hash": "a7083fc65743c464cdfda6fcda857da4",
     "packages": [
         {
             "name": "cbschuld/browser.php",
