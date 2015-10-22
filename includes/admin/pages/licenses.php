@@ -35,6 +35,8 @@ class Licenses extends Admin_Page {
 		$this->sections     = $this->add_sections();
 		$this->fields       = $this->add_fields();
 
+		add_filter( 'simcal_settings_page_submit', function() { return false; } );
+
 		add_action( 'simcal_admin_page', function( $page, $tab ) {
 			if ( 'settings' == $page && 'licenses' == $tab ) {
 				wp_nonce_field( 'simcal_license_manager', 'simcal_license_manager' );

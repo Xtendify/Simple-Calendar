@@ -109,6 +109,12 @@ class Update {
 			$major_old = substr( $this->installed_ver, 0, strrpos( $this->installed_ver, '.' ) );
 			if ( version_compare( $major_new, $major_old, '>' ) ) {
 				set_transient( '_simple-calendar_activation_redirect', 'update', 60 );
+			} elseif ( $major_old == $major_new ) {
+				$version = explode( '.', $this->new_ver );
+				end( $version );
+				if ( 0 === intval( current( $version ) ) ) {
+					set_transient( '_simple-calendar_activation_redirect', 'update', 60 );
+				}
 			}
 		}
 

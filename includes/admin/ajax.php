@@ -36,6 +36,12 @@ class Ajax {
 		// Manage an add-on license activation or deactivation.
 		add_action( 'wp_ajax_simcal_manage_add_on_license', array( $this, 'manage_add_on_license' ) );
 
+		// Get a license key.
+		add_action( 'wp_ajax_simcal_get_license_key', array( $this, 'get_license_key' ) );
+
+		// Update a license key.
+		add_action( 'wp_ajax_simcal_update_license_key', array( $this, 'update_license_key' ) );
+
 	}
 
 	/**
@@ -72,6 +78,47 @@ class Ajax {
 		$timestamp = isset( $_POST['timestamp'] ) ? absint( $_POST['timestamp'] ) : time();
 
 		wp_send_json_success( date_i18n( $value, $timestamp ) );
+	}
+
+	/**
+	 * Get add-on license key.
+	 *
+	 * @since 3.0.0
+	 */
+	public function get_license_key() {
+
+		$addon = isset( $_POST['add_on'] ) ? sanitize_key( $_POST['add_on'] ) : false;
+
+		if ( false !== $addon && is_string( $addon ) ) {
+			$key = simcal_get_license_key( $addon );
+			if ( ! is_null( $key ) ) {
+				wp_send_json_success( $key );
+			} else {
+				wp_send_json_error( 'Add-on not found.' );
+			}
+		} else {
+			wp_send_json_error( 'Add-on ID unspecified or not a string.' );
+		}
+	}
+
+	/**
+	 * Update add-on license key.
+	 *
+	 * @since 3.0.0
+	 */
+	public function update_license_key() {
+
+		$addon  = isset( $_POST['add_on'] ) ? sanitize_key( $_POST['add_on'] )  : false;
+		$key    = isset( $_POST['key'] ) ? sanitize_text_field( $_POST['key'] ) : false;
+
+		if ( $addon && $key ) {
+			$keys = get_option( 'simple-calendar_settings_licenses', array() );
+			$new_keys = $keys[ $addon ] = $key;
+			update_option( 'simple-calendar_settings_licenses', $new_keys );
+			wp_send_json_success( $new_keys );
+		} else {
+			wp_send_json_error( 'Add-on or License key unspecified.' );
+		}
 	}
 
 	/**
