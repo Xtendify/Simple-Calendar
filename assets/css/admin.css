@@ -345,6 +345,9 @@ body .simcal-field-textarea {
     .simcal-system-status-report-panel mark.error {
       color: red; }
 
+#simcal-reset-licenses {
+  color: red; }
+
 .ui-datepicker {
   left: -9999px;
   position: absolute; }

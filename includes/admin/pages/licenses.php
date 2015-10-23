@@ -53,7 +53,13 @@ class Licenses extends Admin_Page {
 		// Add a nonce field used in ajax.
 		wp_nonce_field( 'simcal_license_manager', 'simcal_license_manager' );
 		// Add a license 'reset' button.
-		echo '<button id="simcal-reset-licenses" class="button danger" data-dialog="' . __( 'Are you sure?', 'google-calendar-events' ) . '">' . __( 'Reset your licenses', 'google-calendar-events' ) . '</button>';
+		?>
+		<br><br>
+		<a href="#" id="simcal-reset-licenses" data-dialog="<?php _e( 'WARNING: Are you sure you want to clear all license keys from the settings?', 'google-calendar-events' ) ?>">
+			<?php _e( 'Clear your license keys', 'google-calendar-events' ) ?>
+		</a>
+		<?php
+
 	}
 
 	/**
@@ -69,7 +75,7 @@ class Licenses extends Admin_Page {
 				'title' => __( 'Add-ons', 'google-calendar-events' ),
 				'description' => __( 'Manage here your license keys for premium add-ons.', 'google-calendar-events' ) .
 				                 '<br>' .
-				                 __( 'Enter a license key in the corresponding field, save changes, then activate it to receive automatic updates according to your license terms.', 'google-calendar-events' ),
+				                 __( 'Enter a license key in the corresponding field to activate it and receive automatic updates according to your license terms.', 'google-calendar-events' ),
 			),
 		);
 		return apply_filters( 'simcal_add_' . $this->option_group . '_' . $this->id .'_sections', $sections );
