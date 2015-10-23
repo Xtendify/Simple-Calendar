@@ -28,19 +28,32 @@ class Licenses extends Admin_Page {
 	 */
 	public function __construct() {
 
-		$this->id           = 'licenses';
-		$this->option_group = 'settings';
+		$this->id           = $tab = 'licenses';
+		$this->option_group = $page = 'settings';
 		$this->label        = __( 'Add-ons Licenses', 'google-calendar-events' );
 		$this->description  = __( 'Manage add-ons licenses.', 'google-calendar-events' );
 		$this->sections     = $this->add_sections();
 		$this->fields       = $this->add_fields();
 
-		add_action( 'simcal_admin_page', function( $page, $tab ) {
-			if ( 'settings' == $page && 'licenses' == $tab ) {
-				wp_nonce_field( 'simcal_license_manager', 'simcal_license_manager' );
-				add_filter( 'simcal_settings_page_submit', function() { return false; } );
-			}
-		}, 10, 2 );
+		// Disabled the 'save changes' button for this page.
+		add_filter( 'simcal_admin_page_' . $page . '_' . $tab . '_submit', function() { return false; } );
+
+		// Add html to page.
+		add_action( 'simcal_admin_page_' . $page . '_' . $tab . '_end', array( __CLASS__, 'html' ) );
+	}
+
+	/**
+	 * Add additional html.
+	 *
+	 * @since  3.0.0
+	 *
+	 * @return void
+	 */
+	public static function html()  {
+		// Add a nonce field used in ajax.
+		wp_nonce_field( 'simcal_license_manager', 'simcal_license_manager' );
+		// Add a license 'reset' button.
+		echo '<button id="simcal-reset-licenses" class="button danger" data-dialog="' . __( 'Are you sure?', 'google-calendar-events' ) . '">' . __( 'Reset your licenses', 'google-calendar-events' ) . '</button>';
 	}
 
 	/**

@@ -457,7 +457,7 @@
 				method    : 'POST',
 				data      : {
 					action        : 'simcal_manage_add_on_license',
-					add_on        : $(this).data('add-on'),
+					add_on        : $( this ).data('add-on'),
 					license_key   : field.val(),
 					license_action: manage_license_action,
 					nonce         : $( '#simcal_license_manager' ).val()
@@ -470,6 +470,7 @@
 					if ( 'activate_license' == manage_license_action ) {
 						if ( 'valid' == response.data ) {
 							button.hide();
+							field.attr( 'disabled', 'disabled' );
 							$( buttons ).find( '.label' ).show();
 							$( buttons ).find( '.deactivate' ).show();
 							error.hide();
@@ -479,6 +480,7 @@
 					} else {
 						if ( 'deactivated' == response.data ) {
 							button.hide();
+							field.removeAttr( 'disabled' );
 							$( buttons ).find( '.label' ).hide();
 							$( buttons ).find( '.activate' ).show();
 							error.hide();
@@ -490,6 +492,38 @@
 				error     : function( response ) {
 					console.log( response );
 					spinner.fadeToggle();
+				}
+			} );
+
+		} );
+
+		$( '#simcal-reset-licenses' ).on( 'click', function( e ) {
+
+			e.preventDefault();
+
+			var dialog = $( this ).data( 'dialog' ),
+				reply = confirm( dialog );
+
+			if ( true !== reply ) {
+				return;
+			}
+
+			$.ajax({
+				url    : simcal_admin.ajax_url,
+				method : 'POST',
+				data   : {
+					action: 'simcal_reset_add_ons_licenses',
+					nonce : $( '#simcal_license_manager' ).val()
+				},
+				success: function ( response ) {
+					if ( 'success' == response.data ) {
+						location.reload();
+					} else {
+						console.log( response );
+					}
+				},
+				error  : function ( response ) {
+					console.log(response);
 				}
 			} );
 

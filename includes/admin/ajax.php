@@ -36,6 +36,9 @@ class Ajax {
 		// Manage an add-on license activation or deactivation.
 		add_action( 'wp_ajax_simcal_manage_add_on_license', array( $this, 'manage_add_on_license' ) );
 
+		// Reset add-ons licenses.
+		add_action( 'wp_ajax_simcal_reset_add_ons_licenses', array( $this, 'reset_licenses' ) );
+
 	}
 
 	/**
@@ -135,11 +138,6 @@ class Ajax {
 		if ( 'deactivated' == $license_data->license  ) {
 			unset( $status[ $addon ] );
 			update_option( 'simple-calendar_licenses_status', $status );
-			$old_key = isset( $keys['key'][ $addon ] ) ? $keys['key'][ $addon ] : '';
-			if ( $key != $old_key ) {
-				unset( $new_keys['keys'][ $addon ] );
-				update_option( 'simple-calendar_settings_licenses', $new_keys );
-			}
 			wp_send_json_success( $license_data->license );
  		} elseif ( in_array( $license_data->license, array( 'valid', 'invalid' ) ) ) {
 			$status[ $addon ] = $license_data->license;
@@ -149,6 +147,26 @@ class Ajax {
 		} else {
 			wp_send_json_error( '' );
 		}
+	}
+
+	/**
+	 * Reset licenses.
+	 *
+	 * @since 3.0.0
+	 */
+	public function reset_licenses() {
+
+		$nonce  = isset( $_POST['nonce'] ) ? esc_attr( $_POST['nonce'] ) : '';
+
+		// Verify this request comes from the add-ons licenses activation settings page.
+		if ( empty ( $nonce ) || ! wp_verify_nonce( $nonce, 'simcal_license_manager' ) ) {
+			wp_send_json_error( sprintf( __( 'An error occurred: %s', 'google-calendar-events' ), 'Nonce verification failed.' ) );
+		}
+
+		delete_option( 'simple-calendar_settings_licenses' );
+		delete_option( 'simple-calendar_licenses_status' );
+
+		wp_send_json_success( 'success' );
 	}
 
 }

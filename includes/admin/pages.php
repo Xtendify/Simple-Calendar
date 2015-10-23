@@ -73,6 +73,7 @@ class Pages {
 			$this->settings = $settings_page_tabs;
 		}
 
+		// The first tab is the default tab when opening a page.
 		$this->tab = isset( $tabs[0] ) ? $tabs[0] : '';
 
 		do_action( 'simcal_admin_pages', $page );
@@ -203,8 +204,7 @@ class Pages {
 
 		// Get current tab/section
 		$current_tab = empty( $_GET['tab'] ) ? $this->tab : sanitize_title( $_GET['tab'] );
-
-		do_action( 'simcal_admin_page_start' );
+		$this->tab = $current_tab;
 
 		?>
 		<div class="wrap" id="simcal-settings-page">
@@ -233,7 +233,7 @@ class Pages {
 
 					}
 
-					do_action( 'simple-calendar_admin_page_tabs' );
+					do_action( 'simcal_admin_page_' . $this->page . '_tabs' );
 
 					echo '</h2>';
 
@@ -245,18 +245,19 @@ class Pages {
 
 							echo isset( $contents['description'] ) ? '<p>' . $contents['description'] . '</p>' : '';
 
+							do_action( 'simcal_admin_page_' .  $this->page . '_' . $current_tab . '_start' );
+
 							settings_fields( 'simple-calendar_' . $this->page . '_' . $tab_id );
 							do_settings_sections( 'simple-calendar_' . $this->page . '_' . $tab_id );
+
+							do_action( 'simcal_admin_page_' .  $this->page . '_' . $current_tab . '_end' );
+
+							$submit = apply_filters( 'simcal_admin_page_' . $this->page . '_' . $current_tab . '_submit', true );
+							if ( true === $submit ) {
+								submit_button();
+							}
 						}
-
 					}
-
-					do_action( 'simcal_admin_page', $this->page, $current_tab );
-				}
-
-				$submit = apply_filters( 'simcal_settings_page_submit', true, $this->page, $this->tab );
-				if ( true === $submit ) {
-					submit_button();
 				}
 
 				?>
@@ -264,7 +265,6 @@ class Pages {
 		</div>
 		<?php
 
-		do_action( 'simcal_admin_page_end' );
 	}
 
 }

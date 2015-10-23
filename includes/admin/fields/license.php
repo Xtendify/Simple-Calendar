@@ -49,20 +49,23 @@ class License extends Field {
 
 		if ( ! empty( $this->addon ) ) {
 
-			$status  = simcal_get_license_status( $this->addon );
+			$status = simcal_get_license_status( $this->addon );
 
-			if ( false !== $status && 'valid' == $status ) {
+			if ( empty( $status ) || in_array( $status, array( 'valid', 'deactivated' ) ) ) {
 				$display_activate = 'display: inline-block';
 				$display_deactivate = 'display: none';
+				$active = 'valid' == $status ? 'display: block' : 'display: none';
+				$disabled   = '';
 			} else {
-				$display_activate = 'display: none';
+				$display_activate = $active = 'display: none';
 				$display_deactivate = 'display: inline-block';
+				$disabled = empty( $this->value ) ? '' : 'disabled="disabled"';
 			}
 
 			?>
 			<div class="simcal-addon-manage-license-field" data-addon="<?php echo $this->addon; ?>">
 
-				<input type="text"
+				<input type="text" <?php echo $disabled; ?>
 				       name="<?php echo $this->name; ?>"
 				       id="<?php echo $this->id; ?>"
 				       value="<?php echo $this->value; ?>"
@@ -70,17 +73,17 @@ class License extends Field {
 
 				<span class="simcal-addon-manage-license-buttons">
 
-					<button class="button-secondary simcal-addon-manage-license deactivate" data-add-on="<?php echo $this->addon; ?>" style="<?php echo $display_activate; ?>">
+					<button class="button-secondary simcal-addon-manage-license deactivate" data-add-on="<?php echo $this->addon; ?>" style="<?php echo $display_deactivate; ?>">
 				        <i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i><?php _e( 'Deactivate', 'google-calendar-events' ); ?>
 					</button>
 
-					<button class="button-secondary simcal-addon-manage-license activate" data-add-on="<?php echo $this->addon; ?>" style="<?php echo $display_deactivate; ?>">
+					<button class="button-secondary simcal-addon-manage-license activate" data-add-on="<?php echo $this->addon; ?>" style="<?php echo $display_activate; ?>">
 						<i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i><?php _e( 'Activate', 'google-calendar-events' ); ?>
 					</button>
 
 					<span class="error" style="color: red; display: none"> </span>
 
-					<strong class="label" style="color:green; <?php echo $display_activate; ?>"> <?php _e( '(active)', 'google-calendar-events' ); ?></strong>
+					<strong class="label" style="color:green; <?php echo $active; ?>"> <?php _e( '(active)', 'google-calendar-events' ); ?></strong>
 
 				</span>
 
