@@ -144,7 +144,7 @@ class Ajax {
 			$message = 'valid' == $license_data->license ? 'valid' : __( 'License key is invalid.', 'google-calendar-events' );
 			wp_send_json_success( $message );
 		} else {
-			die();
+			wp_send_json_error( '' );
 		}
 	}
 
