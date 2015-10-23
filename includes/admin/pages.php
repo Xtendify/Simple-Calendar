@@ -254,7 +254,7 @@ class Pages {
 					do_action( 'simcal_admin_page', $this->page, $current_tab );
 				}
 
-				$submit = apply_filters( 'simcal_settings_page_submit', true );
+				$submit = apply_filters( 'simcal_settings_page_submit', true, $this->page, $this->tab );
 				if ( true === $submit ) {
 					submit_button();
 				}
