@@ -51,7 +51,7 @@ class License extends Field {
 
 			$status = simcal_get_license_status( $this->addon );
 
-			if ( empty( $status ) || in_array( $status, array( 'valid', 'deactivated' ) ) ) {
+			if ( empty( $status ) || in_array( $status, array( 'valid', 'invalid', 'deactivated' ) ) ) {
 				$display_activate = 'display: inline-block';
 				$display_deactivate = 'display: none';
 				$active = 'valid' == $status ? 'display: block' : 'display: none';
