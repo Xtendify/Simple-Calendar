@@ -135,8 +135,11 @@ class Ajax {
 		if ( 'deactivated' == $license_data->license  ) {
 			unset( $status[ $addon ] );
 			update_option( 'simple-calendar_licenses_status', $status );
-			unset( $new_keys['keys'][ $addon ] );
-			update_option( 'simple-calendar_settings_licenses', $new_keys );
+			$old_key = isset( $keys['key'][ $addon ] ) ? $keys['key'][ $addon ] : '';
+			if ( $key != $old_key ) {
+				unset( $new_keys['keys'][ $addon ] );
+				update_option( 'simple-calendar_settings_licenses', $new_keys );
+			}
 			wp_send_json_success( $license_data->license );
  		} elseif ( in_array( $license_data->license, array( 'valid', 'invalid' ) ) ) {
 			$status[ $addon ] = $license_data->license;

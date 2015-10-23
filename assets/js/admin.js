@@ -482,7 +482,6 @@
 							$( buttons ).find( '.label' ).hide();
 							$( buttons ).find( '.activate' ).show();
 							error.hide();
-							field.val( '' );
 						} else {
 							error.show().text( response.data );
 						}
