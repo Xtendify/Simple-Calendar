@@ -501,7 +501,8 @@
 
 			e.preventDefault();
 
-			var dialog = $( this ).data( 'dialog' ),
+			var spinner = $( this ).find( 'i' ),
+				dialog = $( this ).data( 'dialog' ),
 				reply = confirm( dialog );
 
 			if ( true !== reply ) {
@@ -514,6 +515,9 @@
 				data   : {
 					action: 'simcal_reset_add_ons_licenses',
 					nonce : $( '#simcal_license_manager' ).val()
+				},
+				beforeSend: function() {
+					spinner.toggle();
 				},
 				success: function ( response ) {
 					if ( 'success' == response.data ) {

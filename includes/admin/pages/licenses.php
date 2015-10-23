@@ -56,7 +56,8 @@ class Licenses extends Admin_Page {
 		?>
 		<br><br>
 		<a href="#" id="simcal-reset-licenses" data-dialog="<?php _e( 'WARNING: Are you sure you want to clear all license keys from the settings?', 'google-calendar-events' ) ?>">
-			<?php _e( 'Clear your license keys', 'google-calendar-events' ) ?>
+			<?php _e( 'Clear your license keys', 'google-calendar-events' ) ?> 
+			<i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i>
 		</a>
 		<?php
 
