@@ -68,24 +68,24 @@ class Menus {
 
 		add_submenu_page(
 			self::$main_menu,
-			__( 'Add-ons', 'google-calendar-events' ),
-			__( 'Add-ons', 'google-calendar-events' ),
-			'manage_options',
-			'simple-calendar_add_ons',
-			function() {
-				$page = new Pages( 'add-ons' );
-				$page->html();
-			}
-		);
-
-		add_submenu_page(
-			self::$main_menu,
 			__( 'Settings', 'google-calendar-events' ),
 			__( 'Settings', 'google-calendar-events' ),
 			'manage_options',
 			'simple-calendar_settings',
 			function () {
 				$page = new Pages( 'settings' );
+				$page->html();
+			}
+		);
+
+		add_submenu_page(
+			self::$main_menu,
+			__( 'Add-ons', 'google-calendar-events' ),
+			__( 'Add-ons', 'google-calendar-events' ),
+			'manage_options',
+			'simple-calendar_add_ons',
+			function() {
+				$page = new Pages( 'add-ons' );
 				$page->html();
 			}
 		);
