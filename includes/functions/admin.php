@@ -370,9 +370,15 @@ function simcal_newsletter_signup() {
 					       name="fields[first_name]"
 					       value="<?php echo $name; ?>" />
 				</p>
-				<a href="#"
-				   id="simcal-drip-signup"
-				   class="right button button-primary"><?php _e( 'Send me the coupon', 'google-calendar-events' ); ?></a>
+				<p class="textright">
+					<a href="#"
+					   id="simcal-drip-signup"
+					   class="button button-primary"><?php _e( 'Send me the coupon', 'google-calendar-events' ); ?></a>
+				</p>
+				<div class="textright">
+					<a href="<?php echo simcal_ga_campaign_url( \SimpleCalendar\plugin()->get_url( 'gcal-pro' ), 'core-plugin', 'sidebar-link' ); ?>"
+					   target="_blank"><?php _e( 'Just take me to GCal Pro', 'google-calendar-events' ); ?></a>
+				</div>
 			</div>
 			<div class="thank-you" style="display: none;">
 				<?php _e( 'Thank you!', 'google-calendar-events' ); ?>
