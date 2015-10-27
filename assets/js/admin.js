@@ -416,9 +416,6 @@
 				email     = nlMetaBox.find( '#simcal-drip-field-email' ),
 				emailReal = nlForm.find( '#simcal-drip-real-field-email' );
 
-			console.log( name.val() );
-			console.log( email.val() );
-
 			nameReal.val( name.val() );
 			emailReal.val( email.val() );
 
