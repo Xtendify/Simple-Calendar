@@ -81,7 +81,11 @@ class Google_Admin {
 	public function settings_fields() {
 		return array(
 			'name' => $this->feed->name,
-			'description' => __( 'Use Google Calendar to read events from public Google calendars only.', 'google-calendar-events' ),
+			'description' => __( 'Use Google Calendar to read events from public-only Google calendars.', 'google-calendar-events' ) .
+			                 '<br/><br/>' .
+			                 sprintf( __( 'Will not be used if the <strong><a href="%s" target="_blank">Google Calendar Pro add-on</a></strong> is active.', 'google-calendar-events' ),
+				                 simcal_ga_campaign_url( \SimpleCalendar\plugin()->get_url( 'gcal-pro' ), 'core-plugin', 'settings-link' )
+			                 ),
 			'fields' => array(
 				'api_key' => array(
 					'type'       => 'standard',
