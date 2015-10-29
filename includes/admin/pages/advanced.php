@@ -72,6 +72,14 @@ class Advanced extends Admin_Page {
 			if ( 'assets' == $section ) {
 
 				$fields[ $section ] = array(
+					'always_enqueue' => array(
+						'title'   => __( 'Always Enqueue', 'google-calendar-events' ),
+						'tooltip' => __( 'If ticked, this option will load all scripts on every page load.', 'google-calendar-events' ),
+						'type'    => 'checkbox',
+						'name'    => 'simple-calendar_' . $this->option_group . '_' . $this->id . '[' . $section . '][always_enqueue]',
+						'id'      => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-' . $section . '-always-enqueue',
+						'value'   => $this->get_option_value( $section, 'always_enqueue' )
+					),
 					'disable_css' => array(
 						'title'   => __( 'Disable Styles', 'google-calendar-events' ),
 						'tooltip' => __( 'If ticked, this option will prevent front end stylesheet to load.', 'google-calendar-events' ),

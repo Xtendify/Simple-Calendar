@@ -62,6 +62,14 @@ class Assets {
 	public $disable_styles = false;
 
 	/**
+	 * Disable styles.
+	 *
+	 * @access public
+	 * @var bool
+	 */
+	public $always_enqueue = false;
+
+	/**
 	 * Hook in tabs.
 	 *
 	 * @since 3.0.0
@@ -74,8 +82,13 @@ class Assets {
 		if ( isset( $settings['assets']['disable_js'] ) ) {
 			$this->disable_scripts = 'yes' == $settings['assets']['disable_js'] ? true : false;
 		}
+
 		if ( isset( $settings['assets']['disable_css'] ) ) {
 			$this->disable_styles = 'yes' == $settings['assets']['disable_css'] ? true : false;
+		}
+
+		if ( isset( $settings['assets']['always_enqueue'] ) ) {
+			$this->always_enqueue = 'yes' == $settings['assets']['always_enqueue'] ? true : false;
 		}
 
 		add_action( 'init', array( $this, 'register' ), 20 );
@@ -167,6 +180,8 @@ class Assets {
 				$scripts = $view->scripts( $this->min );
 				$styles  = $view->styles( $this->min );
 			}
+		} else if ( $this->always_enqueue ) {
+			$scripts = $this->get_default_scripts();
 		}
 
 		$this->get_widgets_assets();
@@ -301,6 +316,34 @@ class Assets {
 			}
 
 		}
+	}
+
+	/**
+	 * Return the default scripts that are loaded. Used mainly for the always enqueue scripts option.
+	 *
+	 * This can be improved.
+	 */
+	public function get_default_scripts() {
+		return array(
+			'simcal-qtip' => array(
+				'src'       => SIMPLE_CALENDAR_ASSETS . 'js/vendor/qtip' . $this->min . '.js',
+				'deps'      => array( 'jquery' ),
+				'ver'       => '2.2.1',
+				'in_footer' => true,
+			),
+			'simcal-default-calendar' => array(
+				'src'       => SIMPLE_CALENDAR_ASSETS . 'js/default-calendar' . $this->min . '.js',
+				'deps'      => array(
+					'jquery',
+					'simcal-qtip',
+				),
+				'var'       => SIMPLE_CALENDAR_VERSION,
+				'in_footer' => true,
+				'localize'  => array(
+					'simcal_default_calendar' => simcal_common_scripts_variables(),
+				),
+			),
+		);
 	}
 
 }
