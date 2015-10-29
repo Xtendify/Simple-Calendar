@@ -31,7 +31,7 @@ class Licenses extends Admin_Page {
 		$this->id           = $tab = 'licenses';
 		$this->option_group = $page = 'settings';
 		$this->label        = __( 'Add-on Licenses', 'google-calendar-events' );
-		$this->description  = __( 'Manage your premium add-on license keys.', 'google-calendar-events' );
+		//$this->description  = __( 'Manage your premium add-on license keys.', 'google-calendar-events' );
 		$this->sections     = $this->add_sections();
 		$this->fields       = $this->add_fields();
 

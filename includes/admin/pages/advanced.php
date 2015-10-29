@@ -30,7 +30,7 @@ class Advanced extends Admin_Page {
 		$this->id           = 'advanced';
 		$this->option_group = 'settings';
 		$this->label        = __( 'Advanced', 'google-calendar-events' );
-		$this->description  = __( 'Advanced settings.', 'google-calendar-events' );
+		//$this->description  = __( 'Advanced settings.', 'google-calendar-events' );
 		$this->sections     = $this->add_sections();
 		$this->fields       = $this->add_fields();
 	}

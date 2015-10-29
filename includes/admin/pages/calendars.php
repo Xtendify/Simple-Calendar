@@ -40,7 +40,7 @@ class Calendars extends Admin_Page {
 		$this->id               = 'calendars';
 		$this->option_group     = 'settings';
 		$this->label            = __( 'Calendars', 'google-calendar-events' );
-		$this->description      = __( 'Manage calendar preferences and calendar types settings and options.', 'google-calendar-events' );
+		//$this->description      = __( 'Manage calendar preferences and calendar types settings and options.', 'google-calendar-events' );
 
 		$calendars = simcal_get_calendar_types();
 		$calendar_settings = array();

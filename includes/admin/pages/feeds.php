@@ -40,7 +40,7 @@ class Feeds extends Admin_Page {
 		$this->id           = 'feeds';
 		$this->option_group = 'settings';
 		$this->label        = __( 'Event Sources', 'google-calendar-events' );
-		$this->description  = __( 'Manage calendar event sources settings.', 'google-calendar-events' );
+		//$this->description  = __( 'Manage calendar event sources settings.', 'google-calendar-events' );
 
 		$feeds_settings = array();
 		$feeds = simcal_get_feed_types();
