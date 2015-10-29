@@ -211,26 +211,31 @@
   .simcal-default-calendar.simcal-event-bubble .simcal-events {
     margin: 0; }
 
-.simcal-default-calendar .simcal-attachment,
-.simcal-default-calendar .simcal-attendee {
+.simcal-default-calendar ul.simcal-attachments,
+.simcal-default-calendar ul.simcal-attendees {
+  margin: 0;
+  padding: 0; }
+
+.simcal-default-calendar li.simcal-attachment,
+.simcal-default-calendar li.simcal-attendee {
   list-style: none;
   margin-bottom: 4px; }
-  .simcal-default-calendar .simcal-attachment:last-child,
-  .simcal-default-calendar .simcal-attendee:last-child {
+  .simcal-default-calendar li.simcal-attachment:last-child,
+  .simcal-default-calendar li.simcal-attendee:last-child {
     margin-bottom: 0; }
-  .simcal-default-calendar .simcal-attachment small,
-  .simcal-default-calendar .simcal-attendee small {
+  .simcal-default-calendar li.simcal-attachment small,
+  .simcal-default-calendar li.simcal-attendee small {
     opacity: .9;
     text-transform: lowercase; }
 
-.simcal-default-calendar .simcal-attachment a,
-.simcal-default-calendar .simcal-attendee a,
+.simcal-default-calendar li.simcal-attachment a,
+.simcal-default-calendar li.simcal-attendee a,
 .simcal-default-calendar .simcal-organizer a {
   border-bottom: 0;
   text-decoration: none; }
 
-.simcal-default-calendar .simcal-attachment img,
-.simcal-default-calendar .simcal-attendee img,
+.simcal-default-calendar li.simcal-attachment img,
+.simcal-default-calendar li.simcal-attendee img,
 .simcal-default-calendar .simcal-organizer img {
   display: inline-block;
   margin: 0 4px;

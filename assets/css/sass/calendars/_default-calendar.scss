@@ -122,8 +122,15 @@ $default-calendar-white: rgb(255, 255, 255);
 
   }
 
-  .simcal-attachment,
-  .simcal-attendee {
+  // GCal attendees & attachments
+  ul.simcal-attachments,
+  ul.simcal-attendees {
+    margin: 0;
+    padding: 0;
+  }
+
+  li.simcal-attachment,
+  li.simcal-attendee {
 
     list-style: none;
     margin-bottom: 4px;
@@ -139,8 +146,9 @@ $default-calendar-white: rgb(255, 255, 255);
 
   }
 
-  .simcal-attachment,
-  .simcal-attendee,
+  // GCal attendees, attachments & organizer
+  li.simcal-attachment,
+  li.simcal-attendee,
   .simcal-organizer {
 
     a {
