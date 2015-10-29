@@ -287,6 +287,9 @@ body .simcal-field-textarea {
     -webkit-transform: rotate(2deg);
             transform: rotate(2deg); }
 
+#simcal-settings-page .simcal-wide-text {
+  width: 40em; }
+
 #simcal-settings-page .select2 {
   max-width: 500px; }
 
