@@ -166,10 +166,10 @@ class Welcome {
 			<a href="<?php echo admin_url( 'admin.php?page=simple-calendar_settings' ); ?>"
 			   class="button button-primary"
 				><?php _e( 'Settings', 'google-calendar-events' ); ?></a>
-			<a href="<?php echo simcal_ga_campaign_url( \SimpleCalendar\plugin()->get_url( 'add-ons' ), 'core-plugin', 'welcome-page' ); ?>"
+			<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'add-ons' ), 'core-plugin', 'welcome-page' ); ?>"
 			   class="docs button button-primary" target="_blank"
 				><?php _e( 'Add-ons', 'google-calendar-events' ); ?></a>
-			<a href="<?php echo simcal_ga_campaign_url( \SimpleCalendar\plugin()->get_url( 'docs' ), 'core-plugin', 'welcome-page' ); ?>"
+			<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'docs' ), 'core-plugin', 'welcome-page' ); ?>"
 			   class="docs button button-primary" target="_blank"
 				><?php _e( 'Docs', 'google-calendar-events' ); ?></a>
 		</p>

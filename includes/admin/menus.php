@@ -144,12 +144,12 @@ class Menus {
 		if ( self::$plugin == $file ) {
 
 			$links = array();
-			$links['github']         = '<a href="' . \SimpleCalendar\plugin()->get_url( 'github' ) . '" target="_blank" >GitHub</a>';
-			$links['documentation']  = '<a href="' . simcal_ga_campaign_url( \SimpleCalendar\plugin()->get_url( 'docs' ), 'core-plugin', 'plugin-listing' ) . '" target="_blank" >' .
+			$links['github']         = '<a href="' . simcal_get_url( 'github' ) . '" target="_blank" >GitHub</a>';
+			$links['documentation']  = '<a href="' . simcal_ga_campaign_url( simcal_get_url( 'docs' ), 'core-plugin', 'plugin-listing' ) . '" target="_blank" >' .
 			                           __( 'Documentation', 'google-calendar-events' ) . '</a>';
-			$links['support']        = '<a href="' . \SimpleCalendar\plugin()->get_url( 'support' ) . '" target="_blank" >' .
+			$links['support']        = '<a href="' . simcal_get_url( 'support' ) . '" target="_blank" >' .
 			                           __( 'Support', 'google-calendar-events' ) . '</a>';
-			$links['add-ons']  = '<a href="' . simcal_ga_campaign_url( \SimpleCalendar\plugin()->get_url( 'add-ons' ), 'core-plugin', 'plugin-listing' ) . '" target="_blank" >' .
+			$links['add-ons']        = '<a href="' . simcal_ga_campaign_url( simcal_get_url( 'add-ons' ), 'core-plugin', 'plugin-listing' ) . '" target="_blank" >' .
 			                           __( 'Add-ons', 'google-calendar-events' ) . '</a>';
 
 			return apply_filters( 'simcal_plugin_action_links', array_merge( $meta_links, $links ) );

@@ -84,7 +84,7 @@ class Google_Admin {
 			'description' => __( 'Use Google Calendar to read events from public-only Google calendars.', 'google-calendar-events' ) .
 			                 '<br/><br/>' .
 			                 sprintf( __( 'Will not be used if the <strong><a href="%s" target="_blank">Google Calendar Pro add-on</a></strong> is active.', 'google-calendar-events' ),
-				                 simcal_ga_campaign_url( \SimpleCalendar\plugin()->get_url( 'gcal-pro' ), 'core-plugin', 'settings-link' )
+				                 simcal_ga_campaign_url( simcal_get_url( 'gcal-pro' ), 'core-plugin', 'settings-link' )
 			                 ),
 			'fields' => array(
 				'api_key' => array(
@@ -129,7 +129,7 @@ class Google_Admin {
 			$has_errors = true;
 			$message = '<p class="description">' .
 			           sprintf( __( 'Please enter your Google API Key. <a href="%s" target="_blank">Detailed instructions</a> ', 'google-calendar-events' ),
-				           simcal_ga_campaign_url( \SimpleCalendar\plugin()->get_url( 'docs' ) . '/google-api-key/', 'core-plugin', 'settings-link' )
+				           simcal_ga_campaign_url( simcal_get_url( 'docs' ) . '/google-api-key/', 'core-plugin', 'settings-link' )
 			           ) .
 			           '</p>';
 		}
@@ -262,8 +262,8 @@ class Google_Admin {
 			            sprintf(
 				            __( '1. Set the Google Calendar you want to use as "public." <a href="%1s" target="_blank">Detailed instructions</a>', 'google-calendar-events' ) . '<br />' .
 				            __( '2. Copy and paste your Google Calendar ID here. <a href="%2s" target="_blank">Detailed instructions</a>', 'google-calendar-events' ),
-				            simcal_ga_campaign_url( \SimpleCalendar\plugin()->get_url( 'docs' ) . '/make-your-google-calendar-public/', 'core-plugin', 'settings-link' ),
-				            simcal_ga_campaign_url( \SimpleCalendar\plugin()->get_url( 'docs' ) . '/find-your-google-calendar-id/', 'core-plugin', 'settings-link' )
+				            simcal_ga_campaign_url( simcal_get_url( 'docs' ) . '/make-your-google-calendar-public/', 'core-plugin', 'settings-link' ),
+				            simcal_ga_campaign_url( simcal_get_url( 'docs' ) . '/find-your-google-calendar-id/', 'core-plugin', 'settings-link' )
 			            ) . '</p>';
 
 		} elseif ( $post_id > 0 && ! is_null( $feed ) && ! empty( $this->feed->type ) ) {
