@@ -38,7 +38,7 @@ class Default_Calendar_Admin {
 	 * @return array
 	 */
 	public function settings_fields() {
-		return array(
+		/*return array(
 			'name' => __( 'Default Calendar', 'google-calendar-events' ),
 			'description' => '',
 			'fields' => array(
@@ -64,7 +64,9 @@ class Default_Calendar_Admin {
 					'default'   => '#000000',
 				),
 			),
-		);
+		);*/
+
+		return array();
 	}
 
 	/**
