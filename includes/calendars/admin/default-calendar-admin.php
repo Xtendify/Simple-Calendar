@@ -267,81 +267,75 @@ class Default_Calendar_Admin {
 			<?php
 
 			$settings                   = get_option( 'simple-calendar_settings_calendars' );
-			$hide_styles_options        = isset( $settings['general']['hide_calendar_styles_options'] ) ? $settings['general']['hide_calendar_styles_options'] : '';
+			$default_theme              = isset( $settings['default-calendar']['theme'] ) ? $settings['default-calendar']['theme'] : 'light';
+			$default_today_color        = isset( $settings['default-calendar']['today_color'] ) ? $settings['default-calendar']['today_color'] : '#FF0000';
+			$default_days_events_color  = isset( $settings['default-calendar']['days_events_color'] ) ? $settings['default-calendar']['days_events_color'] : '#000000';
 
-			if ( 'yes' != $hide_styles_options ) {
+			?>
+			<tbody class="simcal-panel-section">
+				<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list" style="display: none;">
+					<th><label for="_default_calendar_style_theme"><?php _e( 'Theme', 'google-calendar-events' ); ?></label></th>
+					<td>
+						<?php
 
-				$default_theme              = isset( $settings['default-calendar']['theme'] ) ? $settings['default-calendar']['theme'] : 'light';
-				$default_today_color        = isset( $settings['default-calendar']['today_color'] ) ? $settings['default-calendar']['today_color'] : '#FF0000';
-				$default_days_events_color  = isset( $settings['default-calendar']['days_events_color'] ) ? $settings['default-calendar']['days_events_color'] : '#000000';
+						$saved = get_post_meta( $post_id, '_default_calendar_style_theme', true );
+						$value = ! $saved ? $default_theme : $saved;
 
-				?>
-				<tbody class="simcal-panel-section">
-					<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list" style="display: none;">
-						<th><label for="_default_calendar_style_theme"><?php _e( 'Theme', 'google-calendar-events' ); ?></label></th>
-						<td>
-							<?php
+						simcal_print_field( array(
+							'type'    => 'select',
+							'name'    => '_default_calendar_style_theme',
+							'id'      => '_default_calendar_style_theme',
+							'value'   => $value,
+							'tooltip' => __( 'Choose a calendar theme to match your site theme.', 'google-calendar-events' ),
+							'options' => array(
+								'light' => __( 'Light', 'google-calendar-events' ),
+								'dark' => __( 'Dark', 'google-calendar-events' ),
+							),
+						) );
 
-							$saved = get_post_meta( $post_id, '_default_calendar_style_theme', true );
-							$value = ! $saved ? $default_theme : $saved;
+						?>
+					</td>
+				</tr>
+				<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list" style="display: none;">
+					<th><label for="_default_calendar_style_today"><?php _e( 'Today', 'google-calendar-events' ); ?></label></th>
+					<td>
+						<?php
 
-							simcal_print_field( array(
-								'type'    => 'select',
-								'name'    => '_default_calendar_style_theme',
-								'id'      => '_default_calendar_style_theme',
-								'value'   => $value,
-								'tooltip' => __( 'Choose a calendar theme to match your site theme.', 'google-calendar-events' ),
-								'options' => array(
-									'light' => __( 'Light', 'google-calendar-events' ),
-									'dark' => __( 'Dark', 'google-calendar-events' ),
-								),
-							) );
+						$saved = get_post_meta( $post_id, '_default_calendar_style_today', true );
+						$value = ! $saved ? $default_today_color : $saved;
 
-							?>
-						</td>
-					</tr>
-					<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list" style="display: none;">
-						<th><label for="_default_calendar_style_today"><?php _e( 'Today', 'google-calendar-events' ); ?></label></th>
-						<td>
-							<?php
+						simcal_print_field( array(
+							'type'    => 'standard',
+							'subtype' => 'color-picker',
+							'name'    => '_default_calendar_style_today',
+							'id'      => '_default_calendar_style_today',
+							'value'   => $value,
+						) );
 
-							$saved = get_post_meta( $post_id, '_default_calendar_style_today', true );
-							$value = ! $saved ? $default_today_color : $saved;
+						?>
+					</td>
+				</tr>
+				<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list" style="display: none;">
+					<th><label for="_default_calendar_style_days_events"><?php _e( 'Days with events', 'google-calendar-events' ); ?></label></th>
+					<td>
+						<?php
 
-							simcal_print_field( array(
-								'type'    => 'standard',
-								'subtype' => 'color-picker',
-								'name'    => '_default_calendar_style_today',
-								'id'      => '_default_calendar_style_today',
-								'value'   => $value,
-							) );
+						$saved = get_post_meta( $post_id, '_default_calendar_style_days_events', true );
+						$value = ! $saved ? $default_days_events_color : $saved;
 
-							?>
-						</td>
-					</tr>
-					<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list" style="display: none;">
-						<th><label for="_default_calendar_style_days_events"><?php _e( 'Days with events', 'google-calendar-events' ); ?></label></th>
-						<td>
-							<?php
+						simcal_print_field( array(
+							'type'    => 'standard',
+							'subtype' => 'color-picker',
+							'name'    => '_default_calendar_style_days_events',
+							'id'      => '_default_calendar_style_days_events',
+							'value'   => $value,
+						) );
 
-							$saved = get_post_meta( $post_id, '_default_calendar_style_days_events', true );
-							$value = ! $saved ? $default_days_events_color : $saved;
-
-							simcal_print_field( array(
-								'type'    => 'standard',
-								'subtype' => 'color-picker',
-								'name'    => '_default_calendar_style_days_events',
-								'id'      => '_default_calendar_style_days_events',
-								'value'   => $value,
-							) );
-
-							?>
-						</td>
-					</tr>
-				</tbody>
-				<?php
-
-			}
+						?>
+					</td>
+				</tr>
+			</tbody>
+			<?php
 
 			?>
 		</table>
