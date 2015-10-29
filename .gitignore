@@ -1,5 +1,8 @@
 ### IDE ###
 
+# TODO: Temporary until we figure out Composer configuration.
+composer.lock
+
 # PhpStorm
 .idea
 
