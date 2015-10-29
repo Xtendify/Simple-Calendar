@@ -30,8 +30,8 @@ class Licenses extends Admin_Page {
 
 		$this->id           = $tab = 'licenses';
 		$this->option_group = $page = 'settings';
-		$this->label        = __( 'Add-ons Licenses', 'google-calendar-events' );
-		$this->description  = __( 'Manage add-ons licenses.', 'google-calendar-events' );
+		$this->label        = __( 'Add-on Licenses', 'google-calendar-events' );
+		$this->description  = __( 'Manage your premium add-on license keys.', 'google-calendar-events' );
 		$this->sections     = $this->add_sections();
 		$this->fields       = $this->add_fields();
 
@@ -55,8 +55,8 @@ class Licenses extends Admin_Page {
 		// Add a license 'reset' button.
 		?>
 		<br><br>
-		<a href="#" id="simcal-reset-licenses" data-dialog="<?php _e( 'WARNING: Are you sure you want to clear all license keys from the settings?', 'google-calendar-events' ) ?>">
-			<?php _e( 'Clear your license keys', 'google-calendar-events' ) ?> 
+		<a href="#" id="simcal-reset-licenses" data-dialog="<?php _e( 'WARNING: Are you sure you want to start over and delete all license keys from the settings?', 'google-calendar-events' ) ?>">
+			<?php _e( 'Delete your license keys', 'google-calendar-events' ) ?>
 			<i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i>
 		</a>
 		<?php
@@ -73,10 +73,10 @@ class Licenses extends Admin_Page {
 	public function add_sections() {
 		$sections = array(
 			'keys' => array(
-				'title' => __( 'Add-ons', 'google-calendar-events' ),
-				'description' => __( 'Manage here your license keys for premium add-ons.', 'google-calendar-events' ) .
-				                 '<br>' .
-				                 __( 'Enter a license key in the corresponding field to activate it and receive automatic updates according to your license terms.', 'google-calendar-events' ),
+				'title' => __( 'Premium Add-on License Keys', 'google-calendar-events' ),
+				'description' => __( 'Enter your add-on license keys below, making sure to activate each one to ensure they are valid.', 'google-calendar-events' ) .
+				                 '<br/><br/>' .
+				                 '<em>' . __( 'Your license keys are used for access to automatic upgrades and premium support.', 'google-calendar-events' ) . '</em>',
 			),
 		);
 		return apply_filters( 'simcal_add_' . $this->option_group . '_' . $this->id .'_sections', $sections );
