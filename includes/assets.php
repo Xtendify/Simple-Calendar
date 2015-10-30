@@ -182,6 +182,7 @@ class Assets {
 			}
 		} else if ( $this->always_enqueue ) {
 			$scripts = $this->get_default_scripts();
+			$styles  = $this->get_default_styles();
 		}
 
 		$this->get_widgets_assets();
@@ -342,6 +343,37 @@ class Assets {
 				'localize'  => array(
 					'simcal_default_calendar' => simcal_common_scripts_variables(),
 				),
+			),
+		);
+	}
+
+	/**
+	 * Return the default styles that are loaded. Used mainly for the always enqueue scripts option.
+	 *
+	 * This can be improved.
+	 */
+	public function get_default_styles() {
+		return array(
+			'simcal-qtip' => array(
+				'src'   => SIMPLE_CALENDAR_ASSETS . 'css/vendor/qtip' . $this->min . '.css',
+				'ver'   => '2.2.1',
+				'media' => 'all',
+			),
+			'simcal-default-calendar-grid' => array(
+				'src'   => SIMPLE_CALENDAR_ASSETS . 'css/default-calendar-grid' . $this->min . '.css',
+				'deps'  => array(
+					'simcal-qtip',
+				),
+				'ver'   => SIMPLE_CALENDAR_VERSION,
+				'media' => 'all',
+			),
+			'simcal-default-calendar-list' => array(
+				'src'   => SIMPLE_CALENDAR_ASSETS . 'css/default-calendar-list' . $this->min . '.css',
+				'deps'  => array(
+					'simcal-qtip',
+				),
+				'ver'   => SIMPLE_CALENDAR_VERSION,
+				'media' => 'all',
 			),
 		);
 	}
