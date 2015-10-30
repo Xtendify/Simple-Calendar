@@ -270,8 +270,8 @@ class Default_Calendar_Admin {
 
 			$settings                   = get_option( 'simple-calendar_settings_calendars' );
 			$default_theme              = isset( $settings['default-calendar']['theme'] ) ? $settings['default-calendar']['theme'] : 'light';
-			$default_today_color        = isset( $settings['default-calendar']['today_color'] ) ? $settings['default-calendar']['today_color'] : '#FF0000';
-			$default_days_events_color  = isset( $settings['default-calendar']['days_events_color'] ) ? $settings['default-calendar']['days_events_color'] : '#000000';
+			$default_today_color        = /*isset( $settings['default-calendar']['today_color'] ) ? $settings['default-calendar']['today_color'] :*/ '#FF0000';
+			$default_days_events_color  = /*isset( $settings['default-calendar']['days_events_color'] ) ? $settings['default-calendar']['days_events_color'] :*/ '#000000';
 
 			?>
 			<tbody class="simcal-panel-section">
