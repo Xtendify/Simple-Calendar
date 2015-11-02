@@ -36,10 +36,6 @@ class Installation {
 
 		self::update( SIMPLE_CALENDAR_VERSION );
 
-		new Post_Types();
-
-		flush_rewrite_rules();
-
 		do_action( 'simcal_activated' );
 	}
 

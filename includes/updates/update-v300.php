@@ -7,7 +7,6 @@
 namespace SimpleCalendar\Updates;
 
 use Carbon\Carbon;
-use SimpleCalendar\Admin\Notice;
 use SimpleCalendar\Post_Types;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -35,6 +34,8 @@ class Update_V300 {
 			$this->update_widgets();
 		}
 		$this->update_options();
+
+		flush_rewrite_rules();
 	}
 
 	/**

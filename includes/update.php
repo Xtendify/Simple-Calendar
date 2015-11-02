@@ -97,6 +97,12 @@ class Update {
 			}
 
 			simcal_delete_feed_transients();
+
+		} else {
+
+			new Post_Types();
+			flush_rewrite_rules();
+
 		}
 
 		do_action( 'simcal_updated', $this->new_ver );
