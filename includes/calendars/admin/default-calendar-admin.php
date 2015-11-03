@@ -38,34 +38,6 @@ class Default_Calendar_Admin {
 	 * @return array
 	 */
 	public function settings_fields() {
-		/*return array(
-			'name' => __( 'Default Calendar', 'google-calendar-events' ),
-			'description' => '',
-			'fields' => array(
-				'theme' => array(
-					'type'      => 'select',
-					'title'     => __( 'Default theme', 'google-calendar-events' ),
-					'default'   => 'light',
-					'options'   => array(
-						'light' => __( 'Light', 'google-calendar-events' ),
-						'dark'  => __( 'Dark', 'google-calendar-events' ),
-					),
-				),
-				'today_color' => array(
-					'type'        => 'standard',
-					'subtype'     => 'color-picker',
-					'title'       => __( 'Today default color', 'google-calendar-events' ),
-					'default'   => '#FF0000',
-				),
-				'days_events_color' => array(
-					'type'      => 'standard',
-					'subtype'   => 'color-picker',
-					'title'     => __( 'Days with events color', 'google-calendar-events' ),
-					'default'   => '#000000',
-				),
-			),
-		);*/
-
 		return array();
 	}
 
