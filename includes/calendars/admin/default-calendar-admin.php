@@ -190,24 +190,6 @@ class Default_Calendar_Admin {
 						?>
 					</td>
 				</tr>
-				<tr class="simcal-panel-field simcal-default-calendar-list" style="display: none;">
-					<th><label for="_default_calendar_compact_list"><?php _e( 'Compact list', 'google-calendar-events' ); ?></label></th>
-					<td>
-						<?php
-
-						$compact = get_post_meta( $post_id, '_default_calendar_compact_list', true );
-
-						simcal_print_field( array(
-							'type'    => 'checkbox',
-							'name'    => '_default_calendar_compact_list',
-							'id'      => '_default_calendar_compact_list',
-							'tooltip' => __( 'Make an events list more compact by grouping together events from different days in a single list.', 'google-calendar-events' ),
-							'value'   => 'yes' == $compact ? 'yes' : 'no',
-						) );
-
-						?>
-					</td>
-				</tr>
 				<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list"  style="display: none;">
 					<th><label for="_default_calendar_limit_visible_events"><?php _e( 'Limit visible events', 'google-calendar-events' ); ?></label></th>
 					<td>
@@ -373,10 +355,6 @@ class Default_Calendar_Admin {
 		// List range type.
 		$group = isset( $_POST['_default_calendar_list_range_type'] ) ? sanitize_key( $_POST['_default_calendar_list_range_type'] ) : 'monthly';
 		update_post_meta( $post_id, '_default_calendar_list_range_type', $group );
-
-		// Compact list.
-		$compact = isset( $_POST['_default_calendar_compact_list'] ) ? 'yes' : 'no';
-		update_post_meta( $post_id, '_default_calendar_compact_list', $compact );
 
 		// Limit number of initially visible daily events.
 		$limit = isset( $_POST['_default_calendar_limit_visible_events'] ) ? 'yes' : 'no';
