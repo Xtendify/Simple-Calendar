@@ -123,16 +123,12 @@ class Welcome {
 	 * @since 3.0.0
 	 */
 	private function intro() {
-
-		$version = explode( '.', SIMPLE_CALENDAR_VERSION );
-		unset( $version[ count( $version ) - 1 ] );
-		$major_version = join( '.', $version );
-
+		
 		?>
 		<h1>
 			<?php
-			/* translators: %s prints the current major version of the plugin. */
-			printf( __( 'Welcome to Simple Calendar %s', 'google-calendar-events' ), $major_version );
+			/* translators: %s prints the current version of the plugin. */
+			printf( __( 'Welcome to Simple Calendar %s', 'google-calendar-events' ), SIMPLE_CALENDAR_VERSION );
 			?>
 		</h1>
 
@@ -149,8 +145,8 @@ class Welcome {
 
 			echo $message;
 
-			/* translators: %s prints the current major version of the plugin. */
-			printf( ' ' . __( 'Simple Calendar %s is more powerful, stable and secure than ever before. We hope you really enjoy using it.', 'google-calendar-events' ), $major_version );
+			/* translators: %s prints the current version of the plugin. */
+			printf( ' ' . __( 'Simple Calendar %s is more powerful, stable and secure than ever before. We hope you really enjoy using it.', 'google-calendar-events' ), SIMPLE_CALENDAR_VERSION );
 
 			?>
 		</div>
