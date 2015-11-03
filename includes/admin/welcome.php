@@ -123,7 +123,7 @@ class Welcome {
 	 * @since 3.0.0
 	 */
 	private function intro() {
-		
+
 		?>
 		<h1>
 			<?php
@@ -138,7 +138,7 @@ class Welcome {
 			if ( 'fresh' == $this->install ) {
 				$message = __( 'Thanks, all done!', 'google-calendar-events' );
 			} elseif ( 'update' == $this->install ) {
-				$message = __( 'Thank you for updating to the latest version!', 'google-calendar-events' );
+				$message = __( 'Thanks for updating to the latest version!', 'google-calendar-events' );
 			} else {
 				$message = __( 'Thanks for installing!', 'google-calendar-events' );
 			}
@@ -146,7 +146,7 @@ class Welcome {
 			echo $message;
 
 			/* translators: %s prints the current version of the plugin. */
-			printf( ' ' . __( 'Simple Calendar %s is more powerful, stable and secure than ever before. We hope you really enjoy using it.', 'google-calendar-events' ), SIMPLE_CALENDAR_VERSION );
+			printf( ' ' . __( "Simple Calendar %s has many new display options and is much easier to configure. We think you'll really enjoy using it.", 'google-calendar-events' ), SIMPLE_CALENDAR_VERSION );
 
 			?>
 		</div>
