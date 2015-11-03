@@ -218,6 +218,10 @@ class Welcome {
 
 				<?php $this->intro(); ?>
 
+				<h3>Modern calendar displays with simplified event text and color options.</h3>
+
+				<img class="border" src="<?php echo SIMPLE_CALENDAR_ASSETS . '/images/welcome/grid-view-custom-colors.png'; ?>" />
+
 				<?php $this->main_nav_links(); ?>
 
 			</div>

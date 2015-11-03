@@ -46,6 +46,16 @@
   width: 185px;
 }
 
+#simcal-welcome {
+
+  img.border {
+    display: block;
+    margin: 1em 0 2em;
+    border: 1px solid #d6d6d6;
+    box-sizing: border-box;
+  }
+}
+
 #simcal-system-status-report {
   textarea {
     font-family: monospace;
