@@ -151,9 +151,7 @@ class Welcome {
 			?>
 		</div>
 
-		<div class="simcal-badge">
-			<?php printf( _x( 'Version %s', 'Plugin version', 'google-calendar-events' ), SIMPLE_CALENDAR_VERSION ); ?>
-		</div>
+		<div class="simcal-badge">&nbsp;</div>
 
 		<p>
 			<a href="<?php echo admin_url( 'edit.php?post_type=calendar' ); ?>"

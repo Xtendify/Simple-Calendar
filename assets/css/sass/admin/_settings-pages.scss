@@ -33,6 +33,19 @@
 
 }
 
+// Welcome/About page
+.about-wrap .simcal-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.simcal-badge {
+  background-image: url( '../images/icon-185x185.png' );
+  height: 185px;
+  width: 185px;
+}
+
 #simcal-system-status-report {
   textarea {
     font-family: monospace;
