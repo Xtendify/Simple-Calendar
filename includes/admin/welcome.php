@@ -118,6 +118,32 @@ class Welcome {
 	}
 
 	/**
+	 * Main nav links at top & bottom.
+	 *
+	 * @since 3.0.0
+	 */
+	public function main_nav_links() {
+
+		?>
+		<p>
+			<a href="<?php echo admin_url( 'edit.php?post_type=calendar' ); ?>"
+			   class="button button-primary"
+				><?php _e( 'Calendars', 'google-calendar-events' ); ?></a>
+			<a href="<?php echo admin_url( 'admin.php?page=simple-calendar_settings' ); ?>"
+			   class="button button-primary"
+				><?php _e( 'Settings', 'google-calendar-events' ); ?></a>
+			<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'add-ons' ), 'core-plugin', 'welcome-page' ); ?>"
+			   class="docs button button-primary" target="_blank"
+				><?php _e( 'Add-ons', 'google-calendar-events' ); ?></a>
+			<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'docs' ), 'core-plugin', 'welcome-page' ); ?>"
+			   class="docs button button-primary" target="_blank"
+				><?php _e( 'Documentation', 'google-calendar-events' ); ?></a>
+		</p>
+		<?php
+
+	}
+
+	/**
 	 * Intro shown on every about page screen.
 	 *
 	 * @since 3.0.0
@@ -153,20 +179,7 @@ class Welcome {
 
 		<div class="simcal-badge">&nbsp;</div>
 
-		<p>
-			<a href="<?php echo admin_url( 'edit.php?post_type=calendar' ); ?>"
-			   class="button button-primary"
-				><?php _e( 'Calendars', 'google-calendar-events' ); ?></a>
-			<a href="<?php echo admin_url( 'admin.php?page=simple-calendar_settings' ); ?>"
-			   class="button button-primary"
-				><?php _e( 'Settings', 'google-calendar-events' ); ?></a>
-			<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'add-ons' ), 'core-plugin', 'welcome-page' ); ?>"
-			   class="docs button button-primary" target="_blank"
-				><?php _e( 'Add-ons', 'google-calendar-events' ); ?></a>
-			<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'docs' ), 'core-plugin', 'welcome-page' ); ?>"
-			   class="docs button button-primary" target="_blank"
-				><?php _e( 'Docs', 'google-calendar-events' ); ?></a>
-		</p>
+		<?php $this->main_nav_links(); ?>
 
 		<h2 class="nav-tab-wrapper">
 			<a class="nav-tab <?php if ( $_GET['page'] == 'simple-calendar_about' ) {
@@ -202,16 +215,7 @@ class Welcome {
 
 				<?php $this->intro(); ?>
 
-				<hr/>
-
-				<ul>
-					<li>
-						<a href="<?php echo admin_url( 'edit.php?post_type=calendar' ); ?>"><?php _e( 'Go to Calendars', 'google-calendar-events' ); ?></a>
-					</li>
-					<li>
-						<a href="<?php echo admin_url( 'edit.php?post_type=calendar&page=simple-calendar_settings' ); ?>"><?php _e( 'Go to Settings', 'google-calendar-events' ); ?></a>
-					</li>
-				</ul>
+				<?php $this->main_nav_links(); ?>
 
 			</div>
 		</div>
