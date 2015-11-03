@@ -109,12 +109,15 @@ class Welcome {
 	 * @since 3.0.0
 	 */
 	public function styles() {
+		// TODO Nothing in activation.css yet
+		/*
 		wp_enqueue_style(
 			'simcal-activation',
-			SIMPLE_CALENDAR_URL . '/assets/css/activation.css',
+			SIMPLE_CALENDAR_ASSETS . '/css/activation.css',
 			array(),
 			SIMPLE_CALENDAR_VERSION
 		);
+		*/
 	}
 
 	/**
