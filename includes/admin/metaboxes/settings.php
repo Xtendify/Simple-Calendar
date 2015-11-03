@@ -458,7 +458,7 @@ class Settings implements Meta_Box {
 							'type'    => 'checkbox',
 							'name'    => '_calendar_is_static',
 							'id'      => '_calendar_is_static',
-							'tooltip' => __( 'Depending on the chosen calendar type, it will prevent browsing the calendar, which will be fixed at its opening state.', 'google-calendar-events' ),
+							'tooltip' => __( "Remove the navigation arrows and fix the calendar view to it's initial state.", 'google-calendar-events' ),
 							'value'   => 'yes' == $fixed ? 'yes' : 'no',
 						) );
 
