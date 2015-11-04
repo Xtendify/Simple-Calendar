@@ -286,7 +286,7 @@ class Welcome {
 					<?php
 
 					printf(
-						__( 'Simple Calendar has been kindly translated into several other languages by contributors from all over the World. <a href="%s">Translate Simple Calendar</a>.', 'google-calendar-events' ),
+						__( 'Simple Calendar has been kindly translated into several other languages by contributors from all over the World. <a href="%s" target="_blank">Translate Simple Calendar</a>.', 'google-calendar-events' ),
 						'https://translate.wordpress.org/projects/wp-plugins/google-calendar-events'
 					);
 
