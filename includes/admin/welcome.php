@@ -258,8 +258,8 @@ class Welcome {
 					<?php
 
 					printf(
-						__( 'Simple Calendar is developed and maintained by a worldwide growing number of passionate individuals and backed by an awesome developer community. Want to see your name? <a href="%s">Contribute to Simple Calendar</a>.', 'google-calendar-events' ),
-						'https://github.com/moonstonemedia/Simple-Calendar/blob/refactor/contributing.md'
+						__( "Simple Calendar is created by a worldwide team of developers. If you'd like to contribute please visit our <a href='%s' target='_blank'>GitHub repo</a>.", 'google-calendar-events' ),
+						simcal_get_url( 'github' )
 					);
 
 					?>
