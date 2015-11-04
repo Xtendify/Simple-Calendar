@@ -122,10 +122,7 @@ class Calendar extends \WP_Widget implements Widget {
 		$instance = array();
 
 		$instance['title']          = ( ! empty( $new_instance['title'] ) )        ? sanitize_text_field( $new_instance['title'] ) : '';
-		$instance['title_url']      = ( ! empty( $new_instance['title_url'] ) )    ? sanitize_text_field( $new_instance['title_url'] ) : '';
-		$instance['text_before']    = ( ! empty( $new_instance['text_before'] ) )  ? wp_kses_post( $new_instance['text_before'] ) : '';
 		$instance['calendar_id']    = ( ! empty( $new_instance['calendar_id'] ) )  ? absint( $new_instance['calendar_id'] ) : '';
-		$instance['text_after']     = ( ! empty( $new_instance['text_after'] ) )   ? wp_kses_post( $new_instance['text_after'] ) : '';
 
 		return $instance;
 	}
@@ -142,10 +139,7 @@ class Calendar extends \WP_Widget implements Widget {
 	public function form( $instance ) {
 
 		$title          = isset( $instance['title'] )       ? esc_attr( $instance['title'] ) : __( 'Calendar', 'google-calendar-events' );
-		$title_url      = isset( $instance['title_url'] )   ? esc_url_raw( $instance['title_url'] ) : '';
-		$text_before    = isset( $instance['text_before'] ) ? esc_textarea( $instance['text_before'] ) : '';
 		$calendar_id    = isset( $instance['calendar_id'] ) ? esc_attr( $instance['calendar_id'] ) : '';
-		$text_after     = isset( $instance['text_after'] )  ? esc_textarea( $instance['text_after'] ) : '';
 
 		?>
 		<div class="simcal-calendar-widget-settings">
@@ -161,24 +155,6 @@ class Calendar extends \WP_Widget implements Widget {
 			</p>
 
 			<p>
-				<label for="<?php echo $this->get_field_id( 'title_url' ); ?>"><?php _e( 'Title URL:', 'google-calendar-events' ); ?></label>
-				<br>
-				<input type="text"
-				       name="<?php echo $this->get_field_name( 'title_url' ); ?>"
-				       id="<?php echo $this->get_field_id( 'title_url' ); ?>"
-				       class="widefat simcal-field simcal-field-standard simcal-field-text"
-				       value="<?php echo $title_url; ?>">
-			</p>
-
-			<p>
-				<label for="<?php echo $this->get_field_id( 'text_before' ); ?>"><?php _e( 'Text before:', 'google-calendar-events' ); ?></label>
-				<br>
-				<textarea name="<?php echo $this->get_field_name( 'text_before' ); ?>"
-				          id="<?php echo $this->get_field_id( 'text_before' ); ?>"
-				          class="widefat simcal-field simcal-field-textarea"><?php echo $text_before; ?></textarea>
-			</p>
-
-			<p>
 				<label for="<?php echo $this->get_field_id( 'calendar_id' ); ?>"><?php _e( 'Calendar:', 'google-calendar-events' ); ?></label>
 				<br>
 				<?php $multiselect = count( $this->calendars ) > 15 ? ' simcal-field-select-enhanced' : ''; ?>
@@ -190,14 +166,6 @@ class Calendar extends \WP_Widget implements Widget {
 							<option value="<?php echo $id; ?>" <?php selected( $id, $calendar_id, true ); ?>><?php echo $name; ?></option>
 						<?php endforeach; ?>
 				</select>
-			</p>
-
-			<p>
-				<label for="<?php echo $this->get_field_id( 'text_after' ); ?>"><?php _e( 'Text after:', 'google-calendar-events' ); ?></label>
-				<br>
-				<textarea name="<?php echo $this->get_field_name( 'text_after' ); ?>"
-				          id="<?php echo $this->get_field_id( 'text_after' ); ?>"
-				          class="widefat simcal-field simcal-field-textarea"><?php echo $text_after; ?></textarea>
 			</p>
 
 		</div>
