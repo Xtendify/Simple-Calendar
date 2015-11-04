@@ -327,15 +327,21 @@ class Welcome {
 
 		foreach ( $contributors as $contributor ) {
 
+			// Skip contributor bots
+			$contributor_bots = array( 'gitter-badger' );
+			if ( in_array( $contributor->login, $contributor_bots ) ) {
+				continue;
+			}
+
 			$contributor_list .= '<li class="wp-person">';
 			$contributor_list .= sprintf(
-				'<a href="%s" title="%s">%s</a>',
+				'<a href="%s" title="%s" target="_blank">%s</a>',
 				esc_url( 'https://github.com/' . $contributor->login ),
 				esc_html( sprintf( __( 'View %s', 'google-calendar-events' ), $contributor->login ) ),
 				sprintf( '<img src="%s" width="64" height="64" class="gravatar" alt="%s" />', esc_url( $contributor->avatar_url ), esc_html( $contributor->login ) )
 			);
 			$contributor_list .= sprintf(
-				'<a class="web" href="%s">%s</a>',
+				'<a class="web" href="%s" target="_blank">%s</a>',
 				esc_url( 'https://github.com/' . $contributor->login ),
 				esc_html( $contributor->login )
 			);
