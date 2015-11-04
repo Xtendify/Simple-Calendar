@@ -211,6 +211,7 @@ class Welcome {
 	 * @since 3.0.0
 	 */
 	public function about_screen() {
+		$welcome_image_about_path = SIMPLE_CALENDAR_ASSETS . '/images/welcome';
 
 		?>
 		<div id="simcal-welcome">
@@ -218,9 +219,10 @@ class Welcome {
 
 				<?php $this->intro(); ?>
 
+				<h3>Modern calendar displays with easily updateable event text and color options.</h3>
+				<img src="<?php echo $welcome_image_about_path . '/grid-view-custom-colors.png'; ?>" />
 				<h3>Modern calendar displays with simplified event text and color options.</h3>
 
-				<img class="border" src="<?php echo SIMPLE_CALENDAR_ASSETS . '/images/welcome/grid-view-custom-colors.png'; ?>" />
 
 				<?php $this->main_nav_links(); ?>
 

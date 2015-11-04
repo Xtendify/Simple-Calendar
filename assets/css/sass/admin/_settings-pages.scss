@@ -48,11 +48,14 @@
 
 #simcal-welcome {
 
-  img.border {
-    display: block;
-    margin: 1em 0 2em;
-    border: 1px solid #d6d6d6;
-    box-sizing: border-box;
+  .about-wrap {
+
+    img {
+      margin: 1em 2em 1em 0;
+      border: 1px solid #d6d6d6;
+      box-sizing: border-box;
+      vertical-align: top;
+    }
   }
 }
 

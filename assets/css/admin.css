@@ -318,11 +318,11 @@ body .simcal-field-textarea {
   height: 185px;
   width: 185px; }
 
-#simcal-welcome img.border {
-  display: block;
-  margin: 1em 0 2em;
+#simcal-welcome .about-wrap img {
+  margin: 1em 2em 1em 0;
   border: 1px solid #d6d6d6;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  vertical-align: top; }
 
 #simcal-system-status-report textarea {
   font-family: monospace;
