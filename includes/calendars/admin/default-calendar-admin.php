@@ -38,34 +38,6 @@ class Default_Calendar_Admin {
 	 * @return array
 	 */
 	public function settings_fields() {
-		/*return array(
-			'name' => __( 'Default Calendar', 'google-calendar-events' ),
-			'description' => '',
-			'fields' => array(
-				'theme' => array(
-					'type'      => 'select',
-					'title'     => __( 'Default theme', 'google-calendar-events' ),
-					'default'   => 'light',
-					'options'   => array(
-						'light' => __( 'Light', 'google-calendar-events' ),
-						'dark'  => __( 'Dark', 'google-calendar-events' ),
-					),
-				),
-				'today_color' => array(
-					'type'        => 'standard',
-					'subtype'     => 'color-picker',
-					'title'       => __( 'Today default color', 'google-calendar-events' ),
-					'default'   => '#FF0000',
-				),
-				'days_events_color' => array(
-					'type'      => 'standard',
-					'subtype'   => 'color-picker',
-					'title'     => __( 'Days with events color', 'google-calendar-events' ),
-					'default'   => '#000000',
-				),
-			),
-		);*/
-
 		return array();
 	}
 
@@ -185,24 +157,6 @@ class Default_Calendar_Admin {
 								'daily'   => __( 'Day(s)', 'google-calendar-events' ),
 								'events'  => __( 'Event(s)', 'google-calendar-events' ),
 							),
-						) );
-
-						?>
-					</td>
-				</tr>
-				<tr class="simcal-panel-field simcal-default-calendar-list" style="display: none;">
-					<th><label for="_default_calendar_compact_list"><?php _e( 'Compact list', 'google-calendar-events' ); ?></label></th>
-					<td>
-						<?php
-
-						$compact = get_post_meta( $post_id, '_default_calendar_compact_list', true );
-
-						simcal_print_field( array(
-							'type'    => 'checkbox',
-							'name'    => '_default_calendar_compact_list',
-							'id'      => '_default_calendar_compact_list',
-							'tooltip' => __( 'Make an events list more compact by grouping together events from different days in a single list.', 'google-calendar-events' ),
-							'value'   => 'yes' == $compact ? 'yes' : 'no',
 						) );
 
 						?>
@@ -373,10 +327,6 @@ class Default_Calendar_Admin {
 		// List range type.
 		$group = isset( $_POST['_default_calendar_list_range_type'] ) ? sanitize_key( $_POST['_default_calendar_list_range_type'] ) : 'monthly';
 		update_post_meta( $post_id, '_default_calendar_list_range_type', $group );
-
-		// Compact list.
-		$compact = isset( $_POST['_default_calendar_compact_list'] ) ? 'yes' : 'no';
-		update_post_meta( $post_id, '_default_calendar_compact_list', $compact );
 
 		// Limit number of initially visible daily events.
 		$limit = isset( $_POST['_default_calendar_limit_visible_events'] ) ? 'yes' : 'no';

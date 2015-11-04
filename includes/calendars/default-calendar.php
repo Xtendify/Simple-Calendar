@@ -51,14 +51,6 @@ class Default_Calendar extends Calendar {
 	public $event_bubble_trigger = 'click';
 
 	/**
-	 * Hide navigation buttons.
-	 *
-	 * @access public
-	 * @var bool
-	 */
-	public $compact_list = false;
-
-	/**
 	 * Grouped list type.
 	 *
 	 * @access public
@@ -187,14 +179,7 @@ class Default_Calendar extends Calendar {
 			// List range.
 			$this->group_type = esc_attr( get_post_meta( $this->id, '_default_calendar_list_range_type', true ) );
 			$this->group_span = max( absint( get_post_meta( $this->id, '_default_calendar_list_range_span', true ) ), 1 );
-
-			// Make the list look more compact.
-			if ( 'yes' == get_post_meta( $this->id, '_default_calendar_compact_list', true ) ) {
-				$this->compact_list = true;
-			}
-
 		}
-
 	}
 
 	/**
