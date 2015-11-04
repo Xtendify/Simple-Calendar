@@ -76,28 +76,12 @@ class Calendar extends \WP_Widget implements Widget {
 
 		if ( ! empty( $instance['title'] ) ) {
 
-			$a_open = '';
-			$a_close = '';
-
-			if ( ! empty( $instance['title_url'] ) ) {
-				$a_open  = '<a href="' . esc_url_raw( $instance['title_url'] ) . '">';
-				$a_close = '</a>';
-			}
-
-			echo $args['before_title'] . $a_open . apply_filters( 'widget_title', $instance['title'] ). $a_close . $args['after_title'];
-		}
-
-		if ( ! empty( $instance['text_before'] ) ) {
-			echo wp_kses_post( $instance['text_before'] );
+			echo $args['before_title']  . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
 		}
 
 		$id = isset( $instance['calendar_id'] ) ? absint( $instance['calendar_id'] ) : 0;
 		if ( $id > 0 ) {
 			simcal_print_calendar( $id );
-		}
-
-		if ( ! empty( $instance['text_after'] ) ) {
-			echo wp_kses_post( $instance['text_after'] );
 		}
 
 		echo $args['after_widget'];
