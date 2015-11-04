@@ -220,18 +220,15 @@ class Welcome {
 
 				<?php $this->intro(); ?>
 
-				<h3>Modern calendar displays with easily updateable event text and color options.</h3>
+				<h3><?php _e( 'Modern calendar displays with easily updateable event text and color options.', 'google-calendar-events' ); ?></h3>
 				<img src="<?php echo $welcome_image_about_path . '/grid-view-custom-colors.png'; ?>" />
 
-				<h3>Mobile responsive and widget ready.</h3>
+				<h3><?php _e( 'Mobile responsive and widget ready.', 'google-calendar-events' ); ?></h3>
 				<img src="<?php echo $welcome_image_about_path . '/list-view-widget.png'; ?>" />
 				<img src="<?php echo $welcome_image_about_path . '/grid-view-widget-dark-theme.png'; ?>" />
 
-				<h3>Simpler, more intuitive calendar settings.</h3>
+				<h3><?php _e( 'Simpler, more intuitive calendar settings.', 'google-calendar-events' ); ?></h3>
 				<img src="<?php echo $welcome_image_about_path . '/calendar-settings-appearance.png'; ?>" />
-
-				<h3>Modern calendar displays with simplified event text and color options.</h3>
-				<img src="<?php echo $welcome_image_about_path . '/grid-view-custom-colors.png'; ?>" />
 
 				<h3><?php echo sprintf( __( 'Extendible with add-ons like <a href="%s" target="_blank">Google Calendar Pro</a>.', 'google-calendar-events' ), $welcome_gcal_pro_link ); ?></h3>
 				<a href="<?php echo $welcome_gcal_pro_link; ?>" target="_blank"><img src="<?php echo $welcome_image_about_path . '/google-calendar-pro-list-view-annotated.png'; ?>" /></a>
