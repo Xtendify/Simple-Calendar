@@ -161,7 +161,7 @@ class Welcome {
 			?>
 		</h1>
 
-		<div class="about-text calendar-about-text">
+		<div class="about-text">
 			<?php
 
 			if ( 'fresh' == $this->install ) {
@@ -216,7 +216,7 @@ class Welcome {
 
 		?>
 		<div id="simcal-welcome">
-			<div class="wrap about-wrap">
+			<div class="wrap about-wrap whats-new-wrap">
 
 				<?php $this->intro(); ?>
 
@@ -252,7 +252,7 @@ class Welcome {
 
 		?>
 		<div id="simcal-welcome">
-			<div class="wrap about-wrap">
+			<div class="wrap about-wrap credits-wrap">
 				<?php $this->intro(); ?>
 				<p class="about-description">
 					<?php
@@ -280,7 +280,7 @@ class Welcome {
 
 		?>
 		<div id="simcal-welcome">
-			<div class="wrap about-wrap simcal-welcome">
+			<div class="wrap about-wrap translators-wrap">
 				<?php $this->intro(); ?>
 				<p class="about-description">
 					<?php
