@@ -212,6 +212,7 @@ class Welcome {
 	 */
 	public function about_screen() {
 		$welcome_image_about_path = SIMPLE_CALENDAR_ASSETS . '/images/welcome';
+		$welcome_gcal_pro_link = simcal_ga_campaign_url( simcal_get_url( 'gcal-pro' ), 'core-plugin', 'welcome-page' );
 
 		?>
 		<div id="simcal-welcome">
@@ -232,8 +233,8 @@ class Welcome {
 				<h3>Modern calendar displays with simplified event text and color options.</h3>
 				<img src="<?php echo $welcome_image_about_path . '/grid-view-custom-colors.png'; ?>" />
 
-				<h3>Extendible with add-ons like Google Calendar Pro.</h3>
-				<img src="<?php echo $welcome_image_about_path . '/google-calendar-pro-list-view-annotated.png'; ?>" />
+				<h3><?php echo sprintf( __( 'Extendible with add-ons like <a href="%s" target="_blank">Google Calendar Pro</a>.', 'google-calendar-events' ), $welcome_gcal_pro_link ); ?></h3>
+				<a href="<?php echo $welcome_gcal_pro_link; ?>" target="_blank"><img src="<?php echo $welcome_image_about_path . '/google-calendar-pro-list-view-annotated.png'; ?>" /></a>
 
 				<hr/>
 
