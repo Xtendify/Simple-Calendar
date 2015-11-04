@@ -283,14 +283,10 @@ class Welcome {
 			<div class="wrap about-wrap translators-wrap">
 				<?php $this->intro(); ?>
 				<p class="about-description">
-					<?php
-
-					printf(
-						__( 'Simple Calendar has been kindly translated into several other languages by contributors from all over the World. <a href="%s" target="_blank">Translate Simple Calendar</a>.', 'google-calendar-events' ),
-						'https://translate.wordpress.org/projects/wp-plugins/google-calendar-events'
-					);
-
-					?>
+					<?php _e( 'Simple Calendar has been kindly translated into several other languages by contributors from all over the world.', 'google-calendar-events' ); ?>
+				</p>
+				<p class="about-description">
+					<a href="https://translate.wordpress.org/projects/wp-plugins/google-calendar-events" target="_blank"><?php _e( 'Click here to help translate', 'google-calendar-events' ); ?></a>
 				</p>
 				<?php
 
