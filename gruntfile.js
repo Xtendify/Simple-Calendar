@@ -10,6 +10,7 @@ module.exports = function( grunt ) {
 		'assets/css/vendor/**',
 		'assets/fonts/**',
 		'assets/images/*.*',
+		'assets/images/welcome/*.*',
 		'assets/js/*.js',
 		'assets/js/vendor/**',
 		'includes/**',
