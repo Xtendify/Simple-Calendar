@@ -221,8 +221,21 @@ class Welcome {
 
 				<h3>Modern calendar displays with easily updateable event text and color options.</h3>
 				<img src="<?php echo $welcome_image_about_path . '/grid-view-custom-colors.png'; ?>" />
-				<h3>Modern calendar displays with simplified event text and color options.</h3>
 
+				<h3>Mobile responsive and widget ready.</h3>
+				<img src="<?php echo $welcome_image_about_path . '/list-view-widget.png'; ?>" />
+				<img src="<?php echo $welcome_image_about_path . '/grid-view-widget-dark-theme.png'; ?>" />
+
+				<h3>Simpler, more intuitive calendar settings.</h3>
+				<img src="<?php echo $welcome_image_about_path . '/calendar-settings-appearance.png'; ?>" />
+
+				<h3>Modern calendar displays with simplified event text and color options.</h3>
+				<img src="<?php echo $welcome_image_about_path . '/grid-view-custom-colors.png'; ?>" />
+
+				<h3>Extendible with add-ons like Google Calendar Pro.</h3>
+				<img src="<?php echo $welcome_image_about_path . '/google-calendar-pro-list-view-annotated.png'; ?>" />
+
+				<hr/>
 
 				<?php $this->main_nav_links(); ?>
 
