@@ -244,6 +244,8 @@ final class Plugin {
 				return 'https://github.com/moonstonemedia/Simple-Calendar';
 			case 'support' :
 				return 'https://wordpress.org/support/plugin/google-calendar-events';
+			case 'gdev-console':
+				return 'https://console.developers.google.com';
 			default :
 				return self::$homepage;
 		}
