@@ -83,9 +83,9 @@ class Google_Admin {
 			'name' => $this->feed->name,
 			'description' => __( 'Use Google Calendar to read events from public-only Google calendars.', 'google-calendar-events' ) .
 			                 '<br/><br/>' .
-			                 sprintf( __( 'Will not be used if the <strong><a href="%s" target="_blank">Google Calendar Pro add-on</a></strong> is active.', 'google-calendar-events' ),
+			                 '<em>' . sprintf( __( 'The Google API key is not used when the <strong><a href="%s" target="_blank">Google Calendar Pro add-on</a></strong> is active.', 'google-calendar-events' ),
 				                 simcal_ga_campaign_url( simcal_get_url( 'gcal-pro' ), 'core-plugin', 'settings-link' )
-			                 ),
+			                 ) . '</em>',
 			'fields' => array(
 				'api_key' => array(
 					'type'       => 'standard',
@@ -128,7 +128,7 @@ class Google_Admin {
 		if ( empty( $api_key ) ) {
 			$has_errors = true;
 			$message = '<p class="description">' .
-			           sprintf( __( 'Please enter your Google API Key. <a href="%s" target="_blank">Detailed instructions</a> ', 'google-calendar-events' ),
+			           sprintf( __( 'Please enter your Google API key. <a href="%s" target="_blank">Detailed instructions</a> ', 'google-calendar-events' ),
 				           simcal_ga_campaign_url( simcal_get_url( 'docs' ) . '/google-api-key/', 'core-plugin', 'settings-link' )
 			           ) .
 			           '</p>';
