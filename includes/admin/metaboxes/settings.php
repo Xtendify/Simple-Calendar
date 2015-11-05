@@ -118,7 +118,7 @@ class Settings implements Meta_Box {
 			}
 
 			?>
-			<label for="_feed_type"><span><?php _e( 'Events', 'google-calendar-events' ); ?></span>
+			<label for="_feed_type"><span><?php _e( 'Event Source', 'google-calendar-events' ); ?></span>
 				<select name="_feed_type" id="_feed_type">
 					<optgroup label="<?php _ex( 'Get events from', 'From which calendar source to load events from', 'google-calendar-events' ) ?>">
 						<?php foreach ( $feed_options as $feed => $name ) { ?>
