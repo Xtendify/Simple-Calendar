@@ -275,7 +275,7 @@ class Google_Admin {
 					'content'     => '<p>' .
 					                 '<i class="simcal-icon-warning"></i> ' .
 					                 sprintf(
-						                 __( 'If you want to add events from a Google Calendar feed, you need to set a Google API Key first. <a href="%s">Go to settings to add one</a>.', 'google-calendar-events' ),
+						                 __( 'Your Google Calendar events will not show up until you <a href="%s">create and save a Google API key</a>.', 'google-calendar-events' ),
 						                 admin_url( 'edit.php?post_type=calendar&page=simple-calendar_settings&tab=feeds' )
 					                 ) .
 					                 '</p>',
