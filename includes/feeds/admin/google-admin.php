@@ -254,19 +254,15 @@ class Google_Admin {
 		$error = '';
 		$has_errors = false;
 
-		if ( empty( $google_calendar_id ) ) {
+		$message .= '<p class="description">' .
+					sprintf(
+						__( '1. Set the Google Calendar you want to use as "public." <a href="%1s" target="_blank">Detailed instructions</a>', 'google-calendar-events' ) . '<br />' .
+						__( '2. Copy and paste your Google Calendar ID here. <a href="%2s" target="_blank">Detailed instructions</a>', 'google-calendar-events' ),
+						simcal_ga_campaign_url( simcal_get_url( 'docs' ) . '/make-your-google-calendar-public/', 'core-plugin', 'settings-link' ),
+						simcal_ga_campaign_url( simcal_get_url( 'docs' ) . '/find-your-google-calendar-id/', 'core-plugin', 'settings-link' )
+					) . '</p>';
 
-			$has_errors = true;
-
-			$message .= '<p class="description">' .
-			            sprintf(
-				            __( '1. Set the Google Calendar you want to use as "public." <a href="%1s" target="_blank">Detailed instructions</a>', 'google-calendar-events' ) . '<br />' .
-				            __( '2. Copy and paste your Google Calendar ID here. <a href="%2s" target="_blank">Detailed instructions</a>', 'google-calendar-events' ),
-				            simcal_ga_campaign_url( simcal_get_url( 'docs' ) . '/make-your-google-calendar-public/', 'core-plugin', 'settings-link' ),
-				            simcal_ga_campaign_url( simcal_get_url( 'docs' ) . '/find-your-google-calendar-id/', 'core-plugin', 'settings-link' )
-			            ) . '</p>';
-
-		} elseif ( $post_id > 0 && ! is_null( $feed ) && ! empty( $this->feed->type ) ) {
+		if ( $post_id > 0 && ! is_null( $feed ) && ! empty( $this->feed->type ) ) {
 
 			$no_key_notice = new Notice( array(
 					'id'          => array( 'calendar_' . $post_id => 'google-no-api-key' ),
@@ -327,7 +323,7 @@ class Google_Admin {
 
 		}
 
-		return $has_errors === true ? $message : true;
+		return $message;
 	}
 
 	/**
