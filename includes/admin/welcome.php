@@ -109,56 +109,25 @@ class Welcome {
 	 * @since 3.0.0
 	 */
 	public function styles() {
+		// TODO Nothing in activation.css yet
+		/*
 		wp_enqueue_style(
 			'simcal-activation',
-			SIMPLE_CALENDAR_URL . '/assets/css/activation.css',
+			SIMPLE_CALENDAR_ASSETS . '/css/activation.css',
 			array(),
 			SIMPLE_CALENDAR_VERSION
 		);
+		*/
 	}
 
 	/**
-	 * Intro shown on every about page screen.
+	 * Main nav links at top & bottom.
 	 *
 	 * @since 3.0.0
 	 */
-	private function intro() {
-
-		$version = explode( '.', SIMPLE_CALENDAR_VERSION );
-		unset( $version[ count( $version ) - 1 ] );
-		$major_version = join( '.', $version );
+	public function main_nav_links() {
 
 		?>
-		<h1>
-			<?php
-			/* translators: %s prints the current major version of the plugin. */
-			printf( __( 'Welcome to Simple Calendar %s', 'google-calendar-events' ), $major_version );
-			?>
-		</h1>
-
-		<div class="about-text calendar-about-text">
-			<?php
-
-			if ( 'fresh' == $this->install ) {
-				$message = __( 'Thanks, all done!', 'google-calendar-events' );
-			} elseif ( 'update' == $this->install ) {
-				$message = __( 'Thank you for updating to the latest version!', 'google-calendar-events' );
-			} else {
-				$message = __( 'Thanks for installing!', 'google-calendar-events' );
-			}
-
-			echo $message;
-
-			/* translators: %s prints the current major version of the plugin. */
-			printf( ' ' . __( 'Simple Calendar %s is more powerful, stable and secure than ever before. We hope you really enjoy using it.', 'google-calendar-events' ), $major_version );
-
-			?>
-		</div>
-
-		<div class="simcal-badge">
-			<?php printf( _x( 'Version %s', 'Plugin version', 'google-calendar-events' ), SIMPLE_CALENDAR_VERSION ); ?>
-		</div>
-
 		<p>
 			<a href="<?php echo admin_url( 'edit.php?post_type=calendar' ); ?>"
 			   class="button button-primary"
@@ -171,8 +140,49 @@ class Welcome {
 				><?php _e( 'Add-ons', 'google-calendar-events' ); ?></a>
 			<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'docs' ), 'core-plugin', 'welcome-page' ); ?>"
 			   class="docs button button-primary" target="_blank"
-				><?php _e( 'Docs', 'google-calendar-events' ); ?></a>
+				><?php _e( 'Documentation', 'google-calendar-events' ); ?></a>
 		</p>
+		<?php
+
+	}
+
+	/**
+	 * Intro shown on every about page screen.
+	 *
+	 * @since 3.0.0
+	 */
+	private function intro() {
+
+		?>
+		<h1>
+			<?php
+			/* translators: %s prints the current version of the plugin. */
+			printf( __( 'Welcome to Simple Calendar %s', 'google-calendar-events' ), SIMPLE_CALENDAR_VERSION );
+			?>
+		</h1>
+
+		<div class="about-text">
+			<?php
+
+			if ( 'fresh' == $this->install ) {
+				$message = __( 'Thanks, all done!', 'google-calendar-events' );
+			} elseif ( 'update' == $this->install ) {
+				$message = __( 'Thanks for updating to the latest version!', 'google-calendar-events' );
+			} else {
+				$message = __( 'Thanks for installing!', 'google-calendar-events' );
+			}
+
+			echo $message;
+
+			/* translators: %s prints the current version of the plugin. */
+			printf( ' ' . __( "Simple Calendar %s has many new display options and is much easier to configure. We think you'll really enjoy using it.", 'google-calendar-events' ), SIMPLE_CALENDAR_VERSION );
+
+			?>
+		</div>
+
+		<div class="simcal-badge">&nbsp;</div>
+
+		<?php $this->main_nav_links(); ?>
 
 		<h2 class="nav-tab-wrapper">
 			<a class="nav-tab <?php if ( $_GET['page'] == 'simple-calendar_about' ) {
@@ -201,23 +211,31 @@ class Welcome {
 	 * @since 3.0.0
 	 */
 	public function about_screen() {
+		$welcome_image_about_path = SIMPLE_CALENDAR_ASSETS . '/images/welcome';
+		$welcome_gcal_pro_link = simcal_ga_campaign_url( simcal_get_url( 'gcal-pro' ), 'core-plugin', 'welcome-page' );
 
 		?>
 		<div id="simcal-welcome">
-			<div class="wrap about-wrap">
+			<div class="wrap about-wrap whats-new-wrap">
 
 				<?php $this->intro(); ?>
 
+				<h3><?php _e( 'Modern calendar displays with easily updateable event text and color options.', 'google-calendar-events' ); ?></h3>
+				<img src="<?php echo $welcome_image_about_path . '/grid-view-custom-colors.png'; ?>" />
+
+				<h3><?php _e( 'Mobile responsive and widget ready.', 'google-calendar-events' ); ?></h3>
+				<img src="<?php echo $welcome_image_about_path . '/list-view-widget.png'; ?>" />
+				<img src="<?php echo $welcome_image_about_path . '/grid-view-widget-dark-theme.png'; ?>" />
+
+				<h3><?php _e( 'Simpler, more intuitive calendar settings.', 'google-calendar-events' ); ?></h3>
+				<img src="<?php echo $welcome_image_about_path . '/calendar-settings-appearance.png'; ?>" />
+
+				<h3><?php echo sprintf( __( 'Extendible with add-ons like <a href="%s" target="_blank">Google Calendar Pro</a>.', 'google-calendar-events' ), $welcome_gcal_pro_link ); ?></h3>
+				<a href="<?php echo $welcome_gcal_pro_link; ?>" target="_blank"><img src="<?php echo $welcome_image_about_path . '/google-calendar-pro-list-view-annotated.png'; ?>" /></a>
+
 				<hr/>
 
-				<ul>
-					<li>
-						<a href="<?php echo admin_url( 'edit.php?post_type=calendar' ); ?>"><?php _e( 'Go to Calendars', 'google-calendar-events' ); ?></a>
-					</li>
-					<li>
-						<a href="<?php echo admin_url( 'edit.php?post_type=calendar&page=simple-calendar_settings' ); ?>"><?php _e( 'Go to Settings', 'google-calendar-events' ); ?></a>
-					</li>
-				</ul>
+				<?php $this->main_nav_links(); ?>
 
 			</div>
 		</div>
@@ -234,14 +252,14 @@ class Welcome {
 
 		?>
 		<div id="simcal-welcome">
-			<div class="wrap about-wrap">
+			<div class="wrap about-wrap credits-wrap">
 				<?php $this->intro(); ?>
 				<p class="about-description">
 					<?php
 
 					printf(
-						__( 'Simple Calendar is developed and maintained by a worldwide growing number of passionate individuals and backed by an awesome developer community. Want to see your name? <a href="%s">Contribute to Simple Calendar</a>.', 'google-calendar-events' ),
-						'https://github.com/moonstonemedia/Simple-Calendar/blob/refactor/contributing.md'
+						__( "Simple Calendar is created by a worldwide team of developers. If you'd like to contribute please visit our <a href='%s' target='_blank'>GitHub repo</a>.", 'google-calendar-events' ),
+						simcal_get_url( 'github' )
 					);
 
 					?>
@@ -262,17 +280,13 @@ class Welcome {
 
 		?>
 		<div id="simcal-welcome">
-			<div class="wrap about-wrap simcal-welcome">
+			<div class="wrap about-wrap translators-wrap">
 				<?php $this->intro(); ?>
 				<p class="about-description">
-					<?php
-
-					printf(
-						__( 'Simple Calendar has been kindly translated into several other languages by contributors from all over the World. <a href="%s">Translate Simple Calendar</a>.', 'google-calendar-events' ),
-						'https://translate.wordpress.org/projects/wp-plugins/google-calendar-events'
-					);
-
-					?>
+					<?php _e( 'Simple Calendar has been kindly translated into several other languages by contributors from all over the world.', 'google-calendar-events' ); ?>
+				</p>
+				<p class="about-description">
+					<a href="https://translate.wordpress.org/projects/wp-plugins/google-calendar-events" target="_blank"><?php _e( 'Click here to help translate', 'google-calendar-events' ); ?></a>
 				</p>
 				<?php
 
@@ -309,15 +323,21 @@ class Welcome {
 
 		foreach ( $contributors as $contributor ) {
 
+			// Skip contributor bots
+			$contributor_bots = array( 'gitter-badger' );
+			if ( in_array( $contributor->login, $contributor_bots ) ) {
+				continue;
+			}
+
 			$contributor_list .= '<li class="wp-person">';
 			$contributor_list .= sprintf(
-				'<a href="%s" title="%s">%s</a>',
+				'<a href="%s" title="%s" target="_blank">%s</a>',
 				esc_url( 'https://github.com/' . $contributor->login ),
 				esc_html( sprintf( __( 'View %s', 'google-calendar-events' ), $contributor->login ) ),
 				sprintf( '<img src="%s" width="64" height="64" class="gravatar" alt="%s" />', esc_url( $contributor->avatar_url ), esc_html( $contributor->login ) )
 			);
 			$contributor_list .= sprintf(
-				'<a class="web" href="%s">%s</a>',
+				'<a class="web" href="%s" target="_blank">%s</a>',
 				esc_url( 'https://github.com/' . $contributor->login ),
 				esc_html( $contributor->login )
 			);

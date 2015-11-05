@@ -44,7 +44,7 @@
     transform: rotate(359deg); } }
 
 .simcal-icon-animate:before {
-  transition: all 0.2s ease-in-out; }
+  transition: all .2s ease-in-out; }
 
 .simcal-icon-rotate-180:before {
   -webkit-transform: rotate(180deg);
@@ -191,8 +191,7 @@
   text-decoration: none; }
   .simcal-dismiss-notice:hover {
     color: #aaa; }
-  .simcal-dismiss-notice:focus,
-  .simcal-dismiss-notice:active {
+  .simcal-dismiss-notice:focus, .simcal-dismiss-notice:active {
     outline: 0; }
 
 .wp-admin .simcal-field-inline,
@@ -309,6 +308,22 @@ body .simcal-field-textarea {
   border-color: #5b9dd9;
   box-shadow: 0 0 2px rgba(30, 140, 190, 0.8); }
 
+.about-wrap .simcal-badge {
+  position: absolute;
+  top: 0;
+  right: 0; }
+
+.simcal-badge {
+  background-image: url("../images/welcome/icon-185x185.png");
+  height: 185px;
+  width: 185px; }
+
+#simcal-welcome .whats-new-wrap img {
+  margin: 1em 2em 1em 0;
+  border: 1px solid #d6d6d6;
+  box-sizing: border-box;
+  vertical-align: top; }
+
 #simcal-system-status-report textarea {
   font-family: monospace;
   min-height: 200px;
@@ -415,7 +430,7 @@ body .simcal-field-textarea {
     vertical-align: baseline; }
   .simcal-box-handle select {
     font-weight: bold;
-    margin: -3px 0 0 0.5em;
+    margin: -3px 0 0 .5em;
     vertical-align: middle; }
 
 .simcal-tabs {
