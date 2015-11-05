@@ -176,7 +176,7 @@ class Google_Admin {
 					'name'        => '_google_calendar_id',
 					'id'          => '_google_calendar_id',
 					'title'       => __( 'Calendar ID', 'google-calendar-events' ),
-					'tooltip'     => __( 'Visit your Google Calendar account, choose or subscribe a public calendar, copy and paste its ID here.', 'google-calendar-events' ),
+					'tooltip'     => __( 'Visit your Google Calendar account, copy your public calendar ID, then paste it here.', 'google-calendar-events' ),
 					'placeholder' => __( 'Enter a valid Google Calendar ID from a public calendar', 'google-calendar-events' ),
 					'escaping'    => array( $this->feed, 'esc_google_calendar_id' ),
 					'validation'  => array( $this, 'test_api_key_connection' ),
@@ -258,7 +258,7 @@ class Google_Admin {
 
 		$message .= '<p class="description">' .
 					sprintf(
-						__( 'Step 1: Set the Google Calendar you want to use as "public." <a href="%1s" target="_blank">Detailed instructions</a>', 'google-calendar-events' ) . '<br />' .
+						__( 'Step 1: Set the Google Calendar you want to use as <strong>"public."</strong> <a href="%1s" target="_blank">Detailed instructions</a>', 'google-calendar-events' ) . '<br />' .
 						__( 'Step 2: Copy and paste your Google Calendar ID here. <a href="%2s" target="_blank">Detailed instructions</a>', 'google-calendar-events' ),
 						simcal_ga_campaign_url( simcal_get_url( 'docs' ) . '/make-google-calendar-public/', 'core-plugin', 'settings-link' ),
 						simcal_ga_campaign_url( simcal_get_url( 'docs' ) . '/find-google-calendar-id/', 'core-plugin', 'settings-link' )
