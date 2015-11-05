@@ -124,20 +124,17 @@ class Google_Admin {
 			}
 		}
 
-		if ( empty( $api_key ) ) {
-			$has_errors = true;
-			$message = '<p class="description">' .
-			           sprintf( __( '<a href="%s" target="_blank">Step-by-step instructions</a> ', 'google-calendar-events' ),
-				           simcal_ga_campaign_url( simcal_get_url( 'docs' ) . '/google-api-key/', 'core-plugin', 'settings-link' )
-			           ) .
-			           '<br/>' .
-			           sprintf( __( '<a href="%s" target="_blank">Google Developers Console</a> ', 'google-calendar-events' ),
-				           simcal_get_url( 'gdev-console' )
-			           ) .
-			           '</p>';
-		}
+		$message = '<p class="description">' .
+				   sprintf( __( '<a href="%s" target="_blank">Step-by-step instructions</a> ', 'google-calendar-events' ),
+					   simcal_ga_campaign_url( simcal_get_url( 'docs' ) . '/google-api-key/', 'core-plugin', 'settings-link' )
+				   ) .
+				   '<br/>' .
+				   sprintf( __( '<a href="%s" target="_blank">Google Developers Console</a> ', 'google-calendar-events' ),
+					   simcal_get_url( 'gdev-console' )
+				   ) .
+				   '</p>';
 
-		return $has_errors === true ? $message : true;
+		return $message;
 	}
 
 	/**
