@@ -81,9 +81,9 @@ class Google_Admin {
 	public function settings_fields() {
 		return array(
 			'name' => $this->feed->name,
-			'description' => __( 'Use Google Calendar to read events from public-only Google calendars.', 'google-calendar-events' ) .
+			'description' => __( "To read events from your public Google Calendars you'll need create a Google API key and save it here.", 'google-calendar-events' ) .
 			                 '<br/><br/>' .
-			                 '<em>' . sprintf( __( 'The Google API key is not used when the <strong><a href="%s" target="_blank">Google Calendar Pro add-on</a></strong> is active.', 'google-calendar-events' ),
+			                 '<em>' . sprintf( __( 'A Google API key is not used when the <strong><a href="%s" target="_blank">Google Calendar Pro add-on</a></strong> is active.', 'google-calendar-events' ),
 				                 simcal_ga_campaign_url( simcal_get_url( 'gcal-pro' ), 'core-plugin', 'settings-link' )
 			                 ) . '</em>',
 			'fields' => array(
@@ -92,7 +92,6 @@ class Google_Admin {
 					'subtype'    => 'text',
 					'class'      => array( 'simcal-wide-text regular-text', 'ltr' ),
 					'title'      => __( 'Google API Key', 'google-calendar-events' ),
-					'tooltip'    => __( 'You need to set your own key with Google Developers Console to read events from Google Calendar public calendars', 'google-calendar-events' ),
 					'validation' => array( $this, 'check_google_api_key' ),
 				),
 			),
