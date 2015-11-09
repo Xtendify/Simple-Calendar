@@ -337,4 +337,4 @@ We'd love your help! Here's a few things you can do:
 == Upgrade Notice ==
 
 = 3.0.0 = 
-Plugin refactored from ground with breaking changes. Make sure you have backups before updating.  
+This is a major rewrite of the plugin with lots of additions and changes. Please backup before proceeding.
