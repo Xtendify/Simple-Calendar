@@ -108,7 +108,7 @@ final class Plugin {
 		register_deactivation_hook( SIMPLE_CALENDAR_MAIN_FILE, array( 'SimpleCalendar\Installation', 'deactivate' ) );
 
 		// Do update call here.
-		$this->update( SIMPLE_CALENDAR_VERSION );
+		add_action( 'admin_init', array( $this, 'update' ), 999 );
 
 		// Init hooks.
 		add_action( 'init', array( $this, 'init' ), 5 );
@@ -258,11 +258,9 @@ final class Plugin {
 	 * Run upgrade scripts.
 	 *
 	 * @since 3.0.0
-	 *
-	 * @param string $version
 	 */
-	public static function update( $version ) {
-		$update = new Update( $version );
+	public static function update() {
+		$update = new Update( SIMPLE_CALENDAR_VERSION );
 	}
 
 }
