@@ -77,6 +77,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.0.1 - November 9, 2015 =
+* Fixed update script.
+
 = 3.0.0 - November 8, 2015 =
 * Announcement: Plugin renamed to Simple Calendar.
 * Announcement: Visit our new website at [simplecalendar.io](https://simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=changelog)!
