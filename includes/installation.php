@@ -34,8 +34,6 @@ class Installation {
 		self::create_terms();
 		self::create_options();
 
-		self::update( SIMPLE_CALENDAR_VERSION );
-
 		do_action( 'simcal_activated' );
 	}
 
@@ -155,18 +153,6 @@ class Installation {
 		$default_value = isset( $field['default'] ) ? $field['default'] : '';
 
 		return ! empty( $saved_value ) ? $saved_value : $default_value;
-	}
-
-	/**
-	 * Run upgrade scripts.
-	 *
-	 * @since 3.0.0
-	 *
-	 * @param string $version
-	 */
-	public static function update( $version ) {
-		$update = new Update( $version );
-		$update->run_updates();
 	}
 
 }

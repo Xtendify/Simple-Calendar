@@ -68,6 +68,10 @@ class Update {
 		$installed = get_option( 'simple-calendar_version', null );
 		$this->installed_ver = is_null( $installed ) ? get_option( 'gce_version', null ) : $installed;
 		$this->new_ver = $version;
+
+		if ( version_compare( $this->installed_ver, $this->new_ver, '<' ) ) {
+			$this->run_updates();
+		}
 	}
 
 	/**
