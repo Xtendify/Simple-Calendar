@@ -52,6 +52,10 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 
 Find our docs at [docs.simplecalendar.io](http://docs.simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=faq)
 
+= Can I get notified by email of new releases? =
+
+[Subscribe here](https://www.getdrip.com/forms/9434542/submissions/new) to be notified by email of major features or updates.
+
 = How do I contribute to Simple Calendar? =
 
 We'd love your help! Here's a few things you can do:
