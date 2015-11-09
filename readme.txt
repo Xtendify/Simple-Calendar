@@ -15,7 +15,6 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 
 = SIMPLE CALENDAR FEATURES =
 
-
 * Display events from any public Google Calendar.
 * Keep managing events in Google Calendar. No need to create events in WordPress.
 * Out-of-the-box designs that match your theme’s look and feel.
@@ -31,7 +30,6 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 >**[Love our plugin? Please consider purchasing our Google Calendar Pro add-on](https://simplecalendar.io/addons/google-calendar-pro/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)**
 
 = GOOGLE CALENDAR PRO ADD-ON FEATURES =
-
 
 * Display events from **Private** Google Calendars.
 * Secure connection established between your site and Google using the OAuth standard.
