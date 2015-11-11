@@ -234,7 +234,7 @@ function simcal_get_calendar_names_i18n( $group, $style = 'full' ) {
 			$format = 'short' == $style ? 'M' : 'F';
 			$length = 11;
 		} elseif ( 'day' == $group ) {
-			$date->next( 6 );
+			$date->next( 0 );
 			$format = 'short' == $style ? 'D' : 'l';
 			$length = 6;
 		} elseif ( 'meridiem' == $group ) {
