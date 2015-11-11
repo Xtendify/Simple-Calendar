@@ -81,7 +81,7 @@ class Grouped_Calendars_Admin {
 		<div id="grouped-calendars-settings-panel" class="simcal-panel">
 			<table>
 				<thead>
-				<tr><th colspan="2"><?php _e( 'Grouped Calendars settings', 'google-calendar-events' ); ?></th></tr>
+				<tr><th colspan="2"><?php _e( 'Grouped Calendar settings', 'google-calendar-events' ); ?></th></tr>
 				</thead>
 				<tbody class="simcal-panel-section">
 				<tr class="simcal-panel-field">
