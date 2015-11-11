@@ -4,18 +4,19 @@
 [![Dependency Status](https://gemnasium.com/moonstonemedia/Simple-Calendar.svg)](https://gemnasium.com/moonstonemedia/Simple-Calendar)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
-A highly configurable and extensible toolkit for [WordPress](https://wordpress.org) to parse calendar feeds and display events on different types of calendar views on WordPress pages, posts or widgets.
+Add Google Calendar events to your WordPress site in minutes. Beautiful calendar displays. Fully responsive.
 
 [![Download from WordPress.org](https://raw.githubusercontent.com/moonstonemedia/Simple-Calendar/master/assets/images/wp/wordpress-download-btn.png)](https://wordpress.org/plugins/google-calendar-events/)
 
-You can download the latest available release on [WordPress.org](https://wordpress.org/plugins/google-calendar-events/) ([changelog](https://wordpress.org/plugins/google-calendar-events/changelog/)).
+[Download](https://wordpress.org/plugins/google-calendar-events/) | [Docs](http://docs.simplecalendar.io) | [Demo](http://demo.simplecalendar.io) | [Changelog](https://wordpress.org/plugins/google-calendar-events/changelog/)
 
-Here you can browse the source, look at open issues and keep track of development.
+Premium add-ons available at [simplecalendar.io](https://simplecalendar.io)
 
 ## Support
 
-Please *do not* use GitHub issue tickets for support questions or general questions. 
-Use the [WordPress.org support forums](https://wordpress.org/support/plugin/google-calendar-events) instead.
+Please *do not* use GitHub issue tickets for support questions or general questions.
+
+Use the [community support forums](https://wordpress.org/support/plugin/google-calendar-events) instead.
 
 ## Contributing
 
