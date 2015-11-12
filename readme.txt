@@ -60,6 +60,7 @@ Find our docs at [docs.simplecalendar.io](http://docs.simplecalendar.io/?utm_sou
 
 We'd love your help! Here's a few things you can do:
 
+* [Rate our plugin](https://wordpress.org/support/view/plugin-reviews/google-calendar-events?postform#postform) and help spread the word!
 * Help answer questions in our [community support forum](https://wordpress.org/support/plugin/google-calendar-events).
 * Report bugs (with steps to reproduce) or submit pull requests [on GitHub](https://github.com/moonstonemedia/Simple-Calendar).
 * Help add or update a [plugin translation](https://wordpress.org/support/topic/translating-this-plugin-in-your-language).
