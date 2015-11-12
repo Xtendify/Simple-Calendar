@@ -77,11 +77,11 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.0.2 - TODO =
+= 3.0.2 - November 12, 2015 =
 * Fix: Fixed bug where calendar days were off by one day.
 
 = 3.0.1 - November 9, 2015 =
-* Fix: Fixed a bug with the update script being skipped via attachment to activation hook.
+* Fix: Fixed bug with update script being skipped via attachment to activation hook.
 
 = 3.0.0 - November 8, 2015 =
 * Announcement: Plugin renamed to Simple Calendar.
