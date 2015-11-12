@@ -1,19 +1,16 @@
 <?php
 /**
  * Plugin Name: Simple Calendar
- * Plugin URI:  https://wordpress.org/plugins/google-calendar-events/
- * Description: Show off your Google calendar in grid (month) or list view, in a post, page or widget, and in a style that matches your site.
- *
+ * Plugin URI:  https://simplecalendar.io
+ * Description: Add Google Calendar events to your WordPress site in minutes. Beautiful calendar displays. Fully responsive.
  * Version:     3.0.2
- *
  * Author:      Moonstone Media
- * Author URI:  http://moonstonemediagroup.com
- *
+ * Author URI:  https://simplecalendar.io
  * Text Domain: google-calendar-events
  * Domain Path: /languages
  *
  * @package     SimpleCalendar
- * @copyright   2014-2015 Moonstone Media/Phil Derksen. All rights reserved.
+ * @copyright   2015 Moonstone Media/Phil Derksen. All rights reserved.
  */
 
 // Exit if accessed directly.

@@ -43,7 +43,7 @@ class Grouped_Calendars extends Feed {
 		parent::__construct( $calendar );
 
 		$this->type = 'grouped-calendars';
-		$this->name = __( 'Grouped Calendars', 'google-calendar-events' );
+		$this->name = __( 'Grouped Calendar', 'google-calendar-events' );
 
 		if ( $this->post_id > 0 ) {
 			$this->set_source();
