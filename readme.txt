@@ -78,8 +78,10 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.0.3 - TODO =
-* Tweak: Adjusted default list and grid CSS.
+= 3.0.3 - November 13, 2015 =
+* Feature: Added option to display a compact list view.
+* Feature: Added option to hide the header in list view.
+* Tweak: Improved CSS styling for default list and grid CSS.
 
 = 3.0.2 - November 12, 2015 =
 * Fix: Fixed bug where calendar days were off by one day.
