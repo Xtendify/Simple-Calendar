@@ -158,7 +158,8 @@
   .simcal-default-calendar .simcal-nav-button:disabled {
     cursor: default; }
     .simcal-default-calendar .simcal-nav-button:disabled:hover {
-      margin: 0; }
+      margin: 0;
+      padding: 0; }
 
 .simcal-default-calendar .simcal-events-toggle {
   border: 0;
