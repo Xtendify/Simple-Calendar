@@ -188,34 +188,39 @@ class Default_Calendar_List implements Calendar_View {
 
 
 			$hide_header = get_post_meta( $this->calendar->id, '_default_calendar_list_header', true ) == 'yes' ? true : false;
+			$static_calendar = get_post_meta( $this->calendar->id, '_calendar_is_static', true ) == 'yes' ? true : false;
+
 			$header_class = '';
 			$compact_list_class = $calendar->compact_list ? 'simcal-calendar-list-compact' : '';
 
 			echo '<div class="simcal-calendar-list ' . $compact_list_class . '">';
 
-			echo '<nav class="simcal-calendar-head">' . "\n";
+			if ( ! $hide_header && ! $static_calendar ) {
+				echo '<nav class="simcal-calendar-head">' . "\n";
 
-			echo "\t" . '<div class="simcal-nav">' . "\n";
-			echo "\t\t" . '<button class="simcal-nav-button simcal-prev" title="' . __( 'Previous', 'google-calendar-events' ) . '"' . $disabled . '>' . "\n";
-			echo "\t\t\t" . '<i class="simcal-icon-left"></i>' . "\n";
-			echo "\t\t" . '</button>' . "\n";
-			echo "\t" . '</div>' . "\n";
+				echo "\t" . '<div class="simcal-nav">' . "\n";
+				echo "\t\t" . '<button class="simcal-nav-button simcal-prev" title="' . __('Previous', 'google-calendar-events') . '"' . $disabled . '>' . "\n";
+				echo "\t\t\t" . '<i class="simcal-icon-left"></i>' . "\n";
+				echo "\t\t" . '</button>' . "\n";
+				echo "\t" . '</div>' . "\n";
 
-			if ( $hide_header ) {
-				$header_class = 'simcal-hide-header';
+				if ( $hide_header ) {
+					$header_class = 'simcal-hide-header';
+				}
+
+
+				echo "\t" . '<div class="simcal-nav simcal-current ' . $header_class . '" data-calendar-current="' . $calendar->start . '">' . "\n";
+				echo "\t\t" . '<h3 class="simcal-current-label"> </h3>' . "\n";
+				echo "\t" . '</div>' . "\n";
+
+				echo "\t" . '<div class="simcal-nav">';
+				echo "\t\t" . '<button class="simcal-nav-button simcal-next" title="' . __('Next', 'google-calendar-events') . '"' . $disabled . '>';
+				echo "\t\t\t" . '<i class="simcal-icon-right"></i>' . "\n";
+				echo "\t\t" . '</button>' . "\n";
+				echo "\t" . '</div>' . "\n";
+
+				echo '</nav>' . "\n";
 			}
-
-			echo "\t" . '<div class="simcal-nav simcal-current ' . $header_class . '" data-calendar-current="' . $calendar->start . '">' . "\n";
-			echo "\t\t" . '<h3 class="simcal-current-label"> </h3>' . "\n";
-			echo "\t" . '</div>' . "\n";
-
-			echo "\t" . '<div class="simcal-nav">';
-			echo "\t\t" . '<button class="simcal-nav-button simcal-next" title="' . __( 'Next', 'google-calendar-events' ) . '"' . $disabled . '>';
-			echo "\t\t\t" . '<i class="simcal-icon-right"></i>' . "\n";
-			echo "\t\t" . '</button>' . "\n";
-			echo "\t" . '</div>' . "\n";
-
-			echo '</nav>' . "\n";
 
 			echo $this->draw_list( $calendar->start );
 
