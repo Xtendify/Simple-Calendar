@@ -279,6 +279,8 @@
 .simcal-default-calendar-grid .simcal-calendar-head .simcal-nav {
   padding: 10px 0;
   vertical-align: middle; }
+  .simcal-default-calendar-grid .simcal-calendar-head .simcal-nav.simcal-prev-wrapper, .simcal-default-calendar-grid .simcal-calendar-head .simcal-nav.simcal-current {
+    border-right: 0; }
 
 .simcal-default-calendar-grid .simcal-day > div {
   box-sizing: content-box;

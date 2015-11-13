@@ -18,9 +18,15 @@
   }
 
   .simcal-calendar-head {
+
     .simcal-nav {
       padding: 10px 0;
       vertical-align: middle;
+
+      &.simcal-prev-wrapper,
+      &.simcal-current {
+        border-right: 0;
+      }
     }
   }
 
