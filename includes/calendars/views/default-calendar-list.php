@@ -433,16 +433,19 @@ class Default_Calendar_List implements Calendar_View {
 		ob_start();
 
 		// Draw the events.
+
+		$block_tag = $calendar->compact_list && ! empty( $current_events ) ? 'div' : 'dl';
+
 		$data_heading = '';
 		$heading = $this->get_heading();
 		foreach ( $heading as $k => $v ) {
 			$data_heading .= ' data-heading-' . $k . '="' . $v . '"';
 		}
 
-		echo '<div class="simcal-events-list-container"' .
-		     ' data-prev="' . $this->prev . '"' .
-		     ' data-next="' . $this->next . '"' .
-		     $data_heading . '>';
+		echo '<' . $block_tag . ' class="simcal-events-list-container"' .
+			' data-prev="' . $this->prev . '"' .
+			' data-next="' . $this->next . '"' .
+			$data_heading . '>';
 
 		if ( ! empty( $current_events ) && is_array( $current_events ) ) :
 
@@ -450,28 +453,32 @@ class Default_Calendar_List implements Calendar_View {
 
 				$day_ts = Carbon::createFromFormat( 'Ymd', $ymd, $calendar->timezone )->getTimestamp();
 
-				$date = new Carbon( 'now', $calendar->timezone );
-				$date->setLocale( substr( get_locale(), 0, 2 ) );
-				$date->setTimestamp( $day_ts );
+				if ( ! $calendar->compact_list ) :
 
-				if ( $date->isToday() ) {
-					$the_color = new Color( $calendar->today_color );
-				} else {
-					$the_color = new Color( $calendar->days_events_color );
-				}
+					$date = new Carbon( 'now', $calendar->timezone );
+					$date->setLocale( substr( get_locale(), 0, 2 ) );
+					$date->setTimestamp( $day_ts );
 
-				$bg_color = '#' . $the_color->getHex();
-				$color = $the_color->isDark() ? '#ffffff' : '#000000';
-				$border_style = ' style="border-bottom: 1px solid ' . $bg_color . ';" ';
-				$bg_style = ' style="background-color: ' . $bg_color . '; color: ' . $color . ';"';
+					if ( $date->isToday() ) {
+						$the_color = new Color( $calendar->today_color );
+					} else {
+						$the_color = new Color( $calendar->days_events_color );
+					}
 
-				echo "\t" . '<dt class="simcal-day-label"' . $border_style . '>';
-				echo '<span' . $bg_style .'>';
-				foreach ( $day_format as $format ) {
-					echo $format ? '<span class="simcal-date-format" data-date-format="' . $format . '">' . date_i18n( $format, $day_ts ) . '</span> ' : ' ';
-				}
-				echo '</span>';
-				echo '</dt>' . "\n";
+					$bg_color = '#' . $the_color->getHex();
+					$color = $the_color->isDark() ? '#ffffff' : '#000000';
+					$border_style = ' style="border-bottom: 1px solid ' . $bg_color . ';" ';
+					$bg_style = ' style="background-color: ' . $bg_color . '; color: ' . $color . ';"';
+
+					echo "\t" . '<dt class="simcal-day-label"' . $border_style . '>';
+					echo '<span' . $bg_style .'>';
+					foreach ( $day_format as $format ) {
+						echo $format ? '<span class="simcal-date-format" data-date-format="' . $format . '">' . date_i18n( $format, $day_ts ) . '</span> ' : ' ';
+					}
+					echo '</span>';
+					echo '</dt>' . "\n";
+
+				endif;
 
 				$list_events = '<ul class="simcal-events">' . "\n";
 
@@ -545,9 +552,10 @@ class Default_Calendar_List implements Calendar_View {
 				endif;
 
 				// Print final list of events for the current day.
-				echo '<dd class="' . $day_classes . '" data-events-count="' . strval( $count ) . '">' . "\n";
+				$tag = $calendar->compact_list ? 'div' : 'dd';
+				echo '<'  . $tag . ' class="' . $day_classes . '" data-events-count="' . strval( $count ) . '">' . "\n";
 				echo "\t" . $list_events . "\n";
-				echo '</dd>' . "\n";
+				echo '</' . $tag . '>' . "\n";
 
 			endforeach;
 
@@ -555,29 +563,29 @@ class Default_Calendar_List implements Calendar_View {
 
 			echo "\t" . '<p>';
 
-				$message = get_post_meta( $calendar->id, '_no_events_message', true );
+			$message = get_post_meta( $calendar->id, '_no_events_message', true );
 
-				if ( 'events' == $calendar->group_type ) {
-					echo ! empty( $message ) ? $message : __( 'Nothing to show.', 'google-calendar-events' );
+			if ( 'events' == $calendar->group_type ) {
+				echo ! empty( $message ) ? $message : __( 'Nothing to show.', 'google-calendar-events' );
+			} else {
+				if ( ! empty( $message ) ) {
+					echo $message;
 				} else {
-					if ( ! empty( $message ) ) {
-						echo $message;
-					} else {
-						$from = Carbon::createFromTimestamp( $this->start, $calendar->timezone )->getTimestamp();
-						$to = Carbon::createFromTimestamp( $this->end, $calendar->timezone )->getTimestamp();
-						echo apply_filters( 'simcal_no_events_message', sprintf(
-							__( 'Nothing from %1$s to %2$s.', 'google-calendar-events' ),
-							date_i18n( $calendar->date_format, $from ),
-							date_i18n( $calendar->date_format, $to )
-						), $calendar->id, $from, $to );
-					}
+					$from = Carbon::createFromTimestamp( $this->start, $calendar->timezone )->getTimestamp();
+					$to = Carbon::createFromTimestamp( $this->end, $calendar->timezone )->getTimestamp();
+					echo apply_filters( 'simcal_no_events_message', sprintf(
+						__( 'Nothing from %1$s to %2$s.', 'google-calendar-events' ),
+						date_i18n( $calendar->date_format, $from ),
+						date_i18n( $calendar->date_format, $to )
+					), $calendar->id, $from, $to );
 				}
+			}
 
 			echo "\t" . '</p>' . "\n";
 
 		endif;
 
-		echo '</div>';
+		echo '</' . $block_tag . '>';
 
 		date_default_timezone_set( $calendar->site_timezone );
 
