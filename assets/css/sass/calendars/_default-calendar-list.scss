@@ -72,7 +72,8 @@
     line-height: 1.5;
     overflow: hidden;
 
-    p {
+    p,
+    .simcal-event-description {
       margin: 0 0 1em;
     }
 
@@ -93,5 +94,22 @@
     .simcal-events-toggle {
       background-color: transparentize($default-calendar-white, .9);
     }
+  }
+
+  // Compact list
+  .simcal-calendar-list-compact {
+
+    // Smaller header title & nav
+    .simcal-calendar-head {
+
+      .simcal-nav {
+
+        h3 {
+          font-size: 1em;
+        }
+      }
+
+    }
+
   }
 }

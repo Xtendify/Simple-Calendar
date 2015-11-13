@@ -186,10 +186,12 @@ class Default_Calendar_List implements Calendar_View {
 
 			$disabled = $calendar->static === true ? ' disabled="disabled"' : '';
 
+
 			$hide_header = get_post_meta( $this->calendar->id, '_default_calendar_list_header', true ) == 'yes' ? true : false;
 			$class = '';
+			$compact_list_class = $calendar->compact_list ? 'simcal-calendar-list-compact' : '';
 
-			echo '<div class="simcal-calendar-list">';
+			echo '<div class="simcal-calendar-list ' . $compact_list_class . '">';
 
 			echo '<nav class="simcal-calendar-head">' . "\n";
 

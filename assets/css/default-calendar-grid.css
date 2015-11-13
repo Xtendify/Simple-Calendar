@@ -173,44 +173,6 @@
     box-shadow: none;
     outline: none; }
 
-.simcal-default-calendar.simcal-event-bubble {
-  background-color: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); }
-  .simcal-default-calendar.simcal-event-bubble:before {
-    border-bottom: 5px solid #fff;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    content: ' ';
-    display: block;
-    font-size: 0;
-    height: 0;
-    left: 50%;
-    line-height: 0;
-    margin: -5px 0 0 -5px;
-    position: absolute;
-    width: 0;
-    z-index: 16000; }
-  .simcal-default-calendar.simcal-event-bubble:after {
-    border-bottom: 5px solid rgba(0, 0, 0, 0.18);
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    content: ' ';
-    display: block;
-    font-size: 0;
-    height: 0;
-    left: 50%;
-    line-height: 0;
-    margin: -6px 0 0 -5px;
-    position: absolute;
-    top: 0;
-    width: 0;
-    z-index: 14999; }
-  .simcal-default-calendar.simcal-event-bubble .simcal-event {
-    list-style: none; }
-  .simcal-default-calendar.simcal-event-bubble .simcal-events {
-    margin: 0; }
-
 .simcal-default-calendar ul.simcal-attachments,
 .simcal-default-calendar ul.simcal-attendees {
   margin: 0;
@@ -403,5 +365,39 @@
   font-size: 10px;
   padding: 2px 0; }
 
-.qtip-content .simcal-event-details p {
-  margin-bottom: 1em; }
+.simcal-event-bubble {
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); }
+  .simcal-event-bubble:before {
+    border-bottom: 5px solid #fff;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    content: ' ';
+    display: block;
+    font-size: 0;
+    height: 0;
+    left: 50%;
+    line-height: 0;
+    margin: -5px 0 0 -5px;
+    position: absolute;
+    width: 0;
+    z-index: 16000; }
+  .simcal-event-bubble:after {
+    border-bottom: 5px solid rgba(0, 0, 0, 0.18);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    content: ' ';
+    display: block;
+    font-size: 0;
+    height: 0;
+    left: 50%;
+    line-height: 0;
+    margin: -6px 0 0 -5px;
+    position: absolute;
+    top: 0;
+    width: 0;
+    z-index: 14999; }
+  .simcal-event-bubble .simcal-event-details p,
+  .simcal-event-bubble .simcal-event-details .simcal-event-description {
+    margin: 0 0 1em; }
