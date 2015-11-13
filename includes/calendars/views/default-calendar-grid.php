@@ -350,7 +350,9 @@ class Default_Calendar_Grid implements Calendar_View {
 		// Void days in first week.
 		for ( $a = $week_starts; $a < $b; $a++ ) :
 
-			echo '<td class="simcal-day simcal-day-void"></td>';
+			$last_void_day_class = ( $a === ( $b - 1 ) ) ? 'simcal-day-void-last' : '';
+
+			echo '<td class="simcal-day simcal-day-void ' . $last_void_day_class . '"></td>' . "\n";
 
 			// Reset day of the week count (sun, 0 - sat, 6).
 			if ( $week_day === 6 ) {
@@ -516,18 +518,15 @@ class Default_Calendar_Grid implements Calendar_View {
 		endfor;
 
 		// Void days at the end of the month.
-		$remainder_days = 6 - $days_in_row;
-		if ( $remainder_days >= 1 ) {
+		$remainder_days = ( 6 - $days_in_row );
 
-			for ( $i = 0; $i <= $remainder_days; $i ++ ) {
+		for ( $i = 0; $i <= $remainder_days; $i ++ ) {
 
-				echo '<td class="simcal-day simcal-day-void"></td>' . "\n";
+			$last_void_day_class = ( $i == $remainder_days ) ? 'simcal-day-void-last' : '';
 
-				$week_day++;
-			}
+			echo '<td class="simcal-day simcal-day-void ' . $last_void_day_class . '"></td>' . "\n";
 
-		} elseif ( $days_in_row === 6 ) {
-			echo '<td class="simcal-day simcal-day-void"></td>' . "\n";
+			$week_day++;
 		}
 
 		echo "\t" . '</tr>' . "\n";
