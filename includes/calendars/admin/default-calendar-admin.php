@@ -393,8 +393,8 @@ class Default_Calendar_Admin {
 		update_post_meta( $post_id, '_default_calendar_list_range_type', $group );
 
 		// Hide header.
-		$compact = isset( $_POST['_default_calendar_list_header'] ) ? 'yes' : 'no';
-		update_post_meta( $post_id, '_default_calendar_list_header', $compact );
+		$header = isset( $_POST['_default_calendar_list_header'] ) ? 'yes' : 'no';
+		update_post_meta( $post_id, '_default_calendar_list_header', $header );
 
 		// Compact list.
 		$compact = isset( $_POST['_default_calendar_compact_list'] ) ? 'yes' : 'no';

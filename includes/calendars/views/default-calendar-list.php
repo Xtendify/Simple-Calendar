@@ -186,6 +186,9 @@ class Default_Calendar_List implements Calendar_View {
 
 			$disabled = $calendar->static === true ? ' disabled="disabled"' : '';
 
+			$hide_header = get_post_meta( $this->calendar->id, '_default_calendar_list_header', true ) == 'yes' ? true : false;
+			$class = '';
+
 			echo '<div class="simcal-calendar-list">';
 
 			echo '<nav class="simcal-calendar-head">' . "\n";
@@ -196,7 +199,11 @@ class Default_Calendar_List implements Calendar_View {
 			echo "\t\t" . '</button>' . "\n";
 			echo "\t" . '</div>' . "\n";
 
-			echo "\t" . '<div class="simcal-nav simcal-current" data-calendar-current="' . $calendar->start . '">' . "\n";
+			if ( $hide_header ) {
+				$class = 'simcal-hide-header';
+			}
+
+			echo "\t" . '<div class="simcal-nav simcal-current ' . $class . '" data-calendar-current="' . $calendar->start . '">' . "\n";
 			echo "\t\t" . '<h3 class="simcal-current-label"> </h3>' . "\n";
 			echo "\t" . '</div>' . "\n";
 

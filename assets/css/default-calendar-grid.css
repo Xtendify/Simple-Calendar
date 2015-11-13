@@ -44,7 +44,7 @@
     transform: rotate(359deg); } }
 
 .simcal-icon-animate:before {
-  transition: all .2s ease-in-out; }
+  transition: all 0.2s ease-in-out; }
 
 .simcal-icon-rotate-180:before {
   -webkit-transform: rotate(180deg);
@@ -144,9 +144,10 @@
   margin: 0;
   outline: none;
   padding: 0;
-  transition: margin .2s ease-out;
+  transition: margin 0.2s ease-out;
   width: 100%; }
-  .simcal-default-calendar .simcal-nav-button:focus, .simcal-default-calendar .simcal-nav-button:hover {
+  .simcal-default-calendar .simcal-nav-button:focus,
+  .simcal-default-calendar .simcal-nav-button:hover {
     background: transparent;
     border: 0;
     box-shadow: none;
@@ -165,7 +166,9 @@
   box-shadow: none;
   text-align: center;
   width: 100%; }
-  .simcal-default-calendar .simcal-events-toggle:active, .simcal-default-calendar .simcal-events-toggle:focus, .simcal-default-calendar .simcal-events-toggle:hover {
+  .simcal-default-calendar .simcal-events-toggle:active,
+  .simcal-default-calendar .simcal-events-toggle:focus,
+  .simcal-default-calendar .simcal-events-toggle:hover {
     border: 0;
     box-shadow: none;
     outline: none; }
@@ -269,7 +272,8 @@
     color: rgba(255, 255, 255, 0.9) !important; }
     .simcal-default-calendar-light .simcal-nav-button:disabled:hover {
       color: rgba(255, 255, 255, 0.9) !important; }
-  .simcal-default-calendar-light .simcal-nav-button:focus, .simcal-default-calendar-light .simcal-nav-button:hover {
+  .simcal-default-calendar-light .simcal-nav-button:focus,
+  .simcal-default-calendar-light .simcal-nav-button:hover {
     color: rgba(0, 0, 0, 0.9); }
 
 .simcal-default-calendar-light .simcal-events-toggle {
@@ -289,7 +293,8 @@
     color: rgba(0, 0, 0, 0.9) !important; }
     .simcal-default-calendar-dark .simcal-nav-button:disabled:hover {
       color: rgba(0, 0, 0, 0.9) !important; }
-  .simcal-default-calendar-dark .simcal-nav-button:focus, .simcal-default-calendar-dark .simcal-nav-button:hover {
+  .simcal-default-calendar-dark .simcal-nav-button:focus,
+  .simcal-default-calendar-dark .simcal-nav-button:hover {
     color: rgba(255, 255, 255, 0.9); }
 
 .simcal-default-calendar-dark .simcal-events-toggle {

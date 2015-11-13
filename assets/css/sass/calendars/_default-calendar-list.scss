@@ -25,6 +25,10 @@
       display: inline-block;
     }
 
+    .simcal-hide-header {
+      visibility: hidden;
+    }
+
   }
 
   dl.simcal-month {
@@ -90,5 +94,4 @@
       background-color: transparentize($default-calendar-white, .9);
     }
   }
-
 }
