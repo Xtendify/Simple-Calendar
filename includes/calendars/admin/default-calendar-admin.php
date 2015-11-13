@@ -191,6 +191,24 @@ class Default_Calendar_Admin {
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-list" style="display: none;">
+				<th><label for="_default_calendar_list_header"><?php _e( 'Hide Header', 'google-calendar-events' ); ?></label></th>
+				<td>
+					<?php
+
+					$header = get_post_meta( $post_id, '_default_calendar_list_header', true );
+
+					simcal_print_field( array(
+						'type'    => 'checkbox',
+						'name'    => '_default_calendar_list_header',
+						'id'      => '_default_calendar_list_header',
+						'tooltip' => __( 'You can use this to hide the month header for this calendar.', 'google-calendar-events' ),
+						'value'   => 'yes' == $header ? 'yes' : 'no',
+					) );
+
+					?>
+				</td>
+			</tr>
+			<tr class="simcal-panel-field simcal-default-calendar-list" style="display: none;">
 				<th><label for="_default_calendar_compact_list"><?php _e( 'Compact list', 'google-calendar-events' ); ?></label></th>
 				<td>
 					<?php
@@ -373,6 +391,10 @@ class Default_Calendar_Admin {
 		// List range type.
 		$group = isset( $_POST['_default_calendar_list_range_type'] ) ? sanitize_key( $_POST['_default_calendar_list_range_type'] ) : 'monthly';
 		update_post_meta( $post_id, '_default_calendar_list_range_type', $group );
+
+		// Hide header.
+		$compact = isset( $_POST['_default_calendar_list_header'] ) ? 'yes' : 'no';
+		update_post_meta( $post_id, '_default_calendar_list_header', $compact );
 
 		// Compact list.
 		$compact = isset( $_POST['_default_calendar_compact_list'] ) ? 'yes' : 'no';
