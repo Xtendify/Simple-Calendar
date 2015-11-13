@@ -188,7 +188,7 @@ class Default_Calendar_List implements Calendar_View {
 
 
 			$hide_header = get_post_meta( $this->calendar->id, '_default_calendar_list_header', true ) == 'yes' ? true : false;
-			$class = '';
+			$header_class = '';
 			$compact_list_class = $calendar->compact_list ? 'simcal-calendar-list-compact' : '';
 
 			echo '<div class="simcal-calendar-list ' . $compact_list_class . '">';
@@ -202,10 +202,10 @@ class Default_Calendar_List implements Calendar_View {
 			echo "\t" . '</div>' . "\n";
 
 			if ( $hide_header ) {
-				$class = 'simcal-hide-header';
+				$header_class = 'simcal-hide-header';
 			}
 
-			echo "\t" . '<div class="simcal-nav simcal-current ' . $class . '" data-calendar-current="' . $calendar->start . '">' . "\n";
+			echo "\t" . '<div class="simcal-nav simcal-current ' . $header_class . '" data-calendar-current="' . $calendar->start . '">' . "\n";
 			echo "\t\t" . '<h3 class="simcal-current-label"> </h3>' . "\n";
 			echo "\t" . '</div>' . "\n";
 
