@@ -44,7 +44,7 @@
     transform: rotate(359deg); } }
 
 .simcal-icon-animate:before {
-  transition: all 0.2s ease-in-out; }
+  transition: all .2s ease-in-out; }
 
 .simcal-icon-rotate-180:before {
   -webkit-transform: rotate(180deg);
@@ -144,10 +144,9 @@
   margin: 0;
   outline: none;
   padding: 0;
-  transition: margin 0.2s ease-out;
+  transition: margin .2s ease-out;
   width: 100%; }
-  .simcal-default-calendar .simcal-nav-button:focus,
-  .simcal-default-calendar .simcal-nav-button:hover {
+  .simcal-default-calendar .simcal-nav-button:focus, .simcal-default-calendar .simcal-nav-button:hover {
     background: transparent;
     border: 0;
     box-shadow: none;
@@ -159,16 +158,15 @@
   .simcal-default-calendar .simcal-nav-button:disabled {
     cursor: default; }
     .simcal-default-calendar .simcal-nav-button:disabled:hover {
-      margin: 0; }
+      margin: 0;
+      padding: 0; }
 
 .simcal-default-calendar .simcal-events-toggle {
   border: 0;
   box-shadow: none;
   text-align: center;
   width: 100%; }
-  .simcal-default-calendar .simcal-events-toggle:active,
-  .simcal-default-calendar .simcal-events-toggle:focus,
-  .simcal-default-calendar .simcal-events-toggle:hover {
+  .simcal-default-calendar .simcal-events-toggle:active, .simcal-default-calendar .simcal-events-toggle:focus, .simcal-default-calendar .simcal-events-toggle:hover {
     border: 0;
     box-shadow: none;
     outline: none; }
@@ -234,8 +232,7 @@
     color: rgba(255, 255, 255, 0.9) !important; }
     .simcal-default-calendar-light .simcal-nav-button:disabled:hover {
       color: rgba(255, 255, 255, 0.9) !important; }
-  .simcal-default-calendar-light .simcal-nav-button:focus,
-  .simcal-default-calendar-light .simcal-nav-button:hover {
+  .simcal-default-calendar-light .simcal-nav-button:focus, .simcal-default-calendar-light .simcal-nav-button:hover {
     color: rgba(0, 0, 0, 0.9); }
 
 .simcal-default-calendar-light .simcal-events-toggle {
@@ -255,8 +252,7 @@
     color: rgba(0, 0, 0, 0.9) !important; }
     .simcal-default-calendar-dark .simcal-nav-button:disabled:hover {
       color: rgba(0, 0, 0, 0.9) !important; }
-  .simcal-default-calendar-dark .simcal-nav-button:focus,
-  .simcal-default-calendar-dark .simcal-nav-button:hover {
+  .simcal-default-calendar-dark .simcal-nav-button:focus, .simcal-default-calendar-dark .simcal-nav-button:hover {
     color: rgba(255, 255, 255, 0.9); }
 
 .simcal-default-calendar-dark .simcal-events-toggle {
@@ -290,9 +286,11 @@
   height: 100%; }
 
 .simcal-default-calendar-grid .simcal-day-void {
-  border-width: 0;
+  border-width: 0 0 1px 0;
   height: 100%;
   min-height: 32px; }
+  .simcal-default-calendar-grid .simcal-day-void.simcal-day-void-last {
+    border-right-width: 1px; }
 
 .simcal-default-calendar-grid .simcal-day-number {
   display: block;
