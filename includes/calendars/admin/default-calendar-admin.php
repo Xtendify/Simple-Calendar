@@ -191,7 +191,7 @@ class Default_Calendar_Admin {
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-list" style="display: none;">
-				<th><label for="_default_calendar_list_header"><?php _e( 'Hide Header', 'google-calendar-events' ); ?></label></th>
+				<th><label for="_default_calendar_list_header"><?php _e( 'Hide header', 'google-calendar-events' ); ?></label></th>
 				<td>
 					<?php
 
