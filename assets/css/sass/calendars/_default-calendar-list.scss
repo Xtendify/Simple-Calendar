@@ -92,4 +92,21 @@
     }
   }
 
+  // Compact list
+  .simcal-calendar-list-compact {
+
+    // Smaller header title & nav
+    .simcal-calendar-head {
+
+      .simcal-nav {
+
+        h3 {
+          font-size: 1em;
+        }
+      }
+
+    }
+
+  }
+
 }
