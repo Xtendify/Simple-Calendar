@@ -3,7 +3,7 @@ Contributors: moonstonemedia, pderksen, nickyoung87, nekojira, rosshanney
 Tags: calendar, calendars, calendar manager, custom calendar, custom calendars, event, events, events feed, google calendar, google
 Requires at least: 4.0
 Tested up to: 4.4
-Stable tag: 3.0.2
+Stable tag: 3.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -77,6 +77,9 @@ We'd love your help! Here's a few things you can do:
 8. Plugin settings.
 
 == Changelog ==
+
+= 3.0.3 - TODO =
+* TODO
 
 = 3.0.2 - November 12, 2015 =
 * Fix: Fixed bug where calendar days were off by one day.
