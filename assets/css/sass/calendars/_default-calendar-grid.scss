@@ -167,12 +167,62 @@
 
 }
 
-// Event bubbles.
-.qtip-content {
+// Event tooltip bubble.
+&.simcal-event-bubble {
+
+  background-color: #fff;
+  border: 1px solid rgba(0, 0, 0, .1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
+
+  // Event bubble triangle.
+  &:before {
+    border-bottom: 5px solid #fff;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    content: ' ';
+    display: block;
+    font-size: 0;
+    height: 0;
+    left: 50%;
+    line-height: 0;
+    margin: -5px 0 0 -5px;
+    position: absolute;
+    width: 0;
+    z-index: 16000;
+  }
+
+  // Event bubble triangle edge border.
+  &:after {
+    border-bottom: 5px solid rgba(0, 0, 0, .18);
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    content: ' ';
+    display: block;
+    font-size: 0;
+    height: 0;
+    left: 50%;
+    line-height: 0;
+    margin: -6px 0 0 -5px;
+    position: absolute;
+    top: 0;
+    width: 0;
+    z-index: 14999;
+  }
+
   .simcal-event-details {
+
     p {
       margin-bottom: 1em;
     }
+  }
+
+
+  .simcal-event {
+    list-style: none;
+  }
+
+  .simcal-events {
+    margin: 0;
   }
 
 }
