@@ -68,7 +68,8 @@
     line-height: 1.5;
     overflow: hidden;
 
-    p {
+    p,
+    .simcal-event-description {
       margin: 0 0 1em;
     }
 

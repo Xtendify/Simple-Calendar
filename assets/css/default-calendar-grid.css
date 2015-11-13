@@ -393,8 +393,9 @@
     top: 0;
     width: 0;
     z-index: 14999; }
-  .simcal-event-bubble .simcal-event-details p {
-    margin-bottom: 1em; }
+  .simcal-event-bubble .simcal-event-details p,
+  .simcal-event-bubble .simcal-event-details .simcal-event-description {
+    margin: 0 0 1em; }
   .simcal-event-bubble .simcal-event {
     list-style: none; }
   .simcal-event-bubble .simcal-events {

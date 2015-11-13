@@ -305,7 +305,8 @@
     font-size: .84em;
     line-height: 1.5;
     overflow: hidden; }
-    .simcal-default-calendar-list .simcal-event-details p {
+    .simcal-default-calendar-list .simcal-event-details p,
+    .simcal-default-calendar-list .simcal-event-details .simcal-event-description {
       margin: 0 0 1em; }
   .simcal-default-calendar-list .simcal-events-toggle {
     display: inline-block;

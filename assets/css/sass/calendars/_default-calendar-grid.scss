@@ -211,8 +211,9 @@
 
   .simcal-event-details {
 
-    p {
-      margin-bottom: 1em;
+    p,
+    .simcal-event-description {
+      margin: 0 0 1em;
     }
   }
 
