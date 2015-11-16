@@ -29,10 +29,6 @@
     "xrstf/composer-php52": "1.x",
     "mexitek/phpcolors": "dev-master"
   },
-  "require-dev": {
-    "phpunit/phpunit": "*@stable",
-    "whatthejeff/nyancat-phpunit-resultprinter": "~1.2"
-  },
   "scripts": {
     "post-install-cmd": [
       "xrstf\\Composer52\\Generator::onPostInstallCmd"
