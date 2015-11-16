@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0c105ae1ed8d1734d55e52c9a78e78ab",
-    "content-hash": "a7083fc65743c464cdfda6fcda857da4",
+    "hash": "c85aff2bd65168c000db38a1dce1bb9e",
+    "content-hash": "0900e55583caf86c31a5c78d45d9fc6a",
     "packages": [
         {
             "name": "cbschuld/browser.php",
@@ -87,16 +87,16 @@
         },
         {
             "name": "google/apiclient",
-            "version": "1.1.5",
+            "version": "1.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/google/google-api-php-client.git",
-                "reference": "2bc00ec4e8fa1a5eec793d800fac339f30b730db"
+                "reference": "a25dc9d5c109ebb02945ba1ff6336cc937c27628"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google/google-api-php-client/zipball/2bc00ec4e8fa1a5eec793d800fac339f30b730db",
-                "reference": "2bc00ec4e8fa1a5eec793d800fac339f30b730db",
+                "url": "https://api.github.com/repos/google/google-api-php-client/zipball/a25dc9d5c109ebb02945ba1ff6336cc937c27628",
+                "reference": "a25dc9d5c109ebb02945ba1ff6336cc937c27628",
                 "shasum": ""
             },
             "require": {
@@ -126,7 +126,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2015-09-23 04:19:33"
+            "time": "2015-10-16 22:11:08"
         },
         {
             "name": "mexitek/phpcolors",
@@ -1484,7 +1484,7 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.3.2"
+        "php": ">=5.3.0"
     },
     "platform-dev": []
 }

@@ -20,13 +20,13 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "php": ">=5.3.2",
-    "google/apiclient": "1.1.5",
+    "php": ">=5.3.0",
+    "google/apiclient": "1.x",
     "cbschuld/Browser.php": "dev-master",
-    "nesbot/carbon": "~1.2",
-    "erusev/parsedown": "^1.5",
-    "nekojira/wp-requirements": "^1.4",
-    "xrstf/composer-php52": "1.*",
+    "nesbot/carbon": "1.x",
+    "erusev/parsedown": "1.x",
+    "nekojira/wp-requirements": "1.x",
+    "xrstf/composer-php52": "1.x",
     "mexitek/phpcolors": "dev-master"
   },
   "require-dev": {
