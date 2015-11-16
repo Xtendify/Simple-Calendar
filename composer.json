@@ -13,10 +13,9 @@
     }
   ],
   "support": {
+    "source": "https://github.com/moonstonemedia/Simple-Calendar/",
     "issues": "https://github.com/moonstonemedia/Simple-Calendar/issues",
-    "forum": "https://wordpress.org/plugins/google-calendar-events/",
-    "wiki": "https://github.com/moonstonemedia/Simple-Calendar/wiki",
-    "source": "https://github.com/moonstonemedia/Simple-Calendar/"
+    "forum": "https://wordpress.org/support/plugin/google-calendar-events"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
