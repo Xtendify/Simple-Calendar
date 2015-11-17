@@ -23,7 +23,7 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 * Combine multiple calendars into single displays explicitly or using categories.
 * Intuitive admin settings for simple configuration changes.
 * Advanced settings to adjust time zones, date/time formats and start of the week.
-* Many translations available with more being added on a regular basis. [Translations welcome!](https://wordpress.org/support/topic/translating-this-plugin-in-your-language)
+* Many translations available with more being added on a regular basis. [Translations welcome!](https://translate.wordpress.org/projects/wp-plugins/google-calendar-events)
 * Fully extensible to support add-ons with advanced features for more specific needs.
 * Open source with code hosted on GitHub. [Contributions welcome!](https://github.com/moonstonemedia/Simple-Calendar)
 
