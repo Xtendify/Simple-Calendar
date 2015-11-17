@@ -67,14 +67,14 @@ We'd love your help! Here's a few things you can do:
 
 == Screenshots ==
 
-1. Default Calendar List on Twenty Fifteen theme.
-2. Default Calendar Grid on Twenty Fifteen theme.
-3. Calendar settings dashboard.
-4. Calendar appearance settings.
-5. Google Calendar events source settings.
-6. Attach calendar to a post or page.
-7. Add a calendar widget.
-8. Plugin settings.
+1. Basic Grid view
+2. Basic List view
+3. Calendar settings - Events
+4. Calendar settings - Appearance
+5. Calendar settings - Google Calendar
+6. Calendar settings - Advanced
+7. Add a calendar widget
+8. Attach a calendar to a post or page
 
 == Changelog ==
 
