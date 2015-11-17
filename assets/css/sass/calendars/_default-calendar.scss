@@ -1,4 +1,3 @@
-
 $default-calendar-black: rgb(0, 0, 0);
 $default-calendar-white: rgb(255, 255, 255);
 
@@ -51,7 +50,6 @@ $default-calendar-white: rgb(255, 255, 255);
         padding: 0;
       }
     }
-
   }
 
   // Toggle events button.
@@ -69,7 +67,6 @@ $default-calendar-white: rgb(255, 255, 255);
       box-shadow: none;
       outline: none;
     }
-
   }
 
   // GCal attendees & attachments
@@ -93,7 +90,6 @@ $default-calendar-white: rgb(255, 255, 255);
       opacity: .9;
       text-transform: lowercase;
     }
-
   }
 
   // GCal attendees, attachments & organizer
@@ -112,7 +108,6 @@ $default-calendar-white: rgb(255, 255, 255);
       max-height: 24px;
       max-width: 24px;
     }
-
   }
 
   .simcal-tooltip-content {
@@ -146,10 +141,7 @@ $default-calendar-white: rgb(255, 255, 255);
       bottom: 20%;
       top: auto;
     }
-
   }
-
-
 }
 
 // Light theme variations.
@@ -166,11 +158,11 @@ $default-calendar-white: rgb(255, 255, 255);
         color: transparentize($default-calendar-white, .1) !important;
       }
     }
+
     &:focus,
     &:hover {
       color: transparentize($default-calendar-black, .1);
     }
-
   }
 
   // Events toggle in light theme.
@@ -182,7 +174,6 @@ $default-calendar-white: rgb(255, 255, 255);
       background-color: transparentize($default-calendar-black, .9);
       color: $default-calendar-white;
     }
-
   }
 
   .simcal-ajax-loader {
@@ -192,9 +183,7 @@ $default-calendar-white: rgb(255, 255, 255);
     > i {
       color: transparentize($default-calendar-black, .7);
     }
-
   }
-
 }
 
 // Dark theme variations.
@@ -211,11 +200,11 @@ $default-calendar-white: rgb(255, 255, 255);
         color: transparentize($default-calendar-black, .1) !important;
       }
     }
+
     &:focus,
     &:hover {
       color: transparentize($default-calendar-white, .1);
     }
-
   }
 
   // Events toggle in dark theme.
@@ -227,7 +216,6 @@ $default-calendar-white: rgb(255, 255, 255);
       background-color: transparentize($default-calendar-white, .9);
       color: $default-calendar-black;
     }
-
   }
 
   .simcal-ajax-loader {
@@ -237,7 +225,5 @@ $default-calendar-white: rgb(255, 255, 255);
     > i {
       color: transparentize($default-calendar-white, .7);
     }
-
   }
-
 }
