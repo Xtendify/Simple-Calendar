@@ -52,6 +52,12 @@ $default-calendar-white: rgb(255, 255, 255);
     }
   }
 
+  // Events container
+  .simcal-events {
+    list-style: none;
+    margin-left: 0;
+  }
+
   // Toggle events button.
   .simcal-events-toggle {
 
