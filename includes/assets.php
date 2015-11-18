@@ -141,6 +141,19 @@ class Assets {
 	 */
 	public function load() {
 
+		if ( $this->always_enqueue ) {
+			$scripts = $this->get_default_scripts();
+			$styles  = $this->get_default_styles();
+
+			$this->scripts = apply_filters( 'simcal_front_end_scripts', $scripts, $this->min );
+			$this->styles  = apply_filters( 'simcal_front_end_styles', $styles, $this->min );
+
+			$this->load_scripts( $this->scripts );
+			$this->load_styles( $this->styles );
+
+			return;
+		}
+
 		$id = 0;
 		$cal_id = array();
 		$scripts = $styles = array();
@@ -187,24 +200,27 @@ class Assets {
 				}
 			}
 		}
-
-		if ( $this->always_enqueue ) {
-			$scripts = $this->get_default_scripts();
-			$styles  = $this->get_default_styles();
-		}
-
+		
 		$this->get_widgets_assets();
 
 		$this->scripts = apply_filters( 'simcal_front_end_scripts', $scripts, $this->min );
 
-		foreach( $this->scripts as $script ) {
-			$this->load_scripts( $script );
+		if ( isset( $this->scripts[0] ) ) {
+			foreach ( $this->scripts as $script ) {
+				$this->load_scripts ( $script );
+			}
+		} else {
+			$this->load_scripts( $this->scripts );
 		}
 
 		$this->styles = apply_filters( 'simcal_front_end_styles', $styles, $this->min );
 
-		foreach( $this->styles as $style ) {
-			$this->load_styles( $style );
+		if ( isset( $this->styles[0] ) ) {
+			foreach( $this->styles as $style ) {
+				$this->load_styles( $style );
+			}
+		} else {
+			$this->load_styles( $this->styles );
 		}
 	}
 
