@@ -179,8 +179,6 @@ class Assets {
 							if ( 'calendar' === $shortcode[2] || 'gcal' === $shortcode[2] ) {
 								$atts = shortcode_parse_atts( $shortcode[3] );
 								$cal_id[]   = isset( $atts['id'] ) ? intval( $atts['id'] ) : 0;
-
-								//echo var_dump( $id );
 							}
 						}
 					}
@@ -200,11 +198,12 @@ class Assets {
 				}
 			}
 		}
-		
+
 		$this->get_widgets_assets();
 
 		$this->scripts = apply_filters( 'simcal_front_end_scripts', $scripts, $this->min );
 
+		// First check if there is a multi-dimensional array of scripts
 		if ( isset( $this->scripts[0] ) ) {
 			foreach ( $this->scripts as $script ) {
 				$this->load_scripts ( $script );
@@ -215,6 +214,7 @@ class Assets {
 
 		$this->styles = apply_filters( 'simcal_front_end_styles', $styles, $this->min );
 
+		// First check if there is a multi-dimensional array of styles
 		if ( isset( $this->styles[0] ) ) {
 			foreach( $this->styles as $style ) {
 				$this->load_styles( $style );
