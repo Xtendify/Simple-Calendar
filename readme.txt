@@ -79,10 +79,10 @@ We'd love your help! Here's a few things you can do:
 == Changelog ==
 
 = 3.0.4 - TODO =
-* Tweak: Change default "today" color to blue (#1e73be).
 * Fix: Fixed always enqueue option to work correctly.
 * Fix: Fixed issue where multiple shortcodes would sometimes not load scripts correctly.
 * Fix: Fixed z-index issue for admin tooltips.
+* Tweak: Change default "today" color to blue (#1e73be).
 
 = 3.0.3 - November 13, 2015 =
 * Feature: Added option to display a compact list view.
