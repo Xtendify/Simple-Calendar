@@ -180,7 +180,9 @@ class Assets {
 				$scripts = $view->scripts( $this->min );
 				$styles  = $view->styles( $this->min );
 			}
-		} else if ( $this->always_enqueue ) {
+		}
+
+		if ( $this->always_enqueue ) {
 			$scripts = $this->get_default_scripts();
 			$styles  = $this->get_default_styles();
 		}
