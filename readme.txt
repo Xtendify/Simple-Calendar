@@ -78,7 +78,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.0.4 - TODO =
+= 3.0.4 - November 18, 2015 =
 * Fix: Fixed always enqueue option to work correctly.
 * Fix: Fixed issue where multiple shortcodes would sometimes not load scripts correctly.
 * Fix: Fixed z-index issue for admin tooltips.
