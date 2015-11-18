@@ -161,6 +161,10 @@
       margin: 0;
       padding: 0; }
 
+.simcal-default-calendar .simcal-events {
+  list-style: none;
+  margin-left: 0; }
+
 .simcal-default-calendar .simcal-events-toggle {
   border: 0;
   box-shadow: none;

@@ -14,7 +14,6 @@
     tbody td {
       padding: 0 !important;
     }
-
   }
 
   .simcal-calendar-head {
@@ -78,13 +77,11 @@
       &:hover {
         background-color: transparentize( $default-calendar-black, .96);
       }
-
     }
 
     .simcal-day-number {
       background: transparentize($default-calendar-black, .9);
     }
-
   }
 
   // Dark theme color variations.
@@ -108,7 +105,6 @@
     .simcal-day-number {
       background: transparentize($default-calendar-white, .9);
     }
-
   }
 
   // List of events in a day.
@@ -139,9 +135,7 @@
         border-bottom: 0;
         margin-bottom: 0;
       }
-
     }
-
   }
 
   &.simcal-default-calendar-light {
@@ -172,9 +166,7 @@
     display: block;
     font-size: 10px;
     padding: 2px 0;
-
   }
-
 }
 
 // Event tooltip bubble.
@@ -226,5 +218,4 @@
       margin: 0 0 1em;
     }
   }
-
 }
