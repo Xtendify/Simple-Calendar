@@ -49,6 +49,10 @@ $this_plugin_checks = new WP_Requirements(
 	array(
 		'PHP'       => '5.3.0',
 		'WordPress' => '4.0.0',
+		'Extensions' => array(
+			'curl',
+			'mbstring',
+		)
 	)
 );
 if ( $this_plugin_checks->pass() === false ) {
