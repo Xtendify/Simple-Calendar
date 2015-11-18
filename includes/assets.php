@@ -142,6 +142,7 @@ class Assets {
 	public function load() {
 
 		$id = 0;
+		$cal_id = array();
 		$scripts = $styles = array();
 
 		if ( is_singular() ) {
@@ -164,7 +165,9 @@ class Assets {
 						foreach ( $matches as $shortcode ) {
 							if ( 'calendar' === $shortcode[2] || 'gcal' === $shortcode[2] ) {
 								$atts = shortcode_parse_atts( $shortcode[3] );
-								$id   = isset( $atts['id'] ) ? intval( $atts['id'] ) : 0;
+								$cal_id[]   = isset( $atts['id'] ) ? intval( $atts['id'] ) : 0;
+
+								//echo var_dump( $id );
 							}
 						}
 					}
@@ -172,13 +175,16 @@ class Assets {
 			}
 		}
 
-		if ( $id > 0 ) {
+		foreach( $cal_id as $i ) {
 
-			$view = simcal_get_calendar_view( $id );
+			if ( $i > 0 ) {
 
-			if ( $view instanceof Calendar_View ) {
-				$scripts = $view->scripts( $this->min );
-				$styles  = $view->styles( $this->min );
+				$view = simcal_get_calendar_view( $i );
+
+				if ( $view instanceof Calendar_View ) {
+					$scripts[] = $view->scripts( $this->min );
+					$styles[] = $view->styles( $this->min );
+				}
 			}
 		}
 
@@ -190,10 +196,16 @@ class Assets {
 		$this->get_widgets_assets();
 
 		$this->scripts = apply_filters( 'simcal_front_end_scripts', $scripts, $this->min );
-		$this->load_scripts( $this->scripts );
+
+		foreach( $this->scripts as $script ) {
+			$this->load_scripts( $script );
+		}
 
 		$this->styles = apply_filters( 'simcal_front_end_styles', $styles, $this->min );
-		$this->load_styles( $this->styles );
+
+		foreach( $this->styles as $style ) {
+			$this->load_styles( $style );
+		}
 	}
 
 	/**
