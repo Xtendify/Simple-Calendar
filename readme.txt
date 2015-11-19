@@ -114,6 +114,7 @@ We'd love your help! Here's a few things you can do:
 * Refactor: Plugin rebuilt from ground up: namespaces, closures, Composer support, entirely OOP.
 * Dev: PHP 5.3 minimum required.
 * Dev: All requests to Google from now on will be handled with the official Google API PHP Client.
+* Dev: Tested up to WordPress 4.4.
 
 = 2.4.0 - September 29, 2015 =
 * Announcement: Simple Calendar is coming, changes ahead.
