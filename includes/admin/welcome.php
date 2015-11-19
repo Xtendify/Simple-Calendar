@@ -164,9 +164,8 @@ class Welcome {
 		<div class="about-text">
 			<?php
 
-			if ( 'fresh' == $this->install ) {
-				$message = __( 'Thanks, all done!', 'google-calendar-events' );
-			} elseif ( 'update' == $this->install ) {
+			// Difference message if updating vs fresh install.
+			if ( 'update' == $this->install ) {
 				$message = __( 'Thanks for updating to the latest version!', 'google-calendar-events' );
 			} else {
 				$message = __( 'Thanks for installing!', 'google-calendar-events' );
