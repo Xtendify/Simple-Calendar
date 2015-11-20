@@ -78,7 +78,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.0.5 - TODO =
+= 3.0.5 - November 19, 2015 =
 
 * Fix: Fixed a bug where HTML in event description was not being rendered properly.
 * Fix: Fixed a script loading issue when using the CPT view.
