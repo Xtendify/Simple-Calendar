@@ -271,7 +271,7 @@ class Event {
 
 		// Event description.
 		if ( ! empty( $event['description'] ) ) {
-			$this->description = esc_html( $event['description'] );
+			$this->description = wp_kses_post( $event['description'] );
 		}
 
 		// Event link URL.
