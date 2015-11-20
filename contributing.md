@@ -1,14 +1,14 @@
 ## Contributing 
 
-Simple Calendar is open source software and community made patches, localizations, bug reports and contributions are always welcome and crucial to make this plugin a quality tool that empowers people, businesses and institutions alike.  
+Simple Calendar is open source software. Community made patches, localizations, bug reports and contributions are always welcome and crucial to make this plugin a quality tool that empowers people, businesses and institutions alike.  
 
-You can contribute to Simple Calendar submitting pull requests or open issues here on GitHub.
+You can contribute to Simple Calendar by submitting pull requests or by opening issues here on GitHub.
 
-If you are interested interested in translating Simple Calendar in your language, use [Transifex](https://www.transifex.com/moonstonemedia/simple-calendar/). 
+If you are interested in translating Simple Calendar to your language, use the [WordPress.org translation area](https://translate.wordpress.org/projects/wp-plugins/google-calendar-events).
 
 **Please Note:**
 
-> GitHub and Transifex are for *bug reports and contributions only* - if you have a support question or a request for a customization these are not the right place to post it. Use the [WordPress.org support forums](https://wordpress.org/support/plugin/google-calendar-events) instead.
+> GitHub is for *bug reports and contributions only*. If you have a support question or a request for a customization this is not the right place to post it. Use the [WordPress.org support forums](https://wordpress.org/support/plugin/google-calendar-events) instead.
 
 ### Reporting Issues
 
@@ -53,13 +53,4 @@ There are a few things to keep in mind when making changes and developing locall
 
 * The most important one is to **ensure you stick to the [WordPress Coding Standards](http://make.wordpress.org/core/handbook/coding-standards/php/)**.
 * When commiting reference your issue number (e.g. #1234) and include a note about the fix/changes you are proposing.
-* Please **don't** modify the changelogs or readme.txt or other meta assets.
-* Please **don't** add your localizations or update the .pot file(s) - use [Transifex](https://www.transifex.com/moonstonemedia/simple-calendar/) instead.  
-
-### Add Or Update Translations
- 
-1. Go to [Transifex](https://www.transifex.com/moonstonemedia/simple-calendar/).
-2. Sign up (it's free and you can quickly signup with a social media account).
-3. Choose a translation you want to update or add a new language if not supported yet.
-4. Add translations to untranslated words and phrases.
-5. That's it! We will synchronize translations at every plugin release.
+* Please **don't** modify the changelogs or readme.txt or other meta assets.  
