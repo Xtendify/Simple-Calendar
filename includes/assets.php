@@ -166,6 +166,12 @@ class Assets {
 
 				$id = get_queried_object_id();
 
+				$view = simcal_get_calendar_view( $id );
+				if ( $view instanceof Calendar_View ) {
+					$scripts[] = $view->scripts( $this->min );
+					$styles[]  = $view->styles( $this->min );
+				}
+
 			} else {
 
 				$id = absint( get_post_meta( $post->ID, '_simcal_attach_calendar_id', true ) );

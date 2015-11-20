@@ -80,6 +80,7 @@ We'd love your help! Here's a few things you can do:
 
 = 3.0.5 - TODO =
 
+* Fix: Fixed a script loading issue when using the CPT view.
 * Feature: Check for required PHP extensions upon plugin activation (curl and mbstring so far).
 
 = 3.0.4 - November 18, 2015 =
