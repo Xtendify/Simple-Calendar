@@ -14,14 +14,8 @@ Premium add-ons available at [simplecalendar.io](https://simplecalendar.io)
 
 ## Support
 
-Please *do not* use GitHub issue tickets for support questions or general questions.
-
-Use the [community support forums](https://wordpress.org/support/plugin/google-calendar-events) instead.
+GitHub is for *bug reports and contributions only*. If you have a support question or a request for a customization this is not the right place to post it. Use the [WordPress.org support forums](https://wordpress.org/support/plugin/google-calendar-events) instead.
 
 ## Contributing
-
-Submit pull requests or open issues here on GitHub. 
-
-Translations are handled on [Transifex](https://www.transifex.com/moonstonemedia/simple-calendar/).
 
 Read further on how to [contribute to this project](https://github.com/moonstonemedia/Simple-Calendar/blob/master/contributing.md).
