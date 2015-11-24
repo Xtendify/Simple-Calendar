@@ -282,9 +282,12 @@ class Default_Calendar_List implements Calendar_View {
 			$timestamps   = array_keys( $events );
 			$lower_bound  = array_filter( $timestamps,  array( $this, 'filter_events_before' ) );
 			$higher_bound = array_filter( $lower_bound, array( $this, 'filter_events_after'  ) );
-			$filtered     = array_intersect_key( $events, array_combine( $higher_bound, $higher_bound ) );
-			foreach ( $filtered as $timestamp => $events ) {
-				$paged_events[ intval( $timestamp ) ] = $events;
+
+			if ( is_array( $higher_bound ) ) {
+				$filtered = array_intersect_key( $events, array_combine( $higher_bound, $higher_bound ) );
+				foreach ( $filtered as $timestamp => $events ) {
+					$paged_events[ intval( $timestamp ) ] = $events;
+				}
 			}
 
 		} else {
