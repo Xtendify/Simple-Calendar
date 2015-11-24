@@ -81,6 +81,7 @@ We'd love your help! Here's a few things you can do:
 = 3.0.6 - TODO =
 
 * Fix: Fixed bug with days being off by one day.
+* Tweak: Update shortcode to not check for a singular page.
 
 = 3.0.5 - November 19, 2015 =
 
