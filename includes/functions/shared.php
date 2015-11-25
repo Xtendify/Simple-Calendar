@@ -227,14 +227,14 @@ function simcal_get_calendar_names_i18n( $group, $style = 'full' ) {
 		$format = '';
 		$length = 0;
 
-		$date = Carbon\Carbon::now( 'UTC' );
+		$date = Carbon\Carbon::now();
 
 		if ( 'month' == $group ) {
 			$date->month( 0 )->startOfMonth();
 			$format = 'short' == $style ? 'M' : 'F';
 			$length = 11;
 		} elseif ( 'day' == $group ) {
-			$date->next( 0 );
+			$date->next( 6 );
 			$format = 'short' == $style ? 'D' : 'l';
 			$length = 6;
 		} elseif ( 'meridiem' == $group ) {
