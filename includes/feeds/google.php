@@ -231,7 +231,7 @@ class Google extends Feed {
 							}
 
 							// Multiple days.
-							$multiple_days = $span > 1 ? $span : false;
+							$multiple_days = $span > 0 ? $span : false;
 
 							// Google cannot have two different locations for start and end time.
 							$start_location = $end_location = $event->getLocation();
