@@ -82,6 +82,7 @@ We'd love your help! Here's a few things you can do:
 
 * Fix: Fixed bug with days being off by one day.
 * Fix: Added check for array to avoid array_combine() PHP error.
+* Fix: Allow last list event to show correctly.
 * Tweak: Update shortcode to not check for a singular page.
 
 = 3.0.5 - November 19, 2015 =
