@@ -78,7 +78,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.0.6 - TODO =
+= 3.0.6 - November 24, 2015 =
 
 * Fix: Fixed bug with days being off by one day.
 * Fix: Added check for array to avoid array_combine() PHP error.
