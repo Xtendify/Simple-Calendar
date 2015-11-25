@@ -63,7 +63,7 @@ class Shortcodes {
 
 		$id = absint( $args['id'] );
 
-		if ( is_singular() && $id > 0 ) {
+		if ( $id > 0 ) {
 
 			$calendar = simcal_get_calendar( $id );
 
