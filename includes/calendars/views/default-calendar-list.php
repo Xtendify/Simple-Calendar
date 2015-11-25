@@ -321,7 +321,7 @@ class Default_Calendar_List implements Calendar_View {
 
 		// Put resulting events in an associative array, with Ymd date as key for easy retrieval in calendar days loop.
 		foreach ( $paged_events as $timestamp => $events ) {
-			if ( $timestamp < $this->end ) {
+			if ( $timestamp <= $this->end ) {
 				$date = Carbon::createFromTimestamp( $timestamp, $calendar->timezone )->endOfDay()->format( 'Ymd' );
 				$daily_events[ intval( $date ) ][] = $events;
 			}
