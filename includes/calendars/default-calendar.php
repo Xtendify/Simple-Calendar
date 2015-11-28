@@ -221,7 +221,12 @@ class Default_Calendar extends Calendar {
 							if ( $days == 1 ) {
 								$new_events[ intval( $event->start + ( DAY_IN_SECONDS ) - 1 ) ][] = $event;
 							} else {
-								for ( $d = 1; $d < $days; $d++ ) {
+
+								if ( ! empty( $event->whole_day ) ) {
+									$days--;
+								}
+
+								for ( $d = 1; $d <= $days; $d++ ) {
 									$new_events[ intval( $event->start + ( $d * DAY_IN_SECONDS ) - 1 ) ][] = $event;
 								}
 							}

@@ -228,6 +228,12 @@ class Google extends Feed {
 
 								// Count multiple days.
 								$span = $google_start->setTimezone( $calendar['timezone'] )->diffInDays( $google_end->setTimezone( $calendar['timezone'] ) );
+
+								if ( $span == 0 ) {
+									if ( $google_start->toDateString() !== $google_end->toDateString() ) {
+										$span = 1;
+									}
+								}
 							}
 
 							// Multiple days.
