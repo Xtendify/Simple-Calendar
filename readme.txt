@@ -78,7 +78,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.0.7 - TODO =
+= 3.0.7 - November 28, 2015 =
 
 * Fix: Fixed all day multi-day events showing on an extra day.
 * Fix: Fixed multi-day events that span less than 24 hours to show up on both days.
