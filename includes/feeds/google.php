@@ -228,10 +228,16 @@ class Google extends Feed {
 
 								// Count multiple days.
 								$span = $google_start->setTimezone( $calendar['timezone'] )->diffInDays( $google_end->setTimezone( $calendar['timezone'] ) );
+
+								if ( $span == 0 ) {
+									if ( $google_start->toDateString() !== $google_end->toDateString() ) {
+										$span = 1;
+									}
+								}
 							}
 
 							// Multiple days.
-							$multiple_days = $span > 1 ? $span : false;
+							$multiple_days = $span > 0 ? $span : false;
 
 							// Google cannot have two different locations for start and end time.
 							$start_location = $end_location = $event->getLocation();
