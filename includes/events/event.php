@@ -330,7 +330,7 @@ class Event {
 
 		// Multi day event.
 		if ( ! empty( $event['multiple_days'] ) ) {
-			$this->multiple_days = max( absint( $event['multiple_days'] ), 2 );
+			$this->multiple_days = max( absint( $event['multiple_days'] ), 1 );
 		}
 
 		// Event recurrence.

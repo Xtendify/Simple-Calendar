@@ -80,7 +80,12 @@ We'd love your help! Here's a few things you can do:
 
 = 3.0.7 - TODO =
 
-*
+* Fix: Fixed all day multi-day events showing on an extra day.
+* Fix: Fixed multi-day events that span less than 24 hours to show up on both days.
+* Fix: Fixed multi-day events that span 2 days to show up correctly.
+* Fix: Fixed issues with grouped calendars using categories not loading.
+* Tweak: Additional empty check for previous array_combine PHP error.
+* Tweak: Remove extra qtip triangle image from popup.
 
 = 3.0.6 - November 24, 2015 =
 
