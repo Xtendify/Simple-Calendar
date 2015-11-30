@@ -883,14 +883,14 @@ class Event_Builder {
 			'email' => 'hide',  // show/hide attendee email address
 		), (array) shortcode_parse_atts( $attr ) );
 
-		$photo      = 'hide' != $attr['photo'] ? '<img class="avatar avatar-128 photo" src="' . $organizer['photo'] . '" itemprop="image"  />' : '';
-		$organizer  = $photo . '<span itemprop="name">' . $organizer['name'] . '</span>';
+		$photo           = 'hide' != $attr['photo'] ? '<img class="avatar avatar-128 photo" src="' . $organizer['photo'] . '" itemprop="image"  />' : '';
+		$organizer_html  = $photo . '<span itemprop="name">' . $organizer['name'] . '</span>';
 
 		if ( ! empty( $organizer['email'] ) && ( 'show' == $attr['email'] ) ) {
-			$organizer = sprintf( '<a href="mailto:' . $organizer['email'] . '" itemprop="email">%s</a>', $organizer );
+			$organizer_html = sprintf( '<a href="mailto:' . $organizer['email'] . '" itemprop="email">%s</a>', $organizer_html );
 		}
 
-		return '<div class="simcal-organizer" itemprop="organizer" itemscope itemtype="https://schema.org/Person">' . $organizer . '</div>';
+		return '<div class="simcal-organizer" itemprop="organizer" itemscope itemtype="https://schema.org/Person">' . $organizer_html . '</div>';
 	}
 
 	/**
