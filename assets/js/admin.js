@@ -1,4 +1,4 @@
-( function( window, undefined ) {
+(function( window, undefined ) {
 	'use strict';
 
 	jQuery( function( $ ) {
@@ -44,9 +44,9 @@
 					return;
 				}
 				calendarSettings.toggleClass( 'closed' );
-			});
+			} );
 
-		});
+		} );
 
 		// Tabbed Panels in Settings Meta Box.
 		$( document.body ).on( 'simcal-init-tabbed-panels', function() {
@@ -67,12 +67,12 @@
 		// Swap feed type tabs and panels according to selection.
 		$( '#_feed_type' ).on( 'change', function() {
 
-			var selected = $( this ).find( 'option:selected'),
-				feed     = selected.val(),
-				ul       = $( '.simcal-tabs' ),
-				tabs     = ul.find( '> .simcal-feed-type' ),
-				tab      = ul.find( '> .simcal-feed-type-' + feed),
-				a        = ul.find( '> li:first-child > a' );
+			var selected = $( this ).find( 'option:selected' ),
+				feed = selected.val(),
+				ul = $( '.simcal-tabs' ),
+				tabs = ul.find( '> .simcal-feed-type' ),
+				tab = ul.find( '> .simcal-feed-type-' + feed ),
+				a = ul.find( '> li:first-child > a' );
 
 			tabs.each( function() {
 				$( this ).hide();
@@ -122,8 +122,8 @@
 		// Select2 enhanced select.
 		$( '.simcal-field-select-enhanced' ).each( function( e, i ) {
 
-			var field      = $( i ),
-				noResults  = field.data( 'noresults' ),
+			var field = $( i ),
+				noResults = field.data( 'noresults' ),
 				allowClear = field.data( 'allowclear' );
 
 			field.select2( {
@@ -133,7 +133,7 @@
 					placeholder: ''
 				},
 				dir: simcal_admin.text_dir != 'undefined' ? simcal_admin.text_dir : 'ltr',
-				tokenSeparators: [','],
+				tokenSeparators: [ ',' ],
 				width: '100%',
 				language: {
 					noResults: function() {
@@ -148,7 +148,7 @@
 		fieldDatePicker.each( function( e, i ) {
 
 			var input = $( i ).find( 'input' ),
-				args  = {
+				args = {
 					autoSize: true,
 					changeMonth: true,
 					changeYear: true,
@@ -182,18 +182,18 @@
 			select.each( function( e, i ) {
 				$( i ).on( 'change', function() {
 					formatDateTime( $( this ).closest( 'div.simcal-field-datetime-format' ) );
-				});
-			});
+				} );
+			} );
 
 			formatDateTime( i );
 		} );
 		// Helper function for datetime formatter field.
 		function formatDateTime( field ) {
 
-			var input   = $( field ).find( 'input' ),
-				select  = $( field ).find( '> div select' ),
-				code    = $( field ).find( 'code' ),
-				format  = '',
+			var input = $( field ).find( 'input' ),
+				select = $( field ).find( '> div select' ),
+				code = $( field ).find( 'code' ),
+				format = '',
 				preview = '';
 
 			select.each( function( i, e ) {
@@ -203,23 +203,24 @@
 
 				if ( value.length ) {
 					if ( selected.data( 'trim' ) ) {
-						format  = format.trim() + $( e ).val();
+						format = format.trim() + $( e ).val();
 						preview = preview.trim() + selected.data( 'preview' );
 					} else {
-						format  += $( e ).val() + ' ';
+						format += $( e ).val() + ' ';
 						preview += selected.data( 'preview' ) + ' ';
 					}
 				}
 
-			});
+			} );
 
 			input.val( format );
 			code.text( preview );
 		}
+
 		// If PHP datetime formatter is used, this will live preview the user input.
 		$( '.simcal-field-datetime-format-php' ).each( function( e, i ) {
 
-			var input   = $( i ).find( 'input' ),
+			var input = $( i ).find( 'input' ),
 				preview = $( i ).find( 'code' );
 
 			$( input ).on( 'keyup', function() {
@@ -244,8 +245,8 @@
 		$( 'input[type="number"].simcal-field' ).each( function( e, i ) {
 
 			var field = $( i ),
-				min   = field.attr( 'min' ),
-				max   = field.attr( 'max' );
+				min = field.attr( 'min' ),
+				max = field.attr( 'max' );
 
 			field.on( 'change', function() {
 
@@ -269,12 +270,12 @@
 
 			options.each( function( e, option ) {
 
-				var show      = $( option ).data( 'show-field' ),
-					showMany  = $( option ).data( 'show-fields'),
-					hide      = $( option ).data( 'hide-field' ),
-					hideMany  = $( option ).data( 'hide-fields' );
+				var show = $( option ).data( 'show-field' ),
+					showMany = $( option ).data( 'show-fields' ),
+					hide = $( option ).data( 'hide-field' ),
+					hideMany = $( option ).data( 'hide-fields' );
 
-				var	fieldShow = show ? $( '#' + show ) : '',
+				var fieldShow = show ? $( '#' + show ) : '',
 					fieldHide = hide ? $( '#' + hide ) : '';
 
 				if ( $( option ).is( ':selected' ) ) {
@@ -308,9 +309,9 @@
 
 			options.each( function( e, option ) {
 
-				var id      = $( option ).data( 'show-field' ),
-					field   = id.length ? $( '#' + id ) : '',
-					next    = id.length ? field.next()  : '';
+				var id = $( option ).data( 'show-field' ),
+					field = id.length ? $( '#' + id ) : '',
+					next = id.length ? field.next() : '';
 
 				if ( field.length ) {
 					if ( $( option ).is( ':selected' ) ) {
@@ -355,7 +356,7 @@
 				el = $( this ).nextUntil().not( 'i' );
 				next = el.length ? el.next() : '';
 
-				if (value == trigger) {
+				if ( value == trigger ) {
 					el.show();
 					if ( next.hasClass( 'select2' ) ) {
 						next.show();
@@ -383,19 +384,19 @@
 			var spinner = $( this ).find( 'i' );
 
 			$.ajax( {
-				url       : simcal_admin.ajax_url,
-				method    : 'POST',
-				data      : {
+				url: simcal_admin.ajax_url,
+				method: 'POST',
+				data: {
 					action: 'simcal_clear_cache',
-					id    : $( this ).data( 'id' )
+					id: $( this ).data( 'id' )
 				},
 				beforeSend: function() {
 					spinner.fadeToggle();
 				},
-				success   : function() {
+				success: function() {
 					spinner.fadeToggle();
 				},
-				error     : function( response ) {
+				error: function( response ) {
 					console.log( response );
 				}
 			} );
@@ -409,11 +410,11 @@
 
 			var nlMetaBox = $( '#simcal-drip' ),
 				signupDiv = nlMetaBox.find( '.signup' ),
-				thankYou  = nlMetaBox.find( '.thank-you' ),
-				nlForm    = $( '#simcal-drip-form' ),
-				name      = nlMetaBox.find( '#simcal-drip-field-first_name' ),
-				nameReal  = nlForm.find( '#simcal-drip-real-field-first_name' ),
-				email     = nlMetaBox.find( '#simcal-drip-field-email' ),
+				thankYou = nlMetaBox.find( '.thank-you' ),
+				nlForm = $( '#simcal-drip-form' ),
+				name = nlMetaBox.find( '#simcal-drip-field-first_name' ),
+				nameReal = nlForm.find( '#simcal-drip-real-field-first_name' ),
+				email = nlMetaBox.find( '#simcal-drip-field-email' ),
 				emailReal = nlForm.find( '#simcal-drip-real-field-email' );
 
 			nameReal.val( name.val() );
@@ -450,19 +451,19 @@
 			}
 
 			$.ajax( {
-				url       : simcal_admin.ajax_url,
-				method    : 'POST',
-				data      : {
-					action        : 'simcal_manage_add_on_license',
-					add_on        : $( this ).data('add-on'),
-					license_key   : field.val(),
+				url: simcal_admin.ajax_url,
+				method: 'POST',
+				data: {
+					action: 'simcal_manage_add_on_license',
+					add_on: $( this ).data( 'add-on' ),
+					license_key: field.val(),
 					license_action: manage_license_action,
-					nonce         : $( '#simcal_license_manager' ).val()
+					nonce: $( '#simcal_license_manager' ).val()
 				},
 				beforeSend: function() {
 					spinner.fadeToggle();
 				},
-				success   : function( response ) {
+				success: function( response ) {
 					spinner.fadeToggle();
 					if ( 'activate_license' == manage_license_action ) {
 						if ( 'valid' == response.data ) {
@@ -486,7 +487,7 @@
 						}
 					}
 				},
-				error     : function( response ) {
+				error: function( response ) {
 					console.log( response );
 					spinner.fadeToggle();
 				}
@@ -506,25 +507,25 @@
 				return;
 			}
 
-			$.ajax({
-				url    : simcal_admin.ajax_url,
-				method : 'POST',
-				data   : {
+			$.ajax( {
+				url: simcal_admin.ajax_url,
+				method: 'POST',
+				data: {
 					action: 'simcal_reset_add_ons_licenses',
-					nonce : $( '#simcal_license_manager' ).val()
+					nonce: $( '#simcal_license_manager' ).val()
 				},
 				beforeSend: function() {
 					spinner.toggle();
 				},
-				success: function ( response ) {
+				success: function( response ) {
 					if ( 'success' == response.data ) {
 						location.reload();
 					} else {
 						console.log( response );
 					}
 				},
-				error  : function ( response ) {
-					console.log(response);
+				error: function( response ) {
+					console.log( response );
 				}
 			} );
 
@@ -532,4 +533,4 @@
 
 	} );
 
-} )( this );
+})( this );
