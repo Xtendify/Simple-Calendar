@@ -81,6 +81,7 @@ We'd love your help! Here's a few things you can do:
 = 3.0.8 - TODO =
 
 * Fix: Fixed bug for Google Calendar Pro add-on organizer event builder code.
+* Tweak: Fixed some inconsistencies with all-day events and multi-day events when combined.
 
 = 3.0.7 - November 28, 2015 =
 
