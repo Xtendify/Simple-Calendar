@@ -238,7 +238,7 @@ class Settings implements Meta_Box {
 		?>
 		<table>
 			<thead>
-				<tr><th colspan="2"><?php _e( 'Events settings', 'google-calendar-events' ); ?></th></tr>
+				<tr><th colspan="2"><?php _e( 'Events setting', 'google-calendar-events' ); ?></th></tr>
 			</thead>
 			<tbody class="simcal-panel-section simcal-panel-section-events-range">
 				<tr class="simcal-panel-field">

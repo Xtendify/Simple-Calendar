@@ -146,6 +146,19 @@ class Default_Calendar_Admin {
 					?>
 				</td>
 			</tr>
+
+			<tr class="simcal-panel-field simcal-default-calendar-list" style="display: none;">
+				<th></th>
+				<td>
+					<p class="description">
+						<?php _e( "Tip: If calendar styles appear to be missing and/or navigation isn't working, try going to", 'google-calendar-events' ); ?>
+						<a href="<?php echo esc_url( add_query_arg( array ( 'page' => 'simple-calendar_settings', 'tab' => 'advanced' ), admin_url( 'admin.php' ) ) ); ?>">
+							<?php _e( 'Calendars &rarr; Settings &rarr; Advanced', 'google-calendar-events' ); ?></a>
+						<?php _e( 'and enable', 'google-calendar-events' ); ?> <strong><?php _e( 'Always Enqueue', 'google-calendar-events' ); ?></strong>.
+					</p>
+				</td>
+			</tr>
+
 			<tr class="simcal-panel-field simcal-default-calendar-list" style="display: none;">
 				<th><label for="_default_calendar_list_grouped_span"><?php _e( 'Span', 'google-calendar-events' ); ?></label></th>
 				<td>
@@ -354,6 +367,7 @@ class Default_Calendar_Admin {
 					?>
 				</td>
 			</tr>
+
 			</tbody>
 			<?php
 
