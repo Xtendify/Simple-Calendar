@@ -27,6 +27,8 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 * Fully extensible to support add-ons with advanced features for more specific needs.
 * Open source with code hosted on GitHub. [Contributions welcome!](https://github.com/moonstonemedia/Simple-Calendar)
 
+**[Try out a Live Demo](http://demo.simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)**
+
 >**[Love the plugin? Please consider purchasing our Google Calendar Pro add-on](https://simplecalendar.io/addons/google-calendar-pro/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)**
 
 = GOOGLE CALENDAR PRO ADD-ON FEATURES =
