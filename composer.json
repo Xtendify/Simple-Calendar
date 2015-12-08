@@ -1,10 +1,10 @@
 {
-  "name": "moonstonemedia/simple-calendar",
-  "description": "A highly configurable and extensible toolkit for WordPress to parse calendar feeds and display events on different types of calendar views on pages, posts or widgets.",
+  "name": "moonstonemedia/Simple-Calendar",
+  "description": "Add Google Calendar events to your WordPress site.",
   "homepage": "https://simplecalendar.io",
   "type": "wordpress-plugin",
   "license": "GPLv2.0+",
-  "keywords": [],
+  "keywords": ["wordpress", "plugin", "calendar", "google calendar"],
   "authors": [
     {
       "name": "Moonstone Media",
