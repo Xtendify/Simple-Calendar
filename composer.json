@@ -20,7 +20,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "php": ">=5.3.0",
+    "php": ">=5.3.3",
     "ext-curl": "*",
     "ext-mbstring": "*",
     "xrstf/composer-php52": "1.x",
