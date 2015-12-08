@@ -16,10 +16,10 @@ nbproject
 ### Development ###
 
 # Node
-node_modules
+/node_modules
 
 # Bower
-bower_components
+/bower_components
 
 # Composer
 # Ignore the /vendor/ directory for people using composer
@@ -45,15 +45,7 @@ tmp
 
 # wordpress.org
 /build
-/release*
 /svn
-
-# ApiGen
-/apidocs
-/docs
-
-# Localization
-languages/*.mo
 
 ### OS Files ###
 
