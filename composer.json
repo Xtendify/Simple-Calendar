@@ -3,7 +3,7 @@
   "description": "Add Google Calendar events to your WordPress site.",
   "homepage": "https://simplecalendar.io",
   "type": "wordpress-plugin",
-  "license": "GPLv2.0+",
+  "license": "GPLv2+",
   "keywords": ["wordpress", "plugin", "calendar", "google calendar"],
   "authors": [
     {
@@ -21,12 +21,12 @@
   "prefer-stable": true,
   "require": {
     "php": ">=5.3.0",
+    "xrstf/composer-php52": "1.x",
     "google/apiclient": "1.x",
     "cbschuld/Browser.php": "dev-master",
     "nesbot/carbon": "1.x",
     "erusev/parsedown": "1.x",
     "nekojira/wp-requirements": "1.x",
-    "xrstf/composer-php52": "1.x",
     "mexitek/phpcolors": "dev-master"
   },
   "scripts": {

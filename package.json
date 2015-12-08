@@ -1,9 +1,9 @@
 {
   "name": "simple-calendar",
   "title": "Simple Calendar",
-  "description": "A highly configurable and extensible toolkit for WordPress to parse calendar feeds and display events on different types of calendar views on pages, posts or widgets.",
+  "description": "Add Google Calendar events to your WordPress site.",
   "version": "3.0.8",
-  "license": "GPL-2.0+",
+  "license": "GPLv2+",
   "homepage": "https://simplecalendar.io",
   "repository": {
     "type": "git",
