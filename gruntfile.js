@@ -26,7 +26,6 @@ module.exports = function( grunt ) {
 		'!readme.md',
 		'!gruntfile.js',
 		'!package.json',
-		'!phpunit.xml',
 		'!**/*~'
 	];
 
