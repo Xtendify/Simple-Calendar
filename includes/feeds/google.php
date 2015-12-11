@@ -214,8 +214,8 @@ class Google extends Feed {
 								if ( is_null( $event->getEnd()->dateTime ) ) {
 									// Whole day event.
 									$date           = Carbon::parse( $event->getEnd()->date );
-									$google_end     = Carbon::createFromDate( $date->year, $date->month, $date->day, $end_timezone )->endOfDay()->subSeconds( 59 );
-									$google_end_utc = Carbon::createFromDate( $date->year, $date->month, $date->day, 'UTC' )->endOfDay()->subSeconds( 59 );
+									$google_end     = Carbon::createFromDate( $date->year, $date->month, $date->day, $end_timezone )->startOfDay()->subSeconds( 59 );
+									$google_end_utc = Carbon::createFromDate( $date->year, $date->month, $date->day, 'UTC' )->startOfDay()->subSeconds( 59 );
 								} else {
 									$date           = Carbon::parse( $event->getEnd()->dateTime );
 									$google_end     = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, $end_timezone );
