@@ -1,4 +1,4 @@
-=== Simple Calendar (aka Google Calendar Events) ===
+=== Simple Calendar - Google Calendar Plugin ===
 Contributors: moonstonemedia, pderksen, nickyoung87, nekojira, rosshanney
 Tags: calendar, calendars, calendar manager, custom calendar, custom calendars, event, events, events feed, google calendar, google
 Requires at least: 4.0
@@ -11,7 +11,7 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 
 == Description ==
 
-[Simple Calendar](https://simplecalendar.io) is the easiest way to add Google Calendar events to your WordPress site. Keep managing everything in Google Calendar. Fine tune the display of your calendars to your liking. Add advanced features with add-ons.
+[Simple Calendar](https://simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description) is the easiest way to add Google Calendar events to your WordPress site. Keep managing everything in Google Calendar. Fine tune the display of your calendars to your liking. Add advanced features with add-ons.
 
 = SIMPLE CALENDAR FEATURES =
 
@@ -26,6 +26,8 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 * Many translations available with more being added on a regular basis. [Translations welcome!](https://translate.wordpress.org/projects/wp-plugins/google-calendar-events)
 * Fully extensible to support add-ons with advanced features for more specific needs.
 * Open source with code hosted on GitHub. [Contributions welcome!](https://github.com/moonstonemedia/Simple-Calendar)
+
+**[Try out a Live Demo](http://demo.simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)**
 
 >**[Love the plugin? Please consider purchasing our Google Calendar Pro add-on](https://simplecalendar.io/addons/google-calendar-pro/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)**
 
@@ -78,10 +80,10 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.0.8 - TODO =
+= 3.0.8 - December 1, 2015 =
 
 * Fix: Fixed bug for Google Calendar Pro add-on organizer event builder code.
-* Tweak: Fixed some inconsistencies with all-day events and multi-day events when combined.
+* Fix: Fixed some inconsistencies with all-day events and multi-day events when combined.
 
 = 3.0.7 - November 28, 2015 =
 

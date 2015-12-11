@@ -2,21 +2,19 @@
 
 Simple Calendar is open source software. Community made patches, localizations, bug reports and contributions are always welcome and crucial to make this plugin a quality tool that empowers people, businesses and institutions alike.  
 
-You can contribute to Simple Calendar by submitting pull requests or by opening issues here on GitHub.
+You can contribute to Simple Calendar by contributing translations, reporting issues, or submitting pull requests.
 
-If you are interested in translating Simple Calendar to your language, use the [WordPress.org translation area](https://translate.wordpress.org/projects/wp-plugins/google-calendar-events).
+Support questions or feature requests should be posted to the [WordPress.org support forums](https://wordpress.org/support/plugin/google-calendar-events) instead.
 
-**Please Note:**
+### Contributing Translations
 
-> GitHub is for *bug reports and contributions only*. If you have a support question or a request for a customization this is not the right place to post it. Use the [WordPress.org support forums](https://wordpress.org/support/plugin/google-calendar-events) instead.
+If you are interested in translating Simple Calendar to your language, please use the plugin's [WordPress.org translation page](https://translate.wordpress.org/projects/wp-plugins/google-calendar-events).
+
+New to Translating WordPress? Read through the [Translator Handbook](https://make.wordpress.org/polyglots/handbook/tools/glotpress-translate-wordpress-org/) to get started.
 
 ### Reporting Issues
 
-Reporting issues is a great way to became a contributor as it doesn't require technical skills. In fact you don't even need to know a programming language or to be able to check the code itself, you just need to make sure that everything works as expected and [submit an issue report](https://github.com/moonstonemedia/Simple-Calendar/issues) if you spot a bug. Sound like something you're up for? Go for it!
-
-#### How To Submit An Issue Report
-
-If something isn't working, congratulations you've found a bug! Help us fix it by submitting an issue report:
+If something isn't working, you can help us fix it by submitting an issue report following these steps.
 
 1. Isolate your issue, check for theme or plugin compatibility issues first.
 2. Make sure you have a [GitHub account](https://github.com/signup/free).
@@ -26,31 +24,33 @@ If something isn't working, congratulations you've found a bug! Help us fix it b
     * Include steps to reproduce the issue if it's a bug.
     * If it's a compatibility issue, please add further details.
 
-### Making Changes
+### Submitting Pull Requests
 
-If you are knowledgeable of PHP, JavaScript, HTML and CSS, and notice something that can be improved for the benefit of all users of this software, then you can propose your changes and issue a pull request (PR) here on GitHub.
-
-#### How To Submit A Pull Request
+If you are knowledgeable of PHP, JavaScript, HTML and/or CSS, and you notice something that can be improved for the benefit of all users of this software, you can propose your changes and issue a pull request (PR) here on GitHub.
 
 First, fork this repository on GiHub or clone to your machine:
 
     $ git clone https://github.com/moonstonemedia/Simple-Calendar
     
-This project uses [Composer](https://getcomposer.org/), to grab dependencies and have a working copy you will need to run:
+This project uses [Composer](https://getcomposer.org/) to grab dependencies not stored in source control. To setup composer run:
 
     $ composer install
     $ composer dump-autoload -o
 
-If you plan to work with stylesheets or JavaScript you may want to use Grunt as well:
+If you plan to work with CSS or JavaScript you may want to use Grunt as well:
 
     $ npm install
 
-Make your changes locally, and push them to your forked repository.
+First make your changes locally, then push them to your forked repository.
 
-Issue a pull request in the original repository with your remote branch (use the master branch as target, do not bother with other branches).
+Next, issue a pull request in the original repository with your remote branch (use the master branch as target, do not bother with other branches).
+
+Please review the [GitHub recommended guidelines for using pull requests](https://help.github.com/articles/using-pull-requests/).
 
 There are a few things to keep in mind when making changes and developing locally for this project.
 
 * The most important one is to **ensure you stick to the [WordPress Coding Standards](http://make.wordpress.org/core/handbook/coding-standards/php/)**.
 * When commiting reference your issue number (e.g. #1234) and include a note about the fix/changes you are proposing.
 * Please **don't** modify the changelogs or readme.txt or other meta assets.  
+
+Finally, a big thanks from us and the plugin community for your help.

@@ -47,7 +47,7 @@ $this_plugin_checks = new WP_Requirements(
 	'Simple Calendar',
 	plugin_basename( __FILE__ ),
 	array(
-		'PHP'       => '5.3.0',
+		'PHP'       => '5.3.3',
 		'WordPress' => '4.0.0',
 		'Extensions' => array(
 			'curl',

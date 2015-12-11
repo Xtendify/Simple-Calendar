@@ -4,23 +4,29 @@ module.exports = function( grunt ) {
 
 	console.log( pkg.title + ' - ' + pkg.version );
 
-	// Files to include in a release.
-	var distFiles =  [
-		'assets/css/*.css',
-		'assets/css/vendor/**',
-		'assets/fonts/**',
-		'assets/images/*.*',
-		'assets/images/welcome/*.*',
-		'assets/js/*.js',
-		'assets/js/vendor/**',
-		'includes/**',
-		'languages/**',
-		'vendor/**',
-		'google-calendar-events.php',
-		'license.txt',
-		'readme.txt',
-		'requirements.php',
-		'uninstall.php'
+	// Files to include/exclude in a release.
+	var distFiles = [
+		'**',
+		'!.git/**',
+		'!.tx/**',
+		'!assets/css/sass/**',
+		'!assets/images/wp/**',
+		'!build/**',
+		'!node_modules/**',
+		'!.bowercc',
+		'!.editorconfig',
+		'!.gitignore',
+		'!.gitmodules',
+		'!.jscsrc',
+		'!.jshintrc',
+		'!apigen.neon',
+		'!bower.json',
+		'!composer.json',
+		'!composer.lock',
+		'!readme.md',
+		'!gruntfile.js',
+		'!package.json',
+		'!**/*~'
 	];
 
 	grunt.initConfig( {
