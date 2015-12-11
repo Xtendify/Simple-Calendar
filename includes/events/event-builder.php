@@ -627,8 +627,6 @@ class Event_Builder {
 
 			if ( $end instanceof Carbon ) {
 
-				$end = ( $event->whole_day ? Carbon::createFromTimestamp( $end->getTimestamp() )->startOfDay()->subSeconds( 1 ) : $end );
-
 				$output .= '-' .
 				           ' <span class="simcal-event-start simcal-event-end-date" ' .
 				           'data-event-start="' . $end->getTimestamp() . '" ' .
