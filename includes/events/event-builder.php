@@ -233,13 +233,8 @@ class Event_Builder {
 				case 'length' :
 				case 'duration' :
 					if ( false !== $event->end ) {
-						$duration = $event->start - $event->end - 1000;
-
-						if ( $event->whole_day ) {
-							$value = human_time_diff( $event->start, ( $event->end - 86500 ) );
-						} else {
-							$value = human_time_diff( $event->start, $event->end );
-						}
+						$duration = $event->start - $event->end;
+						$value    = human_time_diff( $event->start, $event->end );
 					} else {
 						$duration = '-1';
 						$value    = __( 'No end time', 'google-calendar-events' );
