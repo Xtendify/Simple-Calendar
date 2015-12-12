@@ -261,7 +261,19 @@ class Pages {
 				}
 
 				// Add option to show we ran through default settings
-				add_option( 'simple-calendar_defaults', 1 );
+				if ( false === get_option( 'simple-calendar_defaults' ) ) {
+
+					$default_advanced = array (
+										'assets' => array (
+												'always_enqueue' => 'yes',
+										),
+									);
+
+					update_option( 'simple-calendar_settings_advanced', $default_advanced );
+
+					add_option( 'simple-calendar_defaults', 1 );
+				}
+
 
 				?>
 			</form>
