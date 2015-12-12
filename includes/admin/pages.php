@@ -260,6 +260,9 @@ class Pages {
 					}
 				}
 
+				// Add option to show we ran through default settings
+				add_option( 'simple-calendar_defaults', 1 );
+
 				?>
 			</form>
 		</div>

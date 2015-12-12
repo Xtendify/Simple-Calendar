@@ -64,7 +64,15 @@ class Checkbox extends Field {
 								       class="simcal-field simcal-field-checkbox"
 								       type="checkbox"
 								       value="<?php echo trim( strval( $option ) ); ?>"
-									<?php checked( $this->value, $option, true ); ?>
+										<?php
+
+										if ( false === get_option( 'simple-calendar_defaults' ) ) {
+											checked( $this->default, 'yes', true );
+										} else {
+											checked( $this->value, 'yes', true );
+										}
+
+										?>
 									<?php echo $this->attributes; ?>
 									/><?php echo esc_attr( $name ); ?>
 							</label>
@@ -86,7 +94,15 @@ class Checkbox extends Field {
 				       id="<?php echo $this->id; ?>"
 				       class="simcal-field simcal-field-checkbox <?php echo $this->class; ?>"
 				       value="yes"
-					<?php checked( $this->value, 'yes', true ); ?>
+					<?php
+
+					if ( false === get_option( 'simple-calendar_defaults' ) ) {
+						checked( $this->default, 'yes', true );
+					} else {
+						checked( $this->value, 'yes', true );
+					}
+
+					?>
 					<?php echo $this->attributes; ?>/><?php _e( 'Yes', 'google-calendar-events' ); ?>
 			</span>
 			<?php
