@@ -8,9 +8,11 @@ Support questions or feature requests should be posted to the [WordPress.org sup
 
 ### Contributing Translations
 
-If you are interested in translating Simple Calendar to your language, please use the plugin's [WordPress.org translation page](https://translate.wordpress.org/projects/wp-plugins/google-calendar-events).
+Interested in translating Simple Calendar to your language? Please use our [WordPress.org translation page](https://translate.wordpress.org/projects/wp-plugins/google-calendar-events) using a free account.
 
 New to Translating WordPress? Read through the [Translator Handbook](https://make.wordpress.org/polyglots/handbook/tools/glotpress-translate-wordpress-org/) to get started.
+
+It is no longer necessary to generate and translate .po and .mo files manually. If you want to become a Translation Editor for your language, who can confirm or reject translation suggestions by other users, please get in touch.
 
 ### Reporting Issues
 
