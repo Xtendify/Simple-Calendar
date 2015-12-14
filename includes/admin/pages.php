@@ -261,7 +261,9 @@ class Pages {
 				}
 
 				// Add option to show we ran through default settings
-				if ( false === get_option( 'simple-calendar_defaults' ) ) {
+				// We also run a check here for the main settings page option. This is to determine if this is a fresh install or if they already had
+				// the plugin installed. The main feed settings page would give the best idea of that since user's have to enter an API key on this page to get it working.
+				if ( false === get_option( 'simple-calendar_defaults' ) && false === get_option( 'simple-calendar_settings_feeds' ) ) {
 
 					$default_advanced = array (
 										'assets' => array (
