@@ -83,6 +83,7 @@ We'd love your help! Here's a few things you can do:
 = 3.0.9 - TODO =
 
 * Fix: Fixed all-day events with an end time showing on an extra day.
+* Fix: Fixed a bug with site default timezone setting not pulling in correctly.
 * Tweak: Make always enqueue option enabled by default for new installs.
 * Tweak: Translations moved from .po/.mo files to official wordpress.org translation packs.
 
