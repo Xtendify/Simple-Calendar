@@ -12,7 +12,7 @@ Interested in translating Simple Calendar to your language? Please use our [Word
 
 New to Translating WordPress? Read through the [Translator Handbook](https://make.wordpress.org/polyglots/handbook/tools/glotpress-translate-wordpress-org/) to get started.
 
-It is no longer necessary to generate and translate .po and .mo files manually. If you want to become a Translation Editor for your language, who can confirm or reject translation suggestions by other users, please get in touch.
+It is no longer necessary to generate and translate .po and .mo files manually. If you want to become a translation editor for your language please get in touch.
 
 ### Reporting Issues
 
