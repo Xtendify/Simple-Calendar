@@ -82,8 +82,9 @@ We'd love your help! Here's a few things you can do:
 
 = 3.0.9 - TODO =
 
-* Fix: Fixed all-day ecvents with an end time showing on an extra day.
+* Fix: Fixed all-day events with an end time showing on an extra day.
 * Tweak: Make always enqueue option enabled by default for new installs.
+* Tweak: Translations moved from .po/.mo files to official wordpress.org translation packs.
 
 = 3.0.8 - December 1, 2015 =
 
