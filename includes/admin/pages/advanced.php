@@ -78,7 +78,7 @@ class Advanced extends Admin_Page {
 						'type'    => 'checkbox',
 						'name'    => 'simple-calendar_' . $this->option_group . '_' . $this->id . '[' . $section . '][always_enqueue]',
 						'id'      => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-' . $section . '-always-enqueue',
-						'value'   => $this->get_option_value( $section, 'always_enqueue' )
+						'value'   => $this->get_option_value( $section, 'always_enqueue' ),
 					),
 					'disable_css' => array(
 						'title'   => __( 'Disable Styles', 'google-calendar-events' ),
