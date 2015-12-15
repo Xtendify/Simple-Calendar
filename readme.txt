@@ -86,6 +86,7 @@ We'd love your help! Here's a few things you can do:
 * Fix: Fixed a bug with site default timezone setting not pulling in correctly.
 * Tweak: Make always enqueue option enabled by default for new installs.
 * Tweak: Translations moved from .po/.mo files to official wordpress.org translation packs.
+* Tweak: Minor text fixes to admin UI.
 
 = 3.0.8 - December 1, 2015 =
 
