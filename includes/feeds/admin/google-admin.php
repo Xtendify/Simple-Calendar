@@ -84,7 +84,7 @@ class Google_Admin {
 			'description' => __( "To read events from your public Google Calendars you'll need create a Google API key and save it here.", 'google-calendar-events' ) .
 			                 '<br/><br/>' .
 			                 '<em style="font-size: 14px;">' .
-			                 sprintf( __( '<strong>Note:</strong> A Google API key is not needed for calendars configured to use the <strong><a href="%s" target="_blank">Google Calendar Pro add-on</a></strong>.', 'google-calendar-events' ),
+			                 sprintf( __( '<strong>Note:</strong> Calendars configured to use the <strong><a href="%s" target="_blank">Google Calendar Pro add-on</a></strong> use a different method of authorization.', 'google-calendar-events' ),
 				                 simcal_ga_campaign_url( simcal_get_url( 'gcal-pro' ), 'core-plugin', 'settings-link' )
 			                 ) .
 			                 '</em>',
