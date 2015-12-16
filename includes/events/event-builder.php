@@ -691,12 +691,7 @@ class Event_Builder {
 		if ( 'human' == $format ) {
 			$value = human_time_diff( $event_dt->getTimestamp(), Carbon::now( $event->timezone )->getTimestamp() );
 		} else {
-
-			if ( $event->whole_day ) {
-				$value = date_i18n( $dt_format, $event_dt->getTimestamp() - 86400 );
-			} else {
-				$value = date_i18n( $dt_format, $event_dt->getTimestamp() );
-			}
+			$value = date_i18n( $dt_format, $event_dt->getTimestamp() );
 		}
 
 		return '<span class="simcal-event-' . $bound . ' ' . 'simcal-event-' . $bound . '-' . $format . '"' .
