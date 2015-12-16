@@ -80,7 +80,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.0.9 - TODO =
+= 3.0.9 - December 16, 2015 =
 
 * Fix: Fixed all-day events with an end time showing on an extra day.
 * Fix: Fixed a bug with site default timezone setting not pulling in correctly.
