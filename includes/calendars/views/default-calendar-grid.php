@@ -315,7 +315,7 @@ class Default_Calendar_Grid implements Calendar_View {
 			$timestamps   = array_keys( $events );
 			$lower_bound  = array_filter( $timestamps, array( $this, 'filter_events_before' ) );
 			$higher_bound = array_filter( $lower_bound, array( $this, 'filter_events_after' ) );
-			$filtered     = array_intersect_key( $events, array_combine( $higher_bound, $higher_bound ) );
+			$filtered     = ( is_array( $events ) && is_array( $higher_bound) ) && ! empty( $events ) && ! empty( $higher_bound ) ? array_intersect_key( $events, array_combine( $higher_bound, $higher_bound ) ) : array();
 
 			// Put resulting events in an associative array, with day of the month as key for easy retrieval in calendar days loop.
 			$day_events = array();

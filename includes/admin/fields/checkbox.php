@@ -64,7 +64,7 @@ class Checkbox extends Field {
 								       class="simcal-field simcal-field-checkbox"
 								       type="checkbox"
 								       value="<?php echo trim( strval( $option ) ); ?>"
-									<?php checked( $this->value, $option, true ); ?>
+										<?php checked( $this->value, 'yes', true ); ?>
 									<?php echo $this->attributes; ?>
 									/><?php echo esc_attr( $name ); ?>
 							</label>

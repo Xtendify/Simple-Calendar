@@ -233,13 +233,8 @@ class Event_Builder {
 				case 'length' :
 				case 'duration' :
 					if ( false !== $event->end ) {
-						$duration = $event->start - $event->end - 1000;
-
-						if ( $event->whole_day ) {
-							$value = human_time_diff( $event->start, ( $event->end - 86500 ) );
-						} else {
-							$value = human_time_diff( $event->start, $event->end );
-						}
+						$duration = $event->start - $event->end;
+						$value    = human_time_diff( $event->start, $event->end );
 					} else {
 						$duration = '-1';
 						$value    = __( 'No end time', 'google-calendar-events' );
@@ -627,8 +622,6 @@ class Event_Builder {
 
 			if ( $end instanceof Carbon ) {
 
-				$end = ( $event->whole_day ? Carbon::createFromTimestamp( $end->getTimestamp() )->startOfDay()->subSeconds( 1 ) : $end );
-
 				$output .= '-' .
 				           ' <span class="simcal-event-start simcal-event-end-date" ' .
 				           'data-event-start="' . $end->getTimestamp() . '" ' .
@@ -698,12 +691,7 @@ class Event_Builder {
 		if ( 'human' == $format ) {
 			$value = human_time_diff( $event_dt->getTimestamp(), Carbon::now( $event->timezone )->getTimestamp() );
 		} else {
-
-			if ( $event->whole_day ) {
-				$value = date_i18n( $dt_format, $event_dt->getTimestamp() - 86400 );
-			} else {
-				$value = date_i18n( $dt_format, $event_dt->getTimestamp() );
-			}
+			$value = date_i18n( $dt_format, $event_dt->getTimestamp() );
 		}
 
 		return '<span class="simcal-event-' . $bound . ' ' . 'simcal-event-' . $bound . '-' . $format . '"' .

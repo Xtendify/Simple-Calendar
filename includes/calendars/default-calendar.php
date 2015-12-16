@@ -222,9 +222,9 @@ class Default_Calendar extends Calendar {
 								$new_events[ intval( $event->start + ( DAY_IN_SECONDS ) - 1 ) ][] = $event;
 							} else {
 
-								if ( ! empty( $event->whole_day ) ) {
+								/*if ( ! empty( $event->whole_day ) ) {
 									$days--;
-								}
+								}*/
 
 								for ( $d = 1; $d <= $days; $d++ ) {
 									$new_events[ intval( $event->start + ( $d * DAY_IN_SECONDS ) - 1 ) ][] = $event;
