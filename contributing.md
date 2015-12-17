@@ -51,7 +51,7 @@ Please review the [GitHub recommended guidelines for using pull requests](https:
 
 There are a few things to keep in mind when making changes and developing locally for this project.
 
-* The most important one is to **ensure you stick to the [WordPress Coding Standards](http://make.wordpress.org/core/handbook/coding-standards/php/)**.
+* The most important one is to **ensure you stick to the [WordPress Coding Standards](http://make.wordpress.org/core/handbook/coding-standards/)**.
 * When commiting reference your issue number (e.g. #1234) and include a note about the fix/changes you are proposing.
 * Please **don't** modify the changelogs or readme.txt or other meta assets.  
 
