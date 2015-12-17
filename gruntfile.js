@@ -331,12 +331,16 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'css',      ['sass', 'postcss', 'cssmin', 'usebanner:css' ] );
 	grunt.registerTask( 'js',       ['uglify', 'usebanner:js'] );
 	grunt.registerTask( 'default',  ['css', 'jshint', 'jscs', 'js'] );
-	grunt.registerTask( 'test',     ['phpunit', 'qunit'] );
 	grunt.registerTask( 'pot',      ['checktextdomain', 'makepot', 'shell:txpush'] );
 	grunt.registerTask( 'localize', ['shell:txpull', 'po2mo'] );
-	grunt.registerTask( 'docs',     ['clean:docs', 'shell:apigen'] );
 	grunt.registerTask( 'build',    ['composer:install:no-dev', 'composer:dump-autoload:optimize:no-dev', 'clean:build', 'default', 'copy', 'compress', 'composer:update', 'composer:dump-autoload:optimize'] );
-	grunt.registerTask( 'deploy',   ['test', 'localize', 'default', 'build', 'docs', 'wp_deploy'] );
+
+	// TODO Add deploy task
+	//grunt.registerTask( 'deploy',   ['test', 'localize', 'default', 'build', 'docs', 'wp_deploy'] );
+
+	// Possible future grunt tasks
+	//grunt.registerTask( 'test',     ['phpunit', 'qunit'] );
+	//grunt.registerTask( 'docs',     ['clean:docs', 'shell:apigen'] );
 
 	grunt.util.linefeed = '\n';
 };
