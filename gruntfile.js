@@ -8,7 +8,6 @@ module.exports = function( grunt ) {
 	var distFiles = [
 		'**',
 		'!.git/**',
-		'!.tx/**',
 		'!assets/css/sass/**',
 		'!assets/images/wp/**',
 		'!build/**',
@@ -205,59 +204,8 @@ module.exports = function( grunt ) {
 			}
 		},
 
-		makepot: {
-			target: {
-				options: {
-					cwd            : '',
-					domainPath     : '/languages',
-					potFilename    : 'google-calendar-events.pot',
-					mainFile       : 'google-calendar-events.php',
-					include        : [],
-					exclude        : [
-						'apigen/',
-						'assets/',
-						'bower_components/',
-						'build/',
-						'docs/',
-						'google-calendar-events/',
-						'languages/',
-						'libraries/',
-						'node_modules',
-						'svn',
-						'tests',
-						'tmp',
-						'vendor'
-					],
-					potComments    : '',
-					potHeaders     : {
-						poedit                 : true,
-						'x-poedit-keywordslist': true,
-						'language'             : 'en_US',
-						'report-msgid-bugs-to' : 'https://github.com/moonstonemedia/Simple-Calendar/issues',
-						'last-translator'      : 'Phil Derksen <pderksen@gmail.com>',
-						'language-Team'        : 'Phil Derksen <pderksen@gmail.com>'
-					},
-					type           : 'wp-plugin',
-					updateTimestamp: true,
-					updatePoFiles  : true,
-					processPot     : null
-				}
-			}
-		},
-
-		po2mo: {
-			options: {
-				deleteSrc: true
-			},
-			files  : {
-				src   : 'languages/*.po',
-				expand: true
-			}
-		},
-
 		clean: {
-			build: [ 'build' ],
-			docs: [ 'docs' ]
+			build: [ 'build' ]
 		},
 
 		copy: {
@@ -278,50 +226,7 @@ module.exports = function( grunt ) {
 				src    : distFiles,
 				dest   : '/google-calendar-events'
 			}
-		},
-
-		wp_deploy: {
-			deploy: {
-				options: {
-					plugin_slug     : 'google-calendar-events',
-					plugin_main_file: 'google-calendar-events.php',
-					build_dir       : 'build/simple-calendar',
-					max_buffer      : 400 * 1024
-				}
-			}
-		},
-
-		shell: {
-			options: {
-				stdout: true,
-				stderr: true
-			},
-			apigen : {
-				command: 'apigen generate'
-			},
-			txpull : {
-				command: 'tx pull -a -f --minimum-perc=1'
-			},
-			txpush : {
-				command: 'tx push -s'
-			}
-		},
-
-		phpunit: {
-			classes: {
-				dir: 'tests/phpunit/unit-tests'
-			},
-			options: {
-				bin          : 'vendor/bin/phpunit',
-				configuration: 'phpunit.xml',
-				testSuffix   : '.php'
-			}
-		},
-
-		qunit: {
-			all: ['tests/qunit/**/*.html']
 		}
-
 	} );
 
 	require( 'load-grunt-tasks' )(grunt);
