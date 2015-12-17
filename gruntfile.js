@@ -42,8 +42,7 @@ module.exports = function( grunt ) {
 			options: {
 				ignores : [
 					'**/*.min.js'
-				],
-				reporter: require( 'reporter-plus/jshint' )
+				]
 			},
 			all    : [
 				'assets/js/*.js',
@@ -236,8 +235,6 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'css',      ['sass', 'postcss', 'cssmin', 'usebanner:css' ] );
 	grunt.registerTask( 'js',       ['uglify', 'usebanner:js'] );
 	grunt.registerTask( 'default',  ['css', 'jshint', 'jscs', 'js'] );
-	grunt.registerTask( 'pot',      ['checktextdomain', 'makepot', 'shell:txpush'] );
-	grunt.registerTask( 'localize', ['shell:txpull', 'po2mo'] );
 	grunt.registerTask( 'build',    ['composer:install:no-dev', 'composer:dump-autoload:optimize:no-dev', 'clean:build',
 	                                 'default', 'checktextdomain', 'copy', 'compress', 'composer:update', 'composer:dump-autoload:optimize'] );
 
