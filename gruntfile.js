@@ -333,7 +333,8 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'default',  ['css', 'jshint', 'jscs', 'js'] );
 	grunt.registerTask( 'pot',      ['checktextdomain', 'makepot', 'shell:txpush'] );
 	grunt.registerTask( 'localize', ['shell:txpull', 'po2mo'] );
-	grunt.registerTask( 'build',    ['composer:install:no-dev', 'composer:dump-autoload:optimize:no-dev', 'clean:build', 'default', 'copy', 'compress', 'composer:update', 'composer:dump-autoload:optimize'] );
+	grunt.registerTask( 'build',    ['composer:install:no-dev', 'composer:dump-autoload:optimize:no-dev', 'clean:build',
+	                                 'default', 'checktextdomain', 'copy', 'compress', 'composer:update', 'composer:dump-autoload:optimize'] );
 
 	// TODO Add deploy task
 	//grunt.registerTask( 'deploy',   ['test', 'localize', 'default', 'build', 'docs', 'wp_deploy'] );
