@@ -7,7 +7,6 @@ module.exports = function( grunt ) {
 	// Files to include/exclude in a release.
 	var distFiles = [
 		'**',
-		'!.git/**',
 		'!assets/css/sass/**',
 		'!assets/images/wp/**',
 		'!build/**',
@@ -15,13 +14,13 @@ module.exports = function( grunt ) {
 		'!.bowercc',
 		'!.editorconfig',
 		'!.gitignore',
-		'!.gitmodules',
 		'!.jscsrc',
 		'!.jshintrc',
 		'!apigen.neon',
 		'!bower.json',
 		'!composer.json',
 		'!composer.lock',
+		'!contributing.md',
 		'!readme.md',
 		'!gruntfile.js',
 		'!package.json',
