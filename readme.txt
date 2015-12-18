@@ -83,6 +83,7 @@ We'd love your help! Here's a few things you can do:
 = 3.0.10 - TODO =
 
 * Fix: With new pagination tweak grouped calendar length will not be cut off to the last calendar in the list.
+* Fix: Fixed a bug with the welcome screen timing for new installations.
 * Tweak: Pagination will now always show unless the calendar is static.
 
 = 3.0.9 - December 16, 2015 =
