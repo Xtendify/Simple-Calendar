@@ -84,6 +84,7 @@ We'd love your help! Here's a few things you can do:
 
 * Fix: With new pagination tweak grouped calendar length will not be cut off to the last calendar in the list.
 * Fix: Fixed a bug with the welcome screen timing for new installations.
+* Fix: Fixed bug with i18n short day names displaying as a question mark.
 * Tweak: Allow setting a cache duration of 0.
 * Tweak: Pagination will now always show unless the calendar is static.
 
