@@ -296,9 +296,6 @@
 					}
 				}
 				eventsDots.show();
-
-				// Force click/tap on mobile.
-				bubbleTrigger = 'click';
 				// Adapts cells to be more squareish on mobile.
 				var minH = ( width - 10 ) + 'px';
 				cells.css( 'min-height', minH );
