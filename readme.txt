@@ -88,6 +88,7 @@ We'd love your help! Here's a few things you can do:
 * Fix: Fixed a bug with i18n truncated event titles not displaying properly.
 * Tweak: Allow setting a cache duration of 0.
 * Tweak: Pagination will now always show unless the calendar is static.
+* Tweak: Allow responsive grid view to use hover option.
 
 = 3.0.9 - December 16, 2015 =
 
