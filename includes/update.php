@@ -128,7 +128,40 @@ class Update {
 			}
 		}
 
+		$this->admin_redirects();
+
 		update_option( 'simple-calendar_version', $this->new_ver );
+	}
+
+	/**
+	 * Handle redirects to welcome page after install and updates.
+	 *
+	 * Transient must be present, the user must have access rights, and we must ignore the network/bulk plugin updaters.
+	 *
+	 * @since 3.0.0
+	 */
+	public function admin_redirects() {
+
+		$transient = get_transient( '_simple-calendar_activation_redirect' );
+
+		if ( ! $transient || is_network_admin() || isset( $_GET['activate-multi'] ) || ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		delete_transient( '_simple-calendar_activation_redirect' );
+
+		// Do not redirect if already on welcome page screen.
+		if ( ! empty( $_GET['page'] ) && in_array( $_GET['page'], array( 'simple-calendar_about' ) ) ) {
+			return;
+		}
+
+		$url = add_query_arg(
+				'simcal_install',
+				esc_attr( $transient ),
+				admin_url( 'index.php?page=simple-calendar_about' )
+		);
+		wp_safe_redirect( $url );
+		exit;
 	}
 
 	/**
