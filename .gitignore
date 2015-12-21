@@ -1,21 +1,11 @@
-### IDE ###
-
 # PhpStorm
 .idea
-
-# Netbeans
-nbproject
 
 # Sublime
 *.sublime-project
 *.sublime-workspace
-*.tmlanguage.cache
-*.tmPreferences.cache
-*.stTheme.cache
 
-### Development ###
-
-# Node
+# Grunt
 /node_modules
 
 # Bower
@@ -29,29 +19,20 @@ nbproject
 /composer.lock
 
 # Sass
-.sass-cache
+/.sass-cache
 
-# Logging
-*.log
-*.logs
-/log
+# Tests
+phpunit.xml
+
+# Logs
 /logs
-*.tmp
-temp
-tmp
-/tmp
-
-### Build ###
 
 # wordpress.org
 /build
-/svn
 
-### OS Files ###
-
-# OSX
+# Mac crap
 .DS_Store
 
-# Windows
+# Windows crap
 ehthumbs.db
 Thumbs.db

@@ -415,7 +415,7 @@ class Default_Calendar_Grid implements Calendar_View {
 						// Event title in list.
 						$title = ! empty( $event->title ) ? trim( $event->title ) : __( 'Event', 'google-calendar-events' );
 						if ( $calendar->trim_titles >= 1 ) {
-							$title = strlen( $title ) > $calendar->trim_titles ? substr( $title, 0, $calendar->trim_titles ) . '&hellip;' : $title;
+							$title = strlen( $title ) > $calendar->trim_titles ? mb_substr( $title, 0, $calendar->trim_titles ) . '&hellip;' : $title;
 						}
 
 						// Event color.
