@@ -50,8 +50,6 @@ class Menus {
 
 		new Welcome();
 
-		// Conditional redirect to welcome page on activation.
-		add_action( 'admin_init', array( $this, 'admin_redirects' ) );
 		// Links and meta content in plugins page.
 		add_filter( 'plugin_action_links_' . self::$plugin, array( __CLASS__, 'plugin_action_links' ), 10, 5 );
 		add_filter( 'plugin_row_meta', array( __CLASS__, 'plugin_row_meta' ), 10, 2 );
@@ -156,37 +154,6 @@ class Menus {
 		}
 
 		return $meta_links;
-	}
-
-	/**
-	 * Handle redirects to welcome page after install and updates.
-	 *
-	 * Transient must be present, the user must have access rights, and we must ignore the network/bulk plugin updaters.
-	 *
-	 * @since 3.0.0
-	 */
-	public function admin_redirects() {
-
-		$transient = get_transient( '_simple-calendar_activation_redirect' );
-
-		if ( ! $transient || is_network_admin() || isset( $_GET['activate-multi'] ) || ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		delete_transient( '_simple-calendar_activation_redirect' );
-
-		// Do not redirect if already on welcome page screen.
-		if ( ! empty( $_GET['page'] ) && in_array( $_GET['page'], array( 'simple-calendar_about' ) ) ) {
-			return;
-		}
-
-		$url = add_query_arg(
-			'simcal_install',
-			esc_attr( $transient ),
-			admin_url( 'index.php?page=simple-calendar_about' )
-		);
-		wp_safe_redirect( $url );
-		exit;
 	}
 
 	/**
