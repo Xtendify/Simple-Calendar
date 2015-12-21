@@ -26,10 +26,8 @@
 				action = 'simcal_default_calendar_draw_grid';
 				// Always use the first of the month in grid.
 				date = new Date( currentDate.getFullYear(), currentDate.getMonth(), 1 );
-				toggleGridNavButtons( buttons, date.getTime() / 1000, start, end );
 			} else {
 				action = 'simcal_default_calendar_draw_list';
-				toggleListNavButtons( buttons, calendar, start, end, false );
 				toggleListHeading( calendar );
 			}
 
@@ -82,8 +80,6 @@
 							currentYear.text( year );
 							current.attr( 'data-calendar-current', ( newDate.getTime() / 1000 ) + offset + 1 );
 
-							toggleGridNavButtons( buttons, newDate.getTime() / 1000, start, end );
-
 							spinner.fadeToggle();
 
 							date = newDate;
@@ -126,7 +122,6 @@
 							current.attr( 'data-calendar-current', timestamp );
 
 							toggleListHeading( calendar );
-							toggleListNavButtons( buttons, calendar, start, end, direction );
 
 							spinner.fadeToggle();
 							expandEventsToggle();
@@ -140,101 +135,6 @@
 
 			} );
 		} );
-
-		/**
-		 * Enable or disable grid calendar navigation buttons.
-		 *
-		 * @param buttons Previous and Next buttons elements.
-		 * @param time    Current time.
-		 * @param min     Lower bound timestamp.
-		 * @param max     Upper bound timestamp.
-		 */
-		function toggleGridNavButtons( buttons, time, min, max ) {
-
-			buttons.each( function( e, i ) {
-
-				var button = $( i),
-					month = new Date( time * 1000 );
-
-				if ( button.hasClass( 'simcal-prev' ) ) {
-
-					month = new Date( month.setMonth( month.getMonth(), 1 )  );
-					month.setDate( 0 );
-
-					if ( month.getTime() / 1000 <= min ) {
-						button.attr( 'disabled', 'disabled' );
-					} else {
-						button.removeAttr( 'disabled' );
-					}
-
-				} else {
-
-					month = new Date( month.setMonth( month.getMonth() + 1, 1 ) );
-					month.setDate( 0 );
-					month.setHours( 23 );
-					month.setMinutes( 59 );
-					month.setSeconds( 59 );
-
-					if ( month.getTime() / 1000 >= max ) {
-						button.attr( 'disabled', 'disabled' );
-					} else {
-						button.removeAttr( 'disabled' );
-					}
-				}
-
-			} );
-		}
-
-		/**
-		 * Enable or disable grid calendar navigation buttons.
-		 *
-		 * @param buttons   Previous and Next button elements.
-		 * @param calendar  Current calendar.
-		 * @param start     Lower bound timestamp.
-		 * @param end       Upper bound timestamp.
-		 * @param direction Direction intent.
-		 */
-		function toggleListNavButtons( buttons, calendar, start, end, direction ) {
-
-			var list = calendar.find( '.simcal-events-list-container' ),
-				prev = list.data( 'prev' ),
-				next = list.data( 'next' );
-
-			buttons.each( function( e, b ) {
-
-				var button = $( b );
-
-				if ( direction ) {
-
-					if ( direction == 'prev' && button.hasClass( 'simcal-prev' ) ) {
-						if ( prev <= start ) {
-							button.attr( 'disabled', 'disabled' );
-						}
-					} else if ( button.hasClass( 'simcal-prev' ) ) {
-						button.removeAttr( 'disabled' );
-					}
-
-					if ( direction == 'next' && button.hasClass( 'simcal-next' ) ) {
-						if ( next >= end ) {
-							button.attr( 'disabled', 'disabled' );
-						}
-					} else if( $(button).hasClass( 'simcal-next' ) ) {
-						button.removeAttr( 'disabled' );
-					}
-
-				} else {
-
-					if ( prev <= start && button.hasClass( 'simcal-prev' ) ) {
-						button.attr( 'disabled', 'disabled' );
-					}
-
-					if ( next >= end && button.hasClass( 'simcal-next' ) ) {
-						button.attr( 'disabled', 'disabled' );
-					}
-
-				}
-			} );
-		}
 
 		/**
 		 * Replace the list heading with current page.
@@ -296,9 +196,6 @@
 					}
 				}
 				eventsDots.show();
-
-				// Force click/tap on mobile.
-				bubbleTrigger = 'click';
 				// Adapts cells to be more squareish on mobile.
 				var minH = ( width - 10 ) + 'px';
 				cells.css( 'min-height', minH );
