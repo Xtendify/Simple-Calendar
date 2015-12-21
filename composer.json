@@ -4,7 +4,12 @@
   "homepage": "https://simplecalendar.io",
   "type": "wordpress-plugin",
   "license": "GPLv2+",
-  "keywords": ["wordpress", "plugin", "calendar", "google calendar"],
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "calendar",
+    "google calendar"
+  ],
   "authors": [
     {
       "name": "Moonstone Media",
