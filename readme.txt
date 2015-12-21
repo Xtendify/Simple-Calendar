@@ -80,7 +80,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.0.10 - TODO =
+= 3.0.10 - December 21, 2015 =
 
 * Fix: With new pagination tweak grouped calendar length will not be cut off to the last calendar in the list.
 * Fix: Fixed a bug with the welcome screen timing for new installations.
