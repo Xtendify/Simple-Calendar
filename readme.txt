@@ -82,10 +82,10 @@ We'd love your help! Here's a few things you can do:
 
 = 3.0.10 - December 21, 2015 =
 
-* Fix: With new pagination tweak grouped calendar length will not be cut off to the last calendar in the list.
-* Fix: Fixed a bug with the welcome screen timing for new installations.
-* Fix: Fixed bug with i18n short day names not displaying properly.
-* Fix: Fixed a bug with i18n truncated event titles not displaying properly.
+* Fix: Pagination tweak to prevent grouped calendars from getting cut off by last calendar in list.
+* Fix: Welcome screen now shows up correctly after a fresh installation.
+* Fix: i18n short day names should now display properly.
+* Fix: i18n truncated event titles should now display properly.
 * Tweak: Allow setting a cache duration of 0.
 * Tweak: Pagination will now always show unless the calendar is static.
 * Tweak: Allow responsive grid view to use hover option.
