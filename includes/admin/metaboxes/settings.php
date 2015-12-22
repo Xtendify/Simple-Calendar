@@ -899,16 +899,6 @@ class Settings implements Meta_Box {
 		do_action( 'simcal_process_settings_meta', $post_id );
 
 		// Clear cache.
-		// Check if there are ids for a grouped calendar
-		$grouped_ids = get_post_meta( $post_id, '_grouped_calendars_ids', true );
-
-		// If there are group IDs we need to construct an array to pass along with the grouped IDs + the original $post_id
-		if ( is_array( $grouped_ids ) ) {
-			$id = $post_id;
-			$post_id = $grouped_ids;
-			$post_id[] = $id;
-		}
-
 		simcal_delete_feed_transients( $post_id );
 	}
 

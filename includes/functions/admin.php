@@ -82,6 +82,15 @@ function simcal_print_field( $args, $name = '' ) {
  */
 function simcal_delete_feed_transients( $id = '' ) {
 
+	$grouped_ids = get_post_meta( $id, '_grouped_calendars_ids', true );
+
+	// If there are group IDs we need to construct an array to pass along with the grouped IDs + the original $post_id
+	if ( is_array( $grouped_ids ) ) {
+		$temp_id = $id;
+		$id = $grouped_ids;
+		$id[] = $temp_id;
+	}
+
 	if ( is_numeric( $id ) ) {
 		$id = intval( $id ) > 0 ? absint( $id ) : simcal_get_calendars();
 	} elseif ( $id instanceof WP_Post ) {
