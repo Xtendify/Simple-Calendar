@@ -696,7 +696,7 @@ class Settings implements Meta_Box {
 
 				$cache_freq = esc_attr( get_post_meta( $post->ID, '_feed_cache_user_amount', true ) );
 				$cache_unit = esc_attr( get_post_meta( $post->ID, '_feed_cache_user_unit', true ) );
-				$cache_freq = $cache_freq ? $cache_freq : '2';
+				$cache_freq = $cache_freq >= 0 ? $cache_freq : '2';
 				$cache_unit = $cache_unit ? $cache_unit : '3600';
 
 				?>
@@ -708,7 +708,7 @@ class Settings implements Meta_Box {
 						       id="_feed_cache_user_amount"
 						       class="simcal-field simcal-field-number simcal-field-tiny simcal-field-inline"
 						       value="<?php echo $cache_freq; ?>"
-						       min="1" />
+						       min="0" />
 						<select name="_feed_cache_user_unit"
 						        id="_feed_cache_user_unit"
 						        class="simcal-field simcalfield-select simcal-field-inline">
@@ -880,7 +880,7 @@ class Settings implements Meta_Box {
 		// Cache interval.
 		$cache = 7200;
 		if ( isset( $_POST['_feed_cache_user_amount'] ) && isset( $_POST['_feed_cache_user_unit'] ) ) {
-			$amount = is_numeric( $_POST['_feed_cache_user_amount'] ) ? absint( $_POST['_feed_cache_user_amount'] ) : 1;
+			$amount = is_numeric( $_POST['_feed_cache_user_amount'] ) || $_POST['_feed_cache_user_amount'] == 0 ? absint( $_POST['_feed_cache_user_amount'] ) : 1;
 			$unit   = is_numeric( $_POST['_feed_cache_user_unit'] ) ? absint( $_POST['_feed_cache_user_unit'] ) : 3600;
 			update_post_meta( $post_id, '_feed_cache_user_amount', $amount );
 			update_post_meta( $post_id, '_feed_cache_user_unit', $unit );

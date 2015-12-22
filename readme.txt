@@ -3,7 +3,7 @@ Contributors: moonstonemedia, pderksen, nickyoung87, nekojira, rosshanney
 Tags: calendar, calendars, calendar manager, custom calendar, custom calendars, event, events, events feed, google calendar, google
 Requires at least: 4.0
 Tested up to: 4.4
-Stable tag: 3.0.9
+Stable tag: 3.0.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -79,6 +79,16 @@ We'd love your help! Here's a few things you can do:
 8. Attach a calendar to a post or page
 
 == Changelog ==
+
+= 3.0.10 - December 21, 2015 =
+
+* Fix: Pagination tweak to prevent grouped calendars from getting cut off by last calendar in list.
+* Fix: Welcome screen now shows up correctly after a fresh installation.
+* Fix: i18n short day names should now display properly.
+* Fix: i18n truncated event titles should now display properly.
+* Tweak: Allow setting a cache duration of 0.
+* Tweak: Pagination will now always show unless the calendar is static.
+* Tweak: Allow responsive grid view to use hover option.
 
 = 3.0.9 - December 16, 2015 =
 

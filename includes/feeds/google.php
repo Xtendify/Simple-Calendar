@@ -291,7 +291,7 @@ class Google extends Feed {
 						set_transient(
 							'_simple-calendar_feed_id_' . strval( $this->post_id ) . '_' . $this->type,
 							$calendar,
-							max( absint( $this->cache ), 60 )
+							max( absint( $this->cache ), 1 ) // Since a value of 0 means forever we set the minimum here to 1 if the user has set it to be 0
 						);
 					}
 				}

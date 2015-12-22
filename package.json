@@ -1,15 +1,14 @@
 {
-  "name": "simple-calendar",
+  "name": "moonstonemedia/Simple-Calendar",
   "title": "Simple Calendar",
   "description": "Add Google Calendar events to your WordPress site.",
-  "version": "3.0.9",
+  "version": "3.0.11",
   "license": "GPLv2+",
   "homepage": "https://simplecalendar.io",
   "repository": {
     "type": "git",
     "url": "https://github.com/moonstonemedia/Simple-Calendar"
   },
-  "keywords": [],
   "devDependencies": {
     "autoprefixer": "6.x",
     "grunt": "0.x",
