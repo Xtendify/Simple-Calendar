@@ -80,6 +80,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.0.11 - TODO =
+
+
 = 3.0.10 - December 21, 2015 =
 
 * Fix: Pagination tweak to prevent grouped calendars from getting cut off by last calendar in list.
