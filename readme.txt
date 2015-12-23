@@ -83,6 +83,7 @@ We'd love your help! Here's a few things you can do:
 = 3.0.11 - TODO =
 
 * Dev: Updated CSS class for [start-location] and [end-location] tags.
+* Tweak: Updated date and time preview to show properly escaped values.
 
 = 3.0.10 - December 21, 2015 =
 
