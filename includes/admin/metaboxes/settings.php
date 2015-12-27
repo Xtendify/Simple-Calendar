@@ -884,7 +884,7 @@ class Settings implements Meta_Box {
 			$unit   = is_numeric( $_POST['_feed_cache_user_unit'] ) ? absint( $_POST['_feed_cache_user_unit'] ) : 3600;
 			update_post_meta( $post_id, '_feed_cache_user_amount', $amount );
 			update_post_meta( $post_id, '_feed_cache_user_unit', $unit );
-			$cache  = $amount * $unit;
+			$cache  = ( ( $amount * $unit ) > 0 ) ? $amount * $unit : 1;
 		}
 		update_post_meta( $post_id, '_feed_cache', $cache );
 
