@@ -474,7 +474,6 @@ class Event_Builder {
 	 */
 	private function limit_words( $text, $limit ) {
 
-		$text = wp_strip_all_tags( $text );
 		$limit = max( absint( $limit ), 0 );
 
 		if ( $limit > 0 && ( str_word_count( $text, 0 ) > $limit ) ) {
@@ -556,9 +555,9 @@ class Event_Builder {
 				$markdown = new \Parsedown();
 				$html .= $markdown->text( wp_strip_all_tags( $description ) );
 			}
-		} else {
-			$html .= $this->limit_words( $description, $attr['limit'] );
 		}
+
+		$html = $this->limit_words( $description, $attr['limit'] );
 
 		$html .= '</div>';
 
