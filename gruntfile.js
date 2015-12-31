@@ -241,6 +241,9 @@ module.exports = function( grunt ) {
 		'default', 'checktextdomain', 'copy', 'compress', 'composer:update', 'composer:dump-autoload:optimize'
 	] );
 
+	// Alternative build without Composer commands
+	grunt.registerTask( 'alt-build', [ 'clean:build', 'default', 'checktextdomain', 'copy', 'compress'	] );
+
 	// TODO Add deploy task
 	//grunt.registerTask( 'deploy',   ['test', 'localize', 'default', 'build', 'docs', 'wp_deploy'] );
 
