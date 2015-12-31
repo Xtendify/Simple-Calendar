@@ -121,6 +121,8 @@ class Grouped_Calendars extends Feed {
 
 				$calendar = simcal_get_calendar( intval( $cal_id ) );
 
+				simcal_delete_feed_transients( $cal_id );
+
 				if ( $calendar instanceof Calendar ) {
 					$events = is_array( $calendar->events ) ? $events + $calendar->events : $events;
 				}
