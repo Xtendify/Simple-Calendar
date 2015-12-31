@@ -532,7 +532,7 @@ abstract class Calendar {
 
 			if ( 'use_custom' == $time_format_option ) {
 				$time_format_custom = esc_attr( get_post_meta( $this->id, '_calendar_time_format', true ) );
-			} elseif ( 'use_custom_php' ) {
+			} elseif ( 'use_custom_php' == $time_format_option ) {
 				$time_format_custom = esc_attr( get_post_meta( $this->id, '_calendar_time_format_php', true ) );
 			}
 		}
