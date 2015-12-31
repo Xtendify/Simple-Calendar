@@ -82,6 +82,7 @@ We'd love your help! Here's a few things you can do:
 
 = 3.0.11 - TODO =
 
+* Fix: Custom date and time format settings should no longer override everything else when not selected.
 * Fix: Limiting description with HTML tags should now work better.
 * Fix: Events from different calendars not showing on a grouped calendar should display properly now.
 * Fix: Grouped calendars will now clear the cache of all attached calendars.
