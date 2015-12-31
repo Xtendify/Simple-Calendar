@@ -551,16 +551,16 @@ class Event_Builder {
 		// Markdown and HTML don't play well together, use one or the other in the same tag.
 		if ( $allow_html || $allow_md ) {
 			if ( $allow_html ) {
-				$html .= wp_kses_post( $description );
+				$description = wp_kses_post( $description );
 			} elseif ( $allow_md ) {
 				$markdown = new \Parsedown();
-				$html .= $markdown->text( wp_strip_all_tags( $description ) );
+				$description = $markdown->text( wp_strip_all_tags( $description ) );
 			}
 		}
 
-		$html = $this->limit_words( $description, $attr['limit'] );
+		$description = $this->limit_words( $description, $attr['limit'] );
 
-		$html .= '</div>';
+		$html .= $description . '</div>';
 
 		if ( 'no' != $attr['autolink'] ) {
 			$html = ' ' . make_clickable( $html );
