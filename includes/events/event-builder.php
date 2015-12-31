@@ -245,7 +245,8 @@ class Event_Builder {
 				case 'start-location' :
 				case 'end-location' :
 					$location = $tag == 'end-location' ? $event->end_location['address'] : $event->start_location['address'];
-					return ' <span class="simcal-event-address simcal-event-start-location" itemprop="location" itemscope itemtype="http://schema.org/Place">' . wp_strip_all_tags( $location ) . '</span>';
+					$location_class = $tag == 'end-location' ? 'end' : 'start';
+					return ' <span class="simcal-event-address simcal-event-' . $location_class . '-location" itemprop="location" itemscope itemtype="http://schema.org/Place">' . wp_strip_all_tags( $location ) . '</span>';
 
 				case 'start-location-link':
 				case 'end-location-link' :
@@ -474,7 +475,6 @@ class Event_Builder {
 	 */
 	private function limit_words( $text, $limit ) {
 
-		$text = wp_strip_all_tags( $text );
 		$limit = max( absint( $limit ), 0 );
 
 		if ( $limit > 0 && ( str_word_count( $text, 0 ) > $limit ) ) {
@@ -556,9 +556,9 @@ class Event_Builder {
 				$markdown = new \Parsedown();
 				$html .= $markdown->text( wp_strip_all_tags( $description ) );
 			}
-		} else {
-			$html .= $this->limit_words( $description, $attr['limit'] );
 		}
+
+		$html = $this->limit_words( $description, $attr['limit'] );
 
 		$html .= '</div>';
 
