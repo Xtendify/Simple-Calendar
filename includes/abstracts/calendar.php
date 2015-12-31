@@ -505,7 +505,7 @@ abstract class Calendar {
 
 			if ( 'use_custom' == $date_format_option ) {
 				$date_format_custom = esc_attr( get_post_meta( $this->id, '_calendar_date_format', true ) );
-			} elseif ( 'use_custom_php' ) {
+			} elseif ( 'use_custom_php' == $date_format_option ) {
 				$date_format_custom = esc_attr( get_post_meta( $this->id, '_calendar_date_format_php', true ) );
 			}
 		}
