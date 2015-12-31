@@ -80,7 +80,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.0.11 - TODO =
+= 3.0.11 - December 31, 2015 =
 
 * Fix: Custom date and time format settings should no longer override everything else when not selected.
 * Fix: Limiting description with HTML tags should now work better.
