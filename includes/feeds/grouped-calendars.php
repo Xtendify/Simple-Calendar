@@ -121,7 +121,20 @@ class Grouped_Calendars extends Feed {
 
 				$calendar = simcal_get_calendar( intval( $cal_id ) );
 
+				simcal_delete_feed_transients( $cal_id );
+
 				if ( $calendar instanceof Calendar ) {
+
+					// Sometimes the calendars might have events at the same time from different calendars
+					// When merging the arrays together some of the events will be lost because the keys are the same and one will overwrite the other
+					// This snippet checks if the key already exists in the master events array and if it does it subtracts 1 from it to make the key unique and then unsets the original key.
+					foreach( $calendar->events as $k => $v ) {
+						if ( array_key_exists( $k, $events ) ) {
+							$calendar->events[ $k - 1 ] = $v;
+							unset( $k );
+						}
+					}
+
 					$events = is_array( $calendar->events ) ? $events + $calendar->events : $events;
 				}
 
