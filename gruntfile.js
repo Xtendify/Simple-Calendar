@@ -9,6 +9,7 @@ module.exports = function( grunt ) {
 		'**',
 		'!assets/css/sass/**',
 		'!assets/images/wp/**',
+		'!bower_components/**',
 		'!build/**',
 		'!node_modules/**',
 		'!.bowercc',
