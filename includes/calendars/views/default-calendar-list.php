@@ -541,7 +541,7 @@ class Default_Calendar_List implements Calendar_View {
 								$event_color = ' style="border-' . $side . ': 4px solid ' . $event_color . '; padding-' . $side . ': 8px;"';
 							}
 
-							$list_events .= "\t" . '<li class="' . $event_classes . '"' . $event_visibility . $event_color . ' itemprop="event" itemscope itemtype="http://schema.org/Event">' . "\n";
+							$list_events .= "\t" . '<li class="' . $event_classes . '"' . $event_visibility . $event_color . ' itemscope itemtype="http://schema.org/Event">' . "\n";
 							$list_events .= "\t\t" . '<div class="simcal-event-details">' . $calendar->get_event_html( $event ) . '</div>' . "\n";
 							$list_events .= "\t" . '</li>' . "\n";
 
