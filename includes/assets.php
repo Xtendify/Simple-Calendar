@@ -93,7 +93,6 @@ class Assets {
 
 		add_action( 'init', array( $this, 'register' ), 20 );
 		add_action( 'init', array( $this, 'enqueue' ), 40 );
-		add_action( 'wp_print_styles', array( $this, 'disable' ), 100 );
 	}
 
 	/**
@@ -267,26 +266,6 @@ class Assets {
 	}
 
 	/**
-	 * Disable scripts and styles.
-	 *
-	 * @since 3.0.0
-	 */
-	public function disable() {
-		if ( true === $this->disable_scripts ) {
-			$scripts = apply_filters( 'simcal_front_end_scripts', $this->scripts, $this->min );
-			foreach ( $scripts as $script => $v ) {
-				wp_dequeue_script( $script );
-			}
-		}
-		if ( true === $this->disable_styles ) {
-			$styles = apply_filters( 'simcal_front_end_styles', $this->styles, $this->min );
-			foreach ( $styles as $style => $v ) {
-				wp_dequeue_style( $style );
-			}
-		}
-	}
-
-	/**
 	 * Scripts.
 	 *
 	 * @since 3.0.0
@@ -295,7 +274,8 @@ class Assets {
 	 */
 	public function load_scripts( $scripts ) {
 
-		if ( ! empty( $scripts ) && is_array( $scripts ) ) {
+		// Only load if not disabled in the settings
+		if ( ! empty( $scripts ) && is_array( $scripts ) && false === $this->disable_scripts ) {
 
 			foreach ( $scripts as $script => $v ) {
 
@@ -332,7 +312,8 @@ class Assets {
 	 */
 	public function load_styles( $styles ) {
 
-		if ( ! empty( $styles ) && is_array( $styles ) ) {
+		// Only load if not disabled in the settings
+		if ( ! empty( $styles ) && is_array( $styles ) && false === $this->disable_styles ) {
 
 			foreach ( $styles as $style => $v ) {
 
