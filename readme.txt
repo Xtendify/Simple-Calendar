@@ -82,7 +82,7 @@ We'd love your help! Here's a few things you can do:
 
 = 3.0.12 - TODO =
 
-
+* Fix: Disable scripts and disable styles advanced options should now work as intended.
 
 = 3.0.11 - December 31, 2015 =
 
