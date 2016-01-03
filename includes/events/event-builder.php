@@ -546,7 +546,7 @@ class Event_Builder {
 		$allow_html = 'no' != $attr['html']     ? true : false;
 		$allow_md   = 'no' != $attr['markdown'] ? true : false;
 
-		$html = '<span class="simcal-event-description" itemprop="description">';
+		$html = '<div class="simcal-event-description" itemprop="description">';
 
 		// Markdown and HTML don't play well together, use one or the other in the same tag.
 		if ( $allow_html || $allow_md ) {
@@ -560,7 +560,7 @@ class Event_Builder {
 
 		$description = $this->limit_words( $description, $attr['limit'] );
 
-		$html .= $description . '</span>';
+		$html .= $description . '</div>';
 
 		if ( 'no' != $attr['autolink'] ) {
 			$html = ' ' . make_clickable( $html );
