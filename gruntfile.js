@@ -209,6 +209,9 @@ module.exports = function( grunt ) {
 			build: [ 'build' ]
 		},
 
+		// TODO Add copy tasks for JS & CSS from bower_components/
+		// Include .map files from qTip2, etc.
+		// qtip2.js vs jquery.qtip2.js file naming?
 		copy: {
 			main: {
 				expand: true,
