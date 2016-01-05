@@ -86,6 +86,7 @@ We'd love your help! Here's a few things you can do:
 * Fix: Calendar start dates using a variable number will now start on the correct date.
 * Fix: Disable scripts and disable styles advanced options should now work as intended.
 * Tweak: Added "before" and "after" text for human date event builder codes.
+* Dev: Added jquery.qtip.min.map file to vendor assets.
 
 = 3.0.11 - December 31, 2015 =
 
