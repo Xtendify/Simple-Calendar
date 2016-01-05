@@ -80,6 +80,14 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.0.12 - January 5, 2016 =
+
+* Fix: All-day events on the first day of the month will now show up correctly.
+* Fix: Calendar start dates using a variable number will now start on the correct date.
+* Fix: Disable scripts and disable styles advanced options should now work as intended.
+* Tweak: Added "before" and "after" text for human date event builder codes.
+* Dev: Added jquery.qtip.min.map file to vendor assets.
+
 = 3.0.11 - December 31, 2015 =
 
 * Fix: Custom date and time format settings should no longer override everything else when not selected.
