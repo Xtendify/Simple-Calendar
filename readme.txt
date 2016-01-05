@@ -80,7 +80,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.0.12 - TODO =
+= 3.0.12 - January 5, 2016 =
 
 * Fix: All-day events on the first day of the month will now show up correctly.
 * Fix: Calendar start dates using a variable number will now start on the correct date.
