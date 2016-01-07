@@ -700,9 +700,9 @@ class Event_Builder {
 			$value = date_i18n( $dt_format, $event_dt->getTimestamp() );
 		}
 
-		return '<span class="simcal-event-' . $bound . ' ' . 'simcal-event-' . $bound . '-' . $format . '"' .
-		       'data-event-' . $bound . '="' . $event_dt->getTimestamp() . '"' .
-		       'data-event-format="' . $dt_format . '"' .
+		return '<span class="simcal-event-' . $bound . ' ' . 'simcal-event-' . $bound . '-' . $format . '" ' .
+		       'data-event-' . $bound . '="' . $event_dt->getTimestamp() . '" ' .
+		       'data-event-format="' . $dt_format . '" ' .
 		       'itemprop="' . $bound . 'Date" content="' . $event_dt->toIso8601String() . '">' .
 		       $value .
 		       '</span>';
