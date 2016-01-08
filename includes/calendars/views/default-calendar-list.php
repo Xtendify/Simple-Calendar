@@ -468,6 +468,9 @@ class Default_Calendar_List implements Calendar_View {
 
 			foreach ( $current_events as $ymd => $events ) :
 
+				// This is where we can find out if an event is a multi-day event and if it needs to be shown.
+				// Since this is for list view we are showing the event on the day viewed if it is part of that day even when
+				// expand multi-day events are turned off.
 				if ( isset( $events[0][0]->multiple_days ) && $events[0][0]->multiple_days > 0 ) {
 					if ( 'no' == get_post_meta($calendar->id, '_default_calendar_expand_multi_day_events', true ) ) {
 
