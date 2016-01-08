@@ -285,12 +285,20 @@ class Default_Calendar_Admin {
 				<td>
 					<?php
 
+					$multi_day_value = absint( get_post_meta( $post_id, '_default_calendar_expand_multi_day_events', true ) );
+
+					if ( false === $multi_day_value ) {
+						$multi_day_value = 'current_day_only';
+					} elseif ( empty( $multi_day_value ) ) {
+						$multi_day_value = 'no';
+					}
+
 					simcal_print_field( array(
 						'type'    => 'select',
 						'name'    => '_default_calendar_expand_multi_day_events',
 						'id'      => '_default_calendar_expand_multi_day_events',
 						'tooltip' => __( 'Show events spanning multiple days on each day.', 'google-calendar-events' ),
-						'value'   => get_post_meta( $post_id, '_default_calendar_expand_multi_day_events', true ),
+						'value'   => $multi_day_value,
 						'options' => array(
 							'yes'              => __( 'Yes (show on all days of event)', 'google-calendar-events' ),
 							'no'               => __( 'No (only show on first day)', 'google-calendar-events' ),
