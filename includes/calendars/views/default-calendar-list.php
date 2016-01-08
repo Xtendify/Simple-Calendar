@@ -472,7 +472,7 @@ class Default_Calendar_List implements Calendar_View {
 				// Since this is for list view we are showing the event on the day viewed if it is part of that day even when
 				// expand multi-day events are turned off.
 				if ( isset( $events[0][0]->multiple_days ) && $events[0][0]->multiple_days > 0 ) {
-					if ( 'no' == get_post_meta($calendar->id, '_default_calendar_expand_multi_day_events', true ) ) {
+					if ( 'current_day_only' == get_post_meta($calendar->id, '_default_calendar_expand_multi_day_events', true ) ) {
 
 						$year  = substr( $ymd, 0, 4 );
 						$month = substr( $ymd, 4, 2 );

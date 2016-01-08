@@ -286,11 +286,16 @@ class Default_Calendar_Admin {
 					<?php
 
 					simcal_print_field( array(
-						'type'    => 'checkbox',
+						'type'    => 'select',
 						'name'    => '_default_calendar_expand_multi_day_events',
 						'id'      => '_default_calendar_expand_multi_day_events',
 						'tooltip' => __( 'Show events spanning multiple days on each day.', 'google-calendar-events' ),
 						'value'   => get_post_meta( $post_id, '_default_calendar_expand_multi_day_events', true ),
+						'options' => array(
+							'yes'              => __( 'Yes (show on all days of event)', 'google-calendar-events' ),
+							'no'               => __( 'No (only show on first day)', 'google-calendar-events' ),
+							'current_day_only' => __( 'No (but show on current day)', 'google-calendar-events' ),
+						),
 					) );
 
 					?>
@@ -431,7 +436,7 @@ class Default_Calendar_Admin {
 		update_post_meta( $post_id, '_default_calendar_trim_titles_chars', $chars );
 
 		// Expand multiple day events on each day.
-		$multi_day = isset( $_POST['_default_calendar_expand_multi_day_events'] ) ? 'yes' : 'no';
+		$multi_day = isset( $_POST['_default_calendar_expand_multi_day_events'] ) ? sanitize_key( $_POST['_default_calendar_expand_multi_day_events'] ) : 'current_day_only';
 		update_post_meta( $post_id, '_default_calendar_expand_multi_day_events', $multi_day );
 
 	}
