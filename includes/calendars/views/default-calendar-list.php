@@ -480,7 +480,7 @@ class Default_Calendar_List implements Calendar_View {
 
 						$temp_date = Carbon::createFromDate( $year, $month, $day );
 
-						if( ! ( $temp_date >= Carbon::now()->startOfDay() && $temp_date < Carbon::now()->endOfDay() ) ) {
+						if( ! ( $temp_date < Carbon::now()->endOfDay() ) ) {
 							continue;
 						}
 					}
