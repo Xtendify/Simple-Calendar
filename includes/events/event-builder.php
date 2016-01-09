@@ -175,7 +175,9 @@ class Event_Builder {
 		);
 
 		// Removes extra consecutive <br> tags.
-		return preg_replace( '#(<br */?>\s*)+#i', '<br />', trim( $result ) );
+		// TODO: Doesn't seem to work but going to remove it to allow multiple <br> tags in the editor
+		/*return preg_replace( '#(<br *//*?>\s*)+#i', '<br />', trim( $result ) );*/
+		return trim( $result );
 	}
 
 	/**
