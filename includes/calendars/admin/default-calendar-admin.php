@@ -285,12 +285,11 @@ class Default_Calendar_Admin {
 				<td>
 					<?php
 
-					$multi_day_value = absint( get_post_meta( $post_id, '_default_calendar_expand_multi_day_events', true ) );
 
-					if ( false === $multi_day_value ) {
+					if ( ! is_array( get_post_meta( $post_id ) ) && ! empty( get_post_meta( $post_id ) ) ) {
 						$multi_day_value = 'current_day_only';
-					} elseif ( empty( $multi_day_value ) ) {
-						$multi_day_value = 'no';
+					} else {
+						$multi_day_value = get_post_meta( $post_id, '_default_calendar_expand_multi_day_events', true );
 					}
 
 					simcal_print_field( array(
@@ -304,6 +303,7 @@ class Default_Calendar_Admin {
 							'no'               => __( 'No (only show on first day)', 'google-calendar-events' ),
 							'current_day_only' => __( 'No (but show on current day)', 'google-calendar-events' ),
 						),
+						'default' => 'current_day_only',
 					) );
 
 					?>
@@ -444,7 +444,7 @@ class Default_Calendar_Admin {
 		update_post_meta( $post_id, '_default_calendar_trim_titles_chars', $chars );
 
 		// Expand multiple day events on each day.
-		$multi_day = isset( $_POST['_default_calendar_expand_multi_day_events'] ) ? sanitize_key( $_POST['_default_calendar_expand_multi_day_events'] ) : 'current_day_only';
+		$multi_day = isset( $_POST['_default_calendar_expand_multi_day_events'] ) && ! empty( $_POST['_default_calendar_expand_multi_day_events'] ) ? sanitize_key( $_POST['_default_calendar_expand_multi_day_events'] ) : 'current_day_only';
 		update_post_meta( $post_id, '_default_calendar_expand_multi_day_events', $multi_day );
 
 	}
