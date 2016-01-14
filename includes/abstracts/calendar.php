@@ -450,7 +450,21 @@ abstract class Calendar {
 		}
 
 		// TODO: Removed wpautop() call.
-		$this->events_template =  wp_kses_post( trim( $template ) );
+
+		$event_formatting = get_post_meta( $this->id, '_event_formatting', true );
+
+		switch( $event_formatting ) {
+			case 'none':
+				$this->events_template =  wp_kses_post( trim( $template ) );
+				break;
+			case 'no_linebreaks':
+				$this->events_template =  wpautop( wp_kses_post( trim( $template ) ), false );
+				break;
+			default:
+				$this->events_template =  wpautop( wp_kses_post( trim( $template ) ), true );
+		}
+
+		//$this->events_template =  wpautop( wp_kses_post( trim( $template ) ), true );
 	}
 
 	/**
