@@ -769,7 +769,9 @@ abstract class Calendar {
 
 				if ( 'yes' == $poweredby ) {
 					$align = is_rtl() ? 'left' : 'right';
-					echo '<small class="simcal-powered simcal-align-' . $align .'">Powered by <a href="https://simplecalendar.io" target="_blank">Simple Calendar</a></small>';
+					echo '<small class="simcal-powered simcal-align-' . $align .'">' .
+					     sprintf( __( 'Powered by <a href="%s" target="_blank">Simple Calendar</a>', 'google-calendar-events' ), simcal_get_url( 'home' ) ) .
+					     '</small>';
 				}
 
 				echo '</div>';
