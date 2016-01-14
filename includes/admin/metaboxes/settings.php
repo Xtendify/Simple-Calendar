@@ -496,7 +496,7 @@ class Settings implements Meta_Box {
 							'value'   => $event_formatting,
 							'default' => 'none',
 							'options' => array(
-								'preserve_linebreaks' => __( 'Preserve line breaks, auto paragraphs (default)' ),
+								'preserve_linebreaks' => __( 'Preserve line breaks, auto paragraphs (default)', 'google-calendar-events' ),
 								'no_linebreaks'       => __( 'No line breaks, auto paragraphs', 'google-calendar-events' ),
 								'none'                => __( 'No line breaks, no auto paragraphs', 'google-calendar-events' ),
 							),
