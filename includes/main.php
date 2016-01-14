@@ -249,6 +249,7 @@ final class Plugin {
 				return 'https://wordpress.org/support/plugin/google-calendar-events';
 			case 'gdev-console':
 				return 'https://console.developers.google.com';
+			case 'home' :
 			default :
 				return self::$homepage;
 		}
