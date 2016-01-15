@@ -240,13 +240,13 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'css', [ 'sass', 'postcss', 'cssmin', 'usebanner:css' ] );
 	grunt.registerTask( 'js', [ 'uglify', 'usebanner:js' ] );
 	grunt.registerTask( 'default', [ 'css', 'jshint', 'jscs', 'js' ] );
-	grunt.registerTask( 'build', [
-		'composer:install:no-dev', 'composer:dump-autoload:optimize:no-dev', 'clean:build',
-		'default', 'checktextdomain', 'copy', 'compress', 'composer:update', 'composer:dump-autoload:optimize'
-	] );
 
-	// Alternative build without Composer commands
-	grunt.registerTask( 'alt-build', [ 'clean:build', 'default', 'checktextdomain', 'copy', 'compress'	] );
+	// Build task without composer commands.
+	grunt.registerTask( 'build', [ 'clean:build', 'default', 'checktextdomain', 'copy', 'compress'	] );
+
+	// Build task that includes composer commands. Can take a while.
+	grunt.registerTask( 'build-composer', [ 'composer:install:no-dev', 'composer:dump-autoload:optimize:no-dev',
+		'build', 'composer:update', 'composer:dump-autoload:optimize' ] );
 
 	// TODO Add deploy task
 	//grunt.registerTask( 'deploy',   ['test', 'localize', 'default', 'build', 'docs', 'wp_deploy'] );

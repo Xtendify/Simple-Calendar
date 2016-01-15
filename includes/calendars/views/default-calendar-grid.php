@@ -294,7 +294,7 @@ class Default_Calendar_Grid implements Calendar_View {
 
 		// Variables to cycle days in current month and find today in calendar.
 		$now         = $calendar->now;
-		$current     = Carbon::create( $year, $month, 1, 0, 0, 59, $calendar->timezone );
+		$current     = Carbon::create( $year, $month, 1, 0, 0, 0, $calendar->timezone );
 		$current_min = $current->getTimestamp();
 		$current_max = $current->endOfDay()->getTimestamp();
 
