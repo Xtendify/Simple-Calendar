@@ -281,7 +281,7 @@ class Default_Calendar_Admin {
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list" style="display: none;">
-				<th><label for="_default_calendar_event_bubbles_action"><?php _e( 'Expand multi day events', 'google-calendar-events' ); ?></label></th>
+				<th><label for="_default_calendar_event_bubbles_action"><?php _e( 'Expand multi-day events', 'google-calendar-events' ); ?></label></th>
 				<td>
 					<?php
 
@@ -297,12 +297,14 @@ class Default_Calendar_Admin {
 						'type'    => 'select',
 						'name'    => '_default_calendar_expand_multi_day_events',
 						'id'      => '_default_calendar_expand_multi_day_events',
-						'tooltip' => __( 'Show events spanning multiple days on each day, show them only on the first day, or show on each day up to the current day (list view only).', 'google-calendar-events' ),
+						'tooltip' => __( 'For events spanning multiple days, you can display them on each day of the event, ' .
+						                 'only on the first day of the event, or on all days of the event, but only up to the current day. ' .
+						                 'Third option applies to list views only.', 'google-calendar-events' ),
 						'value'   => $multi_day_value,
 						'options' => array(
-							'yes'              => __( 'Yes (show on all days of event)', 'google-calendar-events' ),
-							'no'               => __( 'No (only show on first day)', 'google-calendar-events' ),
-							'current_day_only' => __( 'No (but show on current day)', 'google-calendar-events' ),
+							'yes'              => __( 'Yes, display on all days of event', 'google-calendar-events' ),
+							'no'               => __( 'No, display only on first day of event', 'google-calendar-events' ),
+							'current_day_only' => __( 'No, display on all days of event up to current day (list view only)', 'google-calendar-events' ),
 						),
 						'default' => 'current_day_only',
 					) );
