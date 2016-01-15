@@ -285,8 +285,9 @@ class Default_Calendar_Admin {
 				<td>
 					<?php
 
+					$post_meta = get_post_meta( $post_id );
 
-					if ( ! is_array( get_post_meta( $post_id ) ) && ! empty( get_post_meta( $post_id ) ) ) {
+					if ( ! is_array( $post_meta ) && ! empty( $post_meta ) ) {
 						$multi_day_value = 'current_day_only';
 					} else {
 						$multi_day_value = get_post_meta( $post_id, '_default_calendar_expand_multi_day_events', true );
