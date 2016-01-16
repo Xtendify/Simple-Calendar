@@ -162,9 +162,28 @@ class Grouped_Calendars extends Feed {
 			}
 
 		}
+	
+		// Sort events by start time before returning
+		uasort( $events, array( $this, 'sort_by_start_time' ) );
 
 		return $events;
 	}
+
+	/**
+	 * uasort helper to sort events by start time.
+	 *
+	 * @since  3.0.13
+	 * @access private
+	 */
+	private function sort_by_start_time( $a, $b ) {
+		if ( $a == $b ) {
+			return 0;
+		}
+
+		return ( $a[0]->start < $b[0]->start ) ? -1 : 1;
+	}
+
+
 
 	/**
 	 * Array filter key.
