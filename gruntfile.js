@@ -12,7 +12,6 @@ module.exports = function( grunt ) {
 		'!bower_components/**',
 		'!build/**',
 		'!node_modules/**',
-		'!.bowercc',
 		'!.editorconfig',
 		'!.gitignore',
 		'!.jscsrc',
