@@ -83,10 +83,39 @@ module.exports = function( grunt ) {
 			}
 		},
 
-		// TODO Add copy tasks for JS & CSS from bower_components/
-		// Include .map files from qTip2, etc.
-		// qtip2.js vs jquery.qtip2.js file naming?
+		// 'css' & 'js' tasks need to copy vendor-minified assets from bower folder to assets folder (qtip, select2, etc).
 		copy: {
+			css: {
+				expand: true,
+				cwd: 'bower_components/',
+				flatten: true,
+				src: [
+					// TODO Update enqueue filenames
+					'qtip2/jquery.qtip.css',
+					'qtip2/jquery.qtip.min.css',
+					'select2/dist/css/select2.css',
+					'select2/dist/css/select2.min.css'
+				],
+				dest: 'assets/css/vendor/'
+			},
+			js: {
+				expand: true,
+				cwd: 'bower_components/',
+				flatten: true,
+				src: [
+					// TODO Update enqueue filenames
+					'imagesloaded/imagesloaded.pkgd.js', // Using "packaged" version
+					'imagesloaded/imagesloaded.pkgd.min.js',
+					'jquery-tiptip/jquery.tipTip.js',
+					'jquery-tiptip/jquery.tipTip.minified.js',
+					'qtip2/jquery.qtip.js',
+					'qtip2/jquery.qtip.min.js',
+					'qtip2/jquery.qtip.min.map', // Include .map file for qTip2
+					'select2/dist/js/select2.js', // Using "non-full" version
+					'select2/dist/js/select2.min.js'
+				],
+				dest: 'assets/js/vendor/'
+			},
 			main: {
 				expand: true,
 				src: distFiles,
@@ -237,8 +266,8 @@ module.exports = function( grunt ) {
 
 	grunt.loadNpmTasks( 'grunt-composer' );
 
-	grunt.registerTask( 'css', [ 'sass', 'postcss', 'cssmin', 'usebanner:css' ] );
-	grunt.registerTask( 'js', [ 'uglify', 'usebanner:js' ] );
+	grunt.registerTask( 'css', [ 'sass', 'postcss', 'copy:css', 'cssmin', 'usebanner:css' ] );
+	grunt.registerTask( 'js', [ 'copy:js', 'uglify', 'usebanner:js' ] );
 	grunt.registerTask( 'default', [ 'css', 'jshint', 'jscs', 'js' ] );
 
 	// Build task without composer commands.
@@ -250,6 +279,8 @@ module.exports = function( grunt ) {
 
 	// TODO Add deploy task
 	//grunt.registerTask( 'deploy',   ['test', 'localize', 'default', 'build', 'docs', 'wp_deploy'] );
+
+	// TODO Add watch task
 
 	// Possible future grunt tasks
 	//grunt.registerTask( 'test',     ['phpunit', 'qunit'] );
