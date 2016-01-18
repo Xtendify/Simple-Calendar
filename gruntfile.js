@@ -90,7 +90,6 @@ module.exports = function( grunt ) {
 				cwd: 'bower_components/',
 				flatten: true,
 				src: [
-					// TODO Update enqueue filenames
 					'qtip2/jquery.qtip.css',
 					'qtip2/jquery.qtip.min.css',
 					'select2/dist/css/select2.css',
@@ -103,7 +102,6 @@ module.exports = function( grunt ) {
 				cwd: 'bower_components/',
 				flatten: true,
 				src: [
-					// TODO Update enqueue filenames
 					'imagesloaded/imagesloaded.pkgd.js', // Using "packaged" version
 					'imagesloaded/imagesloaded.pkgd.min.js',
 					'jquery-tiptip/jquery.tipTip.js',
