@@ -11,9 +11,9 @@
  * @license GPL2+
  */
 
-if ( ! class_exists( 'WP_Requirements' ) ) {
+if ( ! class_exists( 'SimCal_WP_Requirements' ) ) {
 
-	class WP_Requirements {
+	class SimCal_WP_Requirements {
 
 		/**
 		 * Plugin name.
