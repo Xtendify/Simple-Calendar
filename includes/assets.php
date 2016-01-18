@@ -123,7 +123,7 @@ class Assets {
 					if ( wp_script_is( 'simcal-qtip', 'enqueued' ) ) {
 						wp_enqueue_script(
 							'simplecalendar-imagesloaded',
-							SIMPLE_CALENDAR_ASSETS . 'js/vendor/imagesloaded' . $min . '.js',
+							SIMPLE_CALENDAR_ASSETS . 'js/vendor/imagesloaded.pkgd' . $min . '.js',
 							array( 'simcal-qtip' ),
 							'3.1.8',
 							true
@@ -344,7 +344,7 @@ class Assets {
 	public function get_default_scripts() {
 		return array(
 			'simcal-qtip' => array(
-				'src'       => SIMPLE_CALENDAR_ASSETS . 'js/vendor/qtip' . $this->min . '.js',
+				'src'       => SIMPLE_CALENDAR_ASSETS . 'js/vendor/jquery.qtip' . $this->min . '.js',
 				'deps'      => array( 'jquery' ),
 				'ver'       => '2.2.1',
 				'in_footer' => true,
@@ -372,7 +372,7 @@ class Assets {
 	public function get_default_styles() {
 		return array(
 			'simcal-qtip' => array(
-				'src'   => SIMPLE_CALENDAR_ASSETS . 'css/vendor/qtip' . $this->min . '.css',
+				'src'   => SIMPLE_CALENDAR_ASSETS . 'css/vendor/jquery.qtip' . $this->min . '.css',
 				'ver'   => '2.2.1',
 				'media' => 'all',
 			),

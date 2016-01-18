@@ -2,9 +2,9 @@
   "name": "simple-calendar",
   "license": "GPL-2.0+",
   "devDependencies": {
-    "imagesloaded": "~3.1.8",
+    "imagesloaded": "3.x",
     "jquery-tiptip": "master",
-    "select2": "~4.0",
-    "qtip2": "~2.2.1"
+    "qtip2": "2.x",
+    "select2": "4.x"
   }
 }

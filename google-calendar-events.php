@@ -42,6 +42,8 @@ foreach ( $this_plugin_constants as $constant => $value ) {
 	}
 }
 
+include_once 'includes/wp-requirements.php';
+
 // Check plugin requirements before loading plugin.
 $this_plugin_checks = new WP_Requirements(
 	'Simple Calendar',
