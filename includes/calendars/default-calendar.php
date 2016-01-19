@@ -166,7 +166,7 @@ class Default_Calendar extends Calendar {
 		}
 
 		// Expand multiple day events.
-		if ( 'yes' == get_post_meta( $this->id, '_default_calendar_expand_multi_day_events', true ) ) {
+		if ( 'yes' == get_post_meta( $this->id, '_default_calendar_expand_multi_day_events', true ) || ( 'list' == $view && 'current_day_only' == get_post_meta( $this->id, '_default_calendar_expand_multi_day_events', true ) ) ) {
 			$this->events = $this->expand_multiple_days_events();
 		}
 
