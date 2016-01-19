@@ -694,9 +694,9 @@ class Event_Builder {
 			$value = human_time_diff( $event_dt->getTimestamp(), Carbon::now( $event->timezone )->getTimestamp() );
 
 			if ( $event_dt->getTimestamp() < Carbon::now( $event->timezone )->getTimestamp() ) {
-				$value .= ' ' . _x( 'before', 'human date event builder code modifier', 'google-calendar-events' );
+				$value .= ' ' . _x( 'ago', 'human date event builder code modifier', 'google-calendar-events' );
 			} else {
-				$value .= ' ' . _x( 'after', 'human date event builder code modifier', 'google-calendar-events' );
+				$value .= ' ' . _x( 'from now', 'human date event builder code modifier', 'google-calendar-events' );
 			}
 		} else {
 			$value = date_i18n( $dt_format, $event_dt->getTimestamp() );
