@@ -556,6 +556,8 @@ class Event_Builder {
 				$markdown = new \Parsedown();
 				$description = $markdown->text( wp_strip_all_tags( $description ) );
 			}
+		} else {
+			$description = wpautop( $description );
 		}
 
 		$description = $this->limit_words( $description, $attr['limit'] );
