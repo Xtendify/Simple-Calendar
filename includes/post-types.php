@@ -33,6 +33,25 @@ class Post_Types {
 		add_filter( 'the_content', array( $this, 'filter_post_content' ), 100 );
 		// Delete calendar transients and notices upon post deletion.
 		add_action( 'before_delete_post', array( $this, 'upon_deletion' ), 10, 1 );
+		// Remove the rich editor so users are forced to use the HTML editor for our CPT
+		// TODO: Added
+		add_filter( 'user_can_richedit', array( $this, 'disable_wysiwyg' ) );
+	}
+
+	/**
+	 * Disable riche editor for our CPT.
+	 *
+	 * @since 3.0.13
+	 */
+	// TODO: Added
+	function disable_wysiwyg( $default ) {
+		global $post;
+
+		if ( $post->post_type === 'calendar' ) {
+			return false;
+		}
+
+		return $default;
 	}
 
 	/**
