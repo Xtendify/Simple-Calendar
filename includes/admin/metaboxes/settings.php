@@ -494,7 +494,7 @@ class Settings implements Meta_Box {
 							'id'      => '_event_formatting',
 							'tooltip' => __( 'How to preserve line breaks and paragraphs in the event template builder.', 'google-calendar-events' ),
 							'value'   => $event_formatting,
-							'default' => 'none',
+							'default' => 'preserve_linebreaks',
 							'options' => array(
 								'preserve_linebreaks' => __( 'Preserve line breaks, auto paragraphs (default)', 'google-calendar-events' ),
 								'no_linebreaks'       => __( 'No line breaks, auto paragraphs', 'google-calendar-events' ),
