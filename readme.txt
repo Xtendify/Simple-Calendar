@@ -80,9 +80,17 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.0.13 - TOOD =
+= 3.0.13 - January 21, 2016 =
 
-* 
+* Tweak: Lists that start on a custom date will start at the beginning of the day now.
+* Tweak: Make it so grouped calendars are properly sorted by event time.
+* Tweak: Updated option for controlling multi-day events.
+* Tweak: Allow line breaks from Google calendar description to persist if not using the html attribute.
+* Tweak: Updated text output for human date times.
+* Tweak: Added prefix to WP Requirements class.
+* Fix: Multi-day events that span over to the first day of the month should now show correctly.
+* Feature: Added dropdown option on how to handle line breaks and paragraphs for the event template tags.
+* Dev: Removed WP Requirements from Composer.
 
 = 3.0.12 - January 5, 2016 =
 
