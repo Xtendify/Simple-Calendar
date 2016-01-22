@@ -53,6 +53,8 @@ $this_plugin_checks = new SimCal_WP_Requirements(
 		'WordPress' => '4.0.0',
 		'Extensions' => array(
 			'curl',
+			'iconv',
+			'json',
 			'mbstring',
 		)
 	)
