@@ -80,7 +80,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.0.13 - January 21, 2016 =
+= 3.0.13 - January 22, 2016 =
 
 * Tweak: Lists that start on a custom date will start at the beginning of the day now.
 * Tweak: Make it so grouped calendars are properly sorted by event time.
