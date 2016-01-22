@@ -27,6 +27,8 @@
   "require": {
     "php": ">=5.3.3",
     "ext-curl": "*",
+    "ext-iconv": "*",
+    "ext-json": "*",
     "ext-mbstring": "*",
     "composer/installers": "1.x",
     "xrstf/composer-php52": "1.x",
@@ -34,7 +36,6 @@
     "cbschuld/Browser.php": "dev-master",
     "nesbot/carbon": "1.x",
     "erusev/parsedown": "1.x",
-    "nekojira/wp-requirements": "1.x",
     "mexitek/phpcolors": "dev-master"
   },
   "scripts": {
