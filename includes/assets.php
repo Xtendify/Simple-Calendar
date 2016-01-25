@@ -46,28 +46,12 @@ class Assets {
 	private $styles = array();
 
 	/**
-	 * Disable scripts.
-	 *
-	 * @access public
-	 * @var bool
-	 */
-	public $disable_scripts = false;
-
-	/**
 	 * Disable styles.
 	 *
 	 * @access public
 	 * @var bool
 	 */
 	public $disable_styles = false;
-
-	/**
-	 * Disable styles.
-	 *
-	 * @access public
-	 * @var bool
-	 */
-	public $always_enqueue = false;
 
 	/**
 	 * Hook in tabs.
@@ -79,16 +63,9 @@ class Assets {
 		$this->min = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG == true ) ? '' : '.min';
 
 		$settings = get_option( 'simple-calendar_settings_advanced' );
-		if ( isset( $settings['assets']['disable_js'] ) ) {
-			$this->disable_scripts = 'yes' == $settings['assets']['disable_js'] ? true : false;
-		}
 
 		if ( isset( $settings['assets']['disable_css'] ) ) {
 			$this->disable_styles = 'yes' == $settings['assets']['disable_css'] ? true : false;
-		}
-
-		if ( isset( $settings['assets']['always_enqueue'] ) ) {
-			$this->always_enqueue = 'yes' == $settings['assets']['always_enqueue'] ? true : false;
 		}
 
 		add_action( 'init', array( $this, 'register' ), 20 );
@@ -115,22 +92,21 @@ class Assets {
 
 		do_action( 'simcal_enqueue_assets', $this->min );
 
-		if ( false === $this->disable_scripts ) {
-			$min = $this->min;
-			// Improves compatibility with themes and plugins using Isotope and Masonry.
-			add_action( 'wp_enqueue_scripts',
-				function () use ( $min ) {
-					if ( wp_script_is( 'simcal-qtip', 'enqueued' ) ) {
-						wp_enqueue_script(
-							'simplecalendar-imagesloaded',
-							SIMPLE_CALENDAR_ASSETS . 'js/vendor/imagesloaded.pkgd' . $min . '.js',
-							array( 'simcal-qtip' ),
-							'3.1.8',
-							true
-						);
-					}
-				}, 1000 );
-		}
+
+		$min = $this->min;
+		// Improves compatibility with themes and plugins using Isotope and Masonry.
+		add_action( 'wp_enqueue_scripts',
+			function () use ( $min ) {
+				if ( wp_script_is( 'simcal-qtip', 'enqueued' ) ) {
+					wp_enqueue_script(
+						'simplecalendar-imagesloaded',
+						SIMPLE_CALENDAR_ASSETS . 'js/vendor/imagesloaded.pkgd' . $min . '.js',
+						array( 'simcal-qtip' ),
+						'3.1.8',
+						true
+					);
+				}
+			}, 1000 );
 	}
 
 	/**
@@ -140,93 +116,14 @@ class Assets {
 	 */
 	public function load() {
 
-		if ( $this->always_enqueue ) {
-			$scripts = $this->get_default_scripts();
-			$styles  = $this->get_default_styles();
-
-			$this->scripts = apply_filters( 'simcal_front_end_scripts', $scripts, $this->min );
-			$this->styles  = apply_filters( 'simcal_front_end_styles', $styles, $this->min );
-
-			$this->load_scripts( $this->scripts );
-			$this->load_styles( $this->styles );
-
-			return;
-		}
-
-		$id = 0;
-		$cal_id = array();
-		$scripts = $styles = array();
-
-		if ( is_singular() ) {
-
-			global $post, $post_type;
-
-			if ( 'calendar' == $post_type ) {
-
-				$id = get_queried_object_id();
-
-				$view = simcal_get_calendar_view( $id );
-				if ( $view instanceof Calendar_View ) {
-					$scripts[] = $view->scripts( $this->min );
-					$styles[]  = $view->styles( $this->min );
-				}
-
-			} else {
-
-				$id = absint( get_post_meta( $post->ID, '_simcal_attach_calendar_id', true ) );
-
-				if ( $id === 0 ) {
-
-					preg_match_all( '/' . get_shortcode_regex() . '/s', $post->post_content, $matches, PREG_SET_ORDER );
-
-					if ( ! empty( $matches ) && is_array( $matches ) ) {
-						foreach ( $matches as $shortcode ) {
-							if ( 'calendar' === $shortcode[2] || 'gcal' === $shortcode[2] ) {
-								$atts = shortcode_parse_atts( $shortcode[3] );
-								$cal_id[]   = isset( $atts['id'] ) ? intval( $atts['id'] ) : 0;
-							}
-						}
-					}
-				}
-			}
-		}
-
-		foreach( $cal_id as $i ) {
-
-			if ( $i > 0 ) {
-
-				$view = simcal_get_calendar_view( $i );
-
-				if ( $view instanceof Calendar_View ) {
-					$scripts[] = $view->scripts( $this->min );
-					$styles[] = $view->styles( $this->min );
-				}
-			}
-		}
-
-		$this->get_widgets_assets();
+		$scripts = $this->get_default_scripts();
+		$styles  = $this->get_default_styles();
 
 		$this->scripts = apply_filters( 'simcal_front_end_scripts', $scripts, $this->min );
+		$this->styles  = apply_filters( 'simcal_front_end_styles', $styles, $this->min );
 
-		// First check if there is a multi-dimensional array of scripts
-		if ( isset( $this->scripts[0] ) ) {
-			foreach ( $this->scripts as $script ) {
-				$this->load_scripts ( $script );
-			}
-		} else {
-			$this->load_scripts( $this->scripts );
-		}
-
-		$this->styles = apply_filters( 'simcal_front_end_styles', $styles, $this->min );
-
-		// First check if there is a multi-dimensional array of styles
-		if ( isset( $this->styles[0] ) ) {
-			foreach( $this->styles as $style ) {
-				$this->load_styles( $style );
-			}
-		} else {
-			$this->load_styles( $this->styles );
-		}
+		$this->load_scripts( $this->scripts );
+		$this->load_styles( $this->styles );
 	}
 
 	/**
@@ -275,7 +172,7 @@ class Assets {
 	public function load_scripts( $scripts ) {
 
 		// Only load if not disabled in the settings
-		if ( ! empty( $scripts ) && is_array( $scripts ) && false === $this->disable_scripts ) {
+		if ( ! empty( $scripts ) && is_array( $scripts ) ) {
 
 			foreach ( $scripts as $script => $v ) {
 
