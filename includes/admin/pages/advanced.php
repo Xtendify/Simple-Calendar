@@ -45,8 +45,8 @@ class Advanced extends Admin_Page {
 	public function add_sections() {
 		return apply_filters( 'simcal_add_' . $this->option_group . '_' . $this->id .'_sections', array(
 			'assets' => array(
-				'title'       => __( 'Scripts and Styles', 'google-calendar-events' ),
-				'description' => __( 'Manage front end assets that handle the calendars appearance and user interface.', 'google-calendar-events' )
+				'title'       => __( 'Styles', 'google-calendar-events' ),
+				'description' => __( 'Manage front end assets that handle the calendars appearance.', 'google-calendar-events' )
 			),
 			'installation' => array(
 				'title'       => __( 'Installation', 'google-calendar-events' ),
@@ -72,30 +72,14 @@ class Advanced extends Admin_Page {
 			if ( 'assets' == $section ) {
 
 				$fields[ $section ] = array(
-					'always_enqueue' => array(
-						'title'   => __( 'Always Enqueue', 'google-calendar-events' ),
-						'tooltip' => __( 'If ticked, this option will load all scripts on every page load.', 'google-calendar-events' ),
-						'type'    => 'checkbox',
-						'name'    => 'simple-calendar_' . $this->option_group . '_' . $this->id . '[' . $section . '][always_enqueue]',
-						'id'      => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-' . $section . '-always-enqueue',
-						'value'   => $this->get_option_value( $section, 'always_enqueue' ),
-					),
 					'disable_css' => array(
-						'title'   => __( 'Disable Styles', 'google-calendar-events' ),
+						'title'   => __( 'Disable CSS', 'google-calendar-events' ),
 						'tooltip' => __( 'If ticked, this option will prevent front end stylesheet to load.', 'google-calendar-events' ),
 						'type'    => 'checkbox',
 						'name'    => 'simple-calendar_' . $this->option_group . '_' . $this->id . '[' . $section . '][disable_css]',
 						'id'      => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-' . $section . '-disable-css',
 						'value'   => $this->get_option_value( $section, 'disable_css' )
 					),
-					'disable_js' => array(
-						'title'   => __( 'Disable Scripts', 'google-calendar-events' ),
-						'tooltip' => __( 'If ticked, this option will prevent front end JavaScript to load.', 'google-calendar-events' ),
-						'type'    => 'checkbox',
-						'name'    => 'simple-calendar_' . $this->option_group . '_' . $this->id . '[' . $section . '][disable_js]',
-						'id'      => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-' . $section . '-disable-js',
-						'value'   => $this->get_option_value( $section, 'disable_js' )
-					)
 				);
 
 			} elseif ( 'installation' == $section ) {
