@@ -80,7 +80,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.0.13 - January 22, 2016 =
+= 3.0.13 - January 25, 2016 =
 
 * Tweak: Lists that start on a custom date will start at the beginning of the day now.
 * Tweak: Make it so grouped calendars are properly sorted by event time.
@@ -91,6 +91,7 @@ We'd love your help! Here's a few things you can do:
 * Fix: Multi-day events that span over to the first day of the month should now show correctly.
 * Feature: Added dropdown option on how to handle line breaks and paragraphs for the event template tags.
 * Dev: Removed WP Requirements from Composer.
+* Dev: Removed always enqueue and disable scripts options so scripts will load automatically on every page.
 
 = 3.0.12 - January 5, 2016 =
 
