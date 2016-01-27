@@ -243,7 +243,7 @@ class Default_Calendar_Grid implements Calendar_View {
 
 								?>
 								<th class="simcal-week-day simcal-week-day-<?php echo $i ?>"
-								    data-screen-small="<?php echo substr( $week_days_short[ $i ], 0, 1 ); ?>"
+								    data-screen-small="<?php echo mb_substr( $week_days_short[ $i ], 0, 1, 'UTF-8' ); ?>"
 								    data-screen-medium="<?php echo $week_days_short[ $i ]; ?>"
 								    data-screen-large="<?php echo $week_days_full[ $i ]; ?>"><?php echo $week_days_short[ $i ]; ?></th>
 								<?php
