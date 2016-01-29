@@ -250,7 +250,7 @@
 
 			field.on( 'change', function() {
 
-				var value = $( this ).val();
+				var value = parseInt( $( this ).val() );
 
 				if ( min && ( value < min ) ) {
 					$( this ).val( min );
