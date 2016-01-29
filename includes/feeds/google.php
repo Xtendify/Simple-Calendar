@@ -108,7 +108,8 @@ class Google extends Feed {
 			// Google query args.
 			$this->google_calendar_id       = $this->esc_google_calendar_id( get_post_meta( $this->post_id, '_google_calendar_id', true ) );
 			$this->google_events_recurring  = esc_attr( get_post_meta( $this->post_id, '_google_events_recurring', true ) );
-			$this->google_search_query      = esc_attr( get_post_meta( $this->post_id, '_google_events_search_query', true ) );
+            // note that google_search_query is used in a URL param and not as HTML output, so don't use esc_attr() on it
+			$this->google_search_query      = get_post_meta( $this->post_id, '_google_events_search_query', true );
 			$this->google_max_results       = max( absint( get_post_meta( $this->post_id, '_google_events_max_results', true ) ), 1 );
 
 			if ( ! is_admin() || defined( 'DOING_AJAX' ) ) {

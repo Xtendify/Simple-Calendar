@@ -659,7 +659,7 @@ class Default_Calendar_List implements Calendar_View {
 	 * @return bool
 	 */
 	private function filter_events_before( $event ) {
-		return intval( $event ) > intval( $this->start );
+		return intval( $event ) >= intval( $this->start );
 	}
 
 	/**

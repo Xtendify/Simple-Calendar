@@ -47,7 +47,7 @@ class Post_Types {
 	function disable_wysiwyg( $default ) {
 		global $post;
 
-		if ( $post->post_type === 'calendar' ) {
+		if ( isset( $post->post_type ) && $post->post_type === 'calendar' ) {
 			return false;
 		}
 
