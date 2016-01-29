@@ -10,7 +10,7 @@
  * Domain Path: /i18n
  *
  * @package     SimpleCalendar
- * @copyright   2015 Moonstone Media/Phil Derksen. All rights reserved.
+ * @copyright   2016 Moonstone Media/Phil Derksen. All rights reserved.
  */
 
 // Exit if accessed directly.
