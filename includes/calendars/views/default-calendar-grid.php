@@ -426,7 +426,7 @@ class Default_Calendar_Grid implements Calendar_View {
 						}
 
 						// Event contents.
-						$list_events .= "\t" . '<li class="' . $event_classes . '"' . $event_visibility . ' itemprop="event" itemscope itemtype="http://schema.org/Event">' . "\n";
+						$list_events .= "\t" . '<li class="' . $event_classes . '"' . $event_visibility . ' itemscope itemtype="http://schema.org/Event">' . "\n";
 						$list_events .= "\t\t" . '<span class="simcal-event-title">' . $bullet . $title . '</span>' . "\n";
 						$list_events .= "\t\t" . '<div class="simcal-event-details simcal-tooltip-content" style="display: none;">' . $calendar->get_event_html( $event ) . '</div>' . "\n";
 						$list_events .= "\t" . '</li>' . "\n";
