@@ -82,7 +82,13 @@ We'd love your help! Here's a few things you can do:
 
 = 3.0.14 - TODO =
 
-* 
+* Fix: Updated schema to pass W3C validation.
+* Fix: PHP notice showing in media gallery grid view.
+* Fix: Search queries using quotes should now work as expected.
+* Fix: Better character encoding for small screen mode characters.
+* Fix: Max number of events should no longer refresh to 2500 on change.
+* Tweak: Updated default event template tags formatting.
+* Dev: Updated imagesloaded library to 4.1.0.
 
 = 3.0.13 - January 25, 2016 =
 
