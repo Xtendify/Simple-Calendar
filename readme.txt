@@ -89,6 +89,7 @@ We'd love your help! Here's a few things you can do:
 * Fix: Max number of events should no longer refresh to 2500 on change.
 * Fix: Default cache iteval should now display correctly.
 * Fix: Custom date should now show correct month when set to the first of a month.
+* Fix: Visual editor is available again when editing event template tags.
 * Tweak: Updated default event template tags formatting.
 * Dev: Updated imagesloaded library to 4.1.0.
 
