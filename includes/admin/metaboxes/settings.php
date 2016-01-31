@@ -720,7 +720,7 @@ class Settings implements Meta_Box {
 
 				$cache_freq = esc_attr( get_post_meta( $post->ID, '_feed_cache_user_amount', true ) );
 				$cache_unit = esc_attr( get_post_meta( $post->ID, '_feed_cache_user_unit', true ) );
-				$cache_freq = $cache_freq >= 0 ? $cache_freq : '2';
+				$cache_freq = is_int( $cache_freq ) && $cache_freq >= 0 ? $cache_freq : '2';
 				$cache_unit = $cache_unit ? $cache_unit : '3600';
 
 				?>
