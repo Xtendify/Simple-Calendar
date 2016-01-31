@@ -275,12 +275,12 @@ function simcal_get_calendar_names_i18n( $group, $style = 'full' ) {
 function simcal_default_event_template() {
 
 	$content  = '<strong>' . '[title]' . '</strong>';
-	$content .= '<p>';
+	$content .= "\n\n";
 	$content .= '[when]' . "\n";
 	$content .= '[location]';
-	$content .= '</p>';
+	$content .= "\n";
 	$content .= '<div>' . '[description]' . '</div>';
-	$content .= '<p>' . '[link newwindow="yes"]' . __( 'See more details', 'google-calendar-events' ) . '[/link]' . '</p>';
+	$content .= "\n" . '[link newwindow="yes"]' . __( 'See more details', 'google-calendar-events' ) . '[/link]';
 
 	return apply_filters( 'simcal_default_event_template', $content );
 }
