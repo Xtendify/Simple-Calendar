@@ -405,3 +405,6 @@
   .simcal-event-bubble .simcal-event-details p,
   .simcal-event-bubble .simcal-event-details .simcal-event-description {
     margin: 0 0 1em; }
+
+.qtip-tip {
+  display: none !important; }

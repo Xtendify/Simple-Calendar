@@ -1,9 +1,9 @@
-=== Simple Calendar - formerly Google Calendar Events ===
+=== Simple Calendar - Google Calendar Plugin ===
 Contributors: moonstonemedia, pderksen, nickyoung87, nekojira, rosshanney
 Tags: calendar, calendars, calendar manager, custom calendar, custom calendars, event, events, events feed, google calendar, google
 Requires at least: 4.0
 Tested up to: 4.4
-Stable tag: 3.0.6
+Stable tag: 3.0.14
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -11,7 +11,7 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 
 == Description ==
 
-[Simple Calendar](https://simplecalendar.io) is the easiest way to add Google Calendar events to your WordPress site. Keep managing everything in Google Calendar. Fine tune the display of your calendars to your liking. Add advanced features with add-ons.
+[Simple Calendar](https://simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description) is the easiest way to add Google Calendar events to your WordPress site. Keep managing everything in Google Calendar. Fine tune the display of your calendars to your liking. Add advanced features with add-ons.
 
 = SIMPLE CALENDAR FEATURES =
 
@@ -26,6 +26,8 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 * Many translations available with more being added on a regular basis. [Translations welcome!](https://translate.wordpress.org/projects/wp-plugins/google-calendar-events)
 * Fully extensible to support add-ons with advanced features for more specific needs.
 * Open source with code hosted on GitHub. [Contributions welcome!](https://github.com/moonstonemedia/Simple-Calendar)
+
+**[Try out a Live Demo](http://demo.simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)**
 
 >**[Love the plugin? Please consider purchasing our Google Calendar Pro add-on](https://simplecalendar.io/addons/google-calendar-pro/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)**
 
@@ -78,9 +80,74 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.0.6 - TODO =
+= 3.0.13 - January 25, 2016 =
+
+* Tweak: Lists that start on a custom date will start at the beginning of the day now.
+* Tweak: Make it so grouped calendars are properly sorted by event time.
+* Tweak: Updated option for controlling multi-day events.
+* Tweak: Allow line breaks from Google calendar description to persist if not using the html attribute.
+* Tweak: Updated text output for human date times.
+* Fix: Multi-day events that span over to the first day of the month should now show correctly.
+* Feature: Added dropdown option on how to handle line breaks and paragraphs for the event template tags.
+* Dev: Removed WP Requirements from Composer.
+* Dev: Removed always enqueue and disable scripts options so scripts will load automatically on every page.
+
+= 3.0.12 - January 5, 2016 =
+
+* Fix: All-day events on the first day of the month will now show up correctly.
+* Fix: Calendar start dates using a variable number will now start on the correct date.
+* Fix: Disable scripts and disable styles advanced options should now work as intended.
+* Tweak: Added "before" and "after" text for human date event builder codes.
+* Dev: Added jquery.qtip.min.map file to vendor assets.
+
+= 3.0.11 - December 31, 2015 =
+
+* Fix: Custom date and time format settings should no longer override everything else when not selected.
+* Fix: Limiting description with HTML tags should now work better.
+* Fix: Events from different calendars not showing on a grouped calendar should display properly now.
+* Fix: Grouped calendars will now clear the cache of all attached calendars.
+* Fix: Cache was requiring a manual clear sometimes and should now work automatically.
+* Dev: Updated CSS class for [start-location] and [end-location] tags.
+* Tweak: Updated date and time preview to show properly escaped values.
+
+= 3.0.10 - December 21, 2015 =
+
+* Fix: Pagination tweak to prevent grouped calendars from getting cut off by last calendar in list.
+* Fix: Welcome screen now shows up correctly after a fresh installation.
+* Fix: i18n short day names should now display properly.
+* Fix: i18n truncated event titles should now display properly.
+* Tweak: Allow setting a cache duration of 0.
+* Tweak: Pagination will now always show unless the calendar is static.
+* Tweak: Allow responsive grid view to use hover option.
+
+= 3.0.9 - December 16, 2015 =
+
+* Fix: Fixed all-day events with an end time showing on an extra day.
+* Fix: Fixed a bug with site default timezone setting not pulling in correctly.
+* Tweak: Make always enqueue option enabled by default for new installs.
+* Tweak: Translations moved from .po/.mo files to official wordpress.org translation packs.
+* Tweak: Minor text fixes to admin UI.
+
+= 3.0.8 - December 1, 2015 =
+
+* Fix: Fixed bug for Google Calendar Pro add-on organizer event builder code.
+* Fix: Fixed some inconsistencies with all-day events and multi-day events when combined.
+
+= 3.0.7 - November 28, 2015 =
+
+* Fix: Fixed all day multi-day events showing on an extra day.
+* Fix: Fixed multi-day events that span less than 24 hours to show up on both days.
+* Fix: Fixed multi-day events that span 2 days to show up correctly.
+* Fix: Fixed issues with grouped calendars using categories not loading.
+* Tweak: Additional empty check for previous array_combine PHP error.
+* Tweak: Remove extra qtip triangle image from popup.
+
+= 3.0.6 - November 24, 2015 =
 
 * Fix: Fixed bug with days being off by one day.
+* Fix: Added check for array to avoid array_combine() PHP error.
+* Fix: Allow last list event to show correctly.
+* Tweak: Update shortcode to not check for a singular page.
 
 = 3.0.5 - November 19, 2015 =
 

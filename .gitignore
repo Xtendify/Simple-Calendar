@@ -1,61 +1,38 @@
-### IDE ###
-
 # PhpStorm
 .idea
-
-# Netbeans
-nbproject
 
 # Sublime
 *.sublime-project
 *.sublime-workspace
-*.tmlanguage.cache
-*.tmPreferences.cache
-*.stTheme.cache
 
-### Development ###
-
-# Node
-node_modules
+# Grunt
+/node_modules
 
 # Bower
-bower_components
+/bower_components
 
 # Composer
+# Ignore the /vendor/ directory for people using composer
 /vendor
 
+# If the vendor directory isn't being commited the composer.lock file should also be ignored
+/composer.lock
+
 # Sass
-.sass-cache
+/.sass-cache
 
-# Logging
-*.log
-*.logs
-/log
+# Tests
+phpunit.xml
+
+# Logs
 /logs
-*.tmp
-temp
-tmp
-/tmp
-
-### Build ###
 
 # wordpress.org
 /build
-/release*
-/svn
 
-# ApiGen
-/apidocs
-/docs
-
-# Localization
-languages/*.mo
-
-### OS Files ###
-
-# OSX
+# Mac crap
 .DS_Store
 
-# Windows
+# Windows crap
 ehthumbs.db
 Thumbs.db

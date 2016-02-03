@@ -108,7 +108,8 @@ class Google extends Feed {
 			// Google query args.
 			$this->google_calendar_id       = $this->esc_google_calendar_id( get_post_meta( $this->post_id, '_google_calendar_id', true ) );
 			$this->google_events_recurring  = esc_attr( get_post_meta( $this->post_id, '_google_events_recurring', true ) );
-			$this->google_search_query      = esc_attr( get_post_meta( $this->post_id, '_google_events_search_query', true ) );
+            // note that google_search_query is used in a URL param and not as HTML output, so don't use esc_attr() on it
+			$this->google_search_query      = get_post_meta( $this->post_id, '_google_events_search_query', true );
 			$this->google_max_results       = max( absint( get_post_meta( $this->post_id, '_google_events_max_results', true ) ), 1 );
 
 			if ( ! is_admin() || defined( 'DOING_AJAX' ) ) {
@@ -214,8 +215,8 @@ class Google extends Feed {
 								if ( is_null( $event->getEnd()->dateTime ) ) {
 									// Whole day event.
 									$date           = Carbon::parse( $event->getEnd()->date );
-									$google_end     = Carbon::createFromDate( $date->year, $date->month, $date->day, $end_timezone )->endOfDay()->subSeconds( 59 );
-									$google_end_utc = Carbon::createFromDate( $date->year, $date->month, $date->day, 'UTC' )->endOfDay()->subSeconds( 59 );
+									$google_end     = Carbon::createFromDate( $date->year, $date->month, $date->day, $end_timezone )->startOfDay()->subSeconds( 59 );
+									$google_end_utc = Carbon::createFromDate( $date->year, $date->month, $date->day, 'UTC' )->startOfDay()->subSeconds( 59 );
 								} else {
 									$date           = Carbon::parse( $event->getEnd()->dateTime );
 									$google_end     = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, $end_timezone );
@@ -228,10 +229,16 @@ class Google extends Feed {
 
 								// Count multiple days.
 								$span = $google_start->setTimezone( $calendar['timezone'] )->diffInDays( $google_end->setTimezone( $calendar['timezone'] ) );
+
+								if ( $span == 0 ) {
+									if ( $google_start->toDateString() !== $google_end->toDateString() ) {
+										$span = 1;
+									}
+								}
 							}
 
 							// Multiple days.
-							$multiple_days = $span > 1 ? $span : false;
+							$multiple_days = $span > 0 ? $span : false;
 
 							// Google cannot have two different locations for start and end time.
 							$start_location = $end_location = $event->getLocation();
@@ -285,7 +292,7 @@ class Google extends Feed {
 						set_transient(
 							'_simple-calendar_feed_id_' . strval( $this->post_id ) . '_' . $this->type,
 							$calendar,
-							max( absint( $this->cache ), 60 )
+							max( absint( $this->cache ), 1 ) // Since a value of 0 means forever we set the minimum here to 1 if the user has set it to be 0
 						);
 					}
 				}

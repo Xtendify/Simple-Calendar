@@ -1,0 +1,11 @@
+Interested in translating Simple Calendar to your language? Please use our WordPress.org translation page using a free account.
+
+https://translate.wordpress.org/projects/wp-plugins/google-calendar-events
+
+New to translating WordPress? Read through the Translator Handbook to get started.
+
+https://make.wordpress.org/polyglots/handbook/tools/glotpress-translate-wordpress-org/
+
+It is no longer necessary to generate and translate .po and .mo files manually. If you want to become a translation editor for your language please get in touch.
+
+Thank you!

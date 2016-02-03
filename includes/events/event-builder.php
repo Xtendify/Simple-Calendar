@@ -175,7 +175,9 @@ class Event_Builder {
 		);
 
 		// Removes extra consecutive <br> tags.
-		return preg_replace( '#(<br */?>\s*)+#i', '<br />', trim( $result ) );
+		// TODO: Doesn't seem to work but going to remove it to allow multiple <br> tags in the editor
+		/*return preg_replace( '#(<br *//*?>\s*)+#i', '<br />', trim( $result ) );*/
+		return trim( $result );
 	}
 
 	/**
@@ -245,7 +247,8 @@ class Event_Builder {
 				case 'start-location' :
 				case 'end-location' :
 					$location = $tag == 'end-location' ? $event->end_location['address'] : $event->start_location['address'];
-					return ' <span class="simcal-event-address simcal-event-start-location" itemprop="location" itemscope itemtype="http://schema.org/Place">' . wp_strip_all_tags( $location ) . '</span>';
+					$location_class = $tag == 'end-location' ? 'end' : 'start';
+					return ' <span class="simcal-event-address simcal-event-' . $location_class . '-location" itemprop="location" itemscope itemtype="http://schema.org/Place">' . wp_strip_all_tags( $location ) . '</span>';
 
 				case 'start-location-link':
 				case 'end-location-link' :
@@ -474,7 +477,6 @@ class Event_Builder {
 	 */
 	private function limit_words( $text, $limit ) {
 
-		$text = wp_strip_all_tags( $text );
 		$limit = max( absint( $limit ), 0 );
 
 		if ( $limit > 0 && ( str_word_count( $text, 0 ) > $limit ) ) {
@@ -551,16 +553,18 @@ class Event_Builder {
 		// Markdown and HTML don't play well together, use one or the other in the same tag.
 		if ( $allow_html || $allow_md ) {
 			if ( $allow_html ) {
-				$html .= wp_kses_post( $description );
+				$description = wp_kses_post( $description );
 			} elseif ( $allow_md ) {
 				$markdown = new \Parsedown();
-				$html .= $markdown->text( wp_strip_all_tags( $description ) );
+				$description = $markdown->text( wp_strip_all_tags( $description ) );
 			}
 		} else {
-			$html .= $this->limit_words( $description, $attr['limit'] );
+			$description = wpautop( $description );
 		}
 
-		$html .= '</div>';
+		$description = $this->limit_words( $description, $attr['limit'] );
+
+		$html .= $description . '</div>';
 
 		if ( 'no' != $attr['autolink'] ) {
 			$html = ' ' . make_clickable( $html );
@@ -593,7 +597,7 @@ class Event_Builder {
 			              ' <span class="simcal-event-start simcal-event-start-time" ' .
 			              'data-event-start="' . $start->getTimestamp() . '" ' .
 			              'data-event-format="' . $this->calendar->time_format . '" ' .
-			              'itemprop="startDate" content="' . $start->toIso8601String() . '">' .
+			              'itemprop="startDate" data-content="' . $start->toIso8601String() . '">' .
 			              date_i18n( $this->calendar->time_format, $start->getTimestamp() ) .
 			              '</span> ';
 
@@ -602,7 +606,7 @@ class Event_Builder {
 				$time_end = ' <span class="simcal-event-end simcal-event-end-time" ' .
 				            'data-event-end="' . $end->getTimestamp() . '" ' .
 				            'data-event-format="' . $this->calendar->time_format . '" ' .
-				            'itemprop="endDate" content="' . $end->toIso8601String() . '">' .
+				            'itemprop="endDate" data-content="' . $end->toIso8601String() . '">' .
 				            date_i18n( $this->calendar->time_format, $end->getTimestamp() ) .
 				            '</span> ';
 
@@ -615,7 +619,7 @@ class Event_Builder {
 			$output = ' <span class="simcal-event-start simcal-event-start-date" ' .
 			          'data-event-start="' . $start->getTimestamp() . '" ' .
 			          'data-event-format="' . $this->calendar->date_format . '" ' .
-			          'itemprop="startDate" content="' . $start->toIso8601String() . '">' .
+			          'itemprop="startDate" data-content="' . $start->toIso8601String() . '">' .
 			          date_i18n( $this->calendar->date_format, $start->getTimestamp() ) .
 			          '</span> ' .
 			          $time_start;
@@ -626,7 +630,7 @@ class Event_Builder {
 				           ' <span class="simcal-event-start simcal-event-end-date" ' .
 				           'data-event-start="' . $end->getTimestamp() . '" ' .
 				           'data-event-format="' . $this->calendar->date_format . '" ' .
-				           'itemprop="endDate" content="' . $end->toIso8601String() . '">' .
+				           'itemprop="endDate" data-content="' . $end->toIso8601String() . '">' .
 				           date_i18n( $this->calendar->date_format, $end->getTimestamp() ) .
 				           '</span> ' .
 				           $time_end;
@@ -690,14 +694,20 @@ class Event_Builder {
 
 		if ( 'human' == $format ) {
 			$value = human_time_diff( $event_dt->getTimestamp(), Carbon::now( $event->timezone )->getTimestamp() );
+
+			if ( $event_dt->getTimestamp() < Carbon::now( $event->timezone )->getTimestamp() ) {
+				$value .= ' ' . _x( 'ago', 'human date event builder code modifier', 'google-calendar-events' );
+			} else {
+				$value .= ' ' . _x( 'from now', 'human date event builder code modifier', 'google-calendar-events' );
+			}
 		} else {
 			$value = date_i18n( $dt_format, $event_dt->getTimestamp() );
 		}
 
-		return '<span class="simcal-event-' . $bound . ' ' . 'simcal-event-' . $bound . '-' . $format . '"' .
-		       'data-event-' . $bound . '="' . $event_dt->getTimestamp() . '"' .
-		       'data-event-format="' . $dt_format . '"' .
-		       'itemprop="' . $bound . 'Date" content="' . $event_dt->toIso8601String() . '">' .
+		return '<span class="simcal-event-' . $bound . ' ' . 'simcal-event-' . $bound . '-' . $format . '" ' .
+		       'data-event-' . $bound . '="' . $event_dt->getTimestamp() . '" ' .
+		       'data-event-format="' . $dt_format . '" ' .
+		       'itemprop="' . $bound . 'Date" data-content="' . $event_dt->toIso8601String() . '">' .
 		       $value .
 		       '</span>';
 	}
@@ -883,14 +893,14 @@ class Event_Builder {
 			'email' => 'hide',  // show/hide attendee email address
 		), (array) shortcode_parse_atts( $attr ) );
 
-		$photo      = 'hide' != $attr['photo'] ? '<img class="avatar avatar-128 photo" src="' . $organizer['photo'] . '" itemprop="image"  />' : '';
-		$organizer  = $photo . '<span itemprop="name">' . $organizer['name'] . '</span>';
+		$photo           = 'hide' != $attr['photo'] ? '<img class="avatar avatar-128 photo" src="' . $organizer['photo'] . '" itemprop="image"  />' : '';
+		$organizer_html  = $photo . '<span itemprop="name">' . $organizer['name'] . '</span>';
 
 		if ( ! empty( $organizer['email'] ) && ( 'show' == $attr['email'] ) ) {
-			$organizer = sprintf( '<a href="mailto:' . $organizer['email'] . '" itemprop="email">%s</a>', $organizer );
+			$organizer_html = sprintf( '<a href="mailto:' . $organizer['email'] . '" itemprop="email">%s</a>', $organizer_html );
 		}
 
-		return '<div class="simcal-organizer" itemprop="organizer" itemscope itemtype="https://schema.org/Person">' . $organizer . '</div>';
+		return '<div class="simcal-organizer" itemprop="organizer" itemscope itemtype="https://schema.org/Person">' . $organizer_html . '</div>';
 	}
 
 	/**

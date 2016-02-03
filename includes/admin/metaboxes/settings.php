@@ -238,7 +238,7 @@ class Settings implements Meta_Box {
 		?>
 		<table>
 			<thead>
-				<tr><th colspan="2"><?php _e( 'Events settings', 'google-calendar-events' ); ?></th></tr>
+				<tr><th colspan="2"><?php _e( 'Events setting', 'google-calendar-events' ); ?></th></tr>
 			</thead>
 			<tbody class="simcal-panel-section simcal-panel-section-events-range">
 				<tr class="simcal-panel-field">
@@ -458,7 +458,7 @@ class Settings implements Meta_Box {
 							'type'    => 'checkbox',
 							'name'    => '_calendar_is_static',
 							'id'      => '_calendar_is_static',
-							'tooltip' => __( "Remove the navigation arrows and fix the calendar view to it's initial state.", 'google-calendar-events' ),
+							'tooltip' => __( 'Remove the navigation arrows and fix the calendar view to its initial state.', 'google-calendar-events' ),
 							'value'   => 'yes' == $fixed ? 'yes' : 'no',
 						) );
 
@@ -476,6 +476,30 @@ class Settings implements Meta_Box {
 							'id'      => '_no_events_message',
 							'tooltip' => __( 'Some calendars may display a message when no events are found. You can change the default message here.', 'google-calendar-events' ),
 							'value'   => get_post_meta( $post->ID, '_no_events_message', true ),
+						) );
+
+						?>
+					</td>
+				</tr>
+				<tr class="simcal-panel-field">
+					<th><label for="_event_formatting"><?php _e( 'Event Formatting', 'google-calendar-events' ); ?></label></th>
+					<td>
+						<?php
+
+						$event_formatting = get_post_meta( $post->ID, '_event_formatting', true );
+
+						simcal_print_field( array(
+							'type'    => 'select',
+							'name'    => '_event_formatting',
+							'id'      => '_event_formatting',
+							'tooltip' => __( 'How to preserve line breaks and paragraphs in the event template builder.', 'google-calendar-events' ),
+							'value'   => $event_formatting,
+							'default' => 'preserve_linebreaks',
+							'options' => array(
+								'preserve_linebreaks' => __( 'Preserve line breaks, auto paragraphs (default)', 'google-calendar-events' ),
+								'no_linebreaks'       => __( 'No line breaks, auto paragraphs', 'google-calendar-events' ),
+								'none'                => __( 'No line breaks, no auto paragraphs', 'google-calendar-events' ),
+							),
 						) );
 
 						?>
@@ -696,7 +720,7 @@ class Settings implements Meta_Box {
 
 				$cache_freq = esc_attr( get_post_meta( $post->ID, '_feed_cache_user_amount', true ) );
 				$cache_unit = esc_attr( get_post_meta( $post->ID, '_feed_cache_user_unit', true ) );
-				$cache_freq = $cache_freq ? $cache_freq : '2';
+				$cache_freq = $cache_freq >= 0 ? $cache_freq : '2';
 				$cache_unit = $cache_unit ? $cache_unit : '3600';
 
 				?>
@@ -708,7 +732,7 @@ class Settings implements Meta_Box {
 						       id="_feed_cache_user_amount"
 						       class="simcal-field simcal-field-number simcal-field-tiny simcal-field-inline"
 						       value="<?php echo $cache_freq; ?>"
-						       min="1" />
+						       min="0" />
 						<select name="_feed_cache_user_unit"
 						        id="_feed_cache_user_unit"
 						        class="simcal-field simcalfield-select simcal-field-inline">
@@ -839,6 +863,10 @@ class Settings implements Meta_Box {
 		$message = isset( $_POST['_no_events_message'] ) ? wp_kses_post( $_POST['_no_events_message'] ) : '';
 		update_post_meta( $post_id, '_no_events_message', $message );
 
+		// _event_formatting
+		$event_formatting = isset( $_POST['_event_formatting'] ) ? sanitize_key( $_POST['_event_formatting'] ) : 'preserve_linebreaks';
+		update_post_meta( $post_id, '_event_formatting', $event_formatting );
+
 		/* ======================= *
 		 * Advanced settings panel *
 		 * ======================= */
@@ -880,11 +908,11 @@ class Settings implements Meta_Box {
 		// Cache interval.
 		$cache = 7200;
 		if ( isset( $_POST['_feed_cache_user_amount'] ) && isset( $_POST['_feed_cache_user_unit'] ) ) {
-			$amount = is_numeric( $_POST['_feed_cache_user_amount'] ) ? absint( $_POST['_feed_cache_user_amount'] ) : 1;
+			$amount = is_numeric( $_POST['_feed_cache_user_amount'] ) || $_POST['_feed_cache_user_amount'] == 0 ? absint( $_POST['_feed_cache_user_amount'] ) : 1;
 			$unit   = is_numeric( $_POST['_feed_cache_user_unit'] ) ? absint( $_POST['_feed_cache_user_unit'] ) : 3600;
 			update_post_meta( $post_id, '_feed_cache_user_amount', $amount );
 			update_post_meta( $post_id, '_feed_cache_user_unit', $unit );
-			$cache  = $amount * $unit;
+			$cache  = ( ( $amount * $unit ) > 0 ) ? $amount * $unit : 1;
 		}
 		update_post_meta( $post_id, '_feed_cache', $cache );
 

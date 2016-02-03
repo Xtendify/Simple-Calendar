@@ -166,7 +166,7 @@ class Default_Calendar extends Calendar {
 		}
 
 		// Expand multiple day events.
-		if ( 'yes' == get_post_meta( $this->id, '_default_calendar_expand_multi_day_events', true ) ) {
+		if ( 'yes' == get_post_meta( $this->id, '_default_calendar_expand_multi_day_events', true ) || ( 'list' == $view && 'current_day_only' == get_post_meta( $this->id, '_default_calendar_expand_multi_day_events', true ) ) ) {
 			$this->events = $this->expand_multiple_days_events();
 		}
 
@@ -217,8 +217,18 @@ class Default_Calendar extends Calendar {
 					if ( $event instanceof Event ) {
 						if ( false !== $event->multiple_days ) {
 							$days = $event->multiple_days;
-							for ( $d = 1; $d <= $days; $d++ ) {
-								$new_events[ intval( $event->start + ( $d * DAY_IN_SECONDS ) - 1 ) ][] = $event;
+
+							if ( $days == 1 ) {
+								$new_events[ intval( $event->start + ( DAY_IN_SECONDS ) - 1 ) ][] = $event;
+							} else {
+
+								/*if ( ! empty( $event->whole_day ) ) {
+									$days--;
+								}*/
+
+								for ( $d = 1; $d <= $days; $d++ ) {
+									$new_events[ intval( $event->start + ( $d * DAY_IN_SECONDS ) - 1 ) ][] = $event;
+								}
 							}
 						}
 					}

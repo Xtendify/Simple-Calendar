@@ -227,14 +227,14 @@ function simcal_get_calendar_names_i18n( $group, $style = 'full' ) {
 		$format = '';
 		$length = 0;
 
-		$date = Carbon\Carbon::now( 'UTC' );
+		$date = Carbon\Carbon::now();
 
 		if ( 'month' == $group ) {
 			$date->month( 0 )->startOfMonth();
 			$format = 'short' == $style ? 'M' : 'F';
 			$length = 11;
 		} elseif ( 'day' == $group ) {
-			$date->next( 0 );
+			$date->next( 6 );
 			$format = 'short' == $style ? 'D' : 'l';
 			$length = 6;
 		} elseif ( 'meridiem' == $group ) {
@@ -358,7 +358,7 @@ function simcal_get_timezone_from_gmt_offset( $offset ) {
 			$offset = floatval( $offset ) * 3600;
 		}
 
-		$timezone = timezone_name_from_abbr( null, $offset, true );
+		$timezone = timezone_name_from_abbr( null, $offset, false );
 		// This is buggy and might return false:
 		// @see http://php.net/manual/en/function.timezone-name-from-abbr.php#86928
 		// Therefore:
@@ -406,4 +406,68 @@ function simcal_get_timezone_offset( $timezone ) {
  */
 function simcal_esc_timezone( $tz, $default = 'UTC' ) {
 	return in_array( $tz, timezone_identifiers_list() ) ? $tz : $default;
+}
+
+/**
+ * Clear feed transients cache.
+ *
+ * @since  3.0.0
+ *
+ * @param  string|int|array|\WP_Post $id
+ *
+ * @return bool
+ */
+function simcal_delete_feed_transients( $id = '' ) {
+
+	$grouped_ids = get_post_meta( $id, '_grouped_calendars_ids', true );
+
+	// If there are group IDs we need to construct an array to pass along with the grouped IDs + the original $post_id
+	if ( is_array( $grouped_ids ) ) {
+		$temp_id = $id;
+		$id = $grouped_ids;
+		$id[] = $temp_id;
+	}
+
+	if ( is_numeric( $id ) ) {
+		$id = intval( $id ) > 0 ? absint( $id ) : simcal_get_calendars();
+	} elseif ( $id instanceof WP_Post ) {
+		$id = $id->ID;
+	} elseif ( is_array( $id ) ) {
+		$id = array_map( 'absint', $id );
+	} else {
+		$id = simcal_get_calendars( '', true );
+	}
+
+	$feed_types = simcal_get_feed_types();
+
+	if ( is_array( $id ) ) {
+
+		$posts = get_posts( array(
+				'post_type' => 'calendar',
+				'fields'    => 'ids',
+				'post__in'  => $id,
+				'nopaging'  => true,
+		) );
+
+		foreach ( $posts as $post ) {
+			$calendar = simcal_get_calendar( $post );
+			if ( $calendar instanceof \SimpleCalendar\Abstracts\Calendar ) {
+				foreach ( $feed_types as $feed_type ) {
+					delete_transient( '_simple-calendar_feed_id_' . strval( $calendar->id ) . '_' . $feed_type );
+				}
+			}
+		}
+
+	} else {
+
+		$post = get_post( $id );
+		$calendar = simcal_get_calendar( $post );
+		if ( $calendar instanceof \SimpleCalendar\Abstracts\Calendar ) {
+			foreach ( $feed_types as $feed_type ) {
+				delete_transient( '_simple-calendar_feed_id_' . strval( $calendar->id ) . '_' . $feed_type );
+			}
+		}
+	}
+
+	return delete_transient( '_simple-calendar_feed_ids' );
 }

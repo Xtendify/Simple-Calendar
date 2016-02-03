@@ -132,7 +132,7 @@ class Welcome {
 			<a href="<?php echo admin_url( 'edit.php?post_type=calendar' ); ?>"
 			   class="button button-primary"
 				><?php _e( 'Calendars', 'google-calendar-events' ); ?></a>
-			<a href="<?php echo admin_url( 'admin.php?page=simple-calendar_settings' ); ?>"
+			<a href="<?php echo esc_url( add_query_arg( 'page', 'simple-calendar_settings', admin_url( 'admin.php' ) ) ); ?>"
 			   class="button button-primary"
 				><?php _e( 'Settings', 'google-calendar-events' ); ?></a>
 			<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'add-ons' ), 'core-plugin', 'welcome-page' ); ?>"

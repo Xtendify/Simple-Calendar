@@ -448,7 +448,23 @@ abstract class Calendar {
 		if ( empty( $template ) ) {
 			$template = isset( $this->post->post_content ) ? $this->post->post_content : '';
 		}
-		$this->events_template = wpautop( wp_kses_post( trim( $template ) ) );
+
+		// TODO: Removed wpautop() call.
+
+		$event_formatting = get_post_meta( $this->id, '_event_formatting', true );
+
+		switch( $event_formatting ) {
+			case 'none':
+				$this->events_template =  wp_kses_post( trim( $template ) );
+				break;
+			case 'no_linebreaks':
+				$this->events_template =  wpautop( wp_kses_post( trim( $template ) ), false );
+				break;
+			default:
+				$this->events_template =  wpautop( wp_kses_post( trim( $template ) ), true );
+		}
+
+		//$this->events_template =  wpautop( wp_kses_post( trim( $template ) ), true );
 	}
 
 	/**
@@ -505,7 +521,7 @@ abstract class Calendar {
 
 			if ( 'use_custom' == $date_format_option ) {
 				$date_format_custom = esc_attr( get_post_meta( $this->id, '_calendar_date_format', true ) );
-			} elseif ( 'use_custom_php' ) {
+			} elseif ( 'use_custom_php' == $date_format_option ) {
 				$date_format_custom = esc_attr( get_post_meta( $this->id, '_calendar_date_format_php', true ) );
 			}
 		}
@@ -532,7 +548,7 @@ abstract class Calendar {
 
 			if ( 'use_custom' == $time_format_option ) {
 				$time_format_custom = esc_attr( get_post_meta( $this->id, '_calendar_time_format', true ) );
-			} elseif ( 'use_custom_php' ) {
+			} elseif ( 'use_custom_php' == $time_format_option ) {
 				$time_format_custom = esc_attr( get_post_meta( $this->id, '_calendar_time_format_php', true ) );
 			}
 		}
@@ -598,7 +614,7 @@ abstract class Calendar {
 		$this->start = Carbon::now( $this->timezone )->getTimestamp();
 
 		$calendar_begins = esc_attr( get_post_meta( $this->id, '_calendar_begins', true ) );
-		$nth = max( absint( get_post_meta( $this->id, '_calendar_begins_nth' ) ), 1 );
+		$nth = max( absint( get_post_meta( $this->id, '_calendar_begins_nth', true ) ), 1 );
 
 		if ( 'today' == $calendar_begins ) {
 			$this->start = Carbon::today( $this->timezone )->getTimestamp();
@@ -632,7 +648,7 @@ abstract class Calendar {
 			$this->start = Carbon::today( $this->timezone )->addYears( $nth )->startOfYear()->getTimeStamp();
 		} elseif ( 'custom_date' == $calendar_begins ) {
 			if ( $date = get_post_meta( $this->id, '_calendar_begins_custom_date', true ) ) {
-				$this->start = Carbon::createFromFormat( 'Y-m-d', esc_attr( $date ) )->setTimezone( $this->timezone )->getTimestamp();
+				$this->start = Carbon::createFromFormat( 'Y-m-d', esc_attr( $date ) )->setTimezone( $this->timezone )->startOfDay()->getTimestamp();
 			}
 		}
 	}
@@ -767,7 +783,9 @@ abstract class Calendar {
 
 				if ( 'yes' == $poweredby ) {
 					$align = is_rtl() ? 'left' : 'right';
-					echo '<small class="simcal-powered simcal-align-' . $align .'">Powered by <a href="https://simplecalendar.io" target="_blank">Simple Calendar</a></small>';
+					echo '<small class="simcal-powered simcal-align-' . $align .'">' .
+					     sprintf( __( 'Powered by <a href="%s" target="_blank">Simple Calendar</a>', 'google-calendar-events' ), simcal_get_url( 'home' ) ) .
+					     '</small>';
 				}
 
 				echo '</div>';

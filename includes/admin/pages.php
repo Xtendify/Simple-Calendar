@@ -259,7 +259,7 @@ class Pages {
 						}
 					}
 				}
-
+				
 				?>
 			</form>
 		</div>

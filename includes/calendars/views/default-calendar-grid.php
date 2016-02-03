@@ -231,7 +231,7 @@ class Default_Calendar_Grid implements Calendar_View {
 
 							?>
 							<th class="simcal-week-day simcal-week-day-<?php echo $i ?>"
-							    data-screen-small="<?php echo substr( $week_days_short[ $i ], 0, 1 ); ?>"
+								data-screen-small="<?php echo mb_substr( $week_days_short[ $i ], 0, 1, 'UTF-8' ); ?>"
 							    data-screen-medium="<?php echo $week_days_short[ $i ]; ?>"
 							    data-screen-large="<?php echo $week_days_full[ $i ]; ?>"><?php echo $week_days_short[ $i ]; ?></th>
 							<?php
@@ -243,7 +243,7 @@ class Default_Calendar_Grid implements Calendar_View {
 
 								?>
 								<th class="simcal-week-day simcal-week-day-<?php echo $i ?>"
-								    data-screen-small="<?php echo substr( $week_days_short[ $i ], 0, 1 ); ?>"
+								    data-screen-small="<?php echo mb_substr( $week_days_short[ $i ], 0, 1, 'UTF-8' ); ?>"
 								    data-screen-medium="<?php echo $week_days_short[ $i ]; ?>"
 								    data-screen-large="<?php echo $week_days_full[ $i ]; ?>"><?php echo $week_days_short[ $i ]; ?></th>
 								<?php
@@ -294,7 +294,7 @@ class Default_Calendar_Grid implements Calendar_View {
 
 		// Variables to cycle days in current month and find today in calendar.
 		$now         = $calendar->now;
-		$current     = Carbon::create( $year, $month, 1, 0, 0, 59, $calendar->timezone );
+		$current     = Carbon::create( $year, $month, 1, 0, 0, 0, $calendar->timezone );
 		$current_min = $current->getTimestamp();
 		$current_max = $current->endOfDay()->getTimestamp();
 
@@ -315,7 +315,7 @@ class Default_Calendar_Grid implements Calendar_View {
 			$timestamps   = array_keys( $events );
 			$lower_bound  = array_filter( $timestamps, array( $this, 'filter_events_before' ) );
 			$higher_bound = array_filter( $lower_bound, array( $this, 'filter_events_after' ) );
-			$filtered     = array_intersect_key( $events, array_combine( $higher_bound, $higher_bound ) );
+			$filtered     = ( is_array( $events ) && is_array( $higher_bound) ) && ! empty( $events ) && ! empty( $higher_bound ) ? array_intersect_key( $events, array_combine( $higher_bound, $higher_bound ) ) : array();
 
 			// Put resulting events in an associative array, with day of the month as key for easy retrieval in calendar days loop.
 			$day_events = array();
@@ -415,7 +415,7 @@ class Default_Calendar_Grid implements Calendar_View {
 						// Event title in list.
 						$title = ! empty( $event->title ) ? trim( $event->title ) : __( 'Event', 'google-calendar-events' );
 						if ( $calendar->trim_titles >= 1 ) {
-							$title = strlen( $title ) > $calendar->trim_titles ? substr( $title, 0, $calendar->trim_titles ) . '&hellip;' : $title;
+							$title = strlen( $title ) > $calendar->trim_titles ? mb_substr( $title, 0, $calendar->trim_titles ) . '&hellip;' : $title;
 						}
 
 						// Event color.
@@ -426,7 +426,7 @@ class Default_Calendar_Grid implements Calendar_View {
 						}
 
 						// Event contents.
-						$list_events .= "\t" . '<li class="' . $event_classes . '"' . $event_visibility . ' itemprop="event" itemscope itemtype="http://schema.org/Event">' . "\n";
+						$list_events .= "\t" . '<li class="' . $event_classes . '"' . $event_visibility . ' itemscope itemtype="http://schema.org/Event">' . "\n";
 						$list_events .= "\t\t" . '<span class="simcal-event-title">' . $bullet . $title . '</span>' . "\n";
 						$list_events .= "\t\t" . '<div class="simcal-event-details simcal-tooltip-content" style="display: none;">' . $calendar->get_event_html( $event ) . '</div>' . "\n";
 						$list_events .= "\t" . '</li>' . "\n";
@@ -571,7 +571,7 @@ class Default_Calendar_Grid implements Calendar_View {
 	 * @return bool
 	 */
 	private function filter_events_before( $event ) {
-		return intval( $event ) > intval( $this->start );
+		return intval( $event ) >= intval( $this->start );
 	}
 
 	/**

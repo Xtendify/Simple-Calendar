@@ -67,6 +67,10 @@ class Select extends Field {
 			$class .= ' simcal-field-multiselect';
 		}
 
+		if ( isset( $field['default'] ) ) {
+			$this->default = $field['default'];
+		}
+
 		$this->type_class = $class;
 
 		$allow_void = isset( $field['allow_void'] ) ? $field['allow_void'] : '';
@@ -84,6 +88,12 @@ class Select extends Field {
 
 		if ( $this->multiselect === true && ! is_array( $this->value ) ) {
 			$this->value = explode( ',', $this->value );
+		}
+
+		if ( $this->default ) {
+			if ( empty( $this->value ) || $this->value == '' ) {
+				$this->value = $this->default;
+			}
 		}
 
 		?>

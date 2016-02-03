@@ -245,7 +245,7 @@ abstract class Feed {
 	public function set_cache( $time = 0 ) {
 		if ( $time === 0 || ! is_numeric( $time ) ) {
 			$cache = get_post_meta( $this->post_id, '_feed_cache', true );
-			$time  = is_numeric( $cache ) && $cache > 0 ? absint( $cache ) : $this->cache;
+			$time  = is_numeric( $cache ) && $cache >= 0 ? absint( $cache ) : $this->cache;
 		}
 		$this->cache = absint( $time );
 	}
