@@ -180,7 +180,14 @@ class Google extends Feed {
 							if ( $this->type == 'google' && ( $visibility == 'private' || $visibility == 'confidential' ) ) {
 								continue;
 							}
-
+							
+							// Status.
+                            				$status = $event->getStatus();
+                            				// Skip cancelled events.
+							if ( $this->type == 'google' && ( $status == 'cancelled' ) ) {
+								continue;
+							}
+							
 							// Event title & description.
 							$title = strip_tags( $event->getSummary() );
 							$title = sanitize_text_field( iconv( mb_detect_encoding( $title, mb_detect_order(), true ), 'UTF-8', $title ) );
