@@ -174,20 +174,15 @@ class Google extends Feed {
 					foreach ( $response['events'] as $event ) {
 						if ( $event instanceof \Google_Service_Calendar_Event ) {
 
-							// Visibility.
-							$visibility = $event->getVisibility();
+							// Visibility and status.
 							// Public calendars may have private events which can't be properly accessed by simple api key method.
-							if ( $this->type == 'google' && ( $visibility == 'private' || $visibility == 'confidential' ) ) {
+							// Also want to skip cancelled events (single occurences deleted from repeating events)
+							$visibility = $event->getVisibility();
+                                                        $status = $event->getStatus();
+                                                        if ( $this->type == 'google' && ( $visibility == 'private' || $visibility == 'confidential' || $status == 'cancelled' ) ) {
 								continue;
 							}
-							
-							// Status.
-                            				$status = $event->getStatus();
-                            				// Skip cancelled events.
-							if ( $this->type == 'google' && ( $status == 'cancelled' ) ) {
-								continue;
-							}
-							
+
 							// Event title & description.
 							$title = strip_tags( $event->getSummary() );
 							$title = sanitize_text_field( iconv( mb_detect_encoding( $title, mb_detect_order(), true ), 'UTF-8', $title ) );
