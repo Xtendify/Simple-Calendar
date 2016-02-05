@@ -227,6 +227,8 @@ class Default_Calendar_List implements Calendar_View {
 			echo '<div class="simcal-ajax-loader simcal-spinner-top" style="display: none;"><i class="simcal-icon-spinner simcal-icon-spin"></i></div>';
 
 			echo '</div>';
+
+			edit_post_link( 'edit calendar', '<p class="simcal-edit-link">', '</p>', $calendar->id );
 		}
 
 	}

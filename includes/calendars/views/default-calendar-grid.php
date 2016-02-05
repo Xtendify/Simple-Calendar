@@ -258,6 +258,9 @@ class Default_Calendar_Grid implements Calendar_View {
 				<?php echo $this->draw_month( date( 'n', $calendar->start ), date( 'Y', $calendar->start ) ); ?>
 
 			</table>
+
+			<?php edit_post_link( __( 'edit calendar', 'google-calendar-events' ), '<p class="simcal-edit-link">', '</p>', $calendar->id ); ?>
+
 			<?php
 
 			echo '<div class="simcal-ajax-loader simcal-spinner-top" style="display: none;"><i class="simcal-icon-spinner simcal-icon-spin"></i></div>';
