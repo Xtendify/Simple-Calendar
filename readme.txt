@@ -82,12 +82,14 @@ We'd love your help! Here's a few things you can do:
 
 = 3.0.14 - TODO =
 
-* Fix: Updated schema to pass W3C validation.
-* Fix: PHP notice showing in media gallery grid view.
-* Fix: Search queries using quotes should now work as expected.
-* Fix: Better character encoding for small screen mode characters.
+* Fix: Updated schema to pass W3C validation. Props [@martinburchell](https://github.com/martinburchell)
+* Fix: PHP notice showing in media gallery grid view. Props [@Daronspence](https://github.com/Daronspence)
+* Fix: Search queries using quotes should now work as expected. Props [@justdave](https://github.com/justdave)
+* Fix: Better character encoding for small screen mode characters. Props [@witchdoktor](https://github.com/witchdoktor)
+* Fix: Events that start at 12 A.M. will now display correctly. Props [@TaylorHawkes](https://github.com/TaylorHawkes)
+* Fix: Get rid PHP error when removing first recurring event. Props [@petersonca](https://github.com/petersonca)
 * Fix: Max number of events should no longer refresh to 2500 on change.
-* Fix: Default cache iteval should now display correctly.
+* Fix: Default cache interval should now display correctly.
 * Fix: Custom date should now show correct month when set to the first of a month.
 * Fix: Visual editor is available again when editing event template tags.
 * Tweak: Updated default event template tags formatting.
