@@ -178,8 +178,8 @@ class Google extends Feed {
 							// Public calendars may have private events which can't be properly accessed by simple api key method.
 							// Also want to skip cancelled events (single occurences deleted from repeating events)
 							$visibility = $event->getVisibility();
-                                                        $status = $event->getStatus();
-                                                        if ( $this->type == 'google' && ( $visibility == 'private' || $visibility == 'confidential' || $status == 'cancelled' ) ) {
+							$status = $event->getStatus();
+							if ( $this->type == 'google' && ( $visibility == 'private' || $visibility == 'confidential' || $status == 'cancelled' ) ) {
 								continue;
 							}
 
