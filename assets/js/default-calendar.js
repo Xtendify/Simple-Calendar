@@ -18,7 +18,7 @@
 				currentTime  = current.data( 'calendar-current' ),
 				currentMonth = current.find( 'span.simcal-current-month' ),
 				currentYear  = current.find( 'span.simcal-current-year' ),
-				currentDate  = new Date( currentTime * 1000 ),
+				currentDate  = new Date( ( currentTime + 86400 ) * 1000 ),
 				date,
 				action;
 
