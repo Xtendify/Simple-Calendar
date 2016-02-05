@@ -94,6 +94,7 @@ We'd love your help! Here's a few things you can do:
 * Fix: Visual editor is available again when editing event template tags.
 * Tweak: Updated default event template tags formatting.
 * Tweak: Added an edit calendar link.
+* Tweak: Updated how the timezone is handled for calendars. Also fixes an issue with imported calendars.
 * Dev: Updated imagesloaded library to 4.1.0.
 
 = 3.0.13 - January 25, 2016 =
