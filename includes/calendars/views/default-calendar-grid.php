@@ -182,11 +182,11 @@ class Default_Calendar_Grid implements Calendar_View {
 				<thead class="simcal-calendar-head">
 					<tr>
 						<?php if ( ! $calendar->static ) { ?>
-							<th class="simcal-nav simcal-prev-wrapper" colspan="1">
+							<th class="simcal-nav simcal-prev-wrapper" colspan=colspan="<?php echo apply_filters( 'simcal_prev_cols', '1' ); ?>">
 								<button class="simcal-nav-button simcal-month-nav simcal-prev" title="<?php _e( 'Previous Month', 'google-calendar-events' ); ?>"><i class="simcal-icon-left"></i></button>
 							</th>
 						<?php } ?>
-						<th colspan="<?php echo $calendar->static ? '7' : '5'; ?>"
+						<th colspan="<?php echo apply_filters( 'simcal_current_cols', $calendar->static ? '7' : '5' ); ?>"
 						    class="simcal-nav simcal-current"
 						    data-calendar-current="<?php echo $calendar->start; ?>">
 							<?php
@@ -213,7 +213,7 @@ class Default_Calendar_Grid implements Calendar_View {
 							?>
 						</th>
 						<?php if ( ! $calendar->static ) { ?>
-							<th class="simcal-nav simcal-next-wrapper" colspan="1">
+							<th class="simcal-nav simcal-next-wrapper" colspan="<?php echo apply_filters( 'simcal_next_cols', '1' ); ?>">
 								<button class="simcal-nav-button simcal-month-nav simcal-next" title="<?php _e( 'Next Month', 'google-calendar-events' ); ?>"><i class="simcal-icon-right"></i></button>
 							</th>
 						<?php } ?>
