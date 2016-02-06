@@ -96,6 +96,7 @@ We'd love your help! Here's a few things you can do:
 * Tweak: Added an edit calendar link.
 * Tweak: Updated how the timezone is handled for calendars. Also fixes an issue with imported calendars.
 * Dev: Updated imagesloaded library to 4.1.0.
+* Dev: Added some filters to give control over the grid view paging columns. Props [@thoronas](https://github.com/thoronas)
 
 = 3.0.13 - January 25, 2016 =
 
