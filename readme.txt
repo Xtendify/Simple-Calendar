@@ -48,6 +48,8 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 
 [Plugin installation instructions](http://docs.simplecalendar.io/simple-calendar-installation/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=installation)
 
+[Setup guide from WP Beginner](http://www.wpbeginner.com/plugins/how-to-add-google-calendar-in-wordpress/) (updated 2/1/2016)
+
 == Frequently Asked Questions ==
 
 = Where's your plugin documentation? =
