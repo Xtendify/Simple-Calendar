@@ -82,6 +82,24 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.0.14 - TODO =
+
+* Fix: Updated schema to pass W3C validation. Props [@martinburchell](https://github.com/martinburchell)
+* Fix: Search queries using quotes should now work as expected. Props [@justdave](https://github.com/justdave)
+* Fix: Better character encoding for small screen mode characters. Props [@witchdoktor](https://github.com/witchdoktor)
+* Fix: Events that start at 12 A.M. will now display correctly. Props [@TaylorHawkes](https://github.com/TaylorHawkes)
+* Fix: Corrected PHP error when removing first recurring event. Props [@petersonca](https://github.com/petersonca)
+* Fix: Max number of events should no longer refresh to 2500 on change.
+* Fix: Default cache interval should now display correctly.
+* Fix: Custom date should now show correct month when set to the first of a month.
+* Fix: Visual editor is available again when editing event template tags.
+* Tweak: Updated default event template tags formatting.
+* Tweak: Added an edit calendar link.
+* Tweak: Updated how the timezone is handled for calendars. Also fixes an issue with imported calendars.
+* Dev: Corrected PHP notice showing in media gallery grid view. Props [@Daronspence](https://github.com/Daronspence)
+* Dev: Added filters to give control over the grid view paging columns. Props [@thoronas](https://github.com/thoronas)
+* Dev: Updated imagesloaded library to 4.1.0.
+
 = 3.0.13 - January 25, 2016 =
 
 * Tweak: Lists that start on a custom date will start at the beginning of the day now.
