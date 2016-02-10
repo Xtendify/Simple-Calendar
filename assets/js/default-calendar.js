@@ -303,11 +303,11 @@
 			} );
 		} );
 		// Viewport changes might require triggering calendar mobile mode.
-		/*window.onresize = function() {
+		window.onresize = function() {
 			gridCalendars.each( function( e, calendar ) {
 				calendarBubbles( calendar );
 			} );
-		};*/
+		};
 
 		/**
 		 * Toggle to expand events.
