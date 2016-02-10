@@ -177,6 +177,9 @@ class Default_Calendar_Grid implements Calendar_View {
 		if ( $calendar instanceof Default_Calendar ) {
 
 			?>
+
+			<?php edit_post_link( __( 'Edit Calendar', 'google-calendar-events' ), '<p class="simcal-align-right"><small>', '</small></p>', $calendar->id ); ?>
+
 			<table class="simcal-calendar-grid"
 			       data-event-bubble-trigger="<?php echo $calendar->event_bubble_trigger; ?>">
 				<thead class="simcal-calendar-head">
@@ -258,8 +261,6 @@ class Default_Calendar_Grid implements Calendar_View {
 				<?php echo $this->draw_month( date( 'n', $calendar->start ), date( 'Y', $calendar->start ) ); ?>
 
 			</table>
-
-			<?php edit_post_link( __( 'edit calendar', 'google-calendar-events' ), '<p class="simcal-edit-link">', '</p>', $calendar->id ); ?>
 
 			<?php
 

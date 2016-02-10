@@ -193,6 +193,8 @@ class Default_Calendar_List implements Calendar_View {
 			$header_class = '';
 			$compact_list_class = $calendar->compact_list ? 'simcal-calendar-list-compact' : '';
 
+			edit_post_link( __( 'Edit Calendar', 'google-calendar-events' ), '<p class="simcal-align-right"><small>', '</small></p>', $calendar->id );
+
 			echo '<div class="simcal-calendar-list ' . $compact_list_class . '">';
 
 			if ( ! $hide_header && ! $static_calendar ) {
@@ -228,7 +230,6 @@ class Default_Calendar_List implements Calendar_View {
 
 			echo '</div>';
 
-			edit_post_link( 'edit calendar', '<p class="simcal-edit-link">', '</p>', $calendar->id );
 		}
 
 	}
