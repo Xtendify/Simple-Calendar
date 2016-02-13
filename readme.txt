@@ -82,6 +82,8 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.0.15 - TODO =
+
 = 3.0.14 - February 10, 2016 =
 
 * Fix: Updated schema to pass W3C validation. Props [@martinburchell](https://github.com/martinburchell)
