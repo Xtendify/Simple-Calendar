@@ -250,7 +250,7 @@
 
 				eventBubbles.each( function( e, i ) {
 					$( i ).qtip( {
-						content : width < 60 ? $( cell ).find( 'ul.simcal-events' ) : $( i ).find( '> .simcal-tooltip-content' ),
+						content : width < 60 ? $( cell ).find( 'ul.simcal-events') : '<div class="simcal-event-details simcal-tooltip-content">' + $( i ).find( '> .simcal-tooltip-content').html() + '</div>',
 						position: {
 							my      : 'top center',
 							at      : 'bottom center',
