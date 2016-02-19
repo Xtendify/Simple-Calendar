@@ -33,6 +33,11 @@ namespace SimpleCalendar;
  * This implementation is based on the original work from Gary White
  * http://apptools.com/phptools/browser/
  *
+ *
+ * Modified Version by Moonstone Media
+ *
+ * Changelog:
+ * - Changed class constructor from Browser() to __construct()
  */
 
 
@@ -112,7 +117,7 @@ namespace SimpleCalendar;
 
         const OPERATING_SYSTEM_UNKNOWN = 'unknown';
 
-        public function Browser($userAgent = "")
+        public function __construct($userAgent = "")
         {
             $this->reset();
             if ($userAgent != "") {
