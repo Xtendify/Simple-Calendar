@@ -33,7 +33,6 @@
     "composer/installers": "1.x",
     "xrstf/composer-php52": "1.x",
     "google/apiclient": "1.x",
-    "cbschuld/Browser.php": "dev-master",
     "nesbot/carbon": "1.x",
     "erusev/parsedown": "1.x",
     "mexitek/phpcolors": "dev-master"

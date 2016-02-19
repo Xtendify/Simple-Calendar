@@ -233,7 +233,7 @@ function simcal_delete_admin_notices() {
  */
 function simcal_print_shortcode_tip( $post_id ) {
 
-	$browser = new \Browser();
+	$browser = new \SimpleCalendar\Browser();
 	if ( $browser::PLATFORM_APPLE == $browser->getPlatform() ) {
 		$cmd = '&#8984;&#43;C';
 	} else {

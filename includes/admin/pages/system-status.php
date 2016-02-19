@@ -503,7 +503,7 @@ class System_Status extends Admin_Page {
 		 * ==================
 		 */
 
-		$user_client = new \Browser();
+		$user_client = new \SimpleCalendar\Browser();
 
 		$browser  = '<dl>';
 		$browser .= '<dt>' . __( 'Name:', 'google-calendar-events' ) .         '</dt>';
