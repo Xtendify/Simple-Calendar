@@ -84,6 +84,10 @@ We'd love your help! Here's a few things you can do:
 
 = 3.0.15 - TODO =
 
+* Fix: Constructor for Browser.php now compatible with future versions of PHP.
+* Tweak: Allow other plugin or theme shortcodes to be used in the event template.
+* Dev: Removed Browser.php from composer so we can use it standalone with customizations.
+
 = 3.0.14 - February 10, 2016 =
 
 * Fix: Updated schema to pass W3C validation. Props [@martinburchell](https://github.com/martinburchell)
