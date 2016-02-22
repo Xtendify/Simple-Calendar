@@ -128,9 +128,6 @@ final class Plugin {
 		// Functions shared in both back end and front end.
 		include_once 'functions/shared.php';
 
-		// Include Browser.php
-		//include_once( 'browser.php' );
-
 		// Init custom post types and taxonomies.
 		new Post_Types();
 
