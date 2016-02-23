@@ -543,8 +543,8 @@ class Settings implements Meta_Box {
 						        id="_feed_timezone_setting"
 						        class="simcal-field simcal-field-select simcal-field-inline simcal-field-show-next"
 						        data-show-next-if-value="use_custom">
-							<option value="use_calendar" <?php selected( 'use_calendar', $timezone_setting, true ); ?>><?php _ex( 'Events source default', 'Use the calendar default setting', 'google-calendar-events' ); ?></option>
 							<option value="use_site" <?php selected( 'use_site', $timezone_setting, true ); ?>><?php printf( _x( 'Site default', 'Use this site default setting', 'google-calendar-events' ) . ' (%s)', $timezone_default ); ?></option>
+							<option value="use_calendar" <?php selected( 'use_calendar', $timezone_setting, true ); ?>><?php _ex( 'Events source default', 'Use the calendar default setting', 'google-calendar-events' ); ?></option>
 							<option value="use_custom" <?php selected( 'use_custom', $timezone_setting, true ); ?>><?php _ex( 'Custom', 'Use a custom setting', 'google-calendar-events' ); ?></option>
 						</select>
 						<select name="_feed_timezone"
