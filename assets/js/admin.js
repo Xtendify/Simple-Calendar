@@ -310,8 +310,8 @@
 			options.each( function( e, option ) {
 
 				var id = $( option ).data( 'show-field' ),
-					field = id.length ? $( '#' + id ) : '',
-					next = id.length ? field.next() : '';
+					field = typeof id !== 'undefined' && id.length ? $( '#' + id ) : '',
+					next = typeof id !== 'undefined' && id.length ? field.next() : '';
 
 				if ( field.length ) {
 					if ( $( option ).is( ':selected' ) ) {
