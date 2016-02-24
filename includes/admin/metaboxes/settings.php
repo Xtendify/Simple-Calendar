@@ -533,10 +533,11 @@ class Settings implements Meta_Box {
 						<?php
 
 						$timezone_wordpress = simcal_get_wp_timezone();
-						$timezone_default = $timezone_wordpress ? $timezone_wordpress : 'UTC';
-						$timezone_setting = esc_attr( get_post_meta( $post->ID, '_feed_timezone_setting', true ) );
-						$timezone = esc_attr( get_post_meta( $post->ID, '_feed_timezone', true ) );
-						$timezone = $timezone ? $timezone : $timezone_default;
+						$timezone_default   = $timezone_wordpress ? $timezone_wordpress : 'UTC';
+						$timezone_setting   = esc_attr( get_post_meta( $post->ID, '_feed_timezone_setting', true ) );
+						$timezone           = esc_attr( get_post_meta( $post->ID, '_feed_timezone', true ) );
+						$timezone           = $timezone ? $timezone : $timezone_default;
+						$show_use_calendar  = simcal_get_feed( $post )->type !== 'grouped-calendars';
 
 						?>
 						<select name="_feed_timezone_setting"
@@ -544,7 +545,9 @@ class Settings implements Meta_Box {
 						        class="simcal-field simcal-field-select simcal-field-inline simcal-field-show-other"
 								data-show-field-on-choice="true">
 							<option value="use_site" <?php selected( 'use_site', $timezone_setting, true ); ?>><?php printf( _x( 'Site default', 'Use this site default setting', 'google-calendar-events' ) . ' (%s)', $timezone_default ); ?></option>
-							<option value="use_calendar" data-show-field="_use_calendar_warning" <?php selected( 'use_calendar', $timezone_setting, true ); ?>><?php _ex( 'Events source default', 'Use the calendar default setting', 'google-calendar-events' ); ?></option>
+							<?php if ( $show_use_calendar ) { ?>
+							<option id="use_calendar" value="use_calendar" data-show-field="_use_calendar_warning" <?php selected( 'use_calendar', $timezone_setting, true ); ?>><?php _ex( 'Events source default', 'Use the calendar default setting', 'google-calendar-events' ); ?></option>
+							<?php } ?>
 							<option value="use_custom" data-show-field="_feed_timezone" <?php selected( 'use_custom', $timezone_setting, true ); ?>><?php _ex( 'Custom', 'Use a custom setting', 'google-calendar-events' ); ?></option>
 						</select>
 						<select name="_feed_timezone"
