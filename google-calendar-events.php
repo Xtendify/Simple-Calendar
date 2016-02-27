@@ -56,5 +56,7 @@ if ( $this_plugin_checks->pass() === false ) {
 	return;
 }
 
+include_once 'vendor/autoload.php';
+
 // Load plugin.
 include_once 'includes/main.php';
