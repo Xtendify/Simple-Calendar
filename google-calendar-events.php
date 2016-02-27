@@ -18,13 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-// Composer fallback for PHP < 5.3.0.
-if ( version_compare( PHP_VERSION, '5.3.0' ) === -1 ) {
-	include_once 'vendor/autoload_52.php';
-} else {
-	include_once 'vendor/autoload.php';
-}
-
 // Plugin constants.
 $this_plugin_path      = trailingslashit( dirname( __FILE__ ) );
 $this_plugin_dir       = plugin_dir_url( __FILE__ );
