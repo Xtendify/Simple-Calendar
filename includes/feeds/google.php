@@ -164,9 +164,9 @@ class Google extends Feed {
 				$calendar = array_merge( $response, array( 'events' => array() ) );
 
 				// If no timezone has been set, use calendar feed.
-				/*if ( 'use_calendar' == $this->timezone_setting ) {
+				if ( 'use_calendar' == $this->timezone_setting ) {
 					$this->timezone = $calendar['timezone'];
-				}*/
+				}
 
 				$source = isset( $response['title'] ) ? sanitize_text_field( $response['title'] ) : '';
 
@@ -197,9 +197,6 @@ class Google extends Feed {
 								$start_timezone = $this->timezone;
 							}
 
-							// TODO: Hardcoding a timezone here for now until it can be sorted out above.
-							$start_timezone = 'America/Denver';
-
 							if ( is_null( $event->getStart()->dateTime ) ) {
 								// Whole day event.
 								$date = Carbon::parse( $event->getStart()->date );
@@ -210,10 +207,10 @@ class Google extends Feed {
 								$date = Carbon::parse( $event->getStart()->dateTime );
 
 								// Check if there is an event level timezone
-								if( $event->getStart()->timeZone ) {
+								if( $event->getStart()->timeZone && 'use_calendar' == $this->timezone_setting ) {
 
 									// Get the two different times with the separate timezones so we can check the offsets next
-									$google_start1 = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, $start_timezone );
+									$google_start1 = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, $date->timezone );
 									$google_start2 = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, $event->getStart()->timeZone );
 
 									// Get the offset in hours
@@ -221,7 +218,7 @@ class Google extends Feed {
 									$offset2 = $google_start2->offsetHours;
 
 									// Get the difference between the two timezones
-									$total_offset = $offset2 - $offset1;
+									$total_offset = ( $offset2 - $offset1 ) * 2;
 
 									// Add the hours offset to the date hour
 									$date->hour += $total_offset;
@@ -229,6 +226,8 @@ class Google extends Feed {
 
 								$google_start = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, $start_timezone );
 								$google_start_utc = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, 'UTC' );
+
+								$this->timezone = $start_timezone;
 							}
 							// Start.
 							$start = $google_start->getTimestamp();
@@ -252,7 +251,26 @@ class Google extends Feed {
 									$google_end     = Carbon::createFromDate( $date->year, $date->month, $date->day, $end_timezone )->startOfDay()->subSeconds( 59 );
 									$google_end_utc = Carbon::createFromDate( $date->year, $date->month, $date->day, 'UTC' )->startOfDay()->subSeconds( 59 );
 								} else {
-									$date           = Carbon::parse( $event->getEnd()->dateTime );
+									$date = Carbon::parse( $event->getEnd()->dateTime );
+
+									// Check if there is an event level timezone
+									if( $event->getEnd()->timeZone ) {
+
+										// Get the two different times with the separate timezones so we can check the offsets next
+										$google_start1 = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, $date->timezone );
+										$google_start2 = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, $event->getEnd()->timeZone );
+
+										// Get the offset in hours
+										$offset1 = $google_start1->offsetHours;
+										$offset2 = $google_start2->offsetHours;
+
+										// Get the difference between the two timezones
+										$total_offset = $offset2 - $offset1;
+
+										// Add the hours offset to the date hour
+										$date->hour += $total_offset;
+									}
+
 									$google_end     = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, $end_timezone );
 									$google_end_utc = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, 'UTC' );
 								}
@@ -290,6 +308,9 @@ class Google extends Feed {
 							} else {
 								$link = $event->getHtmlLink();
 							}
+
+							//echo 'Start: ' . $start . '<br>';
+							//echo 'Start UTC: ' . $start_utc . '<br>';
 
 							// Build the event.
 							$calendar['events'][ intval( $start ) ][] = array(
