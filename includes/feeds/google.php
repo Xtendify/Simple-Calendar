@@ -265,7 +265,7 @@ class Google extends Feed {
 										$offset2 = $google_start2->offsetHours;
 
 										// Get the difference between the two timezones
-										$total_offset = $offset2 - $offset1;
+										$total_offset = ( $offset2 - $offset1 ) * 2;
 
 										// Add the hours offset to the date hour
 										$date->hour += $total_offset;
