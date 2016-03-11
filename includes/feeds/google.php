@@ -218,7 +218,7 @@ class Google extends Feed {
 									$offset2 = $google_start2->offsetHours;
 
 									// Get the difference between the two timezones
-									$total_offset = ( $offset2 - $offset1 ) * 2;
+									$total_offset = ( $offset2 - $offset1 );
 
 									// Add the hours offset to the date hour
 									$date->hour += $total_offset;
@@ -265,7 +265,7 @@ class Google extends Feed {
 										$offset2 = $google_start2->offsetHours;
 
 										// Get the difference between the two timezones
-										$total_offset = ( $offset2 - $offset1 ) * 2;
+										$total_offset = ( $offset2 - $offset1 );
 
 										// Add the hours offset to the date hour
 										$date->hour += $total_offset;
@@ -308,9 +308,6 @@ class Google extends Feed {
 							} else {
 								$link = $event->getHtmlLink();
 							}
-
-							//echo 'Start: ' . $start . '<br>';
-							//echo 'Start UTC: ' . $start_utc . '<br>';
 
 							// Build the event.
 							$calendar['events'][ intval( $start ) ][] = array(
