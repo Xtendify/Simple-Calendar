@@ -293,7 +293,7 @@ class Default_Calendar_Grid implements Calendar_View {
 				return '';
 			}
 		}
-		date_default_timezone_set( $calendar->timezone );
+		//date_default_timezone_set( $calendar->timezone );
 		$events = $calendar->events;
 
 		// Variables to cycle days in current month and find today in calendar.
@@ -400,6 +400,7 @@ class Default_Calendar_Grid implements Calendar_View {
 					$event_classes = $event_visibility = '';
 
 					if ( $event instanceof Event ) :
+						date_default_timezone_set( $event->timezone );
 
 						// Store the calendar id where the event belongs (useful in grouped calendar feeds)
 						$calendar_class  = 'simcal-events-calendar-' . strval( $event->calendar );
