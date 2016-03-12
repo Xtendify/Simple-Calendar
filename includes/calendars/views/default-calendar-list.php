@@ -444,7 +444,7 @@ class Default_Calendar_List implements Calendar_View {
 			}
 		}
 
-		date_default_timezone_set( $calendar->timezone );
+		//date_default_timezone_set( $calendar->timezone );
 
 		$now = $calendar->now;
 		$current_events = $this->get_events( $timestamp );
@@ -470,6 +470,8 @@ class Default_Calendar_List implements Calendar_View {
 		if ( ! empty( $current_events ) && is_array( $current_events ) ) :
 
 			foreach ( $current_events as $ymd => $events ) :
+
+
 
 				// This is where we can find out if an event is a multi-day event and if it needs to be shown.
 				// Since this is for list view we are showing the event on the day viewed if it is part of that day even when
@@ -536,6 +538,9 @@ class Default_Calendar_List implements Calendar_View {
 
 				foreach ( $events as $day_events ) :
 					foreach ( $day_events as $event ) :
+
+						date_default_timezone_set( $event->timezone );
+
 						if ( $event instanceof Event ) :
 
 							$event_classes = $event_visibility = '';
