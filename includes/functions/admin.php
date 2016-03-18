@@ -289,7 +289,7 @@ function simcal_newsletter_signup() {
 	if ( $screen = simcal_is_admin_screen() ) {
 
 		global $current_user;
-		get_currentuserinfo();
+		wp_get_current_user();
 
 		$name = $current_user->user_firstname ? $current_user->user_firstname : '';
 
