@@ -444,7 +444,8 @@ class Default_Calendar_List implements Calendar_View {
 			}
 		}
 
-		//date_default_timezone_set( $calendar->timezone );
+		$feed          = simcal_get_feed( $calendar );
+		$feed_timezone = get_post_meta( $feed->post_id, '_feed_timezone', true );
 
 		$now = $calendar->now;
 		$current_events = $this->get_events( $timestamp );
@@ -539,9 +540,13 @@ class Default_Calendar_List implements Calendar_View {
 				foreach ( $events as $day_events ) :
 					foreach ( $day_events as $event ) :
 
-						date_default_timezone_set( $event->timezone );
-
 						if ( $event instanceof Event ) :
+
+							if ( $feed->type == 'grouped-calendars' ) {
+								date_default_timezone_set( $feed_timezone );
+							} else {
+								date_default_timezone_set( $event->timezone );
+							}
 
 							$event_classes = $event_visibility = '';
 
