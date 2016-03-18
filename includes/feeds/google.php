@@ -254,7 +254,7 @@ class Google extends Feed {
 									$date = Carbon::parse( $event->getEnd()->dateTime );
 
 									// Check if there is an event level timezone
-									if( $event->getEnd()->timeZone ) {
+									if( $event->getEnd()->timeZone && 'use_calendar' == $this->timezone_setting ) {
 
 										// Get the two different times with the separate timezones so we can check the offsets next
 										$google_start1 = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, $date->timezone );
