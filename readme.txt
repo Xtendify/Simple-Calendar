@@ -84,12 +84,12 @@ We'd love your help! Here's a few things you can do:
 
 = 3.0.15 - TODO =
 
-* Fix: Constructor for Browser.php now compatible with future versions of PHP.
 * Fix: Timezone issues with event source option should now work correctly.
 * Fix: Tooltips should no longer be empty after a resize.
 * Tweak: Removed event source option for grouped calendars.
 * Tweak: Allow other plugin or theme shortcodes to be used in the event template.
 * Dev: Removed Browser.php from composer so we can use it standalone with customizations.
+* Dev: Constructor for Browser.php now compatible with future versions of PHP.
 * Dev: Removed PHP 5.2 compatibility code.
 
 = 3.0.14 - February 10, 2016 =
