@@ -431,7 +431,6 @@
 		$( '#_feed_type').on( 'change', function( e ) {
 			if( $(this).val() === 'grouped-calendars' ) {
 				$('#use_calendar').remove();
-				$('#_use_calendar_warning').hide();
 			} else {
 				var html = '<option id="use_calendar" value="use_calendar" data-show-field="_use_calendar_warning">Event source default</option>';
 				$('#_feed_timezone_setting').append( html );
