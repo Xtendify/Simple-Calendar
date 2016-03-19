@@ -82,7 +82,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.0.15 - TODO =
+= 3.0.15 - March 19, 2016 =
 
 * Fix: Timezone issues with event source option should now work correctly.
 * Fix: Tooltips should no longer be empty after a resize.
