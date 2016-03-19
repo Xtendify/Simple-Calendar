@@ -556,7 +556,7 @@ class Settings implements Meta_Box {
 							<?php echo 'use_custom' != $timezone_setting ? 'style="display: none;"' : ''; ?>>
 							<?php echo wp_timezone_choice( $timezone ); ?>
 						</select>
-						<i class="simcal-icon-help simcal-help-tip" data-tip="<?php _e( 'Using a different timezone may alter the date and time display of your calendar events. It is recommended to keep the calendar default timezone.', 'google-calendar-events' ); ?>"></i>
+						<i class="simcal-icon-help simcal-help-tip" data-tip="<?php _e( 'Using a different timezone may alter the date and time display of your calendar events. It is recommended to use the site default option.', 'google-calendar-events' ); ?>"></i>
 						<p id="_use_calendar_warning" class="simcal-field">
 							<?php printf( __( '<strong>Note:</strong> Timezone settings can be changed in several places within your Google calendars. <a href="%s" target="_blank">See details here</a>', 'google-calendar-events' ), 'http://docs.simplecalendar.io/timezone-settings/' ); ?>
 						</p>
