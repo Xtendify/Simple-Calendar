@@ -293,8 +293,11 @@ class Default_Calendar_Grid implements Calendar_View {
 				return '';
 			}
 		}
-		date_default_timezone_set( $calendar->timezone );
+
 		$events = $calendar->events;
+
+		$feed          = simcal_get_feed( $calendar );
+		$feed_timezone = get_post_meta( $feed->post_id, '_feed_timezone', true );
 
 		// Variables to cycle days in current month and find today in calendar.
 		$now         = $calendar->now;
@@ -400,6 +403,12 @@ class Default_Calendar_Grid implements Calendar_View {
 					$event_classes = $event_visibility = '';
 
 					if ( $event instanceof Event ) :
+
+						if ( $feed->type == 'grouped-calendars' ) {
+							date_default_timezone_set( $feed_timezone );
+						} else {
+							date_default_timezone_set( $event->timezone );
+						}
 
 						// Store the calendar id where the event belongs (useful in grouped calendar feeds)
 						$calendar_class  = 'simcal-events-calendar-' . strval( $event->calendar );

@@ -235,7 +235,9 @@
 					tooltips = $( cell ).find( '.simcal-tooltip' ),
 					eventBubbles,
 					content,
-					last;
+					last,
+					dotsContent,
+					regContent;
 
 				// Mobile mode.
 				if ( width < 60 ) {
@@ -249,8 +251,11 @@
 				}
 
 				eventBubbles.each( function( e, i ) {
+
+					dotsContent = '<ul class="simcal-events">' + $( cell ).find( 'ul.simcal-events').html() + '</ul></div>';
+					regContent = '<div class="simcal-event-details simcal-tooltip-content">' + $( i ).find( '> .simcal-tooltip-content').html() + '</div>';
 					$( i ).qtip( {
-						content : width < 60 ? $( cell ).find( 'ul.simcal-events' ) : $( i ).find( '> .simcal-tooltip-content' ),
+						content : width < 60 ? dotsContent : regContent,
 						position: {
 							my      : 'top center',
 							at      : 'bottom center',

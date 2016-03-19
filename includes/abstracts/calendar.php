@@ -263,7 +263,7 @@ abstract class Calendar {
 						$this->set_events( $feed->events );
 						if ( 'use_calendar' == get_post_meta( $this->id, '_feed_timezone_setting', true ) ) {
 							$this->timezone = $feed->timezone;
-							$this->set_start( $feed->timezone );
+							$this->set_start();
 						}
 					} elseif ( is_string( $feed->events ) ) {
 						$this->errors[] = $feed->events;
@@ -477,6 +477,11 @@ abstract class Calendar {
 	public function set_timezone( $tz = '' ) {
 
 		$site_tz = esc_attr( simcal_get_wp_timezone() );
+
+		if ( $this->feed === 'grouped-calendars' ) {
+			$this->timezone = $site_tz;
+			return;
+		}
 
 		if ( empty( $tz ) ) {
 

@@ -279,7 +279,7 @@ class Settings implements Meta_Box {
 						<select name="_calendar_begins"
 						        id="_calendar_begins"
 						        class="simcal-field simcal-field-select simcal-field-inline simcal-field-switch-other">
-							<optgroup label="<?php _e( 'Days range', 'google-calendar-events' ); ?>">
+							<optgroup label="<?php _e( 'Days', 'google-calendar-events' ); ?>">
 								<option value="today"
 								        data-hide-fields="_calendar_begins_custom_date,_calendar_begins_nth"
 								        <?php selected( 'today', $calendar_begins, true ); ?>><?php _e( 'Today', 'google-calendar-events' ); ?></option>
@@ -293,7 +293,7 @@ class Settings implements Meta_Box {
 								        data-hide-field="_calendar_begins_custom_date"
 								        data-show-field="_calendar_begins_nth" <?php selected( 'days_after', $calendar_begins, true ); ?>><?php _e( 'Day(s) after today', 'google-calendar-events' ); ?></option>
 							</optgroup>
-							<optgroup label="<?php _e( 'Weeks range', 'google-calendar-events' ); ?>">
+							<optgroup label="<?php _e( 'Weeks', 'google-calendar-events' ); ?>">
 								<option value="this_week"
 								        data-hide-fields="_calendar_begins_custom_date,_calendar_begins_nth"
 								        <?php selected( 'this_week', $calendar_begins, true ); ?>><?php _e( 'This week', 'google-calendar-events' ); ?></option>
@@ -304,7 +304,7 @@ class Settings implements Meta_Box {
 								        data-hide-field="_calendar_begins_custom_date"
 								        data-show-field="_calendar_begins_nth" <?php selected( 'weeks_after', $calendar_begins, true ); ?>><?php _e( 'Week(s) after current', 'google-calendar-events' ); ?></option>
 							</optgroup>
-							<optgroup label="<?php _e( 'Months range', 'google-calendar-events' ); ?>">
+							<optgroup label="<?php _e( 'Months', 'google-calendar-events' ); ?>">
 								<option value="this_month"
 								        data-hide-fields="_calendar_begins_custom_date,_calendar_begins_nth"
 								        <?php selected( 'this_month', $calendar_begins, true ); ?>><?php _e( 'This month', 'google-calendar-events' ); ?></option>
@@ -315,7 +315,7 @@ class Settings implements Meta_Box {
 								        data-hide-field="_calendar_begins_custom_date"
 								        data-show-field="_calendar_begins_nth" <?php selected( 'months_after', $calendar_begins, true ); ?>><?php _e( 'Month(s) after current', 'google-calendar-events' ); ?></option>
 							</optgroup>
-							<optgroup label="<?php _e( 'Years range', 'google-calendar-events' ); ?>">
+							<optgroup label="<?php _e( 'Years', 'google-calendar-events' ); ?>">
 								<option value="this_year"
 								        data-hide-fields="_calendar_begins_custom_date,_calendar_begins_nth"
 								        <?php selected( 'this_year', $calendar_begins, true ); ?>><?php _e( 'This year', 'google-calendar-events' ); ?></option>
@@ -533,19 +533,22 @@ class Settings implements Meta_Box {
 						<?php
 
 						$timezone_wordpress = simcal_get_wp_timezone();
-						$timezone_default = $timezone_wordpress ? $timezone_wordpress : 'UTC';
-						$timezone_setting = esc_attr( get_post_meta( $post->ID, '_feed_timezone_setting', true ) );
-						$timezone = esc_attr( get_post_meta( $post->ID, '_feed_timezone', true ) );
-						$timezone = $timezone ? $timezone : $timezone_default;
+						$timezone_default   = $timezone_wordpress ? $timezone_wordpress : 'UTC';
+						$timezone_setting   = esc_attr( get_post_meta( $post->ID, '_feed_timezone_setting', true ) );
+						$timezone           = esc_attr( get_post_meta( $post->ID, '_feed_timezone', true ) );
+						$timezone           = $timezone ? $timezone : $timezone_default;
+						$show_use_calendar  = simcal_get_feed( $post )->type !== 'grouped-calendars';
 
 						?>
 						<select name="_feed_timezone_setting"
 						        id="_feed_timezone_setting"
-						        class="simcal-field simcal-field-select simcal-field-inline simcal-field-show-next"
-						        data-show-next-if-value="use_custom">
-							<option value="use_calendar" <?php selected( 'use_calendar', $timezone_setting, true ); ?>><?php _ex( 'Events source default', 'Use the calendar default setting', 'google-calendar-events' ); ?></option>
+						        class="simcal-field simcal-field-select simcal-field-inline simcal-field-show-other"
+								data-show-field-on-choice="true">
 							<option value="use_site" <?php selected( 'use_site', $timezone_setting, true ); ?>><?php printf( _x( 'Site default', 'Use this site default setting', 'google-calendar-events' ) . ' (%s)', $timezone_default ); ?></option>
-							<option value="use_custom" <?php selected( 'use_custom', $timezone_setting, true ); ?>><?php _ex( 'Custom', 'Use a custom setting', 'google-calendar-events' ); ?></option>
+							<?php if ( $show_use_calendar ) { ?>
+							<option id="use_calendar" value="use_calendar" data-show-field="_use_calendar_warning" <?php selected( 'use_calendar', $timezone_setting, true ); ?>><?php _ex( 'Event source default', 'Use the calendar default setting', 'google-calendar-events' ); ?></option>
+							<?php } ?>
+							<option value="use_custom" data-show-field="_feed_timezone" <?php selected( 'use_custom', $timezone_setting, true ); ?>><?php _ex( 'Custom', 'Use a custom setting', 'google-calendar-events' ); ?></option>
 						</select>
 						<select name="_feed_timezone"
 						        id="_feed_timezone"
@@ -554,6 +557,9 @@ class Settings implements Meta_Box {
 							<?php echo wp_timezone_choice( $timezone ); ?>
 						</select>
 						<i class="simcal-icon-help simcal-help-tip" data-tip="<?php _e( 'Using a different timezone may alter the date and time display of your calendar events. It is recommended to keep the calendar default timezone.', 'google-calendar-events' ); ?>"></i>
+						<p id="_use_calendar_warning" style="display: none;" class="simcal-field">
+							<?php printf( __( '<strong>Warning:</strong> Using this option can return unexpected results if you have specified <a href="%s" target="_blank">event level</a> timezones.', 'google-calendar-events' ), 'http://docs.simplecalendar.io/timezone-settings/' ); ?>
+						</p>
 					</td>
 				</tr>
 				<tr class="simcal-panel-field">

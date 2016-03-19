@@ -310,8 +310,8 @@
 			options.each( function( e, option ) {
 
 				var id = $( option ).data( 'show-field' ),
-					field = id.length ? $( '#' + id ) : '',
-					next = id.length ? field.next() : '';
+					field = typeof id !== 'undefined' && id.length ? $( '#' + id ) : '',
+					next = typeof id !== 'undefined' && id.length ? field.next() : '';
 
 				if ( field.length ) {
 					if ( $( option ).is( ':selected' ) ) {
@@ -426,6 +426,17 @@
 			nlForm.submit();
 
 		} );
+
+		// Hide the timezone option for "event source" when a grouped calendar is selected.
+		$( '#_feed_type').on( 'change', function( e ) {
+			if( $(this).val() === 'grouped-calendars' ) {
+				$('#use_calendar').remove();
+				$('#_use_calendar_warning').hide();
+			} else {
+				var html = '<option id="use_calendar" value="use_calendar" data-show-field="_use_calendar_warning">Event source default</option>';
+				$('#_feed_timezone_setting').append( html );
+			}
+		});
 
 		/* ========================= *
 		 * Add-on License Management *

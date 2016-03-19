@@ -205,8 +205,29 @@ class Google extends Feed {
 								$whole_day = true;
 							} else {
 								$date = Carbon::parse( $event->getStart()->dateTime );
-								$google_start     = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, $start_timezone );
+
+								// Check if there is an event level timezone
+								if( $event->getStart()->timeZone && 'use_calendar' == $this->timezone_setting ) {
+
+									// Get the two different times with the separate timezones so we can check the offsets next
+									$google_start1 = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, $date->timezone );
+									$google_start2 = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, $event->getStart()->timeZone );
+
+									// Get the offset in hours
+									$offset1 = $google_start1->offsetHours;
+									$offset2 = $google_start2->offsetHours;
+
+									// Get the difference between the two timezones
+									$total_offset = ( $offset2 - $offset1 );
+
+									// Add the hours offset to the date hour
+									$date->hour += $total_offset;
+								}
+
+								$google_start = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, $start_timezone );
 								$google_start_utc = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, 'UTC' );
+
+								$this->timezone = $start_timezone;
 							}
 							// Start.
 							$start = $google_start->getTimestamp();
@@ -230,7 +251,26 @@ class Google extends Feed {
 									$google_end     = Carbon::createFromDate( $date->year, $date->month, $date->day, $end_timezone )->startOfDay()->subSeconds( 59 );
 									$google_end_utc = Carbon::createFromDate( $date->year, $date->month, $date->day, 'UTC' )->startOfDay()->subSeconds( 59 );
 								} else {
-									$date           = Carbon::parse( $event->getEnd()->dateTime );
+									$date = Carbon::parse( $event->getEnd()->dateTime );
+
+									// Check if there is an event level timezone
+									if( $event->getEnd()->timeZone && 'use_calendar' == $this->timezone_setting ) {
+
+										// Get the two different times with the separate timezones so we can check the offsets next
+										$google_start1 = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, $date->timezone );
+										$google_start2 = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, $event->getEnd()->timeZone );
+
+										// Get the offset in hours
+										$offset1 = $google_start1->offsetHours;
+										$offset2 = $google_start2->offsetHours;
+
+										// Get the difference between the two timezones
+										$total_offset = ( $offset2 - $offset1 );
+
+										// Add the hours offset to the date hour
+										$date->hour += $total_offset;
+									}
+
 									$google_end     = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, $end_timezone );
 									$google_end_utc = Carbon::create( $date->year, $date->month, $date->day, $date->hour, $date->minute, $date->second, 'UTC' );
 								}
