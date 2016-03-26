@@ -82,6 +82,11 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.0.16 - TODO =
+
+* Fix: Multiple events at the same time on a grouped calendar should now show correctly.
+* Fix: Fixed PHP notice when adding a new calendar.
+
 = 3.0.15 - March 19, 2016 =
 
 * Fix: Timezone issues with event source option should now work correctly.
