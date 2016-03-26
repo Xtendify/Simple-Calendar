@@ -204,7 +204,14 @@ class Objects {
 				return $this->get_object( $feed_name, 'feed', $object );
 			} elseif ( $object instanceof \WP_Post ) {
 				$calendar = $this->get_calendar( $object );
-				return $this->get_object( $calendar->feed, 'feed', $calendar );
+
+				if ( isset( $calendar->feed ) ) {
+					return $this->get_object( $calendar->feed, 'feed', $calendar );
+				} else {
+					return null;
+				}
+
+
 			} elseif ( isset( $object->feed ) && isset( $object->id ) ) {
 				return $this->get_object( $object->feed, 'feed', $object );
 			}
