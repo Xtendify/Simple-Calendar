@@ -129,10 +129,7 @@ class Grouped_Calendars extends Feed {
 					// When merging the arrays together some of the events will be lost because the keys are the same and one will overwrite the other
 					// This snippet checks if the key already exists in the master events array and if it does it subtracts 1 from it to make the key unique and then unsets the original key.
 					foreach( $calendar->events as $k => $v ) {
-						if ( array_key_exists( $k, $events ) ) {
-							$calendar->events[ $k - 1 ] = $v;
-							unset( $k );
-						}
+						$calendar->events[ $this->update_array_timestamp( $events, $k ) ] = $v;
 					}
 
 					$events = is_array( $calendar->events ) ? $events + $calendar->events : $events;
@@ -167,6 +164,18 @@ class Grouped_Calendars extends Feed {
 		uasort( $events, array( $this, 'sort_by_start_time' ) );
 
 		return $events;
+	}
+
+	/*
+	 * Recursive function to adjust the timestamp array indices that are the same.
+	 */
+	public function update_array_timestamp( $arr, $i ) {
+
+		if ( array_key_exists( $i, $arr ) ) {
+			$i = $this->update_array_timestamp( $arr, $i - 1 );
+		}
+
+		return $i;
 	}
 
 	/**
