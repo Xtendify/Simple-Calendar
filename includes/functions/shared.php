@@ -227,7 +227,7 @@ function simcal_get_calendar_names_i18n( $group, $style = 'full' ) {
 		$format = '';
 		$length = 0;
 
-		$date = Carbon\Carbon::now();
+		$date = \Carbon\Carbon::now();
 
 		if ( 'month' == $group ) {
 			$date->month( 0 )->startOfMonth();
