@@ -278,6 +278,7 @@ class Google extends Feed {
 								'link'           => $link,
 								'visibility'     => $visibility,
 								'uid'            => $event->getICalUID(),
+								'realUid'        => $event->id,
 								'calendar'       => $this->post_id,
 								'timezone'       => $this->timezone,
 								'start'          => $start,

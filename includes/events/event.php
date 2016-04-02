@@ -84,6 +84,15 @@ class Event {
 	public $uid = '';
 
 	/**
+	 * Event real unique identifier.
+	 * The uid may not be unique if it is a recurring event!
+	 *
+	 * @access public
+	 * @var string
+	 */
+	public $realUid = '';
+
+	/**
 	 * Event parent calendar id.
 	 *
 	 * @access public
@@ -243,6 +252,10 @@ class Event {
 		// Event unique id.
 		if ( ! empty( $event['uid'] ) ) {
 			$this->uid = esc_attr( $event['uid'] );
+		}
+
+		if ( ! empty( $event['realUid'] ) ) {
+			$this->realUid = esc_attr( $event['realUid'] );
 		}
 
 		// Event source.
