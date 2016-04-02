@@ -457,7 +457,7 @@ class Event_Builder {
 				 * ======= */
 
 				default :
-					$resultCustom = SimpleCalendar_Events_Event_Builder_Do_Custom_Event_Tag($tag,$calendar->get_event_html( $event, $partial ),$attr);
+					$resultCustom = SimpleCalendar_Events_Event_Builder_Do_Custom_Event_Tag($tag,$partial,$attr,$event);
 					if ($resultCustom != "")
 						return $resultCustom;
 					return wp_kses_post( $before . $partial . $after );
@@ -972,8 +972,8 @@ function SimpleCalendar_Events_Event_Builder_Add_Custom_Event_Tags()
 }
 
 //allow other plugins to replace own (registered) event tags with their value
-function SimpleCalendar_Events_Event_Builder_Do_Custom_Event_Tag($tag,$partial,$attr)
+function SimpleCalendar_Events_Event_Builder_Do_Custom_Event_Tag($tag,$partial,$attr,$event)
 {
-	$returnvalue = apply_filters('SimpleCalendar_Events_Event_Builder_Do_Custom_Event_Tag',"",$tag,$partial,$attr);
+	$returnvalue = apply_filters('SimpleCalendar_Events_Event_Builder_Do_Custom_Event_Tag',"",$tag,$partial,$attr,$event);
 	return $returnvalue;
 }
