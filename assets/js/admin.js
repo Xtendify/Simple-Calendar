@@ -118,8 +118,10 @@
 			console.log( 'Calendar type: ', $(this).val() );
 
 			$( 'label[for*="_calendar_view_"]').hide();
+			$( '#calendar-settings-panel table[id*="-settings"]').hide();
 
 			$('label[for="_calendar_view_' + $(this).val() + '"]').show();
+			$( '#calendar-settings-panel table[id="' + $(this).val() + '-settings"]').show();
 		}).trigger( 'change' );
 
 		/* ============ *
