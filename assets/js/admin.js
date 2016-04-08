@@ -117,7 +117,7 @@
 		calendar_type.on( 'change', function() {
 			console.log( 'Calendar type: ', $(this).val() );
 
-			$( 'label[for*="_calendar_view_"').hide();
+			$( 'label[for*="_calendar_view_"]').hide();
 
 			$('label[for="_calendar_view_' + $(this).val() + '"]').show();
 		}).trigger( 'change' );
