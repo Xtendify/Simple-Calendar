@@ -87,6 +87,7 @@ We'd love your help! Here's a few things you can do:
 * Fix: Multiple events at the same time on a grouped calendar should now show correctly.
 * Fix: PHP notice when adding a new calendar should no longer appear.
 * Fix: Issues with Carbon fatal error should not happen.
+* Dev: Tested up to WordPress 4.5.
 
 = 3.0.15 - March 19, 2016 =
 
