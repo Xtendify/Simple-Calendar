@@ -175,7 +175,7 @@ abstract class Field {
 			$this->options = array_map( 'esc_attr', $field['options'] );
 		}
 		if ( isset( $field['text'] ) ) {
-			$this->text = esc_attr( $field['text'] );
+			$this->text = $field['text'];
 		}
 
 		// Escaping.
