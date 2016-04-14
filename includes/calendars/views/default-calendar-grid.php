@@ -116,7 +116,7 @@ class Default_Calendar_Grid implements Calendar_View {
 	public function scripts( $min = '' ) {
 		return array(
 			'simcal-qtip' => array(
-				'src'       => SIMPLE_CALENDAR_ASSETS . 'js/vendor/qtip' . $min . '.js',
+				'src'       => SIMPLE_CALENDAR_ASSETS . 'js/vendor/jquery.qtip' . $min . '.js',
 				'deps'      => array( 'jquery' ),
 				'ver'       => '2.2.1',
 				'in_footer' => true,
@@ -150,12 +150,20 @@ class Default_Calendar_Grid implements Calendar_View {
 	public function styles( $min = '' ) {
 		return array(
 			'simcal-qtip' => array(
-				'src'   => SIMPLE_CALENDAR_ASSETS . 'css/vendor/qtip' . $min . '.css',
+				'src'   => SIMPLE_CALENDAR_ASSETS . 'css/vendor/jquery.qtip' . $min . '.css',
 				'ver'   => '2.2.1',
 				'media' => 'all',
 			),
 			'simcal-default-calendar-grid' => array(
 				'src'   => SIMPLE_CALENDAR_ASSETS . 'css/default-calendar-grid' . $min . '.css',
+				'deps'  => array(
+					'simcal-qtip',
+				),
+				'ver'   => SIMPLE_CALENDAR_VERSION,
+				'media' => 'all',
+			),
+			'simcal-default-calendar-list' => array(
+				'src'   => SIMPLE_CALENDAR_ASSETS . 'css/default-calendar-list' . $min . '.css',
 				'deps'  => array(
 					'simcal-qtip',
 				),

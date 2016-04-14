@@ -114,65 +114,20 @@ class Assets {
 	 *
 	 * @since 3.0.0
 	 */
-	public function load()
-	{
+	public function load() {
 
-		/*$scripts = $this->get_default_scripts();
-		$styles  = $this->get_default_styles();
+		$types = simcal_get_calendar_types();
 
-		$this->scripts = apply_filters( 'simcal_front_end_scripts', $scripts, $this->min );
-		$this->styles  = apply_filters( 'simcal_front_end_styles', $styles, $this->min );
+		foreach ( $types as $calendar => $views ) {
+			foreach( $views as $key => $view ) {
 
-		$this->load_scripts( $this->scripts );
-		$this->load_styles( $this->styles );*/
+				$view = simcal_get_calendar_view( 0, $calendar . '-' . $view );
 
-
-		/*** TODO: This is the old code below ***/
-
-		$id = 0;
-		$cal_id = array();
-		$scripts = $styles = array();
-		if ( is_singular() ) {
-
-			global $post, $post_type;
-
-			if ( 'calendar' == $post_type ) {
-
-				$id = get_queried_object_id();
-
-				$view = simcal_get_calendar_view( $id );
-
-				if ( $view instanceof Calendar_View ) {
-					$scripts[] = $view->scripts( $this->min );
-					$styles[]  = $view->styles( $this->min );
-				}
-			} else {
-				$id = absint( get_post_meta( $post->ID, '_simcal_attach_calendar_id', true ) );
-				if ( $id === 0 ) {
-					preg_match_all( '/' . get_shortcode_regex() . '/s', $post->post_content, $matches, PREG_SET_ORDER );
-					if ( ! empty( $matches ) && is_array( $matches ) ) {
-						foreach ( $matches as $shortcode ) {
-							if ( 'calendar' === $shortcode[2] || 'gcal' === $shortcode[2] ) {
-								$atts = shortcode_parse_atts( $shortcode[3] );
-								$cal_id[]   = isset( $atts['id'] ) ? intval( $atts['id'] ) : 0;
-							}
-						}
-					}
-				}
+				$scripts[] = $view->scripts( $this->min );
+				$styles[] = $view->styles( $this->min );
 			}
 		}
 
-		foreach( $cal_id as $i ) {
-			if ( $i > 0 ) {
-
-				$view = simcal_get_calendar_view( $i );
-
-				if ( $view instanceof Calendar_View ) {
-					$scripts[] = $view->scripts( $this->min );
-					$styles[] = $view->styles( $this->min );
-				}
-			}
-		}
 		$this->get_widgets_assets();
 		$this->scripts = apply_filters( 'simcal_front_end_scripts', $scripts, $this->min );
 		// First check if there is a multi-dimensional array of scripts
@@ -300,64 +255,4 @@ class Assets {
 
 		}
 	}
-
-	/**
-	 * Return the default scripts that are loaded. Used mainly for the always enqueue scripts option.
-	 *
-	 * This can be improved.
-	 */
-	public function get_default_scripts() {
-		return array(
-			'simcal-qtip' => array(
-				'src'       => SIMPLE_CALENDAR_ASSETS . 'js/vendor/jquery.qtip' . $this->min . '.js',
-				'deps'      => array( 'jquery' ),
-				'ver'       => '2.2.1',
-				'in_footer' => true,
-			),
-			'simcal-default-calendar' => array(
-				'src'       => SIMPLE_CALENDAR_ASSETS . 'js/default-calendar' . $this->min . '.js',
-				'deps'      => array(
-					'jquery',
-					'simcal-qtip',
-				),
-				'var'       => SIMPLE_CALENDAR_VERSION,
-				'in_footer' => true,
-				'localize'  => array(
-					'simcal_default_calendar' => simcal_common_scripts_variables(),
-				),
-			),
-		);
-	}
-
-	/**
-	 * Return the default styles that are loaded. Used mainly for the always enqueue scripts option.
-	 *
-	 * This can be improved.
-	 */
-	public function get_default_styles() {
-		return array(
-			'simcal-qtip' => array(
-				'src'   => SIMPLE_CALENDAR_ASSETS . 'css/vendor/jquery.qtip' . $this->min . '.css',
-				'ver'   => '2.2.1',
-				'media' => 'all',
-			),
-			'simcal-default-calendar-grid' => array(
-				'src'   => SIMPLE_CALENDAR_ASSETS . 'css/default-calendar-grid' . $this->min . '.css',
-				'deps'  => array(
-					'simcal-qtip',
-				),
-				'ver'   => SIMPLE_CALENDAR_VERSION,
-				'media' => 'all',
-			),
-			'simcal-default-calendar-list' => array(
-				'src'   => SIMPLE_CALENDAR_ASSETS . 'css/default-calendar-list' . $this->min . '.css',
-				'deps'  => array(
-					'simcal-qtip',
-				),
-				'ver'   => SIMPLE_CALENDAR_VERSION,
-				'media' => 'all',
-			),
-		);
-	}
-
 }
