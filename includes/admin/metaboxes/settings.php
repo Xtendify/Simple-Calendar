@@ -140,7 +140,7 @@ class Settings implements Meta_Box {
 			}
 
 			?>
-			<label for="_calendar_type"><span><?php _e( 'Calendar', 'google-calendar-events' ); ?></span>
+			<label for="_calendar_type"><span><?php _e( 'Calendar Type', 'google-calendar-events' ); ?></span>
 				<select name="_calendar_type" id="_calendar_type">
 					<optgroup label="<?php _e( 'Calendar to use', 'google-calendar-events' ); ?>">
 						<?php foreach ( $calendar_options as $calendar => $name ) { ?>
