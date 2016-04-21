@@ -115,7 +115,6 @@
 		var calendar_type = $( '#_calendar_type' );
 
 		calendar_type.on( 'change', function() {
-			console.log( 'Calendar type: ', $(this).val() );
 
 			$( 'label[for*="_calendar_view_"]').hide();
 			$( '#calendar-settings-panel table[id*="-settings"]').hide();
