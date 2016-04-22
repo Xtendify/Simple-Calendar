@@ -82,6 +82,8 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.1.0 - TODO =
+
 = 3.0.16 - March 30, 2016 =
 
 * Fix: Multiple events at the same time on a grouped calendar should now show correctly.
