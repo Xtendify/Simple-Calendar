@@ -460,6 +460,7 @@ class Settings implements Meta_Box {
 						'id'      => '_calendar_is_static',
 						'tooltip' => __( 'Remove the navigation arrows and fix the calendar view to its initial state.', 'google-calendar-events' ),
 						'value'   => 'yes' == $fixed ? 'yes' : 'no',
+						'text'    => __( 'Yes (hide navigation arrows)', 'google-calendar-events' ),
 					) );
 
 					?>
