@@ -90,8 +90,8 @@ module.exports = function( grunt ) {
 				cwd: 'bower_components/',
 				flatten: true,
 				src: [
-					'qtip2/jquery.qtip.css',
-					'qtip2/jquery.qtip.min.css',
+					//'qtip2/jquery.qtip.css',
+					//'qtip2/jquery.qtip.min.css',
 					'select2/dist/css/select2.css',
 					'select2/dist/css/select2.min.css'
 				],
@@ -106,9 +106,9 @@ module.exports = function( grunt ) {
 					'imagesloaded/imagesloaded.pkgd.min.js',
 					'jquery-tiptip/jquery.tipTip.js',
 					'jquery-tiptip/jquery.tipTip.minified.js',
-					'qtip2/jquery.qtip.js',
-					'qtip2/jquery.qtip.min.js',
-					'qtip2/jquery.qtip.min.map', // Include .map file for qTip2
+					//'qtip2/jquery.qtip.js',
+					//'qtip2/jquery.qtip.min.js',
+					//'qtip2/jquery.qtip.min.map', // Include .map file for qTip2
 					'select2/dist/js/select2.js', // Using "non-full" version
 					'select2/dist/js/select2.min.js'
 				],
