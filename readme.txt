@@ -85,6 +85,7 @@ We'd love your help! Here's a few things you can do:
 = 3.1.0 - TODO =
 
 * Fix: qTips arrow should line up with events more accurately.
+* Fix: Cache interval will now update correctly when saved.
 * Tweak: [id] event builder code no longer includes '@google.com'.
 * Dev: Switch to custom version of qTip library instead of bower.
 
