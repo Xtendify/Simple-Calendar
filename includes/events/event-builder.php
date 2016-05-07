@@ -272,7 +272,7 @@ class Event_Builder {
 				case 'id' :
 				case 'uid' :
 				case 'event-id' :
-					return $event->uid;
+					return strstr( $event->uid, '@', true );
 
 				case 'calendar-id' :
 				case 'cal-id' :
