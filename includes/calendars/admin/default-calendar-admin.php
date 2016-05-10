@@ -347,6 +347,7 @@ class Default_Calendar_Admin {
 						'name'    => '_default_calendar_style_today',
 						'id'      => '_default_calendar_style_today',
 						'value'   => $value,
+						'tooltip' => __( "This option will set the background color for today's date. It will change the day number background and the border around the current day.", 'google-calendar-events' ),
 					) );
 
 					?>
@@ -366,6 +367,7 @@ class Default_Calendar_Admin {
 						'name'    => '_default_calendar_style_days_events',
 						'id'      => '_default_calendar_style_days_events',
 						'value'   => $value,
+						'tooltip' => __( 'This setting will modify the day number background for any days that have events on them.', 'google-calendar-events' ),
 					) );
 
 					?>
