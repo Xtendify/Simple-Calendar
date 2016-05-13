@@ -124,8 +124,8 @@ class Ajax {
 
 		// Update license in db.
 		$keys = get_option( 'simple-calendar_settings_licenses', array() );
-		$new_keys = array_merge( (array) $keys, array( 'keys' => array( $addon => $key ) ) );
-		update_option( 'simple-calendar_settings_licenses', $new_keys );
+		$keys['keys'][ $addon ] = $key;
+		update_option( 'simple-calendar_settings_licenses', $keys );
 
 		// Make sure there is a response.
 		if ( is_wp_error( $response ) ) {
