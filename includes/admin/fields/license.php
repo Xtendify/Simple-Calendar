@@ -49,7 +49,7 @@ class License extends Field {
 
 		if ( ! empty( $this->addon ) ) {
 
-			$status = simcal_get_license_status( $this->addon );
+			$status = apply_filters( 'edd_test', simcal_get_license_status( $this->addon ) );
 
 			if ( $status !== 'valid' ) {
 				$display_activate = 'display: inline-block';
