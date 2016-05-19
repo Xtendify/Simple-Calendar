@@ -222,7 +222,7 @@ class Welcome {
 
 				<?php $this->intro(); ?>
 
-				<h3><?php _e( 'Modern calendar displays with easily updateable event text and color options.', 'google-calendar-events' ); ?></h3>
+				<h3><?php _e( 'Modern calendar displays with easily updatable event text and color options.', 'google-calendar-events' ); ?></h3>
 				<img src="<?php echo $welcome_image_about_path . '/grid-view-custom-colors.png'; ?>" />
 
 				<h3><?php _e( 'Mobile responsive and widget ready.', 'google-calendar-events' ); ?></h3>
