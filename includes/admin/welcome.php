@@ -213,6 +213,9 @@ class Welcome {
 		$welcome_image_about_path = SIMPLE_CALENDAR_ASSETS . '/images/welcome';
 		$welcome_gcal_pro_link = simcal_ga_campaign_url( simcal_get_url( 'gcal-pro' ), 'core-plugin', 'welcome-page' );
 
+		// TODO: Change URL to FullCalendar product
+		$welcome_fullcalendar_link = simcal_ga_campaign_url( simcal_get_url( 'gcal-pro' ), 'core-plugin', 'welcome-page' );
+
 		?>
 		<div id="simcal-welcome">
 			<div class="wrap about-wrap whats-new-wrap">
@@ -229,7 +232,12 @@ class Welcome {
 				<h3><?php _e( 'Simpler, more intuitive calendar settings.', 'google-calendar-events' ); ?></h3>
 				<img src="<?php echo $welcome_image_about_path . '/calendar-settings-appearance.png'; ?>" />
 
-				<h3><?php echo sprintf( __( 'Extendible with add-ons like <a href="%s" target="_blank">Google Calendar Pro</a>.', 'google-calendar-events' ), $welcome_gcal_pro_link ); ?></h3>
+				<h3><?php _e( 'Extendible with add-ons.', 'google-calendar-events' ); ?></h3>
+
+				<h3><a href="<?php echo $welcome_fullcalendar_link; ?>"><?php _e( 'FullCalendar', 'google-calendar-events' ); ?></a></h3>
+				<a href="<?php echo $welcome_fullcalendar_link; ?>" target="_blank"><img width="800" src="<?php echo $welcome_image_about_path . '/fullcalendar-week-view.png'; ?>" /></a>
+
+				<h3><a href="<?php echo $welcome_gcal_pro_link; ?>"><?php _e( 'Google Calendar Pro', 'google-calendar-events' ); ?></a></h3>
 				<a href="<?php echo $welcome_gcal_pro_link; ?>" target="_blank"><img src="<?php echo $welcome_image_about_path . '/google-calendar-pro-list-view-annotated.png'; ?>" /></a>
 
 				<hr/>
