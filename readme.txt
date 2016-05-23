@@ -86,8 +86,12 @@ We'd love your help! Here's a few things you can do:
 
 * Fix: qTips arrow should line up with events more accurately.
 * Fix: Cache interval will now update correctly when saved.
+* Fix: Bullet colors now work with Google Calendar Pro event color option.
 * Tweak: [id] event builder code no longer includes '@google.com'.
+* Tweak: Various admin UI updates.
 * Dev: Switch to custom version of qTip library instead of bower.
+* Dev: Updated Grunt packages.
+* Dev: Duplicate dropdowns when adding a custom view are now handled properly with JS.
 
 = 3.0.16 - March 30, 2016 =
 
