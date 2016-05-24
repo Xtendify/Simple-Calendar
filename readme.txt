@@ -7,7 +7,7 @@ Stable tag: 3.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Add Google Calendar events to your WordPress site in minutes. Beautiful calendar displays. Fully responsive.
+Add Google Calendar events to your WordPress site in minutes. Beautiful calendar displays. Mobile responsive.
 
 == Description ==
 

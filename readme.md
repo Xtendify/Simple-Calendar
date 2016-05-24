@@ -4,7 +4,7 @@
 [![Dependency Status](https://gemnasium.com/moonstonemedia/Simple-Calendar.svg)](https://gemnasium.com/moonstonemedia/Simple-Calendar)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
-Add Google Calendar events to your WordPress site in minutes. Beautiful calendar displays. Fully responsive.
+Add Google Calendar events to your WordPress site in minutes. Beautiful calendar displays. Mobile responsive.
 
 [![Download from WordPress.org](https://raw.githubusercontent.com/moonstonemedia/Simple-Calendar/master/assets/images/wp/wordpress-download-btn.png)](https://wordpress.org/plugins/google-calendar-events/)
 
