@@ -36,7 +36,7 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 * Configure header navigation buttons to allow site visitors to easily switch between views.
 * Intuitive design for multi-day events.
 * Customizable calendar heights with optional scroll bars.
-* Works with our Google Calendar Pro add-on to display color-coded events within each view.
+* Works with our Google Calendar Pro add-on to display **color-coded events** within each view.
 * Priority email support and product updates for one year backed by a top-notch team.
 
 = Google Calendar Pro Add-on Features =
