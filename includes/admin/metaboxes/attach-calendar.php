@@ -56,8 +56,8 @@ class Attach_Calendar implements Meta_Box {
 			'name'      => '_simcal_attach_calendar_position',
 			'value'     => $position ? $position : 'after',
 			'options'   => array(
-				'after'  => __( 'After content', 'google-calendar-events' ),
-				'before' => __( 'Before content', 'google-calendar-events' ),
+				'after'  => __( 'After Content', 'google-calendar-events' ),
+				'before' => __( 'Before Content', 'google-calendar-events' ),
 			),
 		) );
 
