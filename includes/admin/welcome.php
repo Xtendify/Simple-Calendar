@@ -135,7 +135,7 @@ class Welcome {
 			<a href="<?php echo esc_url( add_query_arg( 'page', 'simple-calendar_settings', admin_url( 'admin.php' ) ) ); ?>"
 			   class="button button-primary"
 				><?php _e( 'Settings', 'google-calendar-events' ); ?></a>
-			<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'add-ons' ), 'core-plugin', 'welcome-page' ); ?>"
+			<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'addons' ), 'core-plugin', 'welcome-page' ); ?>"
 			   class="docs button button-primary" target="_blank"
 				><?php _e( 'Add-ons', 'google-calendar-events' ); ?></a>
 			<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'docs' ), 'core-plugin', 'welcome-page' ); ?>"
@@ -214,7 +214,7 @@ class Welcome {
 	 */
 	public function about_screen() {
 		$welcome_image_about_path = SIMPLE_CALENDAR_ASSETS . '/images/welcome';
-		$welcome_addons_link = simcal_ga_campaign_url( simcal_get_url( 'add-ons' ), 'core-plugin', 'welcome-page' );
+		$welcome_addons_link = simcal_ga_campaign_url( simcal_get_url( 'addons' ), 'core-plugin', 'welcome-page' );
 
 		?>
 		<div id="simcal-welcome">

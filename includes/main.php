@@ -237,7 +237,7 @@ final class Plugin {
 			case 'codex' :
 			case 'apidocs' :
 				return 'http://codex.simplecalendar.io';
-			case 'add-ons' :
+			case 'addons' :
 				return self::$homepage . '/addons/';
 			case 'gcal-pro' :
 				return self::$homepage . '/addons/google-calendar-pro/';

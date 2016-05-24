@@ -142,7 +142,7 @@ class Menus {
 		if ( self::$plugin == $file ) {
 
 			$links = array();
-			$links['add-ons'] = '<a href="' . simcal_ga_campaign_url( simcal_get_url( 'add-ons' ), 'core-plugin', 'plugin-listing' ) . '" target="_blank" >' .
+			$links['add-ons'] = '<a href="' . simcal_ga_campaign_url( simcal_get_url( 'addons' ), 'core-plugin', 'plugin-listing' ) . '" target="_blank" >' .
 			                           __( 'Add-ons', 'google-calendar-events' ) . '</a>';
 
 			return apply_filters( 'simcal_plugin_action_links', array_merge( $meta_links, $links ) );

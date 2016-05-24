@@ -323,7 +323,7 @@ function simcal_newsletter_signup() {
 				<div class="textright">
 					<em><?php _e( 'No spam. Unsubscribe anytime.', 'google-calendar-events' ); ?></em>
 					<br/>
-					<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'add-ons' ), 'core-plugin', 'sidebar-link' ); ?>"
+					<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'addons' ), 'core-plugin', 'sidebar-link' ); ?>"
 					   target="_blank"><?php _e( 'Just take me the add-ons', 'google-calendar-events' ); ?></a>
 				</div>
 			</div>
