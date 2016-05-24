@@ -92,7 +92,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.1.0 - TODO =
+= 3.1.0 - May 5, 2016 =
 
 * Fix: qTips arrow should line up with events more accurately.
 * Fix: Cache interval will now update correctly when saved.
