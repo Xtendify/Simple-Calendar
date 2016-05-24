@@ -74,7 +74,7 @@ class Advanced extends Admin_Page {
 				$fields[ $section ] = array(
 					'disable_css' => array(
 						'title'   => __( 'Disable CSS', 'google-calendar-events' ),
-						'tooltip' => __( 'If ticked, this option will prevent front end stylesheet to load.', 'google-calendar-events' ),
+						'tooltip' => __( 'If ticked, this option will prevent all front end stylesheets to load. This also includes all add-on stylesheets.', 'google-calendar-events' ),
 						'type'    => 'checkbox',
 						'name'    => 'simple-calendar_' . $this->option_group . '_' . $this->id . '[' . $section . '][disable_css]',
 						'id'      => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-' . $section . '-disable-css',

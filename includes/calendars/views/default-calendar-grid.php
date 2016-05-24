@@ -404,6 +404,8 @@ class Default_Calendar_Grid implements Calendar_View {
 			// Print events for the current day in loop, if found any.
 			if ( isset( $day_events[ $day ] ) ) :
 
+				$bullet_colors = array();
+
 				$list_events = '<ul class="simcal-events">';
 
 				foreach ( $day_events[ $day ] as $event ) :
@@ -441,9 +443,13 @@ class Default_Calendar_Grid implements Calendar_View {
 
 						// Event color.
 						$bullet = '';
+						//$bullet_color = '#000';
 						$event_color = $event->get_color();
 						if ( ! empty( $event_color ) ) {
 							$bullet = '<span style="color: ' . $event_color . ';">&#9632;</span> ';
+							$bullet_colors[] = $event_color;
+						} else {
+							$bullet_colors[] = '#000';
 						}
 
 						// Event contents.
@@ -503,7 +509,7 @@ class Default_Calendar_Grid implements Calendar_View {
 
 			// Event bullets for calendar mobile mode.
 			for( $i = 0; $i < $count; $i++ ) {
-				echo '<b> &bull; </b>';
+				echo '<b style="color: ' . $bullet_colors[ $i ] . ';"> &bull; </b>';
 			}
 
 			echo '</span>' . "\n";

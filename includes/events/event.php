@@ -84,6 +84,11 @@ class Event {
 	public $uid = '';
 
 	/**
+	 * Event iCal ID
+	 */
+	public $ical_id = '';
+
+	/**
 	 * Event parent calendar id.
 	 *
 	 * @access public
@@ -243,6 +248,11 @@ class Event {
 		// Event unique id.
 		if ( ! empty( $event['uid'] ) ) {
 			$this->uid = esc_attr( $event['uid'] );
+		}
+
+		// iCal ID
+		if ( ! empty( $event['ical_id'] ) ) {
+			$this->ical_id = esc_attr( $event['ical_id'] );
 		}
 
 		// Event source.

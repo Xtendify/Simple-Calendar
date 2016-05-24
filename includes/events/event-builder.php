@@ -106,6 +106,7 @@ class Event_Builder {
 
 			'id',                    // The event unique ID.
 			'uid',                   // An alias of ID.
+			'ical-id',               // iCal ID.
 			'event-id',              // @deprecated An alias for 'id' tag.
 			'calendar-id',           // The calendar ID.
 			'feed-id',               // @deprecated An alias for 'calendar-id' tag.
@@ -273,6 +274,9 @@ class Event_Builder {
 				case 'uid' :
 				case 'event-id' :
 					return $event->uid;
+
+				case 'ical-id' :
+					return $event->ical_id;
 
 				case 'calendar-id' :
 				case 'cal-id' :

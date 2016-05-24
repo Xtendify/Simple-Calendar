@@ -238,11 +238,11 @@ class Settings implements Meta_Box {
 		?>
 		<table>
 			<thead>
-			<tr><th colspan="2"><?php _e( 'Events setting', 'google-calendar-events' ); ?></th></tr>
+			<tr><th colspan="2"><?php _e( 'Event Settings', 'google-calendar-events' ); ?></th></tr>
 			</thead>
 			<tbody class="simcal-panel-section simcal-panel-section-events-range">
 			<tr class="simcal-panel-field">
-				<th><label for="_calendar_begins"><?php _e( 'Calendar start', 'google-calendar-events' ); ?></label></th>
+				<th><label for="_calendar_begins"><?php _e( 'Calendar Start', 'google-calendar-events' ); ?></label></th>
 				<td>
 					<?php
 
@@ -350,7 +350,7 @@ class Settings implements Meta_Box {
 				</td>
 			</tr>
 			<tr class="simcal-panel-field">
-				<th><label for="_feed_earliest_event_date"><?php _e( 'Earliest event', 'google-calendar-events' ); ?></label></th>
+				<th><label for="_feed_earliest_event_date"><?php _e( 'Earliest Event', 'google-calendar-events' ); ?></label></th>
 				<td>
 					<?php
 
@@ -388,7 +388,7 @@ class Settings implements Meta_Box {
 				</td>
 			</tr>
 			<tr class="simcal-panel-field">
-				<th><label for="_feed_latest_event_date"><?php _e( 'Latest event', 'google-calendar-events' ); ?></label></th>
+				<th><label for="_feed_latest_event_date"><?php _e( 'Latest Event', 'google-calendar-events' ); ?></label></th>
 				<td>
 					<?php
 
@@ -448,7 +448,7 @@ class Settings implements Meta_Box {
 			</thead>
 			<tbody class="simcal-panel-section">
 			<tr class="simcal-panel-field">
-				<th><label for="_calendar_is_static"><?php _e( 'Static calendar', 'google-calendar-events' ); ?></label></th>
+				<th><label for="_calendar_is_static"><?php _e( 'Static Calendar', 'google-calendar-events' ); ?></label></th>
 				<td>
 					<?php
 
@@ -460,13 +460,14 @@ class Settings implements Meta_Box {
 						'id'      => '_calendar_is_static',
 						'tooltip' => __( 'Remove the navigation arrows and fix the calendar view to its initial state.', 'google-calendar-events' ),
 						'value'   => 'yes' == $fixed ? 'yes' : 'no',
+						'text'    => __( 'Yes (hide navigation arrows)', 'google-calendar-events' ),
 					) );
 
 					?>
 				</td>
 			</tr>
 			<tr class="simcal-panel-field">
-				<th><label for="_no_events_message"><?php _e( 'No events message', 'google-calendar-events' ); ?></label></th>
+				<th><label for="_no_events_message"><?php _e( 'No Events Message', 'google-calendar-events' ); ?></label></th>
 				<td>
 					<?php
 
@@ -569,7 +570,7 @@ class Settings implements Meta_Box {
 				</td>
 			</tr>
 			<tr class="simcal-panel-field">
-				<th><label for="_calendar_date_format_setting"><?php _e( 'Date format', 'google-calendar-events' ); ?></label></th>
+				<th><label for="_calendar_date_format_setting"><?php _e( 'Date Format', 'google-calendar-events' ); ?></label></th>
 				<td>
 					<?php
 
@@ -641,7 +642,7 @@ class Settings implements Meta_Box {
 				</td>
 			</tr>
 			<tr class="simcal-panel-field">
-				<th><label for="_calendar_time_format_setting"><?php _e( 'Time format', 'google-calendar-events' ); ?></label></th>
+				<th><label for="_calendar_time_format_setting"><?php _e( 'Time Format', 'google-calendar-events' ); ?></label></th>
 				<td>
 					<?php
 
@@ -690,7 +691,7 @@ class Settings implements Meta_Box {
 				</td>
 			</tr>
 			<tr class="simcal-panel-field">
-				<th><label for="_calendar_week_starts_on_setting"><?php _e( 'Week starts on', 'google-calendar-events' ); ?></label></th>
+				<th><label for="_calendar_week_starts_on_setting"><?php _e( 'Week Starts On', 'google-calendar-events' ); ?></label></th>
 				<td>
 					<?php
 
@@ -732,12 +733,13 @@ class Settings implements Meta_Box {
 
 			$cache_freq = esc_attr( get_post_meta( $post->ID, '_feed_cache_user_amount', true ) );
 			$cache_unit = esc_attr( get_post_meta( $post->ID, '_feed_cache_user_unit', true ) );
-			$cache_freq = is_int( $cache_freq ) && $cache_freq >= 0 ? $cache_freq : '2';
+
+			$cache_freq = intval( $cache_freq ) && $cache_freq >= 0 ? $cache_freq : 2;
 			$cache_unit = $cache_unit ? $cache_unit : '3600';
 
 			?>
 			<tr class="simcal-panel-field">
-				<th><label for="_feed_cache_user_amount"><?php _ex( 'Refresh interval', 'Cache maximum interval', 'google-calendar-events' ); ?></label></th>
+				<th><label for="_feed_cache_user_amount"><?php _ex( 'Refresh Interval', 'Cache maximum interval', 'google-calendar-events' ); ?></label></th>
 				<td>
 					<input type="number"
 						   name="_feed_cache_user_amount"

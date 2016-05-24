@@ -297,7 +297,7 @@ function simcal_newsletter_signup() {
 		<div id="simcal-drip" class="<?php echo $screen; ?>">
 			<div class="signup">
 				<p>
-					<?php _e( "Enter your name and email and we'll send you a coupon code for 20% off our Google Calendar Pro add-on.", 'google-calendar-events' ); ?>
+					<?php _e( "Enter your name and email and we'll send you a coupon code for <strong>20% off</strong> all Pro Add-on purchases.", 'google-calendar-events' ); ?>
 				</p>
 
 				<p>
@@ -321,8 +321,10 @@ function simcal_newsletter_signup() {
 					   class="button button-primary"><?php _e( 'Send me the coupon', 'google-calendar-events' ); ?></a>
 				</p>
 				<div class="textright">
-					<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'gcal-pro' ), 'core-plugin', 'sidebar-link' ); ?>"
-					   target="_blank"><?php _e( 'Just take me to GCal Pro', 'google-calendar-events' ); ?></a>
+					<em><?php _e( 'No spam. Unsubscribe anytime.', 'google-calendar-events' ); ?></em>
+					<br/>
+					<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'addons' ), 'core-plugin', 'sidebar-link' ); ?>"
+					   target="_blank"><?php _e( 'Just take me the add-ons', 'google-calendar-events' ); ?></a>
 				</div>
 			</div>
 			<div class="thank-you" style="display: none;">

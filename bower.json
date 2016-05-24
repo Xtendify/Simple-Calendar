@@ -4,7 +4,6 @@
   "devDependencies": {
     "imagesloaded": "4.x",
     "jquery-tiptip": "master",
-    "qtip2": "2.x",
     "select2": "4.x"
   }
 }
