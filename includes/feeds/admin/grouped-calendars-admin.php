@@ -81,11 +81,11 @@ class Grouped_Calendars_Admin {
 		<div id="grouped-calendars-settings-panel" class="simcal-panel">
 			<table>
 				<thead>
-				<tr><th colspan="2"><?php _e( 'Grouped Calendar settings', 'google-calendar-events' ); ?></th></tr>
+				<tr><th colspan="2"><?php _e( 'Grouped Calendar Settings', 'google-calendar-events' ); ?></th></tr>
 				</thead>
 				<tbody class="simcal-panel-section">
 				<tr class="simcal-panel-field">
-					<th><label for="_grouped_calendars_source"><?php _e( 'Get calendars from', 'google-calendar-events' ); ?></label></th>
+					<th><label for="_grouped_calendars_source"><?php _e( 'Get Calendars From', 'google-calendar-events' ); ?></label></th>
 					<td>
 						<?php
 

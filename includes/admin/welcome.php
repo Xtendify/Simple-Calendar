@@ -135,7 +135,7 @@ class Welcome {
 			<a href="<?php echo esc_url( add_query_arg( 'page', 'simple-calendar_settings', admin_url( 'admin.php' ) ) ); ?>"
 			   class="button button-primary"
 				><?php _e( 'Settings', 'google-calendar-events' ); ?></a>
-			<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'add-ons' ), 'core-plugin', 'welcome-page' ); ?>"
+			<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'addons' ), 'core-plugin', 'welcome-page' ); ?>"
 			   class="docs button button-primary" target="_blank"
 				><?php _e( 'Add-ons', 'google-calendar-events' ); ?></a>
 			<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'docs' ), 'core-plugin', 'welcome-page' ); ?>"
@@ -174,9 +174,12 @@ class Welcome {
 			echo $message;
 
 			/* translators: %s prints the current version of the plugin. */
-			printf( ' ' . __( "Simple Calendar %s has many new display options and is much easier to configure. We think you'll really enjoy using it.", 'google-calendar-events' ), SIMPLE_CALENDAR_VERSION );
-
+			printf( ' ' . __( "Simple Calendar %s has a few display options to configure. ", 'google-calendar-events' ), SIMPLE_CALENDAR_VERSION );
 			?>
+			<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'docs' ), 'core-plugin', 'welcome-page' ); ?>"
+			   target="_blank"
+			><?php _e( 'Check out our documentation', 'google-calendar-events' ); ?></a>
+			<?php _e( 'to get started now.', 'google-calendar-events' ); ?>
 		</div>
 
 		<div class="simcal-badge">&nbsp;</div>
@@ -211,7 +214,7 @@ class Welcome {
 	 */
 	public function about_screen() {
 		$welcome_image_about_path = SIMPLE_CALENDAR_ASSETS . '/images/welcome';
-		$welcome_gcal_pro_link = simcal_ga_campaign_url( simcal_get_url( 'gcal-pro' ), 'core-plugin', 'welcome-page' );
+		$welcome_addons_link = simcal_ga_campaign_url( simcal_get_url( 'addons' ), 'core-plugin', 'welcome-page' );
 
 		?>
 		<div id="simcal-welcome">
@@ -219,18 +222,20 @@ class Welcome {
 
 				<?php $this->intro(); ?>
 
-				<h3><?php _e( 'Modern calendar displays with easily updateable event text and color options.', 'google-calendar-events' ); ?></h3>
-				<img src="<?php echo $welcome_image_about_path . '/grid-view-custom-colors.png'; ?>" />
+				<h3><?php _e( 'Configure event colors, number of events to display, grid or list style and more.', 'google-calendar-events' ); ?></h3>
+				<img src="<?php echo $welcome_image_about_path . '/grid-view-basic.png'; ?>" />
 
 				<h3><?php _e( 'Mobile responsive and widget ready.', 'google-calendar-events' ); ?></h3>
 				<img src="<?php echo $welcome_image_about_path . '/list-view-widget.png'; ?>" />
 				<img src="<?php echo $welcome_image_about_path . '/grid-view-widget-dark-theme.png'; ?>" />
 
-				<h3><?php _e( 'Simpler, more intuitive calendar settings.', 'google-calendar-events' ); ?></h3>
-				<img src="<?php echo $welcome_image_about_path . '/calendar-settings-appearance.png'; ?>" />
+				<h3>
+					<?php _e( 'Add even more display options with add-ons like', 'google-calendar-events' ); ?>
+					<a href="<?php echo $welcome_addons_link; ?>" target="_blank"><?php _e( 'FullCalendar and Google Calendar Pro', 'google-calendar-events' ); ?></a>.
+				</h3>
+				<a href="<?php echo $welcome_addons_link; ?>" target="_blank"><img src="<?php echo $welcome_image_about_path . '/fullcalendar-google-calendar-pro-grid-view.png'; ?>" /></a>
 
-				<h3><?php echo sprintf( __( 'Extendible with add-ons like <a href="%s" target="_blank">Google Calendar Pro</a>.', 'google-calendar-events' ), $welcome_gcal_pro_link ); ?></h3>
-				<a href="<?php echo $welcome_gcal_pro_link; ?>" target="_blank"><img src="<?php echo $welcome_image_about_path . '/google-calendar-pro-list-view-annotated.png'; ?>" /></a>
+				<h3><a href="<?php echo $welcome_addons_link; ?>" target="_blank"><?php _e( 'View pricing and try demos for all Simple Calendar Pro add-ons.', 'google-calendar-events' ); ?></a></h3>
 
 				<hr/>
 

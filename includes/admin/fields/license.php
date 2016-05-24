@@ -35,7 +35,7 @@ class License extends Field {
 	 * @param array $field
 	 */
 	public function __construct( $field ) {
-		$this->addon = isset( $field['addon'] ) ? esc_attr( $field['addon'] ) : '';
+		$this->addon      = isset( $field['addon'] ) ? esc_attr( $field['addon'] ) : '';
 		$this->type_class = 'simcal-field-license';
 		parent::__construct( $field );
 	}
@@ -49,17 +49,17 @@ class License extends Field {
 
 		if ( ! empty( $this->addon ) ) {
 
-			$status = simcal_get_license_status( $this->addon );
+			$status = apply_filters( 'simcal_addon_status_' . $this->addon, simcal_get_license_status( $this->addon ) );
 
-			if ( empty( $status ) || in_array( $status, array( 'valid', 'invalid', 'deactivated' ) ) ) {
-				$display_activate = 'display: inline-block';
+			if ( $status !== 'valid' ) {
+				$display_activate   = 'display: inline-block';
 				$display_deactivate = 'display: none';
-				$active = 'valid' == $status ? 'display: block' : 'display: none';
-				$disabled   = '';
+				$active             = 'valid' == $status ? 'display: block' : 'display: none';
+				$disabled           = '';
 			} else {
-				$display_activate = $active = 'display: none';
+				$display_activate   = $active = 'display: none';
 				$display_deactivate = 'display: inline-block';
-				$disabled = empty( $this->value ) ? '' : 'disabled="disabled"';
+				$disabled           = empty( $this->value ) ? '' : 'disabled="disabled"';
 			}
 
 			?>

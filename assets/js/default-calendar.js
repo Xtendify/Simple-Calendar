@@ -86,7 +86,7 @@
 
 							body.replaceWith( response.data );
 
-							calendarBubbles( calendar, list );
+							calendarBubbles( calendar );
 							expandEventsToggle();
 						},
 						error     : function( response ) {

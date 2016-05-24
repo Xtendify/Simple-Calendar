@@ -186,7 +186,7 @@ class Google_Admin {
 					'subtype'     => 'text',
 					'name'        => '_google_events_search_query',
 					'id'          => '_google_events_search_query',
-					'title'       => __( 'Search query', 'google-calendar-events' ),
+					'title'       => __( 'Search Query', 'google-calendar-events' ),
 					'tooltip'     => __( 'Type in keywords if you only want display events that match these terms. You can use basic boolean search operators too.', 'google-calendar-events' ),
 					'placeholder' => __( 'Filter events to display by search terms...', 'google-calendar-events' ),
 				),
@@ -194,7 +194,7 @@ class Google_Admin {
 					'type'    => 'select',
 					'name'    => '_google_events_recurring',
 					'id'      => '_google_events_recurring',
-					'title'   => __( 'Recurring events', 'google-calendar-events' ),
+					'title'   => __( 'Recurring Events', 'google-calendar-events' ),
 					'tooltip' => __( 'Events that are programmed to repeat themselves periodically.', 'google-calendar-events' ),
 					'options' => array(
 						'show' => __( 'Show all', 'google-calendar-events' ),
@@ -224,7 +224,7 @@ class Google_Admin {
 		<div id="google-settings-panel" class="simcal-panel">
 			<table>
 				<thead>
-					<tr><th colspan="2"><?php _e( 'Google Calendar settings', 'google-calendar-events' ); ?></th></tr>
+					<tr><th colspan="2"><?php _e( 'Google Calendar Settings', 'google-calendar-events' ); ?></th></tr>
 				</thead>
 				<?php Settings::print_panel_fields( $inputs, $post_id ); ?>
 			</table>
