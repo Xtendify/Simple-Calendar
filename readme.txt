@@ -87,7 +87,8 @@ We'd love your help! Here's a few things you can do:
 * Fix: qTips arrow should line up with events more accurately.
 * Fix: Cache interval will now update correctly when saved.
 * Fix: Mobile-view bullet colors now show custom event colors when used with the Google Calendar Pro add-on.
-* Tweak: [id] event builder code no longer includes '@google.com'.
+* Fix: [id] event builder code now just returns the event ID.
+* Feature: Added new template tag [ical-shortcode] to return the iCal ID.
 * Dev: Switched to set version of qTip library instead of latest release for compatibility issues.
 * Dev: Duplicate dropdowns when adding a custom view are now handled properly with JS.
 
