@@ -241,6 +241,8 @@ final class Plugin {
 				return self::$homepage . '/addons/';
 			case 'gcal-pro' :
 				return self::$homepage . '/addons/google-calendar-pro/';
+			case 'fullcal' :
+				return self::$homepage . '/addons/full-calendar/';
 			case 'docs' :
 				return 'http://docs.simplecalendar.io';
 			case 'github' :
