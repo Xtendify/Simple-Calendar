@@ -29,6 +29,16 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 
 >**[Love using Simple Calendar? Consider purchasing a Pro add-on](https://simplecalendar.io/addons/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)**
 
+= FullCalendar Add-on Features =
+
+* Introducing **month, week, and day views**.
+* Faster load times when navigating through months, weeks and days.
+* Configure header navigation buttons to allow site visitors to easily switch between views.
+* Intuitive design for multi-day events.
+* Customizable calendar heights with optional scroll bars.
+* Works with our Google Calendar Pro add-on to display color-coded events within each view.
+* Priority email support and product updates for one year backed by a top-notch team.
+
 = Google Calendar Pro Add-on Features =
 
 * Display events from both **private and public** Google Calendars.
@@ -37,8 +47,8 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 * Display event organizer information.
 * Display a list of attachments with links to their original source.
 * Secure connection established between your site and Google using the OAuth standard.
-* Priority email support and product updates for one year backed by a top-notch team.
 * Works with our FullCalendar add-on to display beautiful month, week and day views with color-coded events.
+* Priority email support and product updates for one year backed by a top-notch team.
 
 >**[Get ALL these features with our Pro add-ons](https://simplecalendar.io/addons/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)**
 
