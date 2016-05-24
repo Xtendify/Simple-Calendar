@@ -1,6 +1,6 @@
 === Simple Calendar - Google Calendar Plugin ===
 Contributors: moonstonemedia, pderksen, nickyoung87, nekojira, rosshanney
-Tags: calendar, calendars, calendar manager, custom calendar, custom calendars, event, events, events feed, google calendar, google
+Tags: google calendar, calendar, calendars, google, event calendar, custom calendar, custom calendars, event, events
 Requires at least: 4.1
 Tested up to: 4.5
 Stable tag: 3.1.0
