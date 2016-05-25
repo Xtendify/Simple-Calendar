@@ -235,7 +235,7 @@ class Welcome {
 				</h3>
 				<a href="<?php echo $welcome_addons_link; ?>" target="_blank"><img src="<?php echo $welcome_image_about_path . '/fullcalendar-google-calendar-pro-grid-view.png'; ?>" /></a>
 
-				<h3><a href="<?php echo $welcome_addons_link; ?>" target="_blank"><?php _e( 'View pricing and try demos for all Simple Calendar Pro add-ons.', 'google-calendar-events' ); ?></a></h3>
+				<h3><a href="<?php echo $welcome_addons_link; ?>" target="_blank"><?php _e( 'View Pricing and Try a Demo of our Simple Calendar Pro Add-ons.', 'google-calendar-events' ); ?></a></h3>
 
 				<hr/>
 
