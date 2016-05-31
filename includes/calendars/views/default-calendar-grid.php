@@ -193,7 +193,7 @@ class Default_Calendar_Grid implements Calendar_View {
 				<thead class="simcal-calendar-head">
 					<tr>
 						<?php if ( ! $calendar->static ) { ?>
-							<th class="simcal-nav simcal-prev-wrapper" colspan=colspan="<?php echo apply_filters( 'simcal_prev_cols', '1' ); ?>">
+							<th class="simcal-nav simcal-prev-wrapper" colspan="<?php echo apply_filters( 'simcal_prev_cols', '1' ); ?>">
 								<button class="simcal-nav-button simcal-month-nav simcal-prev" title="<?php _e( 'Previous Month', 'google-calendar-events' ); ?>"><i class="simcal-icon-left"></i></button>
 							</th>
 						<?php } ?>
