@@ -900,6 +900,10 @@ class Settings implements Meta_Box {
 		$event_formatting = isset( $_POST['_event_formatting'] ) ? sanitize_key( $_POST['_event_formatting'] ) : 'preserve_linebreaks';
 		update_post_meta( $post_id, '_event_formatting', $event_formatting );
 
+		// Powered by option
+		$poweredby = isset( $_POST['_poweredby'] ) ? 'yes' : 'no';
+		update_post_meta( $post_id, '_poweredby', $poweredby );
+
 		/* ======================= *
 		 * Advanced settings panel *
 		 * ======================= */
