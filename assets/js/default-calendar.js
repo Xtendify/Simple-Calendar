@@ -18,14 +18,14 @@
 				currentTime  = current.data( 'calendar-current' ),
 				currentMonth = current.find( 'span.simcal-current-month' ),
 				currentYear  = current.find( 'span.simcal-current-year' ),
-				currentDate  = new Date( currentTime * 1000 ),
+				currentDate  = moment.tz( currentTime * 1000, calendar.data( 'timezone' ) ),
 				date,
 				action;
 
 			if ( calendar.hasClass( 'simcal-default-calendar-grid' ) ) {
 				action = 'simcal_default_calendar_draw_grid';
 				// Always use the first of the month in grid.
-				date = new Date( currentDate.getFullYear(), currentDate.getMonth(), 1 );
+				date = new Date( currentDate.year(), currentDate.month() );
 				toggleGridNavButtons( buttons, date.getTime() / 1000, start, end );
 			} else {
 				action = 'simcal_default_calendar_draw_list';
