@@ -87,7 +87,7 @@ class Checkbox extends Field {
 				       class="simcal-field simcal-field-checkbox <?php echo $this->class; ?>"
 				       value="yes"
 					<?php checked( $this->value, 'yes', true ); ?>
-					<?php echo $this->attributes; ?>/><?php _e( 'Yes', 'google-calendar-events' ); ?>
+					<?php echo $this->attributes; ?>/><?php echo ( ! empty( $this->text ) ? $this->text : __( 'Yes', 'google-calendar-events' ) ); ?>
 			</span>
 			<?php
 

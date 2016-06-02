@@ -124,8 +124,8 @@ class Ajax {
 
 		// Update license in db.
 		$keys = get_option( 'simple-calendar_settings_licenses', array() );
-		$new_keys = array_merge( (array) $keys, array( 'keys' => array( $addon => $key ) ) );
-		update_option( 'simple-calendar_settings_licenses', $new_keys );
+		$keys['keys'][ $addon ] = $key;
+		update_option( 'simple-calendar_settings_licenses', $keys );
 
 		// Make sure there is a response.
 		if ( is_wp_error( $response ) ) {
@@ -135,17 +135,22 @@ class Ajax {
 		// Decode the license data and save.
 		$license_data = json_decode( wp_remote_retrieve_body( $response ) );
 		$status = simcal_get_license_status();
-		if ( 'deactivated' == $license_data->license  ) {
-			unset( $status[ $addon ] );
-			update_option( 'simple-calendar_licenses_status', $status );
-			wp_send_json_success( $license_data->license );
- 		} elseif ( in_array( $license_data->license, array( 'valid', 'invalid' ) ) ) {
-			$status[ $addon ] = $license_data->license;
-			update_option( 'simple-calendar_licenses_status', $status );
-			$message = 'valid' == $license_data->license ? 'valid' : __( 'License key is invalid.', 'google-calendar-events' );
-			wp_send_json_success( $message );
+
+		if ( ! empty( $license_data ) ) {
+			if ('deactivated' == $license_data->license) {
+				unset($status[$addon]);
+				update_option('simple-calendar_licenses_status', $status);
+				wp_send_json_success($license_data->license);
+			} elseif (in_array($license_data->license, array('valid', 'invalid'))) {
+				$status[$addon] = $license_data->license;
+				update_option('simple-calendar_licenses_status', $status);
+				$message = 'valid' == $license_data->license ? 'valid' : __('License key is invalid.', 'google-calendar-events');
+				wp_send_json_success($message);
+			} else {
+				wp_send_json_error( '' );
+			}
 		} else {
-			wp_send_json_error( '' );
+			wp_send_json_error( __( 'An error has occurred, please try again.', 'google-calendar-events' ) );
 		}
 	}
 

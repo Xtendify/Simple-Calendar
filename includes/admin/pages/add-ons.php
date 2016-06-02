@@ -50,7 +50,7 @@ class Add_Ons extends Admin_Page {
 
 		// @todo pull data from simplecalendar.io to showcase add-ons
 		$js_redirect = '<script type="text/javascript">';
-		$js_redirect .= 'window.location = "' . simcal_ga_campaign_url( simcal_get_url( 'add-ons' ), 'core-plugin', 'plugin-submenu-link', true ) . '"';
+		$js_redirect .= 'window.location = "' . simcal_ga_campaign_url( simcal_get_url( 'addons' ), 'core-plugin', 'plugin-submenu-link', true ) . '"';
 		$js_redirect .= '</script>';
 
 		echo $js_redirect;

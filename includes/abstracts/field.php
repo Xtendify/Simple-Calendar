@@ -131,6 +131,8 @@ abstract class Field {
 	 */
 	public $default = '';
 
+	public $text = '';
+
 	/**
 	 * Validation result.
 	 *
@@ -171,6 +173,9 @@ abstract class Field {
 		}
 		if ( isset( $field['options'] ) && is_array( $field['options'] ) ) {
 			$this->options = array_map( 'esc_attr', $field['options'] );
+		}
+		if ( isset( $field['text'] ) ) {
+			$this->text = $field['text'];
 		}
 
 		// Escaping.

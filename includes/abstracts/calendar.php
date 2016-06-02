@@ -478,6 +478,11 @@ abstract class Calendar {
 
 		$site_tz = esc_attr( simcal_get_wp_timezone() );
 
+		if ( $this->feed === 'grouped-calendars' ) {
+			$this->timezone = $site_tz;
+			return;
+		}
+
 		if ( empty( $tz ) ) {
 
 			$timezone_setting = get_post_meta( $this->id, '_feed_timezone_setting', true );

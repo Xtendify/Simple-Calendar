@@ -81,24 +81,12 @@ class Default_Calendar_Admin {
 		?>
 		<table id="default-calendar-settings">
 			<thead>
-			<tr><th colspan="2"><?php _e( 'Default calendar', 'google-calendar-events' ); ?></th></tr>
+			<tr><th colspan="2"><?php _e( 'Default Calendar', 'google-calendar-events' ); ?></th></tr>
 			</thead>
 			<tbody class="simcal-panel-section">
 
-			<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list" style="display: none;">
-				<th></th>
-				<td>
-					<p class="description">
-						<?php _e( "Tip: If calendar styles appear to be missing and/or navigation isn't working, try going to", 'google-calendar-events' ); ?>
-						<a href="<?php echo esc_url( add_query_arg( array ( 'page' => 'simple-calendar_settings', 'tab' => 'advanced' ), admin_url( 'admin.php' ) ) ); ?>">
-							<?php _e( 'Calendars &rarr; Settings &rarr; Advanced', 'google-calendar-events' ); ?></a>
-						<?php _e( 'and enable', 'google-calendar-events' ); ?> <strong><?php _e( 'Always Enqueue', 'google-calendar-events' ); ?></strong>.
-					</p>
-				</td>
-			</tr>
-			
 			<tr class="simcal-panel-field simcal-default-calendar-grid" style="display: none;">
-				<th><label for="_default_calendar_event_bubbles_action"><?php _e( 'Event bubbles', 'google-calendar-events' ); ?></label></th>
+				<th><label for="_default_calendar_event_bubbles_action"><?php _e( 'Event Bubbles', 'google-calendar-events' ); ?></label></th>
 				<td>
 					<?php
 
@@ -122,7 +110,7 @@ class Default_Calendar_Admin {
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-grid" style="display: none;">
-				<th><label for="_default_calendar_trim_titles"><?php _e( 'Trim event titles', 'google-calendar-events' ); ?></label></th>
+				<th><label for="_default_calendar_trim_titles"><?php _e( 'Trim Event Titles', 'google-calendar-events' ); ?></label></th>
 				<td>
 					<?php
 
@@ -204,7 +192,7 @@ class Default_Calendar_Admin {
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-list" style="display: none;">
-				<th><label for="_default_calendar_list_header"><?php _e( 'Hide header', 'google-calendar-events' ); ?></label></th>
+				<th><label for="_default_calendar_list_header"><?php _e( 'Hide Header', 'google-calendar-events' ); ?></label></th>
 				<td>
 					<?php
 
@@ -222,7 +210,7 @@ class Default_Calendar_Admin {
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-list" style="display: none;">
-				<th><label for="_default_calendar_compact_list"><?php _e( 'Compact list', 'google-calendar-events' ); ?></label></th>
+				<th><label for="_default_calendar_compact_list"><?php _e( 'Compact List', 'google-calendar-events' ); ?></label></th>
 				<td>
 					<?php
 
@@ -240,7 +228,7 @@ class Default_Calendar_Admin {
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list"  style="display: none;">
-				<th><label for="_default_calendar_limit_visible_events"><?php _e( 'Limit visible events', 'google-calendar-events' ); ?></label></th>
+				<th><label for="_default_calendar_limit_visible_events"><?php _e( 'Limit Visible Events', 'google-calendar-events' ); ?></label></th>
 				<td>
 					<?php
 
@@ -281,7 +269,7 @@ class Default_Calendar_Admin {
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list" style="display: none;">
-				<th><label for="_default_calendar_event_bubbles_action"><?php _e( 'Expand multi-day events', 'google-calendar-events' ); ?></label></th>
+				<th><label for="_default_calendar_event_bubbles_action"><?php _e( 'Expand Multi-day Events', 'google-calendar-events' ); ?></label></th>
 				<td>
 					<?php
 
@@ -359,13 +347,14 @@ class Default_Calendar_Admin {
 						'name'    => '_default_calendar_style_today',
 						'id'      => '_default_calendar_style_today',
 						'value'   => $value,
+						'tooltip' => __( "This option will set the background color for today's date. It will change the day number background and the border around the current day.", 'google-calendar-events' ),
 					) );
 
 					?>
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list" style="display: none;">
-				<th><label for="_default_calendar_style_days_events"><?php _e( 'Days with events', 'google-calendar-events' ); ?></label></th>
+				<th><label for="_default_calendar_style_days_events"><?php _e( 'Days with Events', 'google-calendar-events' ); ?></label></th>
 				<td>
 					<?php
 
@@ -378,6 +367,7 @@ class Default_Calendar_Admin {
 						'name'    => '_default_calendar_style_days_events',
 						'id'      => '_default_calendar_style_days_events',
 						'value'   => $value,
+						'tooltip' => __( 'This setting will modify the day number background for any days that have events on them.', 'google-calendar-events' ),
 					) );
 
 					?>

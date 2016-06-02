@@ -142,12 +142,7 @@ class Menus {
 		if ( self::$plugin == $file ) {
 
 			$links = array();
-			$links['github']         = '<a href="' . simcal_get_url( 'github' ) . '" target="_blank" >GitHub</a>';
-			$links['documentation']  = '<a href="' . simcal_ga_campaign_url( simcal_get_url( 'docs' ), 'core-plugin', 'plugin-listing' ) . '" target="_blank" >' .
-			                           __( 'Documentation', 'google-calendar-events' ) . '</a>';
-			$links['support']        = '<a href="' . simcal_get_url( 'support' ) . '" target="_blank" >' .
-			                           __( 'Support', 'google-calendar-events' ) . '</a>';
-			$links['add-ons']        = '<a href="' . simcal_ga_campaign_url( simcal_get_url( 'add-ons' ), 'core-plugin', 'plugin-listing' ) . '" target="_blank" >' .
+			$links['add-ons'] = '<a href="' . simcal_ga_campaign_url( simcal_get_url( 'addons' ), 'core-plugin', 'plugin-listing' ) . '" target="_blank" >' .
 			                           __( 'Add-ons', 'google-calendar-events' ) . '</a>';
 
 			return apply_filters( 'simcal_plugin_action_links', array_merge( $meta_links, $links ) );
@@ -177,7 +172,7 @@ class Menus {
 
 				// Add Drip promo signup form (@see Newsletter meta box).
 
-				$drip_form_id = '9817628';
+				$drip_form_id = '5368192';
 
 				?>
 				<form id="simcal-drip-form"
@@ -217,7 +212,7 @@ class Menus {
 
 			} else {
 
-				$footer_text = __( 'Thank you for using Simple Calendar!', 'google-calendar-events' );
+				$footer_text = __( 'Thanks for using Simple Calendar!', 'google-calendar-events' );
 
 			}
 

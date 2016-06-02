@@ -90,7 +90,7 @@ class Meta_Boxes {
 
 			add_meta_box(
 				'simcal-newsletter',
-				__( 'Get 20% off Google Calendar Pro!', 'google-calendar-events' ),
+				__( 'Get 20% off all Pro Add-ons', 'google-calendar-events' ),
 				'\SimpleCalendar\Admin\Metaboxes\Newsletter::html',
 				'calendar',
 				'side',
