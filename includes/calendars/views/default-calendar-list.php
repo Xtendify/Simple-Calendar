@@ -492,7 +492,7 @@ class Default_Calendar_List implements Calendar_View {
 					}
 				}
 
-				$day_ts = Carbon::createFromFormat( 'Ymd', $ymd, $calendar->timezone )->getTimestamp();
+				$day_ts = Carbon::createFromFormat( 'Ymd', $ymd, $calendar->timezone )->startOfDay()->getTimestamp();
 
 				if ( ! $calendar->compact_list ) :
 
