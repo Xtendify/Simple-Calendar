@@ -29,7 +29,7 @@
 				toggleGridNavButtons( buttons, date.getTime() / 1000, start, end );
 			} else {
 				action = 'simcal_default_calendar_draw_list';
-				toggleListNavButtons( buttons, calendar, start, end, false );
+				toggleListNavButtons( buttons, calendar, start, end, false, currentTime );
 				toggleListHeading( calendar );
 			}
 
@@ -126,7 +126,7 @@
 							current.attr( 'data-calendar-current', timestamp );
 
 							toggleListHeading( calendar );
-							toggleListNavButtons( buttons, calendar, start, end, direction );
+							toggleListNavButtons( buttons, calendar, start, end, direction, timestamp );
 
 							spinner.fadeToggle();
 							expandEventsToggle();
@@ -194,11 +194,16 @@
 		 * @param end       Upper bound timestamp.
 		 * @param direction Direction intent.
 		 */
-		function toggleListNavButtons( buttons, calendar, start, end, direction ) {
+		function toggleListNavButtons( buttons, calendar, start, end, direction, currentTime ) {
 
 			var list = calendar.find( '.simcal-events-list-container' ),
 				prev = list.data( 'prev' ),
 				next = list.data( 'next' );
+
+			//var currentTime  = nav.find( '.simcal-current' ).data( 'calendar-current' );
+			//console.log( "current time: ", ct );
+			//console.log( "start: ", start );
+			//console.log( "ct == start", ( ct == start ? "Yes" : "No" ) );
 
 			buttons.each( function( e, b ) {
 
@@ -207,7 +212,7 @@
 				if ( direction ) {
 
 					if ( direction == 'prev' && button.hasClass( 'simcal-prev' ) ) {
-						if ( prev <= start ) {
+						if ( ( prev <= start ) && ( currentTime == start )  ) {
 							button.attr( 'disabled', 'disabled' );
 						}
 					} else if ( button.hasClass( 'simcal-prev' ) ) {
