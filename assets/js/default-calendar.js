@@ -212,7 +212,7 @@
 				if ( direction ) {
 
 					if ( direction == 'prev' && button.hasClass( 'simcal-prev' ) ) {
-						if ( ( prev <= start ) && ( currentTime == start )  ) {
+						if ( ( prev <= start ) && ( currentTime <= start )  ) {
 							button.attr( 'disabled', 'disabled' );
 						}
 					} else if ( button.hasClass( 'simcal-prev' ) ) {
@@ -229,7 +229,7 @@
 
 				} else {
 
-					if ( prev <= start && button.hasClass( 'simcal-prev' ) ) {
+					if ( prev <= start && button.hasClass( 'simcal-prev' ) && ( currentTime <= start ) ) {
 						button.attr( 'disabled', 'disabled' );
 					}
 
