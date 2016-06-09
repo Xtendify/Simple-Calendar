@@ -307,7 +307,7 @@ class Default_Calendar_List implements Calendar_View {
 			$keys  = array_keys( $flattened_events );
 			$current = 0;
 			foreach ( $keys as $timestamp ) {
-				if ( $timestamp <= $this->start ) {
+				if ( $timestamp < $this->start ) {
 					$current++;
 				}
 			}
