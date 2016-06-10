@@ -316,9 +316,9 @@ class Default_Calendar_List implements Calendar_View {
 
 			$events_end = isset( $keys[ $current + $interval ] ) ? $keys[ $current + $interval ] : $calendar->end;
 			$this->end  = $events_end > $calendar->end ? $calendar->end : $events_end;
-			// -1 adjusts the interval count to index count, which starts at 0.
-			$this->prev = isset( $keys[ $current - $interval - 1 ] ) ? $keys[ $current - $interval - 1 ] : $calendar->earliest_event;
-			$this->next = isset( $keys[ $current + $interval - 1 ] ) ? $keys[ $current + $interval - 1 ] : $this->end;
+
+			$this->prev = isset( $keys[ $current - $interval ] ) ? $keys[ $current - $interval ] : $calendar->earliest_event;
+			$this->next = isset( $keys[ $current + $interval ] ) ? $keys[ $current + $interval ] : $this->end;
 
 		}
 
