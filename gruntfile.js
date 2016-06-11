@@ -107,7 +107,9 @@ module.exports = function( grunt ) {
 					'select2/dist/js/select2.js', // Using "non-full" version
 					'select2/dist/js/select2.min.js',
 				    'moment/moment.js',
-				    'moment-timezone/builds/moment-timezone-with-data.js'
+				    'moment/min/moment.min.js',
+				    'moment-timezone/builds/moment-timezone-with-data.js',
+				    'moment-timezone/builds/moment-timezone-with-data.min.js'
 				],
 				dest: 'assets/js/vendor/'
 			},
