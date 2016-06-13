@@ -95,7 +95,10 @@ We'd love your help! Here's a few things you can do:
 
 = 3.1.1 - TODO =
 
-* 
+* Fix: All-day events were being counted as multiple-days in some cases and no longer should.
+* Tweak: Moved the "Show some love" setting within the individual calendar settings.
+* Feature: Added smarter paging so that it will only page if there are still events within the time frame set.
+
 
 = 3.1.0 - May 25, 2016 =
 
