@@ -32,6 +32,7 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 = FullCalendar Add-on Features =
 
 * **Week and day views** added alongside the month view.
+* Display event titles and start times directly on your calendar.
 * Faster load times when navigating through months, weeks or days.
 * Configure header navigation buttons to allow site visitors to easily switch between views.
 * Intuitive design for multi-day events.
