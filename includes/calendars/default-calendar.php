@@ -107,8 +107,8 @@ class Default_Calendar extends Calendar {
 	 */
 	public function __construct( $calendar ) {
 
-		$this->type = 'default-calendar';
-		$this->name = __( 'Default', 'google-calendar-events' );
+		$this->type  = 'default-calendar';
+		$this->name  = __( 'Default', 'google-calendar-events' );
 		$this->views = apply_filters( 'simcal_default_calendar_views', array(
 			'grid' => __( 'Grid', 'google-calendar-events' ),
 			'list' => __( 'List', 'google-calendar-events' ),
@@ -120,13 +120,14 @@ class Default_Calendar extends Calendar {
 
 			$this->set_properties( $this->view->get_type() );
 
-			$id = $this->id;
+			$id    = $this->id;
 			$theme = $this->theme;
 
-			add_filter( 'simcal_calendar_class', function( $class, $post_id ) use ( $theme, $id ) {
+			add_filter( 'simcal_calendar_class', function ( $class, $post_id ) use ( $theme, $id ) {
 				if ( in_array( 'default-calendar', $class ) && $post_id === $id ) {
 					array_push( $class, 'default-calendar-' . $theme );
 				}
+
 				return $class;
 			}, 10, 2 );
 
@@ -134,7 +135,7 @@ class Default_Calendar extends Calendar {
 
 		// Calendar settings handling.
 		if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
-			$admin = new Default_Calendar_Admin();
+			$admin          = new Default_Calendar_Admin();
 			$this->settings = $admin->settings_fields();
 		}
 	}
@@ -218,13 +219,13 @@ class Default_Calendar extends Calendar {
 						if ( false !== $event->multiple_days ) {
 							$days = $event->multiple_days;
 
+							if ( ! empty( $event->whole_day ) ) {
+								$days--;
+							}
+
 							if ( $days == 1 ) {
 								$new_events[ intval( $event->start + ( DAY_IN_SECONDS ) - 1 ) ][] = $event;
 							} else {
-
-								/*if ( ! empty( $event->whole_day ) ) {
-									$days--;
-								}*/
 
 								for ( $d = 1; $d <= $days; $d++ ) {
 									$new_events[ intval( $event->start + ( $d * DAY_IN_SECONDS ) - 1 ) ][] = $event;
@@ -240,6 +241,7 @@ class Default_Calendar extends Calendar {
 
 		$events = $old_events + $new_events;
 		ksort( $events, SORT_NUMERIC );
+
 		return $events;
 	}
 
