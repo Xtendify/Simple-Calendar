@@ -198,7 +198,10 @@
 
 			var list = calendar.find( '.simcal-events-list-container' ),
 				prev = list.data( 'prev' ),
-				next = list.data( 'next' );
+				next = list.data( 'next' ),
+				last_event = list.find( 'li.simcal-event:last').data( 'start' );
+
+			console.log( 'last event: ', last_event );
 
 			//var currentTime  = nav.find( '.simcal-current' ).data( 'calendar-current' );
 			// TODO: Add script_debug check to show these
@@ -223,7 +226,7 @@
 					}
 
 					if ( direction == 'next' && button.hasClass( 'simcal-next' ) ) {
-						if ( ( next >= end ) && ( currentTime >= end ) ) {
+						if ( ( ( next >= end ) && ( currentTime >= end ) ) || last_event >= end ) {
 							button.attr( 'disabled', 'disabled' );
 						}
 					} else if( $(button).hasClass( 'simcal-next' ) ) {
