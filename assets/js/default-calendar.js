@@ -223,7 +223,7 @@
 					}
 
 					if ( direction == 'next' && button.hasClass( 'simcal-next' ) ) {
-						if ( ( next >= end )  ) {
+						if ( ( next >= end ) && ( currentTime >= end ) ) {
 							button.attr( 'disabled', 'disabled' );
 						}
 					} else if( $(button).hasClass( 'simcal-next' ) ) {
