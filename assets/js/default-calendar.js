@@ -201,14 +201,13 @@
 				next = list.data( 'next' ),
 				last_event = list.find( 'li.simcal-event:last').data( 'start' );
 
-			console.log( 'last event: ', last_event );
-
 			//var currentTime  = nav.find( '.simcal-current' ).data( 'calendar-current' );
 			// TODO: Add script_debug check to show these
 			//console.log( "current time: ", currentTime );
 			//console.log( "start: ", start );
 			//console.log( "end: ", end );
 			//console.log( 'next: ', next );
+			//console.log( 'last event: ', last_event );
 			//console.log( "ct == start", ( ct == start ? "Yes" : "No" ) );
 
 			buttons.each( function( e, b ) {
