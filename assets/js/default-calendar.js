@@ -201,8 +201,11 @@
 				next = list.data( 'next' );
 
 			//var currentTime  = nav.find( '.simcal-current' ).data( 'calendar-current' );
-			//console.log( "current time: ", ct );
+			// TODO: Add script_debug check to show these
+			//console.log( "current time: ", currentTime );
 			//console.log( "start: ", start );
+			//console.log( "end: ", end );
+			//console.log( 'next: ', next );
 			//console.log( "ct == start", ( ct == start ? "Yes" : "No" ) );
 
 			buttons.each( function( e, b ) {
@@ -220,7 +223,7 @@
 					}
 
 					if ( direction == 'next' && button.hasClass( 'simcal-next' ) ) {
-						if ( ( next >= end ) && ( currentTime >= end ) ) {
+						if ( ( next >= end )  ) {
 							button.attr( 'disabled', 'disabled' );
 						}
 					} else if( $(button).hasClass( 'simcal-next' ) ) {
