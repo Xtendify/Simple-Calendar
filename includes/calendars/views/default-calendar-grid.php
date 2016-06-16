@@ -121,7 +121,7 @@ class Default_Calendar_Grid implements Calendar_View {
 				'ver'       => '2.2.1',
 				'in_footer' => true,
 			),
-			'simcal-moment' => array(
+			'simcal-fullcal-moment' => array(
 				'src'       => SIMPLE_CALENDAR_ASSETS . 'js/vendor/moment' . $min . '.js',
 				'deps'      => array( 'jquery' ),
 				'ver'       => '',
@@ -138,7 +138,7 @@ class Default_Calendar_Grid implements Calendar_View {
 				'deps'      => array(
 					'jquery',
 					'simcal-qtip',
-					'simcal-moment',
+					'simcal-fullcal-moment',
 					'simcal-moment-timezone',
 				),
 				'var'       => SIMPLE_CALENDAR_VERSION,
