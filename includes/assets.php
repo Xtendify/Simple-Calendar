@@ -199,18 +199,25 @@ class Assets {
 
 			foreach ( $scripts as $script => $v ) {
 
+				/** Plugin compatibility fixes */
+
+				// Dequeue moment.js if detected from WP Simple Pay Pro.
 				if ( ( wp_script_is( 'stripe-checkout-pro-moment', 'enqueued' ) ) && $script == 'simcal-fullcal-moment' ) {
 					continue;
 				}
 
 				if ( ! empty( $v['src'] ) ) {
 
+					// Enqueued individually so we can dequeue if already enqueued by another plugin.
+					// TODO Rework dependencies part (or remove completely).
+
 					$src        = esc_url( $v['src'] );
-					$deps       = isset( $v['deps'] )        ? $v['deps']       : array();
+					//$deps       = isset( $v['deps'] )        ? $v['deps']       : array();
 					$ver        = isset( $v['ver'] )         ? $v['ver']        : SIMPLE_CALENDAR_VERSION;
 					$in_footer  = isset( $v['in_footer'] )   ? $v['in_footer']  : false;
 
-					wp_enqueue_script( $script, $src, $deps, $ver, $in_footer );
+					//wp_enqueue_script( $script, $src, $deps, $ver, $in_footer );
+					wp_enqueue_script( $script, $src, array(), $ver, $in_footer );
 
 					if ( ! empty( $v['localize'] ) && is_array( $v['localize'] ) ) {
 						foreach ( $v['localize'] as $object => $l10n ) {
@@ -243,12 +250,16 @@ class Assets {
 
 				if ( ! empty( $v['src'] ) ) {
 
+					// Enqueued individually so we can dequeue if already enqueued by another plugin.
+					// TODO Rework dependencies part (or remove completely).
+
 					$src    = esc_url( $v['src'] );
-					$deps   = isset( $v['deps'] )   ? $v['deps']    : array();
+					//$deps   = isset( $v['deps'] )   ? $v['deps']    : array();
 					$ver    = isset( $v['ver'] )    ? $v['ver']     : SIMPLE_CALENDAR_VERSION;
 					$media  = isset( $v['media'] )  ? $v['media']   : 'all';
 
-					wp_enqueue_style( $style, $src, $deps, $ver, $media );
+					//wp_enqueue_style( $style, $src, $deps, $ver, $media );
+					wp_enqueue_style( $style, $src, array(), $ver, $media );
 
 				} elseif ( is_string( $v ) && ! empty( $v ) ) {
 
