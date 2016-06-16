@@ -95,9 +95,9 @@ We'd love your help! Here's a few things you can do:
 
 = 3.1.1 - TODO =
 
-* Fix: All-day events were being counted as multiple-days in some cases and no longer should.
-* Tweak: Moved the "Show some love" setting within the individual calendar settings.
-* Feature: Added smarter paging so that it will only page if there are still events within the time frame set.
+* Fix: Correct all-day events displayed in multiple days in some cases.
+* Fix: Paging navigation links now hidden when no more events exist past the current page in list view.
+* Tweak: "Powered by Simple Calendar" author credit opt in moved to individual per calendar settings.
 
 
 = 3.1.0 - May 25, 2016 =
