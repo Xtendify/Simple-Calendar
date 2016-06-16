@@ -40,6 +40,10 @@ class Default_Calendar_List implements Calendar_View {
 	 */
 	private $start = 0;
 
+	private $first_event = 0;
+
+	private $last_event = 0;
+
 	/**
 	 * Current display end.
 	 *
@@ -307,7 +311,7 @@ class Default_Calendar_List implements Calendar_View {
 			$keys  = array_keys( $flattened_events );
 			$current = 0;
 			foreach ( $keys as $timestamp ) {
-				if ( $timestamp <= $this->start ) {
+				if ( $timestamp < $this->start ) {
 					$current++;
 				}
 			}
@@ -316,9 +320,9 @@ class Default_Calendar_List implements Calendar_View {
 
 			$events_end = isset( $keys[ $current + $interval ] ) ? $keys[ $current + $interval ] : $calendar->end;
 			$this->end  = $events_end > $calendar->end ? $calendar->end : $events_end;
-			// -1 adjusts the interval count to index count, which starts at 0.
-			$this->prev = isset( $keys[ $current - $interval - 1 ] ) ? $keys[ $current - $interval - 1 ] : $calendar->earliest_event;
-			$this->next = isset( $keys[ $current + $interval - 1 ] ) ? $keys[ $current + $interval - 1 ] : $this->end;
+
+			$this->prev = isset( $keys[ $current - $interval ] ) ? $keys[ $current - $interval ] : $calendar->earliest_event;
+			$this->next = isset( $keys[ $current + $interval ] ) ? $keys[ $current + $interval ] : $this->end;
 
 		}
 
@@ -330,6 +334,13 @@ class Default_Calendar_List implements Calendar_View {
 			}
 		}
 		ksort( $daily_events, SORT_NUMERIC );
+
+		$first_event = array_slice( $paged_events, 0, 1, true );
+		$first_event = array_pop( $first_event );
+		$this->first_event = $first_event[0]->start;
+
+		$last_event = array_pop( $paged_events );
+		$this->last_event = $last_event[0]->start;
 
 		return $daily_events;
 	}
@@ -347,27 +358,40 @@ class Default_Calendar_List implements Calendar_View {
 	private function get_heading() {
 
 		$calendar = $this->calendar;
-		$start = Carbon::createFromTimestamp( $this->start, $calendar->timezone );
+		$start = Carbon::createFromTimestamp( $calendar->start, $calendar->timezone );
 		$end = Carbon::createFromTimestamp( $this->end, $calendar->timezone );
 		$date_format = $this->calendar->date_format;
 		$date_order  = simcal_get_date_format_order( $date_format );
 
+		$st = $this->start;
+		$et = $this->end;
+
+		if ( $this->first_event !== 0 ) {
+			$start = Carbon::createFromTimestamp( $this->first_event, $calendar->timezone );
+			$st = $this->first_event;
+		}
+
+		if ( $this->last_event !== 0 ) {
+			$end = Carbon::createFromTimestamp( $this->last_event, $calendar->timezone );
+			$et = $this->last_event;
+		}
+
 		if ( ( $start->day == $end->day ) && ( $start->month == $end->month ) && ( $start->year == $end->year ) ) {
 			// Start and end on the same day.
 			// e.g. 1 February 2020
-			$large = $small = date_i18n( $calendar->date_format , $this->start );
+			$large = $small = date_i18n( $calendar->date_format , $st );
 			if ( ( $date_order['d'] !== false ) && ( $date_order['m'] !== false ) ) {
 				if ( $date_order['m'] > $date_order['d'] ) {
 					if ( $date_order['y'] !== false && $date_order['y'] > $date_order['m'] ) {
-						$small = date_i18n( 'Y, d M', $this->start );
+						$small = date_i18n( 'Y, d M', $st );
 					} else {
-						$small = date_i18n( 'd M Y', $this->start );
+						$small = date_i18n( 'd M Y', $st );
 					}
 				} else {
 					if ( $date_order['y'] !== false && $date_order['y'] > $date_order['m'] ) {
-						$small = date_i18n( 'Y, M d', $this->start );
+						$small = date_i18n( 'Y, M d', $st );
 					} else {
-						$small = date_i18n( 'M d Y', $this->start );
+						$small = date_i18n( 'M d Y', $st );
 					}
 				}
 			}
@@ -376,16 +400,16 @@ class Default_Calendar_List implements Calendar_View {
 			// e.g. August 2020
 			if ( $date_order['y'] === false ) {
 				// August.
-				$large = $small = date_i18n( 'F', $this->start );
+				$large = $small = date_i18n( 'F', $st );
 			} else {
 				if ( $date_order['y'] < $date_order['m'] ) {
 					// 2020 August.
-					$large = date_i18n( 'Y F', $this->start );
-					$small = date_i18n( 'Y M', $this->start );
+					$large = date_i18n( 'Y F', $st );
+					$small = date_i18n( 'Y M', $st );
 				} else {
 					// August 2020.
-					$large = date_i18n( 'F Y', $this->start );
-					$small = date_i18n( 'M Y', $this->start );
+					$large = date_i18n( 'F Y', $st );
+					$small = date_i18n( 'M Y', $st );
 				}
 			}
 		} elseif ( $start->year == $end->year ) {
@@ -393,25 +417,25 @@ class Default_Calendar_List implements Calendar_View {
 			// e.g. August - September 2020
 			if ( $date_order['y'] === false ) {
 				// August - September.
-				$large = date_i18n( 'F', $this->start ) . ' - ' . date_i18n( 'F', $this->end );
-				$small = date_i18n( 'M', $this->start ) . ' - ' . date_i18n( 'M', $this->end );
+				$large = date_i18n( 'F', $st ) . ' - ' . date_i18n( 'F', $et );
+				$small = date_i18n( 'M', $st ) . ' - ' . date_i18n( 'M', $et );
 			} else {
 				if ( $date_order['y'] < $date_order['m'] ) {
 					// 2020, August - September.
-					$large  = $small = date( 'Y', $this->start ) . ', ';
-					$large .= date_i18n( 'F', $this->start ) . ' - ' . date_i18n( 'F', $this->end );
-					$small .= date_i18n( 'M', $this->start ) . ' - ' . date_i18n( 'M', $this->end );
+					$large  = $small = date( 'Y', $st ) . ', ';
+					$large .= date_i18n( 'F', $st ) . ' - ' . date_i18n( 'F', $et );
+					$small .= date_i18n( 'M', $st ) . ' - ' . date_i18n( 'M', $et );
 				} else {
 					// August - September, 2020.
-					$large  = date_i18n( 'F', $this->start ) . ' - ' . date_i18n( 'F', $this->end ) . ', ';
-					$small  = date_i18n( 'M', $this->start ) . ' - ' . date_i18n( 'M', $this->end ) . ' ';
-					$year   = date( 'Y', $this->start );
+					$large  = date_i18n( 'F', $st ) . ' - ' . date_i18n( 'F', $et ) . ', ';
+					$small  = date_i18n( 'M', $st ) . ' - ' . date_i18n( 'M', $et ) . ' ';
+					$year   = date( 'Y', $st );
 					$large .= $year;
 					$small .= $year;
 				}
 			}
 		} else {
-			$large = $small = date( 'Y', $this->start ) . ' - ' . date( 'Y', $this->end );
+			$large = $small = date( 'Y', $st ) . ' - ' . date( 'Y', $et );
 		}
 
 		return array(
@@ -492,7 +516,7 @@ class Default_Calendar_List implements Calendar_View {
 					}
 				}
 
-				$day_ts = Carbon::createFromFormat( 'Ymd', $ymd, $calendar->timezone )->getTimestamp();
+				$day_ts = Carbon::createFromFormat( 'Ymd', $ymd, $calendar->timezone )->startOfDay()->getTimestamp();
 
 				if ( ! $calendar->compact_list ) :
 
@@ -572,7 +596,7 @@ class Default_Calendar_List implements Calendar_View {
 								$event_color = ' style="border-' . $side . ': 4px solid ' . $event_color . '; padding-' . $side . ': 8px;"';
 							}
 
-							$list_events .= "\t" . '<li class="' . $event_classes . '"' . $event_visibility . $event_color . ' itemscope itemtype="http://schema.org/Event">' . "\n";
+							$list_events .= "\t" . '<li class="' . $event_classes . '"' . $event_visibility . $event_color . ' itemscope itemtype="http://schema.org/Event" data-start="' . esc_attr( $event->start ) . '">' . "\n";
 							$list_events .= "\t\t" . '<div class="simcal-event-details">' . $calendar->get_event_html( $event ) . '</div>' . "\n";
 							$list_events .= "\t" . '</li>' . "\n";
 

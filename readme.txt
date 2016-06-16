@@ -93,6 +93,13 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.1.1 - TODO =
+
+* Fix: Correct all-day events displayed in multiple days in some cases.
+* Fix: Paging navigation links now hidden when no more events exist past the current page in list view.
+* Tweak: "Powered by Simple Calendar" author credit opt in moved to individual per calendar settings.
+
+
 = 3.1.0 - May 25, 2016 =
 
 * Fix: qTips arrow should line up with events more accurately.

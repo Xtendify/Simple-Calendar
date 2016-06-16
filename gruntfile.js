@@ -105,7 +105,11 @@ module.exports = function( grunt ) {
 					'jquery-tiptip/jquery.tipTip.js',
 					'jquery-tiptip/jquery.tipTip.minified.js',
 					'select2/dist/js/select2.js', // Using "non-full" version
-					'select2/dist/js/select2.min.js'
+					'select2/dist/js/select2.min.js',
+				    'moment/moment.js',
+				    'moment/min/moment.min.js',
+				    'moment-timezone/builds/moment-timezone-with-data.js',
+				    'moment-timezone/builds/moment-timezone-with-data.min.js'
 				],
 				dest: 'assets/js/vendor/'
 			},
