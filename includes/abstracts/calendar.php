@@ -783,8 +783,8 @@ abstract class Calendar {
 				do_action( 'simcal_calendar_html_after', $this->id );
 				date_default_timezone_set( $this->site_timezone );
 
-				$settings = get_option( 'simple-calendar_settings_calendars' );
-				$poweredby = isset( $settings['poweredby']['opt_in'] ) ? $settings['poweredby']['opt_in'] : '';
+				//$settings = get_option( 'simple-calendar_settings_calendars' );
+				$poweredby = get_post_meta( $this->id, '_poweredby', true );
 
 				if ( 'yes' == $poweredby ) {
 					$align = is_rtl() ? 'left' : 'right';
