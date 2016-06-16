@@ -93,7 +93,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.1.1 - TODO =
+= 3.1.1 - June 16, 2016 =
 
 * Fix: Correct all-day events displayed in multiple days in some cases.
 * Fix: Paging navigation links now hidden when no more events exist past the current page in list view.
