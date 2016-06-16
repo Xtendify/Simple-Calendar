@@ -514,12 +514,11 @@ class Settings implements Meta_Box {
 					$poweredby = get_post_meta( $post->ID, '_poweredby', true );
 
 					simcal_print_field( array(
-						'type'      => 'checkbox',
-						'title'     => __( 'Powered by Simple Calendar', 'google-calendar-events' ),
-						'tooltip'   => __( 'Help our plugin get noticed and display a small link to our plugin below your calendars. Thanks!', 'google-calendar-events' ),
-						'name'      => '_poweredby',
-						'id'        => '_poweredby',
-						'value'     => 'yes' == $poweredby ? 'yes' : 'no',
+						'type'    => 'checkbox',
+						'name'    => '_poweredby',
+						'id'      => '_poweredby',
+						'value'   => 'yes' == $poweredby ? 'yes' : 'no',
+						'text'    => __( 'Yes, Simple Calendar rocks! Show some love with a little link below this calendar.', 'google-calendar-events' ),
 					) );
 
 					?>
