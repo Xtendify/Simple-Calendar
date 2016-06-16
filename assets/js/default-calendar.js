@@ -238,7 +238,7 @@
 						button.attr( 'disabled', 'disabled' );
 					}
 
-					if ( next >= end && button.hasClass( 'simcal-next' ) && ( currentTime >= end ) ) {
+					if ( ( next >= end && button.hasClass( 'simcal-next' ) && ( currentTime >= end ) ) || last_event >= end ) {
 						button.attr( 'disabled', 'disabled' );
 					}
 
