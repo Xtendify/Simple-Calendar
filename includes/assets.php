@@ -199,6 +199,10 @@ class Assets {
 
 			foreach ( $scripts as $script => $v ) {
 
+				if ( ( wp_script_is( 'stripe-checkout-pro-moment', 'enqueued' ) ) && $script == 'simcal-fullcal-moment' ) {
+					continue;
+				}
+
 				if ( ! empty( $v['src'] ) ) {
 
 					$src        = esc_url( $v['src'] );
