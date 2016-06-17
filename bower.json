@@ -5,7 +5,7 @@
     "imagesloaded": "4.x",
     "jquery-tiptip": "master",
     "select2": "4.x",
-    "moment-timezone": "~0.5.4",
-    "moment": "~2.13.0"
+    "moment": "2.x",
+    "moment-timezone": "0.x"
   }
 }
