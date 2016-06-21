@@ -477,6 +477,7 @@ class Settings implements Meta_Box {
 						'id'      => '_no_events_message',
 						'tooltip' => __( 'Some calendars may display a message when no events are found. You can change the default message here.', 'google-calendar-events' ),
 						'value'   => get_post_meta( $post->ID, '_no_events_message', true ),
+						'placeholder' => __( 'There are no upcoming events.', 'google-calendar-events' ),
 					) );
 
 					?>

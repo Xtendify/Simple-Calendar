@@ -638,7 +638,7 @@ class Default_Calendar_List implements Calendar_View {
 			$message = get_post_meta( $calendar->id, '_no_events_message', true );
 
 			if ( 'events' == $calendar->group_type ) {
-				echo ! empty( $message ) ? $message : __( 'Nothing to show.', 'google-calendar-events' );
+				echo ! empty( $message ) ? $message : __( 'There are no upcoming events.', 'google-calendar-events' );
 			} else {
 				if ( ! empty( $message ) ) {
 					echo $message;
