@@ -253,16 +253,19 @@
 		 */
 		function toggleListHeading( calendar ) {
 
-			var current = $( calendar ).find( '.simcal-current' ),
-				heading = $( calendar ).find( '.simcal-events-list-container' ),
-				small   = heading.data( 'heading-small' ),
-				large   = heading.data( 'heading-large' );
+			var current    = $( calendar ).find( '.simcal-current' ),
+				heading    = $( calendar ).find( '.simcal-events-list-container' ),
+				small      = heading.data( 'heading-small' ),
+				large      = heading.data( 'heading-large' ),
+				newHeading = $( '<h3 />' );
 
 			if ( calendar.width() < 400 ) {
-				current.html( '<h3>' + small + '</h3>' );
+				newHeading.text( small );
 			} else {
-				current.html( '<h3>' + large + '</h3>' );
+				newHeading.text( large );
 			}
+
+			current.append( newHeading );
 		}
 
 		var gridCalendars = $( '.simcal-default-calendar-grid' );
