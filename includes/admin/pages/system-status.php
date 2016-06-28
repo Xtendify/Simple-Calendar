@@ -335,8 +335,8 @@ class System_Status extends Admin_Page {
 		 * ==================
 		 */
 
-		if ( version_compare( PHP_VERSION, '5.4', '<' ) ) {
-			$php = '<mark class="error">' . sprintf( __( '%1$s - It is recomendend to upgrade at least to PHP version 5.4 for security reasons. <a href="%2$s" target="_blank">Read more.</a>', 'google-calendar-events' ), PHP_VERSION, 'http://www.wpupdatephp.com/update/' ) . '</mark>';
+		if ( version_compare( PHP_VERSION, '5.5.19', '<' ) ) {
+			$php = '<mark class="error">' . sprintf( __( '%1$s - It is recomendend to upgrade at least to PHP version 5.5.19 for security reasons. <a href="%2$s" target="_blank">Read more.</a>', 'google-calendar-events' ), PHP_VERSION, 'http://www.wpupdatephp.com/update/' ) . '</mark>';
 		} else {
 			$php = '<mark class="ok">' . PHP_VERSION . '</mark>';
 		}
