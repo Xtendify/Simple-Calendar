@@ -335,8 +335,8 @@ class System_Status extends Admin_Page {
 		 * ==================
 		 */
 
-		if ( version_compare( PHP_VERSION, '5.4', '<' ) ) {
-			$php = '<mark class="error">' . sprintf( __( '%1$s - It is recomendend to upgrade at least to PHP version 5.4 for security reasons. <a href="%2$s" target="_blank">Read more.</a>', 'google-calendar-events' ), PHP_VERSION, 'http://www.wpupdatephp.com/update/' ) . '</mark>';
+		if ( version_compare( PHP_VERSION, '5.5.19', '<' ) ) {
+			$php = '<mark class="error">' . sprintf( __( '%1$s - It is recomendend to upgrade at least to PHP version 5.5.19 for security reasons. <a href="%2$s" target="_blank">Read more.</a>', 'google-calendar-events' ), PHP_VERSION, 'http://www.wpupdatephp.com/update/' ) . '</mark>';
 		} else {
 			$php = '<mark class="ok">' . PHP_VERSION . '</mark>';
 		}
@@ -412,6 +412,12 @@ class System_Status extends Admin_Page {
 		$php_max_execution_time  = ini_get( 'max_execution_time' );
 		$php_max_input_vars      = ini_get( 'max_input_vars' );
 
+		$curl_info = '';
+
+		if ( function_exists( 'curl_version' ) ) {
+			$curl_info = curl_version();
+		}
+
 		$sections['server'] = array(
 			'host'                => array(
 				'label'  => __( 'Web Server', 'google-calendar-events' ),
@@ -472,9 +478,9 @@ class System_Status extends Admin_Page {
 				'result_export' => function_exists( 'fsockopen' ) ? 'Yes' : 'No',
 			),
 			'curl_init'           => array(
-				'label'  => 'cURL',
-				'result' => function_exists( 'curl_init' ) ? __( 'Yes', 'google-calendar-events' ) : __( 'No', 'google-calendar-events' ),
-				'result_export' => function_exists( 'curl_init' ) ? 'Yes' : 'No',
+				'label'         => 'cURL',
+				'result'        => ! empty( $curl_info ) ? $curl_info['version'] . ', ' . $curl_info['ssl_version'] : __( 'No version found.', 'stripe' ),
+				'result_export' => ! empty( $curl_info ) ? $curl_info['version'] . ', ' . $curl_info['ssl_version'] : 'No version found.',
 			),
 			'soap'                => array(
 				'label'  => 'SOAP',

@@ -16,7 +16,6 @@ module.exports = function( grunt ) {
 		'!.gitignore',
 		'!.jscsrc',
 		'!.jshintrc',
-		'!apigen.neon',
 		'!bower.json',
 		'!composer.json',
 		'!composer.lock',
@@ -281,7 +280,6 @@ module.exports = function( grunt ) {
 
 	// Possible future grunt tasks
 	//grunt.registerTask( 'test',     ['phpunit', 'qunit'] );
-	//grunt.registerTask( 'docs',     ['clean:docs', 'shell:apigen'] );
 
 	grunt.util.linefeed = '\n';
 };
