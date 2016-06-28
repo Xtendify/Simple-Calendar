@@ -412,6 +412,12 @@ class System_Status extends Admin_Page {
 		$php_max_execution_time  = ini_get( 'max_execution_time' );
 		$php_max_input_vars      = ini_get( 'max_input_vars' );
 
+		$curl_info = '';
+
+		if ( function_exists( 'curl_version' ) ) {
+			$curl_info = curl_version();
+		}
+
 		$sections['server'] = array(
 			'host'                => array(
 				'label'  => __( 'Web Server', 'google-calendar-events' ),
@@ -472,9 +478,9 @@ class System_Status extends Admin_Page {
 				'result_export' => function_exists( 'fsockopen' ) ? 'Yes' : 'No',
 			),
 			'curl_init'           => array(
-				'label'  => 'cURL',
-				'result' => function_exists( 'curl_init' ) ? __( 'Yes', 'google-calendar-events' ) : __( 'No', 'google-calendar-events' ),
-				'result_export' => function_exists( 'curl_init' ) ? 'Yes' : 'No',
+				'label'         => 'cURL',
+				'result'        => ! empty( $curl_info ) ? $curl_info['version'] . ', ' . $curl_info['ssl_version'] : __( 'No version found.', 'stripe' ),
+				'result_export' => ! empty( $curl_info ) ? $curl_info['version'] . ', ' . $curl_info['ssl_version'] : 'No version found.',
 			),
 			'soap'                => array(
 				'label'  => 'SOAP',
