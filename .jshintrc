@@ -13,9 +13,7 @@
   "trailing": true,
   "undef": true,
   "unused": true,
-
   "browser": true,
-
   "globals": {
     "_": false,
     "Backbone": false,
