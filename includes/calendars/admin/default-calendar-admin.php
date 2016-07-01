@@ -397,7 +397,7 @@ class Default_Calendar_Admin {
 		update_post_meta( $post_id, '_default_calendar_style_theme', $theme );
 
 		// Today color.
-		$today_color = isset( $_POST['_default_calendar_style_today'] ) ? sanitize_text_field( $_POST['_default_calendar_style_today'] ) : '#FF000';
+		$today_color = isset( $_POST['_default_calendar_style_today'] ) ? sanitize_text_field( $_POST['_default_calendar_style_today'] ) : '#FF0000';
 		update_post_meta( $post_id, '_default_calendar_style_today', $today_color );
 
 		// Days with events color.
