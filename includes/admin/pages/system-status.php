@@ -479,7 +479,7 @@ class System_Status extends Admin_Page {
 			),
 			'curl_init'           => array(
 				'label'         => 'cURL',
-				'result'        => ! empty( $curl_info ) ? $curl_info['version'] . ', ' . $curl_info['ssl_version'] : __( 'No version found.', 'stripe' ),
+				'result'        => ! empty( $curl_info ) ? $curl_info['version'] . ', ' . $curl_info['ssl_version'] : __( 'No version found.', 'google-calendar-events' ),
 				'result_export' => ! empty( $curl_info ) ? $curl_info['version'] . ', ' . $curl_info['ssl_version'] : 'No version found.',
 			),
 			'soap'                => array(
