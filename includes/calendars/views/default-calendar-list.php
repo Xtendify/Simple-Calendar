@@ -335,12 +335,18 @@ class Default_Calendar_List implements Calendar_View {
 		}
 		ksort( $daily_events, SORT_NUMERIC );
 
-		$first_event = array_slice( $paged_events, 0, 1, true );
-		$first_event = array_pop( $first_event );
-		$this->first_event = $first_event[0]->start;
+		if ( ! empty( $paged_events ) ) {
+			$first_event       = array_slice( $paged_events, 0, 1, true );
+			$first_event       = array_pop( $first_event );
+			$this->first_event = $first_event[0]->start;
+		}
 
-		$last_event = array_pop( $paged_events );
-		$this->last_event = $last_event[0]->start;
+		if ( ! empty( $paged_events ) ) {
+			$last_event       = array_pop( $paged_events );
+			$this->last_event = $last_event[0]->start;
+		} else {
+			$this->last_event = $this->first_event;
+		}
 
 		return $daily_events;
 	}
