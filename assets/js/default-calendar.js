@@ -265,7 +265,7 @@
 				newHeading.text( large );
 			}
 
-			current.append( newHeading );
+			current.html( newHeading );
 		}
 
 		var gridCalendars = $( '.simcal-default-calendar-grid' );
