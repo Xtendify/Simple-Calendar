@@ -283,7 +283,7 @@ class Google extends Feed {
 								$span = $google_start->diffInDays( $google_end );
 
 								if ( $span == 0 ) {
-									if ( $google_start->toDateString() !== $google_end->toDateString() ) {
+									if ( ( $google_start->toDateString() !== $google_end->toDateString() ) && $google_end->toTimeString() != '00:00:00' ) {
 										$span = 1;
 									}
 								}
