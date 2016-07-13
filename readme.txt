@@ -2,7 +2,7 @@
 Contributors: moonstonemedia, pderksen, nickyoung87, nekojira, rosshanney
 Tags: google calendar, calendar, calendars, google, event calendar, custom calendar, custom calendars, event, events
 Requires at least: 4.1
-Tested up to: 4.5
+Tested up to: 4.6
 Stable tag: 3.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -99,6 +99,7 @@ We'd love your help! Here's a few things you can do:
 * Fix: Events that end at midnight no longer duplicate on the next day.
 * Fix: Header shows correct date in list view when there are no events to show.
 * Tweak: Tightened up security a bit.
+* Dev: Tested up to WordPress 4.6.
 
 = 3.1.1 - June 16, 2016 =
 
