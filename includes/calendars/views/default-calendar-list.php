@@ -188,7 +188,7 @@ class Default_Calendar_List implements Calendar_View {
 
 		if ( $calendar instanceof Default_Calendar ) {
 
-			$disabled = $calendar->static === true ? ' disabled="disabled"' : '';
+			$disabled = $calendar->static === true || empty( $calendar->events ) ? ' disabled="disabled"' : '';
 
 
 			$hide_header = get_post_meta( $this->calendar->id, '_default_calendar_list_header', true ) == 'yes' ? true : false;
@@ -335,12 +335,14 @@ class Default_Calendar_List implements Calendar_View {
 		}
 		ksort( $daily_events, SORT_NUMERIC );
 
-		$first_event = array_slice( $paged_events, 0, 1, true );
-		$first_event = array_pop( $first_event );
-		$this->first_event = $first_event[0]->start;
+		if ( ! empty( $paged_events ) ) {
+			$first_event       = array_slice( $paged_events, 0, 1, true );
+			$first_event       = array_pop( $first_event );
+			$this->first_event = $first_event[0]->start;
 
-		$last_event = array_pop( $paged_events );
-		$this->last_event = $last_event[0]->start;
+			$last_event       = array_pop( $paged_events );
+			$this->last_event = $last_event[0]->start;
+		}
 
 		return $daily_events;
 	}
