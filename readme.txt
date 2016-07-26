@@ -94,6 +94,10 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.1.3 - TODO =
+
+* Dev: Tweaks to make compatible with PHP 7.
+
 = 3.1.2 - July 13, 2016 =
 
 * Fix: Multi-day events do not stop short a day.

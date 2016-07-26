@@ -447,11 +447,6 @@ class System_Status extends Admin_Page {
 				'result' => ( ini_get( 'display_errors' ) ) ? __( 'Yes', 'google-calendar-events' ) . ' (' . ini_get( 'display_errors' ) . ')' : '-',
 				'result_export' => ( ini_get( 'display_errors' ) ) ? 'Yes' : 'No',
 			),
-			'php_safe_mode'       => array(
-				'label'  => 'Safe Mode',
-				'result' => ( ini_get( 'safe_mode' ) ) ? __( 'Yes', 'google-calendar-events' ) : __( 'No', 'google-calendar-events' ),
-				'result_export' => ( ini_get( 'safe_mode' ) ) ? 'Yes' : 'No',
-			),
 			'php_memory_limit'    => array(
 				'label'  => 'Memory Limit',
 				'result' => $php_memory_limit ? $php_memory_limit : '-',
