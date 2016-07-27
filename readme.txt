@@ -96,7 +96,7 @@ We'd love your help! Here's a few things you can do:
 
 = 3.1.3 - TODO =
 
-* Dev: Tweaks to make compatible with PHP 7.
+* Dev: System report tweaks for PHP 7 compatibility.
 
 = 3.1.2 - July 13, 2016 =
 
