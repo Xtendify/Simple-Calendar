@@ -85,7 +85,7 @@ class Google_Admin {
 			                 '<br/><br/>' .
 			                 '<em style="font-size: 14px;">' .
 			                 sprintf( __( '<strong>Note:</strong> Calendars configured to use the <strong><a href="%s" target="_blank">Google Calendar Pro add-on</a></strong> use a different method of authorization.', 'google-calendar-events' ),
-				                 simcal_ga_campaign_url( simcal_get_url( 'gcal-pro' ), 'core-plugin', 'settings-link' )
+				                 simcal_ga_campaign_url( simcal_get_url( 'addons' ), 'core-plugin', 'settings-link' )
 			                 ) .
 			                 '</em>',
 			'fields' => array(
