@@ -100,7 +100,7 @@ class Assets {
 			'simcal-select2',
 			$css_path_vendor . 'select2' . $this->min . '.css',
 			array(),
-			'4.0.0'
+			SIMPLE_CALENDAR_VERSION
 		);
 		wp_register_style(
 			'simcal-admin',

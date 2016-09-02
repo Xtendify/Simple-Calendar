@@ -118,19 +118,16 @@ class Default_Calendar_Grid implements Calendar_View {
 			'simcal-qtip' => array(
 				'src'       => SIMPLE_CALENDAR_ASSETS . 'js/vendor/jquery.qtip' . $min . '.js',
 				'deps'      => array( 'jquery' ),
-				'ver'       => '2.2.1',
 				'in_footer' => true,
 			),
 			'simcal-fullcal-moment' => array(
 				'src'       => SIMPLE_CALENDAR_ASSETS . 'js/vendor/moment' . $min . '.js',
 				'deps'      => array( 'jquery' ),
-				'ver'       => '',
 				'in_footer' => true,
 			),
 			'simcal-moment-timezone' => array(
 				'src'       => SIMPLE_CALENDAR_ASSETS . 'js/vendor/moment-timezone-with-data' . $min . '.js',
 				'deps'      => array( 'jquery' ),
-				'ver'       => '',
 				'in_footer' => true,
 			),
 			'simcal-default-calendar' => array(
@@ -141,7 +138,6 @@ class Default_Calendar_Grid implements Calendar_View {
 					'simcal-fullcal-moment',
 					'simcal-moment-timezone',
 				),
-				'var'       => SIMPLE_CALENDAR_VERSION,
 				'in_footer' => true,
 				'localize'  => array(
 					'simcal_default_calendar' => simcal_common_scripts_variables(),
@@ -165,7 +161,6 @@ class Default_Calendar_Grid implements Calendar_View {
 		return array(
 			'simcal-qtip' => array(
 				'src'   => SIMPLE_CALENDAR_ASSETS . 'css/vendor/jquery.qtip' . $min . '.css',
-				'ver'   => '2.2.1',
 				'media' => 'all',
 			),
 			'simcal-default-calendar-grid' => array(
@@ -173,7 +168,6 @@ class Default_Calendar_Grid implements Calendar_View {
 				'deps'  => array(
 					'simcal-qtip',
 				),
-				'ver'   => SIMPLE_CALENDAR_VERSION,
 				'media' => 'all',
 			),
 			'simcal-default-calendar-list' => array(
@@ -181,7 +175,6 @@ class Default_Calendar_Grid implements Calendar_View {
 				'deps'  => array(
 					'simcal-qtip',
 				),
-				'ver'   => SIMPLE_CALENDAR_VERSION,
 				'media' => 'all',
 			),
 		);
