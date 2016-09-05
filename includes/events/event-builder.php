@@ -100,6 +100,7 @@ class Event_Builder {
 
 			'link',                  // An HTML link to the event URL.
 			'url',                   // A string with the raw event link URL.
+			'add-to-gcal-link',      // Link for viewers to add to their GCals.
 
 			'calendar',              // The title of the source calendar.
 			'feed-title',            // @deprecated An alias of 'calendar'.
@@ -265,6 +266,15 @@ class Event_Builder {
 				case 'url' :
 					$content = ( 'link' == $tag ) ? $calendar->get_event_html( $event, $partial ) : '';
 					return $this->make_link( $tag, $event->link, $content , $attr );
+
+				case 'add-to-gcal-link';
+					$content = ( 'add-to-gcal-link' == $tag ) ? $calendar->get_event_html( $event, $partial ) : '';
+					if ( ! empty( $content ) ) {
+						$url = $calendar->get_add_to_gcal_url( $event );
+
+						return $this->make_link( $tag, $url, $content, $attr );
+					}
+					break;
 
 				case 'calendar' :
 				case 'feed-title' :

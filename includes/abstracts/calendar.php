@@ -732,6 +732,35 @@ abstract class Calendar {
 	}
 
 	/**
+	 * Get "Add to Google Calendar" link.
+	 *
+	 * @since  3.1.3
+	 *
+	 * @param  Event  $event    Event object to be parsed.
+	 *
+	 * @return string
+	 */
+	public function get_add_to_gcal_url( Event $event ) {
+		$base_url = 'https://calendar.google.com/calendar/render';
+
+		$params = array(
+			'action'   => 'TEMPLATE',
+			'text'     => urlencode( strip_tags( $event->title ) ),
+			// TODO Format dates correctly
+			// TODO Make sure all day events work
+			'dates'    => $event->start_dt . '/' . $event->end_dt,
+			'details'  => urlencode( $event->description ),
+		    // TODO Account for no location
+			// TODO 'location' => urlencode( $event->start_location ),
+			'trp'      => 'false',
+		);
+
+		$url = add_query_arg( $params, $base_url );
+
+		return $url;
+	}
+
+	/**
 	 * Output the calendar markup.
 	 *
 	 * @since 3.0.0
