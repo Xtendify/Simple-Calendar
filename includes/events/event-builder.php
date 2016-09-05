@@ -247,14 +247,14 @@ class Event_Builder {
 				case 'location' :
 				case 'start-location' :
 				case 'end-location' :
-					$location = $tag == 'end-location' ? $event->end_location['address'] : $event->start_location['address'];
-					$location_class = $tag == 'end-location' ? 'end' : 'start';
+					$location = ( 'end-location' == $tag ) ? $event->end_location['address'] : $event->start_location['address'];
+					$location_class = ( 'end-location' == $tag ) ? 'end' : 'start';
 					return ' <span class="simcal-event-address simcal-event-' . $location_class . '-location" itemprop="location" itemscope itemtype="http://schema.org/Place">' . wp_strip_all_tags( $location ) . '</span>';
 
 				case 'start-location-link':
 				case 'end-location-link' :
 				case 'maps-link' :
-					$location = $tag == 'end-location-link' ? $event->end_location['address'] : $event->start_location['address'];
+					$location = ( 'end-location-link' == $tag ) ? $event->end_location['address'] : $event->start_location['address'];
 					if ( ! empty( $location ) ) {
 						$url = '//maps.google.com?q=' . urlencode( $location );
 						return $this->make_link( $tag, $url, $calendar->get_event_html( $event, $partial ), $attr );
@@ -263,7 +263,7 @@ class Event_Builder {
 
 				case 'link' :
 				case 'url' :
-					$content = 'link' == $tag ? $calendar->get_event_html( $event, $partial ) : '';
+					$content = ( 'link' == $tag ) ? $calendar->get_event_html( $event, $partial ) : '';
 					return $this->make_link( $tag, $event->link, $content , $attr );
 
 				case 'calendar' :
