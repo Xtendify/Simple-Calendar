@@ -754,9 +754,8 @@ abstract class Calendar {
 			'action'   => 'TEMPLATE',
 			'text'     => urlencode( strip_tags( $event->title ) ),
 			'dates'    => $gcal_dt_string,
-			'details'  => urlencode( $event->description ),
-		    // TODO Account for no location
-			// TODO 'location' => urlencode( $event->start_location ),
+			'details'  => urlencode( $event->description ), // works if blank
+		    'location' => urlencode( $event->start_location['address'] ), // works if just a name, just an address, or blank
 			'trp'      => 'false',
 		);
 
