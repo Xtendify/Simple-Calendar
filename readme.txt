@@ -97,6 +97,7 @@ We'd love your help! Here's a few things you can do:
 = 3.1.3 - TODO =
 
 * Feature: Added "Add to Google Calendar" link event template tag.
+* Fix: Corrected all structured data/schema.org output errors caught by Google's structured data testing tool.
 * Dev: System report tweaks for PHP 7 compatibility.
 
 = 3.1.2 - July 13, 2016 =
