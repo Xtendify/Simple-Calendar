@@ -191,13 +191,23 @@ final class Plugin {
 		do_action( 'before_simcal_init' );
 
 		// Set up localization.
-		load_plugin_textdomain( 'google-calendar-events', false, dirname( plugin_basename( SIMPLE_CALENDAR_MAIN_FILE ) ) . '/i18n/' );
+		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
 
 		// Init objects factory.
 		$this->objects = new Objects();
 
 		// Upon init action hook.
 		do_action( 'simcal_init' );
+	}
+
+	/**
+	 * Loads the plugin textdomain for translation.
+	 *
+	 * @since 3.1.3
+	 */
+	public function load_plugin_textdomain() {
+
+		load_plugin_textdomain( 'google-calendar-events', false, dirname( plugin_basename( SIMPLE_CALENDAR_MAIN_FILE ) ) . '/i18n/' );
 	}
 
 	/**
