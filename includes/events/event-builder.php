@@ -666,9 +666,11 @@ class Event_Builder {
 
 			$time_end = ! empty( $time_start ) && ! empty( $time_end ) ? ' - ' . $time_end : '';
 
+			// All-day events also need startDate for schema data.
 			$output = ' <span class="simcal-event-start simcal-event-start-date" ' .
 			          'data-event-start="' . $start->getTimestamp() . '" ' .
-			          'data-event-format="' . $this->calendar->date_format . '">' .
+			          'data-event-format="' . $this->calendar->date_format . '" ' .
+			          'itemprop="startDate" content="' . $start->toIso8601String() . '">' .
 			          date_i18n( $this->calendar->date_format, $start->getTimestamp() ) .
 			          '</span> ' .
 			          $time_start .
