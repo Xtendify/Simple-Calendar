@@ -57,39 +57,26 @@ class Welcome {
 		switch ( $page ) {
 
 			case 'simple-calendar_about' :
-				$page = add_dashboard_page(
-					$welcome_page_title,
-					$welcome_page_name,
-					'manage_options',
-					'simple-calendar_about',
-					array( $this, 'about_screen' )
-				);
-				add_action( 'admin_print_styles-' . $page, array( $this, 'styles' ) );
+				$page = add_dashboard_page( $welcome_page_title, $welcome_page_name, 'manage_options', 'simple-calendar_about', array(
+					$this,
+					'about_screen',
+				) );
 				break;
 
 			case 'simple-calendar_credits' :
-				$page = add_dashboard_page(
-					$welcome_page_title,
-					$welcome_page_name,
-					'manage_options',
-					'simple-calendar_credits',
-					array( $this, 'credits_screen' )
-				);
-				add_action( 'admin_print_styles-' . $page, array( $this, 'styles' ) );
+				$page = add_dashboard_page( $welcome_page_title, $welcome_page_name, 'manage_options', 'simple-calendar_credits', array(
+					$this,
+					'credits_screen',
+				) );
 				break;
 
 			case 'simple-calendar_translators' :
-				$page = add_dashboard_page(
-					$welcome_page_title,
-					$welcome_page_name,
-					'manage_options',
-					'simple-calendar_translators',
-					array( $this, 'translators_screen' )
-				);
-				add_action( 'admin_print_styles-' . $page, array( $this, 'styles' ) );
+				$page = add_dashboard_page( $welcome_page_title, $welcome_page_name, 'manage_options', 'simple-calendar_translators', array(
+					$this,
+					'translators_screen',
+				) );
 				break;
 		}
-
 	}
 
 	/**
@@ -101,23 +88,6 @@ class Welcome {
 		remove_submenu_page( 'index.php', 'simple-calendar_about' );
 		remove_submenu_page( 'index.php', 'simple-calendar_credits' );
 		remove_submenu_page( 'index.php', 'simple-calendar_translators' );
-	}
-
-	/**
-	 * Load styles.
-	 *
-	 * @since 3.0.0
-	 */
-	public function styles() {
-		// TODO Nothing in activation.css yet
-		/*
-		wp_enqueue_style(
-			'simcal-activation',
-			SIMPLE_CALENDAR_ASSETS . '/css/activation.css',
-			array(),
-			SIMPLE_CALENDAR_VERSION
-		);
-		*/
 	}
 
 	/**
