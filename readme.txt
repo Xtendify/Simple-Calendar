@@ -98,7 +98,10 @@ We'd love your help! Here's a few things you can do:
 
 * Feature: Added "Add to Google Calendar" link event template tag.
 * Fix: Corrected all structured data/schema.org output errors caught by Google's structured data testing tool.
+* Fix: Default colors specified for today and events with days should now work even when colors blanked out.
 * Dev: System report tweaks for PHP 7 compatibility.
+* Dev: Sass 3.4 compatibility.
+* Dev: Move load_plugin_textdomain call to plugins_loaded hook. Not needed with WP 4.6+.
 
 = 3.1.2 - July 13, 2016 =
 
