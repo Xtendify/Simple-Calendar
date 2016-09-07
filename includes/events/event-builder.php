@@ -251,6 +251,7 @@ class Event_Builder {
 					$location = ( 'end-location' == $tag ) ? $event->end_location['address'] : $event->start_location['address'];
 					$location_class = ( 'end-location' == $tag ) ? 'end' : 'start';
 					return ' <span class="simcal-event-address simcal-event-' . $location_class . '-location" itemprop="location" itemscope itemtype="http://schema.org/Place">' .
+					       '<meta itemprop="name" content="' . wp_strip_all_tags( $event->title ) . '" />' .
 					       '<meta itemprop="address" content="' . wp_strip_all_tags( $location ) . '" />' .
 					       wp_strip_all_tags( $location ) .
 					       '</span>' .
