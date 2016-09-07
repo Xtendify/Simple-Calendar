@@ -100,6 +100,7 @@ class Event_Builder {
 
 			'link',                  // An HTML link to the event URL.
 			'url',                   // A string with the raw event link URL.
+			'add-to-gcal-link',      // Link for viewers to add to their GCals.
 
 			'calendar',              // The title of the source calendar.
 			'feed-title',            // @deprecated An alias of 'calendar'.
@@ -247,14 +248,14 @@ class Event_Builder {
 				case 'location' :
 				case 'start-location' :
 				case 'end-location' :
-					$location = $tag == 'end-location' ? $event->end_location['address'] : $event->start_location['address'];
-					$location_class = $tag == 'end-location' ? 'end' : 'start';
+					$location = ( 'end-location' == $tag ) ? $event->end_location['address'] : $event->start_location['address'];
+					$location_class = ( 'end-location' == $tag ) ? 'end' : 'start';
 					return ' <span class="simcal-event-address simcal-event-' . $location_class . '-location" itemprop="location" itemscope itemtype="http://schema.org/Place">' . wp_strip_all_tags( $location ) . '</span>';
 
 				case 'start-location-link':
 				case 'end-location-link' :
 				case 'maps-link' :
-					$location = $tag == 'end-location-link' ? $event->end_location['address'] : $event->start_location['address'];
+					$location = ( 'end-location-link' == $tag ) ? $event->end_location['address'] : $event->start_location['address'];
 					if ( ! empty( $location ) ) {
 						$url = '//maps.google.com?q=' . urlencode( $location );
 						return $this->make_link( $tag, $url, $calendar->get_event_html( $event, $partial ), $attr );
@@ -263,8 +264,17 @@ class Event_Builder {
 
 				case 'link' :
 				case 'url' :
-					$content = 'link' == $tag ? $calendar->get_event_html( $event, $partial ) : '';
+					$content = ( 'link' == $tag ) ? $calendar->get_event_html( $event, $partial ) : '';
 					return $this->make_link( $tag, $event->link, $content , $attr );
+
+				case 'add-to-gcal-link';
+					$content = ( 'add-to-gcal-link' == $tag ) ? $calendar->get_event_html( $event, $partial ) : '';
+					if ( ! empty( $content ) ) {
+						$url = $calendar->get_add_to_gcal_url( $event );
+
+						return $this->make_link( $tag, $url, $content, $attr );
+					}
+					break;
 
 				case 'calendar' :
 				case 'feed-title' :

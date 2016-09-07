@@ -732,6 +732,39 @@ abstract class Calendar {
 	}
 
 	/**
+	 * Get "Add to Google Calendar" link.
+	 *
+	 * @since  3.1.3
+	 *
+	 * @param  Event  $event    Event object to be parsed.
+	 *
+	 * @return string
+	 */
+	public function get_add_to_gcal_url( Event $event ) {
+		$base_url = 'https://calendar.google.com/calendar/render';
+		// Was https://www.google.com/calendar/render
+
+		// Start & end date/time in specific format for GCal.
+		// &dates=20160504T110000Z/20160504T170000Z
+		// All day events remove time component.
+		$gcal_dt_format = ( true == $event->whole_day ) ? 'Ymd' : 'Ymd\THi00\Z';
+		$gcal_dt_string = $gcal_dt_string = $event->start_dt->format( $gcal_dt_format ) . '/' . $event->end_dt->format( $gcal_dt_format );
+
+		$params = array(
+			'action'   => 'TEMPLATE',
+			'text'     => urlencode( strip_tags( $event->title ) ),
+			'dates'    => $gcal_dt_string,
+			'details'  => urlencode( $event->description ), // works if blank
+		    'location' => urlencode( $event->start_location['address'] ), // works if just a name, just an address, or blank
+			'trp'      => 'false',
+		);
+
+		$url = add_query_arg( $params, $base_url );
+
+		return $url;
+	}
+
+	/**
 	 * Output the calendar markup.
 	 *
 	 * @since 3.0.0
