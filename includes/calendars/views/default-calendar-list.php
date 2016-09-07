@@ -587,8 +587,6 @@ class Default_Calendar_List implements Calendar_View {
 								$event_visibility = ' style="display: none"';
 							endif;
 
-							$event_color = '';
-							$bullet = '';
 							$event_color = $event->get_color();
 							if ( ! empty( $event_color ) ) {
 								$side = is_rtl() ? 'right' : 'left';
