@@ -250,12 +250,19 @@ class Event_Builder {
 				case 'end-location' :
 					$location = ( 'end-location' == $tag ) ? $event->end_location['address'] : $event->start_location['address'];
 					$location_class = ( 'end-location' == $tag ) ? 'end' : 'start';
+
+					// location, location.name, location.address (type PostalAddress) all required for schema data.
+					// Need to use event name where location data doesn't exist.
+					// Since we have 1 location field, use it as the name and address.
+					// If the location is blank, use the event title as the name and address.
+					// Wrap with wp_strip_all_tags().
+					$meta_location_name_and_address = empty( $location ) ? wp_strip_all_tags( $event->title ) : wp_strip_all_tags( $location );
+
 					return ' <span class="simcal-event-address simcal-event-' . $location_class . '-location" itemprop="location" itemscope itemtype="http://schema.org/Place">' .
-					       '<meta itemprop="name" content="' . wp_strip_all_tags( $event->title ) . '" />' .
-					       '<meta itemprop="address" content="' . wp_strip_all_tags( $location ) . '" />' .
+					       '<meta itemprop="name" content="' . $meta_location_name_and_address . '" />' .
+					       '<meta itemprop="address" content="' . $meta_location_name_and_address . '" />' .
 					       wp_strip_all_tags( $location ) .
-					       '</span>' .
-					       ' ';
+					       '</span>';
 
 				case 'start-location-link':
 				case 'end-location-link' :
