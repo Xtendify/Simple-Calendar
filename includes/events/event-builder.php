@@ -969,14 +969,14 @@ class Event_Builder {
 	//allow other plugins to register own event tags
 	private function SimpleCalendar_Events_Event_Builder_Add_Custom_Event_Tags() 
 	{
-		$array = apply_filters( 'SimpleCalendar_Events_Event_Builder_Add_Custom_Event_Tags', array());
+		$array = apply_filters( 'simcal_event_tags_add_custom', array());
 		return $array;
 	}
 
 	//allow other plugins to replace own (registered) event tags with their value
 	private function SimpleCalendar_Events_Event_Builder_Do_Custom_Event_Tag($tag,$partial,$attr,$event)
 	{
-		$returnvalue = apply_filters('SimpleCalendar_Events_Event_Builder_Do_Custom_Event_Tag',"",$tag,$partial,$attr,$event);
+		$returnvalue = apply_filters('simcal_event_tags_do_custom',"",$tag,$partial,$attr,$event);
 		return $returnvalue;
 	}
 }
