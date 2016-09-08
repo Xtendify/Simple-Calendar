@@ -154,7 +154,7 @@ class Event_Builder {
 			'if-not-start-location', // Does the event has NOT a start location?
 			'if-not-end-location',   // Does the event has NOT an end location?
 
-		), (array) $this->SimpleCalendar_Events_Event_Builder_Add_Custom_Event_Tags());
+		), (array) $this->add_custom_event_tags());
 	}
 
 	/**
@@ -461,7 +461,7 @@ class Event_Builder {
 				 * ======= */
 
 				default :
-					$resultCustom = $this->SimpleCalendar_Events_Event_Builder_Do_Custom_Event_Tag($tag,$partial,$attr,$event);
+					$resultCustom = $this->do_custom_event_tag($tag,$partial,$attr,$event);
 					if ($resultCustom != "")
 						return $resultCustom;
 					return wp_kses_post( $before . $partial . $after );
@@ -967,14 +967,14 @@ class Event_Builder {
 	}
 
 	//allow other plugins to register own event tags
-	private function SimpleCalendar_Events_Event_Builder_Add_Custom_Event_Tags() 
+	private function add_custom_event_tags() 
 	{
 		$array = apply_filters( 'simcal_event_tags_add_custom', array());
 		return $array;
 	}
 
 	//allow other plugins to replace own (registered) event tags with their value
-	private function SimpleCalendar_Events_Event_Builder_Do_Custom_Event_Tag($tag,$partial,$attr,$event)
+	private function do_custom_event_tag($tag,$partial,$attr,$event)
 	{
 		$returnvalue = apply_filters('simcal_event_tags_do_custom',"",$tag,$partial,$attr,$event);
 		return $returnvalue;
