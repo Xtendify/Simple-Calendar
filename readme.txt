@@ -94,7 +94,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.1.3 - TODO =
+= 3.1.3 - September 12, 2016 =
 
 * Feature: Added "Add to Google Calendar" link event template tag.
 * Fix: Corrected all structured data/schema.org output errors caught by Google's structured data testing tool.
