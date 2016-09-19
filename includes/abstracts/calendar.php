@@ -747,9 +747,13 @@ abstract class Calendar {
 		// Start & end date/time in specific format for GCal.
 		// &dates=20160504T110000/20160504T170000
 		// No "Z"s tacked on to preserve source timezone.
-		// All day events remove time component.
-		$gcal_dt_format = ( true == $event->whole_day ) ? 'Ymd' : 'Ymd\THi00';
-		$gcal_dt_string = $event->start_dt->format( $gcal_dt_format ) . '/' . $event->end_dt->format( $gcal_dt_format );
+		// All day events remove time component, but need to add a full day to show up correctly.
+		$is_all_day     = ( true == $event->whole_day );
+		$gcal_dt_format = $is_all_day ? 'Ymd' : 'Ymd\THi00';
+		$gcal_begin_dt  = $event->start_dt->format( $gcal_dt_format );
+		$end_dt_raw     = $is_all_day ? $event->end_dt->addDay() : $event->end_dt;
+		$gcal_end_dt    = $end_dt_raw->format( $gcal_dt_format );
+		$gcal_dt_string = $gcal_begin_dt . '/' . $gcal_end_dt;
 
 		// "details" (description) should work even when blank.
 		// "location" (address) should work with an address, just a name or blank.
