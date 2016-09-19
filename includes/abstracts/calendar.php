@@ -762,6 +762,11 @@ abstract class Calendar {
 			'trp'      => 'false',
 		);
 
+		// "ctz" (timezone) arg should be included unless all-day OR 'UTC'.
+		if ( ! $is_all_day && ( 'UTC' !== $event->timezone ) ) {
+			$params['ctz'] = urlencode( $event->timezone );
+		}
+
 		$url = add_query_arg( $params, $base_url );
 
 		return $url;
