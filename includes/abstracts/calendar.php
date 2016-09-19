@@ -745,9 +745,10 @@ abstract class Calendar {
 		// Was https://www.google.com/calendar/render
 
 		// Start & end date/time in specific format for GCal.
-		// &dates=20160504T110000Z/20160504T170000Z
+		// &dates=20160504T110000/20160504T170000
+		// No "Z"s tacked on to preserve source timezone.
 		// All day events remove time component.
-		$gcal_dt_format = ( true == $event->whole_day ) ? 'Ymd' : 'Ymd\THi00\Z';
+		$gcal_dt_format = ( true == $event->whole_day ) ? 'Ymd' : 'Ymd\THi00';
 		$gcal_dt_string = $event->start_dt->format( $gcal_dt_format ) . '/' . $event->end_dt->format( $gcal_dt_format );
 
 		// "details" (description) should work even when blank.
