@@ -750,12 +750,14 @@ abstract class Calendar {
 		$gcal_dt_format = ( true == $event->whole_day ) ? 'Ymd' : 'Ymd\THi00\Z';
 		$gcal_dt_string = $event->start_dt->format( $gcal_dt_format ) . '/' . $event->end_dt->format( $gcal_dt_format );
 
+		// "details" (description) should work even when blank.
+		// "location" (address) should work with an address, just a name or blank.
 		$params = array(
 			'action'   => 'TEMPLATE',
 			'text'     => urlencode( strip_tags( $event->title ) ),
 			'dates'    => $gcal_dt_string,
-			'details'  => urlencode( $event->description ), // works if blank
-		    'location' => urlencode( $event->start_location['address'] ), // works if just a name, just an address, or blank
+			'details'  => urlencode( $event->description ),
+			'location' => urlencode( $event->start_location['address'] ),
 			'trp'      => 'false',
 		);
 
