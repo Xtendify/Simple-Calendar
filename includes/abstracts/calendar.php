@@ -748,7 +748,7 @@ abstract class Calendar {
 		// &dates=20160504T110000Z/20160504T170000Z
 		// All day events remove time component.
 		$gcal_dt_format = ( true == $event->whole_day ) ? 'Ymd' : 'Ymd\THi00\Z';
-		$gcal_dt_string = $gcal_dt_string = $event->start_dt->format( $gcal_dt_format ) . '/' . $event->end_dt->format( $gcal_dt_format );
+		$gcal_dt_string = $event->start_dt->format( $gcal_dt_format ) . '/' . $event->end_dt->format( $gcal_dt_format );
 
 		$params = array(
 			'action'   => 'TEMPLATE',
