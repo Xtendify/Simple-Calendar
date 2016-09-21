@@ -3,7 +3,7 @@ Contributors: moonstonemedia, pderksen, nickyoung87, nekojira, rosshanney
 Tags: google calendar, calendar, calendars, google, event calendar, custom calendar, custom calendars, event, events
 Requires at least: 4.2
 Tested up to: 4.6
-Stable tag: 3.1.4
+Stable tag: 3.1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -95,6 +95,10 @@ We'd love your help! Here's a few things you can do:
 8. Attach a calendar to a post or page
 
 == Changelog ==
+
+= 3.1.5 - TODO =
+
+* Fix: Multi-day events in the future should now display first day of event when selecting "No, display on all days of event up to current day".
 
 = 3.1.4 - September 19, 2016 =
 
