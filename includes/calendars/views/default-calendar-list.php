@@ -472,7 +472,7 @@ class Default_Calendar_List implements Calendar_View {
 
 		$now = $calendar->now;
 		$current_events = $this->get_events( $timestamp );
-		$day_format = explode( ' ', $calendar->date_format );
+		$format = $calendar->date_format;
 
 		ob_start();
 
@@ -543,9 +543,7 @@ class Default_Calendar_List implements Calendar_View {
 
 					echo "\t" . '<dt class="simcal-day-label"' . $border_style . '>';
 					echo '<span' . $bg_style .'>';
-					foreach ( $day_format as $format ) {
-						echo $format ? '<span class="simcal-date-format" data-date-format="' . $format . '">' . date_i18n( $format, $day_ts ) . '</span> ' : ' ';
-					}
+					echo $format ? '<span class="simcal-date-format" data-date-format="' . $format . '">' . date_i18n( $format, $day_ts ) . '</span> ' : ' ';
 					echo '</span>';
 					echo '</dt>' . "\n";
 
