@@ -99,6 +99,7 @@ We'd love your help! Here's a few things you can do:
 = 3.1.5 - TODO =
 
 * Fix: Multi-day events in the future should now display first day of event when selecting "No, display on all days of event up to current day".
+* Tweak: Clearer warning about using timezone setting "Event source default".
 * Dev: Added filters to add your own custom event template tags. Props [@Brummolix](https://github.com/Brummolix)
 
 = 3.1.4 - September 19, 2016 =
