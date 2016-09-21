@@ -3,7 +3,7 @@ Contributors: moonstonemedia, pderksen, nickyoung87, nekojira, rosshanney
 Tags: google calendar, calendar, calendars, google, event calendar, custom calendar, custom calendars, event, events
 Requires at least: 4.2
 Tested up to: 4.6
-Stable tag: 3.1.2
+Stable tag: 3.1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,8 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 * Configure header navigation buttons to allow site visitors to easily switch between views.
 * Intuitive design for multi-day events.
 * Customizable calendar heights with optional scroll bars.
+* Set default start time for week and day views.
+* Limit display times for week and day views.
 * Works with our Google Calendar Pro add-on to display **color-coded events** within each view.
 * Priority email support and product updates for one year backed by a top-notch team.
 
@@ -94,7 +96,15 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.1.3 - TODO =
+= 3.1.5 - TODO =
+
+* Fix: Multi-day events in the future should now display first day of event when selecting "No, display on all days of event up to current day".
+
+= 3.1.4 - September 19, 2016 =
+
+* Fix: "Add to Google Calendar" link now uses source calendar's timezone (except for all-day and UTC timezone events).
+
+= 3.1.3 - September 12, 2016 =
 
 * Feature: Added "Add to Google Calendar" link event template tag.
 * Fix: Corrected all structured data/schema.org output errors caught by Google's structured data testing tool.

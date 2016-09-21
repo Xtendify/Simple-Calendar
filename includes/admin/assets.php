@@ -60,14 +60,14 @@ class Assets {
 			'simcal-tiptip',
 			$js_path_vendor . 'jquery.tipTip' . ( ( $this->min !== '' ) ? '.minified' : '' ) . '.js',
 			array( 'jquery' ),
-			'1.3',
+			SIMPLE_CALENDAR_VERSION,
 			true
 		);
 		wp_register_script(
 			'simcal-select2',
 			$js_path_vendor . 'select2' . $this->min . '.js',
 			array(),
-			'4.0',
+			SIMPLE_CALENDAR_VERSION,
 			true
 		);
 		wp_register_script(

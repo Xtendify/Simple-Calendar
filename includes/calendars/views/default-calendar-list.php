@@ -493,15 +493,15 @@ class Default_Calendar_List implements Calendar_View {
 
 		if ( ! empty( $current_events ) && is_array( $current_events ) ) :
 
+			$last_event = null;
+
 			foreach ( $current_events as $ymd => $events ) :
-
-
 
 				// This is where we can find out if an event is a multi-day event and if it needs to be shown.
 				// Since this is for list view we are showing the event on the day viewed if it is part of that day even when
 				// expand multi-day events are turned off.
 				if ( isset( $events[0][0]->multiple_days ) && $events[0][0]->multiple_days > 0 ) {
-					if ( 'current_day_only' == get_post_meta($calendar->id, '_default_calendar_expand_multi_day_events', true ) ) {
+					if ( 'current_day_only' == get_post_meta( $calendar->id, '_default_calendar_expand_multi_day_events', true ) ) {
 
 						$year  = substr( $ymd, 0, 4 );
 						$month = substr( $ymd, 4, 2 );
@@ -509,8 +509,15 @@ class Default_Calendar_List implements Calendar_View {
 
 						$temp_date = Carbon::createFromDate( $year, $month, $day );
 
-						if( ! ( $temp_date < Carbon::now()->endOfDay() ) ) {
-							continue;
+						if ( ! ( $temp_date < Carbon::now()->endOfDay() ) ) {
+
+							// Break here only if event already shown once.
+							if ( $last_event == $events[0][0] ) {
+								continue;
+							} else {
+								// Save event as "last" for next time through, then break.
+								$last_event = $events[0][0];
+							}
 						}
 					}
 				}

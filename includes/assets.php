@@ -102,7 +102,7 @@ class Assets {
 						'simplecalendar-imagesloaded',
 						SIMPLE_CALENDAR_ASSETS . 'js/vendor/imagesloaded.pkgd' . $min . '.js',
 						array( 'simcal-qtip' ),
-						'3.1.8',
+						SIMPLE_CALENDAR_VERSION,
 						true
 					);
 				}
