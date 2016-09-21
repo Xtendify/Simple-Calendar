@@ -572,7 +572,7 @@ class Settings implements Meta_Box {
 							data-show-field-on-choice="true">
 						<option value="use_site" <?php selected( 'use_site', $timezone_setting, true ); ?>><?php printf( _x( 'Site default', 'Use this site default setting', 'google-calendar-events' ) . ' (%s)', $timezone_default ); ?></option>
 						<?php if ( $show_use_calendar ) { ?>
-							<option id="use_calendar" value="use_calendar" data-show-field="_use_calendar_warning" <?php selected( 'use_calendar', $timezone_setting, true ); ?>><?php _ex( 'Events source default', 'Use the calendar default setting', 'google-calendar-events' ); ?></option>
+							<option id="use_calendar" value="use_calendar" data-show-field="_use_calendar_warning" <?php selected( 'use_calendar', $timezone_setting, true ); ?>><?php _ex( 'Event source default', 'Use the calendar default setting', 'google-calendar-events' ); ?></option>
 						<?php } ?>
 						<option value="use_custom" data-show-field="_feed_timezone" <?php selected( 'use_custom', $timezone_setting, true ); ?>><?php _ex( 'Custom', 'Use a custom setting', 'google-calendar-events' ); ?></option>
 					</select>
@@ -582,9 +582,11 @@ class Settings implements Meta_Box {
 						<?php echo 'use_custom' != $timezone_setting ? 'style="display: none;"' : ''; ?>>
 						<?php echo wp_timezone_choice( $timezone ); ?>
 					</select>
-					<i class="simcal-icon-help simcal-help-tip" data-tip="<?php _e( 'Using a different timezone may alter the date and time display of your calendar events. It is recommended to keep the calendar default timezone.', 'google-calendar-events' ); ?>"></i>
+					<i class="simcal-icon-help simcal-help-tip" data-tip="<?php _e( 'Using a different timezone may alter the date and time display of your calendar events. We recommended using the site default timezone.', 'google-calendar-events' ); ?>"></i>
 					<p id="_use_calendar_warning" style="display: none;" class="simcal-field">
-						<?php printf( __( '<strong>Warning:</strong> Using this option can return unexpected results if you have specified <a href="%s" target="_blank">event level</a> timezones.', 'google-calendar-events' ), 'http://docs.simplecalendar.io/timezone-settings/' ); ?>
+						<span class="attention"><?php _e( 'Warning', 'google-calendar-events' ); ?>:</span>
+						<?php _e( 'Setting this to <code>Event source default</code> can at times cause unexpected results. Please test thoroughly.', 'google-calendar-events' ); ?>
+						<a href="http://docs.simplecalendar.io/timezone-settings/" target="_blank"><?php _e( 'See details.', 'google-calendar-events' ); ?></a>
 					</p>
 				</td>
 			</tr>
