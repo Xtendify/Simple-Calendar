@@ -570,12 +570,6 @@ class Default_Calendar_List implements Calendar_View {
 
 						if ( $event instanceof Event ) :
 
-							if ( $feed->type == 'grouped-calendars' ) {
-								// TODO date_default_timezone_set( $feed_timezone );
-							} else {
-								// TODO date_default_timezone_set( $event->timezone );
-							}
-
 							$event_classes = $event_visibility = '';
 
 							$calendar_class     = 'simcal-events-calendar-' . strval( $event->calendar );
@@ -660,8 +654,6 @@ class Default_Calendar_List implements Calendar_View {
 		endif;
 
 		echo '</' . $block_tag . '>';
-
-		// TODO date_default_timezone_set( $calendar->site_timezone );
 
 		return ob_get_clean();
 	}

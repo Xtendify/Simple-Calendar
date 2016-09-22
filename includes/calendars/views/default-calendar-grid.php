@@ -421,12 +421,6 @@ class Default_Calendar_Grid implements Calendar_View {
 
 					if ( $event instanceof Event ) :
 
-						if ( $feed->type == 'grouped-calendars' ) {
-							// TODO date_default_timezone_set( $feed_timezone );
-						} else {
-							// TODO date_default_timezone_set( $event->timezone );
-						}
-
 						// Store the calendar id where the event belongs (useful in grouped calendar feeds)
 						$calendar_class  = 'simcal-events-calendar-' . strval( $event->calendar );
 						$calendar_classes[] = $calendar_class ;
@@ -565,8 +559,6 @@ class Default_Calendar_Grid implements Calendar_View {
 
 		echo "\t" . '</tr>' . "\n";
 		echo '</tbody>' . "\n";
-
-		// TODO date_default_timezone_set( $calendar->site_timezone );
 
 		return ob_get_clean();
 	}
