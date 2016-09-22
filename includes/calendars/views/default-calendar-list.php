@@ -468,6 +468,8 @@ class Default_Calendar_List implements Calendar_View {
 		}
 
 		$feed          = simcal_get_feed( $calendar );
+
+		// TODO Need $feed_timezone?
 		$feed_timezone = get_post_meta( $feed->post_id, '_feed_timezone', true );
 
 		$now = $calendar->now;
@@ -522,13 +524,15 @@ class Default_Calendar_List implements Calendar_View {
 					}
 				}
 
-				$day_ts = Carbon::createFromFormat( 'Ymd', $ymd, $calendar->timezone )->startOfDay()->getTimestamp();
+				// Calculate timestamp offset for list view day headings.
+				$day_date = Carbon::createFromFormat( 'Ymd', $ymd, $calendar->timezone );
+				$day_ts_offset = $day_date->addSeconds( $day_date->offset )->timestamp;
 
 				if ( ! $calendar->compact_list ) :
 
 					$date = new Carbon( 'now', $calendar->timezone );
 					$date->setLocale( substr( get_locale(), 0, 2 ) );
-					$date->setTimestamp( $day_ts );
+					$date->setTimestamp( $day_ts_offset );
 
 					if ( $date->isToday() ) {
 						$the_color = new Color( $calendar->today_color );
@@ -543,7 +547,7 @@ class Default_Calendar_List implements Calendar_View {
 
 					echo "\t" . '<dt class="simcal-day-label"' . $border_style . '>';
 					echo '<span' . $bg_style .'>';
-					echo $format ? '<span class="simcal-date-format" data-date-format="' . $format . '">' . date_i18n( $format, $day_ts ) . '</span> ' : ' ';
+					echo $format ? '<span class="simcal-date-format" data-date-format="' . $format . '">' . date_i18n( $format, $day_ts_offset ) . '</span> ' : ' ';
 					echo '</span>';
 					echo '</dt>' . "\n";
 
@@ -552,7 +556,7 @@ class Default_Calendar_List implements Calendar_View {
 				$list_events = '<ul class="simcal-events">' . "\n";
 
 				$calendar_classes = array();
-				$day_classes = 'simcal-weekday-' . date( 'w', $day_ts );
+				$day_classes = 'simcal-weekday-' . date( 'w', $day_ts_offset );
 
 				// Is this the present, the past or the future, Doc?
 				if ( $timestamp <= $now && $timestamp >= $now ) {
