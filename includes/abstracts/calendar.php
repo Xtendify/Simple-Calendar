@@ -820,13 +820,13 @@ abstract class Calendar {
 									. 'data-events-last="'    . $this->latest_event . '"'
 									. '>';
 
-				date_default_timezone_set( $this->timezone );
+				// TODO date_default_timezone_set( $this->timezone );
 				do_action( 'simcal_calendar_html_before', $this->id );
 
 				$view->html();
 
 				do_action( 'simcal_calendar_html_after', $this->id );
-				date_default_timezone_set( $this->site_timezone );
+				// TODO date_default_timezone_set( $this->site_timezone );
 
 				//$settings = get_option( 'simple-calendar_settings_calendars' );
 				$poweredby = get_post_meta( $this->id, '_poweredby', true );

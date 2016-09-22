@@ -571,9 +571,9 @@ class Default_Calendar_List implements Calendar_View {
 						if ( $event instanceof Event ) :
 
 							if ( $feed->type == 'grouped-calendars' ) {
-								date_default_timezone_set( $feed_timezone );
+								// TODO date_default_timezone_set( $feed_timezone );
 							} else {
-								date_default_timezone_set( $event->timezone );
+								// TODO date_default_timezone_set( $event->timezone );
 							}
 
 							$event_classes = $event_visibility = '';
@@ -661,7 +661,7 @@ class Default_Calendar_List implements Calendar_View {
 
 		echo '</' . $block_tag . '>';
 
-		date_default_timezone_set( $calendar->site_timezone );
+		// TODO date_default_timezone_set( $calendar->site_timezone );
 
 		return ob_get_clean();
 	}

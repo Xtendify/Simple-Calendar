@@ -422,9 +422,9 @@ class Default_Calendar_Grid implements Calendar_View {
 					if ( $event instanceof Event ) :
 
 						if ( $feed->type == 'grouped-calendars' ) {
-							date_default_timezone_set( $feed_timezone );
+							// TODO date_default_timezone_set( $feed_timezone );
 						} else {
-							date_default_timezone_set( $event->timezone );
+							// TODO date_default_timezone_set( $event->timezone );
 						}
 
 						// Store the calendar id where the event belongs (useful in grouped calendar feeds)
@@ -566,7 +566,7 @@ class Default_Calendar_Grid implements Calendar_View {
 		echo "\t" . '</tr>' . "\n";
 		echo '</tbody>' . "\n";
 
-		date_default_timezone_set( $calendar->site_timezone );
+		// TODO date_default_timezone_set( $calendar->site_timezone );
 
 		return ob_get_clean();
 	}
