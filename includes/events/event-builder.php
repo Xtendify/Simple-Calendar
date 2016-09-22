@@ -680,14 +680,16 @@ class Event_Builder {
 
 		$time_start = '';
 		$time_end   = '';
+		$start_ts   = $start->timestamp;
+		$end_ts     = $end->timestamp;
 
 		if ( ! $event->whole_day ) {
 
-			$time_start = $this->calendar->datetime_separator . ' <span class="simcal-event-start simcal-event-start-time" ' . 'data-event-start="' . $start->getTimestamp() . '" ' . 'data-event-format="' . $this->calendar->time_format . '" ' . 'itemprop="startDate" content="' . $start->toIso8601String() . '">' . date_i18n( $this->calendar->time_format, $start->getTimestamp() ) . '</span> ';
+			$time_start = $this->calendar->datetime_separator . ' <span class="simcal-event-start simcal-event-start-time" ' . 'data-event-start="' . $start_ts . '" ' . 'data-event-format="' . $this->calendar->time_format . '" ' . 'itemprop="startDate" content="' . $start->toIso8601String() . '">' . date_i18n( $this->calendar->time_format, $start_ts ) . '</span> ';
 
 			if ( $end instanceof Carbon ) {
 
-				$time_end = ' <span class="simcal-event-end simcal-event-end-time" ' . 'data-event-end="' . $end->getTimestamp() . '" ' . 'data-event-format="' . $this->calendar->time_format . '" ' . 'itemprop="endDate" content="' . $end->toIso8601String() . '">' . date_i18n( $this->calendar->time_format, $end->getTimestamp() ) . '</span> ';
+				$time_end = ' <span class="simcal-event-end simcal-event-end-time" ' . 'data-event-end="' . $end_ts . '" ' . 'data-event-format="' . $this->calendar->time_format . '" ' . 'itemprop="endDate" content="' . $end->toIso8601String() . '">' . date_i18n( $this->calendar->time_format, $end_ts ) . '</span> ';
 
 			}
 
@@ -695,11 +697,11 @@ class Event_Builder {
 
 		if ( $event->multiple_days ) {
 
-			$output = ' <span class="simcal-event-start simcal-event-start-date" ' . 'data-event-start="' . $start->getTimestamp() . '" ' . 'data-event-format="' . $this->calendar->date_format . '" ' . 'itemprop="startDate" content="' . $start->toIso8601String() . '">' . date_i18n( $this->calendar->date_format, $start->getTimestamp() ) . '</span> ' . $time_start;
+			$output = ' <span class="simcal-event-start simcal-event-start-date" ' . 'data-event-start="' . $start_ts . '" ' . 'data-event-format="' . $this->calendar->date_format . '" ' . 'itemprop="startDate" content="' . $start->toIso8601String() . '">' . date_i18n( $this->calendar->date_format, $start_ts ) . '</span> ' . $time_start;
 
 			if ( $end instanceof Carbon ) {
 
-				$output .= '-' . ' <span class="simcal-event-start simcal-event-end-date" ' . 'data-event-start="' . $end->getTimestamp() . '" ' . 'data-event-format="' . $this->calendar->date_format . '" ' . 'itemprop="endDate" content="' . $end->toIso8601String() . '">' . date_i18n( $this->calendar->date_format, $end->getTimestamp() ) . '</span> ' . $time_end;
+				$output .= '-' . ' <span class="simcal-event-start simcal-event-end-date" ' . 'data-event-start="' . $end_ts . '" ' . 'data-event-format="' . $this->calendar->date_format . '" ' . 'itemprop="endDate" content="' . $end->toIso8601String() . '">' . date_i18n( $this->calendar->date_format, $end_ts ) . '</span> ' . $time_end;
 			}
 
 		} else {
@@ -707,7 +709,7 @@ class Event_Builder {
 			$time_end = ! empty( $time_start ) && ! empty( $time_end ) ? ' - ' . $time_end : '';
 
 			// All-day events also need startDate for schema data.
-			$output = ' <span class="simcal-event-start simcal-event-start-date" ' . 'data-event-start="' . $start->getTimestamp() . '" ' . 'data-event-format="' . $this->calendar->date_format . '" ' . 'itemprop="startDate" content="' . $start->toIso8601String() . '">' . date_i18n( $this->calendar->date_format, $start->getTimestamp() ) . '</span> ' . $time_start . $time_end;
+			$output = ' <span class="simcal-event-start simcal-event-start-date" ' . 'data-event-start="' . $start_ts . '" ' . 'data-event-format="' . $this->calendar->date_format . '" ' . 'itemprop="startDate" content="' . $start->toIso8601String() . '">' . date_i18n( $this->calendar->date_format, $start_ts ) . '</span> ' . $time_start . $time_end;
 
 		}
 
