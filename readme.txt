@@ -99,8 +99,10 @@ We'd love your help! Here's a few things you can do:
 = 3.1.5 - TODO =
 
 * Fix: Multi-day events in the future should now display first day of event when selecting "No, display on all days of event up to current day".
+* Fix: Correct dates in day headings in list view being off for some time zones.
 * Tweak: Clearer warning about using timezone setting "Event source default".
 * Dev: Added filters to add your own custom event template tags. Props [@Brummolix](https://github.com/Brummolix)
+* Dev: Remove all calls to date_default_timezone_set() due to the way WordPress core and the Google API client library both reset it and expect it to be 'UTC' at all times.
 
 = 3.1.4 - September 19, 2016 =
 
