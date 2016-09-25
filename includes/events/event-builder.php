@@ -686,8 +686,8 @@ class Event_Builder {
 		$end_iso    = $end->toIso8601String();
 
 		// Timestamps offset for display in selected (or site) timezone.
-		$start_ts_offset = $start->addSeconds( $start->offset )->timestamp;
-		$end_ts_offset   = $end->addSeconds( $end->offset )->timestamp;
+		$start_ts_offset = $start->copy()->addSeconds( $start->offset )->timestamp;
+		$end_ts_offset   = $end->copy()->addSeconds( $end->offset )->timestamp;
 
 		if ( ! $event->whole_day ) {
 
@@ -737,14 +737,17 @@ class Event_Builder {
 	private function get_dt( $tag, Event $event, $attr ) {
 
 		$bound = 0 === strpos( $tag, 'end' ) ? 'end' : 'start';
+
 		if ( ( 'end' == $bound ) && ( false === $event->end ) ) {
 			return '';
 		}
 
 		$dt = $bound . '_dt';
+
 		if ( ! $event->$dt instanceof Carbon ) {
 			return '';
 		}
+
 		$event_dt = $event->$dt->setTimezone( $event->timezone );
 
 		$attr = array_merge( array(
@@ -753,6 +756,7 @@ class Event_Builder {
 
 		$format    = ltrim( strstr( $tag, '-' ), '-' );
 		$dt_format = '';
+
 		if ( ! empty( $attr['format'] ) ) {
 			$dt_format = esc_attr( wp_strip_all_tags( $attr['format'] ) );
 		} elseif ( 'date' == $format ) {
@@ -761,16 +765,21 @@ class Event_Builder {
 			$dt_format = $this->calendar->time_format;
 		}
 
-		if ( 'human' == $format ) {
-			$value = human_time_diff( $event_dt->getTimestamp(), Carbon::now( $event->timezone )->getTimestamp() );
+		$dt_ts = $event_dt->timestamp;
 
-			if ( $event_dt->getTimestamp() < Carbon::now( $event->timezone )->getTimestamp() ) {
+		// Timestamps offset for display in selected (or site) timezone.
+		$dt_ts_offset = $event_dt->copy()->addSeconds( $event_dt->offset )->timestamp;
+
+		if ( 'human' == $format ) {
+			$value = human_time_diff( $dt_ts, Carbon::now( $event->timezone )->getTimestamp() );
+
+			if ( $dt_ts < Carbon::now( $event->timezone )->getTimestamp() ) {
 				$value .= ' ' . _x( 'ago', 'human date event builder code modifier', 'google-calendar-events' );
 			} else {
 				$value .= ' ' . _x( 'from now', 'human date event builder code modifier', 'google-calendar-events' );
 			}
 		} else {
-			$value = date_i18n( $dt_format, $event_dt->getTimestamp() );
+			$value = date_i18n( $dt_format, $dt_ts, $dt_ts_offset );
 		}
 
 		return '<span class="simcal-event-' . $bound . ' ' . 'simcal-event-' . $bound . '-' . $format . '" ' . 'data-event-' . $bound . '="' . $event_dt->getTimestamp() . '" ' . 'data-event-format="' . $dt_format . '" ' . 'itemprop="' . $bound . 'Date" content="' . $event_dt->toIso8601String() . '">' . $value . '</span>';
