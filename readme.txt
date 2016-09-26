@@ -96,7 +96,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.1.5 - TODO =
+= 3.1.5 - September 25, 2016 =
 
 * Fix: Multi-day events in the future should now display first day of event when selecting "No, display on all days of event up to current day".
 * Fix: Correct dates in day headings in list view being off for some time zones.
