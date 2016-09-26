@@ -683,9 +683,9 @@ class Event_Builder {
 		$time_start = '';
 		$time_end   = '';
 		$start_ts   = $start->timestamp;
-		$end_ts     = $end->timestamp;
+		$end_ts     = ! is_null( $end ) ? $end->timestamp : null;
 		$start_iso  = $start->toIso8601String();
-		$end_iso    = $end->toIso8601String();
+		$end_iso    = ! is_null( $end ) ? $end->toIso8601String() : null;;
 
 		if ( ! $event->whole_day ) {
 
