@@ -348,15 +348,28 @@ function simcal_newsletter_signup() {
 function simcal_upgrade_to_premium() {
 
 	if ( $screen = simcal_is_admin_screen() ) {
-
 		?>
-		<div id="simcal-drip" class="<?php echo $screen; ?>">
-			<div class="signup">
-				<p>
-					<?php _e( '', 'google-calendar-events' ); ?>
-				</p>
-			</div>
-			<div class="clear">
+		<div class="main">
+			<p class="heading centered">
+				<?php _e( 'Some of the features included with our premium add-ons', 'google-calendar-events' ); ?>
+			</p>
+
+			<ul>
+				<li><div class="dashicons dashicons-yes"></div> <?php _e( 'Display color coded events', 'google-calendar-events' ); ?></li>
+				<li><div class="dashicons dashicons-yes"></div> <?php _e( 'Show week & day views', 'google-calendar-events' ); ?></li>
+				<li><div class="dashicons dashicons-yes"></div> <?php _e( 'Fast view switching', 'google-calendar-events' ); ?></li>
+				<li><div class="dashicons dashicons-yes"></div> <?php _e( 'Event titles & start times in grid', 'google-calendar-events' ); ?></li>
+				<li><div class="dashicons dashicons-yes"></div> <?php _e( 'Limit event display times', 'google-calendar-events' ); ?></li>
+				<li><div class="dashicons dashicons-yes"></div> <?php _e( 'Display private calendar events', 'google-calendar-events' ); ?></li>
+				<li><div class="dashicons dashicons-yes"></div> <?php _e( 'Show attendees & RSVP status', 'google-calendar-events' ); ?></li>
+				<li><div class="dashicons dashicons-yes"></div> <?php _e( 'Display attachments', 'google-calendar-events' ); ?></li>
+				<li><div class="dashicons dashicons-yes"></div> <?php _e( 'Priority email support', 'google-calendar-events' ); ?></li>
+			</ul>
+
+			<div class="centered">
+				<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'addons' ), 'core-plugin', 'sidebar-link' ); ?>"
+				   class="button-primary button-large" target="_blank">
+					<?php _e( 'Upgrade to Premium Now', 'google-calendar-events' ); ?></a>
 			</div>
 		</div>
 		<?php

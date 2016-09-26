@@ -30,6 +30,23 @@
 	}
 }
 
+#simcal-upgrade {
+
+  .centered {
+    text-align: center;
+  }
+
+  .heading {
+    font-size: 16px;
+  }
+
+  .button-large {
+    font-size: 16px;
+    line-height: 30px;
+    height: 32px;
+  }
+}
+
 #simcal-calendar-settings {
 
   // Brought back by js, after tabs init.

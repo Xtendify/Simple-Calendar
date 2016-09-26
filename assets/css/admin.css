@@ -375,6 +375,17 @@ body .simcal-field-textarea {
   #simcal-newsletter input {
     width: 100%; }
 
+#simcal-upgrade .centered {
+  text-align: center; }
+
+#simcal-upgrade .heading {
+  font-size: 16px; }
+
+#simcal-upgrade .button-large {
+  font-size: 16px;
+  line-height: 30px;
+  height: 32px; }
+
 #simcal-calendar-settings {
   display: none; }
   #simcal-calendar-settings .hndle {
