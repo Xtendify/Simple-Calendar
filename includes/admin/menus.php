@@ -171,7 +171,9 @@ class Menus {
 			if ( 'calendar' == $screen ) {
 
 				// Add Drip promo signup form (@see Newsletter meta box).
+				// Removed 9/26/16.
 
+				/*
 				$drip_form_id = '5368192';
 
 				?>
@@ -192,7 +194,7 @@ class Menus {
 					       class="hidden"/>
 				</form>
 				<?php
-
+				*/
 			}
 
 			// Change the footer text

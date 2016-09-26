@@ -368,8 +368,10 @@ body .simcal-field-textarea {
 #simcal-get-shortcode input {
   width: 100%; }
 
+#simcal-upgrade,
 #simcal-newsletter {
   background-color: #fcf8e3; }
+  #simcal-upgrade input,
   #simcal-newsletter input {
     width: 100%; }
 

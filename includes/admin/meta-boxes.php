@@ -52,7 +52,9 @@ class Meta_Boxes {
 		// Load meta boxes to save settings.
 		new Metabox\Settings();
 		new Metabox\Attach_Calendar();
-		new Metabox\Newsletter();
+		new Metabox\Upgrade_To_Premium();
+		//new Metabox\Newsletter();
+
 		do_action( 'simcal_load_meta_boxes' );
 
 		// Add meta boxes.
@@ -88,6 +90,18 @@ class Meta_Boxes {
 		$addons = apply_filters( 'simcal_installed_addons', array() );
 		if ( empty( $addons ) ) {
 
+			// Premium add-on feature list and upsell.
+			add_meta_box(
+				'simcal-upgrade',
+				__( 'Looking for more?', 'google-calendar-events' ),
+				'\SimpleCalendar\Admin\Metaboxes\Upgrade_To_Premium::html',
+				'calendar',
+				'side',
+				'default'
+			);
+
+			// Removing coupon code + mailing list sign-up for now. 9/26/16
+			/*
 			add_meta_box(
 				'simcal-newsletter',
 				__( 'Get 20% off all Pro Add-ons', 'google-calendar-events' ),
@@ -96,7 +110,7 @@ class Meta_Boxes {
 				'side',
 				'default'
 			);
-
+			*/
 		}
 
 		add_meta_box(

@@ -337,3 +337,28 @@ function simcal_newsletter_signup() {
 
 	}
 }
+
+/**
+ * Upgrade to Premium Add-ons HTML.
+ *
+ * @since  3.1.6
+ *
+ * @return void
+ */
+function simcal_upgrade_to_premium() {
+
+	if ( $screen = simcal_is_admin_screen() ) {
+
+		?>
+		<div id="simcal-drip" class="<?php echo $screen; ?>">
+			<div class="signup">
+				<p>
+					<?php _e( '', 'google-calendar-events' ); ?>
+				</p>
+			</div>
+			<div class="clear">
+			</div>
+		</div>
+		<?php
+	}
+}
