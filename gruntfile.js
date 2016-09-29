@@ -30,12 +30,14 @@ module.exports = function( grunt ) {
 
 		pkg: pkg,
 
+		// Create comment banner to add to the top of minified .js and .css files.
 		banner: '/*! <%= pkg.title %> - <%= pkg.version %>\n' +
 		        ' * <%=pkg.homepage %>\n' +
 		        ' * Copyright (c) Moonstone Media <%= grunt.template.today("yyyy") %>\n' +
 		        ' * Licensed GPLv2+' +
 		        ' */\n',
 
+		// Validate i18n text domain slug throughout.
 		checktextdomain: {
 			options: {
 				text_domain: 'google-calendar-events',
@@ -66,10 +68,12 @@ module.exports = function( grunt ) {
 			}
 		},
 
+		// Wipe out build folder.
 		clean: {
 			build: [ 'build' ]
 		},
 
+		// Build the plugin zip file and place in build folder.
 		compress: {
 			main: {
 				options: {
@@ -83,6 +87,7 @@ module.exports = function( grunt ) {
 		},
 
 		// 'css' & 'js' tasks need to copy vendor-minified assets from bower folder to assets folder (select2, etc).
+		// 'main' task is for distributing build files.
 		copy: {
 			css: {
 				expand: true,
@@ -105,10 +110,10 @@ module.exports = function( grunt ) {
 					'jquery-tiptip/jquery.tipTip.minified.js',
 					'select2/dist/js/select2.js', // Using "non-full" version
 					'select2/dist/js/select2.min.js',
-				    'moment/moment.js',
-				    'moment/min/moment.min.js',
-				    'moment-timezone/builds/moment-timezone-with-data.js',
-				    'moment-timezone/builds/moment-timezone-with-data.min.js'
+					'moment/moment.js',
+					'moment/min/moment.min.js',
+					'moment-timezone/builds/moment-timezone-with-data.js',
+					'moment-timezone/builds/moment-timezone-with-data.min.js'
 				],
 				dest: 'assets/js/vendor/'
 			},
@@ -119,6 +124,7 @@ module.exports = function( grunt ) {
 			}
 		},
 
+		// Minify .css files.
 		cssmin: {
 			options: {
 				processImport: false,
@@ -136,6 +142,7 @@ module.exports = function( grunt ) {
 			}
 		},
 
+		// JavaScript linting with JSHint.
 		jshint: {
 			options: {
 				ignores: [
@@ -148,6 +155,7 @@ module.exports = function( grunt ) {
 			]
 		},
 
+		// Compile all .scss files.
 		sass: {
 			options: {
 				precision: 2,
@@ -166,6 +174,7 @@ module.exports = function( grunt ) {
 			}
 		},
 
+		// Minify .js files.
 		uglify: {
 			all: {
 				files: {
@@ -183,6 +192,7 @@ module.exports = function( grunt ) {
 			}
 		},
 
+		// Add comment banner to each minified .js and .css file.
 		usebanner: {
 			options: {
 				position: 'top',
