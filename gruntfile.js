@@ -30,6 +30,12 @@ module.exports = function( grunt ) {
 
 		pkg: pkg,
 
+		// Set folder variables.
+		dirs: {
+			css: 'assets/css',
+			js: 'assets/js'
+		},
+
 		// Create comment banner to add to the top of minified .js and .css files.
 		banner: '/*! <%= pkg.title %> - <%= pkg.version %>\n' +
 		        ' * <%=pkg.homepage %>\n' +
@@ -97,7 +103,7 @@ module.exports = function( grunt ) {
 					'select2/dist/css/select2.css',
 					'select2/dist/css/select2.min.css'
 				],
-				dest: 'assets/css/vendor/'
+				dest: '<%= dirs.css %>/vendor/'
 			},
 			js: {
 				expand: true,
@@ -115,7 +121,7 @@ module.exports = function( grunt ) {
 					'moment-timezone/builds/moment-timezone-with-data.js',
 					'moment-timezone/builds/moment-timezone-with-data.min.js'
 				],
-				dest: 'assets/js/vendor/'
+				dest: '<%= dirs.js %>/vendor/'
 			},
 			main: {
 				expand: true,
@@ -132,12 +138,12 @@ module.exports = function( grunt ) {
 			},
 			minify: {
 				expand: true,
-				cwd: 'assets/css',
+				cwd: '<%= dirs.css %>',
 				src: [
 					'*.css',
 					'!*.min.css'
 				],
-				dest: 'assets/css',
+				dest: '<%= dirs.css %>',
 				ext: '.min.css'
 			}
 		},
@@ -150,7 +156,7 @@ module.exports = function( grunt ) {
 				]
 			},
 			all: [
-				'assets/js/*.js',
+				'<%= dirs.js %>/*.js',
 				'gruntfile.js'
 			]
 		},
@@ -165,9 +171,9 @@ module.exports = function( grunt ) {
 				files: [
 					{
 						expand: true,
-						cwd: 'assets/css/sass/',
+						cwd: '<%= dirs.css %>/sass/',
 						src: [ '*.scss' ],
-						dest: 'assets/css/',
+						dest: '<%= dirs.css %>/',
 						ext: '.css'
 					}
 				]
@@ -178,9 +184,9 @@ module.exports = function( grunt ) {
 		uglify: {
 			all: {
 				files: {
-					'assets/js/admin.min.js': [ 'assets/js/admin.js' ],
-					'assets/js/admin-add-calendar.min.js': [ 'assets/js/admin-add-calendar.js' ],
-					'assets/js/default-calendar.min.js': [ 'assets/js/default-calendar.js' ]
+					'<%= dirs.js %>/admin.min.js': [ '<%= dirs.js %>/admin.js' ],
+					'<%= dirs.js %>/admin-add-calendar.min.js': [ '<%= dirs.js %>/admin-add-calendar.js' ],
+					'<%= dirs.js %>/default-calendar.min.js': [ '<%= dirs.js %>/default-calendar.js' ]
 				},
 				options: {
 					mangle: {
@@ -201,12 +207,12 @@ module.exports = function( grunt ) {
 			},
 			js: {
 				files: {
-					src: [ 'assets/js/*.min.js' ]
+					src: [ '<%= dirs.js %>/*.min.js' ]
 				}
 			},
 			css: {
 				files: {
-					src: [ 'assets/css/*.min.css' ]
+					src: [ '<%= dirs.css %>/*.min.css' ]
 				}
 			}
 		},
