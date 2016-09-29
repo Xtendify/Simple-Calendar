@@ -22,7 +22,6 @@
     "grunt-contrib-jshint": "1.x",
     "grunt-contrib-uglify": "1.x",
     "grunt-contrib-watch": "1.x",
-    "grunt-jscs": "2.x",
     "grunt-postcss": "0.x",
     "grunt-sass": "1.x",
     "load-grunt-tasks": "3.x"

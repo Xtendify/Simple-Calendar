@@ -136,13 +136,6 @@ module.exports = function( grunt ) {
 			}
 		},
 
-		jscs: {
-			all: [
-				'assets/js/*.js',
-				'!assets/js/*.min.js'
-			]
-		},
-
 		jshint: {
 			options: {
 				ignores: [
@@ -264,7 +257,7 @@ module.exports = function( grunt ) {
 
 	grunt.registerTask( 'css', [ 'sass', 'postcss', 'copy:css', 'cssmin', 'usebanner:css' ] );
 	grunt.registerTask( 'js', [ 'copy:js', 'uglify', 'usebanner:js' ] );
-	grunt.registerTask( 'default', [ 'css', 'jshint', 'jscs', 'js' ] );
+	grunt.registerTask( 'default', [ 'css', 'jshint', 'js' ] );
 
 	// Build task without composer commands.
 	grunt.registerTask( 'build', [ 'clean:build', 'default', 'checktextdomain', 'copy', 'compress'	] );
