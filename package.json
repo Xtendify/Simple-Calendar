@@ -10,11 +10,9 @@
     "url": "https://github.com/moonstonemedia/Simple-Calendar"
   },
   "devDependencies": {
-    "autoprefixer": "6.x",
     "grunt": "1.x",
     "grunt-banner": "0.x",
     "grunt-checktextdomain": "1.x",
-    "grunt-composer": "0.x",
     "grunt-contrib-clean": "1.x",
     "grunt-contrib-compress": "1.x",
     "grunt-contrib-copy": "1.x",
@@ -22,7 +20,6 @@
     "grunt-contrib-jshint": "1.x",
     "grunt-contrib-uglify": "1.x",
     "grunt-contrib-watch": "1.x",
-    "grunt-postcss": "0.x",
     "grunt-sass": "1.x",
     "load-grunt-tasks": "3.x"
   }
