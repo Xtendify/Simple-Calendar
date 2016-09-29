@@ -253,26 +253,12 @@ module.exports = function( grunt ) {
 
 	require( 'load-grunt-tasks' )( grunt );
 
-	grunt.loadNpmTasks( 'grunt-composer' );
-
 	grunt.registerTask( 'css', [ 'sass', 'postcss', 'copy:css', 'cssmin', 'usebanner:css' ] );
 	grunt.registerTask( 'js', [ 'copy:js', 'uglify', 'usebanner:js' ] );
 	grunt.registerTask( 'default', [ 'css', 'jshint', 'js' ] );
 
-	// Build task without composer commands.
-	grunt.registerTask( 'build', [ 'clean:build', 'default', 'checktextdomain', 'copy', 'compress'	] );
-
-	// Build task that includes composer commands. Can take a while.
-	grunt.registerTask( 'build-composer', [ 'composer:install:no-dev', 'composer:dump-autoload:optimize:no-dev',
-		'build', 'composer:update', 'composer:dump-autoload:optimize' ] );
-
 	// TODO Add deploy task
-	//grunt.registerTask( 'deploy',   ['test', 'localize', 'default', 'build', 'docs', 'wp_deploy'] );
-
-	// TODO Add watch task
-
-	// Possible future grunt tasks
-	//grunt.registerTask( 'test',     ['phpunit', 'qunit'] );
+	//grunt.registerTask( 'deploy',	['build'] );
 
 	grunt.util.linefeed = '\n';
 };
