@@ -148,23 +148,6 @@ module.exports = function( grunt ) {
 			]
 		},
 
-		postcss: {
-			options: {
-				processors: [
-					require( 'autoprefixer' )( { browsers: 'last 2 versions' } )
-				]
-			},
-			dist: {
-				expand: true,
-				cwd: 'assets/css',
-				src: [
-					'*.css',
-					'!*.min.css'
-				],
-				dest: 'assets/css'
-			}
-		},
-
 		sass: {
 			options: {
 				precision: 2,
@@ -230,7 +213,7 @@ module.exports = function( grunt ) {
 
 	require( 'load-grunt-tasks' )( grunt );
 
-	grunt.registerTask( 'css', [ 'sass', 'postcss', 'copy:css', 'cssmin', 'usebanner:css' ] );
+	grunt.registerTask( 'css', [ 'sass', 'copy:css', 'cssmin', 'usebanner:css' ] );
 	grunt.registerTask( 'js', [ 'copy:js', 'uglify', 'usebanner:js' ] );
 	grunt.registerTask( 'default', [ 'css', 'jshint', 'js' ] );
 
