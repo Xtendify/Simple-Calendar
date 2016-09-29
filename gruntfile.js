@@ -216,6 +216,7 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'css', [ 'sass', 'copy:css', 'cssmin', 'usebanner:css' ] );
 	grunt.registerTask( 'js', [ 'jshint', 'copy:js', 'uglify', 'usebanner:js' ] );
 	grunt.registerTask( 'default', [ 'css', 'js' ] );
+	grunt.registerTask( 'build', [ 'default', 'checktextdomain', 'clean:build', 'copy:main', 'compress' ] );
 
 	// TODO Add deploy task
 	//grunt.registerTask( 'deploy',	['build'] );
