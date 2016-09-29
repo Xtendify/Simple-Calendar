@@ -218,34 +218,11 @@ module.exports = function( grunt ) {
 			}
 		},
 
+		// .scss to .css file watcher. Run when project is loaded in PhpStorm or other IDE.
 		watch: {
-			livereload: {
-				files: [
-					'assets/css/*.min.css'
-				],
-				options: {
-					livereload: true
-				}
-			},
-			styles: {
-				files: [
-					'assets/css/sass/**/*.scss'
-				],
-				tasks: [ 'sass', 'postcss', 'cssmin', 'usebanner:css' ],
-				options: {
-					debounceDelay: 500
-				}
-			},
-			scripts: {
-				files: [
-					'assets/js/**/*.js',
-					'!assets/js/vendor/**/*.js',
-					'!assets/js/**/*.min.js'
-				],
-				tasks: [ 'uglify', 'usebanner:js' ],
-				options: {
-					debounceDelay: 500
-				}
+			css: {
+				files: '**/*.scss',
+				tasks: [ 'sass' ]
 			}
 		}
 
