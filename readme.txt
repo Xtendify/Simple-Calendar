@@ -96,7 +96,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.1.7 - TODO =
+= 3.1.7 - October 4, 2016 =
 
 * Fix: Add month/day/time translations back in that stopped working after 3.1.5.
 
