@@ -96,6 +96,10 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.1.8 - TODO =
+
+* Fix: Remove duplicate "Event source default" option when add-on enabled.
+
 = 3.1.7 - October 4, 2016 =
 
 * Fix: Add month/day/time translations back in that stopped working after 3.1.5.

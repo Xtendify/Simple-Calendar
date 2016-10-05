@@ -438,15 +438,19 @@
 
 		} );
 
-		// Hide the timezone option for "event source" when a grouped calendar is selected.
-		$( '#_feed_type').on( 'change', function( e ) {
-			if( $(this).val() === 'grouped-calendars' ) {
-				$('#use_calendar').remove();
+		// Remove the timezone option for "event source" when a grouped calendar is selected.
+		$( '#_feed_type' ).on( 'change', function( e ) {
+			if ( $( this ).val() === 'grouped-calendars' ) {
+				$( '#use_calendar' ).remove();
 			} else {
-				var html = '<option id="use_calendar" value="use_calendar" data-show-field="_use_calendar_warning">Event source default</option>';
-				$('#_feed_timezone_setting').append( html );
+				// Don't append "event source default" back if already exists.
+				// TODO i18n
+				if ( ! $( '#use_calendar' ).length ) {
+					var html = '<option id="use_calendar" value="use_calendar" data-show-field="_use_calendar_warning">Event source default</option>';
+					$( '#_feed_timezone_setting' ).append( html );
+				}
 			}
-		});
+		} );
 
 		/* ========================= *
 		 * Add-on License Management *
