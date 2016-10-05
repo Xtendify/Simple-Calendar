@@ -294,7 +294,7 @@ class Default_Calendar_Admin {
 							'no'               => __( 'No, display only on first day of event', 'google-calendar-events' ),
 							'current_day_only' => __( 'No, display on all days of event up to current day (list view only)', 'google-calendar-events' ),
 						),
-						'default' => 'current_day_only',
+						'default' => 'yes',
 					) );
 
 					?>
@@ -438,7 +438,7 @@ class Default_Calendar_Admin {
 		update_post_meta( $post_id, '_default_calendar_trim_titles_chars', $chars );
 
 		// Expand multiple day events on each day.
-		$multi_day = isset( $_POST['_default_calendar_expand_multi_day_events'] ) && ! empty( $_POST['_default_calendar_expand_multi_day_events'] ) ? sanitize_key( $_POST['_default_calendar_expand_multi_day_events'] ) : 'current_day_only';
+		$multi_day = isset( $_POST['_default_calendar_expand_multi_day_events'] ) && ! empty( $_POST['_default_calendar_expand_multi_day_events'] ) ? sanitize_key( $_POST['_default_calendar_expand_multi_day_events'] ) : 'yes';
 		update_post_meta( $post_id, '_default_calendar_expand_multi_day_events', $multi_day );
 
 	}

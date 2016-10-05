@@ -99,6 +99,7 @@ We'd love your help! Here's a few things you can do:
 = 3.1.8 - TODO =
 
 * Fix: Remove duplicate "Event source default" option when add-on enabled.
+* Tweak: Set "Expand multi-day events" default value to "No, display only on first day of event".
 
 = 3.1.7 - October 4, 2016 =
 
