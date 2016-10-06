@@ -467,11 +467,6 @@ class Default_Calendar_List implements Calendar_View {
 			}
 		}
 
-		$feed          = simcal_get_feed( $calendar );
-
-		// TODO Need $feed_timezone?
-		$feed_timezone = get_post_meta( $feed->post_id, '_feed_timezone', true );
-
 		$now = $calendar->now;
 		$current_events = $this->get_events( $timestamp );
 		$format = $calendar->date_format;

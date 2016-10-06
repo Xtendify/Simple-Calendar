@@ -675,8 +675,6 @@ class Event_Builder {
 	 */
 	private function get_when( Event $event ) {
 
-		//$start = $event->start_dt->setTimezone( $event->timezone );
-		//$end   = ! is_null( $event->end_dt ) ? $event->end_dt->setTimezone( $event->timezone ) : null;
 		$start = $event->start_dt;
 		$end   = $event->end_dt;
 

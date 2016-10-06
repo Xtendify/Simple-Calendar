@@ -312,7 +312,6 @@ class Default_Calendar_Grid implements Calendar_View {
 		$events = $calendar->events;
 
 		$feed          = simcal_get_feed( $calendar );
-		$feed_timezone = get_post_meta( $feed->post_id, '_feed_timezone', true );
 
 		// Variables to cycle days in current month and find today in calendar.
 		$now         = $calendar->now;
