@@ -362,6 +362,7 @@ class Default_Calendar_List implements Calendar_View {
 		$date_format = $this->calendar->date_format;
 		$date_order  = simcal_get_date_format_order( $date_format );
 
+		// TODO Remove unused $st & $et settings.
 		$st = $this->start;
 		$et = $this->end;
 
@@ -374,6 +375,12 @@ class Default_Calendar_List implements Calendar_View {
 			$end = Carbon::createFromTimestamp( $this->last_event, $calendar->timezone );
 			$et = $this->last_event;
 		}
+
+		// TODO Repurpose $st & $et.
+		$st = strtotime( $start->toDateTimeString() );
+		$et = strtotime( $end->toDateTimeString() );
+
+		// TODO Is logic here causing the weird "29 Oct, 2016" format when navigating?
 
 		if ( ( $start->day == $end->day ) && ( $start->month == $end->month ) && ( $start->year == $end->year ) ) {
 			// Start and end on the same day.
