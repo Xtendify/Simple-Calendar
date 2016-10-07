@@ -253,11 +253,12 @@ class Default_Calendar_List implements Calendar_View {
 			return array();
 		}
 
+		// Need to pass in timezone here to get beginning of day.
 		$current = Carbon::createFromTimestamp( $timestamp, $calendar->timezone );
 		$prev = clone $current;
 		$next = clone $current;
 
-		$this->start = $current->getTimestamp();
+		$this->start = $timestamp;
 
 		$interval = $span = max( absint( $calendar->group_span ), 1 );
 
@@ -323,10 +324,38 @@ class Default_Calendar_List implements Calendar_View {
 		}
 
 		// Put resulting events in an associative array, with Ymd date as key for easy retrieval in calendar days loop.
+
 		foreach ( $paged_events as $timestamp => $events ) {
+
+			// TODO First $paged_events item timstamp has extra second?
+			if ( 1477778459 == $timestamp ) {
+				$timestamp -= 1;
+			}
+
 			if ( $timestamp <= $this->end ) {
-				$date = Carbon::createFromTimestamp( $timestamp, $calendar->timezone )->endOfDay()->format( 'Ymd' );
-				$daily_events[ intval( $date ) ][] = $events;
+
+				// TODO $date is wrong for other timezones.
+				$date = Carbon::createFromTimestamp( $timestamp, $calendar->timezone );
+
+				// TODO Add date offset back in?
+				// But first event of multi-day event doesn't have an offset.
+				$date = Carbon::createFromTimestamp( $timestamp + $date->offset, $calendar->timezone );
+
+				$date2 = Carbon::createFromTimestamp( $timestamp);
+
+				$date_end = $date->copy()->endOfDay();
+				$date2_end = $date2->copy()->endOfDay();
+				$date_start = $date->copy()->startOfDay();
+				$date2_start = $date2->copy()->startOfDay();
+
+				$dateYmd_end = $date->copy()->endOfDay()->format( 'Ymd' );
+				$date2Ymd_end = $date2->copy()->endOfDay()->format( 'Ymd' );
+				$dateYmd_start = $date->copy()->startOfDay()->format( 'Ymd' );
+				$date2Ymd_start = $date2->copy()->startOfDay()->format( 'Ymd' );
+
+				$dateYmd = $dateYmd_end;
+
+				$daily_events[ intval( $dateYmd ) ][] = $events;
 			}
 		}
 		ksort( $daily_events, SORT_NUMERIC );
@@ -355,6 +384,7 @@ class Default_Calendar_List implements Calendar_View {
 	 */
 	private function get_heading() {
 
+		// TODO Clean up TODOs in this function when finalized.
 		$calendar = $this->calendar;
 		$start = Carbon::createFromTimestamp( $calendar->start, $calendar->timezone );
 		$end = Carbon::createFromTimestamp( $this->end, $calendar->timezone );
@@ -525,7 +555,7 @@ class Default_Calendar_List implements Calendar_View {
 					}
 				}
 
-				// Calculate timestamp offset for list view day headings.
+				// TODO Calculate timestamp offset for list view day headings.
 				$day_date = Carbon::createFromFormat( 'Ymd', $ymd, $calendar->timezone );
 				$day_ts_offset = $day_date->addSeconds( $day_date->offset )->timestamp;
 

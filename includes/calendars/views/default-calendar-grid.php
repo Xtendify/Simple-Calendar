@@ -327,7 +327,7 @@ class Default_Calendar_Grid implements Calendar_View {
 
 		// Set current month events timestamp boundaries.
 		$this->start = $current_min;
-		$this->end   = $current->endOfMonth()->timestamp;
+		$this->end   = $current->endOfMonth()->getTimestamp();
 
 		// Get daily events for this month.
 		if ( $events && is_array( $events ) ) {
@@ -343,7 +343,7 @@ class Default_Calendar_Grid implements Calendar_View {
 			foreach ( $filtered as $timestamp => $events_in_day ) {
 				foreach ( $events_in_day as $event ) {
 					if ( $event instanceof Event ){
-						$day = intval( Carbon::createFromTimestamp( $timestamp, $event->timezone )->endOfDay()->day );
+						$day = intval( Carbon::createFromTimestamp( $timestamp )->endOfDay()->day );
 						$day_events[ $day ][] = $event;
 					}
 				}
