@@ -248,13 +248,12 @@ class Default_Calendar_List implements Calendar_View {
 	private function get_events( $timestamp ) {
 
 		$calendar = $this->calendar;
-		$timezone = $calendar->timezone;
 
 		if ( ! $calendar->group_type || ! $calendar->group_span ) {
 			return array();
 		}
 
-		$current = Carbon::createFromTimestamp( $timestamp, $timezone );
+		$current = Carbon::createFromTimestamp( $timestamp, $calendar->timezone );
 		$prev = clone $current;
 		$next = clone $current;
 
@@ -558,6 +557,8 @@ class Default_Calendar_List implements Calendar_View {
 				$list_events = '<ul class="simcal-events">' . "\n";
 
 				$calendar_classes = array();
+
+				// CSS classes here so don't i18n.
 				$day_classes = 'simcal-weekday-' . date( 'w', $day_ts_offset );
 
 				// Is this the present, the past or the future, Doc?
