@@ -562,42 +562,39 @@ class Default_Calendar_List implements Calendar_View {
 					}
 				}
 
-				// Calculate timestamp offset for list view day headings.
+				// Add offset offset for list view day headings.
 				$day_date = Carbon::createFromFormat( 'Ymd', $ymd, $calendar->timezone );
+				$day_date_offset = clone $day_date;
+				$day_date_offset->addSeconds( $day_date->offset );
+				$day_date_ts_offset = $day_date_offset->timestamp;
 
-				if ( ! $calendar->compact_list ) :
-
-					$date = new Carbon( 'now', $calendar->timezone );
-					$date->setLocale( substr( get_locale(), 0, 2 ) );
-
-					if ( $date->isToday() ) {
+				if ( ! $calendar->compact_list ) {
+					if ( $day_date_offset->isToday() ) {
 						$the_color = new Color( $calendar->today_color );
 					} else {
 						$the_color = new Color( $calendar->days_events_color );
 					}
 
-					$bg_color = '#' . $the_color->getHex();
-					$color = $the_color->isDark() ? '#ffffff' : '#000000';
+					$bg_color     = '#' . $the_color->getHex();
+					$color        = $the_color->isDark() ? '#ffffff' : '#000000';
 					$border_style = ' style="border-bottom: 1px solid ' . $bg_color . ';" ';
-					$bg_style = ' style="background-color: ' . $bg_color . '; color: ' . $color . ';"';
+					$bg_style     = ' style="background-color: ' . $bg_color . '; color: ' . $color . ';"';
 
 					echo "\t" . '<dt class="simcal-day-label"' . $border_style . '>';
-					echo '<span' . $bg_style .'>';
+					echo '<span' . $bg_style . '>';
 
-					//echo $format ? '<span class="simcal-date-format" data-date-format="' . $format . '">' . date_i18n( $format, $day_ts_offset ) . '</span> ' : ' ';
-					echo $format ? '<span class="simcal-date-format" data-date-format="' . $format . '">' . date_i18n( $format, $day_date->timestamp ) . '</span> ' : ' ';
+					echo $format ? '<span class="simcal-date-format" data-date-format="' . $format . '">' . date_i18n( $format, $day_date_ts_offset, strtotime( $day_date_offset->toDateTimeString() ) ) . '</span> ' : ' ';
 
 					echo '</span>';
 					echo '</dt>' . "\n";
-
-				endif;
+				}
 
 				$list_events = '<ul class="simcal-events">' . "\n";
 
 				$calendar_classes = array();
 
-				// TODO CSS classes here so don't i18n.
-				$day_classes = 'ZZZ'; //'simcal-weekday-' . date( 'w', $day_ts_offset );
+				// Add day of week number to CSS class.
+				$day_classes = 'simcal-weekday-' . date( 'w', $day_date_ts_offset );
 
 				// Is this the present, the past or the future, Doc?
 				if ( $timestamp <= $now && $timestamp >= $now ) {
