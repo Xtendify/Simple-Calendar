@@ -328,50 +328,39 @@ class Default_Calendar_List implements Calendar_View {
 
 		foreach ( $paged_events as $timestamp => $events ) {
 
-			// TODO First $paged_events item timstamp has extra second?
-			// Don't think this matters yet...
-			//if ( 1477778459 == $timestamp ) {
-				//$timestamp -= 1;
-			//}
+			// TODO First $paged_events item timestamp is 1 second too small? Or is it extra second too big?
 
 			if ( $timestamp <= $this->end ) {
 
-				// TODO $date is off by a couple hours for dates in multi-day event, but not for first event.
-				// TODO But only certain timezones? UTC-1, UTC+1, UTC+2, UTC+3 ???
-				//date_default_timezone_set( 'UTC' );
-				//date_default_timezone_set( $calendar->timezone );
+				// TODO With Carbon, $date is off by a couple hours for dates in multi-day event, but not for first event.
+				// But only certain timezones? UTC-1, UTC+1, UTC+2, UTC+3 ???
+				// Offset changes after first day with these timezones only. Why?
+				// November 1, 2016 is daylight savings for them!!!
 
+				/*
 				$date = Carbon::createFromTimestamp( $timestamp, $calendar->timezone );
-				//$date = Carbon::createFromTimestamp( $timestamp );
-				//$date = Carbon::createFromTimestamp( $timestamp, 'Europe/London' );
-				//$date = Carbon::createFromTimestamp( $timestamp, 'America/Los_Angeles' );
-				//$date = Carbon::createFromTimestamp( $timestamp, 'Indian/Chagos' );
 
 				// TODO Add date offset back in?
 				// But first event of multi-day event doesn't have an offset.
 				// $date = Carbon::createFromTimestamp( $timestamp + $date->offset, $calendar->timezone );
 
-				/*
-				$date2 = Carbon::createFromTimestamp( $timestamp );
-				$date3 = Carbon::createFromTimestampUTC( $timestamp );
-
-				$date_end = $date->copy()->endOfDay();
-				$date2_end = $date2->copy()->endOfDay();
-				$date_start = $date->copy()->startOfDay();
-				$date2_start = $date2->copy()->startOfDay();
+				$dateYmd = $date->copy()->endOfDay()->format( 'Ymd' );
 				*/
 
-				$dateYmd_end = $date->copy()->endOfDay()->format( 'Ymd' );
-				//$date2Ymd_end = $date2->copy()->endOfDay()->format( 'Ymd' );
-				//$dateYmd_start = $date->copy()->startOfDay()->format( 'Ymd' );
-				//$date2Ymd_start = $date2->copy()->startOfDay()->format( 'Ymd' );
+				// TODO Try using native PHP 5.3+ (not Carbon) here.
+				// Offset value after first day same behavior as Carbon above still.
+				$dtz = new \DateTimeZone( $calendar->timezone );
+				//$date = \DateTime::createFromFormat( 'U', $timestamp, $dtz );
 
-				$dateYmd = $dateYmd_end;
+				// Doesn't make a difference omitting timezone?
+				$date = \DateTime::createFromFormat( 'U', $timestamp );
 
-				//$XXX = self::wp_timezone_string();
-				//$current_offset = get_option( 'gmt_offset' );
-				//$tzstring       = get_option( 'timezone_string' );
+				// TODO Add offset to timestamp to get correct date.
+				// Need to add +1 second also. Not sure why...
+				$offset = $dtz->getOffset( $date );
+				$date->add( \DateInterval::createFromDateString( $offset + 1 . ' seconds' ) );
 
+				$dateYmd = $date->format( 'Ymd' );
 				$daily_events[ intval( $dateYmd ) ][] = $events;
 			}
 		}
@@ -388,26 +377,6 @@ class Default_Calendar_List implements Calendar_View {
 		}
 
 		return $daily_events;
-	}
-
-	// TODO
-	public static function wp_timezone_string() {
-		$current_offset = get_option( 'gmt_offset' );
-		$tzstring       = get_option( 'timezone_string' );
-
-		// Return the timezone string if already set
-		if ( ! empty( $tzstring ) ) {
-			return $tzstring;
-		}
-
-		// Otherwise return the UTC offset
-		if ( 0 == $current_offset ) {
-			return 'UTC+0';
-		} elseif ( $current_offset < 0 ) {
-			return 'UTC' . $current_offset;
-		}
-
-		return 'UTC+' . $current_offset;
 	}
 
 	/**
