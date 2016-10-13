@@ -328,11 +328,12 @@ class Default_Calendar_List implements Calendar_View {
 
 		foreach ( $paged_events as $timestamp => $events ) {
 
-			// TODO First $paged_events item timestamp is 1 second too small? Or is it extra second too big?
+			// TODO First $paged_events item timestamp 1 second off? Plus or minus?
 
 			if ( $timestamp <= $this->end ) {
 
-				// TODO With Carbon, $date is off by a couple hours for dates in multi-day event, but not for first event.
+				// TODO Could go back to using Carbon to be consistent.
+				// $date is off by a couple hours for dates in multi-day event, but not for first event.
 				// But only certain timezones? UTC-1, UTC+1, UTC+2, UTC+3 ???
 				// Offset changes after first day with these timezones only. Why?
 				// November 1, 2016 is daylight savings for them!!!
@@ -340,27 +341,30 @@ class Default_Calendar_List implements Calendar_View {
 				/*
 				$date = Carbon::createFromTimestamp( $timestamp, $calendar->timezone );
 
-				// TODO Add date offset back in?
-				// But first event of multi-day event doesn't have an offset.
+				// Add date offset back in?
 				// $date = Carbon::createFromTimestamp( $timestamp + $date->offset, $calendar->timezone );
 
 				$dateYmd = $date->copy()->endOfDay()->format( 'Ymd' );
 				*/
 
-				// TODO Try using native PHP 5.3+ (not Carbon) here.
+				// Using native PHP 5.3+ (not Carbon) here.
 				// Offset value after first day same behavior as Carbon above still.
 				$dtz = new \DateTimeZone( $calendar->timezone );
-				//$date = \DateTime::createFromFormat( 'U', $timestamp, $dtz );
 
-				// Doesn't make a difference omitting timezone?
 				$date = \DateTime::createFromFormat( 'U', $timestamp );
 
-				// TODO Add offset to timestamp to get correct date.
-				// Need to add +1 second also. Not sure why...
-				$offset = $dtz->getOffset( $date );
-				$date->add( \DateInterval::createFromDateString( $offset + 1 . ' seconds' ) );
+				// Doesn't seem to make a difference omitting timezone.
+				//$date = \DateTime::createFromFormat( 'U', $timestamp, $dtz );
 
-				$dateYmd = $date->format( 'Ymd' );
+				// Add offset to timestamp to get correct date.
+				// TODO Need to add +1 second also?
+				$offset = $dtz->getOffset( $date );
+				$date_offset = clone $date;
+				$date_offset->add( \DateInterval::createFromDateString( $offset . ' seconds' ) );
+
+				// TODO Multiple day events will be off if part-way through there's daylight savings.
+
+				$dateYmd = $date_offset->format( 'Ymd' );
 				$daily_events[ intval( $dateYmd ) ][] = $events;
 			}
 		}
@@ -391,28 +395,20 @@ class Default_Calendar_List implements Calendar_View {
 	 */
 	private function get_heading() {
 
-		// TODO Clean up TODOs in this function when finalized.
 		$calendar = $this->calendar;
 		$start = Carbon::createFromTimestamp( $calendar->start, $calendar->timezone );
 		$end = Carbon::createFromTimestamp( $this->end, $calendar->timezone );
 		$date_format = $this->calendar->date_format;
 		$date_order  = simcal_get_date_format_order( $date_format );
 
-		// TODO Remove unused $st & $et settings.
-		$st = $this->start;
-		$et = $this->end;
-
 		if ( $this->first_event !== 0 ) {
 			$start = Carbon::createFromTimestamp( $this->first_event, $calendar->timezone );
-			$st = $this->first_event;
 		}
 
 		if ( $this->last_event !== 0 ) {
 			$end = Carbon::createFromTimestamp( $this->last_event, $calendar->timezone );
-			$et = $this->last_event;
 		}
 
-		// TODO Repurpose $st & $et.
 		$st = strtotime( $start->toDateTimeString() );
 		$et = strtotime( $end->toDateTimeString() );
 
@@ -535,8 +531,6 @@ class Default_Calendar_List implements Calendar_View {
 
 			$last_event = null;
 
-			// *** TODO Look at changes I made here. ***
-
 			foreach ( $current_events as $ymd => $events ) :
 
 				// This is where we can find out if an event is a multi-day event and if it needs to be shown.
@@ -555,9 +549,6 @@ class Default_Calendar_List implements Calendar_View {
 
 						$temp_date = Carbon::createFromDate( $year, $month, $day );
 
-						// TODO
-						//if ( ! ( $temp_date < Carbon::now()->endOfDay() ) ) {
-						//$date = Carbon::createFromTimestamp( $timestamp, $calendar->timezone );
 						if ( ! ( $temp_date < Carbon::now()->endOfDay() ) ) {
 
 							// Break here only if event already shown once.
@@ -571,18 +562,13 @@ class Default_Calendar_List implements Calendar_View {
 					}
 				}
 
-				// TODO Calculate timestamp offset for list view day headings.
+				// Calculate timestamp offset for list view day headings.
 				$day_date = Carbon::createFromFormat( 'Ymd', $ymd, $calendar->timezone );
-				//$day_ts_offset = $day_date->addSeconds( $day_date->offset )->timestamp;
-
-				//TODO
-				//$day_ts_offset = $day_date->timestamp;
 
 				if ( ! $calendar->compact_list ) :
 
 					$date = new Carbon( 'now', $calendar->timezone );
 					$date->setLocale( substr( get_locale(), 0, 2 ) );
-					//$date->setTimestamp( $day_ts_offset );
 
 					if ( $date->isToday() ) {
 						$the_color = new Color( $calendar->today_color );
@@ -623,8 +609,6 @@ class Default_Calendar_List implements Calendar_View {
 				}
 
 				$count = 0;
-
-				// TODO $events contain 2 on the first day!
 
 				foreach ( $events as $day_events ) :
 					foreach ( $day_events as $event ) :
