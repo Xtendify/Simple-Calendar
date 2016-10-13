@@ -303,6 +303,7 @@ class Default_Calendar_List implements Calendar_View {
 					$second++;
 				}
 			}
+
 			ksort( $flattened_events, SORT_NUMERIC );
 
 			$keys  = array_keys( $flattened_events );
@@ -328,36 +329,53 @@ class Default_Calendar_List implements Calendar_View {
 		foreach ( $paged_events as $timestamp => $events ) {
 
 			// TODO First $paged_events item timstamp has extra second?
-			if ( 1477778459 == $timestamp ) {
-				$timestamp -= 1;
-			}
+			// Don't think this matters yet...
+			//if ( 1477778459 == $timestamp ) {
+				//$timestamp -= 1;
+			//}
 
 			if ( $timestamp <= $this->end ) {
 
-				// TODO $date is wrong for other timezones.
+				// TODO $date is off by a couple hours for dates in multi-day event, but not for first event.
+				// TODO But only certain timezones? UTC-1, UTC+1, UTC+2, UTC+3 ???
+				//date_default_timezone_set( 'UTC' );
+				//date_default_timezone_set( $calendar->timezone );
+
 				$date = Carbon::createFromTimestamp( $timestamp, $calendar->timezone );
+				//$date = Carbon::createFromTimestamp( $timestamp );
+				//$date = Carbon::createFromTimestamp( $timestamp, 'Europe/London' );
+				//$date = Carbon::createFromTimestamp( $timestamp, 'America/Los_Angeles' );
+				//$date = Carbon::createFromTimestamp( $timestamp, 'Indian/Chagos' );
 
 				// TODO Add date offset back in?
 				// But first event of multi-day event doesn't have an offset.
-				$date = Carbon::createFromTimestamp( $timestamp + $date->offset, $calendar->timezone );
+				// $date = Carbon::createFromTimestamp( $timestamp + $date->offset, $calendar->timezone );
 
-				$date2 = Carbon::createFromTimestamp( $timestamp);
+				/*
+				$date2 = Carbon::createFromTimestamp( $timestamp );
+				$date3 = Carbon::createFromTimestampUTC( $timestamp );
 
 				$date_end = $date->copy()->endOfDay();
 				$date2_end = $date2->copy()->endOfDay();
 				$date_start = $date->copy()->startOfDay();
 				$date2_start = $date2->copy()->startOfDay();
+				*/
 
 				$dateYmd_end = $date->copy()->endOfDay()->format( 'Ymd' );
-				$date2Ymd_end = $date2->copy()->endOfDay()->format( 'Ymd' );
-				$dateYmd_start = $date->copy()->startOfDay()->format( 'Ymd' );
-				$date2Ymd_start = $date2->copy()->startOfDay()->format( 'Ymd' );
+				//$date2Ymd_end = $date2->copy()->endOfDay()->format( 'Ymd' );
+				//$dateYmd_start = $date->copy()->startOfDay()->format( 'Ymd' );
+				//$date2Ymd_start = $date2->copy()->startOfDay()->format( 'Ymd' );
 
 				$dateYmd = $dateYmd_end;
+
+				//$XXX = self::wp_timezone_string();
+				//$current_offset = get_option( 'gmt_offset' );
+				//$tzstring       = get_option( 'timezone_string' );
 
 				$daily_events[ intval( $dateYmd ) ][] = $events;
 			}
 		}
+
 		ksort( $daily_events, SORT_NUMERIC );
 
 		if ( ! empty( $paged_events ) ) {
@@ -370,6 +388,26 @@ class Default_Calendar_List implements Calendar_View {
 		}
 
 		return $daily_events;
+	}
+
+	// TODO
+	public static function wp_timezone_string() {
+		$current_offset = get_option( 'gmt_offset' );
+		$tzstring       = get_option( 'timezone_string' );
+
+		// Return the timezone string if already set
+		if ( ! empty( $tzstring ) ) {
+			return $tzstring;
+		}
+
+		// Otherwise return the UTC offset
+		if ( 0 == $current_offset ) {
+			return 'UTC+0';
+		} elseif ( $current_offset < 0 ) {
+			return 'UTC' . $current_offset;
+		}
+
+		return 'UTC+' . $current_offset;
 	}
 
 	/**
@@ -528,12 +566,18 @@ class Default_Calendar_List implements Calendar_View {
 
 			$last_event = null;
 
+			// *** TODO Look at changes I made here. ***
+
 			foreach ( $current_events as $ymd => $events ) :
 
 				// This is where we can find out if an event is a multi-day event and if it needs to be shown.
 				// Since this is for list view we are showing the event on the day viewed if it is part of that day even when
 				// expand multi-day events are turned off.
-				if ( isset( $events[0][0]->multiple_days ) && $events[0][0]->multiple_days > 0 ) {
+
+				$first_event = $events[0][0];
+
+				if ( isset( $first_event->multiple_days ) && $first_event->multiple_days > 0 ) {
+
 					if ( 'current_day_only' == get_post_meta( $calendar->id, '_default_calendar_expand_multi_day_events', true ) ) {
 
 						$year  = substr( $ymd, 0, 4 );
@@ -542,14 +586,17 @@ class Default_Calendar_List implements Calendar_View {
 
 						$temp_date = Carbon::createFromDate( $year, $month, $day );
 
+						// TODO
+						//if ( ! ( $temp_date < Carbon::now()->endOfDay() ) ) {
+						//$date = Carbon::createFromTimestamp( $timestamp, $calendar->timezone );
 						if ( ! ( $temp_date < Carbon::now()->endOfDay() ) ) {
 
 							// Break here only if event already shown once.
-							if ( $last_event == $events[0][0] ) {
+							if ( $last_event == $first_event ) {
 								continue;
 							} else {
 								// Save event as "last" for next time through, then break.
-								$last_event = $events[0][0];
+								$last_event = $first_event;
 							}
 						}
 					}
@@ -557,13 +604,16 @@ class Default_Calendar_List implements Calendar_View {
 
 				// TODO Calculate timestamp offset for list view day headings.
 				$day_date = Carbon::createFromFormat( 'Ymd', $ymd, $calendar->timezone );
-				$day_ts_offset = $day_date->addSeconds( $day_date->offset )->timestamp;
+				//$day_ts_offset = $day_date->addSeconds( $day_date->offset )->timestamp;
+
+				//TODO
+				//$day_ts_offset = $day_date->timestamp;
 
 				if ( ! $calendar->compact_list ) :
 
 					$date = new Carbon( 'now', $calendar->timezone );
 					$date->setLocale( substr( get_locale(), 0, 2 ) );
-					$date->setTimestamp( $day_ts_offset );
+					//$date->setTimestamp( $day_ts_offset );
 
 					if ( $date->isToday() ) {
 						$the_color = new Color( $calendar->today_color );
@@ -578,7 +628,10 @@ class Default_Calendar_List implements Calendar_View {
 
 					echo "\t" . '<dt class="simcal-day-label"' . $border_style . '>';
 					echo '<span' . $bg_style .'>';
-					echo $format ? '<span class="simcal-date-format" data-date-format="' . $format . '">' . date_i18n( $format, $day_ts_offset ) . '</span> ' : ' ';
+
+					//echo $format ? '<span class="simcal-date-format" data-date-format="' . $format . '">' . date_i18n( $format, $day_ts_offset ) . '</span> ' : ' ';
+					echo $format ? '<span class="simcal-date-format" data-date-format="' . $format . '">' . date_i18n( $format, $day_date->timestamp ) . '</span> ' : ' ';
+
 					echo '</span>';
 					echo '</dt>' . "\n";
 
@@ -588,8 +641,8 @@ class Default_Calendar_List implements Calendar_View {
 
 				$calendar_classes = array();
 
-				// CSS classes here so don't i18n.
-				$day_classes = 'simcal-weekday-' . date( 'w', $day_ts_offset );
+				// TODO CSS classes here so don't i18n.
+				$day_classes = 'ZZZ'; //'simcal-weekday-' . date( 'w', $day_ts_offset );
 
 				// Is this the present, the past or the future, Doc?
 				if ( $timestamp <= $now && $timestamp >= $now ) {
@@ -601,6 +654,8 @@ class Default_Calendar_List implements Calendar_View {
 				}
 
 				$count = 0;
+
+				// TODO $events contain 2 on the first day!
 
 				foreach ( $events as $day_events ) :
 					foreach ( $day_events as $event ) :
