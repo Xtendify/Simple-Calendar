@@ -640,17 +640,17 @@ abstract class Calendar {
 			$week->setWeekStartsAt( $this->week_starts );
 			$this->start = $week->startOfWeek()->addWeeks( $nth )->getTimestamp();
 		} elseif ( 'this_month' == $calendar_begins ) {
-			$this->start = Carbon::today( $this->timezone )->startOfMonth()->getTimeStamp();
+			$this->start = Carbon::today( $this->timezone )->startOfMonth()->getTimestamp();
 		} elseif ( 'months_before' == $calendar_begins ) {
-			$this->start = Carbon::today( $this->timezone )->subMonths( $nth )->startOfMonth()->getTimeStamp();
+			$this->start = Carbon::today( $this->timezone )->subMonths( $nth )->startOfMonth()->getTimestamp();
 		} elseif ( 'months_after' == $calendar_begins ) {
-			$this->start = Carbon::today( $this->timezone )->addMonths( $nth )->startOfMonth()->getTimeStamp();
+			$this->start = Carbon::today( $this->timezone )->addMonths( $nth )->startOfMonth()->getTimestamp();
 		} elseif ( 'this_year' == $calendar_begins ) {
 			$this->start = Carbon::today( $this->timezone )->startOfYear()->getTimestamp();
 		} elseif ( 'years_before' == $calendar_begins ) {
-			$this->start = Carbon::today( $this->timezone )->subYears( $nth )->startOfYear()->getTimeStamp();
+			$this->start = Carbon::today( $this->timezone )->subYears( $nth )->startOfYear()->getTimestamp();
 		} elseif ( 'years_after' == $calendar_begins ) {
-			$this->start = Carbon::today( $this->timezone )->addYears( $nth )->startOfYear()->getTimeStamp();
+			$this->start = Carbon::today( $this->timezone )->addYears( $nth )->startOfYear()->getTimestamp();
 		} elseif ( 'custom_date' == $calendar_begins ) {
 			if ( $date = get_post_meta( $this->id, '_calendar_begins_custom_date', true ) ) {
 				$this->start = Carbon::createFromFormat( 'Y-m-d', esc_attr( $date ), $this->timezone )->setTimezone( $this->timezone )->startOfDay()->getTimestamp();
