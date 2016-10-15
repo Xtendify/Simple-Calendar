@@ -616,53 +616,52 @@ abstract class Calendar {
 			return;
 		}
 
-		$this->start = Carbon::now( $this->timezone )->getTimestamp();
+		$start_dt = Carbon::now( $this->timezone );
 
 		$calendar_begins = esc_attr( get_post_meta( $this->id, '_calendar_begins', true ) );
 		$nth = max( absint( get_post_meta( $this->id, '_calendar_begins_nth', true ) ), 1 );
 
+		// Start date/time is sometimes 1 hour too early, which puts in the previous month.
+		// Maybe due to daylight savings changes in different timezones?
+		// Adding 1 hour is hackish, but fixes this.
+
 		if ( 'today' == $calendar_begins ) {
-			$this->start = Carbon::today( $this->timezone )->getTimestamp();
+			$start_dt = Carbon::today( $this->timezone )->addHour();
 		} elseif ( 'days_before' == $calendar_begins ) {
-			$this->start = Carbon::today( $this->timezone )->subDays( $nth )->getTimestamp();
+			$start_dt = Carbon::today( $this->timezone )->subDays( $nth )->addHour();
 		} elseif ( 'days_after' == $calendar_begins ) {
-			$this->start = Carbon::today( $this->timezone )->addDays( $nth )->getTimestamp();
+			$start_dt = Carbon::today( $this->timezone )->addDays( $nth )->addHour();
 		} elseif ( 'this_week' == $calendar_begins ) {
 			$week = new Carbon( 'now', $this->timezone );
 			$week->setWeekStartsAt( $this->week_starts );
-			$this->start = $week->startOfWeek()->getTimestamp();
+			$start_dt = $week->startOfWeek()->addHour();
 		} elseif ( 'weeks_before' == $calendar_begins ) {
 			$week = new Carbon( 'now', $this->timezone );
 			$week->setWeekStartsAt( $this->week_starts );
-			$this->start = $week->startOfWeek()->subWeeks( $nth )->getTimestamp();
+			$start_dt = $week->startOfWeek()->subWeeks( $nth )->addHour();
 		} elseif ( 'weeks_after' == $calendar_begins ) {
 			$week = new Carbon( 'now', $this->timezone );
 			$week->setWeekStartsAt( $this->week_starts );
-			$this->start = $week->startOfWeek()->addWeeks( $nth )->getTimestamp();
+			$start_dt = $week->startOfWeek()->addWeeks( $nth )->addHour();
 		} elseif ( 'this_month' == $calendar_begins ) {
-
-			// TODO Start date/time is sometimes 1 hour too early, which puts in the previous month.
-			// Maybe due to daylight savings changes in different timezones?
-			// Adding 1 hour is hackish, but fixes this.
-			//$start_dt = Carbon::today( $this->timezone )->startOfMonth();
-			$start_dt = Carbon::today( $this->timezone )->startOfMonth()->addHour(1);
-
-			$this->start = $start_dt->getTimestamp();
+			$start_dt = Carbon::today( $this->timezone )->startOfMonth()->addHour();
 		} elseif ( 'months_before' == $calendar_begins ) {
-			$this->start = Carbon::today( $this->timezone )->subMonths( $nth )->startOfMonth()->getTimestamp();
+			$start_dt = Carbon::today( $this->timezone )->subMonths( $nth )->startOfMonth()->addHour();
 		} elseif ( 'months_after' == $calendar_begins ) {
-			$this->start = Carbon::today( $this->timezone )->addMonths( $nth )->startOfMonth()->getTimestamp();
+			$start_dt = Carbon::today( $this->timezone )->addMonths( $nth )->startOfMonth()->addHour();
 		} elseif ( 'this_year' == $calendar_begins ) {
-			$this->start = Carbon::today( $this->timezone )->startOfYear()->getTimestamp();
+			$start_dt = Carbon::today( $this->timezone )->startOfYear()->addHour();
 		} elseif ( 'years_before' == $calendar_begins ) {
-			$this->start = Carbon::today( $this->timezone )->subYears( $nth )->startOfYear()->getTimestamp();
+			$start_dt = Carbon::today( $this->timezone )->subYears( $nth )->startOfYear()->addHour();
 		} elseif ( 'years_after' == $calendar_begins ) {
-			$this->start = Carbon::today( $this->timezone )->addYears( $nth )->startOfYear()->getTimestamp();
+			$start_dt = Carbon::today( $this->timezone )->addYears( $nth )->startOfYear()->addHour();
 		} elseif ( 'custom_date' == $calendar_begins ) {
 			if ( $date = get_post_meta( $this->id, '_calendar_begins_custom_date', true ) ) {
-				$this->start = Carbon::createFromFormat( 'Y-m-d', esc_attr( $date ), $this->timezone )->setTimezone( $this->timezone )->startOfDay()->getTimestamp();
+				$start_dt = Carbon::createFromFormat( 'Y-m-d', esc_attr( $date ), $this->timezone )->setTimezone( $this->timezone )->startOfDay()->addHour();
 			}
 		}
+
+		$this->start = $start_dt->timestamp;
 	}
 
 	/**
