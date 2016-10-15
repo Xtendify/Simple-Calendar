@@ -640,7 +640,14 @@ abstract class Calendar {
 			$week->setWeekStartsAt( $this->week_starts );
 			$this->start = $week->startOfWeek()->addWeeks( $nth )->getTimestamp();
 		} elseif ( 'this_month' == $calendar_begins ) {
-			$this->start = Carbon::today( $this->timezone )->startOfMonth()->getTimestamp();
+
+			// TODO Start date/time is sometimes 1 hour too early, which puts in the previous month.
+			// Maybe due to daylight savings changes in different timezones?
+			// Adding 1 hour is hackish, but fixes this.
+			//$start_dt = Carbon::today( $this->timezone )->startOfMonth();
+			$start_dt = Carbon::today( $this->timezone )->startOfMonth()->addHour(1);
+
+			$this->start = $start_dt->getTimestamp();
 		} elseif ( 'months_before' == $calendar_begins ) {
 			$this->start = Carbon::today( $this->timezone )->subMonths( $nth )->startOfMonth()->getTimestamp();
 		} elseif ( 'months_after' == $calendar_begins ) {
