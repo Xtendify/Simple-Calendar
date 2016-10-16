@@ -311,8 +311,6 @@ class Default_Calendar_Grid implements Calendar_View {
 
 		$events = $calendar->events;
 
-		$feed          = simcal_get_feed( $calendar );
-
 		// Variables to cycle days in current month and find today in calendar.
 		$now         = $calendar->now;
 		$current     = Carbon::create( $year, $month, 1, 0, 0, 0, $calendar->timezone );
@@ -343,7 +341,7 @@ class Default_Calendar_Grid implements Calendar_View {
 			foreach ( $filtered as $timestamp => $events_in_day ) {
 				foreach ( $events_in_day as $event ) {
 					if ( $event instanceof Event ){
-						$day = intval( Carbon::createFromTimestamp( $timestamp )->endOfDay()->day );
+						$day = intval( Carbon::createFromTimestamp( $timestamp, $calendar->timezone )->endOfDay()->day );
 						$day_events[ $day ][] = $event;
 					}
 				}
