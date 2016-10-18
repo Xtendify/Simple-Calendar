@@ -96,7 +96,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.1.8 - TODO =
+= 3.1.8 - October 18, 2016 =
 
 * Fix: Multi-day events should not show duplicate events in one day in some time zones.
 * Fix: List view heading dates corrected for some time zones.
