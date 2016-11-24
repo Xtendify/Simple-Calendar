@@ -98,6 +98,8 @@ final class Plugin {
 	 */
 	public function __construct() {
 
+		// Set up localization.
+		load_plugin_textdomain( 'google-calendar-events', false, dirname( plugin_basename( SIMPLE_CALENDAR_MAIN_FILE ) ) . '/i18n/' );
 		// Load plugin.
 		require_once 'autoload.php';
 		$this->locale = apply_filters( 'plugin_locale', get_locale(), 'google-calendar-events' );
