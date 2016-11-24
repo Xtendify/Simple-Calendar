@@ -55,7 +55,8 @@ class Calendar extends \WP_Widget implements Widget {
 
 		if ( is_admin() ) {
 			if ( ! defined( 'DOING_AJAX' ) ) {
-				$this->calendars = simcal_get_calendars();
+				// Added extra-param to simcal_get_calendars function to get also grouped calendars
+				$this->calendars = simcal_get_calendars( '', true, true );
 			} else {
 				$this->calendars = get_transient( '_simple-calendar_feed_ids' );
 			}
