@@ -347,7 +347,7 @@ class System_Status extends Admin_Page {
 		if ( $wpdb->use_mysqli ) {
 			$mysql = @mysqli_get_server_info( $wpdb->dbh );
 		} else {
-			$mysql = @mysql_get_server_info();
+			$mysql = '<mark class="error">' . __( 'Cannot connect to MySQL database.', 'google-calendar-events' ) . '</mark>';
 		}
 
 		$host = $_SERVER['SERVER_SOFTWARE'];
