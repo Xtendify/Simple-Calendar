@@ -335,9 +335,9 @@ class System_Status extends Admin_Page {
 		 * ==================
 		 */
 
-		if ( version_compare( PHP_VERSION, '5.6', '<' ) ) {
+		if ( version_compare( PHP_VERSION, '7.0', '<' ) ) {
 			$php = '<mark>' . PHP_VERSION . ' - ' .
-			       __( 'WordPress.org recommends upgrading to PHP 5.6 or higher for better security.', 'google-calendar-events' ) .
+			       __( 'WordPress.org recommends upgrading to PHP 7 or higher for better security.', 'google-calendar-events' ) .
 			       ' <a href="https://wordpress.org/about/requirements/" target="_blank">' . __( 'Read more.', 'google-calendar-events' ) . '</a>' .
 		           '</mark>';
 		} else {
