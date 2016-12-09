@@ -98,6 +98,7 @@ We'd love your help! Here's a few things you can do:
 
 = 3.1.9 - TODO =
 
+* Fix: List view incorrectly shifts events between 12 & 1am, or all day events, to previous day.
 * Fix: Navigation disabled incorrectly in some cases.
 * Dev: System report tweaks for PHP 7 compatibility.
 * Dev: Tested up to WordPress 4.7.
