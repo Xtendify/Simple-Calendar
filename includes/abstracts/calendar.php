@@ -621,43 +621,39 @@ abstract class Calendar {
 		$calendar_begins = esc_attr( get_post_meta( $this->id, '_calendar_begins', true ) );
 		$nth = max( absint( get_post_meta( $this->id, '_calendar_begins_nth', true ) ), 1 );
 
-		// Start date/time is sometimes 1 hour too early, which puts in the previous month.
-		// Maybe due to daylight savings changes in different timezones?
-		// Adding 1 hour is hackish, but fixes this.
-
 		if ( 'today' == $calendar_begins ) {
-			$start_dt = Carbon::today( $this->timezone )->addHour();
+			$start_dt = Carbon::today( $this->timezone );
 		} elseif ( 'days_before' == $calendar_begins ) {
-			$start_dt = Carbon::today( $this->timezone )->subDays( $nth )->addHour();
+			$start_dt = Carbon::today( $this->timezone )->subDays( $nth );
 		} elseif ( 'days_after' == $calendar_begins ) {
-			$start_dt = Carbon::today( $this->timezone )->addDays( $nth )->addHour();
+			$start_dt = Carbon::today( $this->timezone )->addDays( $nth );
 		} elseif ( 'this_week' == $calendar_begins ) {
 			$week = new Carbon( 'now', $this->timezone );
 			$week->setWeekStartsAt( $this->week_starts );
-			$start_dt = $week->startOfWeek()->addHour();
+			$start_dt = $week->startOfWeek();
 		} elseif ( 'weeks_before' == $calendar_begins ) {
 			$week = new Carbon( 'now', $this->timezone );
 			$week->setWeekStartsAt( $this->week_starts );
-			$start_dt = $week->startOfWeek()->subWeeks( $nth )->addHour();
+			$start_dt = $week->startOfWeek()->subWeeks( $nth );
 		} elseif ( 'weeks_after' == $calendar_begins ) {
 			$week = new Carbon( 'now', $this->timezone );
 			$week->setWeekStartsAt( $this->week_starts );
-			$start_dt = $week->startOfWeek()->addWeeks( $nth )->addHour();
+			$start_dt = $week->startOfWeek()->addWeeks( $nth );
 		} elseif ( 'this_month' == $calendar_begins ) {
-			$start_dt = Carbon::today( $this->timezone )->startOfMonth()->addHour();
+			$start_dt = Carbon::today( $this->timezone )->startOfMonth();
 		} elseif ( 'months_before' == $calendar_begins ) {
-			$start_dt = Carbon::today( $this->timezone )->subMonths( $nth )->startOfMonth()->addHour();
+			$start_dt = Carbon::today( $this->timezone )->subMonths( $nth )->startOfMonth();
 		} elseif ( 'months_after' == $calendar_begins ) {
-			$start_dt = Carbon::today( $this->timezone )->addMonths( $nth )->startOfMonth()->addHour();
+			$start_dt = Carbon::today( $this->timezone )->addMonths( $nth )->startOfMonth();
 		} elseif ( 'this_year' == $calendar_begins ) {
 			$start_dt = Carbon::today( $this->timezone )->startOfYear()->addHour();
 		} elseif ( 'years_before' == $calendar_begins ) {
-			$start_dt = Carbon::today( $this->timezone )->subYears( $nth )->startOfYear()->addHour();
+			$start_dt = Carbon::today( $this->timezone )->subYears( $nth )->startOfYear();
 		} elseif ( 'years_after' == $calendar_begins ) {
-			$start_dt = Carbon::today( $this->timezone )->addYears( $nth )->startOfYear()->addHour();
+			$start_dt = Carbon::today( $this->timezone )->addYears( $nth )->startOfYear();
 		} elseif ( 'custom_date' == $calendar_begins ) {
 			if ( $date = get_post_meta( $this->id, '_calendar_begins_custom_date', true ) ) {
-				$start_dt = Carbon::createFromFormat( 'Y-m-d', esc_attr( $date ), $this->timezone )->setTimezone( $this->timezone )->startOfDay()->addHour();
+				$start_dt = Carbon::createFromFormat( 'Y-m-d', esc_attr( $date ), $this->timezone )->setTimezone( $this->timezone )->startOfDay();
 			}
 		}
 
