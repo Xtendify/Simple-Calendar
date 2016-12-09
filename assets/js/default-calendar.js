@@ -199,16 +199,7 @@
 			var list = calendar.find( '.simcal-events-list-container' ),
 				prev = list.data( 'prev' ),
 				next = list.data( 'next' ),
-				last_event = list.find( 'li.simcal-event:last').data( 'start' );
-
-			//var currentTime  = nav.find( '.simcal-current' ).data( 'calendar-current' );
-			// TODO: Add script_debug check to show these
-			//console.log( "current time: ", currentTime );
-			//console.log( "start: ", start );
-			//console.log( "end: ", end );
-			//console.log( 'next: ', next );
-			//console.log( 'last event: ', last_event );
-			//console.log( "ct == start", ( ct == start ? "Yes" : "No" ) );
+				last_event = list.find( 'li.simcal-event:last' ).data( 'start' );
 
 			buttons.each( function( e, b ) {
 
@@ -216,32 +207,38 @@
 
 				if ( direction ) {
 
-					if ( direction == 'prev' && button.hasClass( 'simcal-prev' ) ) {
-						if ( ( prev <= start ) && ( currentTime <= start )  ) {
-							button.attr( 'disabled', 'disabled' );
-						}
-					} else if ( button.hasClass( 'simcal-prev' ) ) {
-						button.removeAttr( 'disabled' );
-					}
+					if ( button.hasClass( 'simcal-prev' ) ) {
 
-					if ( direction == 'next' && button.hasClass( 'simcal-next' ) ) {
-						if ( ( ( next >= end ) && ( currentTime >= end ) ) || last_event >= end ) {
-							button.attr( 'disabled', 'disabled' );
+						if ( direction == 'prev' ) {
+							if ( ( prev <= start ) && ( currentTime <= start ) ) {
+								button.attr( 'disabled', 'disabled' );
+							}
+						} else {
+							button.removeAttr( 'disabled' );
 						}
-					} else if( $(button).hasClass( 'simcal-next' ) ) {
-						button.removeAttr( 'disabled' );
-					}
+					} else if ( button.hasClass( 'simcal-next' ) ) {
 
+						if ( direction == 'next' ) {
+							if ( ( ( next >= end ) && ( currentTime >= end ) ) || last_event >= end ) {
+								button.attr( 'disabled', 'disabled' );
+							}
+						} else {
+							button.removeAttr( 'disabled' );
+						}
+					}
 				} else {
 
-					if ( prev <= start && button.hasClass( 'simcal-prev' ) && ( currentTime <= start ) ) {
-						button.attr( 'disabled', 'disabled' );
-					}
+					if ( button.hasClass( 'simcal-prev' ) ) {
 
-					if ( ( next >= end && button.hasClass( 'simcal-next' ) && ( currentTime >= end ) ) || last_event >= end ) {
-						button.attr( 'disabled', 'disabled' );
-					}
+						if ( ( prev <= start ) && ( currentTime <= start ) ) {
+							button.attr( 'disabled', 'disabled' );
+						}
+					} else if ( button.hasClass( 'simcal-next' ) ) {
 
+						if ( ( next >= end && currentTime >= end ) || last_event >= end ) {
+							button.attr( 'disabled', 'disabled' );
+						}
+					}
 				}
 			} );
 		}
