@@ -468,15 +468,13 @@ class Event_Builder {
 
 				case 'if-today' :
 				case 'if-not-today' :
-					$start_dt = $event->start_dt->setTimezone( $calendar->timezone );
-					$start    = $start_dt->getTimestamp();
-
+					$start_dt   = $event->start_dt->setTimezone( $calendar->timezone );
 					$startOfDay = $start_dt->startOfDay()->getTimestamp();
-					$endOfDay = $start_dt->endOfDay()->getTimestamp();
+					$endOfDay   = $start_dt->endOfDay()->getTimestamp();
 
 					$today = ( $startOfDay <= $calendar->now ) && ( $calendar->now <= $endOfDay );
 
-					if ( ('if-today' == $tag ) && $today ) {
+					if ( ( 'if-today' == $tag ) && $today ) {
 						return $calendar->get_event_html( $event, $partial );
 					} elseif ( ( 'if-not-today' == $tag ) && ( false == $today ) ) {
 						return $calendar->get_event_html( $event, $partial );
