@@ -96,8 +96,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.1.9 - TODO =
+= 3.1.9 - December 9, 2016 =
 
+* Feature: Add [if-today] and [if-not-today] event template tags. Props [@followfung](https://github.com/followfung)
 * Fix: List view incorrectly shifts events between 12 & 1am, or all day events, to previous day.
 * Fix: Navigation disabled incorrectly in some cases.
 * Dev: System report tweaks for PHP 7 compatibility.
