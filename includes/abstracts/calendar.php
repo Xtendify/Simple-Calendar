@@ -616,6 +616,7 @@ abstract class Calendar {
 			return;
 		}
 
+		// Default if "now" selected.
 		$start_dt = Carbon::now( $this->timezone );
 
 		$calendar_begins = esc_attr( get_post_meta( $this->id, '_calendar_begins', true ) );
@@ -646,7 +647,7 @@ abstract class Calendar {
 		} elseif ( 'months_after' == $calendar_begins ) {
 			$start_dt = Carbon::today( $this->timezone )->addMonths( $nth )->startOfMonth();
 		} elseif ( 'this_year' == $calendar_begins ) {
-			$start_dt = Carbon::today( $this->timezone )->startOfYear()->addHour();
+			$start_dt = Carbon::today( $this->timezone )->startOfYear();
 		} elseif ( 'years_before' == $calendar_begins ) {
 			$start_dt = Carbon::today( $this->timezone )->subYears( $nth )->startOfYear();
 		} elseif ( 'years_after' == $calendar_begins ) {
