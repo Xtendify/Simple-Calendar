@@ -254,7 +254,7 @@ final class Plugin {
 			case 'fullcal' :
 				return self::$homepage . '/addons/full-calendar/';
 			case 'docs' :
-				return 'http://docs.simplecalendar.io';
+				return 'https://docs.simplecalendar.io';
 			case 'github' :
 				return 'https://github.com/moonstonemedia/Simple-Calendar';
 			case 'support' :

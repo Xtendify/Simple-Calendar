@@ -586,7 +586,7 @@ class Settings implements Meta_Box {
 					<p id="_use_calendar_warning" style="display: none;" class="simcal-field">
 						<span class="attention"><?php _e( 'Warning', 'google-calendar-events' ); ?>:</span>
 						<?php _e( 'Setting this to <code>Event source default</code> can at times cause unexpected results. Please test thoroughly.', 'google-calendar-events' ); ?>
-						<a href="http://docs.simplecalendar.io/timezone-settings/" target="_blank"><?php _e( 'See details.', 'google-calendar-events' ); ?></a>
+						<a href="https://docs.simplecalendar.io/timezone-settings/" target="_blank"><?php _e( 'See details.', 'google-calendar-events' ); ?></a>
 					</p>
 				</td>
 			</tr>
