@@ -244,9 +244,6 @@ final class Plugin {
 	 */
 	public function get_url( $case ) {
 		switch ( $case ) {
-			case 'codex' :
-			case 'apidocs' :
-				return 'http://codex.simplecalendar.io';
 			case 'addons' :
 				return self::$homepage . '/addons/';
 			case 'gcal-pro' :
