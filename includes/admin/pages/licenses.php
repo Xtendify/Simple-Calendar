@@ -77,7 +77,7 @@ class Licenses extends Admin_Page {
 				                 '<br/><br/>' .
 				                 __( 'Your license keys are used for access to automatic upgrades and premium support.', 'google-calendar-events' ) .
 			                     '<br/><br/>' .
-				                 sprintf( __( 'Retrieve your license keys from <a href="%s" target="_blank">your Simple Calendar account</a>.', 'google-calendar-events' ),
+				                 sprintf( __( 'Retrieve your license keys from <a href="%s" target="_blank">your Simple Calendar account</a> or purchase receipt email.', 'google-calendar-events' ),
 					                 simcal_ga_campaign_url( simcal_get_url( 'home' ) . '/my-account/', 'core-plugin', 'settings-link' )
 				                 ),
 			),
