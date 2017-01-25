@@ -23,7 +23,7 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 * Combine multiple calendars into single displays explicitly or using categories.
 * Intuitive, simple display configuration changes for fine tuning.
 * Advanced settings to adjust time zones, date/time formats and start of the week.
-* Integration with [Event Calendar Newsletter](https://wordpress.org/plugins/event-calendar-newsletter/) for quickly turning your events into a newsletter-friendly format.
+* Integration with [Event Calendar Newsletter](https://eventcalendarnewsletter.com/add-google-calendar-events-mailchimp-newsletter/) for quickly turning your events into a newsletter-friendly format.
 * Additional functionality offered with [add-ons](https://simplecalendar.io/addons/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description).
 * Translations available with more being added on a regular basis. [Translations welcome!](https://translate.wordpress.org/projects/wp-plugins/google-calendar-events)
 * Open source with code hosted on GitHub. [Contributions welcome!](https://github.com/moonstonemedia/Simple-Calendar)
