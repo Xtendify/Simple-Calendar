@@ -451,7 +451,7 @@ class System_Status extends Admin_Page {
 				'result_export' => ( ini_get( 'display_errors' ) ) ? 'Yes' : 'No',
 			),
 			'php_memory_limit'    => array(
-				'label'  => 'Memory Limit',
+				'label'  => 'PHP Memory Limit',
 				'result' => $php_memory_limit ? $php_memory_limit : '-',
 			),
 			'upload_max_filesize' => array(
