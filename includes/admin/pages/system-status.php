@@ -446,12 +446,12 @@ class System_Status extends Admin_Page {
 				'result_export' => $server_timezone_export,
 			),
 			'display_errors'      => array(
-				'label'  => 'Display Errors',
+				'label'  => __( 'Display Errors', 'google-calendar-events' ),
 				'result' => ( ini_get( 'display_errors' ) ) ? __( 'Yes', 'google-calendar-events' ) . ' (' . ini_get( 'display_errors' ) . ')' : '-',
 				'result_export' => ( ini_get( 'display_errors' ) ) ? 'Yes' : 'No',
 			),
 			'php_memory_limit'    => array(
-				'label'  => 'Server PHP Memory Limit',
+				'label'  => __( 'Server PHP Memory Limit', 'google-calendar-events' ),
 				'result' => $php_memory_limit ? $php_memory_limit : '-',
 			),
 			'upload_max_filesize' => array(
