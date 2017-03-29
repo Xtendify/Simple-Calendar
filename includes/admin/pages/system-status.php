@@ -163,7 +163,7 @@ class System_Status extends Admin_Page {
 				'result_export' => $permalinks,
 			),
 			'memory_limit'  => array(
-				'label'  => 'WP Memory Limit',
+				'label'  => __( 'WP Memory Limit', 'google-calendar-events' ),
 				'result' => $memory,
 				'result_export' => $memory_export,
 			),
