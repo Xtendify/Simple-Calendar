@@ -110,6 +110,21 @@ class Default_Calendar_Admin {
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-grid" style="display: none;">
+				<th><label for="_default_calendar_time_in_grid"><?php _e( 'Show Start Time in Grid', 'google-calendar-events' ); ?></label></th>
+				<td>
+					<?php
+					$start_time = get_post_meta( $post_id, '_default_calendar_time_in_grid', true );
+					simcal_print_field( array(
+						'type'        => 'checkbox',
+						'name'        => '_default_calendar_time_in_grid',
+						'id'          => '_default_calendar_time_in_grid',
+						'tooltip'     => __( 'Show the starting time of an event in calendar grid.', 'google-calendar-events' ),
+						'value'       => 'yes' == $start_time ? 'yes' : 'no',
+					) );
+					?>
+				</td>
+			</tr>
+			<tr class="simcal-panel-field simcal-default-calendar-grid" style="display: none;">
 				<th><label for="_default_calendar_trim_titles"><?php _e( 'Trim Event Titles', 'google-calendar-events' ); ?></label></th>
 				<td>
 					<?php
@@ -430,6 +445,10 @@ class Default_Calendar_Admin {
 		// Grid event bubbles action.
 		$bubbles = isset( $_POST['_default_calendar_event_bubble_trigger'] ) ? esc_attr( $_POST['_default_calendar_event_bubble_trigger'] ) : 'hover';
 		update_post_meta( $post_id, '_default_calendar_event_bubble_trigger', $bubbles );
+
+		// Show start time in grid
+		$start_time = isset( $_POST['_default_calendar_time_in_grid'] ) ? 'yes' : 'no';
+		update_post_meta( $post_id, '_default_calendar_time_in_grid', $start_time );
 
 		// Trim event titles characters length.
 		$trim = isset( $_POST['_default_calendar_trim_titles'] ) ? 'yes' : 'no';
