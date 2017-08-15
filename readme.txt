@@ -96,6 +96,11 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.1.10 - TBD =
+
+* Fix: Fixed an issue where Google Calendar API key sometimes wouldn't save on the settings page.
+
+
 = 3.1.9 - December 9, 2016 =
 
 * Feature: Add [if-today] and [if-not-today] event template tags. Props [@followfung](https://github.com/followfung)
