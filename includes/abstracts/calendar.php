@@ -575,7 +575,7 @@ abstract class Calendar {
 			$separator = get_post_meta( $this->id, '_calendar_datetime_separator', true );
 		}
 
-		if ( 'yes' !== $separator_spacing ) {
+		if ( empty( $separator_spacing ) ) {
 			$separator = '&nbsp;' . trim( $separator ) . '&nbsp;';
 		} else {
 			$separator = str_replace( ' ', '&nbsp;', $separator );
