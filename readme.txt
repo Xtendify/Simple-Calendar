@@ -96,6 +96,10 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.1.10 - TBD =
+
+* Feature: Allow administrators to set spacing within the datetime separator under individual advanced calendar settings.
+
 = 3.1.9 - December 9, 2016 =
 
 * Feature: Add [if-today] and [if-not-today] event template tags. Props [@followfung](https://github.com/followfung)
