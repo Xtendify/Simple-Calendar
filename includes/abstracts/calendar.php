@@ -570,11 +570,17 @@ abstract class Calendar {
 	 */
 	public function set_datetime_separator( $separator = '' ) {
 
+		$separator_spacing = get_post_meta( $this->id, '_calendar_datetime_separator_spacing', true );
 		if ( empty( $separator ) ) {
 			$separator = get_post_meta( $this->id, '_calendar_datetime_separator', true );
 		}
 
-		$this->datetime_separator = esc_attr( $separator );
+		if ( 'yes' !== $separator_spacing ) {
+			$separator = '&nbsp;' . trim( $separator ) . '&nbsp;';
+		} else {
+			$separator = str_replace( ' ', '&nbsp;', $separator );
+		}
+		$this->datetime_separator = wp_kses_post( $separator );
 	}
 
 	/**

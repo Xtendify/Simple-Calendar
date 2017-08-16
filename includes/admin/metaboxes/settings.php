@@ -645,7 +645,7 @@ class Settings implements Meta_Box {
 					<?php
 
 					$separator = get_post_meta( $post->ID, '_calendar_datetime_separator', true );
-					$separator = false == $separator ? '@' : $separator;
+					$separator = ( false === $separator ) ? '@' : $separator;
 
 					simcal_print_field( array(
 						'type'    => 'standard',
@@ -654,6 +654,27 @@ class Settings implements Meta_Box {
 						'id'      => '_calendar_datetime_separator',
 						'value'   => $separator,
 						'tooltip' => __( 'Used to divide date and time when both are shown.', 'google-calendar-events' ),
+						'class'   => array(
+							'simcal-field-tiny',
+						),
+					) );
+
+					?>
+				</td>
+			</tr>
+			<tr class="simcal-panel-field">
+				<th><label for="_calendar_datetime_separator_spacing"><?php _e( 'Preserve Separator Spacing', 'google-calendar-events' ); ?></label></th>
+				<td>
+					<?php
+
+					$separator_spacing = get_post_meta( $post->ID, '_calendar_datetime_separator_spacing', true );
+
+					simcal_print_field( array(
+						'type'    => 'checkbox',
+						'name'    => '_calendar_datetime_separator_spacing',
+						'id'      => '_calendar_datetime_separator_spacing',
+						'value'   => 'yes' === $separator_spacing ? 'yes' : 'no',
+						'tooltip' => __( 'Checking this box will use the spacing contained in the separator field above. Otherwise one space on each side of the separator will be used instead.', 'google-calendar-events' ),
 						'class'   => array(
 							'simcal-field-tiny',
 						),
@@ -935,8 +956,10 @@ class Settings implements Meta_Box {
 		update_post_meta( $post_id, '_calendar_time_format_php', $time_format_php );
 
 		// Date-time separator.
-		$datetime_separator = isset( $_POST['_calendar_datetime_separator'] ) ? sanitize_text_field( $_POST['_calendar_datetime_separator'] ) : ' ';
+		$datetime_separator = isset( $_POST['_calendar_datetime_separator'] ) ? wp_kses_post( $_POST['_calendar_datetime_separator'] ) : ' ';
 		update_post_meta( $post_id, '_calendar_datetime_separator', $datetime_separator );
+		$datetime_separator_spacing = isset( $_POST['_calendar_datetime_separator_spacing'] ) ? sanitize_text_field( $_POST['_calendar_datetime_separator_spacing'] ) : '';
+		update_post_meta( $post_id, '_calendar_datetime_separator_spacing', $datetime_separator_spacing );
 
 		// Week start.
 		$week_start_setting = isset( $_POST['_calendar_week_starts_on_setting'] ) ? sanitize_key( $_POST['_calendar_week_starts_on_setting'] ) : 'use_site';
