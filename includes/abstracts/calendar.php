@@ -570,11 +570,11 @@ abstract class Calendar {
 	 */
 	public function set_datetime_separator( $separator = '' ) {
 
-		$separator_spacing = get_post_meta( $this->id, '_calendar_datetime_separator_spacing', true );
 		if ( empty( $separator ) ) {
 			$separator = get_post_meta( $this->id, '_calendar_datetime_separator', true );
 		}
 
+		$separator_spacing = get_post_meta( $this->id, '_calendar_datetime_separator_spacing', true );
 		if ( empty( $separator_spacing ) ) {
 			$separator = '&nbsp;' . trim( $separator ) . '&nbsp;';
 		} else {
