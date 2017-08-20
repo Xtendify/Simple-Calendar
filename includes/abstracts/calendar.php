@@ -580,7 +580,7 @@ abstract class Calendar {
 		} else {
 			$separator = str_replace( ' ', '&nbsp;', $separator );
 		}
-		$this->datetime_separator = wp_kses_post( $separator );
+		$this->datetime_separator = esc_html( $separator );
 	}
 
 	/**
