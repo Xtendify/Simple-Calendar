@@ -100,7 +100,7 @@ We'd love your help! Here's a few things you can do:
 
 * Fix: Fixed an issue where Google Calendar API key sometimes wouldn't save on the settings page.
 * Feature: Allow administrators to set spacing within the datetime separator under individual advanced calendar settings.
-* Tweak: Add the updated separator to the end date for multi-day events for consistency. i.e. if separator is " @ ", multi-day event
+* Tweak: Add the updated separator to the end date for multi-day events for consistency. i.e. if separator is " @ ", multi-day events date/times would display similar to "August 27 2017 @ 10:00 am-September 04 2017 @ 11:00 am"
 
 = 3.1.9 - December 9, 2016 =
 
