@@ -574,7 +574,13 @@ abstract class Calendar {
 			$separator = get_post_meta( $this->id, '_calendar_datetime_separator', true );
 		}
 
-		$this->datetime_separator = esc_attr( $separator );
+		$separator_spacing = get_post_meta( $this->id, '_calendar_datetime_separator_spacing', true );
+		if ( empty( $separator_spacing ) ) {
+			$separator = '&nbsp;' . trim( $separator ) . '&nbsp;';
+		} else {
+			$separator = str_replace( ' ', '&nbsp;', $separator );
+		}
+		$this->datetime_separator = esc_html( $separator );
 	}
 
 	/**

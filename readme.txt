@@ -99,7 +99,7 @@ We'd love your help! Here's a few things you can do:
 = 3.1.10 - TBD =
 
 * Fix: Fixed an issue where Google Calendar API key sometimes wouldn't save on the settings page.
-
+* Feature: Allow administrators to set spacing within the datetime separator under individual advanced calendar settings.
 
 = 3.1.9 - December 9, 2016 =
 
