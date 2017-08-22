@@ -724,7 +724,7 @@ class Event_Builder {
 
 			if ( $end instanceof Carbon ) {
 
-				$output .= '-' . '<span class="simcal-event-start simcal-event-end-date" ' . 'data-event-start="' . $end_ts . '" ' . 'data-event-format="' . $this->calendar->date_format . '" ' . 'itemprop="endDate" content="' . $end_iso . '">' . date_i18n( $this->calendar->date_format, strtotime( $end->toDateTimeString() ) ) . '</span>' . $this->calendar->datetime_separator . $time_end;
+				$output .= ' - ' . '<span class="simcal-event-start simcal-event-end-date" ' . 'data-event-start="' . $end_ts . '" ' . 'data-event-format="' . $this->calendar->date_format . '" ' . 'itemprop="endDate" content="' . $end_iso . '">' . date_i18n( $this->calendar->date_format, strtotime( $end->toDateTimeString() ) ) . '</span>' . $this->calendar->datetime_separator . $time_end;
 			}
 
 		} else {
