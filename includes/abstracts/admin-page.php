@@ -179,7 +179,7 @@ abstract class Admin_Page {
 	 */
 	public function validate( $settings ) {
 
-		$sanitized = '';
+		$sanitized = array();
 
 		if ( is_array( $settings ) ) {
 			foreach ( $settings as $k => $v ) {
