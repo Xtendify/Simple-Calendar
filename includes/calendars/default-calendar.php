@@ -43,6 +43,14 @@ class Default_Calendar extends Calendar {
 	public $trim_titles = -1;
 
 	/**
+	 * Show start time in grid view.
+	 *
+	 * @access public
+	 * @var bool
+	 */
+	public $show_start_time = false;
+
+	/**
 	 * Event bubbles action trigger.
 	 *
 	 * @access public
@@ -176,6 +184,11 @@ class Default_Calendar extends Calendar {
 			// Use hover to open event bubbles.
 			if ( 'hover' == get_post_meta( $this->id, '_default_calendar_event_bubble_trigger', true ) ) {
 				$this->event_bubble_trigger = 'hover';
+			}
+
+			// Show start times.
+			if ( 'yes' == get_post_meta( $this->id, '_default_calendar_time_in_grid', true ) ) {
+				$this->show_start_times = true;
 			}
 
 			// Trim long event titles.
