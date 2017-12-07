@@ -1,4 +1,4 @@
-/*! Simple Calendar - 3.1.10
+/*! Simple Calendar - 3.1.11
  * https://simplecalendar.io
  * Copyright (c) Moonstone Media 2017
  * Licensed GPLv2+ */
