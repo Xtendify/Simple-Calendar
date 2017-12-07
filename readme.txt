@@ -99,7 +99,7 @@ We'd love your help! Here's a few things you can do:
 = 3.1.11 - TBD =
 * Dev: Update Google API Client libraries to v2.
 
-= 3.1.11 - August 22, 2017 =
+= 3.1.10 - August 22, 2017 =
 
 * Fix: Fixed an issue where Google Calendar API key sometimes wouldn't save on the settings page.
 * Feature: Allow administrators to set spacing within the datetime separator under individual advanced calendar settings.
