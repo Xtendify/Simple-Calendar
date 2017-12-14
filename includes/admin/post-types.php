@@ -52,6 +52,9 @@ class Post_Types {
 		// Add media button to post editor for adding a shortcode.
 		add_action( 'media_buttons', array( $this, 'add_shortcode_button' ), 100 );
 		add_action( 'edit_form_after_editor', array( $this, 'add_shortcode_panel' ), 100 );
+
+		// Update some additional calendar meta data when creating, saving, or updating a calendar.
+		add_action( 'updated_post_meta', array( $this, 'update_additional_calendar_metadata' ), 999, 2 );
 	}
 
 	/**
@@ -88,40 +91,23 @@ class Post_Types {
 	 */
 	public function calendar_feed_column_content( $column_name, $post_id ) {
 
+		$post_meta = get_post_meta( $post_id );
+
 		switch ( $column_name ) {
 
 			case 'feed':
-
-				$feed = simcal_get_feed( $post_id );
-				echo isset( $feed->name ) ? $feed->name : '&mdash;';
+				$feed_name = ! empty( $post_meta['_simcal_calendar_events_source_name'][0] ) ? $post_meta['_simcal_calendar_events_source_name'][0] : '';
+				echo esc_html( $feed_name );
 				break;
 
 			case 'calendar':
-
-				$info = '&mdash;';
-
-				if ( $terms = wp_get_object_terms( $post_id, 'calendar_type' ) ) {
-
-					$calendar_type  = sanitize_title( current( $terms )->name );
-					$calendar       = simcal_get_calendar( $calendar_type );
-
-					if ( $calendar instanceof Calendar ) {
-						$info = $calendar->name;
-						$views = get_post_meta( $post_id, '_calendar_view', true );;
-						$view = isset( $views[ $calendar->type ] ) ? $views[ $calendar->type ] : '';
-
-						if ( isset( $calendar->views[ $view ] ) ) {
-							$info .= ' &rarr; ' . $calendar->views[ $view ];
-						}
-					}
-				}
-
-				echo $info;
+				$calendar_type = ! empty( $post_meta['_simcal_calendar_type'][0] ) ? $post_meta['_simcal_calendar_type'][0] : '';
+				echo esc_html( $calendar_type );
 				break;
 
 			case 'shortcode' :
-
-				simcal_print_shortcode_tip( $post_id );
+				$shortcode_tip = ! empty( $post_meta['_simcal_calendar_shortcode_tip'][0] ) ? $post_meta['_simcal_calendar_shortcode_tip'][0] : '';
+				echo $shortcode_tip;
 				break;
 		}
 	}
@@ -349,6 +335,13 @@ class Post_Types {
 		</div>
 		<?php
 
+	}
+
+	public function update_additional_calendar_metadata( $meta_id, $post_id ) {
+		$post_type = get_post_type( $post_id );
+		if ( 'calendar' === $post_type ) {
+			simcal_update_calendar_calculated_post_meta( $post_id );
+		}
 	}
 
 }

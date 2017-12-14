@@ -27,7 +27,7 @@ class Get_Shortcode implements Meta_Box {
 	 * @param \WP_Post $post
 	 */
 	public static function html( $post ) {
-		simcal_print_shortcode_tip( $post->ID );
+		echo get_post_meta( $post->ID, '_simcal_calendar_shortcode_tip', true );
 	}
 
 	/**
