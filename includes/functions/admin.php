@@ -249,6 +249,14 @@ function simcal_get_shortcode_tip( $post_id ) {
 				"onclick='this.select();' value='" . $shortcode . "' />";
 }
 
+/**
+ * Get the calendar type for the admin calendars list
+ * post table.
+ *
+ * @param int $post_id The post id.
+ *
+ * @return string The calendar type.
+ */
 function simcal_get_calendar_type( $post_id ) {
 	$info = '&mdash;';
 
@@ -271,12 +279,26 @@ function simcal_get_calendar_type( $post_id ) {
 	return $info;
 }
 
+/**
+ * Get the events source name for use in the admin calendars list
+ * post table.
+ *
+ * @param int $post_id The post id.
+ *
+ * @return string The source name or spacer.
+ */
 function simcal_get_events_source_name( $post_id ) {
 	$events_source = simcal_get_feed( $post_id );
 
 	return ! empty( $events_source->name ) ? $events_source->name : '&mdash;';
 }
 
+/**
+ * Update calendar post meta for use in the admin calendars list
+ * post table.
+ *
+ * @param $post_id The post id.
+ */
 function simcal_update_calendar_calculated_post_meta( $post_id ) {
 	// Update Events Source.
 	$events_source_name = simcal_get_events_source_name( $post_id );
@@ -291,6 +313,10 @@ function simcal_update_calendar_calculated_post_meta( $post_id ) {
 	update_post_meta( $post_id, '_simcal_calendar_shortcode_tip', $shortcode );
 }
 
+/**
+ * Determine if this is the calendar settings page.
+ * @return bool
+ */
 function simcal_is_calendars_settings_page() {
 	$response = false;
 	if (
