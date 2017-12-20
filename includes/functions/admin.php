@@ -319,11 +319,12 @@ function simcal_update_calendar_calculated_post_meta( $post_id ) {
  */
 function simcal_is_calendars_settings_page() {
 	$response = false;
+	global $pagenow;
+
 	if (
-		! empty( $_GET['post_type'] )
-		&& 'calendar' === $_GET['post_type']
-		&& ! empty( $_GET['page'] )
-		&& 'simple-calendar_settings' === $_GET['page']
+		( ! empty( $_GET['post_type'] ) && 'calendar' === $_GET['post_type'] )
+		&& ( ! empty( $_GET['page'] ) && 'simple-calendar_settings' === $_GET['page'] )
+		|| 'options.php' === $pagenow
 	) {
 		$response = true;
 	}
