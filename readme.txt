@@ -3,7 +3,7 @@ Contributors: simplecalendar, sureswiftcapital, pderksen, nickyoung87, nekojira,
 Tags: google calendar, calendar, calendars, google, event calendar, custom calendar, custom calendars, event, events
 Requires at least: 4.2
 Tested up to: 4.9
-Stable tag: 3.1.10
+Stable tag: 3.1.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,7 +96,11 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.1.10 - August 22, 2017 =
+= 3.1.11 - TBD =
+
+* Tweak: Tweaks for admin page loading performance.
+
+= 3.1.11 - August 22, 2017 =
 
 * Fix: Fixed an issue where Google Calendar API key sometimes wouldn't save on the settings page.
 * Feature: Allow administrators to set spacing within the datetime separator under individual advanced calendar settings.

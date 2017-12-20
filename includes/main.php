@@ -107,8 +107,8 @@ final class Plugin {
 		register_activation_hook( SIMPLE_CALENDAR_MAIN_FILE, array( 'SimpleCalendar\Installation', 'activate' ) );
 		register_deactivation_hook( SIMPLE_CALENDAR_MAIN_FILE, array( 'SimpleCalendar\Installation', 'deactivate' ) );
 
-		// Do update call here.
-		add_action( 'admin_init', array( $this, 'update' ), 999 );
+		// Do update/upgrade calls here.
+		add_action( 'admin_init', array( $this, 'update' ), 1 );
 
 		// Init hooks.
 		add_action( 'init', array( $this, 'init' ), 5 );
@@ -216,7 +216,7 @@ final class Plugin {
 	 * @since 3.0.0
 	 */
 	public function register_settings() {
-		if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
+		if ( is_admin() && ! defined( 'DOING_AJAX' ) && simcal_is_calendars_settings_page() ) {
 			$settings = new Admin\Pages();
 			$settings->register_settings( $settings->get_settings() );
 		}

@@ -6,8 +6,8 @@
  */
 namespace SimpleCalendar\Admin;
 
-use SimpleCalendar\Abstracts\Field;
 use SimpleCalendar\Abstracts\Admin_Page;
+use SimpleCalendar\Abstracts\Field;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

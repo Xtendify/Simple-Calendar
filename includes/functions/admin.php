@@ -223,7 +223,7 @@ function simcal_delete_admin_notices() {
 }
 
 /**
- * Print a shortcode tip.
+ * Get a shortcode tip.
  *
  * @since  3.0.0
  *
@@ -231,7 +231,7 @@ function simcal_delete_admin_notices() {
  *
  * @return void
  */
-function simcal_print_shortcode_tip( $post_id ) {
+function simcal_get_shortcode_tip( $post_id ) {
 
 	$browser = new \SimpleCalendar\Browser();
 	if ( $browser::PLATFORM_APPLE == $browser->getPlatform() ) {
@@ -243,10 +243,93 @@ function simcal_print_shortcode_tip( $post_id ) {
 	$shortcut  = sprintf( __( 'Press %s to copy.', 'google-calendar-events' ), $cmd );
 	$shortcode = sprintf( '[calendar id="%s"]', $post_id );
 
-	echo "<input readonly='readonly' " .
+	return "<input readonly='readonly' " .
 				"class='simcal-shortcode simcal-calendar-shortcode simcal-shortcode-tip' " .
 				"title='" . $shortcut . "' " .
 				"onclick='this.select();' value='" . $shortcode . "' />";
+}
+
+/**
+ * Get the calendar type for the admin calendars list
+ * post table.
+ *
+ * @param int $post_id The post id.
+ *
+ * @return string The calendar type.
+ */
+function simcal_get_calendar_type( $post_id ) {
+	$info = '&mdash;';
+
+	if ( $terms = get_the_terms( $post_id, 'calendar_type' ) ) {
+
+		$calendar_type  = sanitize_title( current( $terms )->name );
+		$calendar       = simcal_get_calendar( $calendar_type );
+
+		if ( $calendar instanceof SimpleCalendar\Abstracts\Calendar ) {
+			$info = $calendar->name;
+			$views = get_post_meta( $post_id, '_calendar_view', true );
+			$view = isset( $views[ $calendar->type ] ) ? $views[ $calendar->type ] : '';
+
+			if ( isset( $calendar->views[ $view ] ) ) {
+				$info .= ' &rarr; ' . $calendar->views[ $view ];
+			}
+		}
+	}
+
+	return $info;
+}
+
+/**
+ * Get the events source name for use in the admin calendars list
+ * post table.
+ *
+ * @param int $post_id The post id.
+ *
+ * @return string The source name or spacer.
+ */
+function simcal_get_events_source_name( $post_id ) {
+	$events_source = simcal_get_feed( $post_id );
+
+	return ! empty( $events_source->name ) ? $events_source->name : '&mdash;';
+}
+
+/**
+ * Update calendar post meta for use in the admin calendars list
+ * post table.
+ *
+ * @param $post_id The post id.
+ */
+function simcal_update_calendar_calculated_post_meta( $post_id ) {
+	// Update Events Source.
+	$events_source_name = simcal_get_events_source_name( $post_id );
+	update_post_meta( $post_id, '_simcal_calendar_events_source_name', $events_source_name );
+
+	// Update Calendar Type.
+	$calendar_type = simcal_get_calendar_type( $post_id );
+	update_post_meta( $post_id, '_simcal_calendar_type', $calendar_type );
+
+	// Update Shortcode.
+	$shortcode = simcal_get_shortcode_tip( $post_id );
+	update_post_meta( $post_id, '_simcal_calendar_shortcode_tip', $shortcode );
+}
+
+/**
+ * Determine if this is the calendar settings page.
+ * @return bool
+ */
+function simcal_is_calendars_settings_page() {
+	$response = false;
+	global $pagenow;
+
+	if (
+		( ! empty( $_GET['post_type'] ) && 'calendar' === $_GET['post_type'] )
+		&& ( ! empty( $_GET['page'] ) && 'simple-calendar_settings' === $_GET['page'] )
+		|| 'options.php' === $pagenow
+	) {
+		$response = true;
+	}
+
+	return $response;
 }
 
 /**

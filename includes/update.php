@@ -6,6 +6,8 @@
  */
 namespace SimpleCalendar;
 
+use \WP_Query;
+
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
@@ -69,6 +71,38 @@ class Update {
 		$installed = get_option( 'simple-calendar_version', null );
 		$this->installed_ver = is_null( $installed ) ? get_option( 'gce_version', null ) : $installed;
 		$this->new_ver = $version;
+
+		/**
+		 * One time update of some calculated post meta data that is
+		 * expensive to do on calendar admin page custom column data output..
+		 *
+		 * We're going to store the events source, calendar type, and
+		 * shortcode data from /wp-admin/edit.php?post_type=calendar table
+		 * in post meta for quicker access.
+		 *
+		 * This will also be done when new calendars are created/saved/updated/etc.
+		 */
+		if ( false === get_option( '_simcal_calendar_post_meta_update_complete' ) ) {
+
+			if ( version_compare( $this->installed_ver, $this->new_ver, '>=' ) ) {
+				$calendar_posts = get_posts(
+					array(
+						'post_type' => 'calendar',
+						// Setting to 200 posts. Should cover most installations.
+						'posts_per_page' => 200,
+					)
+				);
+				if ( ! empty( $calendar_posts ) ) {
+					foreach ( $calendar_posts as $calendar ) {
+						if ( ! empty( $calendar->ID ) ) {
+							simcal_update_calendar_calculated_post_meta( $calendar->ID );
+						}
+					}
+					// Once post meta is updated, flag it so we don't run this upgrade again.
+					update_option( '_simcal_calendar_post_meta_update_complete', true );
+				}
+			}
+		}
 
 		if ( version_compare( $this->installed_ver, $this->new_ver, '<' ) ) {
 			$this->run_updates();
