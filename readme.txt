@@ -98,6 +98,7 @@ We'd love your help! Here's a few things you can do:
 
 = 3.1.11 - TBD =
 * Dev: Update Google API Client libraries to v2.
+* Fix: Default calendar list view not showing pro calendar coloring when Calendar Settings > Appearance > Limit Visible Events is set.
 
 = 3.1.10 - August 22, 2017 =
 
