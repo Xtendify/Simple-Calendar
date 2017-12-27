@@ -96,8 +96,8 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.1.11 - TBD =
-* Dev: Update Google API Client libraries to v2.
+= 3.1.11 - December 27, 2017 =
+* Dev: Update Google API Client libraries to v2. NOTE: Version 5.4+ for PHP now required.
 * Fix: Default calendar list view not showing pro calendar coloring when Calendar Settings > Appearance > Limit Visible Events is set.
 
 = 3.1.10 - August 22, 2017 =
