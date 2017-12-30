@@ -233,6 +233,14 @@ class Event {
 	public $template = '';
 
 	/**
+	 * The 'Y-m-d' format of the date currently being rendered in the view.
+	 *
+	 * @access public
+	 * @var string
+	 */
+	public $date_currently_processing = '';
+
+	/**
 	 * Event constructor.
 	 *
 	 * @since 3.0.0

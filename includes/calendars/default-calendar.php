@@ -99,6 +99,14 @@ class Default_Calendar extends Calendar {
 	public $days_events_color = '#000000';
 
 	/**
+	 * The 'Y-m-d' format of the date currently being rendered in the view.
+	 *
+	 * @access public
+	 * @var string
+	 */
+	public $date_currently_processing = '';
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 3.0.0

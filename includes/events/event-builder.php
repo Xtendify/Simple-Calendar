@@ -269,6 +269,8 @@ class Event_Builder {
 
 		if ( ( $calendar instanceof Calendar ) && ( $event instanceof Event ) ) {
 
+			$event->date_currently_processing = $calendar->date_currently_processing;
+
 			switch ( $tag ) {
 
 				/* ============ *

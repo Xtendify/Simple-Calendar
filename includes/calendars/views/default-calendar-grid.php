@@ -386,6 +386,14 @@ class Default_Calendar_Grid implements Calendar_View {
 		// Actual days of the month.
 		for ( $day = 1; $day <= $days_in_month; $day++ ) :
 
+			$existing_timezone = date_default_timezone_get();
+
+			date_default_timezone_set( $calendar->timezone );
+
+			$calendar->date_currently_processing = date('Y-m-d', $current_min);
+
+			date_default_timezone_set( $existing_timezone );
+
 			$count = 0;
 			$calendar_classes = array();
 			$day_classes = 'simcal-day-' . $day . ' simcal-weekday-' . $week_day;
