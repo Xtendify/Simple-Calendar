@@ -100,7 +100,7 @@ We'd love your help! Here's a few things you can do:
 * Fix: Bump required PHP version to match 3.1.11 requiring PHP 5.5 so site's running older versions don't crash when updating.
 
 = 3.1.11 - January 2, 2018 =
-* Dev: Update Google API Client libraries to v2. NOTE: Version 5.4+ for PHP now required.
+* Dev: Update Google API Client libraries to v2. NOTE: Version 5.5+ for PHP now required.
 * Fix: Default calendar list view not showing pro calendar coloring when Calendar Settings > Appearance > Limit Visible Events is set.
 
 = 3.1.10 - August 22, 2017 =
