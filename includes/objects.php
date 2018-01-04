@@ -6,7 +6,7 @@
  */
 namespace SimpleCalendar;
 
-use SimpleCalendar\Abstracts as Object;
+use SimpleCalendar\Abstracts as SimpleCalObject;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -114,9 +114,9 @@ class Objects {
 	 *
 	 * @since  3.0.0
 	 *
-	 * @param  int|string|object|\WP_Post|Object\Calendar $object
+	 * @param  int|string|object|\WP_Post|SimpleCalObject\Calendar $object
 	 *
-	 * @return null|Object\Calendar
+	 * @return null|SimpleCalObject\Calendar
 	 */
 	public function get_calendar( $object ) {
 
@@ -125,7 +125,7 @@ class Objects {
 		}
 
 		if ( is_object( $object ) ) {
-			if ( $object instanceof Object\Calendar ) {
+			if ( $object instanceof SimpleCalObject\Calendar ) {
 				return $this->get_object( $object->type, 'feed', $object );
 			} elseif ( $object instanceof \WP_Post ) {
 				if ( $type = wp_get_object_terms( $object->ID, 'calendar_type' ) ) {
@@ -156,7 +156,7 @@ class Objects {
 	 * @param  int    $id   Feed post id.
 	 * @param  string $name (optional) Name of calendar view.
 	 *
-	 * @return null|Object\Calendar_View
+	 * @return null|SimpleCalObject\Calendar_View
 	 */
 	public function get_calendar_view( $id = 0, $name = '' ) {
 
@@ -181,9 +181,9 @@ class Objects {
 	 *
 	 * @since  3.0.0
 	 *
-	 * @param  int|string|object|\WP_Post|Object\Calendar $object
+	 * @param  int|string|object|\WP_Post|SimpleCalObject\Calendar $object
 	 *
-	 * @return null|Object\Feed
+	 * @return null|SimpleCalObject\Feed
 	 */
 	public function get_feed( $object ) {
 
@@ -192,7 +192,7 @@ class Objects {
 		}
 
 		if ( is_object( $object ) ) {
-			if ( $object instanceof Object\Calendar ) {
+			if ( $object instanceof SimpleCalObject\Calendar ) {
 				$feed_name = '';
 				if ( empty( $object->feed ) ) {
 					if ( $feed_type = wp_get_object_terms( $object->id, 'feed_type' ) ) {
@@ -233,7 +233,7 @@ class Objects {
 	 * @param  array  $args Field args.
 	 * @param  string $name Field type.
 	 *
-	 * @return null|Object\Field
+	 * @return null|SimpleCalObject\Field
 	 */
 	public function get_field( $args, $name = '' ) {
 
@@ -251,7 +251,7 @@ class Objects {
 	 *
 	 * @param  string $name
 	 *
-	 * @return null|Object\Admin_Page
+	 * @return null|SimpleCalObject\Admin_Page
 	 */
 	public function get_admin_page( $name ) {
 		return $name ? $this->get_object( $name, 'admin-page' ) : null;
