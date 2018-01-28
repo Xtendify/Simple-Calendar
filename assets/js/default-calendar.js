@@ -363,8 +363,35 @@
 
 				eventBubbles.each( function( e, i ) {
 					$( i ).qtip( {
-						content : width < 60 ? $( cell ).find( 'ul.simcal-events' ) : $( i ).find( '> .simcal-tooltip-content' ),
-						position: {
+						content : function() {
+							var tooltipContent,
+								tooltipContentID;
+							/*
+							If at a mobile width try to get the tooltip content from the original place,
+							but after it's activated the tooltip content is added to the bottom of the page,
+							so we need to grab the id of the tooltip and load the content using the tooltip
+							id as part of the jQuery content grab.
+							 */
+                            if ( width < 60 ) {
+                            	if ( $(cell).find('ul.simcal-events').length ) {
+                                    tooltipContent = $(cell).find('ul.simcal-events');
+                            		console.log('One: ', tooltipContent);
+                                } else {
+									tooltipContentID = $(this).data('hasqtip');
+									tooltipContent = $('#qtip-' + tooltipContentID + '-content').find('ul.simcal-events');
+                            		console.log('Two: ', tooltipContent);
+								}
+							/*
+							If not mobile get the content as we normally would. i.e. we shouldn't
+							hit this else clause on mobile.
+							 */
+                            } else {
+                                tooltipContent = $(i).find('> .simcal-tooltip-content');
+								console.log('Three: ', tooltipContent);
+                            }
+							return tooltipContent;
+                        },
+						position : {
 							my      : 'top center',
 							at      : 'bottom center',
 							target  : $(i),
@@ -381,12 +408,12 @@
 						show    : {
 							solo  : true,
 							effect: false,
-							event : bubbleTrigger == 'hover' ? 'mouseenter' : 'click'
+							event : bubbleTrigger == 'hover' ? 'mouseenter touchstart' : 'click touchstart'
 						},
 						hide    : {
 							fixed : true,
 							effect: false,
-							event : bubbleTrigger == 'click' ? 'unfocus' : 'mouseleave',
+							event : bubbleTrigger == 'click' ? 'unfocus click' : 'mouseleave touchend',
 							delay: 100
 						},
 						events  : {
