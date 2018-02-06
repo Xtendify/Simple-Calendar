@@ -399,7 +399,8 @@
 								}
 								last = current;
 							}
-						}
+						},
+                        overwrite: false
 					} );
 
 				} );
