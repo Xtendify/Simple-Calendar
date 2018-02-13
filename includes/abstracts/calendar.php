@@ -426,7 +426,6 @@ abstract class Calendar {
 		if ( ! empty( $array ) ) {
 			foreach ( $array as $tz => $e ) {
 				foreach ( $e as $key => $event ) {
-//					$events[ $event[ 'end' ] ][] = $event instanceof Event ? $event : new Event( $event );
 					$events[ $tz ][] = $event instanceof Event ? $event : new Event( $event );
 				}
 			}
@@ -437,7 +436,6 @@ abstract class Calendar {
 		uasort( $events, function( $a, $b ) {
 			return ( $a[0]->end - $b[0]->end );
 		} );
-//		ksort( $events );
 
 		$this->events = $events;
 	}
