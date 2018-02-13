@@ -284,8 +284,8 @@ abstract class Calendar {
 
 			// Set earliest and latest event timestamps.
 			if ( $this->events && is_array( $this->events ) ) {
-				$this->earliest_event = intval( current( array_keys( $this->events ) ) );
-				$this->latest_event   = intval( key( array_slice( $this->events, -1, 1, true ) ) );
+				$this->earliest_event = intval( current( $this->events )[0]->end );
+				$this->latest_event   = intval( current( array_slice( $this->events, -1, 1, true ) )[0]->end );
 			}
 
 			// Set calendar end.
@@ -423,14 +423,21 @@ abstract class Calendar {
 	public function set_events( array $array ) {
 
 		$events = array();
-
 		if ( ! empty( $array ) ) {
 			foreach ( $array as $tz => $e ) {
-				foreach ( $e as $event ) {
+				foreach ( $e as $key => $event ) {
+//					$events[ $event[ 'end' ] ][] = $event instanceof Event ? $event : new Event( $event );
 					$events[ $tz ][] = $event instanceof Event ? $event : new Event( $event );
 				}
 			}
 		}
+
+		// Sort by end date so that navigation buttons are displayed
+		// correctly for events spanning multiple days.
+		uasort( $events, function( $a, $b ) {
+			return ( $a[0]->end - $b[0]->end );
+		} );
+//		ksort( $events );
 
 		$this->events = $events;
 	}

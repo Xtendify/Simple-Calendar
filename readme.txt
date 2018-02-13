@@ -4,7 +4,7 @@ Tags: google calendar, calendar, calendars, google, event calendar, custom calen
 Requires at least: 4.2
 Requires PHP: 5.3+
 Tested up to: 4.9
-Stable tag: 3.1.13
+Stable tag: 3.1.14
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,9 @@ We'd love your help! Here's a few things you can do:
 8. Attach a calendar to a post or page
 
 == Changelog ==
+
+= 3.1.14 - February 14, 2018 =
+* Fix: Issue where navigation to next month would be disabled when multi-day events extended to future months.
 
 = 3.1.13 - February 5, 2018 =
 * Fix: Issue where calendar event pop-ups would display without content.
