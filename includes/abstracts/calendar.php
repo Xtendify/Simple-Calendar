@@ -425,7 +425,7 @@ abstract class Calendar {
 		$events = array();
 		if ( ! empty( $array ) ) {
 			foreach ( $array as $tz => $e ) {
-				foreach ( $e as $key => $event ) {
+				foreach ( $e as $event ) {
 					$events[ $tz ][] = $event instanceof Event ? $event : new Event( $event );
 				}
 			}
