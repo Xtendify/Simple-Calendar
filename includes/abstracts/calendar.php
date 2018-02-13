@@ -423,6 +423,7 @@ abstract class Calendar {
 	public function set_events( array $array ) {
 
 		$events = array();
+
 		if ( ! empty( $array ) ) {
 			foreach ( $array as $tz => $e ) {
 				foreach ( $e as $event ) {
