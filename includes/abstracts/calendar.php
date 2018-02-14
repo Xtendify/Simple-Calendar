@@ -284,8 +284,13 @@ abstract class Calendar {
 
 			// Set earliest and latest event timestamps.
 			if ( $this->events && is_array( $this->events ) ) {
-				$this->earliest_event = intval( current( $this->events )[0]->end );
-				$this->latest_event   = intval( current( array_slice( $this->events, -1, 1, true ) )[0]->end );
+				$start_event          = current( $this->events );
+				$start_event_item     = ! empty( $start_event[0]->end ) ? $start_event[0]->end : 0;
+				$this->earliest_event = intval( $start_event_item );
+
+				$last_event         = current( array_slice( $this->events, - 1, 1, true ) );
+				$last_event_item    = ! empty( $last_event[0]->end ) ? $last_event[0]->end : 0;
+				$this->latest_event = intval( $last_event_item );
 			}
 
 			// Set calendar end.
