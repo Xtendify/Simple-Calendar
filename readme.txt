@@ -97,7 +97,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.1.14 - February 14, 2018 =
+= 3.1.14 - February 15, 2018 =
 * Fix: Issue where navigation to next month would be disabled when multi-day events extended to future months.
 
 = 3.1.13 - February 5, 2018 =
