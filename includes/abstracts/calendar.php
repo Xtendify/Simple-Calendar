@@ -285,7 +285,7 @@ abstract class Calendar {
 			// Set earliest and latest event timestamps.
 			if ( $this->events && is_array( $this->events ) ) {
 				$start_event          = current( $this->events );
-				$start_event_item     = ! empty( $start_event[0]->end ) ? $start_event[0]->end : 0;
+				$start_event_item     = ! empty( $start_event[0]->start ) ? $start_event[0]->start : 0;
 				$this->earliest_event = intval( $start_event_item );
 
 				$last_event         = current( array_slice( $this->events, - 1, 1, true ) );
