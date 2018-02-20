@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.1.15 - TBD =
+* Fix: Issue with jQuery $.ajax call parameter compatibility with older versions of jQuery.
+
 = 3.1.14 - February 15, 2018 =
 * Fix: Issue where navigation to next month would be disabled when multi-day events extended to future months.
 
