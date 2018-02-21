@@ -64,7 +64,7 @@
 
 					$.ajax({
 						url       : simcal_default_calendar.ajax_url,
-						method    : 'POST',
+						type      : 'POST',
 						dataType  : 'json',
 						cache     : false,
 						data      : {
@@ -109,7 +109,7 @@
 
 					$.ajax( {
 						url       : simcal_default_calendar.ajax_url,
-						method    : 'POST',
+						type      : 'POST',
 						dataType  : 'json',
 						cache     : false,
 						data      : {
