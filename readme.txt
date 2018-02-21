@@ -97,7 +97,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.1.15 - TBD =
+= 3.1.15 - February 21, 2018 =
 * Fix: Issue with jQuery $.ajax call parameter compatibility with older versions of jQuery.
 
 = 3.1.14 - February 15, 2018 =
