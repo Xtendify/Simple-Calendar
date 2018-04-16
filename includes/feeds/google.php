@@ -394,7 +394,7 @@ class Google extends Feed {
 			$args = array();
 
 			// Expand recurring events.
-			if ( $this->google_events_recurring == 'show' ) {
+			if ( 'show' === $this->google_events_recurring ) {
 				$args['singleEvents'] = true;
 			}
 
@@ -432,6 +432,13 @@ class Google extends Feed {
 				}
 				$timeMax->setTimestamp( $latest_event );
 				$args['timeMax'] = $timeMax->toRfc3339String();
+			}
+
+			// Trying to order by startTime for non-single events throws
+			// Google v3 API 400 error - "The requested ordering is not available for the particular query.".
+			// Only set this conditionally.
+			if ( true === $args['singleEvents'] ) {
+				$args['orderBy'] = 'startTime';
 			}
 
 			// Query events in calendar.
