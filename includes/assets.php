@@ -129,7 +129,7 @@ class Assets {
 		}
 
 		// Prevent duplicate localization variables for default calendar.
-		if ( isset($scripts[1]['simcal-default-calendar']['localize'] ) ) {
+		if ( isset( $scripts[1]['simcal-default-calendar']['localize'] ) ) {
 			unset( $scripts[1]['simcal-default-calendar']['localize'] );
 		}
 
