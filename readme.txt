@@ -97,7 +97,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.1.16 - May 15, 2018 =
+= 3.1.16 - May 22, 2018 =
 * Fix: Issue with duplicate default calendar JSON data being output.
 
 = 3.1.15 - February 22, 2018 =
