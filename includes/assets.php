@@ -128,6 +128,11 @@ class Assets {
 			}
 		}
 
+		// Prevent duplicate localization variables for default calendar.
+		if ( isset( $scripts[1]['simcal-default-calendar']['localize'] ) ) {
+			unset( $scripts[1]['simcal-default-calendar']['localize'] );
+		}
+
 		$this->get_widgets_assets();
 		$this->scripts = apply_filters( 'simcal_front_end_scripts', $scripts, $this->min );
 		// First check if there is a multi-dimensional array of scripts

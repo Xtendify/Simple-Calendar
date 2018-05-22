@@ -99,6 +99,7 @@ We'd love your help! Here's a few things you can do:
 
 = 3.1.16 - May 22, 2018 =
 * Fix: Issue with Google API feed sorting not showing correct events in list view.
+* Fix: Issue with duplicate default calendar JSON data being output.
 
 = 3.1.15 - February 22, 2018 =
 * Fix: Issue with jQuery $.ajax call parameter compatibility with older versions of jQuery.
