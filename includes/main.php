@@ -220,6 +220,7 @@ final class Plugin {
 			! empty( $_POST )
 			&& is_admin()
 			&& ! defined( 'DOING_AJAX' )
+			|| ( isset( $_GET['page'] ) && 'simple-calendar_settings' === $_GET['page'] )
 		) {
 			$settings = new Admin\Pages();
 			$settings->register_settings( $settings->get_settings() );
