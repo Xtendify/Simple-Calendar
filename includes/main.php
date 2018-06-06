@@ -217,11 +217,10 @@ final class Plugin {
 	 */
 	public function register_settings() {
 		if (
-			is_admin()
+			! empty( $_POST )
+			&& is_admin()
 			&& ! defined( 'DOING_AJAX' )
-			&& isset( $_GET['page'] )
-			&& 'simple-calendar_settings' === $_GET['page']
-			|| 'update' === $_POST['action']
+			|| ( isset( $_GET['page'] ) && 'simple-calendar_settings' === $_GET['page'] )
 		) {
 			$settings = new Admin\Pages();
 			$settings->register_settings( $settings->get_settings() );
