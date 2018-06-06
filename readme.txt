@@ -98,7 +98,7 @@ We'd love your help! Here's a few things you can do:
 == Changelog ==
 
 = 3.1.16 - June 6, 2018 =
-* Fix: Issue with slow loading admin calendar settings page.
+* Fix: Issue with slow loading admin settings page.
 
 = 3.1.15 - May 22, 2018 =
 * Fix: Issue with jQuery $.ajax call parameter compatibility with older versions of jQuery.
