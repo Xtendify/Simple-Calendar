@@ -832,6 +832,11 @@ class Event_Builder {
 		 * Add additional event link attributes.
 		 *
 		 * @since 3.1.18
+		 *
+		 * @param string The additional link attributes.
+		 * @param array $attr The current shortcode attributes.
+		 *
+		 * @return string The modified additional link attributes.
 		 */
 		$additional_link_atts =  apply_filters( 'simcal_additional_event_link_attributes', '', $attr );
 
