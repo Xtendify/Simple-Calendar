@@ -97,7 +97,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.1.18 - July 2, 2018 =
+= 3.1.18 - July 3, 2018 =
 * Dev: Add filter "simcal_additional_link_attributes" to facilitate additional event link attributes.
 
 = 3.1.17 - June 6, 2018 =
