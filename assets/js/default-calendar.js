@@ -1,4 +1,4 @@
-( function( window, undefined ) {
+( function( window, moment, undefined ) {
 	'use strict';
 
 	jQuery( function( $ ) {
@@ -444,4 +444,4 @@
 
 	} );
 
-} )( this );
+} )( this, moment );
