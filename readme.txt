@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.1.19 - July 25, 2018 =
+* Fix: Issue with moment.js not being available/throwing JS errors.
+
 = 3.1.18 - July 3, 2018 =
 * Dev: Add filter "simcal_additional_link_attributes" to facilitate additional event link attributes.
 
