@@ -128,10 +128,12 @@ final class Plugin {
 		// Functions shared in both back end and front end.
 		include_once 'functions/shared.php';
 
+		// Gutenberg/block editor customizations.
+		include_once 'functions/gutenberg.php';
+
 		// Init custom post types and taxonomies.
 		new Post_Types();
 
-		// Load back end.
 		if ( is_admin() ) {
 			$this->load_admin();
 		} else {
