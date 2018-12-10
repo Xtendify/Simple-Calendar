@@ -218,7 +218,7 @@ class Post_Types {
 				),
 			);
 
-			register_post_type( 'calendar', $args );
+			register_post_type( 'calendar', apply_filters( 'simcal_post_type_registration_args', $args ) );
 		}
 
 	}
