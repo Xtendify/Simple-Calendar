@@ -143,6 +143,7 @@ class Assets {
 			$conditions = array(
 				in_array( $post_type, (array) $post_types ),
 				$screen->id == 'widgets',
+				is_admin() && isset( $_GET['action'] ) && 'edit' === $_GET['action'],
 			);
 
 			if ( in_array( true, $conditions ) ) {
