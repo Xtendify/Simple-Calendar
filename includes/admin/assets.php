@@ -4,6 +4,7 @@
  *
  * @package SimpleCalendar\Admin
  */
+
 namespace SimpleCalendar\Admin;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -135,7 +136,7 @@ class Assets {
 			$screen = get_current_screen();
 
 			$post_types = array();
-			$settings = get_option( 'simple-calendar_settings_calendars' );
+			$settings   = get_option( 'simple-calendar_settings_calendars' );
 			if ( isset( $settings['general']['attach_calendars_posts'] ) ) {
 				$post_types = $settings['general']['attach_calendars_posts'];
 			}
@@ -143,7 +144,7 @@ class Assets {
 			$conditions = array(
 				in_array( $post_type, (array) $post_types ),
 				$screen->id == 'widgets',
-				is_admin() && isset( $_GET['action'] ) && 'edit' === $_GET['action'],
+				is_admin(),
 			);
 
 			if ( in_array( true, $conditions ) ) {
