@@ -97,7 +97,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.1.21 - January 18, 2018 =
+= 3.1.21 - January 21, 2018 =
 * Fix: Issue where missing 'simcal_admin' js variable would throw error in admin and prevent page editor visual/text mode switching.
 
 = 3.1.20 - December 13, 2018 =
