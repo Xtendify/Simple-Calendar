@@ -204,6 +204,7 @@ class Default_Calendar_List implements Calendar_View {
 				echo "\t" . '<div class="simcal-nav">' . "\n";
 				echo "\t\t" . '<button class="simcal-nav-button simcal-prev" title="' . __('Previous', 'google-calendar-events') . '"' . $disabled . '>' . "\n";
 				echo "\t\t\t" . '<i class="simcal-icon-left"></i>' . "\n";
+				echo "\t\t\t" . '<span style="display:none;">' . __('Previous', 'google-calendar-events') . '</span>' . "\n";
 				echo "\t\t" . '</button>' . "\n";
 				echo "\t" . '</div>' . "\n";
 
@@ -219,6 +220,7 @@ class Default_Calendar_List implements Calendar_View {
 				echo "\t" . '<div class="simcal-nav">';
 				echo "\t\t" . '<button class="simcal-nav-button simcal-next" title="' . __('Next', 'google-calendar-events') . '"' . $disabled . '>';
 				echo "\t\t\t" . '<i class="simcal-icon-right"></i>' . "\n";
+				echo "\t\t\t" . '<span style="display:none;">' . __('Next', 'google-calendar-events') . '</span>' . "\n";
 				echo "\t\t" . '</button>' . "\n";
 				echo "\t" . '</div>' . "\n";
 
