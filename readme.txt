@@ -97,7 +97,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.1.21 - March 16, 2019 =
+= 3.1.21 - April 9, 2019 =
 * Fix: Issue with API not sending headers causing issues with Google API key referer restrictions and calendar display.
 * Dev: Update Google API Client to v2.
 
