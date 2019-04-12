@@ -40,7 +40,7 @@ include_once 'includes/wp-requirements.php';
 
 // Check plugin requirements before loading plugin.
 $this_plugin_checks = new SimCal_WP_Requirements( 'Simple Calendar', plugin_basename( __FILE__ ), array(
-		'PHP'        => '5.3',
+		'PHP'        => '5.4',
 		'WordPress'  => '4.2',
 		'Extensions' => array(
 			'curl',

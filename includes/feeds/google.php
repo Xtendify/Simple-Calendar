@@ -142,8 +142,10 @@ class Google extends Feed {
 		$client->setHttpClient(
 			new \GuzzleHttp\Client(
 				array(
-					'headers' => array(
-						'referer' => site_url(),
+					'defaults' => array(
+						'headers' => array(
+							'Referer' => site_url(),
+						),
 					),
 				)
 			)
