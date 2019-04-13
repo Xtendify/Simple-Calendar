@@ -4,7 +4,7 @@ Tags: google calendar, calendar, calendars, google, event calendar, custom calen
 Requires at least: 4.2
 Requires PHP: 5.3+
 Tested up to: 4.9
-Stable tag: 3.1.21
+Stable tag: 3.1.20
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,10 +96,6 @@ We'd love your help! Here's a few things you can do:
 8. Attach a calendar to a post or page
 
 == Changelog ==
-
-= 3.1.21 - April 9, 2019 =
-* Fix: Issue with API not sending headers causing issues with Google API key referer restrictions and calendar display.
-* Dev: Update Google API Client to v2.
 
 = 3.1.20 - December 13, 2018 =
 * Dev: Add the "simcal_post_type_registration_args" filter to allow changes to the calendar post type registration arguments.
