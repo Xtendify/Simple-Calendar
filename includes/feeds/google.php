@@ -490,25 +490,6 @@ class Google extends Feed {
 	}
 
 	/**
-	 * Google API Client.
-	 *
-	 * @since  3.0.0
-	 * @access private
-	 *
-	 * @return \Google_Client
-	 */
-	private function get_client() {
-
-		$client = new \Google_Client();
-		$client->setApplicationName( 'Simple Calendar' );
-		$client->setScopes( $this->google_client_scopes );
-		$client->setDeveloperKey( $this->google_api_key );
-		$client->setAccessType( 'online' );
-
-		return $client;
-	}
-
-	/**
 	 * Google Calendar Service.
 	 *
 	 * @since  3.0.0
