@@ -143,7 +143,7 @@ class Google extends Feed {
 				array(
 					'defaults' => array(
 						'headers' => array(
-							'Referer' => site_url(),
+							'Referer' => apply_filters( 'simcal_google_feed_referer', site_url() ),
 						),
 					),
 				)
