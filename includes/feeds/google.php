@@ -124,6 +124,36 @@ class Google extends Feed {
 	}
 
 	/**
+	 * Google API Client.
+	 *
+	 * @since  3.0.0
+	 * @access private
+	 *
+	 * @return \Google_Client
+	 */
+	private function get_client() {
+
+		$client = new \Google_Client();
+		$client->setApplicationName( 'Simple Calendar' );
+		$client->setScopes( $this->google_client_scopes );
+		$client->setDeveloperKey( $this->google_api_key );
+		$client->setAccessType( 'online' );
+		$client->setHttpClient(
+			new \GuzzleHttp\Client(
+				array(
+					'defaults' => array(
+						'headers' => array(
+							'Referer' => apply_filters( 'simcal_google_feed_referer', site_url() ),
+						),
+					),
+				)
+			)
+		);
+
+		return $client;
+	}
+
+	/**
 	 * Decode a calendar id.
 	 *
 	 * @since  3.0.0
@@ -437,7 +467,7 @@ class Google extends Feed {
 			// Trying to order by startTime for non-single events throws
 			// Google v3 API 400 error - "The requested ordering is not available for the particular query.".
 			// Only set this conditionally.
-			if ( true === $args['singleEvents'] ) {
+			if ( isset( $args['singleEvents'] ) && true === $args['singleEvents'] ) {
 				$args['orderBy'] = 'startTime';
 			}
 
@@ -457,25 +487,6 @@ class Google extends Feed {
 		}
 
 		return $calendar;
-	}
-
-	/**
-	 * Google API Client.
-	 *
-	 * @since  3.0.0
-	 * @access private
-	 *
-	 * @return \Google_Client
-	 */
-	private function get_client() {
-
-		$client = new \Google_Client();
-		$client->setApplicationName( 'Simple Calendar' );
-		$client->setScopes( $this->google_client_scopes );
-		$client->setDeveloperKey( $this->google_api_key );
-		$client->setAccessType( 'online' );
-
-		return $client;
 	}
 
 	/**
