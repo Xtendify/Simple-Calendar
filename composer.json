@@ -1,0 +1,39 @@
+{
+  "name": "moonstonemedia/simple-calendar",
+  "description": "Add Google Calendar events to your WordPress site.",
+  "homepage": "https://simplecalendar.io",
+  "type": "wordpress-plugin",
+  "license": "GPLv2+",
+  "keywords": [
+    "wordpress",
+    "plugin",
+    "calendar",
+    "google calendar"
+  ],
+  "authors": [
+    {
+      "name": "Moonstone Media",
+      "email": "phil@moonstonemediagroup.com",
+      "homepage": "http://moonstonemediagroup.com/"
+    }
+  ],
+  "support": {
+    "source": "https://github.com/moonstonemedia/Simple-Calendar/",
+    "issues": "https://github.com/moonstonemedia/Simple-Calendar/issues",
+    "forum": "https://wordpress.org/support/plugin/google-calendar-events"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=5.3.3",
+    "ext-curl": "*",
+    "ext-iconv": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*",
+    "composer/installers": "1.x",
+    "google/apiclient": "^2.0",
+    "nesbot/carbon": "1.x",
+    "erusev/parsedown": "1.x",
+    "mexitek/phpcolors": "dev-master"
+  }
+}

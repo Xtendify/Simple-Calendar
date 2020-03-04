@@ -1,0 +1,11 @@
+{
+  "name": "simple-calendar",
+  "license": "GPL-2.0+",
+  "devDependencies": {
+    "imagesloaded": "4.x",
+    "jquery-tiptip": "master",
+    "select2": "4.x",
+    "moment": "2.x",
+    "moment-timezone": "0.x"
+  }
+}
