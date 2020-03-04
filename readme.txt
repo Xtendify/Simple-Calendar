@@ -2,8 +2,9 @@
 Contributors: simplecalendar, sureswiftcapital, pderksen, nickyoung87, nekojira, rosshanney
 Tags: google calendar, calendar, calendars, google, event calendar, custom calendar, custom calendars, event, events
 Requires at least: 4.2
-Tested up to: 4.7
-Stable tag: 3.1.9
+Requires PHP: 5.3+
+Tested up to: 5.3.2
+Stable tag: 3.1.23
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,7 +24,7 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 * Combine multiple calendars into single displays explicitly or using categories.
 * Intuitive, simple display configuration changes for fine tuning.
 * Advanced settings to adjust time zones, date/time formats and start of the week.
-* Works with [Event Calendar Newsletter](https://eventcalendarnewsletter.com/add-google-calendar-events-mailchimp-newsletter/) to easily put your Google Calendar events inside of a newsletter.
+* Integration with [Event Calendar Newsletter](https://wordpress.org/plugins/event-calendar-newsletter/) for quickly turning your events into a newsletter-friendly format.
 * Additional functionality offered with [add-ons](https://simplecalendar.io/addons/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description).
 * Translations available with more being added on a regular basis. [Translations welcome!](https://translate.wordpress.org/projects/wp-plugins/google-calendar-events)
 * Open source with code hosted on GitHub. [Contributions welcome!](https://github.com/moonstonemedia/Simple-Calendar)
@@ -56,11 +57,11 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 
 >**[Get ALL these features with our Premium Add-ons](https://simplecalendar.io/addons/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)**
 
-Want to take Simple Calendar for a spin first? **[Try out a Live Demo](https://demo.simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)**
+Want to take Simple Calendar for a spin first? **[Try out a Live Demo](http://demo.simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)**
 
 == Installation ==
 
-[Plugin installation instructions](https://docs.simplecalendar.io/simple-calendar-installation/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=installation)
+[Plugin installation instructions](http://docs.simplecalendar.io/simple-calendar-installation/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=installation)
 
 [Setup guide and video at WP Beginner](http://www.wpbeginner.com/plugins/how-to-add-google-calendar-in-wordpress/) (updated March 14, 2016)
 
@@ -68,7 +69,7 @@ Want to take Simple Calendar for a spin first? **[Try out a Live Demo](https://d
 
 = Where's your plugin documentation? =
 
-Find our docs at [docs.simplecalendar.io](https://docs.simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=faq)
+Find our docs at [docs.simplecalendar.io](http://docs.simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=faq)
 
 = Can I get notified by email of new releases? =
 
@@ -95,6 +96,55 @@ We'd love your help! Here's a few things you can do:
 8. Attach a calendar to a post or page
 
 == Changelog ==
+
+= 3.1.23 =
+* Updated google/apiclient to ^2.0 to fix Gmail conflicts with other SMTP plugins.
+
+= 3.1.22 =
+* This bumps the version number but is the same code as 3.1.20 so plugins can auto update to the fixed version.
+
+= 3.1.20 - December 13, 2018 =
+* Dev: Add the "simcal_post_type_registration_args" filter to allow changes to the calendar post type registration arguments.
+
+= 3.1.19 - July 25, 2018 =
+* Fix: Issue with moment.js not being available/throwing JS errors.
+
+= 3.1.18 - July 3, 2018 =
+* Dev: Add filter "simcal_additional_link_attributes" to facilitate additional event link attributes.
+
+= 3.1.17 - June 6, 2018 =
+* Fix: Issue with calendar settings not saving.
+
+= 3.1.16 - June 6, 2018 =
+* Fix: Issue with slow loading admin settings page.
+
+= 3.1.15 - May 22, 2018 =
+* Fix: Issue with jQuery $.ajax call parameter compatibility with older versions of jQuery.
+* Fix: Issue with Google API feed sorting not showing correct events in list view.
+* Fix: Issue with duplicate default calendar JSON data being output.
+
+= 3.1.14 - February 15, 2018 =
+* Fix: Issue where navigation to next month would be disabled when multi-day events extended to future months.
+
+= 3.1.13 - February 5, 2018 =
+* Fix: Issue where calendar event pop-ups would display without content.
+
+= 3.1.12 - January 4, 2018 =
+* Backwards Compat: Restored previous version (v1) of Google API Client lib to support older versions of PHP.
+* Fix: Fixed bug present in PHP 7.2 which was causing fatal errors.
+
+= 3.1.11.1 - January 3, 2018 =
+* Fix: Bump required PHP version to match 3.1.11 requiring PHP 5.5 so site's running older versions don't crash when updating.
+
+= 3.1.11 - January 2, 2018 =
+* Dev: Update Google API Client libraries to v2. NOTE: Version 5.5+ for PHP now required.
+* Fix: Default calendar list view not showing pro calendar coloring when Calendar Settings > Appearance > Limit Visible Events is set.
+
+= 3.1.10 - August 22, 2017 =
+
+* Fix: Fixed an issue where Google Calendar API key sometimes wouldn't save on the settings page.
+* Feature: Allow administrators to set spacing within the datetime separator under individual advanced calendar settings.
+* Tweak: Add the updated separator to the end date for multi-day events for consistency. i.e. if separator is " @ ", multi-day events date/time would display similar to "August 27 2017 @ 10:00 am-September 04 2017 @ 11:00 am" on tooltip or list view.
 
 = 3.1.9 - December 9, 2016 =
 

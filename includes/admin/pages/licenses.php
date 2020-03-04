@@ -31,6 +31,7 @@ class Licenses extends Admin_Page {
 		$this->id           = $tab = 'licenses';
 		$this->option_group = $page = 'settings';
 		$this->label        = __( 'Add-on Licenses', 'google-calendar-events' );
+		//$this->description  = __( 'Manage your premium add-on license keys.', 'google-calendar-events' );
 		$this->sections     = $this->add_sections();
 		$this->fields       = $this->add_fields();
 
@@ -75,11 +76,7 @@ class Licenses extends Admin_Page {
 				'title' => __( 'Premium Add-on License Keys', 'google-calendar-events' ),
 				'description' => __( 'Enter your add-on license keys below, making sure to activate each one to ensure they are valid.', 'google-calendar-events' ) .
 				                 '<br/><br/>' .
-				                 __( 'Your license keys are used for access to automatic upgrades and premium support.', 'google-calendar-events' ) .
-			                     '<br/><br/>' .
-				                 sprintf( __( 'Retrieve your license keys from <a href="%s" target="_blank">your Simple Calendar account</a> or purchase receipt email.', 'google-calendar-events' ),
-					                 simcal_ga_campaign_url( simcal_get_url( 'home' ) . '/my-account/', 'core-plugin', 'settings-link' )
-				                 ),
+				                 '<em>' . __( 'Your license keys are used for access to automatic upgrades and premium support.', 'google-calendar-events' ) . '</em>',
 			),
 		);
 		return apply_filters( 'simcal_add_' . $this->option_group . '_' . $this->id .'_sections', $sections );

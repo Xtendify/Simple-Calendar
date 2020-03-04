@@ -216,7 +216,12 @@ final class Plugin {
 	 * @since 3.0.0
 	 */
 	public function register_settings() {
-		if ( is_admin() && ! defined( 'DOING_AJAX' ) ) {
+		if (
+			! empty( $_POST )
+			&& is_admin()
+			&& ! defined( 'DOING_AJAX' )
+			|| ( isset( $_GET['page'] ) && 'simple-calendar_settings' === $_GET['page'] )
+		) {
 			$settings = new Admin\Pages();
 			$settings->register_settings( $settings->get_settings() );
 		}
@@ -244,6 +249,9 @@ final class Plugin {
 	 */
 	public function get_url( $case ) {
 		switch ( $case ) {
+			case 'codex' :
+			case 'apidocs' :
+				return 'http://codex.simplecalendar.io';
 			case 'addons' :
 				return self::$homepage . '/addons/';
 			case 'gcal-pro' :
@@ -251,7 +259,7 @@ final class Plugin {
 			case 'fullcal' :
 				return self::$homepage . '/addons/full-calendar/';
 			case 'docs' :
-				return 'https://docs.simplecalendar.io';
+				return 'http://docs.simplecalendar.io';
 			case 'github' :
 				return 'https://github.com/moonstonemedia/Simple-Calendar';
 			case 'support' :
