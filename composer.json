@@ -25,7 +25,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "php": ">=5.3.3",
+    "php": ">=5.4.0",
     "ext-curl": "*",
     "ext-iconv": "*",
     "ext-json": "*",
@@ -34,6 +34,12 @@
     "google/apiclient": "^2.0",
     "nesbot/carbon": "1.x",
     "erusev/parsedown": "1.x",
-    "mexitek/phpcolors": "dev-master"
+    "mexitek/phpcolors": "dev-master",
+    "guzzlehttp/guzzle": "*"
+  },
+  "config": {
+    "platform": {
+      "php": "5.4.0"
+    }
   }
 }

@@ -106,6 +106,9 @@ We'd love your help! Here's a few things you can do:
 = 3.1.22 =
 * This bumps the version number but is the same code as 3.1.20 so plugins can auto update to the fixed version.
 
+= 3.1.21 - May 5, 2019 =
+* Fix: Issue with plugin not sending referer through Google API, preventing users from utilizing API key restrictions.
+
 = 3.1.20 - December 13, 2018 =
 * Dev: Add the "simcal_post_type_registration_args" filter to allow changes to the calendar post type registration arguments.
 
