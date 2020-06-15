@@ -300,7 +300,7 @@ function simcal_default_event_template() {
 function simcal_get_date_format_order( $date_format ) {
 
 	$pos = array(
-		'd' => strpos( $date_format, strpbrk( $date_format, 'Dj' ) ),
+		'd' => strpos( $date_format, strpbrk( $date_format, 'dj' ) ),
 		'm' => strpos( $date_format, strpbrk( $date_format, 'FMmn' ) ),
 		'y' => strpos( $date_format, strpbrk( $date_format, 'Yy' ) ),
 	);
