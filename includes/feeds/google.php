@@ -467,11 +467,7 @@ class Google extends Feed {
 			// Trying to order by startTime for non-single events throws
 			// Google v3 API 400 error - "The requested ordering is not available for the particular query.".
 			// Only set this conditionally.
-<<<<<<< HEAD
 			if ( true === $args['singleEvents'] ) {
-=======
-			if ( isset( $args['singleEvents'] ) && true === $args['singleEvents'] ) {
->>>>>>> origin/master
 				$args['orderBy'] = 'startTime';
 			}
 
