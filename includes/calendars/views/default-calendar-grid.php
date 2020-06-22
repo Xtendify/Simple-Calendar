@@ -282,7 +282,26 @@ class Default_Calendar_Grid implements Calendar_View {
 			echo '<div class="simcal-ajax-loader simcal-spinner-top" style="display: none;"><i class="simcal-icon-spinner simcal-icon-spin"></i></div>';
 		}
 	}
-
+		
+	/**
+	 * Added sorting for events with the same start time to be sorted
+	 * alphabetically.
+	 *
+	 * @since  3.1.24
+	 * @access private
+	 */
+	private static function cmp( $a, $b ) {
+		if ($a->start == $b->start) {
+			if($a->title == $b->title) {
+				return 0;
+			}
+			return ($a->title < $b->title) ? -1 : 1;
+		}
+		else {
+			return ($a->start < $b->start) ? -1 : 1;
+		}
+	}
+ 
 	/**
 	 * Make a calendar grid.
 	 *
@@ -411,7 +430,9 @@ class Default_Calendar_Grid implements Calendar_View {
 				$bullet_colors = array();
 
 				$list_events = '<ul class="simcal-events">';
-
+				
+				usort($day_events[ $day ], array($this,'cmp'));
+				
 				foreach ( $day_events[ $day ] as $event ) :
 
 					$event_classes = $event_visibility = '';

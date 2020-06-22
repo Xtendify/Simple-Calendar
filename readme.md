@@ -8,7 +8,7 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 
 [![Download from WordPress.org](https://raw.githubusercontent.com/moonstonemedia/Simple-Calendar/master/assets/images/wp/wordpress-download-btn.png)](https://wordpress.org/plugins/google-calendar-events/)
 
-[Download](https://wordpress.org/plugins/google-calendar-events/) | [Docs](http://docs.simplecalendar.io) | [Demo](http://demo.simplecalendar.io) | [Changelog](https://wordpress.org/plugins/google-calendar-events/changelog/)
+[Download](https://wordpress.org/plugins/google-calendar-events/) | [Docs](https://docs.simplecalendar.io) | [Demo](https://demo.simplecalendar.io) | [Changelog](https://wordpress.org/plugins/google-calendar-events/changelog/)
 
 Premium add-ons available at [simplecalendar.io](https://simplecalendar.io)
 

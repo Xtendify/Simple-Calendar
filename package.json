@@ -2,7 +2,7 @@
   "name": "Simple-Calendar",
   "title": "Simple Calendar",
   "description": "Add Google Calendar events to your WordPress site.",
-  "version": "3.1.21",
+  "version": "3.1.24",
   "license": "GPLv2+",
   "homepage": "https://simplecalendar.io",
   "repository": {
@@ -18,9 +18,9 @@
     "grunt-contrib-copy": "1.x",
     "grunt-contrib-cssmin": "1.x",
     "grunt-contrib-jshint": "1.x",
-    "grunt-contrib-uglify": "1.x",
+    "grunt-contrib-uglify": "2.x",
     "grunt-contrib-watch": "1.x",
-    "grunt-sass": "1.x",
+    "grunt-sass": "2.x",
     "load-grunt-tasks": "3.x"
   }
 }
