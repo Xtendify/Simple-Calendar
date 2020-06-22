@@ -99,6 +99,7 @@ We'd love your help! Here's a few things you can do:
 
 = 3.1.24 =
 * Added feature that sorted events with the same day and time alphabetically.
+* Fix: Properly load script dependencies.
 
 = 3.1.23 =
 * Updated google/apiclient to ^2.0 to fix Gmail conflicts with other SMTP plugins.
