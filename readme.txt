@@ -4,7 +4,7 @@ Tags: google calendar, calendar, calendars, google, event calendar, custom calen
 Requires at least: 4.2
 Requires PHP: 5.3+
 Tested up to: 5.3.2
-Stable tag: 3.1.24
+Stable tag: 3.1.25
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -97,7 +97,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.1.24 =
+= 3.1.25 =
 * Added feature that sorted events with the same day and time alphabetically.
 * Fix: Properly load script dependencies.
 
