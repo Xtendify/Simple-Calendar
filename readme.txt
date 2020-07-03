@@ -98,7 +98,7 @@ We'd love your help! Here's a few things you can do:
 == Changelog ==
 
 = 3.1.28 =
-* TODO
+* Fix: Issue with jQuery not being added as a script dependency.
 
 = 3.1.27 =
 * Revert to 3.1.22 version to skip recent update that has an error.
