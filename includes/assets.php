@@ -217,9 +217,10 @@ class Assets {
 					// TODO Rework dependencies part (or remove completely).
 
 					$src        = esc_url( $v['src'] );
-					$in_footer  = isset( $v['in_footer'] )   ? $v['in_footer']  : false;
+					$in_footer  = isset( $v['in_footer'] ) ? $v['in_footer'] : false;
+					$deps       = isset( $v['deps'] ) ? $v['deps'] : array();
 
-					wp_enqueue_script( $script, $src, array(), SIMPLE_CALENDAR_VERSION, $in_footer );
+					wp_enqueue_script( $script, $src, $deps, SIMPLE_CALENDAR_VERSION, $in_footer );
 
 					if ( ! empty( $v['localize'] ) && is_array( $v['localize'] ) ) {
 						foreach ( $v['localize'] as $object => $l10n ) {
