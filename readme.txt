@@ -3,8 +3,8 @@ Contributors: simplecalendar, sureswiftcapital, pderksen, nickyoung87, nekojira,
 Tags: google calendar, calendar, calendars, google, event calendar, custom calendar, custom calendars, event, events
 Requires at least: 4.2
 Requires PHP: 5.3+
-Tested up to: 5.3.2
-Stable tag: 3.1.25
+Tested up to: 4.9
+Stable tag: 3.1.27
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -97,18 +97,11 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.1.25 =
-* Added feature that sorted events with the same day and time alphabetically.
-* Fix: Properly load script dependencies.
-
-= 3.1.23 =
-* Updated google/apiclient to ^2.0 to fix Gmail conflicts with other SMTP plugins.
+= 3.1.27 =
+* Revert to 3.1.22 version to skip recent update that has an error.
 
 = 3.1.22 =
 * This bumps the version number but is the same code as 3.1.20 so plugins can auto update to the fixed version.
-
-= 3.1.21 - May 5, 2019 =
-* Fix: Issue with plugin not sending referer through Google API, preventing users from utilizing API key restrictions.
 
 = 3.1.20 - December 13, 2018 =
 * Dev: Add the "simcal_post_type_registration_args" filter to allow changes to the calendar post type registration arguments.
