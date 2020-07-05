@@ -195,91 +195,110 @@ class Default_Calendar_Grid implements Calendar_View {
 
 			<?php edit_post_link( __( 'Edit Calendar', 'google-calendar-events' ), '<p class="simcal-align-right"><small>', '</small></p>', $calendar->id ); ?>
 
-			<table class="simcal-calendar-grid"
-			       data-event-bubble-trigger="<?php echo $calendar->event_bubble_trigger; ?>">
-				<thead class="simcal-calendar-head">
-					<tr>
-						<?php if ( ! $calendar->static ) { ?>
-							<th class="simcal-nav simcal-prev-wrapper" colspan="<?php echo apply_filters( 'simcal_prev_cols', '1' ); ?>">
-								<button class="simcal-nav-button simcal-month-nav simcal-prev" title="<?php _e( 'Previous Month', 'google-calendar-events' ); ?>"><i class="simcal-icon-left"></i></button>
-							</th>
-						<?php } ?>
-						<th colspan="<?php echo apply_filters( 'simcal_current_cols', $calendar->static ? '7' : '5' ); ?>"
-						    class="simcal-nav simcal-current"
-						    data-calendar-current="<?php echo $calendar->start; ?>">
-							<?php
-
-							echo '<h3>';
-
-							// Display month and year according to user date format preference.
-
-							$year_pos  = strcspn( $calendar->date_format, 'Y y' );
-							$month_pos = strcspn( $calendar->date_format, 'F M m n' );
-
-							$current = array( 'month' => 'F', 'year' => 'Y' );
-
-							if ( $year_pos < $month_pos ) {
-								$current = array_reverse( $current );
-							}
-
-							foreach ( $current as $k => $v ) {
-								echo ' <span class="simcal-current-' . $k , '">' . date_i18n( $v, $calendar->start ) . '</span> ';
-							}
-
-							echo '</h3>';
-
-							?>
-						</th>
-						<?php if ( ! $calendar->static ) { ?>
-							<th class="simcal-nav simcal-next-wrapper" colspan="<?php echo apply_filters( 'simcal_next_cols', '1' ); ?>">
-								<button class="simcal-nav-button simcal-month-nav simcal-next" title="<?php _e( 'Next Month', 'google-calendar-events' ); ?>"><i class="simcal-icon-right"></i></button>
-							</th>
-						<?php } ?>
-					</tr>
-					<tr>
+            <table class="simcal-calendar-grid"
+                   data-event-bubble-trigger="<?php echo $calendar->event_bubble_trigger; ?>">
+                <thead class="simcal-calendar-head">
+                <tr>
+					<?php if ( ! $calendar->static ) { ?>
+                        <th class="simcal-nav simcal-prev-wrapper" colspan="<?php echo apply_filters( 'simcal_prev_cols', '1' ); ?>">
+                            <button class="simcal-nav-button simcal-month-nav simcal-prev" title="<?php _e( 'Previous Month', 'google-calendar-events' ); ?>"><i class="simcal-icon-left"></i></button>
+                        </th>
+					<?php } ?>
+                    <th colspan="<?php echo apply_filters( 'simcal_current_cols', $calendar->static ? '7' : '5' ); ?>"
+                        class="simcal-nav simcal-current"
+                        data-calendar-current="<?php echo $calendar->start; ?>">
 						<?php
 
-						// Print day names in short or long form for different viewport sizes.
+						echo '<h3>';
 
-						$week_starts     = $calendar->week_starts;
-						$week_days_short = simcal_get_calendar_names_i18n( 'day', 'short' );
-						$week_days_full  = simcal_get_calendar_names_i18n( 'day', 'full' );
+						// Display month and year according to user date format preference.
 
-						for ( $i = $week_starts; $i <= 6; $i ++ ) :
+						$year_pos  = strcspn( $calendar->date_format, 'Y y' );
+						$month_pos = strcspn( $calendar->date_format, 'F M m n' );
+
+						$current = array( 'month' => 'F', 'year' => 'Y' );
+
+						if ( $year_pos < $month_pos ) {
+							$current = array_reverse( $current );
+						}
+
+						foreach ( $current as $k => $v ) {
+							echo ' <span class="simcal-current-' . $k , '">' . date_i18n( $v, $calendar->start ) . '</span> ';
+						}
+
+						echo '</h3>';
+
+						?>
+                    </th>
+					<?php if ( ! $calendar->static ) { ?>
+                        <th class="simcal-nav simcal-next-wrapper" colspan="<?php echo apply_filters( 'simcal_next_cols', '1' ); ?>">
+                            <button class="simcal-nav-button simcal-month-nav simcal-next" title="<?php _e( 'Next Month', 'google-calendar-events' ); ?>"><i class="simcal-icon-right"></i></button>
+                        </th>
+					<?php } ?>
+                </tr>
+                <tr>
+					<?php
+
+					// Print day names in short or long form for different viewport sizes.
+
+					$week_starts     = $calendar->week_starts;
+					$week_days_short = simcal_get_calendar_names_i18n( 'day', 'short' );
+					$week_days_full  = simcal_get_calendar_names_i18n( 'day', 'full' );
+
+					for ( $i = $week_starts; $i <= 6; $i ++ ) :
+
+						?>
+                        <th class="simcal-week-day simcal-week-day-<?php echo $i ?>"
+                            data-screen-small="<?php echo mb_substr( $week_days_short[ $i ], 0, 1, 'UTF-8' ); ?>"
+                            data-screen-medium="<?php echo $week_days_short[ $i ]; ?>"
+                            data-screen-large="<?php echo $week_days_full[ $i ]; ?>"><?php echo $week_days_short[ $i ]; ?></th>
+						<?php
+
+					endfor;
+
+					if ( $week_starts !== 0 ) :
+						for ( $i = 0; $i < $week_starts; $i ++ ) :
 
 							?>
-							<th class="simcal-week-day simcal-week-day-<?php echo $i ?>"
-								data-screen-small="<?php echo mb_substr( $week_days_short[ $i ], 0, 1, 'UTF-8' ); ?>"
-							    data-screen-medium="<?php echo $week_days_short[ $i ]; ?>"
-							    data-screen-large="<?php echo $week_days_full[ $i ]; ?>"><?php echo $week_days_short[ $i ]; ?></th>
+                            <th class="simcal-week-day simcal-week-day-<?php echo $i ?>"
+                                data-screen-small="<?php echo mb_substr( $week_days_short[ $i ], 0, 1, 'UTF-8' ); ?>"
+                                data-screen-medium="<?php echo $week_days_short[ $i ]; ?>"
+                                data-screen-large="<?php echo $week_days_full[ $i ]; ?>"><?php echo $week_days_short[ $i ]; ?></th>
 							<?php
 
 						endfor;
+					endif;
 
-						if ( $week_starts !== 0 ) :
-							for ( $i = 0; $i < $week_starts; $i ++ ) :
-
-								?>
-								<th class="simcal-week-day simcal-week-day-<?php echo $i ?>"
-								    data-screen-small="<?php echo mb_substr( $week_days_short[ $i ], 0, 1, 'UTF-8' ); ?>"
-								    data-screen-medium="<?php echo $week_days_short[ $i ]; ?>"
-								    data-screen-large="<?php echo $week_days_full[ $i ]; ?>"><?php echo $week_days_short[ $i ]; ?></th>
-								<?php
-
-							endfor;
-						endif;
-
-						?>
-					</tr>
-				</thead>
+					?>
+                </tr>
+                </thead>
 
 				<?php echo $this->draw_month( date( 'n', $calendar->start ), date( 'Y', $calendar->start ) ); ?>
 
-			</table>
+            </table>
 
 			<?php
 
 			echo '<div class="simcal-ajax-loader simcal-spinner-top" style="display: none;"><i class="simcal-icon-spinner simcal-icon-spin"></i></div>';
+		}
+	}
+
+	/**
+	 * Added sorting for events with the same start time to be sorted
+	 * alphabetically.
+	 *
+	 * @since  3.1.28
+	 * @access private
+	 */
+	private static function cmp( $a, $b ) {
+		if ($a->start == $b->start) {
+			if($a->title == $b->title) {
+				return 0;
+			}
+			return ($a->title < $b->title) ? -1 : 1;
+		}
+		else {
+			return ($a->start < $b->start) ? -1 : 1;
 		}
 	}
 
@@ -411,6 +430,8 @@ class Default_Calendar_Grid implements Calendar_View {
 				$bullet_colors = array();
 
 				$list_events = '<ul class="simcal-events">';
+
+				usort($day_events[ $day ], array($this,'cmp'));
 
 				foreach ( $day_events[ $day ] as $event ) :
 

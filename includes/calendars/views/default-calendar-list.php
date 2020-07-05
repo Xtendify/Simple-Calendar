@@ -483,6 +483,25 @@ class Default_Calendar_List implements Calendar_View {
 	}
 
 	/**
+	 * Added sorting for events with the same start time to be sorted
+	 * alphabetically.
+	 *
+	 * @since  3.1.28
+	 * @access private
+	 */
+	private static function cmp( $a, $b ) {
+		if ($a->start == $b->start) {
+			if($a->title == $b->title) {
+				return 0;
+			}
+			return ($a->title < $b->title) ? -1 : 1;
+		}
+		else {
+			return ($a->start < $b->start) ? -1 : 1;
+		}
+	}
+
+	/**
 	 * Make a calendar list of events.
 	 *
 	 * Outputs a list of events according to events for the specified range.
@@ -608,6 +627,8 @@ class Default_Calendar_List implements Calendar_View {
 				$count = 0;
 
 				foreach ( $events as $day_events ) :
+					usort($day_events, array($this,'cmp'));
+
 					foreach ( $day_events as $event ) :
 
 						if ( $event instanceof Event ) :

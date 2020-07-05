@@ -99,6 +99,7 @@ We'd love your help! Here's a few things you can do:
 
 = 3.1.28 =
 * Fix: Issue with jQuery not being added as a script dependency.
+* Feature: Automatically sort events with the same day and time alphabetically.
 
 = 3.1.27 =
 * Revert to 3.1.22 version to skip recent update that has an error.
