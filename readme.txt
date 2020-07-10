@@ -101,9 +101,10 @@ We'd love your help! Here's a few things you can do:
 * Feature: Automatically sort events with the same day and time alphabetically.
 * Fix: Issue with jQuery not being added as a script dependency.
 * Dev: Tested up to WordPress 5.4.2
+* Security: Updated dependencies.
 
 = 3.1.27 =
-* Revert to 3.1.22 version to skip recent update that has an error.
+* Reverted codebase to 3.1.22 version to skip recent update that has an error.
 
 = 3.1.22 =
 * This bumps the version number but is the same code as 3.1.20 so plugins can auto update to the fixed version.
