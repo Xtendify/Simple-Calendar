@@ -100,6 +100,7 @@ We'd love your help! Here's a few things you can do:
 = 3.1.28 =
 * Feature: Automatically sort events with the same day and time alphabetically.
 * Fix: Issue with jQuery not being added as a script dependency.
+* Fix: Updated google/apiclient to ^2.0 to fix Gmail conflicts with other SMTP plugins.
 * Dev: Tested up to WordPress 5.4.2
 * Security: Updated dependencies.
 
