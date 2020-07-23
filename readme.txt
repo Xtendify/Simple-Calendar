@@ -98,7 +98,7 @@ We'd love your help! Here's a few things you can do:
 == Changelog ==
 
 = 3.1.32 =
-* TODO
+* Fix: Undefined index error when saving calendar.
 
 = 3.1.28 =
 * Feature: Automatically sort events with the same day and time alphabetically.
