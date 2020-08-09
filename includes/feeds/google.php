@@ -7,7 +7,6 @@
 namespace SimpleCalendar\Feeds;
 
 use Carbon\Carbon;
-use Carbon\CarbonInterval;
 use SimpleCalendar\Abstracts\Calendar;
 use SimpleCalendar\Abstracts\Feed;
 use SimpleCalendar\Feeds\Admin\Google_Admin as Admin;
