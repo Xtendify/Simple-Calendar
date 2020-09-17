@@ -299,10 +299,14 @@ function simcal_default_event_template() {
  */
 function simcal_get_date_format_order( $date_format ) {
 
+	$d = strpbrk( $date_format, 'Dj' );
+	$m = strpbrk( $date_format, 'FMmn' );
+	$y = strpbrk( $date_format, 'Yy' );
+
 	$pos = array(
-		'd' => strpos( $date_format, strpbrk( $date_format, 'Dj' ) ),
-		'm' => strpos( $date_format, strpbrk( $date_format, 'FMmn' ) ),
-		'y' => strpos( $date_format, strpbrk( $date_format, 'Yy' ) ),
+		'd' => ! empty( $d ) ? strpos( $date_format, $d ) : '',
+		'm' => ! empty( $m ) ? strpos( $date_format, $m ) : '',
+		'y' => ! empty( $y ) ? strpos( $date_format, $y ) : '',
 	);
 
 	// @TODO When one date piece is not found, perhaps fallback to ISO standard position.

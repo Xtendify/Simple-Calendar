@@ -646,15 +646,18 @@ abstract class Calendar {
 			$start_dt = Carbon::today( $this->timezone )->addDays( $nth );
 		} elseif ( 'this_week' == $calendar_begins ) {
 			$week = new Carbon( 'now', $this->timezone );
-			$week->setWeekStartsAt( $this->week_starts );
+			// $week->setWeekStartsAt( $this->week_starts ); # DEPRECATED: Use startOfWeek() below...
+			$week->startOfWeek( $this->week_starts );
 			$start_dt = $week->startOfWeek();
 		} elseif ( 'weeks_before' == $calendar_begins ) {
 			$week = new Carbon( 'now', $this->timezone );
-			$week->setWeekStartsAt( $this->week_starts );
+			//$week->setWeekStartsAt( $this->week_starts ); # DEPRECATED: Use startOfWeek() below...
+			$week->startOfWeek( $this->week_starts );
 			$start_dt = $week->startOfWeek()->subWeeks( $nth );
 		} elseif ( 'weeks_after' == $calendar_begins ) {
 			$week = new Carbon( 'now', $this->timezone );
-			$week->setWeekStartsAt( $this->week_starts );
+			// $week->setWeekStartsAt( $this->week_starts ); # DEPRECATED: Use startOfWeek() below...
+			$week->startOfWeek( $this->week_starts );
 			$start_dt = $week->startOfWeek()->addWeeks( $nth );
 		} elseif ( 'this_month' == $calendar_begins ) {
 			$start_dt = Carbon::today( $this->timezone )->startOfMonth();
