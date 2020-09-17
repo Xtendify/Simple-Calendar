@@ -2,7 +2,7 @@
 Contributors: simplecalendar, sureswiftcapital, pderksen, nickyoung87, nekojira, rosshanney
 Tags: google calendar, calendar, calendars, google, event calendar, custom calendar, custom calendars, event, events
 Requires at least: 4.2
-Requires PHP: 5.3+
+Requires PHP: 7.1+
 Tested up to: 5.4.2
 Stable tag: 3.1.33
 License: GPLv2 or later
