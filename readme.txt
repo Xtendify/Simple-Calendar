@@ -98,7 +98,9 @@ We'd love your help! Here's a few things you can do:
 == Changelog ==
 
 = 3.1.33 =
-* TODO
+* Fix: Trimmed overall size of the plugin to reduce erros from installation failing.
+* Dev: Updated PHP requirement to 7.1+
+* Dev: Tested up to WordPress 5.5.1
 
 = 3.1.32 =
 * Fix: Undefined index error when saving calendar.
