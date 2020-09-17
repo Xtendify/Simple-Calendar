@@ -98,7 +98,7 @@ We'd love your help! Here's a few things you can do:
 == Changelog ==
 
 = 3.1.33 =
-* Fix: Trimmed overall size of the plugin to reduce erros from installation failing.
+* Fix: Trimmed overall size of the plugin to reduce errors from installation failing.
 * Dev: Updated PHP requirement to 7.1+
 * Dev: Tested up to WordPress 5.5.1
 
