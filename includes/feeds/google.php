@@ -7,7 +7,6 @@
 namespace SimpleCalendar\Feeds;
 
 use Carbon\Carbon;
-use Carbon\CarbonInterval;
 use SimpleCalendar\Abstracts\Calendar;
 use SimpleCalendar\Abstracts\Feed;
 use SimpleCalendar\Feeds\Admin\Google_Admin as Admin;
@@ -437,7 +436,7 @@ class Google extends Feed {
 			// Trying to order by startTime for non-single events throws
 			// Google v3 API 400 error - "The requested ordering is not available for the particular query.".
 			// Only set this conditionally.
-			if ( true === $args['singleEvents'] ) {
+			if ( isset( $args['singleEvents'] ) && true === $args['singleEvents'] ) {
 				$args['orderBy'] = 'startTime';
 			}
 

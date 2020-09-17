@@ -268,7 +268,8 @@ class Default_Calendar_List implements Calendar_View {
 		} elseif ( 'weekly' == $calendar->group_type ) {
 			$week = new Carbon( $calendar->timezone );
 			$week->setTimestamp( $timestamp );
-			$week->setWeekStartsAt( $calendar->week_starts );
+			//$week->setWeekStartsAt( $calendar->week_starts ); # DEPRECATED: Use startOfWeek() below...
+			$week->startOfWeek( $calendar->week_starts);
 			$this->prev = $prev->subWeeks( $span )->getTimestamp();
 			$this->next = $next->addWeeks( $span )->getTimestamp();
 		} elseif ( 'daily' == $calendar->group_type ) {
