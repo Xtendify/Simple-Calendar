@@ -2,7 +2,7 @@
 Contributors: simplecalendar, sureswiftcapital, pderksen, nickyoung87, nekojira, rosshanney
 Tags: google calendar, calendar, calendars, google, event calendar, custom calendar, custom calendars, event, events
 Requires at least: 4.2
-Requires PHP: 7.1+
+Requires PHP: 7.3
 Tested up to: 5.5.1
 Stable tag: 3.1.33
 License: GPLv2 or later
@@ -99,7 +99,8 @@ We'd love your help! Here's a few things you can do:
 
 = 3.1.33 =
 * Fix: Trimmed overall size of the plugin to reduce errors from installation failing.
-* Dev: Updated PHP requirement to 7.1+
+* Dev: Updated minimum PHP requirement to 7.3
+* Dev: Updated all vendor packages to latest versions.
 * Dev: Tested up to WordPress 5.5.1
 
 = 3.1.32 =
