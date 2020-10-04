@@ -98,7 +98,7 @@ We'd love your help! Here's a few things you can do:
 == Changelog ==
 
 = 3.1.34 =
-* TODO
+* Fix: OR searches will now work as OR, not as AND
 
 = 3.1.33 =
 * Fix: Trimmed overall size of the plugin to reduce errors from installation failing.
