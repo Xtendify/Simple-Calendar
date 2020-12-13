@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use SimpleCalendar\Abstracts\Calendar;
 use SimpleCalendar\Abstracts\Feed;
 use SimpleCalendar\Feeds\Admin\Google_Admin as Admin;
+use GuzzleHttp\Client;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -504,6 +505,16 @@ class Google extends Feed {
 		$client->setScopes( $this->google_client_scopes );
 		$client->setDeveloperKey( $this->google_api_key );
 		$client->setAccessType( 'online' );
+
+		$curl_options = apply_filters( 'simcal_google_client_curl_options', array() );
+
+		if ( ! empty( $curl_options ) ) {
+			$guzzle = new Client( array(
+				'curl.options' => $curl_options,
+			) );
+
+			$client->setHttpClient( $guzzle );
+		}
 
 		return $client;
 	}
