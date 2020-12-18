@@ -35,7 +35,7 @@
     "nesbot/carbon": "2.x",
     "erusev/parsedown": "1.x",
     "mexitek/phpcolors": "dev-master",
-    "guzzlehttp/guzzle": "*"
+    "guzzlehttp/guzzle": "6.x"
   },
   "scripts": {
     "post-update-cmd": "Google_Task_Composer::cleanup"
