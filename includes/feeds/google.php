@@ -368,7 +368,7 @@ class Google extends Feed {
 		}
 
 		// Custom OR search since Google API doesn't support the OR search for calendar events
-		if ( isset( $calendar['events'] ) ) {
+		if ( isset( $calendar['events'] ) && ! empty( $this->google_search_query ) ) {
 
 			$events = array();
 			$search_query = explode( strtolower( ' OR ' ), strtolower( $this->google_search_query ) );
@@ -380,8 +380,10 @@ class Google extends Feed {
 					$search_found = false;
 
 					for( $i = 0; $i < count( $search_query ); $i++ ) {
-						if ( strpos( strtolower( $k2['title'] ), $search_query[ $i ] ) !== false ||
-							 strpos( strtolower( $k2['description'] ), $search_query[ $i ] ) !== false ) {
+						$title_check       = ! empty( $k2['title'] ) ? strpos( strtolower( $k2['title'] ), $search_query[ $i ] ) : false;
+						$description_check = ! empty( $k2['description'] ) ? strpos( strtolower( $k2['description'] ), $search_query[ $i ] ) : false;
+
+						if ( $title_check !== false || $description_check !== false ) {
 							$search_found = true;
 						}
 					}
