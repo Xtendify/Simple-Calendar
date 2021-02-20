@@ -9,6 +9,25 @@
  */
 
 use Isolated\Symfony\Component\Finder\Finder;
+$patch1="";
+$patch2="";
+$patch3="";
+
+if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+   global  $patch1;
+   global  $patch2;
+   global $patch3;
+   $patch1="vendor\\google\\apiclient\\";
+   $patch2="vendor\\google\\auth\\";
+   $patch3="vendor\\google\\apiclient-services\\";
+
+} else {
+   global $patch1;
+   global $patch2;
+   global $patch3;
+   $patch1="vendor/google/apiclient/";
+   $patch2="vendor/google/auth/";
+   $patch3="vendor/google/apiclient-services/";}
 
 // Google API services to include classes for.
 $google_services = implode(
@@ -84,15 +103,15 @@ return array(
 	'files-whitelist'            => array(
 
 		// This dependency is a global function which should remain global.
-		'vendor/ralouphie/getallheaders/src/getallheaders.php',
+		'vendor\\ralouphie\\getallheaders\\src\\getallheaders.php',
 	),
 	'patchers'                   => array(
 		function( $file_path, $prefix, $contents ) {
-			if ( preg_match( '#google/apiclient/src/Google/Http/REST\.php$#', $file_path ) ) {
-				$contents = str_replace( "\\$prefix\\intVal", '\\intval', $contents );
-				
-			}
-			if ( false !== strpos( $file_path, 'vendor/google/apiclient/' ) || false !== strpos( $file_path, 'vendor/google/auth/' ) ) {
+			global  $patch1;
+   			global  $patch2;
+   			global $patch3;
+			
+			if ( false !== strpos( $file_path, $patch1 ) || false !== strpos( $file_path, $patch2 ) ) {
 				$prefix   = str_replace( '\\', '\\\\', $prefix );
 				$contents = str_replace( "'\\\\GuzzleHttp\\\\ClientInterface", "'\\\\" . $prefix . '\\\\GuzzleHttp\\\\ClientInterface', $contents );
 				$contents = str_replace( '"\\\\GuzzleHttp\\\\ClientInterface', '"\\\\' . $prefix . '\\\\GuzzleHttp\\\\ClientInterface', $contents );
@@ -100,11 +119,11 @@ return array(
 				$contents = str_replace( '"GuzzleHttp\\\\ClientInterface', '"' . $prefix . '\\\\GuzzleHttp\\\\ClientInterface', $contents );
 			
 			}
-			if ( false !== strpos( $file_path, 'vendor/google/apiclient/' ) ) {
+			if ( false !== strpos( $file_path, $patch1 ) ) {
 				$contents = str_replace( "'Google_", "'" . $prefix . '\Google_', $contents );
-				$contents = str_replace( '"Google_', '"' . $prefix . '\Google_', $contents );
+				$contents = str_replace( '\"Google_', '\"' . $prefix . '\Google_', $contents );
 			}
-			if ( false !== strpos( $file_path, 'vendor/google/apiclient-services/' ) ) {
+			if ( false !== strpos( $file_path, $patch3 ) ) {
 				$contents = str_replace( "'Google_Service_", "'" . $prefix . '\Google_Service_', $contents );
 				$contents = str_replace( '"Google_Service_', '"' . $prefix . '\Google_Service_', $contents );
 			}
