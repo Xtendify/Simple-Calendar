@@ -70,11 +70,8 @@
       "cd php-scoper && composer init -q --name \"calendar/php_scoper\" --stability dev && composer require humbug/php-scoper",
       "\\InstituteWeb\\ComposerScripts\\ImprovedScriptExecution::apply",
       "./php-scoper/vendor/bin/php-scoper add --output-dir=./third-party --force",
-	  "\\InstituteWeb\\ComposerScripts\\ImprovedScriptExecution::apply",
-      "cp composer.include.dump-autoload includes/composer.json && cd includes && composer dump-autoload --classmap-authoritative --no-interaction && rm composer.json",
-	  "\\InstituteWeb\\ComposerScripts\\ImprovedScriptExecution::apply",
-      "cp composer.third-party.dump-autoload third-party/composer.json && cd third-party && composer dump-autoload --classmap-authoritative --no-interaction && rm composer.json",
-      "\\InstituteWeb\\ComposerScripts\\ImprovedScriptExecution::apply",
+      "cp composer.include.dump-autoload includes/composer.json && cd includes && composer dump-autoload --no-plugins -vvv --classmap-authoritative --no-interaction && rm composer.json",
+      "cp composer.third-party.dump-autoload third-party/composer.json && cd third-party && composer dump-autoload -vvv --no-plugins --classmap-authoritative --no-interaction && rm composer.json",
       "cp vendor/composer/autoload_files.php third-party/vendor/composer/autoload_files.php",
       "rm -rf php-scoper"
     ]
