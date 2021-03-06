@@ -6,8 +6,8 @@
  */
 namespace SimpleCalendar\Calendars\Views;
 
-use Carbon\Carbon;
-use Mexitek\PHPColors\Color;
+use SimpleCalendar\plugin_deps\Carbon\Carbon;
+use SimpleCalendar\plugin_deps\Mexitek\PHPColors\Color;
 use SimpleCalendar\Abstracts\Calendar;
 use SimpleCalendar\Abstracts\Calendar_View;
 use SimpleCalendar\Events\Event;
