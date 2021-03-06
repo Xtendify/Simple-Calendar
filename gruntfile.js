@@ -23,7 +23,8 @@ module.exports = function( grunt ) {
 		'!gruntfile.js',
 		'!package.json',
 		'!readme.md',
-		'!**/*~'
+		'!**/*~',
+        '!vendor/**'
 	];
 
 	grunt.initConfig( {
