@@ -6,7 +6,7 @@
  */
 namespace SimpleCalendar\Events;
 
-use Carbon\Carbon;
+use SimpleCalendar\plugin_deps\Carbon\Carbon;
 use SimpleCalendar\Abstracts\Calendar;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -68,7 +68,8 @@ class Event_Builder {
 	 * @return array
 	 */
 	public function get_content_tags() {
-		return array_merge( array(
+
+return array_merge( array(
 
 			/* ============ *
 			 * Content Tags *
@@ -414,7 +415,10 @@ class Event_Builder {
 
 					if ( $event->end_dt instanceof Carbon ) {
 						$end = $event->end_dt->setTimezone( $calendar->timezone )->getTimestamp();
+
 					} else {
+					simcal_log_error("NOT CARBON");
+
 						return '';
 					}
 
@@ -715,6 +719,10 @@ class Event_Builder {
 				$time_end = '<span class="simcal-event-end simcal-event-end-time" ' . 'data-event-end="' . $end_ts . '" ' . 'data-event-format="' . $this->calendar->time_format . '" ' . 'itemprop="endDate" content="' . $end_iso . '">' . date_i18n( $this->calendar->time_format, strtotime( $end->toDateTimeString() ) ) . '</span>';
 
 			}
+			else
+			{
+				simcal_log_error("NOT CARBON");
+			}
 
 		}
 
@@ -725,6 +733,9 @@ class Event_Builder {
 			if ( $end instanceof Carbon ) {
 
 				$output .= ' - ' . '<span class="simcal-event-start simcal-event-end-date" ' . 'data-event-start="' . $end_ts . '" ' . 'data-event-format="' . $this->calendar->date_format . '" ' . 'itemprop="endDate" content="' . $end_iso . '">' . date_i18n( $this->calendar->date_format, strtotime( $end->toDateTimeString() ) ) . '</span>' . $this->calendar->datetime_separator . $time_end;
+			}
+			else{
+				simcal_log_error("NOT CARBON");
 			}
 
 		} else {
@@ -762,9 +773,12 @@ class Event_Builder {
 		$dt = $bound . '_dt';
 
 		if ( ! $event->$dt instanceof Carbon ) {
-			return '';
-		}
+		simcal_log_error("NOT CARBON");
 
+		return '';
+		}
+		
+			
 		$event_dt = $event->$dt;
 
 		$attr = array_merge( array(

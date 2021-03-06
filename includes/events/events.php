@@ -6,7 +6,10 @@
  */
 namespace SimpleCalendar\Events;
 
-use Carbon\Carbon;
+use SimpleCalendar\plugin_deps\Carbon\Carbon;
+use SimpleCalendar\plugin_deps\DateTime;
+use SimpleCalendar\plugin_deps\DateTimeZone;
+
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -88,7 +91,7 @@ class Events {
 	 * @return Events
 	 */
 	public function set_timezone( $tz ) {
-		if ( $tz instanceof \DateTimeZone ) {
+		if ( $tz instanceof DateTimeZone ) {
 			$tz = $tz->getName();
 		}
 		$this->timezone = simcal_esc_timezone( $tz, $this->timezone );
@@ -384,7 +387,7 @@ class Events {
 			return Carbon::parse( $time, $this->timezone );
 		} elseif ( $time instanceof Carbon ) {
 			return $time->setTimezone( $this->timezone );
-		} elseif ( $time instanceof \DateTime ) {
+		} elseif ( $time instanceof DateTime ) {
 			return Carbon::instance( $time )->setTimezone( $this->timezone );
 		}
 		return null;

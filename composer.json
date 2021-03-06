@@ -35,20 +35,45 @@
     "nesbot/carbon": "2.x",
     "erusev/parsedown": "1.x",
     "mexitek/phpcolors": "dev-master",
-    "guzzlehttp/guzzle": "6.x"
+    "guzzlehttp/guzzle": "7.x",
+    "instituteweb/composer-scripts": "^1.0"
   },
-  "scripts": {
-    "post-update-cmd": "Google_Task_Composer::cleanup"
-  },
-  "extra": {
-    "google/apiclient-services": [
-      "Calendar",
-      "Drive"
-    ]
-  },
+  "autoload": {
+        "files": ["vendor/guzzlehttp/guzzle/src/functions_include.php",
+                "vendor/guzzlehttp/psr7/src/functions_include.php",
+                "vendor/guzzlehttp/promises/src/functions_include.php"
+		]	
+	},
+    "extra": {
+        "google/apiclient-services": [
+         "Calendar",
+		 "Drive"
+        ]
+	},
+ 
   "config": {
     "platform": {
-      "php": "7.3.0"
+      "php": "7.3"
     }
+  },
+  "scripts": {
+    "post-install-cmd": [
+	  "Google\\Task\\Composer::cleanup",
+      "@prefix-dependencies"
+    ],
+    "post-update-cmd": [
+	  "Google\\Task\\Composer::cleanup",
+      "@prefix-dependencies"
+    ],
+    "prefix-dependencies": [
+      "rm -rf php-scoper && mkdir php-scoper",
+      "cd php-scoper && composer init -q --name \"calendar/php_scoper\" --stability dev && composer require humbug/php-scoper",
+      "\\InstituteWeb\\ComposerScripts\\ImprovedScriptExecution::apply",
+      "./php-scoper/vendor/bin/php-scoper add --output-dir=./third-party --force",
+      "cp composer.include.dump-autoload includes/composer.json && cd includes && composer dump-autoload --no-plugins -vvv --classmap-authoritative --no-interaction && rm composer.json",
+      "cp composer.third-party.dump-autoload third-party/composer.json && cd third-party && composer dump-autoload -vvv --no-plugins --classmap-authoritative --no-interaction && rm composer.json",
+      "cp vendor/composer/autoload_files.php third-party/vendor/composer/autoload_files.php",
+      "rm -rf php-scoper"
+    ]
   }
 }

@@ -6,7 +6,7 @@
  */
 namespace SimpleCalendar\Abstracts;
 
-use Carbon\Carbon;
+use SimpleCalendar\plugin_deps\Carbon\Carbon;
 use SimpleCalendar\Events\Event;
 use SimpleCalendar\Events\Event_Builder;
 use SimpleCalendar\Events\Events;
