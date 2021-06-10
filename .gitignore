@@ -36,3 +36,13 @@ phpunit.xml
 # Windows crap
 ehthumbs.db
 Thumbs.db
+includes/vendor/autoload.php
+includes/vendor/composer/autoload_classmap.php
+includes/vendor/composer/autoload_namespaces.php
+includes/vendor/composer/autoload_psr4.php
+includes/vendor/composer/autoload_real.php
+includes/vendor/composer/autoload_static.php
+includes/vendor/composer/ClassLoader.php
+includes/vendor/composer/LICENSE
+vendor/
+third-party/

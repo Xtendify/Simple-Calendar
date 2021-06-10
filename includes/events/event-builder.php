@@ -670,7 +670,7 @@ return array_merge( array(
 			if ( $allow_html ) {
 				$description = wp_kses_post( $description );
 			} elseif ( $allow_md ) {
-				$markdown    = new \Parsedown();
+				$markdown    = new Parsedown();
 				$description = $markdown->text( wp_strip_all_tags( $description ) );
 			}
 		} else {
