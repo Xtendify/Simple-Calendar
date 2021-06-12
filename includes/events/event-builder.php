@@ -8,6 +8,7 @@ namespace SimpleCalendar\Events;
 
 use SimpleCalendar\plugin_deps\Carbon\Carbon;
 use SimpleCalendar\Abstracts\Calendar;
+use SimpleCalendar\plugin_deps\Parsedown;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
