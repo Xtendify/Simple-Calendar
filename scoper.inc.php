@@ -73,6 +73,7 @@ return array(
 			->path( '#^nesbot/#' )
 			->path( '#^symfony/#' )
 			->path( '#^mexitek/#' )
+			->path( '#^erusev/#' )
 			->in( 'vendor' ),
 
 		// Google API service infrastructure classes.
