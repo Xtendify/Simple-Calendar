@@ -126,17 +126,20 @@ function simcal_draw_calendar_ics($post) {
 
 	foreach($events as $eventarr) {
 		$event = $eventarr[0];
-		$ics .= "BEGIN:VEVENT\n";
-		$ics .="UID:" . $event->uid . "\n";
-		$ics .="DTSTAMP:" . $event->start_dt->format('Ymd\THis') . "\n";
-		$ics .= "ORGANIZER;CN=" . $event->source . "\n";
-		$ics .= "DTSTART:" . $event->start_dt->format('Ymd\THis') . "\n";
-		$ics .= "DTEND:" . $event->start_dt->format('Ymd\THis') . "\n";
-		$ics.= "SUMMARY:" . $event->title . "\n";
-		$ics .= "DESCRIPTION:" . str_replace("\n\t\n","\n\t",str_replace("\n","\n\t",$event->description)) . "\n";
-		$ics .= "LOCATION:" . $event->start_location["name"] .';' . $event->start_location["address"] ."\n";
-		$ics .= "GEO:" . $event->start_location["lat"] . ';' . $event->start_location["lng"] . "\n";
-		$ics .= "END:VEVENT\n";
+		if($strpos($ics, $event->uid) == false) {
+			$ics .= "BEGIN:VEVENT\n";
+			$ics .="UID:" . $event->uid . "\n";
+			$ics .="DTSTAMP:" . $event->start_dt->format('Ymd\THis') . "\n";
+			$ics .= "ORGANIZER;CN=" . $event->source . "\n";
+			$ics .= "DTSTART:" . $event->start_dt->format('Ymd\THis') . "\n";
+			$ics .= "DTEND:" . $event->end_dt->format('Ymd\THis') . "\n";
+			$ics.= "SUMMARY:" . $event->title . "\n";
+			$ics .= "DESCRIPTION:" . str_replace("\n\t\n","\n\t",str_replace("\n","\n\t",$event->description)) . "\n";
+			$ics .= "LOCATION:" . $event->start_location["name"] .';' . $event->start_location["address"] ."\n";
+			$ics .= "GEO:" . $event->start_location["lat"] . ';' . $event->start_location["lng"] . "\n";
+			$ics .= "END:VEVENT\n";
+		}
+
 	}
 
 	$ics .= 'END:VCALENDAR';
