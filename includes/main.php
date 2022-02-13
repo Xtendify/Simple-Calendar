@@ -180,6 +180,13 @@ final class Plugin {
 		}
 	}
 
+public function simcal_ics_action() {
+	global $post;
+	if(isset($post) && $post->post_type == "calendar" && isset($_GET["ics"]) && $_GET["ics"] == true) {
+		simcal_draw_calendar_ics($post);
+	}
+}
+
 	/**
 	 * Init plugin when WordPress initializes.
 	 *
@@ -198,6 +205,8 @@ final class Plugin {
 
 		// Upon init action hook.
 		do_action( 'simcal_init' );
+
+		add_action('template_redirect',array($this, 'simcal_ics_action'), 10 );
 	}
 
 	/**
