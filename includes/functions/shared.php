@@ -127,7 +127,7 @@ function simcal_draw_calendar_ics($post) {
 	foreach($events as $eventarr) {
 		$event = $eventarr[0];
 		$ics .= "BEGIN:VEVENT\n";
-		$ics .="UID:" . $event->ical_id . "\n";
+		$ics .="UID:" . $event->uid . "\n";
 		$ics .="DTSTAMP:" . $event->start_dt->format('Ymd\THis') . "\n";
 		$ics .= "ORGANIZER;CN=" . $event->source . "\n";
 		$ics .= "DTSTART:" . $event->start_dt->format('Ymd\THis') . "\n";
