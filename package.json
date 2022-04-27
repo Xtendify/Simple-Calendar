@@ -10,7 +10,7 @@
     "url": "https://github.com/moonstonemedia/Simple-Calendar"
   },
   "devDependencies": {
-    "grunt": "^1.3.0",
+    "grunt": "^1.5.2",
     "grunt-banner": "0.x",
     "grunt-checktextdomain": "1.x",
     "grunt-contrib-clean": "1.x",
