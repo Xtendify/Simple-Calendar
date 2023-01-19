@@ -40,7 +40,7 @@ module.exports = function( grunt ) {
 		// Create comment banner to add to the top of minified .js and .css files.
 		banner: '/*! <%= pkg.title %> - <%= pkg.version %>\n' +
 		        ' * <%=pkg.homepage %>\n' +
-		        ' * Copyright (c) Moonstone Media <%= grunt.template.today("yyyy") %>\n' +
+		        ' * Copyright (c) Xtendify Technologies <%= grunt.template.today("yyyy") %>\n' +
 		        ' * Licensed GPLv2+' +
 		        ' */\n',
 

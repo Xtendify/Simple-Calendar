@@ -90,7 +90,7 @@ return array(
 					'vendor-bin',
 				)
 			)
-			->path( "#^google/apiclient-services/src/Google/Service/($google_services)/#" )
+			->path( "#^google/apiclient-services/src/($google_services)/#" )
 			->in( 'vendor' ),
 
 		// Google API service entry classes.
@@ -98,26 +98,26 @@ return array(
 			->files()
 			->ignoreVCS( true )
 			->name( "#($google_services)\.php#" )
-			->in( 'vendor/google/apiclient-services/src/Google/Service' ),
+			->in( 'vendor/google/apiclient-services/src' ),
 	),
-	'files-whitelist'            => array(
+	// 'files-whitelist'            => array(
 
-		// This dependency is a global function which should remain global.
-		'vendor\\ralouphie\\getallheaders\\src\\getallheaders.php',
-	),
+	// 	// This dependency is a global function which should remain global.
+	// 	'vendor\\ralouphie\\getallheaders\\src\\getallheaders.php',
+	// ),
 	'patchers'                   => array(
 		function( $file_path, $prefix, $contents ) {
 			global  $patch1;
    			global  $patch2;
    			global $patch3;
-			
+
 			if ( false !== strpos( $file_path, $patch1 ) || false !== strpos( $file_path, $patch2 ) ) {
 				$prefix   = str_replace( '\\', '\\\\', $prefix );
 				$contents = str_replace( "'\\\\GuzzleHttp\\\\ClientInterface", "'\\\\" . $prefix . '\\\\GuzzleHttp\\\\ClientInterface', $contents );
 				$contents = str_replace( '"\\\\GuzzleHttp\\\\ClientInterface', '"\\\\' . $prefix . '\\\\GuzzleHttp\\\\ClientInterface', $contents );
 				$contents = str_replace( "'GuzzleHttp\\\\ClientInterface", "'" . $prefix . '\\\\GuzzleHttp\\\\ClientInterface', $contents );
 				$contents = str_replace( '"GuzzleHttp\\\\ClientInterface', '"' . $prefix . '\\\\GuzzleHttp\\\\ClientInterface', $contents );
-			
+
 			}
 			if ( false !== strpos( $file_path, $patch1 ) ) {
 				$contents = str_replace( "'Google_", "'" . $prefix . '\Google_', $contents );
@@ -127,13 +127,13 @@ return array(
 				$contents = str_replace( "'Google_Service_", "'" . $prefix . '\Google_Service_', $contents );
 				$contents = str_replace( '"Google_Service_', '"' . $prefix . '\Google_Service_', $contents );
 			}
-			
+
 			return $contents;
 		},
 	),
-	'whitelist'                  => array(),
-	'whitelist-global-constants' => false,
-	'whitelist-global-classes'   => false,
-	'whitelist-global-functions' => false,
+	// 'whitelist'                  => array(),
+	// 'whitelist-global-constants' => false,
+	// 'whitelist-global-classes'   => false,
+	// 'whitelist-global-functions' => false,
 );
 

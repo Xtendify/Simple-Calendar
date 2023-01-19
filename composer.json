@@ -1,5 +1,5 @@
 {
-  "name": "moonstonemedia/simple-calendar",
+  "name": "xtendify/simple-calendar",
   "description": "Add Google Calendar events to your WordPress site.",
   "homepage": "https://simplecalendar.io",
   "type": "wordpress-plugin",
@@ -12,14 +12,14 @@
   ],
   "authors": [
     {
-      "name": "Moonstone Media",
-      "email": "phil@moonstonemediagroup.com",
-      "homepage": "http://moonstonemediagroup.com/"
+      "name": "Simple Calendar",
+      "email": "rohit@simplecalendar.io",
+      "homepage": "https://simplecalendar.io/"
     }
   ],
   "support": {
-    "source": "https://github.com/moonstonemedia/Simple-Calendar/",
-    "issues": "https://github.com/moonstonemedia/Simple-Calendar/issues",
+    "source": "https://github.com/Xtendify/Simple-Calendar/",
+    "issues": "https://github.com/Xtendify/Simple-Calendar/issues",
     "forum": "https://wordpress.org/support/plugin/google-calendar-events"
   },
   "minimum-stability": "dev",
@@ -39,30 +39,33 @@
     "instituteweb/composer-scripts": "^1.0"
   },
   "autoload": {
-        "files": ["vendor/guzzlehttp/guzzle/src/functions_include.php",
-                "vendor/guzzlehttp/psr7/src/functions_include.php",
-                "vendor/guzzlehttp/promises/src/functions_include.php"
-		]	
-	},
-    "extra": {
-        "google/apiclient-services": [
-         "Calendar",
-		 "Drive"
-        ]
-	},
- 
+    "files": [
+      "vendor/guzzlehttp/guzzle/src/functions_include.php",
+      "vendor/guzzlehttp/psr7/src/functions_include.php",
+      "vendor/guzzlehttp/promises/src/functions_include.php"
+    ]
+  },
+  "extra": {
+    "google/apiclient-services": [
+      "Calendar",
+      "Drive"
+    ]
+  },
   "config": {
     "platform": {
       "php": "7.3"
+    },
+    "allow-plugins": {
+      "composer/installers": true
     }
   },
   "scripts": {
     "post-install-cmd": [
-	  "Google\\Task\\Composer::cleanup",
+      "Google\\Task\\Composer::cleanup",
       "@prefix-dependencies"
     ],
     "post-update-cmd": [
-	  "Google\\Task\\Composer::cleanup",
+      "Google\\Task\\Composer::cleanup",
       "@prefix-dependencies"
     ],
     "prefix-dependencies": [

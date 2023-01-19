@@ -16,9 +16,7 @@
 /vendor
 /includes/vendor
 /third-party
-
-# If the vendor directory isn't being commited the composer.lock file should also be ignored
-/composer.lock
+/php-scoper
 
 # Sass
 /.sass-cache
@@ -38,3 +36,7 @@ phpunit.xml
 # Windows crap
 ehthumbs.db
 Thumbs.db
+
+# min files
+assets/css/*.min.css
+assets/js/*.min.js
