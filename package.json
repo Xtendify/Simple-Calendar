@@ -25,6 +25,7 @@
   },
   "scripts": {
     "setup": "npm install && composer install && composer dump-autoload -o",
+    "postsetup": "grunt",
     "dev": "grunt watch",
     "build": "grunt build"
   }
