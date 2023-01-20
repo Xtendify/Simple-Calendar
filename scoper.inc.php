@@ -100,11 +100,11 @@ return array(
 			->name( "#($google_services)\.php#" )
 			->in( 'vendor/google/apiclient-services/src' ),
 	),
-	// 'files-whitelist'            => array(
+	'exclude-files'            => array(
 
-	// 	// This dependency is a global function which should remain global.
-	// 	'vendor\\ralouphie\\getallheaders\\src\\getallheaders.php',
-	// ),
+		// This dependency is a global function which should remain global.
+		'vendor\\ralouphie\\getallheaders\\src\\getallheaders.php',
+	),
 	'patchers'                   => array(
 		function( $file_path, $prefix, $contents ) {
 			global  $patch1;
@@ -131,9 +131,5 @@ return array(
 			return $contents;
 		},
 	),
-	// 'whitelist'                  => array(),
-	// 'whitelist-global-constants' => false,
-	// 'whitelist-global-classes'   => false,
-	// 'whitelist-global-functions' => false,
 );
 

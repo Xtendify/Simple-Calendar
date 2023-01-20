@@ -31,11 +31,11 @@
     "ext-json": "*",
     "ext-mbstring": "*",
     "composer/installers": "1.x",
-    "google/apiclient": "^2.0",
+    "google/apiclient": "2.13.0",
     "nesbot/carbon": "2.x",
     "erusev/parsedown": "1.x",
     "mexitek/phpcolors": "dev-master",
-    "guzzlehttp/guzzle": "7.x",
+    "guzzlehttp/guzzle": "7.0.0",
     "instituteweb/composer-scripts": "^1.0"
   },
   "autoload": {
@@ -70,7 +70,7 @@
     ],
     "prefix-dependencies": [
       "rm -rf php-scoper && mkdir php-scoper",
-      "cd php-scoper && composer init -q --name \"calendar/php_scoper\" --stability dev && composer require humbug/php-scoper",
+      "cd php-scoper && composer init -q --name \"calendar/php_scoper\" && composer require humbug/php-scoper:0.17.7",
       "\\InstituteWeb\\ComposerScripts\\ImprovedScriptExecution::apply",
       "./php-scoper/vendor/bin/php-scoper add --output-dir=./third-party --force",
       "cp composer.include.dump-autoload includes/composer.json && cd includes && composer dump-autoload --no-plugins -vvv --classmap-authoritative --no-interaction && rm composer.json",
