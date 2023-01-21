@@ -36,7 +36,3 @@ phpunit.xml
 # Windows crap
 ehthumbs.db
 Thumbs.db
-
-# min files
-assets/css/*.min.css
-assets/js/*.min.js
