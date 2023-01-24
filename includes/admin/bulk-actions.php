@@ -78,6 +78,7 @@ class Bulk_Actions {
 			add_action( 'admin_footer-edit.php', array( $this, 'custom_bulk_admin_footer' ) );
 			add_action( 'load-edit.php',         array( $this, 'custom_bulk_action' ) );
 			add_action( 'admin_notices',         array( $this, 'custom_bulk_admin_notices' ) );
+			add_action( 'admin_notices', array( $this, 'simcal_update_pro_addon' ) );
 		}
 	}
 
@@ -224,4 +225,34 @@ class Bulk_Actions {
 		}
 	}
 
+	/**
+	 * Update pro addon if install and version is less then 1.0.7.
+	 *
+	 * @since  3.1.37
+	 *
+	 */
+	public function simcal_update_pro_addon() {
+
+		if ( $screen = simcal_is_admin_screen() ) {
+
+			$plugins = get_plugins();
+
+			if (isset($plugins['Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php'])) {
+
+				if ($plugins['Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php']['Version'] <= '1.0.6' 
+					&& is_plugin_active('Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php')
+					&& is_main_site()) { 
+				?>
+				<div id="updated-pro-plugin" class="notice-warning notice is-dismissible above-h2 updated-pro">
+
+						<p class="heading centered">
+							<?php _e( 'Please update the "Simple Calendar-Google Calendar Pro" Plugin.', 'google-calendar-events' ); ?>
+						</p>
+					</div>
+				<?php   }
+			}
+		}
+	}
 }
+
+
