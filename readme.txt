@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.1.37 =
+* Dev: Tested up to WordPress 6.1
+
 = 3.1.36 =
 * Fix: Namspace conflicts with other plugins and composer libraries. Huge shoutout to @mickwall001 on github for this.
 
