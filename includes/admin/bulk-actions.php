@@ -233,25 +233,18 @@ class Bulk_Actions {
 	 */
 	public function simcal_update_pro_addon() {
 
-		if ( $screen = simcal_is_admin_screen() ) {
+		$plugins = get_plugins();
 
-			$plugins = get_plugins();
-
-			if (isset($plugins['Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php'])) {
-
-				if ($plugins['Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php']['Version'] <= '1.0.6' 
+			if (isset($plugins['Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php']) && version_compare($plugins['Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php']['Version'], '1.0.6', '<=')  
 					&& is_plugin_active('Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php')
 					&& is_main_site()) { 
 				?>
 				<div id="updated-pro-plugin" class="notice-warning notice is-dismissible above-h2 updated-pro">
-
 						<p class="heading centered">
-							<?php _e( 'Please update the "Simple Calendar-Google Calendar Pro" Plugin.', 'google-calendar-events' ); ?>
+							<?php _e( 'There will be breaking changes to "Simple Calendar-Google Calendar Pro" addon. Please update to latest version.', 'google-calendar-events' ); ?>
 						</p>
 					</div>
-				<?php   }
-			}
-		}
+			<?php   }
 	}
 }
 
