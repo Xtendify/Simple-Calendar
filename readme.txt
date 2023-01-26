@@ -3,7 +3,7 @@ Contributors: simplecalendar, rosinghal, pderksen, nickyoung87, nekojira, rossha
 Tags: google calendar, calendar, calendars, google, event calendar, custom calendar, custom calendars, event, events
 Requires at least: 4.2
 Requires PHP: 7.3
-Tested up to: 6.1
+Tested up to: 6.1.1
 Stable tag: 3.1.37
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -98,7 +98,7 @@ We'd love your help! Here's a few things you can do:
 == Changelog ==
 
 = 3.1.37 =
-* Dev: Tested up to WordPress 6.1 and PHP 8.2
+* Dev: Tested up to WordPress 6.1.1 and PHP 8.1
 * Chore: Updated Github path.
 
 = 3.1.36 =

@@ -27,6 +27,7 @@
     "setup": "npm install && composer install && composer dump-autoload -o",
     "postsetup": "grunt",
     "dev": "grunt watch",
+    "prebuild": "grunt",
     "build": "grunt build"
   }
 }

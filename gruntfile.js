@@ -21,8 +21,14 @@ module.exports = function( grunt ) {
 		'!composer.lock',
 		'!contributing.md',
 		'!gruntfile.js',
+		'!renovate.json',
 		'!package.json',
+		'!package-lock.json',
 		'!readme.md',
+		'!*.dump-autoload',
+		'!scoper.inc.php',
+		'!assets/{css,js}/*.{css,js}',
+		'assets/{css,js}/*.min.{css,js}',
 		'!**/*~',
         '!vendor/**'
 	];
