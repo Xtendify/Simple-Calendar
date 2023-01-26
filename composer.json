@@ -31,12 +31,13 @@
     "ext-json": "*",
     "ext-mbstring": "*",
     "composer/installers": "1.x",
-    "google/apiclient": "2.13.0",
+    "google/apiclient": "2.5.0",
     "nesbot/carbon": "2.65.0",
     "erusev/parsedown": "1.x",
     "mexitek/phpcolors": "dev-master",
-    "guzzlehttp/guzzle": "7.0.0",
-    "instituteweb/composer-scripts": "^1.0"
+    "guzzlehttp/guzzle": ">=6.0.0",
+    "instituteweb/composer-scripts": "^1.0",
+    "google/apiclient-services": "0.13"
   },
   "autoload": {
     "files": [
