@@ -6,7 +6,6 @@
  */
 namespace SimpleCalendar\Feeds;
 
-use SimpleCalendar\plugin_deps\Google\Google_Service;
 use SimpleCalendar\plugin_deps\Google_Service_Calendar;
 use SimpleCalendar\plugin_deps\Google_Client;
 use SimpleCalendar\plugin_deps\Google_Service_Calendar_Event;

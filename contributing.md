@@ -1,6 +1,6 @@
-## Contributing 
+## Contributing
 
-Simple Calendar is open source software. Community made patches, localizations, bug reports and contributions are always welcome and crucial to make this plugin a quality tool that empowers people, businesses and institutions alike.  
+Simple Calendar is open source software. Community made patches, localizations, bug reports and contributions are always welcome and crucial to make this plugin a quality tool that empowers people, businesses and institutions alike.
 
 You can contribute to Simple Calendar by contributing translations, reporting issues, or submitting pull requests.
 
@@ -20,7 +20,7 @@ If something isn't working, you can help us fix it by submitting an issue report
 
 1. Isolate your issue, check for theme or plugin compatibility issues first.
 2. Make sure you have a [GitHub account](https://github.com/signup/free).
-3. Search the [Existing Issues](https://github.com/moonstonemedia/Simple-Calendar/issues) to be sure that the one you've noticed isn't already there.
+3. Search the [Existing Issues](https://github.com/Xtendify/Simple-Calendar/issues) to be sure that the one you've noticed isn't already there.
 4. Submit a report for your issue:
     * Clearly describe the issue.
     * Include steps to reproduce the issue if it's a bug.
@@ -32,16 +32,15 @@ If you are knowledgeable of PHP, JavaScript, HTML and/or CSS, and you notice som
 
 First, fork this repository on GiHub or clone to your machine:
 
-    $ git clone https://github.com/moonstonemedia/Simple-Calendar
-    
-This project uses [Composer](https://getcomposer.org/) to grab dependencies not stored in source control. To setup composer run:
+    $ git clone https://github.com/Xtendify/Simple-Calendar
 
-    $ composer install
-    $ composer dump-autoload -o
+This project uses [Composer](https://getcomposer.org/) and NPM to grab dependencies not stored in source control. To setup run:
+
+    $ npm run setup
 
 If you plan to work with CSS or JavaScript you may want to use Grunt as well:
 
-    $ npm install
+    $ npm run dev
 
 First make your changes locally, then push them to your forked repository.
 
@@ -53,6 +52,6 @@ There are a few things to keep in mind when making changes and developing locall
 
 * The most important one is to **ensure you stick to the [WordPress Coding Standards](http://make.wordpress.org/core/handbook/coding-standards/)**.
 * When commiting reference your issue number (e.g. #1234) and include a note about the fix/changes you are proposing.
-* Please **don't** modify the changelogs or readme.txt or other meta assets.  
+* Please **don't** modify the changelogs or readme.txt or other meta assets.
 
 Finally, a big thanks from us and the plugin community for your help.
