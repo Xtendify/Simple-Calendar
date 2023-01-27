@@ -17,7 +17,7 @@
     "grunt-contrib-compress": "^1.6.0",
     "grunt-contrib-copy": "1.x",
     "grunt-contrib-cssmin": "^3.0.0",
-    "grunt-contrib-jshint": "1.x",
+    "grunt-contrib-jshint": "3.x",
     "grunt-contrib-uglify": "2.x",
     "grunt-contrib-watch": "1.x",
     "grunt-sass": "3.x",
