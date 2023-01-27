@@ -6,9 +6,9 @@
  */
 namespace SimpleCalendar\Events;
 
+use DateTime;
+use DateTimeZone;
 use SimpleCalendar\plugin_deps\Carbon\Carbon;
-use SimpleCalendar\plugin_deps\DateTime;
-use SimpleCalendar\plugin_deps\DateTimeZone;
 
 
 if ( ! defined( 'ABSPATH' ) ) {

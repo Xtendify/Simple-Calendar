@@ -34,7 +34,7 @@ namespace SimpleCalendar;
  * http://apptools.com/phptools/browser/
  *
  *
- * Modified Version by Moonstone Media
+ * Modified Version by Xtendify Technologies
  *
  * Changelog:
  * - Changed class constructor from Browser() to __construct()

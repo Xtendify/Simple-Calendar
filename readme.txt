@@ -1,10 +1,10 @@
 === Simple Calendar - Google Calendar Plugin ===
-Contributors: simplecalendar, sureswiftcapital, pderksen, nickyoung87, nekojira, rosshanney
+Contributors: simplecalendar, rosinghal, pderksen, nickyoung87, nekojira, rosshanney
 Tags: google calendar, calendar, calendars, google, event calendar, custom calendar, custom calendars, event, events
 Requires at least: 4.2
 Requires PHP: 7.3
-Tested up to: 5.6
-Stable tag: 3.1.36
+Tested up to: 6.1.1
+Stable tag: 3.1.37.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,7 +27,7 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 * Integration with [Event Calendar Newsletter](https://wordpress.org/plugins/event-calendar-newsletter/) for quickly turning your events into a newsletter-friendly format.
 * Additional functionality offered with [add-ons](https://simplecalendar.io/addons/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description).
 * Translations available with more being added on a regular basis. [Translations welcome!](https://translate.wordpress.org/projects/wp-plugins/google-calendar-events)
-* Open source with code hosted on GitHub. [Contributions welcome!](https://github.com/moonstonemedia/Simple-Calendar)
+* Open source with code hosted on GitHub. [Contributions welcome!](https://github.com/Xtendify/Simple-Calendar)
 
 >**[Love using Simple Calendar? Consider purchasing a Premium Add-on](https://simplecalendar.io/addons/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)**
 
@@ -81,7 +81,7 @@ We'd love your help! Here's a few things you can do:
 
 * [Rate our plugin](https://wordpress.org/support/view/plugin-reviews/google-calendar-events?postform#postform) and help spread the word!
 * Help answer questions in our [community support forum](https://wordpress.org/support/plugin/google-calendar-events).
-* Report bugs (with steps to reproduce) or submit pull requests [on GitHub](https://github.com/moonstonemedia/Simple-Calendar).
+* Report bugs (with steps to reproduce) or submit pull requests [on GitHub](https://github.com/Xtendify/Simple-Calendar).
 * Help add or update a [plugin translation](https://translate.wordpress.org/projects/wp-plugins/google-calendar-events).
 
 == Screenshots ==
@@ -96,6 +96,10 @@ We'd love your help! Here's a few things you can do:
 8. Attach a calendar to a post or page
 
 == Changelog ==
+
+= 3.1.37 =
+* Dev: Tested up to WordPress 6.1.1 and PHP 8.1
+* Chore: Updated Github path.
 
 = 3.1.36 =
 * Fix: Namspace conflicts with other plugins and composer libraries. Huge shoutout to @mickwall001 on github for this.
@@ -385,7 +389,7 @@ We'd love your help! Here's a few things you can do:
 * Feature: Many new settings panel in admin dashboard, with better semantics and organization.
 * Feature: A System Report page to help you troubleshoot problems and improve support response.
 * Tweak: Use categories to organize your calendars.
-* Tweak: Feeds moved from 'gce_feed' to 'calendar' post type slug, permalink change. 
+* Tweak: Feeds moved from 'gce_feed' to 'calendar' post type slug, permalink change.
 * Fix: Timezones handling are more accurate.
 * Fix: Incompatibilities with themes and other plugins.
 * Fix: Several other bugfixes.
