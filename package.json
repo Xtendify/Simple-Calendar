@@ -21,7 +21,7 @@
     "grunt-contrib-uglify": "2.x",
     "grunt-contrib-watch": "1.x",
     "grunt-sass": "3.x",
-    "load-grunt-tasks": "3.x"
+    "load-grunt-tasks": "5.x"
   },
   "scripts": {
     "setup": "npm install --include=dev && composer install && composer dump-autoload -o",
