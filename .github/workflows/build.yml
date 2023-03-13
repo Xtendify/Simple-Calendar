@@ -12,5 +12,4 @@ jobs:
       - run: npm run build
       - uses: actions/upload-artifact@v3
         with:
-          name: google-calendar-events
-          path: build/simple-calendar-*.zip
+          path: build
