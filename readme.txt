@@ -98,7 +98,7 @@ We'd love your help! Here's a few things you can do:
 == Changelog ==
 
 = 3.1.38 =
-* Fix: Error "Call to undefined function str_contains()"
+* Fix: Add PHP polyfill to fix "Call to undefined function str_contains()" error.
 * Fix: Update Google API client to v2.9.2.
 
 = 3.1.37 =
