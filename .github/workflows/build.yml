@@ -12,4 +12,6 @@ jobs:
       - run: npm run build
       - uses: actions/upload-artifact@v3
         with:
-          path: build
+          path: |
+            build
+            !build/google-calendar-events
