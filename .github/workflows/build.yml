@@ -13,5 +13,5 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           path: |
-            build
-            !build/google-calendar-events
+            build/simple-calendar-*.zip
+            build/google-calendar-events/readme.txt
