@@ -29,5 +29,9 @@
     "dev": "grunt watch",
     "prebuild": "grunt",
     "build": "grunt build"
+  },
+  "engines": {
+    "npm": ">=9.5.0",
+    "node": ">=18.15.0"
   }
 }
