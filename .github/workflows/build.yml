@@ -8,6 +8,12 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: '18.15.0'
+      - run: composer -V
+      - uses: php-actions/composer@v6
+        with:
+          php_version: '8.2'
+          version: '2.5.1'
+      - run: composer -V
       - run: npm run setup
       - run: npm run build
       - uses: actions/upload-artifact@v3
