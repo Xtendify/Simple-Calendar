@@ -339,7 +339,7 @@ class Welcome {
 		}
 
 		$response = wp_safe_remote_get(
-			'https://api.github.com/repos/moonstonemedia/Simple-Calendar/contributors'
+			'https://api.github.com/repos/Xtendify/Simple-Calendar/contributors'
 		);
 		if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) ) {
 			return array();

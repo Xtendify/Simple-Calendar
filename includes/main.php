@@ -270,7 +270,7 @@ public function simcal_ics_action() {
 			case 'docs' :
 				return 'http://docs.simplecalendar.io';
 			case 'github' :
-				return 'https://github.com/moonstonemedia/Simple-Calendar';
+				return 'https://github.com/Xtendify/Simple-Calendar';
 			case 'support' :
 				return 'https://wordpress.org/support/plugin/google-calendar-events';
 			case 'gdev-console':

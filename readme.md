@@ -1,12 +1,9 @@
 # Simple Calendar
-
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/moonstonemedia/Simple-Calendar/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/moonstonemedia/Simple-Calendar/?branch=master)
-[![Dependency Status](https://gemnasium.com/moonstonemedia/Simple-Calendar.svg)](https://gemnasium.com/moonstonemedia/Simple-Calendar)
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 Add Google Calendar events to your WordPress site in minutes. Beautiful calendar displays. Mobile responsive.
 
-[![Download from WordPress.org](https://raw.githubusercontent.com/moonstonemedia/Simple-Calendar/master/assets/images/wp/wordpress-download-btn.png)](https://wordpress.org/plugins/google-calendar-events/)
+[![Download from WordPress.org](https://raw.githubusercontent.com/Xtendify/Simple-Calendar/master/assets/images/welcome/fullcalendar-google-calendar-pro-grid-view.png)](https://wordpress.org/plugins/google-calendar-events/)
 
 [Download](https://wordpress.org/plugins/google-calendar-events/) | [Docs](https://docs.simplecalendar.io) | [Demo](https://demo.simplecalendar.io) | [Changelog](https://wordpress.org/plugins/google-calendar-events/changelog/)
 
@@ -18,4 +15,4 @@ GitHub is for *bug reports and contributions only*. If you have a support questi
 
 ## Contributing
 
-Read further on how to [contribute to this project](https://github.com/moonstonemedia/Simple-Calendar/blob/master/contributing.md).
+Read further on how to [contribute to this project](https://github.com/Xtendify/Simple-Calendar/blob/master/contributing.md).
