@@ -1,0 +1,17 @@
+name: build
+on: [push, workflow_dispatch]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '18.15.0'
+      - run: npm run setup
+      - run: npm run build
+      - uses: actions/upload-artifact@v3
+        with:
+          path: |
+            build/simple-calendar-*.zip
+            build/google-calendar-events/readme.txt

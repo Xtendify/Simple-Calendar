@@ -4,7 +4,7 @@ Tags: google calendar, calendar, calendars, google, event calendar, custom calen
 Requires at least: 4.2
 Requires PHP: 7.3
 Tested up to: 6.1.1
-Stable tag: 3.1.37.2
+Stable tag: 3.1.38
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,10 @@ We'd love your help! Here's a few things you can do:
 8. Attach a calendar to a post or page
 
 == Changelog ==
+
+= 3.1.38 =
+* Fix: Add PHP polyfill to fix "Call to undefined function str_contains()" error.
+* Fix: Update Google API client to v2.9.2.
 
 = 3.1.37 =
 * Dev: Tested up to WordPress 6.1.1 and PHP 8.1
