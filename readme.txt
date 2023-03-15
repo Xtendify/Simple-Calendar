@@ -99,6 +99,7 @@ We'd love your help! Here's a few things you can do:
 
 = 3.1.39 =
 * Fix: 'Class "Parsedown" not found' by adding `erusev/parsedown` via PHP Scoper.
+* Chore: Data type check for loading scripts and styles.
 
 = 3.1.38 =
 * Fix: Add PHP polyfill to fix "Call to undefined function str_contains()" error.
