@@ -55,7 +55,8 @@ class Settings implements Meta_Box
 					<?php self::calendar_settings_panel($post); ?>
 				</div>
 				<?php // Hook for additional settings panels.
-    do_action(
+
+		do_action(
     	"simcal_settings_meta_panels",
     	$post->ID
     );// Thus advanced panel is always the last one:

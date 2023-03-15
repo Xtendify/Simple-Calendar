@@ -95,11 +95,10 @@ class Date_Picker extends Field
 				       value="<?php echo $this->value; ?>"
 				       placeholder="..."
 				       readonly="readonly" />
-				<?php if (true === $this->inline) { echo $this->tooltip;}
-			} else {
-				// @todo eventually if a date range picker is needed, this can be extended}
-			}
-			?>
+				<?php if (true === $this->inline) {
+    	echo $this->tooltip;
+    }} else {// @todo eventually if a date range picker is needed, this can be extended
+	} ?>
 		</div>
 		<?php
 	}

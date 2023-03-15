@@ -151,8 +151,9 @@ class Welcome
 	{
 		?>
 		<h1>
-			<?php /* translators: %s prints the current version of the plugin. */
-   printf(
+			 /* translators: %s prints the current version of the plugin. */<?php
+		/* translators: %s prints the current version of the plugin. */
+		printf(
    	__("Welcome to Simple Calendar %s", "google-calendar-events"),
    	SIMPLE_CALENDAR_VERSION
    ); ?>
