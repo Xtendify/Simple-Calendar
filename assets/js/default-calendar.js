@@ -1,5 +1,12 @@
-( function( window, moment, undefined ) {
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+
+( function( window, undefined ) {
 	'use strict';
+
+	dayjs.extend(utc)
+	dayjs.extend(timezone)
 
 	jQuery( function( $ ) {
 
@@ -18,7 +25,7 @@
 				currentTime  = current.data( 'calendar-current' ),
 				currentMonth = current.find( 'span.simcal-current-month' ),
 				currentYear  = current.find( 'span.simcal-current-year' ),
-				currentDate  = moment.tz( currentTime * 1000, calendar.data( 'timezone' ) ),
+				currentDate  = dayjs(currentTime * 1000).tz(calendar.data( 'timezone' )),
 				date,
 				action;
 
@@ -444,4 +451,4 @@
 
 	} );
 
-} )( this, moment );
+} )( this );

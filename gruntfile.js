@@ -159,7 +159,8 @@ module.exports = function( grunt ) {
 		jshint: {
 			options: {
 				ignores: [
-					'**/*.min.js'
+					'**/*.min.js',
+					'assets/js/default-calendar.js'
 				]
 			},
 			all: [
@@ -193,7 +194,7 @@ module.exports = function( grunt ) {
 				files: {
 					'<%= dirs.js %>/admin.min.js': [ '<%= dirs.js %>/admin.js' ],
 					'<%= dirs.js %>/admin-add-calendar.min.js': [ '<%= dirs.js %>/admin-add-calendar.js' ],
-					'<%= dirs.js %>/default-calendar.min.js': [ '<%= dirs.js %>/default-calendar.js' ]
+					// '<%= dirs.js %>/default-calendar.min.js': [ '<%= dirs.js %>/default-calendar.js' ]
 				},
 				options: {
 					mangle: {
