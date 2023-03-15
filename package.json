@@ -27,7 +27,7 @@
     "setup": "npm install --include=dev && composer install && composer dump-autoload -o",
     "postsetup": "grunt",
     "dev": "grunt watch",
-    "prebuild": "grunt",
+    "prebuild": "npm run setup",
     "build": "grunt build"
   },
   "engines": {
