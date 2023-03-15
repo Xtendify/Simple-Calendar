@@ -38,7 +38,7 @@
     "guzzlehttp/guzzle": "7.5.0",
     "instituteweb/composer-scripts": "^1.0",
     "google/apiclient-services": "0.13",
-    "symfony/polyfill-mbstring": "1.19.0"
+    "symfony/polyfill-mbstring": "1.27.0"
   },
   "autoload": {
     "files": [

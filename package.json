@@ -13,7 +13,7 @@
     "grunt": "^1.5.3",
     "grunt-banner": "0.x",
     "grunt-checktextdomain": "1.x",
-    "grunt-contrib-clean": "1.x",
+    "grunt-contrib-clean": "2.x",
     "grunt-contrib-compress": "^1.6.0",
     "grunt-contrib-copy": "1.x",
     "grunt-contrib-cssmin": "^3.0.0",
@@ -21,13 +21,13 @@
     "grunt-contrib-uglify": "2.x",
     "grunt-contrib-watch": "1.x",
     "grunt-sass": "3.x",
-    "load-grunt-tasks": "3.x"
+    "load-grunt-tasks": "5.x"
   },
   "scripts": {
     "setup": "npm install --include=dev && composer install && composer dump-autoload -o",
     "postsetup": "grunt",
     "dev": "grunt watch",
-    "prebuild": "grunt",
+    "prebuild": "npm run setup",
     "build": "grunt build"
   },
   "engines": {
