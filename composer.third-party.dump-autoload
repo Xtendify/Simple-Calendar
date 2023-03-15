@@ -1,1 +1,1 @@
-{ "autoload": { "classmap": [""],"files":["guzzlehttp/psr7/src/functions_include.php"] } }
+{ "autoload": { "classmap": [""],"files":["guzzlehttp/psr7/src/functions_include.php", "symfony/polyfill-php80/bootstrap.php"] } }

@@ -6,7 +6,7 @@
  */
 namespace SimpleCalendar\Feeds\Admin;
 
-use SimpleCalendar\plugin_deps\Google\Service\Exception;
+use SimpleCalendar\plugin_deps\Google_Service_Exception;
 
 use SimpleCalendar\Admin\Metaboxes\Settings;
 use SimpleCalendar\Admin\Notice;
@@ -295,7 +295,7 @@ class Google_Admin {
 
 				try {
 					$this->feed->make_request( $google_calendar_id );
-				} catch ( Exception $e ) {
+				} catch ( Google_Service_Exception $e ) {
 					$error   = $e->getMessage();
 					$message = ! empty( $error ) ? '<blockquote>' . $error . '</blockquote>' : '';
 				}
