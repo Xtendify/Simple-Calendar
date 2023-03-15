@@ -31,8 +31,8 @@
     "dev": "grunt watch",
     "prebuild": "npm run setup",
     "build": "grunt build",
-    "lint": "prettier --check 'includes'",
-    "lint:fix": "prettier --write 'includes'"
+    "lint": "prettier --check .",
+    "lint:fix": "prettier --write ."
   },
   "engines": {
     "npm": ">=9.5.0",
