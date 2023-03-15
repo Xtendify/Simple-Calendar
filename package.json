@@ -10,23 +10,24 @@
     "url": "https://github.com/Xtendify/Simple-Calendar"
   },
   "devDependencies": {
-    "@prettier/plugin-php": "^0.19.3",
-    "@wordpress/eslint-plugin": "^14.1.0",
-    "eslint": "^8.36.0",
-    "eslint-plugin-import": "^2.27.5",
-    "grunt": "^1.5.3",
+    "@prettier/plugin-php": "0.19.3",
+    "@wordpress/eslint-plugin": "14.1.0",
+    "eslint": "8.36.0",
+    "eslint-config-prettier": "8.7.0",
+    "eslint-plugin-import": "2.27.5",
+    "grunt": "1.5.3",
     "grunt-banner": "0.x",
     "grunt-checktextdomain": "1.x",
     "grunt-contrib-clean": "2.x",
-    "grunt-contrib-compress": "^2.0.0",
+    "grunt-contrib-compress": "2.0.0",
     "grunt-contrib-copy": "1.x",
-    "grunt-contrib-cssmin": "^4.0.0",
+    "grunt-contrib-cssmin": "4.0.0",
     "grunt-contrib-jshint": "3.x",
     "grunt-contrib-uglify": "2.x",
     "grunt-contrib-watch": "1.x",
     "grunt-sass": "3.x",
     "load-grunt-tasks": "5.x",
-    "prettier": "^2.8.4"
+    "prettier": "2.8.4"
   },
   "scripts": {
     "setup": "npm install --include=dev && composer install && composer dump-autoload -o",

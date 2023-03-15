@@ -3,7 +3,7 @@
         "browser": true,
         "es2021": true
     },
-    "extends": ["plugin:@wordpress/eslint-plugin/recommended"],
+    "extends": ["plugin:@wordpress/eslint-plugin/recommended", "prettier"],
     "overrides": [],
     "parserOptions": {
         "ecmaVersion": "latest",
