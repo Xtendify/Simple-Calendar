@@ -337,7 +337,7 @@ class Post_Types
 
 		global $post_type;
 
-		if (in_array($post_type, $post_types)) {<?php
+		if (in_array($post_type, $post_types)) {
 			// Thickbox will ignore height and width, will adjust these in js.
 			// @see https://core.trac.wordpress.org/ticket/17249
 			?>
