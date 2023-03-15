@@ -8,7 +8,7 @@ namespace SimpleCalendar\Admin\Pages;
 
 use SimpleCalendar\Abstracts\Admin_Page;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -28,9 +28,9 @@ class Advanced extends Admin_Page
 	 */
 	public function __construct()
 	{
-		$this->id = "advanced";
-		$this->option_group = "settings";
-		$this->label = __("Advanced", "google-calendar-events");
+		$this->id = 'advanced';
+		$this->option_group = 'settings';
+		$this->label = __('Advanced', 'google-calendar-events');
 		//$this->description  = __( 'Advanced settings.', 'google-calendar-events' );
 		$this->sections = $this->add_sections();
 		$this->fields = $this->add_fields();
@@ -46,20 +46,20 @@ class Advanced extends Admin_Page
 	public function add_sections()
 	{
 		return apply_filters(
-			"simcal_add_" . $this->option_group . "_" . $this->id . "_sections",
+			'simcal_add_' . $this->option_group . '_' . $this->id . '_sections',
 			[
-				"assets" => [
-					"title" => __("Styles", "google-calendar-events"),
-					"description" => __(
-						"Manage front end assets that handle the calendars appearance.",
-						"google-calendar-events"
+				'assets' => [
+					'title' => __('Styles', 'google-calendar-events'),
+					'description' => __(
+						'Manage front end assets that handle the calendars appearance.',
+						'google-calendar-events'
 					),
 				],
-				"installation" => [
-					"title" => __("Installation", "google-calendar-events"),
-					"description" => __(
-						"Manage your data (plugin settings and saved calendars).",
-						"google-calendar-events"
+				'installation' => [
+					'title' => __('Installation', 'google-calendar-events'),
+					'description' => __(
+						'Manage your data (plugin settings and saved calendars).',
+						'google-calendar-events'
 					),
 				],
 			]
@@ -77,101 +77,101 @@ class Advanced extends Admin_Page
 	{
 		$fields = [];
 		$this->values = get_option(
-			"simple-calendar_" . $this->option_group . "_" . $this->id
+			'simple-calendar_' . $this->option_group . '_' . $this->id
 		);
 
 		foreach ($this->sections as $section => $a):
-			if ("assets" == $section) {
+			if ('assets' == $section) {
 				$fields[$section] = [
-					"disable_css" => [
-						"title" => __("Disable CSS", "google-calendar-events"),
-						"tooltip" => __(
-							"If ticked, this option will prevent all front end stylesheets to load. This also includes all add-on stylesheets.",
-							"google-calendar-events"
+					'disable_css' => [
+						'title' => __('Disable CSS', 'google-calendar-events'),
+						'tooltip' => __(
+							'If ticked, this option will prevent all front end stylesheets to load. This also includes all add-on stylesheets.',
+							'google-calendar-events'
 						),
-						"type" => "checkbox",
-						"name" =>
-							"simple-calendar_" .
+						'type' => 'checkbox',
+						'name' =>
+							'simple-calendar_' .
 							$this->option_group .
-							"_" .
+							'_' .
 							$this->id .
-							"[" .
+							'[' .
 							$section .
-							"][disable_css]",
-						"id" =>
-							"simple-calendar-" .
+							'][disable_css]',
+						'id' =>
+							'simple-calendar-' .
 							$this->option_group .
-							"-" .
+							'-' .
 							$this->id .
-							"-" .
+							'-' .
 							$section .
-							"-disable-css",
-						"value" => $this->get_option_value(
+							'-disable-css',
+						'value' => $this->get_option_value(
 							$section,
-							"disable_css"
+							'disable_css'
 						),
 					],
 				];
-			} elseif ("installation" == $section) {
+			} elseif ('installation' == $section) {
 				$fields[$section] = [
-					"delete_settings" => [
-						"title" => __(
-							"Delete settings",
-							"google-calendar-events"
+					'delete_settings' => [
+						'title' => __(
+							'Delete settings',
+							'google-calendar-events'
 						),
-						"tooltip" => __(
-							"Tick this option if you want to wipe this plugin settings from database when uninstalling.",
-							"google-calendar-events"
+						'tooltip' => __(
+							'Tick this option if you want to wipe this plugin settings from database when uninstalling.',
+							'google-calendar-events'
 						),
-						"type" => "checkbox",
-						"name" =>
-							"simple-calendar_" .
+						'type' => 'checkbox',
+						'name' =>
+							'simple-calendar_' .
 							$this->option_group .
-							"_" .
+							'_' .
 							$this->id .
-							"[" .
+							'[' .
 							$section .
-							"][delete_settings]",
-						"id" =>
-							"simple-calendar-" .
+							'][delete_settings]',
+						'id' =>
+							'simple-calendar-' .
 							$this->option_group .
-							"-" .
+							'-' .
 							$this->id .
-							"-" .
+							'-' .
 							$section .
-							"-delete-settings",
-						"value" => $this->get_option_value(
+							'-delete-settings',
+						'value' => $this->get_option_value(
 							$section,
-							"delete_settings"
+							'delete_settings'
 						),
 					],
-					"erase_data" => [
-						"title" => __(
-							"Erase calendar data",
-							"google-calendar-events"
+					'erase_data' => [
+						'title' => __(
+							'Erase calendar data',
+							'google-calendar-events'
 						),
-						"tooltip" => __(
-							"By default your data will be retained in database even after uninstall. Tick this option if you want to delete all your calendar data when uninstalling.",
-							"google-calendar-events"
+						'tooltip' => __(
+							'By default your data will be retained in database even after uninstall. Tick this option if you want to delete all your calendar data when uninstalling.',
+							'google-calendar-events'
 						),
-						"type" => "checkbox",
-						"name" =>
-							"simple-calendar_" .
+						'type' => 'checkbox',
+						'name' =>
+							'simple-calendar_' .
 							$this->option_group .
-							"_" .
+							'_' .
 							$this->id .
-							"[" .
+							'[' .
 							$section .
-							"][erase_data]",
-						"id" =>
-							"simple-calendar_" .
+							'][erase_data]',
+						'id' =>
+							'simple-calendar_' .
 							$this->option_group .
-							"_" .
+							'_' .
 							$this->id .
-							"-delete-data",
-						"value" => $this->get_option_value(
+							'-delete-data',
+						'value' => $this->get_option_value(
 							$section,
-							"erase_data"
+							'erase_data'
 						),
 					],
 				];
@@ -179,7 +179,7 @@ class Advanced extends Admin_Page
 		endforeach;
 
 		return apply_filters(
-			"simcal_add_" . $this->option_group . "_" . $this->id . "_fields",
+			'simcal_add_' . $this->option_group . '_' . $this->id . '_fields',
 			$fields
 		);
 	}

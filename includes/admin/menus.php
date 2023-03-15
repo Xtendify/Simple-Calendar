@@ -6,7 +6,7 @@
  */
 namespace SimpleCalendar\Admin;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -25,7 +25,7 @@ class Menus
 	 * @access public
 	 * @var string
 	 */
-	public static $main_menu = "";
+	public static $main_menu = '';
 
 	/**
 	 * Plugin basename.
@@ -33,7 +33,7 @@ class Menus
 	 * @access private
 	 * @var string
 	 */
-	private static $plugin = "";
+	private static $plugin = '';
 
 	/**
 	 * Set properties.
@@ -42,9 +42,9 @@ class Menus
 	 */
 	public function __construct()
 	{
-		self::$main_menu = "edit.php?post_type=calendar";
+		self::$main_menu = 'edit.php?post_type=calendar';
 
-		add_action("admin_menu", [__CLASS__, "add_menu_items"]);
+		add_action('admin_menu', [__CLASS__, 'add_menu_items']);
 
 		self::$plugin = plugin_basename(SIMPLE_CALENDAR_MAIN_FILE);
 
@@ -52,14 +52,14 @@ class Menus
 
 		// Links and meta content in plugins page.
 		add_filter(
-			"plugin_action_links_" . self::$plugin,
-			[__CLASS__, "plugin_action_links"],
+			'plugin_action_links_' . self::$plugin,
+			[__CLASS__, 'plugin_action_links'],
 			10,
 			5
 		);
-		add_filter("plugin_row_meta", [__CLASS__, "plugin_row_meta"], 10, 2);
+		add_filter('plugin_row_meta', [__CLASS__, 'plugin_row_meta'], 10, 2);
 		// Custom text in admin footer.
-		add_filter("admin_footer_text", [$this, "admin_footer_text"], 1);
+		add_filter('admin_footer_text', [$this, 'admin_footer_text'], 1);
 	}
 
 	/**
@@ -71,41 +71,41 @@ class Menus
 	{
 		add_submenu_page(
 			self::$main_menu,
-			__("Settings", "google-calendar-events"),
-			__("Settings", "google-calendar-events"),
-			"manage_options",
-			"simple-calendar_settings",
+			__('Settings', 'google-calendar-events'),
+			__('Settings', 'google-calendar-events'),
+			'manage_options',
+			'simple-calendar_settings',
 			function () {
-				$page = new Pages("settings");
+				$page = new Pages('settings');
 				$page->html();
 			}
 		);
 
 		add_submenu_page(
 			self::$main_menu,
-			__("Add-ons", "google-calendar-events"),
-			__("Add-ons", "google-calendar-events"),
-			"manage_options",
-			"simple-calendar_add_ons",
+			__('Add-ons', 'google-calendar-events'),
+			__('Add-ons', 'google-calendar-events'),
+			'manage_options',
+			'simple-calendar_add_ons',
 			function () {
-				$page = new Pages("add-ons");
+				$page = new Pages('add-ons');
 				$page->html();
 			}
 		);
 
 		add_submenu_page(
 			self::$main_menu,
-			__("Tools", "google-calendar-events"),
-			__("Tools", "google-calendar-events"),
-			"manage_options",
-			"simple-calendar_tools",
+			__('Tools', 'google-calendar-events'),
+			__('Tools', 'google-calendar-events'),
+			'manage_options',
+			'simple-calendar_tools',
 			function () {
-				$page = new Pages("tools");
+				$page = new Pages('tools');
 				$page->html();
 			}
 		);
 
-		do_action("simcal_admin_add_menu_items");
+		do_action('simcal_admin_add_menu_items');
 	}
 
 	/**
@@ -122,23 +122,23 @@ class Menus
 	{
 		if (self::$plugin == $file) {
 			$links = [];
-			$links["settings"] =
+			$links['settings'] =
 				'<a href="' .
 				admin_url(
-					"edit.php?post_type=calendar&page=simple-calendar_settings"
+					'edit.php?post_type=calendar&page=simple-calendar_settings'
 				) .
 				'">' .
-				__("Settings", "google-calendar-events") .
-				"</a>";
-			$links["feeds"] =
+				__('Settings', 'google-calendar-events') .
+				'</a>';
+			$links['feeds'] =
 				'<a href="' .
-				admin_url("edit.php?post_type=calendar") .
+				admin_url('edit.php?post_type=calendar') .
 				'">' .
-				__("Calendars", "google-calendar-events") .
-				"</a>";
+				__('Calendars', 'google-calendar-events') .
+				'</a>';
 
 			return apply_filters(
-				"simcal_plugin_action_links",
+				'simcal_plugin_action_links',
 				array_merge($links, $action_links)
 			);
 		}
@@ -160,19 +160,19 @@ class Menus
 	{
 		if (self::$plugin == $file) {
 			$links = [];
-			$links["add-ons"] =
+			$links['add-ons'] =
 				'<a href="' .
 				simcal_ga_campaign_url(
-					simcal_get_url("addons"),
-					"core-plugin",
-					"plugin-listing"
+					simcal_get_url('addons'),
+					'core-plugin',
+					'plugin-listing'
 				) .
 				'" target="_blank" >' .
-				__("Add-ons", "google-calendar-events") .
-				"</a>";
+				__('Add-ons', 'google-calendar-events') .
+				'</a>';
 
 			return apply_filters(
-				"simcal_plugin_action_links",
+				'simcal_plugin_action_links',
 				array_merge($meta_links, $links)
 			);
 		}
@@ -196,7 +196,7 @@ class Menus
 		// Check to make sure we're on a SimpleCal admin page
 		$screen = simcal_is_admin_screen();
 		if ($screen !== false) {
-			if ("calendar" == $screen) {
+			if ('calendar' == $screen) {
 				// Add Drip promo signup form (@see Newsletter meta box).
 				// Removed 9/26/16.
 
@@ -225,16 +225,16 @@ class Menus
 			}
 
 			// Change the footer text
-			if (!get_option("simple-calendar_admin_footer_text_rated")) {
+			if (!get_option('simple-calendar_admin_footer_text_rated')) {
 				$footer_text = sprintf(
 					__(
-						"If you like <strong>Simple Calendar</strong> please leave us a %s&#9733;&#9733;&#9733;&#9733;&#9733; rating on WordPress.org%s. A huge thank you in advance!",
-						"google-calendar-events"
+						'If you like <strong>Simple Calendar</strong> please leave us a %s&#9733;&#9733;&#9733;&#9733;&#9733; rating on WordPress.org%s. A huge thank you in advance!',
+						'google-calendar-events'
 					),
 					'<a href="https://wordpress.org/support/view/plugin-reviews/google-calendar-events?filter=5#postform" target="_blank" class="simcal-rating-link" data-rated="' .
-						esc_attr__("Thanks :)", "google-calendar-events") .
+						esc_attr__('Thanks :)', 'google-calendar-events') .
 						'">',
-					"</a>"
+					'</a>'
 				);
 
 				$footer_text .= '<script type="text/javascript">';
@@ -245,11 +245,11 @@ class Menus
 					"', { action: 'simcal_rated' } );
 						jQuery( this ).parent().text( jQuery( this ).data( 'rated' ) );
 					});";
-				$footer_text .= "</script>";
+				$footer_text .= '</script>';
 			} else {
 				$footer_text = __(
-					"Thanks for using Simple Calendar!",
-					"google-calendar-events"
+					'Thanks for using Simple Calendar!',
+					'google-calendar-events'
 				);
 			}
 		}

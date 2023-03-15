@@ -9,7 +9,7 @@
  */
 namespace SimpleCalendar\Admin;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -24,7 +24,7 @@ class Bulk_Actions
 	 * @access public
 	 * @var string
 	 */
-	public $bulk_action_post_type = "";
+	public $bulk_action_post_type = '';
 
 	/**
 	 * Bulk actions.
@@ -45,7 +45,7 @@ class Bulk_Actions
 	{
 		$this->bulk_action_post_type = post_type_exists($post_type)
 			? $post_type
-			: "";
+			: '';
 	}
 
 	/**
@@ -59,19 +59,19 @@ class Bulk_Actions
 	public function register_bulk_action($args)
 	{
 		$func = [];
-		$func["action_name"] = isset($args["action_name"])
-			? sanitize_key($args["action_name"])
-			: "";
-		$func["callback"] = isset($args["callback"]) ? $args["callback"] : "";
-		$func["menu_text"] = isset($args["menu_text"])
-			? esc_attr($args["menu_text"])
-			: "";
-		$func["admin_notice"] = isset($args["admin_notice"])
-			? esc_attr($args["admin_notice"])
-			: "";
+		$func['action_name'] = isset($args['action_name'])
+			? sanitize_key($args['action_name'])
+			: '';
+		$func['callback'] = isset($args['callback']) ? $args['callback'] : '';
+		$func['menu_text'] = isset($args['menu_text'])
+			? esc_attr($args['menu_text'])
+			: '';
+		$func['admin_notice'] = isset($args['admin_notice'])
+			? esc_attr($args['admin_notice'])
+			: '';
 
-		if ($func["action_name"] && $func["callback"]) {
-			$this->actions[$func["action_name"]] = $func;
+		if ($func['action_name'] && $func['callback']) {
+			$this->actions[$func['action_name']] = $func;
 		}
 	}
 
@@ -85,12 +85,12 @@ class Bulk_Actions
 	public function init()
 	{
 		if (is_admin()) {
-			add_action("admin_footer-edit.php", [
+			add_action('admin_footer-edit.php', [
 				$this,
-				"custom_bulk_admin_footer",
+				'custom_bulk_admin_footer',
 			]);
-			add_action("load-edit.php", [$this, "custom_bulk_action"]);
-			add_action("admin_notices", [$this, "custom_bulk_admin_notices"]);
+			add_action('load-edit.php', [$this, 'custom_bulk_action']);
+			add_action('admin_notices', [$this, 'custom_bulk_admin_notices']);
 		}
 	}
 
@@ -109,10 +109,10 @@ class Bulk_Actions
 				jQuery( document ).ready( function() {
 					<?php foreach ($this->actions as $action_name => $action): ?>
 						jQuery( '<option>' ).val( '<?php echo $action_name; ?>' ).text( '<?php echo $action[
-	"menu_text"
+	'menu_text'
 ]; ?>').appendTo( 'select[name="action"]'  );
 						jQuery( '<option>' ).val( '<?php echo $action_name; ?>' ).text( '<?php echo $action[
-	"menu_text"
+	'menu_text'
 ]; ?>').appendTo( 'select[name="action2"]' );
 					<?php endforeach; ?>
 				} );
@@ -135,7 +135,7 @@ class Bulk_Actions
 		if ($post_type == $this->bulk_action_post_type) {
 			// Get the action.
 			// Depending on your resource type this could be WP_Users_List_Table, WP_Comments_List_Table, etc.
-			$wp_list_table = _get_list_table("WP_Posts_List_Table");
+			$wp_list_table = _get_list_table('WP_Posts_List_Table');
 			$action = $wp_list_table->current_action();
 
 			// Allow only defined actions.
@@ -145,12 +145,12 @@ class Bulk_Actions
 			}
 
 			// Security check.
-			check_admin_referer("bulk-posts");
+			check_admin_referer('bulk-posts');
 
 			// Make sure ids are submitted.
 			// Depending on the resource type, this may be 'media' or 'ids'.
-			if (isset($_REQUEST["post"])) {
-				$post_ids = array_map("intval", $_REQUEST["post"]);
+			if (isset($_REQUEST['post'])) {
+				$post_ids = array_map('intval', $_REQUEST['post']);
 			}
 
 			if (empty($post_ids)) {
@@ -159,7 +159,7 @@ class Bulk_Actions
 
 			// This is based on wp-admin/edit.php.
 			$sendback = remove_query_arg(
-				["exported", "untrashed", "deleted", "ids"],
+				['exported', 'untrashed', 'deleted', 'ids'],
 				wp_get_referer()
 			);
 			if (!$sendback) {
@@ -167,7 +167,7 @@ class Bulk_Actions
 			}
 
 			$pagenum = $wp_list_table->get_pagenum();
-			$sendback = add_query_arg("paged", $pagenum, $sendback);
+			$sendback = add_query_arg('paged', $pagenum, $sendback);
 
 			// Check that we have anonymous function as a callback.
 			$anon_fns = array_filter($this->actions[$action], function ($el) {
@@ -175,29 +175,29 @@ class Bulk_Actions
 			});
 
 			if (count($anon_fns) > 0) {
-				$this->actions[$action]["callback"]($post_ids);
+				$this->actions[$action]['callback']($post_ids);
 			} else {
-				call_user_func($this->actions[$action]["callback"], $post_ids);
+				call_user_func($this->actions[$action]['callback'], $post_ids);
 			}
 
 			$sendback = add_query_arg(
-				["success_action" => $action, "ids" => join(",", $post_ids)],
+				['success_action' => $action, 'ids' => join(',', $post_ids)],
 				$sendback
 			);
 			$sendback = remove_query_arg(
 				[
-					"action",
-					"paged",
-					"mode",
-					"action2",
-					"tags_input",
-					"post_author",
-					"comment_status",
-					"ping_status",
-					"_status",
-					"post",
-					"bulk_edit",
-					"post_view",
+					'action',
+					'paged',
+					'mode',
+					'action2',
+					'tags_input',
+					'post_author',
+					'comment_status',
+					'ping_status',
+					'_status',
+					'post',
+					'bulk_edit',
+					'post_view',
 				],
 				$sendback
 			);
@@ -217,8 +217,8 @@ class Bulk_Actions
 	{
 		global $post_type, $pagenow;
 
-		if (isset($_REQUEST["ids"])) {
-			$post_ids = explode(",", $_REQUEST["ids"]);
+		if (isset($_REQUEST['ids'])) {
+			$post_ids = explode(',', $_REQUEST['ids']);
 		}
 
 		// Make sure ids are submitted.
@@ -230,27 +230,27 @@ class Bulk_Actions
 		$post_ids_count = is_array($post_ids) ? count($post_ids) : 1;
 
 		if (
-			$pagenow == "edit.php" &&
+			$pagenow == 'edit.php' &&
 			$post_type == $this->bulk_action_post_type
 		) {
-			if (isset($_REQUEST["success_action"])) {
+			if (isset($_REQUEST['success_action'])) {
 				// Print notice in admin bar.
 				$message =
-					$this->actions[$_REQUEST["success_action"]]["admin_notice"];
+					$this->actions[$_REQUEST['success_action']]['admin_notice'];
 
 				if (is_array($message)) {
 					$message = sprintf(
 						_n(
-							$message["single"],
-							$message["plural"],
+							$message['single'],
+							$message['plural'],
 							$post_ids_count,
-							"google-calendar-events"
+							'google-calendar-events'
 						),
 						$post_ids_count
 					);
 				}
 
-				$class = "updated notice is-dismissible above-h2";
+				$class = 'updated notice is-dismissible above-h2';
 				if (!empty($message)) {
 					echo "<div class=\"{$class}\"><p>{$message}</p></div>";
 				}

@@ -8,7 +8,7 @@ namespace SimpleCalendar;
 
 use SimpleCalendar\Admin\License_Manager;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -23,7 +23,7 @@ final class Plugin
 	 * @access public
 	 * @var string
 	 */
-	public static $name = "Simple Calendar";
+	public static $name = 'Simple Calendar';
 
 	/**
 	 * Plugin version.
@@ -39,7 +39,7 @@ final class Plugin
 	 * @access public
 	 * @var string
 	 */
-	protected static $homepage = "https://simplecalendar.io";
+	protected static $homepage = 'https://simplecalendar.io';
 
 	/**
 	 * Locale.
@@ -47,7 +47,7 @@ final class Plugin
 	 * @access public
 	 * @var string
 	 */
-	public $locale = "en_US";
+	public $locale = 'en_US';
 
 	/**
 	 * Objects factory.
@@ -85,8 +85,8 @@ final class Plugin
 	{
 		_doing_it_wrong(
 			__FUNCTION__,
-			"Cloning the main instance of this plugin is forbidden.",
-			"1.0.0"
+			'Cloning the main instance of this plugin is forbidden.',
+			'1.0.0'
 		);
 	}
 
@@ -97,8 +97,8 @@ final class Plugin
 	{
 		_doing_it_wrong(
 			__FUNCTION__,
-			"Unserializing instances of this plugin is forbidden.",
-			"1.0.0"
+			'Unserializing instances of this plugin is forbidden.',
+			'1.0.0'
 		);
 	}
 
@@ -110,33 +110,33 @@ final class Plugin
 	public function __construct()
 	{
 		// Load plugin.
-		require_once "autoload.php";
+		require_once 'autoload.php';
 		$this->locale = apply_filters(
-			"plugin_locale",
+			'plugin_locale',
 			get_locale(),
-			"google-calendar-events"
+			'google-calendar-events'
 		);
 		$this->load();
 
 		// Installation hooks.
 		register_activation_hook(SIMPLE_CALENDAR_MAIN_FILE, [
-			"SimpleCalendar\Installation",
-			"activate",
+			'SimpleCalendar\Installation',
+			'activate',
 		]);
 		register_deactivation_hook(SIMPLE_CALENDAR_MAIN_FILE, [
-			"SimpleCalendar\Installation",
-			"deactivate",
+			'SimpleCalendar\Installation',
+			'deactivate',
 		]);
 
 		// Do update call here.
-		add_action("admin_init", [$this, "update"], 999);
+		add_action('admin_init', [$this, 'update'], 999);
 
 		// Init hooks.
-		add_action("init", [$this, "init"], 5);
-		add_action("admin_init", [$this, "register_settings"], 5);
+		add_action('init', [$this, 'init'], 5);
+		add_action('admin_init', [$this, 'register_settings'], 5);
 
 		// Upon plugin loaded action hook.
-		do_action("simcal_loaded");
+		do_action('simcal_loaded');
 	}
 
 	/**
@@ -147,7 +147,7 @@ final class Plugin
 	public function load()
 	{
 		// Functions shared in both back end and front end.
-		include_once "functions/shared.php";
+		include_once 'functions/shared.php';
 
 		// Init custom post types and taxonomies.
 		new Post_Types();
@@ -170,7 +170,7 @@ final class Plugin
 		new Widgets();
 
 		// Deprecated functions for backwards compatibility.
-		include_once "functions/deprecated.php";
+		include_once 'functions/deprecated.php';
 	}
 
 	/**
@@ -181,7 +181,7 @@ final class Plugin
 	public function load_admin()
 	{
 		// Back end only functions.
-		include_once "functions/admin.php";
+		include_once 'functions/admin.php';
 
 		// Display admin notices.
 		new Admin\Notices();
@@ -195,7 +195,7 @@ final class Plugin
 		// Init menus and settings.
 		new Admin\Menus();
 
-		if (defined("DOING_AJAX")) {
+		if (defined('DOING_AJAX')) {
 			// Admin ajax callbacks.
 			new Admin\Ajax();
 		}
@@ -209,16 +209,16 @@ final class Plugin
 	public function init()
 	{
 		// Before init action hook.
-		do_action("before_simcal_init");
+		do_action('before_simcal_init');
 
 		// Set up localization.
-		add_action("plugins_loaded", [$this, "load_plugin_textdomain"]);
+		add_action('plugins_loaded', [$this, 'load_plugin_textdomain']);
 
 		// Init objects factory.
 		$this->objects = new Objects();
 
 		// Upon init action hook.
-		do_action("simcal_init");
+		do_action('simcal_init');
 	}
 
 	/**
@@ -229,9 +229,9 @@ final class Plugin
 	public function load_plugin_textdomain()
 	{
 		load_plugin_textdomain(
-			"google-calendar-events",
+			'google-calendar-events',
 			false,
-			dirname(plugin_basename(SIMPLE_CALENDAR_MAIN_FILE)) . "/i18n/"
+			dirname(plugin_basename(SIMPLE_CALENDAR_MAIN_FILE)) . '/i18n/'
 		);
 	}
 
@@ -243,9 +243,9 @@ final class Plugin
 	public function register_settings()
 	{
 		if (
-			(!empty($_POST) && is_admin() && !defined("DOING_AJAX")) ||
-			(isset($_GET["page"]) &&
-				"simple-calendar_settings" === $_GET["page"])
+			(!empty($_POST) && is_admin() && !defined('DOING_AJAX')) ||
+			(isset($_GET['page']) &&
+				'simple-calendar_settings' === $_GET['page'])
 		) {
 			$settings = new Admin\Pages();
 			$settings->register_settings($settings->get_settings());
@@ -261,7 +261,7 @@ final class Plugin
 	 */
 	public function ajax_url()
 	{
-		return admin_url("admin-ajax.php", "relative");
+		return admin_url('admin-ajax.php', 'relative');
 	}
 
 	/**
@@ -276,24 +276,24 @@ final class Plugin
 	public function get_url($case)
 	{
 		switch ($case) {
-			case "codex":
-			case "apidocs":
-				return "http://codex.simplecalendar.io";
-			case "addons":
-				return self::$homepage . "/addons/";
-			case "gcal-pro":
-				return self::$homepage . "/addons/google-calendar-pro/";
-			case "fullcal":
-				return self::$homepage . "/addons/full-calendar/";
-			case "docs":
-				return "http://docs.simplecalendar.io";
-			case "github":
-				return "https://github.com/Xtendify/Simple-Calendar";
-			case "support":
-				return "https://wordpress.org/support/plugin/google-calendar-events";
-			case "gdev-console":
-				return "https://console.developers.google.com";
-			case "home":
+			case 'codex':
+			case 'apidocs':
+				return 'http://codex.simplecalendar.io';
+			case 'addons':
+				return self::$homepage . '/addons/';
+			case 'gcal-pro':
+				return self::$homepage . '/addons/google-calendar-pro/';
+			case 'fullcal':
+				return self::$homepage . '/addons/full-calendar/';
+			case 'docs':
+				return 'http://docs.simplecalendar.io';
+			case 'github':
+				return 'https://github.com/Xtendify/Simple-Calendar';
+			case 'support':
+				return 'https://wordpress.org/support/plugin/google-calendar-events';
+			case 'gdev-console':
+				return 'https://console.developers.google.com';
+			case 'home':
 			default:
 				return self::$homepage;
 		}

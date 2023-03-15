@@ -11,11 +11,7 @@
 
 		if (widgets.length) {
 			// See: http://wordpress.stackexchange.com/a/37707/48502
-			$(document).ajaxComplete(function (
-				event,
-				XMLHttpRequest,
-				ajaxOptions
-			) {
+			$(document).ajaxComplete(function (event, XMLHttpRequest, ajaxOptions) {
 				// Determine which ajax request is this (we are after "save-widget").
 				const request = {},
 					pairs = ajaxOptions.data.split('&');
@@ -23,9 +19,7 @@
 
 				for (i in pairs) {
 					split = pairs[i].split('=');
-					request[decodeURIComponent(split[0])] = decodeURIComponent(
-						split[1]
-					);
+					request[decodeURIComponent(split[0])] = decodeURIComponent(split[1]);
 				}
 
 				if (request.action && request.action === 'save-widget') {
@@ -103,9 +97,7 @@
 				}
 				const thickBoxTitle = document.getElementById('TB_title');
 				if (thickBoxTitle !== 'undefined') {
-					thickBoxTitle.classList.add(
-						'simcal-insert-shortcode-modal-title'
-					);
+					thickBoxTitle.classList.add('simcal-insert-shortcode-modal-title');
 				}
 			}, 120);
 		});

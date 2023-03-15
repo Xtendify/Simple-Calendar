@@ -8,7 +8,7 @@ namespace SimpleCalendar;
 
 use SimpleCalendar\Abstracts as SimpleCalObject;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -32,11 +32,11 @@ class Objects
 	{
 		// Add default feed type.
 		add_filter(
-			"simcal_get_feed_types",
+			'simcal_get_feed_types',
 			function ($feed_types) {
 				return array_merge($feed_types, [
-					"google",
-					"grouped-calendars",
+					'google',
+					'grouped-calendars',
 				]);
 			},
 			10,
@@ -45,10 +45,10 @@ class Objects
 
 		// Add default calendar type.
 		add_filter(
-			"simcal_get_calendar_types",
+			'simcal_get_calendar_types',
 			function ($calendar_types) {
 				return array_merge($calendar_types, [
-					"default-calendar" => ["grid", "list"],
+					'default-calendar' => ['grid', 'list'],
 				]);
 			},
 			10,
@@ -58,12 +58,12 @@ class Objects
 		// Add default admin objects.
 		if ($is_admin = is_admin()) {
 			add_filter(
-				"simcal_get_admin_pages",
+				'simcal_get_admin_pages',
 				function ($admin_pages) {
 					return array_merge($admin_pages, [
-						"add-ons" => ["add-ons"],
-						"settings" => ["feeds", "calendars", "advanced"],
-						"tools" => ["system-status"],
+						'add-ons' => ['add-ons'],
+						'settings' => ['feeds', 'calendars', 'advanced'],
+						'tools' => ['system-status'],
 					]);
 				},
 				10,
@@ -71,7 +71,7 @@ class Objects
 			);
 		}
 
-		do_action("simcal_load_objects", $is_admin);
+		do_action('simcal_load_objects', $is_admin);
 	}
 
 	/**
@@ -83,7 +83,7 @@ class Objects
 	 */
 	public function get_feed_types()
 	{
-		$array = apply_filters("simcal_get_feed_types", []);
+		$array = apply_filters('simcal_get_feed_types', []);
 		ksort($array);
 		return $array;
 	}
@@ -97,7 +97,7 @@ class Objects
 	 */
 	public function get_calendar_types()
 	{
-		$array = apply_filters("simcal_get_calendar_types", []);
+		$array = apply_filters('simcal_get_calendar_types', []);
 		ksort($array);
 		return $array;
 	}
@@ -111,7 +111,7 @@ class Objects
 	 */
 	public function get_admin_pages()
 	{
-		return apply_filters("simcal_get_admin_pages", []);
+		return apply_filters('simcal_get_admin_pages', []);
 	}
 
 	/**
@@ -129,22 +129,22 @@ class Objects
 	{
 		if (is_string($object)) {
 			return !empty($object)
-				? $this->get_object($object, "calendar", "")
+				? $this->get_object($object, 'calendar', '')
 				: null;
 		}
 
 		if (is_object($object)) {
 			if ($object instanceof SimpleCalObject\Calendar) {
-				return $this->get_object($object->type, "feed", $object);
+				return $this->get_object($object->type, 'feed', $object);
 			} elseif ($object instanceof \WP_Post) {
-				if ($type = wp_get_object_terms($object->ID, "calendar_type")) {
+				if ($type = wp_get_object_terms($object->ID, 'calendar_type')) {
 					$name = sanitize_title(current($type)->name);
-					return $this->get_object($name, "calendar", $object);
+					return $this->get_object($name, 'calendar', $object);
 				}
 			} elseif (isset($object->type) && isset($object->id)) {
 				return $this->get_object(
 					$object->type,
-					"calendar",
+					'calendar',
 					$object->id
 				);
 			}
@@ -154,10 +154,10 @@ class Objects
 			$post = get_post($object);
 			if (
 				$post &&
-				($type = wp_get_object_terms($post->ID, "calendar_type"))
+				($type = wp_get_object_terms($post->ID, 'calendar_type'))
 			) {
 				$name = sanitize_title(current($type)->name);
-				return $this->get_object($name, "calendar", $post);
+				return $this->get_object($name, 'calendar', $post);
 			}
 		}
 
@@ -174,20 +174,20 @@ class Objects
 	 *
 	 * @return null|SimpleCalObject\Calendar_View
 	 */
-	public function get_calendar_view($id = 0, $name = "")
+	public function get_calendar_view($id = 0, $name = '')
 	{
 		if (!$name && $id > 0) {
-			$calendar_view = get_post_meta($id, "_calendar_view", true);
+			$calendar_view = get_post_meta($id, '_calendar_view', true);
 
-			if ($terms = wp_get_object_terms($id, "calendar_type")) {
+			if ($terms = wp_get_object_terms($id, 'calendar_type')) {
 				$calendar_type = sanitize_title(current($terms)->name);
 				$name = isset($calendar_view[$calendar_type])
-					? $calendar_type . "-" . $calendar_view[$calendar_type]
-					: "";
+					? $calendar_type . '-' . $calendar_view[$calendar_type]
+					: '';
 			}
 		}
 
-		return $name ? $this->get_object($name, "calendar-view", "") : null;
+		return $name ? $this->get_object($name, 'calendar-view', '') : null;
 	}
 
 	/**
@@ -205,18 +205,18 @@ class Objects
 	{
 		if (is_string($object)) {
 			return !empty($object)
-				? $this->get_object($object, "feed", "")
+				? $this->get_object($object, 'feed', '')
 				: null;
 		}
 
 		if (is_object($object)) {
 			if ($object instanceof SimpleCalObject\Calendar) {
-				$feed_name = "";
+				$feed_name = '';
 				if (empty($object->feed)) {
 					if (
 						$feed_type = wp_get_object_terms(
 							$object->id,
-							"feed_type"
+							'feed_type'
 						)
 					) {
 						$feed_name = sanitize_title(current($feed_type)->name);
@@ -224,28 +224,28 @@ class Objects
 				} else {
 					$feed_name = $object->feed;
 				}
-				return $this->get_object($feed_name, "feed", $object);
+				return $this->get_object($feed_name, 'feed', $object);
 			} elseif ($object instanceof \WP_Post) {
 				$calendar = $this->get_calendar($object);
 
 				if (isset($calendar->feed)) {
 					return $this->get_object(
 						$calendar->feed,
-						"feed",
+						'feed',
 						$calendar
 					);
 				} else {
 					return null;
 				}
 			} elseif (isset($object->feed) && isset($object->id)) {
-				return $this->get_object($object->feed, "feed", $object);
+				return $this->get_object($object->feed, 'feed', $object);
 			}
 		}
 
 		if (is_int($object)) {
 			$calendar = $this->get_calendar($object);
 			return isset($calendar->feed)
-				? $this->get_object($calendar->feed, "feed", $calendar)
+				? $this->get_object($calendar->feed, 'feed', $calendar)
 				: null;
 		}
 
@@ -262,13 +262,13 @@ class Objects
 	 *
 	 * @return null|SimpleCalObject\Field
 	 */
-	public function get_field($args, $name = "")
+	public function get_field($args, $name = '')
 	{
 		if (empty($name)) {
-			$name = isset($args["type"]) ? $args["type"] : false;
+			$name = isset($args['type']) ? $args['type'] : false;
 		}
 
-		return $name ? $this->get_object($name, "field", $args) : null;
+		return $name ? $this->get_object($name, 'field', $args) : null;
 	}
 
 	/**
@@ -282,7 +282,7 @@ class Objects
 	 */
 	public function get_admin_page($name)
 	{
-		return $name ? $this->get_object($name, "admin-page") : null;
+		return $name ? $this->get_object($name, 'admin-page') : null;
 	}
 
 	/**
@@ -297,17 +297,17 @@ class Objects
 	 *
 	 * @return null|Object
 	 */
-	private function get_object($name, $type, $args = "")
+	private function get_object($name, $type, $args = '')
 	{
-		$types = ["admin-page", "calendar", "calendar-view", "feed", "field"];
+		$types = ['admin-page', 'calendar', 'calendar-view', 'feed', 'field'];
 
 		if (in_array($type, $types)) {
 			$class_name = $this->make_class_name($name, $type);
 			$parent =
-				"\\" .
+				'\\' .
 				__NAMESPACE__ .
-				"\Abstracts\\" .
-				implode("_", array_map("ucfirst", explode("-", $type)));
+				'\Abstracts\\' .
+				implode('_', array_map('ucfirst', explode('-', $type)));
 			$class = class_exists($class_name) ? new $class_name($args) : false;
 
 			return $class instanceof $parent ? $class : null;
@@ -332,21 +332,21 @@ class Objects
 	 */
 	private function make_class_name($name, $type)
 	{
-		if ("calendar" == $type) {
-			$namespace = "\\" . __NAMESPACE__ . "\Calendars\\";
-		} elseif ("calendar-view" == $type) {
-			$namespace = "\\" . __NAMESPACE__ . "\Calendars\Views\\";
-		} elseif ("feed" == $type) {
-			$namespace = "\\" . __NAMESPACE__ . "\Feeds\\";
-		} elseif ("field" == $type) {
-			$namespace = "\\" . __NAMESPACE__ . "\Admin\Fields\\";
-		} elseif ("admin-page" == $type) {
-			$namespace = "\\" . __NAMESPACE__ . "\Admin\Pages\\";
+		if ('calendar' == $type) {
+			$namespace = '\\' . __NAMESPACE__ . '\Calendars\\';
+		} elseif ('calendar-view' == $type) {
+			$namespace = '\\' . __NAMESPACE__ . '\Calendars\Views\\';
+		} elseif ('feed' == $type) {
+			$namespace = '\\' . __NAMESPACE__ . '\Feeds\\';
+		} elseif ('field' == $type) {
+			$namespace = '\\' . __NAMESPACE__ . '\Admin\Fields\\';
+		} elseif ('admin-page' == $type) {
+			$namespace = '\\' . __NAMESPACE__ . '\Admin\Pages\\';
 		} else {
-			return "";
+			return '';
 		}
 
-		$class_name = implode("_", array_map("ucfirst", explode("-", $name)));
+		$class_name = implode('_', array_map('ucfirst', explode('-', $name)));
 
 		return $namespace . $class_name;
 	}

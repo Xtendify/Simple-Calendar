@@ -6,23 +6,23 @@
  */
 
 // Exit if not uninstalling from WordPress.
-if (!defined("WP_UNINSTALL_PLUGIN")) {
+if (!defined('WP_UNINSTALL_PLUGIN')) {
 	exit();
 }
 
 // Get user options whether to delete settings and/or data.
-$settings = get_option("simple-calendar_settings_advanced");
+$settings = get_option('simple-calendar_settings_advanced');
 
-if (isset($settings["installation"]["delete_settings"])) {
+if (isset($settings['installation']['delete_settings'])) {
 	$delete_settings =
-		"yes" == $settings["installation"]["delete_settings"] ? true : false;
+		'yes' == $settings['installation']['delete_settings'] ? true : false;
 } else {
 	$delete_settings = false;
 }
 
-if (isset($settings["installation"]["erase_data"])) {
+if (isset($settings['installation']['erase_data'])) {
 	$erase_data =
-		"yes" == $settings["installation"]["erase_data"] ? true : false;
+		'yes' == $settings['installation']['erase_data'] ? true : false;
 } else {
 	$erase_data = false;
 }
@@ -53,7 +53,7 @@ DELETE meta FROM {$wpdb->postmeta} meta LEFT JOIN {$wpdb->posts} posts ON posts.
 ");
 
 	// Delete calendar terms.
-	$terms = get_terms(["calendar_category", "calendar_feed", "calendar_type"]);
+	$terms = get_terms(['calendar_category', 'calendar_feed', 'calendar_type']);
 	if (!empty($terms) && is_array($terms)) {
 		foreach ($terms as $term) {
 			wp_delete_term($term->term_id, $term->taxonomy);

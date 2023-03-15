@@ -6,7 +6,7 @@
  */
 namespace SimpleCalendar\Abstracts;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -26,7 +26,7 @@ interface Calendar_View
 	 *
 	 * @param mixed $args
 	 */
-	public function __construct($args = "");
+	public function __construct($args = '');
 
 	/**
 	 * Return the parent calendar type.
@@ -75,7 +75,7 @@ interface Calendar_View
 	 *
 	 * @return array
 	 */
-	public function scripts($min = "");
+	public function scripts($min = '');
 
 	/**
 	 * Styles.
@@ -88,7 +88,7 @@ interface Calendar_View
 	 *
 	 * @return array
 	 */
-	public function styles($min = "");
+	public function styles($min = '');
 
 	/**
 	 * Print HTML.

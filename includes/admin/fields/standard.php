@@ -8,7 +8,7 @@ namespace SimpleCalendar\Admin\Fields;
 
 use SimpleCalendar\Abstracts\Field;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -26,7 +26,7 @@ class Standard extends Field
 	 *
 	 * @var string
 	 */
-	public $subtype = "";
+	public $subtype = '';
 
 	/**
 	 * Construct.
@@ -37,10 +37,10 @@ class Standard extends Field
 	 */
 	public function __construct($field)
 	{
-		$this->subtype = isset($field["subtype"])
-			? esc_attr($field["subtype"])
-			: "text";
-		$this->type_class = "simcal-field-" . $this->subtype;
+		$this->subtype = isset($field['subtype'])
+			? esc_attr($field['subtype'])
+			: 'text';
+		$this->type_class = 'simcal-field-' . $this->subtype;
 
 		parent::__construct($field);
 	}
@@ -58,8 +58,8 @@ class Standard extends Field
 		       id="<?php echo $this->id; ?>"
 		       value="<?php echo $this->value; ?>"
 		       class="<?php echo $this->class; ?>"<?php
-echo $this->style ? 'style="' . $this->style . '" ' : " ";
-echo $this->placeholder ? 'placeholder="' . $this->placeholder . '"' : " ";
+echo $this->style ? 'style="' . $this->style . '" ' : ' ';
+echo $this->placeholder ? 'placeholder="' . $this->placeholder . '"' : ' ';
 echo $this->attributes;
 ?>/>
 		<?php
@@ -68,7 +68,7 @@ echo $this->attributes;
   if (!empty($this->description)) {
   	echo '<p class="description">' .
   		wp_kses_post($this->description) .
-  		"</p>";
+  		'</p>';
   }
 
   if (is_string($this->validation) && !empty($this->validation)) {

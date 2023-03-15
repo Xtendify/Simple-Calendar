@@ -6,7 +6,7 @@
  */
 namespace SimpleCalendar\Abstracts;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -23,7 +23,7 @@ abstract class Admin_Page
 	 * @access public
 	 * @var string
 	 */
-	public $id = "";
+	public $id = '';
 
 	/**
 	 * Option group.
@@ -31,7 +31,7 @@ abstract class Admin_Page
 	 * @access public
 	 * @var string
 	 */
-	public $option_group = "";
+	public $option_group = '';
 
 	/**
 	 * Admin Page label.
@@ -39,7 +39,7 @@ abstract class Admin_Page
 	 * @access public
 	 * @var string
 	 */
-	public $label = "";
+	public $label = '';
 
 	/**
 	 * Admin Page description.
@@ -47,7 +47,7 @@ abstract class Admin_Page
 	 * @access public
 	 * @var string
 	 */
-	public $description = "";
+	public $description = '';
 
 	/**
 	 * Amdin Page settings sections.
@@ -85,29 +85,29 @@ abstract class Admin_Page
 		$settings = [];
 
 		$settings[$this->id] = [
-			"label" => $this->label,
-			"description" => $this->description,
+			'label' => $this->label,
+			'description' => $this->description,
 		];
 
 		if (!empty($this->sections) && is_array($this->sections)) {
 			foreach ($this->sections as $section => $content) {
-				$settings[$this->id]["sections"][$section] = [
-					"title" => isset($content["title"])
-						? $content["title"]
-						: "",
-					"description" => isset($content["description"])
-						? $content["description"]
-						: "",
-					"callback" => [$this, "add_settings_section_callback"],
-					"fields" => isset($this->fields[$section])
+				$settings[$this->id]['sections'][$section] = [
+					'title' => isset($content['title'])
+						? $content['title']
+						: '',
+					'description' => isset($content['description'])
+						? $content['description']
+						: '',
+					'callback' => [$this, 'add_settings_section_callback'],
+					'fields' => isset($this->fields[$section])
 						? $this->fields[$section]
-						: "",
+						: '',
 				];
 			}
 		}
 
 		return apply_filters(
-			"simcal_get_" . $this->option_group . "_" . $this->id,
+			'simcal_get_' . $this->option_group . '_' . $this->id,
 			$settings
 		);
 	}
@@ -130,10 +130,10 @@ abstract class Admin_Page
 		if (!empty($option) && is_array($option)) {
 			return isset($option[$section][$setting])
 				? $option[$section][$setting]
-				: "";
+				: '';
 		}
 
-		return "";
+		return '';
 	}
 
 	/**
@@ -165,21 +165,21 @@ abstract class Admin_Page
 	 */
 	public function add_settings_section_callback($section)
 	{
-		$callback = isset($section["callback"][0])
-			? $section["callback"][0]
-			: "";
-		$sections = isset($callback->sections) ? $callback->sections : "";
-		$description = isset($sections[$section["id"]]["description"])
-			? $sections[$section["id"]]["description"]
-			: "";
-		$default = $description ? "<p>" . $description . "</p>" : "";
+		$callback = isset($section['callback'][0])
+			? $section['callback'][0]
+			: '';
+		$sections = isset($callback->sections) ? $callback->sections : '';
+		$description = isset($sections[$section['id']]['description'])
+			? $sections[$section['id']]['description']
+			: '';
+		$default = $description ? '<p>' . $description . '</p>' : '';
 
 		echo apply_filters(
-			"simcal_" .
+			'simcal_' .
 				$this->option_group .
-				"_" .
+				'_' .
 				$this->id .
-				"_sections_callback",
+				'_sections_callback',
 			$default
 		);
 	}

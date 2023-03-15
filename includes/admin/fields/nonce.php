@@ -8,7 +8,7 @@ namespace SimpleCalendar\Admin\Fields;
 
 use SimpleCalendar\Abstracts\Field;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 

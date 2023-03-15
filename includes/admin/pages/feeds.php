@@ -9,7 +9,7 @@ namespace SimpleCalendar\Admin\Pages;
 use SimpleCalendar\Abstracts\Feed;
 use SimpleCalendar\Abstracts\Admin_Page;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -37,9 +37,9 @@ class Feeds extends Admin_Page
 	 */
 	public function __construct()
 	{
-		$this->id = "feeds";
-		$this->option_group = "settings";
-		$this->label = __("Event Sources", "google-calendar-events");
+		$this->id = 'feeds';
+		$this->option_group = 'settings';
+		$this->label = __('Event Sources', 'google-calendar-events');
 		//$this->description  = __( 'Manage calendar event sources settings.', 'google-calendar-events' );
 
 		$feeds_settings = [];
@@ -75,15 +75,15 @@ class Feeds extends Admin_Page
 
 		foreach ($this->feed_types as $feed_type => $type) {
 			$sections[$feed_type] = [
-				"title" => $type["name"],
-				"description" => $type["description"],
+				'title' => $type['name'],
+				'description' => $type['description'],
 			];
 		}
 
 		arsort($sections);
 
 		return apply_filters(
-			"simcal_add_" . $this->option_group . "_" . $this->id . "_sections",
+			'simcal_add_' . $this->option_group . '_' . $this->id . '_sections',
 			$sections
 		);
 	}
@@ -100,40 +100,40 @@ class Feeds extends Admin_Page
 		$fields = [];
 		$feed_types = $this->feed_types;
 		$this->values = get_option(
-			"simple-calendar_" . $this->option_group . "_" . $this->id
+			'simple-calendar_' . $this->option_group . '_' . $this->id
 		);
 
 		foreach ($this->sections as $type => $contents):
-			if (isset($feed_types[$type]["fields"])) {
-				foreach ($feed_types[$type]["fields"] as $key => $args) {
+			if (isset($feed_types[$type]['fields'])) {
+				foreach ($feed_types[$type]['fields'] as $key => $args) {
 					$fields[$type][] = array_merge($args, [
-						"name" =>
-							"simple-calendar_" .
+						'name' =>
+							'simple-calendar_' .
 							$this->option_group .
-							"_" .
+							'_' .
 							$this->id .
-							"[" .
+							'[' .
 							$type .
-							"][" .
+							'][' .
 							$key .
-							"]",
-						"id" =>
-							"simple-calendar-" .
+							']',
+						'id' =>
+							'simple-calendar-' .
 							$this->option_group .
-							"-" .
+							'-' .
 							$this->id .
-							"-" .
+							'-' .
 							$type .
-							"-" .
+							'-' .
 							$key,
-						"value" => $this->get_option_value($type, $key),
+						'value' => $this->get_option_value($type, $key),
 					]);
 				}
 			}
 		endforeach;
 
 		return apply_filters(
-			"simcal_add_" . $this->option_group . "_" . $this->id . "_fields",
+			'simcal_add_' . $this->option_group . '_' . $this->id . '_fields',
 			$fields
 		);
 	}

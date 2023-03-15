@@ -8,7 +8,7 @@ namespace SimpleCalendar\Admin\Pages;
 
 use SimpleCalendar\Abstracts\Admin_Page;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -26,25 +26,25 @@ class Add_Ons extends Admin_Page
 	 */
 	public function __construct()
 	{
-		$this->id = $tab = "add-ons";
-		$this->option_group = $page = "add-ons";
-		$this->label = __("Add-ons", "google-calendar-events");
-		$this->description = "";
+		$this->id = $tab = 'add-ons';
+		$this->option_group = $page = 'add-ons';
+		$this->label = __('Add-ons', 'google-calendar-events');
+		$this->description = '';
 		$this->sections = $this->add_sections();
 		$this->fields = $this->add_fields();
 
 		// Disable the submit button for this page.
 		add_filter(
-			"simcal_admin_page_" . $page . "_" . $tab . "_submit",
+			'simcal_admin_page_' . $page . '_' . $tab . '_submit',
 			function () {
 				return false;
 			}
 		);
 
 		// Add html.
-		add_action("simcal_admin_page_" . $page . "_" . $tab . "_end", [
+		add_action('simcal_admin_page_' . $page . '_' . $tab . '_end', [
 			$this,
-			"html",
+			'html',
 		]);
 	}
 
@@ -60,13 +60,13 @@ class Add_Ons extends Admin_Page
 		$js_redirect .=
 			'window.location = "' .
 			simcal_ga_campaign_url(
-				simcal_get_url("addons"),
-				"core-plugin",
-				"plugin-submenu-link",
+				simcal_get_url('addons'),
+				'core-plugin',
+				'plugin-submenu-link',
 				true
 			) .
 			'"';
-		$js_redirect .= "</script>";
+		$js_redirect .= '</script>';
 
 		echo $js_redirect;
 	}

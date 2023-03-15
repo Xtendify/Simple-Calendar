@@ -8,7 +8,7 @@ namespace SimpleCalendar\Events;
 
 use SimpleCalendar\plugin_deps\Carbon\Carbon;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -25,7 +25,7 @@ class Event
 	 * @access public
 	 * @var string
 	 */
-	public $type = "";
+	public $type = '';
 
 	/**
 	 * Event source.
@@ -33,7 +33,7 @@ class Event
 	 * @access public
 	 * @var string
 	 */
-	public $source = "";
+	public $source = '';
 
 	/**
 	 * Event title.
@@ -41,7 +41,7 @@ class Event
 	 * @access public
 	 * @var string
 	 */
-	public $title = "";
+	public $title = '';
 
 	/**
 	 * Event description.
@@ -49,7 +49,7 @@ class Event
 	 * @access public
 	 * @var string
 	 */
-	public $description = "";
+	public $description = '';
 
 	/**
 	 * Event visibility.
@@ -57,7 +57,7 @@ class Event
 	 * @access public
 	 * @var string
 	 */
-	public $visibility = "";
+	public $visibility = '';
 
 	/**
 	 * Event privacy.
@@ -73,7 +73,7 @@ class Event
 	 * @access public
 	 * @var
 	 */
-	public $link = "";
+	public $link = '';
 
 	/**
 	 * Event unique identifier.
@@ -81,12 +81,12 @@ class Event
 	 * @access public
 	 * @var string
 	 */
-	public $uid = "";
+	public $uid = '';
 
 	/**
 	 * Event iCal ID
 	 */
-	public $ical_id = "";
+	public $ical_id = '';
 
 	/**
 	 * Event parent calendar id.
@@ -102,7 +102,7 @@ class Event
 	 * @access public
 	 * @var string
 	 */
-	public $timezone = "UTC";
+	public $timezone = 'UTC';
 
 	/**
 	 * Event start time.
@@ -134,7 +134,7 @@ class Event
 	 * @access public
 	 * @var string
 	 */
-	public $start_timezone = "UTC";
+	public $start_timezone = 'UTC';
 
 	/**
 	 * Event location at event start.
@@ -174,7 +174,7 @@ class Event
 	 * @access public
 	 * @var string
 	 */
-	public $end_timezone = "UTC";
+	public $end_timezone = 'UTC';
 
 	/**
 	 * Event location at event end.
@@ -230,7 +230,7 @@ class Event
 	 * @access public
 	 * @var string
 	 */
-	public $template = "";
+	public $template = '';
 
 	/**
 	 * Event constructor.
@@ -246,28 +246,28 @@ class Event
 		 * ================= */
 
 		// Event unique id.
-		if (!empty($event["uid"])) {
-			$this->uid = esc_attr($event["uid"]);
+		if (!empty($event['uid'])) {
+			$this->uid = esc_attr($event['uid']);
 		}
 
 		// iCal ID
-		if (!empty($event["ical_id"])) {
-			$this->ical_id = esc_attr($event["ical_id"]);
+		if (!empty($event['ical_id'])) {
+			$this->ical_id = esc_attr($event['ical_id']);
 		}
 
 		// Event source.
-		if (!empty($event["source"])) {
-			$this->source = esc_attr($event["source"]);
+		if (!empty($event['source'])) {
+			$this->source = esc_attr($event['source']);
 		}
 
 		// Event parent calendar id.
-		if (!empty($event["calendar"])) {
-			$this->calendar = max(intval($event["calendar"]), 0);
+		if (!empty($event['calendar'])) {
+			$this->calendar = max(intval($event['calendar']), 0);
 		}
 
 		// Event parent calendar timezone.
-		if (!empty($event["timezone"])) {
-			$this->timezone = esc_attr($event["timezone"]);
+		if (!empty($event['timezone'])) {
+			$this->timezone = esc_attr($event['timezone']);
 		}
 
 		/* ============= *
@@ -275,49 +275,49 @@ class Event
 		 * ============= */
 
 		// Event title.
-		if (!empty($event["title"])) {
-			$this->title = esc_html($event["title"]);
+		if (!empty($event['title'])) {
+			$this->title = esc_html($event['title']);
 		}
 
 		// Event description.
-		if (!empty($event["description"])) {
-			$this->description = wp_kses_post($event["description"]);
+		if (!empty($event['description'])) {
+			$this->description = wp_kses_post($event['description']);
 		}
 
 		// Event link URL.
-		if (!empty($event["link"])) {
-			$this->link = esc_url_raw($event["link"]);
+		if (!empty($event['link'])) {
+			$this->link = esc_url_raw($event['link']);
 		}
 
 		// Event visibility.
-		if (!empty($event["visibility"])) {
-			$this->visibility = esc_attr($event["visibility"]);
-			$this->public = $this->visibility == "public" ? true : false;
+		if (!empty($event['visibility'])) {
+			$this->visibility = esc_attr($event['visibility']);
+			$this->public = $this->visibility == 'public' ? true : false;
 		}
 
 		/* =========== *
 		 * Event Start *
 		 * =========== */
 
-		if (!empty($event["start"])) {
-			$this->start = is_numeric($event["start"])
-				? intval($event["start"])
+		if (!empty($event['start'])) {
+			$this->start = is_numeric($event['start'])
+				? intval($event['start'])
 				: 0;
-			if (!empty($event["start_utc"])) {
-				$this->start_utc = is_numeric($event["start_utc"])
-					? intval($event["start_utc"])
+			if (!empty($event['start_utc'])) {
+				$this->start_utc = is_numeric($event['start_utc'])
+					? intval($event['start_utc'])
 					: 0;
 			}
-			if (!empty($event["start_timezone"])) {
-				$this->start_timezone = esc_attr($event["start_timezone"]);
+			if (!empty($event['start_timezone'])) {
+				$this->start_timezone = esc_attr($event['start_timezone']);
 			}
 			$this->start_dt = Carbon::createFromTimestamp(
 				$this->start,
 				$this->start_timezone
 			);
-			$start_location = isset($event["start_location"])
-				? $event["start_location"]
-				: "";
+			$start_location = isset($event['start_location'])
+				? $event['start_location']
+				: '';
 			$this->start_location = $this->esc_location($start_location);
 		}
 
@@ -325,25 +325,25 @@ class Event
 		 * Event End *
 		 * ========= */
 
-		if (!empty($event["end"])) {
-			$this->end = is_numeric($event["end"])
-				? intval($event["end"])
+		if (!empty($event['end'])) {
+			$this->end = is_numeric($event['end'])
+				? intval($event['end'])
 				: false;
-			if (!empty($event["end_utc"])) {
-				$this->end_utc = is_numeric($event["end_utc"])
-					? intval($event["end_utc"])
+			if (!empty($event['end_utc'])) {
+				$this->end_utc = is_numeric($event['end_utc'])
+					? intval($event['end_utc'])
 					: false;
 			}
-			if (!empty($event["end_timezone"])) {
-				$this->end_timezone = esc_attr($event["end_timezone"]);
+			if (!empty($event['end_timezone'])) {
+				$this->end_timezone = esc_attr($event['end_timezone']);
 			}
 			$this->end_dt = Carbon::createFromTimestamp(
 				$this->end,
 				$this->end_timezone
 			);
-			$end_location = isset($event["end_location"])
-				? $event["end_location"]
-				: "";
+			$end_location = isset($event['end_location'])
+				? $event['end_location']
+				: '';
 			$this->end_location = $this->esc_location($end_location);
 		}
 
@@ -352,19 +352,19 @@ class Event
 		 * ================== */
 
 		// Whole day event.
-		if (!empty($event["whole_day"])) {
-			$this->whole_day = true === $event["whole_day"] ? true : false;
+		if (!empty($event['whole_day'])) {
+			$this->whole_day = true === $event['whole_day'] ? true : false;
 		}
 
 		// Multi day event.
-		if (!empty($event["multiple_days"])) {
-			$this->multiple_days = max(absint($event["multiple_days"]), 1);
+		if (!empty($event['multiple_days'])) {
+			$this->multiple_days = max(absint($event['multiple_days']), 1);
 		}
 
 		// Event recurrence.
-		if (isset($event["recurrence"])) {
-			$this->recurrence = !empty($event["recurrence"])
-				? $event["recurrence"]
+		if (isset($event['recurrence'])) {
+			$this->recurrence = !empty($event['recurrence'])
+				? $event['recurrence']
 				: false;
 		}
 
@@ -373,18 +373,18 @@ class Event
 		 * ========== */
 
 		// Event has venue(s).
-		if ($this->start_location["venue"] || $this->end_location["venue"]) {
+		if ($this->start_location['venue'] || $this->end_location['venue']) {
 			$this->venue = true;
 		}
 
 		// Event meta.
-		if (!empty($event["meta"])) {
-			$this->meta = is_array($event["meta"]) ? $event["meta"] : [];
+		if (!empty($event['meta'])) {
+			$this->meta = is_array($event['meta']) ? $event['meta'] : [];
 		}
 
 		// Event template.
-		if (!empty($event["template"])) {
-			$this->template = wp_kses_post($event["template"]);
+		if (!empty($event['template'])) {
+			$this->template = wp_kses_post($event['template']);
 		}
 	}
 
@@ -398,14 +398,14 @@ class Event
 	 *
 	 * @return array
 	 */
-	private function esc_location($var = "")
+	private function esc_location($var = '')
 	{
 		$location = [];
 
 		if (is_string($var)) {
 			$var = [
-				"name" => $var,
-				"address" => $var,
+				'name' => $var,
+				'address' => $var,
 			];
 		} elseif (is_bool($var) || is_null($var)) {
 			$var = [];
@@ -413,23 +413,23 @@ class Event
 			$var = (array) $var;
 		}
 
-		$location["name"] = isset($var["name"])
-			? esc_attr(strip_tags($var["name"]))
-			: "";
-		$location["address"] = isset($var["address"])
-			? esc_attr(strip_tags($var["address"]))
-			: "";
-		$location["lat"] = isset($var["lat"])
-			? $this->esc_coordinate($var["lat"])
+		$location['name'] = isset($var['name'])
+			? esc_attr(strip_tags($var['name']))
+			: '';
+		$location['address'] = isset($var['address'])
+			? esc_attr(strip_tags($var['address']))
+			: '';
+		$location['lat'] = isset($var['lat'])
+			? $this->esc_coordinate($var['lat'])
 			: 0;
-		$location["lng"] = isset($var["lng"])
-			? $this->esc_coordinate($var["lng"])
+		$location['lng'] = isset($var['lng'])
+			? $this->esc_coordinate($var['lng'])
 			: 0;
 
-		if (!empty($location["name"]) || !empty($location["address"])) {
-			$location["venue"] = true;
+		if (!empty($location['name']) || !empty($location['address'])) {
+			$location['venue'] = true;
 		} else {
-			$location["venue"] = false;
+			$location['venue'] = false;
 		}
 
 		return $location;
@@ -620,11 +620,11 @@ class Event
 	 *
 	 * @return string
 	 */
-	public function get_color($default = "")
+	public function get_color($default = '')
 	{
-		if (isset($this->meta["color"])) {
-			return !empty($this->meta["color"])
-				? esc_attr($this->meta["color"])
+		if (isset($this->meta['color'])) {
+			return !empty($this->meta['color'])
+				? esc_attr($this->meta['color'])
 				: $default;
 		}
 		return $default;
@@ -639,8 +639,8 @@ class Event
 	 */
 	public function get_attachments()
 	{
-		return isset($this->meta["attachments"])
-			? $this->meta["attachments"]
+		return isset($this->meta['attachments'])
+			? $this->meta['attachments']
 			: [];
 	}
 
@@ -653,7 +653,7 @@ class Event
 	 */
 	public function get_attendees()
 	{
-		return isset($this->meta["attendees"]) ? $this->meta["attendees"] : [];
+		return isset($this->meta['attendees']) ? $this->meta['attendees'] : [];
 	}
 
 	/**
@@ -665,6 +665,6 @@ class Event
 	 */
 	public function get_organizer()
 	{
-		return isset($this->meta["organizer"]) ? $this->meta["organizer"] : [];
+		return isset($this->meta['organizer']) ? $this->meta['organizer'] : [];
 	}
 }

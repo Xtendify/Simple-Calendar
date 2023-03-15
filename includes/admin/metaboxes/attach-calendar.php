@@ -8,7 +8,7 @@ namespace SimpleCalendar\Admin\Metaboxes;
 
 use SimpleCalendar\Abstracts\Meta_Box;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -31,39 +31,39 @@ class Attach_Calendar implements Meta_Box
 	public static function html($post)
 	{
 		// @see Meta_Boxes::save_meta_boxes()
-		wp_nonce_field("simcal_save_data", "simcal_meta_nonce");
+		wp_nonce_field('simcal_save_data', 'simcal_meta_nonce');
 
 		$calendars = simcal_get_calendars();
 
 		simcal_print_field([
-			"type" => "select",
-			"id" => "_simcal_attach_calendar_id",
-			"name" => "_simcal_attach_calendar_id",
-			"enhanced" => count($calendars) > 15 ? "enhanced" : "",
-			"allow_void" => "allow_void",
-			"value" => absint(
-				get_post_meta($post->ID, "_simcal_attach_calendar_id", true)
+			'type' => 'select',
+			'id' => '_simcal_attach_calendar_id',
+			'name' => '_simcal_attach_calendar_id',
+			'enhanced' => count($calendars) > 15 ? 'enhanced' : '',
+			'allow_void' => 'allow_void',
+			'value' => absint(
+				get_post_meta($post->ID, '_simcal_attach_calendar_id', true)
 			),
-			"options" => $calendars,
-			"attributes" => [
-				"data-allowclear" => "true",
+			'options' => $calendars,
+			'attributes' => [
+				'data-allowclear' => 'true',
 			],
 		]);
 
 		$position = get_post_meta(
 			$post->ID,
-			"_simcal_attach_calendar_position",
+			'_simcal_attach_calendar_position',
 			true
 		);
 
 		simcal_print_field([
-			"type" => "radio",
-			"id" => "_simcal_attach_calendar_position",
-			"name" => "_simcal_attach_calendar_position",
-			"value" => $position ? $position : "after",
-			"options" => [
-				"after" => __("After Content", "google-calendar-events"),
-				"before" => __("Before Content", "google-calendar-events"),
+			'type' => 'radio',
+			'id' => '_simcal_attach_calendar_position',
+			'name' => '_simcal_attach_calendar_position',
+			'value' => $position ? $position : 'after',
+			'options' => [
+				'after' => __('After Content', 'google-calendar-events'),
+				'before' => __('Before Content', 'google-calendar-events'),
 			],
 		]);
 	}
@@ -78,17 +78,17 @@ class Attach_Calendar implements Meta_Box
 	 */
 	public static function save($post_id, $post)
 	{
-		$id = isset($_POST["_simcal_attach_calendar_id"])
-			? absint($_POST["_simcal_attach_calendar_id"])
-			: "";
-		update_post_meta($post_id, "_simcal_attach_calendar_id", $id);
+		$id = isset($_POST['_simcal_attach_calendar_id'])
+			? absint($_POST['_simcal_attach_calendar_id'])
+			: '';
+		update_post_meta($post_id, '_simcal_attach_calendar_id', $id);
 
-		$position = isset($_POST["_simcal_attach_calendar_position"])
-			? sanitize_title($_POST["_simcal_attach_calendar_position"])
-			: "after";
+		$position = isset($_POST['_simcal_attach_calendar_position'])
+			? sanitize_title($_POST['_simcal_attach_calendar_position'])
+			: 'after';
 		update_post_meta(
 			$post_id,
-			"_simcal_attach_calendar_position",
+			'_simcal_attach_calendar_position',
 			$position
 		);
 	}

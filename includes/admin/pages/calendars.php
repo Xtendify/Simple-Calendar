@@ -9,7 +9,7 @@ namespace SimpleCalendar\Admin\Pages;
 use SimpleCalendar\Abstracts\Calendar;
 use SimpleCalendar\Abstracts\Admin_Page;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -37,9 +37,9 @@ class Calendars extends Admin_Page
 	 */
 	public function __construct()
 	{
-		$this->id = "calendars";
-		$this->option_group = "settings";
-		$this->label = __("Calendars", "google-calendar-events");
+		$this->id = 'calendars';
+		$this->option_group = 'settings';
+		$this->label = __('Calendars', 'google-calendar-events');
 		//$this->description      = __( 'Manage calendar preferences and calendar types settings and options.', 'google-calendar-events' );
 
 		$calendars = simcal_get_calendar_types();
@@ -72,9 +72,9 @@ class Calendars extends Admin_Page
 	public function add_sections()
 	{
 		$sections = [
-			"general" => [
-				"title" => __("General", "google-calendar-events"),
-				"description" => "",
+			'general' => [
+				'title' => __('General', 'google-calendar-events'),
+				'description' => '',
 			],
 		];
 
@@ -83,8 +83,8 @@ class Calendars extends Admin_Page
 		if (!empty($calendar_types) && is_array($calendar_types)) {
 			foreach ($calendar_types as $calendar_type => $type) {
 				$sections[$calendar_type] = [
-					"title" => $type["name"],
-					"description" => $type["description"],
+					'title' => $type['name'],
+					'description' => $type['description'],
 				];
 			}
 		}
@@ -92,7 +92,7 @@ class Calendars extends Admin_Page
 		arsort($calendar_types);
 
 		return apply_filters(
-			"simcal_add_" . $this->option_group . "_" . $this->id . "_sections",
+			'simcal_add_' . $this->option_group . '_' . $this->id . '_sections',
 			$sections
 		);
 	}
@@ -109,87 +109,87 @@ class Calendars extends Admin_Page
 		$fields = [];
 		$feed_types = $this->calendar_types;
 		$this->values = get_option(
-			"simple-calendar_" . $this->option_group . "_" . $this->id
+			'simple-calendar_' . $this->option_group . '_' . $this->id
 		);
 
 		foreach ($this->sections as $section => $contents):
-			if ("general" == $section) {
+			if ('general' == $section) {
 				$options = [];
 				$post_types = get_post_types(
 					[
-						"public" => false,
-						"publicly_queriable" => false,
-						"show_ui" => false,
+						'public' => false,
+						'publicly_queriable' => false,
+						'show_ui' => false,
 					],
-					"objects",
-					"not"
+					'objects',
+					'not'
 				);
-				unset($post_types["attachment"]);
-				unset($post_types["calendar"]);
-				unset($post_types["gce_feed"]);
+				unset($post_types['attachment']);
+				unset($post_types['calendar']);
+				unset($post_types['gce_feed']);
 				foreach ($post_types as $slug => $post_type) {
 					$options[$slug] = $post_type->label;
 				}
 				asort($options);
 
 				$fields[$section][] = [
-					"type" => "select",
-					"multiselect" => "multiselect",
-					"enhanced" => "enhanced",
-					"title" => __("Attach Calendars", "google-calendar-events"),
-					"tooltip" => __(
-						"You can choose on which content types to add the ability to attach calendars.",
-						"google-calendar-events"
+					'type' => 'select',
+					'multiselect' => 'multiselect',
+					'enhanced' => 'enhanced',
+					'title' => __('Attach Calendars', 'google-calendar-events'),
+					'tooltip' => __(
+						'You can choose on which content types to add the ability to attach calendars.',
+						'google-calendar-events'
 					),
-					"name" =>
-						"simple-calendar_" .
+					'name' =>
+						'simple-calendar_' .
 						$this->option_group .
-						"_" .
+						'_' .
 						$this->id .
-						"[" .
+						'[' .
 						$section .
-						"][attach_calendars_posts]",
-					"id" =>
-						"simple-calendar-" .
+						'][attach_calendars_posts]',
+					'id' =>
+						'simple-calendar-' .
 						$this->option_group .
-						"-" .
+						'-' .
 						$this->id .
-						"-attach-calendars-posts",
-					"value" => $this->get_option_value(
+						'-attach-calendars-posts',
+					'value' => $this->get_option_value(
 						$section,
-						"attach_calendars_posts"
+						'attach_calendars_posts'
 					),
-					"default" => "post,page",
-					"options" => $options,
+					'default' => 'post,page',
+					'options' => $options,
 				];
-			} elseif (isset($feed_types[$section]["fields"])) {
-				foreach ($feed_types[$section]["fields"] as $key => $args) {
+			} elseif (isset($feed_types[$section]['fields'])) {
+				foreach ($feed_types[$section]['fields'] as $key => $args) {
 					$fields[$section][] = array_merge($args, [
-						"name" =>
-							"simple-calendar_" .
+						'name' =>
+							'simple-calendar_' .
 							$this->option_group .
-							"_" .
+							'_' .
 							$this->id .
-							"[" .
+							'[' .
 							$section .
-							"][" .
+							'][' .
 							$key .
-							"]",
-						"id" =>
-							"simple-calendar-" .
+							']',
+						'id' =>
+							'simple-calendar-' .
 							$this->option_group .
-							"-" .
+							'-' .
 							$this->id .
-							"-" .
+							'-' .
 							$key,
-						"value" => $this->get_option_value($section, $key),
+						'value' => $this->get_option_value($section, $key),
 					]);
 				}
 			}
 		endforeach;
 
 		return apply_filters(
-			"simcal_add_" . $this->option_group . "_" . $this->id . "_fields",
+			'simcal_add_' . $this->option_group . '_' . $this->id . '_fields',
 			$fields
 		);
 	}

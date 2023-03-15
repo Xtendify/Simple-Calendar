@@ -6,7 +6,7 @@
  */
 namespace SimpleCalendar\Admin;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -26,8 +26,8 @@ class Notices
 	 */
 	public function __construct()
 	{
-		add_action("admin_init", [$this, "remove_notice"], 10);
-		add_action("admin_init", [$this, "process_notices"], 40);
+		add_action('admin_init', [$this, 'remove_notice'], 10);
+		add_action('admin_init', [$this, 'process_notices'], 40);
 	}
 
 	/**
@@ -56,7 +56,7 @@ class Notices
 						if (
 							!empty($notice->screen) &&
 							is_array($notice->screen) &&
-							function_exists("get_current_screen")
+							function_exists('get_current_screen')
 						) {
 							$screen = get_current_screen();
 							if (isset($screen->id)) {
@@ -67,10 +67,10 @@ class Notices
 						}
 
 						if (!empty($notice->post) && is_array($notice->post)) {
-							if (isset($_GET["post"])) {
+							if (isset($_GET['post'])) {
 								if (
 									!in_array(
-										intval($_GET["post"]),
+										intval($_GET['post']),
 										$notice->post
 									)
 								) {
@@ -103,30 +103,30 @@ class Notices
 	{
 		if ($notice instanceof Notice) {
 			add_action(
-				"admin_notices",
+				'admin_notices',
 				$print_notice = function () use ($notice) {
 					$name = is_array($notice->id)
 						? key($notice->id)
 						: $notice->id;
-					$url = add_query_arg(["dismiss_simcal_notice" => $name]);
+					$url = add_query_arg(['dismiss_simcal_notice' => $name]);
 					$dismiss_link =
 						$notice->dismissible === true
 							? sprintf(
 								'<a class="dashicons-before dashicons-dismiss simcal-dismiss-notice" href="%1$s"></a>',
 								$url
 							)
-							: "";
+							: '';
 
 					echo '<div class="' .
 						$notice->type .
-						" " .
+						' ' .
 						$notice->class .
 						' simcal-admin-notice" data-notice-id="' .
 						$name .
 						'">' .
 						$dismiss_link .
 						$notice->content .
-						"</div>";
+						'</div>';
 				}
 			);
 		}
@@ -143,7 +143,7 @@ class Notices
 	 *
 	 * @return void
 	 */
-	public function remove_notice($notice = "")
+	public function remove_notice($notice = '')
 	{
 		$notices = $this->get_notices();
 		$update = false;
@@ -155,15 +155,15 @@ class Notices
 			}
 		}
 
-		if (isset($_GET["dismiss_simcal_notice"])) {
-			if (isset($notices[$_GET["dismiss_simcal_notice"]])) {
-				unset($notices[esc_attr($_GET["dismiss_simcal_notice"])]);
+		if (isset($_GET['dismiss_simcal_notice'])) {
+			if (isset($notices[$_GET['dismiss_simcal_notice']])) {
+				unset($notices[esc_attr($_GET['dismiss_simcal_notice'])]);
 				$update = true;
 			}
 		}
 
 		if ($update === true) {
-			update_option("simple-calendar_admin_notices", $notices);
+			update_option('simple-calendar_admin_notices', $notices);
 		}
 	}
 
@@ -182,7 +182,7 @@ class Notices
 
 		if (isset($notices[$notice]->visible)) {
 			$notices[$notice]->visible = true;
-			update_option("simple-calendar_admin_notices", $notices);
+			update_option('simple-calendar_admin_notices', $notices);
 		}
 	}
 
@@ -201,7 +201,7 @@ class Notices
 
 		if (isset($notices[$notice]->visible)) {
 			$notices[$notice]->visible = false;
-			update_option("simple-calendar_admin_notices", $notices);
+			update_option('simple-calendar_admin_notices', $notices);
 		}
 	}
 
@@ -215,8 +215,8 @@ class Notices
 	public function get_notices()
 	{
 		return apply_filters(
-			"simcal_admin_notices",
-			get_option("simple-calendar_admin_notices", [])
+			'simcal_admin_notices',
+			get_option('simple-calendar_admin_notices', [])
 		);
 	}
 }

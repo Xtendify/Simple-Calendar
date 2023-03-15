@@ -6,7 +6,7 @@
  */
 namespace SimpleCalendar\Abstracts;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -25,7 +25,7 @@ abstract class Field
 	 * @access public
 	 * @var string
 	 */
-	public $type = "";
+	public $type = '';
 
 	/**
 	 * Field name.
@@ -33,7 +33,7 @@ abstract class Field
 	 * @access public
 	 * @var string
 	 */
-	public $name = "";
+	public $name = '';
 
 	/**
 	 * Field Id.
@@ -41,7 +41,7 @@ abstract class Field
 	 * @access public
 	 * @var string
 	 */
-	public $id = "";
+	public $id = '';
 
 	/**
 	 * Field title (label).
@@ -49,7 +49,7 @@ abstract class Field
 	 * @access public
 	 * @var string
 	 */
-	public $title = "";
+	public $title = '';
 
 	/**
 	 * Field type class.
@@ -57,7 +57,7 @@ abstract class Field
 	 * @access protected
 	 * @var string
 	 */
-	protected $type_class = "";
+	protected $type_class = '';
 
 	/**
 	 * CSS classes.
@@ -65,7 +65,7 @@ abstract class Field
 	 * @access public
 	 * @var string
 	 */
-	public $class = "";
+	public $class = '';
 
 	/**
 	 * CSS styles.
@@ -73,7 +73,7 @@ abstract class Field
 	 * @access public
 	 * @var string
 	 */
-	public $style = "";
+	public $style = '';
 
 	/**
 	 * Description.
@@ -81,7 +81,7 @@ abstract class Field
 	 * @access public
 	 * @var string
 	 */
-	public $description = "";
+	public $description = '';
 
 	/**
 	 * Tooltip text.
@@ -89,7 +89,7 @@ abstract class Field
 	 * @access public
 	 * @var string
 	 */
-	public $tooltip = "";
+	public $tooltip = '';
 
 	/**
 	 * Attributes.
@@ -97,7 +97,7 @@ abstract class Field
 	 * @access public
 	 * @var string
 	 */
-	public $attributes = "";
+	public $attributes = '';
 
 	/**
 	 * Placeholder.
@@ -105,7 +105,7 @@ abstract class Field
 	 * @access public
 	 * @var string
 	 */
-	public $placeholder = "";
+	public $placeholder = '';
 
 	/**
 	 * Options.
@@ -121,7 +121,7 @@ abstract class Field
 	 * @access public
 	 * @var array|string
 	 */
-	public $value = "";
+	public $value = '';
 
 	/**
 	 * Default value.
@@ -129,9 +129,9 @@ abstract class Field
 	 * @access public
 	 * @var array|string
 	 */
-	public $default = "";
+	public $default = '';
 
-	public $text = "";
+	public $text = '';
 
 	/**
 	 * Validation result.
@@ -153,82 +153,82 @@ abstract class Field
 	public function __construct($field)
 	{
 		// Field properties.
-		if (isset($field["title"])) {
-			$this->title = esc_attr($field["title"]);
+		if (isset($field['title'])) {
+			$this->title = esc_attr($field['title']);
 		}
-		if (isset($field["description"])) {
-			$this->description = wp_kses_post($field["description"]);
+		if (isset($field['description'])) {
+			$this->description = wp_kses_post($field['description']);
 		}
-		if (isset($field["type"])) {
-			$this->type = esc_attr($field["type"]);
+		if (isset($field['type'])) {
+			$this->type = esc_attr($field['type']);
 		}
-		if (isset($field["name"])) {
-			$this->name = esc_attr($field["name"]);
+		if (isset($field['name'])) {
+			$this->name = esc_attr($field['name']);
 		}
-		if (isset($field["id"])) {
-			$this->id = esc_attr($field["id"]);
+		if (isset($field['id'])) {
+			$this->id = esc_attr($field['id']);
 		}
-		if (isset($field["placeholder"])) {
-			$this->placeholder = esc_attr($field["placeholder"]);
+		if (isset($field['placeholder'])) {
+			$this->placeholder = esc_attr($field['placeholder']);
 		}
-		if (isset($field["options"]) && is_array($field["options"])) {
-			$this->options = array_map("esc_attr", $field["options"]);
+		if (isset($field['options']) && is_array($field['options'])) {
+			$this->options = array_map('esc_attr', $field['options']);
 		}
-		if (isset($field["text"])) {
-			$this->text = $field["text"];
+		if (isset($field['text'])) {
+			$this->text = $field['text'];
 		}
 
 		// Escaping.
 		if (
-			!empty($field["escaping"]) &&
-			(is_string($field["escaping"]) || is_array($field["escaping"]))
+			!empty($field['escaping']) &&
+			(is_string($field['escaping']) || is_array($field['escaping']))
 		) {
-			if (isset($field["default"])) {
+			if (isset($field['default'])) {
 				$this->default = $this->escape_callback(
-					$field["escaping"],
-					$field["default"]
+					$field['escaping'],
+					$field['default']
 				);
 			}
-			if (isset($field["value"])) {
+			if (isset($field['value'])) {
 				$this->value = $this->escape_callback(
-					$field["escaping"],
-					$field["value"]
+					$field['escaping'],
+					$field['value']
 				);
 			}
 		} else {
-			if (isset($field["default"])) {
-				$this->default = $this->escape($field["default"]);
+			if (isset($field['default'])) {
+				$this->default = $this->escape($field['default']);
 			}
-			if (isset($field["value"])) {
-				$this->value = $this->escape($field["value"]);
+			if (isset($field['value'])) {
+				$this->value = $this->escape($field['value']);
 			}
 		}
 
 		// Validation.
-		if (!empty($field["validation"])) {
+		if (!empty($field['validation'])) {
 			$this->validation = $this->validate(
-				$field["validation"],
+				$field['validation'],
 				$this->value
 			);
 		}
 
 		// CSS classes and styles.
-		$classes = isset($field["class"]) ? $field["class"] : "";
+		$classes = isset($field['class']) ? $field['class'] : '';
 		$this->set_class($classes);
-		if (isset($field["style"])) {
-			$this->set_style($field["style"]);
+		if (isset($field['style'])) {
+			$this->set_style($field['style']);
 		}
 
 		// Custom attributes.
-		if (isset($field["attributes"])) {
-			$this->set_attributes($field["attributes"]);
+		if (isset($field['attributes'])) {
+			$this->set_attributes($field['attributes']);
 		}
 
 		// Tooltip markup.
-		if (isset($field["tooltip"])) {
+		if (isset($field['tooltip'])) {
 			$this->tooltip =
 				' <i class="simcal-icon-help simcal-help-tip" data-tip="' .
-				esc_attr($field["tooltip"]) .
+				esc_attr($field['tooltip']) .
 				'"></i> ';
 		}
 	}
@@ -244,7 +244,7 @@ abstract class Field
 	 */
 	public function set_attributes($attributes)
 	{
-		$attr = "";
+		$attr = '';
 
 		if (!empty($attributes) && is_array($attributes)) {
 			foreach ($attributes as $k => $v) {
@@ -266,11 +266,11 @@ abstract class Field
 	 */
 	public function set_style($css)
 	{
-		$styles = "";
+		$styles = '';
 
 		if (!empty($css) && is_array($css)) {
 			foreach ($css as $k => $v) {
-				$styles .= esc_attr($k) . ": " . esc_attr($v) . "; ";
+				$styles .= esc_attr($k) . ': ' . esc_attr($v) . '; ';
 			}
 		}
 
@@ -288,22 +288,22 @@ abstract class Field
 	 */
 	public function set_class($class)
 	{
-		$classes = "";
-		$type_class = "";
-		$error = "";
+		$classes = '';
+		$type_class = '';
+		$error = '';
 
 		if (!empty($class) && is_array($class)) {
-			$classes = implode(" ", array_map("esc_attr", $class));
+			$classes = implode(' ', array_map('esc_attr', $class));
 		}
 		if (!empty($this->type_class)) {
 			$type_class = esc_attr($this->type_class);
 		}
 		if (true !== $this->validation && !empty($this->validation)) {
-			$error = "simcal-field-error ";
+			$error = 'simcal-field-error ';
 		}
 
 		$this->class = trim(
-			$error . "simcal-field " . $type_class . " " . $classes
+			$error . 'simcal-field ' . $type_class . ' ' . $classes
 		);
 	}
 
@@ -323,9 +323,9 @@ abstract class Field
 	{
 		return !empty($value)
 			? (is_array($value)
-				? array_map("esc_attr", $value)
+				? array_map('esc_attr', $value)
 				: esc_attr($value))
-			: "";
+			: '';
 	}
 
 	/**
@@ -365,9 +365,9 @@ abstract class Field
 	protected function validate($callback, $value)
 	{
 		if ($callback && (is_string($callback) || is_array($callback))) {
-			$screen = function_exists("get_current_screen")
+			$screen = function_exists('get_current_screen')
 				? get_current_screen()
-				: "";
+				: '';
 			return call_user_func($callback, $value, $screen);
 		}
 		return true;

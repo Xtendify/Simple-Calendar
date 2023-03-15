@@ -8,7 +8,7 @@ namespace SimpleCalendar\Abstracts;
 
 use SimpleCalendar\plugin_deps\Carbon\Carbon;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -27,7 +27,7 @@ abstract class Feed
 	 * @access public
 	 * @var string
 	 */
-	public $type = "";
+	public $type = '';
 
 	/**
 	 * Feed name.
@@ -35,7 +35,7 @@ abstract class Feed
 	 * @access public
 	 * @var string
 	 */
-	public $name = "";
+	public $name = '';
 
 	/**
 	 * Calendar post id.
@@ -75,7 +75,7 @@ abstract class Feed
 	 * @access protected
 	 * @var string
 	 */
-	protected $events_template = "";
+	protected $events_template = '';
 
 	/**
 	 * Timezone setting.
@@ -83,7 +83,7 @@ abstract class Feed
 	 * @access protected
 	 * @var string
 	 */
-	protected $timezone_setting = "";
+	protected $timezone_setting = '';
 
 	/**
 	 * Timezone.
@@ -91,7 +91,7 @@ abstract class Feed
 	 * @access public
 	 * @var string
 	 */
-	public $timezone = "";
+	public $timezone = '';
 
 	/**
 	 * Earliest possible event.
@@ -132,7 +132,7 @@ abstract class Feed
 	 *
 	 * @param string|Calendar $calendar
 	 */
-	public function __construct($calendar = "")
+	public function __construct($calendar = '')
 	{
 		if ($calendar instanceof Calendar) {
 			if (isset($calendar->id)) {
@@ -143,7 +143,7 @@ abstract class Feed
 			}
 			$this->week_starts = isset($calendar->week_starts)
 				? $calendar->week_starts
-				: get_option("start_of_week");
+				: get_option('start_of_week');
 			$this->events_template = !empty($calendar->events_template)
 				? $calendar->events_template
 				: simcal_default_event_template();
@@ -152,7 +152,7 @@ abstract class Feed
 				$this->set_cache();
 				$this->timezone_setting = get_post_meta(
 					$this->post_id,
-					"_feed_timezone_setting",
+					'_feed_timezone_setting',
 					true
 				);
 				$this->timezone = $calendar->timezone;
@@ -192,32 +192,32 @@ abstract class Feed
 			);
 
 			$earliest_date = esc_attr(
-				get_post_meta($this->post_id, "_feed_earliest_event_date", true)
+				get_post_meta($this->post_id, '_feed_earliest_event_date', true)
 			);
 			$earliest_range = max(
 				absint(
 					get_post_meta(
 						$this->post_id,
-						"_feed_earliest_event_date_range",
+						'_feed_earliest_event_date_range',
 						true
 					)
 				),
 				1
 			);
 
-			if ("days_before" == $earliest_date) {
+			if ('days_before' == $earliest_date) {
 				$earliest = $start->subDays($earliest_range)->getTimestamp();
-			} elseif ("weeks_before" == $earliest_date) {
+			} elseif ('weeks_before' == $earliest_date) {
 				$earliest = $start
 					->subWeeks($earliest_range)
 					->addDay()
 					->getTimestamp();
-			} elseif ("months_before" == $earliest_date) {
+			} elseif ('months_before' == $earliest_date) {
 				$earliest = $start
 					->subMonths($earliest_range)
 					->addDay()
 					->getTimestamp();
-			} elseif ("years_before" == $earliest_date) {
+			} elseif ('years_before' == $earliest_date) {
 				$earliest = $start
 					->subYears($earliest_range)
 					->addDay()
@@ -248,32 +248,32 @@ abstract class Feed
 			)->endOfDay();
 
 			$latest_date = esc_attr(
-				get_post_meta($this->post_id, "_feed_latest_event_date", true)
+				get_post_meta($this->post_id, '_feed_latest_event_date', true)
 			);
 			$latest_range = max(
 				absint(
 					get_post_meta(
 						$this->post_id,
-						"_feed_latest_event_date_range",
+						'_feed_latest_event_date_range',
 						true
 					)
 				),
 				1
 			);
 
-			if ("days_after" == $latest_date) {
+			if ('days_after' == $latest_date) {
 				$latest = $start->addDays($latest_range)->getTimestamp();
-			} elseif ("weeks_after" == $latest_date) {
+			} elseif ('weeks_after' == $latest_date) {
 				$latest = $start
 					->addWeeks($latest_range)
 					->subDay()
 					->getTimestamp();
-			} elseif ("months_after" == $latest_date) {
+			} elseif ('months_after' == $latest_date) {
 				$latest = $start
 					->addMonths($latest_range)
 					->subDay()
 					->getTimestamp();
-			} elseif ("years_after" == $latest_date) {
+			} elseif ('years_after' == $latest_date) {
 				$latest = $start
 					->addYears($latest_range)
 					->subDay()
@@ -296,7 +296,7 @@ abstract class Feed
 	public function set_cache($time = 0)
 	{
 		if ($time === 0 || !is_numeric($time)) {
-			$cache = get_post_meta($this->post_id, "_feed_cache", true);
+			$cache = get_post_meta($this->post_id, '_feed_cache', true);
 			$time =
 				is_numeric($cache) && $cache >= 0
 					? absint($cache)

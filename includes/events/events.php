@@ -10,7 +10,7 @@ use DateTime;
 use DateTimeZone;
 use SimpleCalendar\plugin_deps\Carbon\Carbon;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -37,7 +37,7 @@ class Events
 	 * @access public
 	 * @var string
 	 */
-	protected $timezone = "UTC";
+	protected $timezone = 'UTC';
 
 	/**
 	 * Constructor.
@@ -47,7 +47,7 @@ class Events
 	 * @param array $e Events.
 	 * @param string|\DateTimeZone $tz Timezone.
 	 */
-	public function __construct($e = [], $tz = "UTC")
+	public function __construct($e = [], $tz = 'UTC')
 	{
 		$this->set_events($e);
 		$this->set_timezone($tz);
@@ -62,7 +62,7 @@ class Events
 	 *
 	 * @return array
 	 */
-	public function get_events($n = "")
+	public function get_events($n = '')
 	{
 		if (!empty($n) && !empty($this->events)) {
 			$length = absint($n);
@@ -131,7 +131,7 @@ class Events
 	 */
 	public function private_only()
 	{
-		$this->set_events($this->filter_property("public", "hide"));
+		$this->set_events($this->filter_property('public', 'hide'));
 		return $this;
 	}
 
@@ -144,7 +144,7 @@ class Events
 	 */
 	public function public_only()
 	{
-		$this->set_events($this->filter_property("public", "show"));
+		$this->set_events($this->filter_property('public', 'show'));
 		return $this;
 	}
 
@@ -157,7 +157,7 @@ class Events
 	 */
 	public function recurring()
 	{
-		$this->set_events($this->filter_property("recurrence", "show"));
+		$this->set_events($this->filter_property('recurrence', 'show'));
 		return $this;
 	}
 
@@ -170,7 +170,7 @@ class Events
 	 */
 	public function not_recurring()
 	{
-		$this->set_events($this->filter_property("recurrence", "hide"));
+		$this->set_events($this->filter_property('recurrence', 'hide'));
 		return $this;
 	}
 
@@ -183,7 +183,7 @@ class Events
 	 */
 	public function whole_day()
 	{
-		$this->set_events($this->filter_property("whole_day", "show"));
+		$this->set_events($this->filter_property('whole_day', 'show'));
 		return $this;
 	}
 
@@ -196,7 +196,7 @@ class Events
 	 */
 	public function not_whole_day()
 	{
-		$this->set_events($this->filter_property("whole_day", "hide"));
+		$this->set_events($this->filter_property('whole_day', 'hide'));
 		return $this;
 	}
 
@@ -209,7 +209,7 @@ class Events
 	 */
 	public function multi_day()
 	{
-		$this->set_events($this->filter_property("multiple_days", "show"));
+		$this->set_events($this->filter_property('multiple_days', 'show'));
 		return $this;
 	}
 
@@ -222,7 +222,7 @@ class Events
 	 */
 	public function single_day()
 	{
-		$this->set_events($this->filter_property("multiple_days", "hide"));
+		$this->set_events($this->filter_property('multiple_days', 'hide'));
 		return $this;
 	}
 
@@ -235,7 +235,7 @@ class Events
 	 */
 	public function with_location()
 	{
-		$this->set_events($this->filter_property("venue", "show"));
+		$this->set_events($this->filter_property('venue', 'show'));
 		return $this;
 	}
 
@@ -248,7 +248,7 @@ class Events
 	 */
 	public function without_location()
 	{
-		$this->set_events($this->filter_property("venue", "hide"));
+		$this->set_events($this->filter_property('venue', 'hide'));
 		return $this;
 	}
 
@@ -269,11 +269,11 @@ class Events
 		if (!empty($this->events)) {
 			foreach ($this->events as $ts => $events) {
 				foreach ($events as $event) {
-					if ("hide" == $toggle) {
+					if ('hide' == $toggle) {
 						if (!$event->$property) {
 							$filtered[$ts][] = $event;
 						}
-					} elseif ("show" == $toggle) {
+					} elseif ('show' == $toggle) {
 						if ($event->$property) {
 							$filtered[$ts][] = $event;
 						}
@@ -293,7 +293,7 @@ class Events
 	 *
 	 * @return Events
 	 */
-	public function future($present = "")
+	public function future($present = '')
 	{
 		$last = $this->get_last();
 		$to = $last instanceof Event ? $last->start_utc : false;
@@ -315,7 +315,7 @@ class Events
 	 *
 	 * @return Events
 	 */
-	public function past($present = "")
+	public function past($present = '')
 	{
 		$first = $this->get_last();
 		$from = $first instanceof Event ? $first->start_utc : false;
@@ -454,7 +454,7 @@ class Events
 	 */
 	public function get_upcoming()
 	{
-		return $this->get_closest("future");
+		return $this->get_closest('future');
 	}
 
 	/**
@@ -466,7 +466,7 @@ class Events
 	 */
 	public function get_latest()
 	{
-		return $this->get_closest("past");
+		return $this->get_closest('past');
 	}
 
 	/**
@@ -481,9 +481,9 @@ class Events
 	 */
 	private function get_closest($dir)
 	{
-		if ("future" == $dir) {
+		if ('future' == $dir) {
 			return array_shift($this->future()->get_events());
-		} elseif ("past" == $dir) {
+		} elseif ('past' == $dir) {
 			return array_shift($this->past()->get_events());
 		}
 		return null;
@@ -552,7 +552,7 @@ class Events
 	{
 		$y = intval($year);
 		$w = absint($week);
-		$m = date("n", strtotime(strval($y) . "-W" . strval($w)));
+		$m = date('n', strtotime(strval($y) . '-W' . strval($w)));
 		$month_dt = Carbon::createFromDate($y, $m, 2, $this->timezone);
 		$days = [];
 		for ($d = 1; $d < $month_dt->daysInMonth; $d++) {

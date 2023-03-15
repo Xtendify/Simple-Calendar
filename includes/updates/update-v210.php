@@ -6,7 +6,7 @@
  */
 namespace SimpleCalendar\Updates;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -24,18 +24,18 @@ class Update_V210
 	{
 		if (!empty($posts) && is_array($posts)) {
 			foreach ($posts as $post) {
-				$url = get_post_meta($post->ID, "gce_feed_url", true);
+				$url = get_post_meta($post->ID, 'gce_feed_url', true);
 
 				if ($url) {
 					$url = str_replace(
-						"https://www.google.com/calendar/feeds/",
-						"",
+						'https://www.google.com/calendar/feeds/',
+						'',
 						$url
 					);
-					$url = str_replace("/public/basic", "", $url);
-					$url = str_replace("%40", "@", $url);
+					$url = str_replace('/public/basic', '', $url);
+					$url = str_replace('%40', '@', $url);
 
-					update_post_meta($post->ID, "gce_feed_url", $url);
+					update_post_meta($post->ID, 'gce_feed_url', $url);
 				}
 			}
 		}

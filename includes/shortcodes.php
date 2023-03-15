@@ -8,7 +8,7 @@ namespace SimpleCalendar;
 
 use SimpleCalendar\Abstracts\Calendar;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -29,7 +29,7 @@ class Shortcodes
 	public function __construct()
 	{
 		// Add shortcodes.
-		add_action("init", [$this, "register"]);
+		add_action('init', [$this, 'register']);
 	}
 
 	/**
@@ -39,11 +39,11 @@ class Shortcodes
 	 */
 	public function register()
 	{
-		add_shortcode("calendar", [$this, "print_calendar"]);
+		add_shortcode('calendar', [$this, 'print_calendar']);
 		// @deprecated legacy shortcode
-		add_shortcode("gcal", [$this, "print_calendar"]);
+		add_shortcode('gcal', [$this, 'print_calendar']);
 
-		do_action("simcal_add_shortcodes");
+		do_action('simcal_add_shortcodes');
 	}
 
 	/**
@@ -59,12 +59,12 @@ class Shortcodes
 	{
 		$args = shortcode_atts(
 			[
-				"id" => null,
+				'id' => null,
 			],
 			$attributes
 		);
 
-		$id = absint($args["id"]);
+		$id = absint($args['id']);
 
 		if ($id > 0) {
 			$calendar = simcal_get_calendar($id);
@@ -76,6 +76,6 @@ class Shortcodes
 			}
 		}
 
-		return "";
+		return '';
 	}
 }

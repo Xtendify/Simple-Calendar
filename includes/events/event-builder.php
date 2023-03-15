@@ -9,7 +9,7 @@ namespace SimpleCalendar\Events;
 use SimpleCalendar\plugin_deps\Carbon\Carbon;
 use SimpleCalendar\Abstracts\Calendar;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -76,149 +76,149 @@ class Event_Builder
 				 * Content Tags *
 				 * ============ */
 
-				"title",
+				'title',
 				// The event title.
-				"event-title",
+				'event-title',
 				// @deprecated An alias for 'title' tag.
-				"description",
+				'description',
 				// The event description.
 
-				"when",
+				'when',
 				// Date and time of the event.
-				"start-time",
+				'start-time',
 				// Start time of the event.
-				"start-date",
+				'start-date',
 				// Start date of the event.
-				"start-custom",
+				'start-custom',
 				// @deprecated Start time in a user defined format (set by tag 'format' attribute).
-				"start-human",
+				'start-human',
 				// Start time in a human friendly format.
-				"end-time",
+				'end-time',
 				// End time of the event.
-				"end-date",
+				'end-date',
 				// End date of the event.
-				"end-custom",
+				'end-custom',
 				// @deprecated End date-time in a user defined format (set by tag 'format' attribute).
-				"end-human",
+				'end-human',
 				// End date-time in a human friendly format.
 
-				"duration",
+				'duration',
 				// How long the events lasts, in a human-readable format.
-				"length",
+				'length',
 				// @deprecated An alias of 'duration' tag.
 
-				"location",
+				'location',
 				// Alias of start-location.
-				"start-location",
+				'start-location',
 				// Location name where the event starts.
-				"maps-link",
+				'maps-link',
 				// @deprecated An alias for 'start-location-link' tag.
-				"start-location-link",
+				'start-location-link',
 				// Link to Google Maps querying the event start location address.
-				"end-location",
+				'end-location',
 				// Location name where the event ends.
-				"end-location-link",
+				'end-location-link',
 				// Link to Google Maps querying the event end location address.
 
-				"link",
+				'link',
 				// An HTML link to the event URL.
-				"url",
+				'url',
 				// A string with the raw event link URL.
-				"add-to-gcal-link",
+				'add-to-gcal-link',
 				// Link for viewers to add to their GCals.
 
-				"calendar",
+				'calendar',
 				// The title of the source calendar.
-				"feed-title",
+				'feed-title',
 				// @deprecated An alias of 'calendar'.
 
-				"id",
+				'id',
 				// The event unique ID.
-				"uid",
+				'uid',
 				// An alias of ID.
-				"ical-id",
+				'ical-id',
 				// iCal ID.
-				"event-id",
+				'event-id',
 				// @deprecated An alias for 'id' tag.
-				"calendar-id",
+				'calendar-id',
 				// The calendar ID.
-				"feed-id",
+				'feed-id',
 				// @deprecated An alias for 'calendar-id' tag.
-				"cal-id",
+				'cal-id',
 				// @deprecated An alias for 'calendar-id' tag.
 
 				/* ========= *
 				 * Meta Tags *
 				 * ========= */
 
-				"attachments",
+				'attachments',
 				// List of attachments.
-				"attendees",
+				'attendees',
 				// List of attendees.
-				"organizer",
+				'organizer',
 				// Creator info.
 
 				/* ================ *
 				 * Conditional Tags *
 				 * ================ */
 
-				"if-title",
+				'if-title',
 				// If the event has a title.
-				"if-description",
+				'if-description',
 				// If the event has a description.
 
-				"if-now",
+				'if-now',
 				// If the event is taking place now.
-				"if-not-now",
+				'if-not-now',
 				// If the event is not taking place now (may have ended or just not started yet).
-				"if-started",
+				'if-started',
 				// If the event has started (and may as well as ended).
-				"if-not-started",
+				'if-not-started',
 				// If the event has NOT started yet (event could be any time in the future).
-				"if-ended",
+				'if-ended',
 				// If the event has ended (event could be any time in the past).
-				"if-not-ended",
+				'if-not-ended',
 				// If the event has NOT ended (may as well as not started yet).
 
-				"if-today",
+				'if-today',
 				// If the event is taking place today
-				"if-not-today",
+				'if-not-today',
 				// If the event is NOT taking place today
 
-				"if-whole-day",
+				'if-whole-day',
 				// If the event lasts the whole day.
-				"if-all-day",
+				'if-all-day',
 				// @deprecated Alias for 'if-whole-day'.
-				"if-not-whole-day",
+				'if-not-whole-day',
 				// If the event does NOT last the whole day.
-				"if-not-all-day",
+				'if-not-all-day',
 				// @deprecated Alias for 'if-not-whole-day'.
-				"if-end-time",
+				'if-end-time',
 				// If the event has a set end time.
-				"if-no-end-time",
+				'if-no-end-time',
 				// If the event has NOT a set end time.
 
-				"if-multi-day",
+				'if-multi-day',
 				// If the event spans multiple days.
-				"if-single-day",
+				'if-single-day',
 				// If the event does not span multiple days.
 
-				"if-recurring",
+				'if-recurring',
 				// If the event is a recurring event.
-				"if-not-recurring",
+				'if-not-recurring',
 				// If the event is NOT a recurring event.
 
-				"if-location",
+				'if-location',
 				// @deprecated Alias for 'if-start-location'.
-				"if-start-location",
+				'if-start-location',
 				// Does the event has a start location?
-				"if-end-location",
+				'if-end-location',
 				// Does the event has an end location?
-				"if-not-location",
+				'if-not-location',
 				// @deprecated Alias for 'if-not-start-location'.
-				"if-not-start-location",
+				'if-not-start-location',
 				// Does the event has NOT a start location?
-				"if-not-end-location",
+				'if-not-end-location',
 				// Does the event has NOT an end location?
 			],
 			(array) $this->add_custom_event_tags()
@@ -234,12 +234,12 @@ class Event_Builder
 	 *
 	 * @return string
 	 */
-	public function parse_event_template_tags($template_tags = "")
+	public function parse_event_template_tags($template_tags = '')
 	{
 		// Process tags.
 		$result = preg_replace_callback(
 			$this->get_regex(),
-			[$this, "process_event_content"],
+			[$this, 'process_event_content'],
 			$template_tags
 		);
 
@@ -261,7 +261,7 @@ class Event_Builder
 	 */
 	public function process_event_content($match)
 	{
-		if ($match[1] == "[" && $match[6] == "]") {
+		if ($match[1] == '[' && $match[6] == ']') {
 			return substr($match[0], 1, -1);
 		}
 
@@ -280,50 +280,50 @@ class Event_Builder
 				 * Content Tags *
 				 * ============ */
 
-				case "title":
-				case "event-title":
+				case 'title':
+				case 'event-title':
 					return $this->get_title($event->title, $attr);
 
-				case "description":
+				case 'description':
 					return $this->get_description($event->description, $attr);
 
-				case "when":
+				case 'when':
 					return $this->get_when($event);
 
-				case "end-date":
-				case "end-custom":
-				case "end-human":
-				case "end-time":
-				case "start-custom":
-				case "start-date":
-				case "start-human":
-				case "start-time":
+				case 'end-date':
+				case 'end-custom':
+				case 'end-human':
+				case 'end-time':
+				case 'start-custom':
+				case 'start-date':
+				case 'start-human':
+				case 'start-time':
 					return $this->get_dt($tag, $event, $attr);
 
-				case "length":
-				case "duration":
+				case 'length':
+				case 'duration':
 					if (false !== $event->end) {
 						$duration = $event->start - $event->end;
 						$value = human_time_diff($event->start, $event->end);
 					} else {
-						$duration = "-1";
-						$value = __("No end time", "google-calendar-events");
+						$duration = '-1';
+						$value = __('No end time', 'google-calendar-events');
 					}
 
 					return ' <span class="simcal-event-duration" data-event-duration="' .
 						$duration .
 						'">' .
 						$value .
-						"</span>";
+						'</span>';
 
-				case "location":
-				case "start-location":
-				case "end-location":
+				case 'location':
+				case 'start-location':
+				case 'end-location':
 					$location =
-						"end-location" == $tag
-							? $event->end_location["address"]
-							: $event->start_location["address"];
-					$location_class = "end-location" == $tag ? "end" : "start";
+						'end-location' == $tag
+							? $event->end_location['address']
+							: $event->start_location['address'];
+					$location_class = 'end-location' == $tag ? 'end' : 'start';
 
 					// location, location.name, location.address (type PostalAddress) all required for schema data.
 					// Need to use event name where location data doesn't exist.
@@ -344,17 +344,17 @@ class Event_Builder
 						$meta_location_name_and_address .
 						'" />' .
 						wp_strip_all_tags($location) .
-						"</span>";
+						'</span>';
 
-				case "start-location-link":
-				case "end-location-link":
-				case "maps-link":
+				case 'start-location-link':
+				case 'end-location-link':
+				case 'maps-link':
 					$location =
-						"end-location-link" == $tag
-							? $event->end_location["address"]
-							: $event->start_location["address"];
+						'end-location-link' == $tag
+							? $event->end_location['address']
+							: $event->start_location['address'];
 					if (!empty($location)) {
-						$url = "//maps.google.com?q=" . urlencode($location);
+						$url = '//maps.google.com?q=' . urlencode($location);
 
 						return $this->make_link(
 							$tag,
@@ -365,12 +365,12 @@ class Event_Builder
 					}
 					break;
 
-				case "link":
-				case "url":
+				case 'link':
+				case 'url':
 					$content =
-						"link" == $tag
+						'link' == $tag
 							? $calendar->get_event_html($event, $partial)
-							: "";
+							: '';
 
 					return $this->make_link(
 						$tag,
@@ -379,11 +379,11 @@ class Event_Builder
 						$attr
 					);
 
-				case "add-to-gcal-link":
+				case 'add-to-gcal-link':
 					$content =
-						"add-to-gcal-link" == $tag
+						'add-to-gcal-link' == $tag
 							? $calendar->get_event_html($event, $partial)
-							: "";
+							: '';
 					if (!empty($content)) {
 						$url = $calendar->get_add_to_gcal_url($event);
 
@@ -391,42 +391,42 @@ class Event_Builder
 					}
 					break;
 
-				case "calendar":
-				case "feed-title":
+				case 'calendar':
+				case 'feed-title':
 					return $event->source;
 
-				case "id":
-				case "uid":
-				case "event-id":
+				case 'id':
+				case 'uid':
+				case 'event-id':
 					return $event->uid;
 
-				case "ical-id":
+				case 'ical-id':
 					return $event->ical_id;
 
-				case "calendar-id":
-				case "cal-id":
-				case "feed-id":
+				case 'calendar-id':
+				case 'cal-id':
+				case 'feed-id':
 					return $event->calendar;
 
 				/* ========= *
 				 * Meta Tags *
 				 * ========= */
 
-				case "attachments":
+				case 'attachments':
 					$attachments = $event->get_attachments();
 					if (!empty($attachments)) {
 						return $this->get_attachments($attachments);
 					}
 					break;
 
-				case "attendees":
+				case 'attendees':
 					$attendees = $event->get_attendees();
 					if (!empty($attendees)) {
 						return $this->get_attendees($attendees, $attr);
 					}
 					break;
 
-				case "organizer":
+				case 'organizer':
 					$organizer = $event->get_organizer();
 					if (!empty($organizer)) {
 						return $this->get_organizer($organizer, $attr);
@@ -437,20 +437,20 @@ class Event_Builder
 				 * Conditional Tags *
 				 * ================ */
 
-				case "if-title":
+				case 'if-title':
 					if (!empty($event->title)) {
 						return $calendar->get_event_html($event, $partial);
 					}
 					break;
 
-				case "if-description":
+				case 'if-description':
 					if (!empty($event->description)) {
 						return $calendar->get_event_html($event, $partial);
 					}
 					break;
 
-				case "if-now":
-				case "if-not-now":
+				case 'if-now':
+				case 'if-not-now':
 					$start_dt = $event->start_dt->setTimezone(
 						$calendar->timezone
 					);
@@ -461,32 +461,32 @@ class Event_Builder
 							->setTimezone($calendar->timezone)
 							->getTimestamp();
 					} else {
-						simcal_log_error("NOT CARBON");
+						simcal_log_error('NOT CARBON');
 
-						return "";
+						return '';
 					}
 
 					$now = $start <= $calendar->now && $end >= $calendar->now;
 
-					if ("if-now" == $tag && $now) {
+					if ('if-now' == $tag && $now) {
 						return $calendar->get_event_html($event, $partial);
-					} elseif ("if-not-now" == $tag && false == $now) {
+					} elseif ('if-not-now' == $tag && false == $now) {
 						return $calendar->get_event_html($event, $partial);
 					}
 
 					break;
 
-				case "if-started":
-				case "if-not-started":
+				case 'if-started':
+				case 'if-not-started':
 					$start = $event->start_dt
 						->setTimezone($calendar->timezone)
 						->getTimestamp();
 
-					if ("if-started" == $tag) {
+					if ('if-started' == $tag) {
 						if ($start < $calendar->now) {
 							return $calendar->get_event_html($event, $partial);
 						}
-					} elseif ("if-not-started" == $tag) {
+					} elseif ('if-not-started' == $tag) {
 						if ($start > $calendar->now) {
 							return $calendar->get_event_html($event, $partial);
 						}
@@ -494,21 +494,21 @@ class Event_Builder
 
 					break;
 
-				case "if-ended":
-				case "if-not-ended":
+				case 'if-ended':
+				case 'if-not-ended':
 					if (false !== $event->end) {
 						$end = $event->end_dt
 							->setTimezone($calendar->timezone)
 							->getTimestamp();
 
-						if ("if-ended" == $tag) {
+						if ('if-ended' == $tag) {
 							if ($end < $calendar->now) {
 								return $calendar->get_event_html(
 									$event,
 									$partial
 								);
 							}
-						} elseif ("if-not-ended" == $tag) {
+						} elseif ('if-not-ended' == $tag) {
 							if ($end > $calendar->now) {
 								return $calendar->get_event_html(
 									$event,
@@ -520,8 +520,8 @@ class Event_Builder
 
 					break;
 
-				case "if-today":
-				case "if-not-today":
+				case 'if-today':
+				case 'if-not-today':
 					$start_dt = $event->start_dt->setTimezone(
 						$calendar->timezone
 					);
@@ -532,89 +532,89 @@ class Event_Builder
 						$startOfDay <= $calendar->now &&
 						$calendar->now <= $endOfDay;
 
-					if ("if-today" == $tag && $today) {
+					if ('if-today' == $tag && $today) {
 						return $calendar->get_event_html($event, $partial);
-					} elseif ("if-not-today" == $tag && false == $today) {
+					} elseif ('if-not-today' == $tag && false == $today) {
 						return $calendar->get_event_html($event, $partial);
 					}
 
 					break;
 
-				case "if-end-time":
+				case 'if-end-time':
 					if (false !== $event->end) {
 						return $calendar->get_event_html($event, $partial);
 					}
 					break;
 
-				case "if-no-end-time":
+				case 'if-no-end-time':
 					if (false === $event->end) {
 						return $calendar->get_event_html($event, $partial);
 					}
 					break;
 
-				case "if-all-day":
-				case "if-whole-day":
-				case "if-not-all-day":
-				case "if-not-whole-day":
-					$bool = strstr($tag, "not") ? false : true;
+				case 'if-all-day':
+				case 'if-whole-day':
+				case 'if-not-all-day':
+				case 'if-not-whole-day':
+					$bool = strstr($tag, 'not') ? false : true;
 					if ($bool === $event->whole_day) {
 						return $calendar->get_event_html($event, $partial);
 					}
 					break;
 
-				case "if-recurring":
+				case 'if-recurring':
 					if (!empty($event->recurrence)) {
 						return $calendar->get_event_html($event, $partial);
 					}
 					break;
 
-				case "if-not-recurring":
+				case 'if-not-recurring':
 					if (false === $event->recurrence) {
 						return $calendar->get_event_html($event, $partial);
 					}
 					break;
 
-				case "if-multi-day":
+				case 'if-multi-day':
 					if (false !== $event->multiple_days) {
 						return $calendar->get_event_html($event, $partial);
 					}
 					break;
 
-				case "if-single-day":
+				case 'if-single-day':
 					if (false === $event->multiple_days) {
 						return $calendar->get_event_html($event, $partial);
 					}
 					break;
 
-				case "if-location":
-				case "if-start-location":
-					if (!empty($event->start_location["address"])) {
+				case 'if-location':
+				case 'if-start-location':
+					if (!empty($event->start_location['address'])) {
 						return $calendar->get_event_html($event, $partial);
 					}
 
 					return false;
 
-				case "if-not-location":
-				case "if-not-start-location":
-					if (empty($event->start_location["address"])) {
+				case 'if-not-location':
+				case 'if-not-start-location':
+					if (empty($event->start_location['address'])) {
 						return $calendar->get_event_html($event, $partial);
 					}
 
-					return "";
+					return '';
 
-				case "if-not-end-location":
-					if (empty($event->end_location["address"])) {
+				case 'if-not-end-location':
+					if (empty($event->end_location['address'])) {
 						return $calendar->get_event_html($event, $partial);
 					}
 
-					return "";
+					return '';
 
-				case "if-end-location":
-					if (!empty($event->end_location["address"])) {
+				case 'if-end-location':
+					if (!empty($event->end_location['address'])) {
 						return $calendar->get_event_html($event, $partial);
 					}
 
-					return "";
+					return '';
 
 				/* ======= *
 				 * Custom Event Tags or Default *
@@ -627,7 +627,7 @@ class Event_Builder
 						$attr,
 						$event
 					);
-					if ($resultCustom != "") {
+					if ($resultCustom != '') {
 						return $resultCustom;
 					}
 
@@ -635,7 +635,7 @@ class Event_Builder
 			}
 		}
 
-		return "";
+		return '';
 	}
 
 	/**
@@ -656,7 +656,7 @@ class Event_Builder
 		if ($limit > 0 && str_word_count($text, 0) > $limit) {
 			$words = str_word_count($text, 2);
 			$pos = array_keys($words);
-			$text = trim(substr($text, 0, $pos[$limit])) . "&hellip;";
+			$text = trim(substr($text, 0, $pos[$limit])) . '&hellip;';
 		}
 
 		return $text;
@@ -676,32 +676,32 @@ class Event_Builder
 	private function get_title($title, $attr)
 	{
 		if (empty($title)) {
-			return "";
+			return '';
 		}
 
 		$attr = array_merge(
 			[
-				"html" => "", // Parse HTML
-				"limit" => 0, // Trim length to amount of words
+				'html' => '', // Parse HTML
+				'limit' => 0, // Trim length to amount of words
 			],
 			(array) shortcode_parse_atts($attr)
 		);
 
-		if (!empty($attr["html"])) {
+		if (!empty($attr['html'])) {
 			$title = wp_kses_post($title);
-			$tag = "div";
+			$tag = 'div';
 		} else {
-			$title = $this->limit_words($title, $attr["limit"]);
-			$tag = "span";
+			$title = $this->limit_words($title, $attr['limit']);
+			$tag = 'span';
 		}
 
-		return "<" .
+		return '<' .
 			$tag .
 			' class="simcal-event-title" itemprop="name">' .
 			$title .
-			"</" .
+			'</' .
 			$tag .
-			">";
+			'>';
 	}
 
 	/**
@@ -718,21 +718,21 @@ class Event_Builder
 	private function get_description($description, $attr)
 	{
 		if (empty($description)) {
-			return "";
+			return '';
 		}
 
 		$attr = array_merge(
 			[
-				"limit" => 0, // Trim length to number of words
-				"html" => "no", // Parse HTML content
-				"markdown" => "no", // Parse Markdown content
-				"autolink" => "no", // Automatically convert plaintext URIs to anchors
+				'limit' => 0, // Trim length to number of words
+				'html' => 'no', // Parse HTML content
+				'markdown' => 'no', // Parse Markdown content
+				'autolink' => 'no', // Automatically convert plaintext URIs to anchors
 			],
 			(array) shortcode_parse_atts($attr)
 		);
 
-		$allow_html = "no" != $attr["html"] ? true : false;
-		$allow_md = "no" != $attr["markdown"] ? true : false;
+		$allow_html = 'no' != $attr['html'] ? true : false;
+		$allow_md = 'no' != $attr['markdown'] ? true : false;
 
 		$html = '<div class="simcal-event-description" itemprop="description">';
 
@@ -748,12 +748,12 @@ class Event_Builder
 			$description = wpautop($description);
 		}
 
-		$description = $this->limit_words($description, $attr["limit"]);
+		$description = $this->limit_words($description, $attr['limit']);
 
-		$html .= $description . "</div>";
+		$html .= $description . '</div>';
 
-		if ("no" != $attr["autolink"]) {
-			$html = " " . make_clickable($html);
+		if ('no' != $attr['autolink']) {
+			$html = ' ' . make_clickable($html);
 		}
 
 		return $html;
@@ -774,8 +774,8 @@ class Event_Builder
 		$start = $event->start_dt;
 		$end = $event->end_dt;
 
-		$time_start = "";
-		$time_end = "";
+		$time_start = '';
+		$time_end = '';
 		$start_ts = $start->timestamp;
 		$end_ts = !is_null($end) ? $end->timestamp : null;
 		$start_iso = $start->toIso8601String();
@@ -798,7 +798,7 @@ class Event_Builder
 					$this->calendar->time_format,
 					strtotime($start->toDateTimeString())
 				) .
-				"</span>";
+				'</span>';
 
 			if ($end instanceof Carbon) {
 				$time_end =
@@ -816,9 +816,9 @@ class Event_Builder
 						$this->calendar->time_format,
 						strtotime($end->toDateTimeString())
 					) .
-					"</span>";
+					'</span>';
 			} else {
-				simcal_log_error("NOT CARBON");
+				simcal_log_error('NOT CARBON');
 			}
 		}
 
@@ -838,12 +838,12 @@ class Event_Builder
 					$this->calendar->date_format,
 					strtotime($start->toDateTimeString())
 				) .
-				"</span>" .
+				'</span>' .
 				$time_start;
 
 			if ($end instanceof Carbon) {
 				$output .=
-					" - " .
+					' - ' .
 					'<span class="simcal-event-start simcal-event-end-date" ' .
 					'data-event-start="' .
 					$end_ts .
@@ -858,17 +858,17 @@ class Event_Builder
 						$this->calendar->date_format,
 						strtotime($end->toDateTimeString())
 					) .
-					"</span>" .
+					'</span>' .
 					$this->calendar->datetime_separator .
 					$time_end;
 			} else {
-				simcal_log_error("NOT CARBON");
+				simcal_log_error('NOT CARBON');
 			}
 		} else {
 			$time_end =
 				!empty($time_start) && !empty($time_end)
-					? " - " . $time_end
-					: "";
+					? ' - ' . $time_end
+					: '';
 
 			// All-day events also need startDate for schema data.
 			$output =
@@ -886,7 +886,7 @@ class Event_Builder
 					$this->calendar->date_format,
 					strtotime($start->toDateTimeString())
 				) .
-				"</span>" .
+				'</span>' .
 				$time_start .
 				$time_end;
 		}
@@ -908,43 +908,43 @@ class Event_Builder
 	 */
 	private function get_dt($tag, Event $event, $attr)
 	{
-		$bound = 0 === strpos($tag, "end") ? "end" : "start";
+		$bound = 0 === strpos($tag, 'end') ? 'end' : 'start';
 
-		if ("end" == $bound && false === $event->end) {
-			return "";
+		if ('end' == $bound && false === $event->end) {
+			return '';
 		}
 
-		$dt = $bound . "_dt";
+		$dt = $bound . '_dt';
 
 		if (!$event->$dt instanceof Carbon) {
-			simcal_log_error("NOT CARBON");
+			simcal_log_error('NOT CARBON');
 
-			return "";
+			return '';
 		}
 
 		$event_dt = $event->$dt;
 
 		$attr = array_merge(
 			[
-				"format" => "",
+				'format' => '',
 			],
 			(array) shortcode_parse_atts($attr)
 		);
 
-		$format = ltrim(strstr($tag, "-"), "-");
-		$dt_format = "";
+		$format = ltrim(strstr($tag, '-'), '-');
+		$dt_format = '';
 
-		if (!empty($attr["format"])) {
-			$dt_format = esc_attr(wp_strip_all_tags($attr["format"]));
-		} elseif ("date" == $format) {
+		if (!empty($attr['format'])) {
+			$dt_format = esc_attr(wp_strip_all_tags($attr['format']));
+		} elseif ('date' == $format) {
 			$dt_format = $this->calendar->date_format;
-		} elseif ("time" == $format) {
+		} elseif ('time' == $format) {
 			$dt_format = $this->calendar->time_format;
 		}
 
 		$dt_ts = $event_dt->timestamp;
 
-		if ("human" == $format) {
+		if ('human' == $format) {
 			$value = human_time_diff(
 				$dt_ts,
 				Carbon::now($event->timezone)->getTimestamp()
@@ -952,19 +952,19 @@ class Event_Builder
 
 			if ($dt_ts < Carbon::now($event->timezone)->getTimestamp()) {
 				$value .=
-					" " .
+					' ' .
 					_x(
-						"ago",
-						"human date event builder code modifier",
-						"google-calendar-events"
+						'ago',
+						'human date event builder code modifier',
+						'google-calendar-events'
 					);
 			} else {
 				$value .=
-					" " .
+					' ' .
 					_x(
-						"from now",
-						"human date event builder code modifier",
-						"google-calendar-events"
+						'from now',
+						'human date event builder code modifier',
+						'google-calendar-events'
 					);
 			}
 		} else {
@@ -976,13 +976,13 @@ class Event_Builder
 
 		return '<span class="simcal-event-' .
 			$bound .
-			" " .
-			"simcal-event-" .
+			' ' .
+			'simcal-event-' .
 			$bound .
-			"-" .
+			'-' .
 			$format .
 			'" ' .
-			"data-event-" .
+			'data-event-' .
 			$bound .
 			'="' .
 			$dt_ts .
@@ -996,7 +996,7 @@ class Event_Builder
 			$event_dt->toIso8601String() .
 			'">' .
 			$value .
-			"</span>";
+			'</span>';
 	}
 
 	/**
@@ -1015,21 +1015,21 @@ class Event_Builder
 	private function make_link($tag, $url, $content, $attr)
 	{
 		if (empty($url)) {
-			return "";
+			return '';
 		}
 
 		$text = empty($content) ? $url : $content;
 
 		$attr = array_merge(
 			[
-				"autolink" => false, // Convert url to link anchor
-				"newwindow" => false, // If autolink attribute is true, open link in new window
+				'autolink' => false, // Convert url to link anchor
+				'newwindow' => false, // If autolink attribute is true, open link in new window
 			],
 			(array) shortcode_parse_atts($attr)
 		);
 
-		$anchor = $tag != "url" ? "yes" : $attr["autolink"];
-		$target = false !== $attr["newwindow"] ? 'target="_blank"' : "";
+		$anchor = $tag != 'url' ? 'yes' : $attr['autolink'];
+		$target = false !== $attr['newwindow'] ? 'target="_blank"' : '';
 
 		/**
 		 * Add additional event link attributes.
@@ -1042,8 +1042,8 @@ class Event_Builder
 		 * @return string The modified additional link attributes.
 		 */
 		$additional_link_atts = apply_filters(
-			"simcal_additional_event_link_attributes",
-			"",
+			'simcal_additional_event_link_attributes',
+			'',
 			$attr
 		);
 
@@ -1052,12 +1052,12 @@ class Event_Builder
 					esc_url($url) .
 					'" ' .
 					wp_kses_post($target) .
-					" " .
+					' ' .
 					wp_kses_post($additional_link_atts) .
-					">" .
+					'>' .
 					$text .
-					"</a>"
-			: " " . $text;
+					'</a>'
+			: ' ' . $text;
 	}
 
 	/**
@@ -1076,16 +1076,16 @@ class Event_Builder
 
 		foreach ($attachments as $attachment) {
 			$html .= '<li class="simcal-attachment">';
-			$html .= '<a href="' . $attachment["url"] . '" target="_blank">';
-			$html .= !empty($attachment["icon"])
-				? '<img src="' . $attachment["icon"] . '" />'
-				: "";
-			$html .= "<span>" . $attachment["name"] . "</span>";
-			$html .= "</a>";
-			$html .= "</li>" . "\n";
+			$html .= '<a href="' . $attachment['url'] . '" target="_blank">';
+			$html .= !empty($attachment['icon'])
+				? '<img src="' . $attachment['icon'] . '" />'
+				: '';
+			$html .= '<span>' . $attachment['name'] . '</span>';
+			$html .= '</a>';
+			$html .= '</li>' . "\n";
 		}
 
-		$html .= "</ul>" . "\n";
+		$html .= '</ul>' . "\n";
 
 		return $html;
 	}
@@ -1105,10 +1105,10 @@ class Event_Builder
 	{
 		$attr = array_merge(
 			[
-				"photo" => "show", // show/hide attendee photo
-				"email" => "hide", // show/hide attendee email address
-				"rsvp" => "hide", // show/hide rsvp response status
-				"response" => "", // filter attendees by rsvp response (yes/no/maybe)
+				'photo' => 'show', // show/hide attendee photo
+				'email' => 'hide', // show/hide attendee email address
+				'rsvp' => 'hide', // show/hide rsvp response status
+				'response' => '', // filter attendees by rsvp response (yes/no/maybe)
 			],
 			(array) shortcode_parse_atts($attr)
 		);
@@ -1119,42 +1119,42 @@ class Event_Builder
 		$unknown = 0;
 
 		foreach ($attendees as $attendee) {
-			if ("yes" == $attr["response"] && "yes" != $attendee["response"]) {
+			if ('yes' == $attr['response'] && 'yes' != $attendee['response']) {
 				continue;
 			} elseif (
-				"no" == $attr["response"] &&
-				"no" != $attendee["response"]
+				'no' == $attr['response'] &&
+				'no' != $attendee['response']
 			) {
 				continue;
 			} elseif (
-				"maybe" == $attr["response"] &&
-				!in_array($attendee["response"], ["yes", "maybe"])
+				'maybe' == $attr['response'] &&
+				!in_array($attendee['response'], ['yes', 'maybe'])
 			) {
 				continue;
 			}
 
-			if (!empty($attendee["name"])) {
+			if (!empty($attendee['name'])) {
 				$photo =
-					"hide" != $attr["photo"]
+					'hide' != $attr['photo']
 						? '<img class="avatar avatar-128 photo" src="' .
-							$attendee["photo"] .
+							$attendee['photo'] .
 							'" itemprop="image" />'
-						: "";
+						: '';
 				$response =
-					"hide" != $attr["rsvp"]
-						? $this->get_rsvp_response($attendee["response"])
-						: "";
+					'hide' != $attr['rsvp']
+						? $this->get_rsvp_response($attendee['response'])
+						: '';
 				$guest =
 					$photo .
 					'<span itemprop="name">' .
-					$attendee["name"] .
+					$attendee['name'] .
 					$response .
-					"</span>";
+					'</span>';
 
-				if (!empty($attendee["email"]) && "show" == $attr["email"]) {
+				if (!empty($attendee['email']) && 'show' == $attr['email']) {
 					$guest = sprintf(
 						'<a href="mailto:' .
-							$attendee["email"] .
+							$attendee['email'] .
 							'" itemprop="email">%s</a>',
 						$guest
 					);
@@ -1163,7 +1163,7 @@ class Event_Builder
 				$html .=
 					'<li class="simcal-attendee" itemprop="attendee" itemscope itemtype="http://schema.org/Person">' .
 					$guest .
-					"</li>" .
+					'</li>' .
 					"\n";
 
 				$known++;
@@ -1177,10 +1177,10 @@ class Event_Builder
 				/* translators: One more person attending the event. */
 				$others = sprintf(
 					_n(
-						"1 more attendee",
-						"%s more attendees",
+						'1 more attendee',
+						'%s more attendees',
 						$unknown,
-						"google-calendar-events"
+						'google-calendar-events'
 					),
 					$unknown
 				);
@@ -1188,35 +1188,35 @@ class Event_Builder
 				/* translators: One or more persons attending the event whose name is unknown. */
 				$others = sprintf(
 					_n(
-						"1 anonymous attendee",
-						"%s anonymous attendees",
+						'1 anonymous attendee',
+						'%s anonymous attendees',
 						$unknown,
-						"google-calendar-events"
+						'google-calendar-events'
 					),
 					$unknown
 				);
 			}
-			$photo = $attr["photo"] !== "hide" ? get_avatar("", 128) : "";
+			$photo = $attr['photo'] !== 'hide' ? get_avatar('', 128) : '';
 			$html .=
 				'<li class="simcal-attendee simcal-attendee-anonymous">' .
 				$photo .
-				"<span>" .
+				'<span>' .
 				$others .
-				"</span></li>" .
+				'</span></li>' .
 				"\n";
 		} elseif ($known === 0) {
 			$html .=
 				'<li class="simcal-attendee">' .
 				_x(
-					"No one yet",
-					"No one yet rsvp to attend the event.",
-					"google-calendar-events"
+					'No one yet',
+					'No one yet rsvp to attend the event.',
+					'google-calendar-events'
 				) .
-				"</li>" .
+				'</li>' .
 				"\n";
 		}
 
-		$html .= "</ul>" . "\n";
+		$html .= '</ul>' . "\n";
 
 		return $html;
 	}
@@ -1232,21 +1232,21 @@ class Event_Builder
 	 */
 	private function get_rsvp_response($response)
 	{
-		if ("yes" == $response) {
+		if ('yes' == $response) {
 			/* translators: Someone replied with 'yes' to a rsvp request. */
-			$rsvp = __("Attending", "google-calendar-events");
-		} elseif ("no" == $response) {
+			$rsvp = __('Attending', 'google-calendar-events');
+		} elseif ('no' == $response) {
 			/* translators: Someone replied with 'no' to a rsvp request. */
-			$rsvp = __("Not attending", "google-calendar-events");
-		} elseif ("maybe" == $response) {
+			$rsvp = __('Not attending', 'google-calendar-events');
+		} elseif ('maybe' == $response) {
 			/* translators: Someone replied with 'maybe' to a rsvp request. */
-			$rsvp = __("Maybe attending", "google-calendar-events");
+			$rsvp = __('Maybe attending', 'google-calendar-events');
 		} else {
 			/* translators: Someone did not send yet a rsvp confirmation to join an event. */
-			$rsvp = __("Response pending", "google-calendar-events");
+			$rsvp = __('Response pending', 'google-calendar-events');
 		}
 
-		return " <small>(" . $rsvp . ")</small>";
+		return ' <small>(' . $rsvp . ')</small>';
 	}
 
 	/**
@@ -1264,25 +1264,25 @@ class Event_Builder
 	{
 		$attr = array_merge(
 			[
-				"photo" => "show", // show/hide attendee photo
-				"email" => "hide", // show/hide attendee email address
+				'photo' => 'show', // show/hide attendee photo
+				'email' => 'hide', // show/hide attendee email address
 			],
 			(array) shortcode_parse_atts($attr)
 		);
 
 		$photo =
-			"hide" != $attr["photo"]
+			'hide' != $attr['photo']
 				? '<img class="avatar avatar-128 photo" src="' .
-					$organizer["photo"] .
+					$organizer['photo'] .
 					'" itemprop="image"  />'
-				: "";
+				: '';
 		$organizer_html =
-			$photo . '<span itemprop="name">' . $organizer["name"] . "</span>";
+			$photo . '<span itemprop="name">' . $organizer['name'] . '</span>';
 
-		if (!empty($organizer["email"]) && "show" == $attr["email"]) {
+		if (!empty($organizer['email']) && 'show' == $attr['email']) {
 			$organizer_html = sprintf(
 				'<a href="mailto:' .
-					$organizer["email"] .
+					$organizer['email'] .
 					'" itemprop="email">%s</a>',
 				$organizer_html
 			);
@@ -1290,7 +1290,7 @@ class Event_Builder
 
 		return '<div class="simcal-organizer" itemprop="organizer" itemscope itemtype="https://schema.org/Person">' .
 			$organizer_html .
-			"</div>";
+			'</div>';
 	}
 
 	/**
@@ -1315,44 +1315,44 @@ class Event_Builder
 		// This is largely borrowed on get_shortcode_regex() from WordPress Core.
 		// @see /wp-includes/shortcodes.php (with some modification)
 
-		$tagregexp = implode("|", array_values($this->tags));
+		$tagregexp = implode('|', array_values($this->tags));
 
-		return "/" .
-			"\\[" . // Opening bracket
-			"(\\[?)" . // 1: Optional second opening bracket for escaping tags: [[tag]]
+		return '/' .
+			'\\[' . // Opening bracket
+			'(\\[?)' . // 1: Optional second opening bracket for escaping tags: [[tag]]
 			"($tagregexp)" . // 2: Tag name
-			"(?![\\w-])" . // Not followed by word character or hyphen
-			"(" . // 3: Unroll the loop: Inside the opening tag
-			"[^\\]\\/]*" . // Not a closing bracket or forward slash
-			"(?:" .
-			"\\/(?!\\])" . // A forward slash not followed by a closing bracket
-			"[^\\]\\/]*" . // Not a closing bracket or forward slash
-			")*?" .
-			")" .
-			"(?:" .
-			"(\\/)" . // 4: Self closing tag ...
-			"\\]" . // ... and closing bracket
-			"|" .
-			"\\]" . // Closing bracket
-			"(?:" .
-			"(" . // 5: Unroll the loop: Optionally, anything between the opening and closing tags
-			"[^\\[]*+" . // Not an opening bracket
-			"(?:" .
+			'(?![\\w-])' . // Not followed by word character or hyphen
+			'(' . // 3: Unroll the loop: Inside the opening tag
+			'[^\\]\\/]*' . // Not a closing bracket or forward slash
+			'(?:' .
+			'\\/(?!\\])' . // A forward slash not followed by a closing bracket
+			'[^\\]\\/]*' . // Not a closing bracket or forward slash
+			')*?' .
+			')' .
+			'(?:' .
+			'(\\/)' . // 4: Self closing tag ...
+			'\\]' . // ... and closing bracket
+			'|' .
+			'\\]' . // Closing bracket
+			'(?:' .
+			'(' . // 5: Unroll the loop: Optionally, anything between the opening and closing tags
+			'[^\\[]*+' . // Not an opening bracket
+			'(?:' .
 			'\\[(?!\\/\\2\\])' . // An opening bracket not followed by the closing tag
-			"[^\\[]*+" . // Not an opening bracket
-			")*+" .
-			")" .
+			'[^\\[]*+' . // Not an opening bracket
+			')*+' .
+			')' .
 			'\\[\\/\\2\\]' . // Closing tag
-			")?" .
-			")" .
-			"(\\]?)" . // 6: Optional second closing bracket for escaping tags: [[tag]]
-			"/s";
+			')?' .
+			')' .
+			'(\\]?)' . // 6: Optional second closing bracket for escaping tags: [[tag]]
+			'/s';
 	}
 
 	//allow other plugins to register own event tags
 	private function add_custom_event_tags()
 	{
-		$array = apply_filters("simcal_event_tags_add_custom", []);
+		$array = apply_filters('simcal_event_tags_add_custom', []);
 
 		return $array;
 	}
@@ -1361,8 +1361,8 @@ class Event_Builder
 	private function do_custom_event_tag($tag, $partial, $attr, $event)
 	{
 		$returnvalue = apply_filters(
-			"simcal_event_tags_do_custom",
-			"",
+			'simcal_event_tags_do_custom',
+			'',
 			$tag,
 			$partial,
 			$attr,

@@ -9,7 +9,7 @@ namespace SimpleCalendar\Admin;
 use SimpleCalendar\Abstracts\Field;
 use SimpleCalendar\Abstracts\Admin_Page;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -28,7 +28,7 @@ class Pages
 	 * @access private
 	 * @var string
 	 */
-	private $page = "";
+	private $page = '';
 
 	/**
 	 * Default tab.
@@ -36,7 +36,7 @@ class Pages
 	 * @access private
 	 * @var string
 	 */
-	private $tab = "";
+	private $tab = '';
 
 	/**
 	 * Settings pages.
@@ -53,12 +53,12 @@ class Pages
 	 *
 	 * @param string $page
 	 */
-	public function __construct($page = "settings")
+	public function __construct($page = 'settings')
 	{
 		$this->page = $page;
 		$settings_pages = !is_null(\SimpleCalendar\plugin()->objects)
 			? simcal_get_admin_pages()
-			: "";
+			: '';
 		$settings_page_tabs = [];
 		$tabs = isset($settings_pages[$page]) ? $settings_pages[$page] : false;
 
@@ -75,9 +75,9 @@ class Pages
 		}
 
 		// The first tab is the default tab when opening a page.
-		$this->tab = isset($tabs[0]) ? $tabs[0] : "";
+		$this->tab = isset($tabs[0]) ? $tabs[0] : '';
 
-		do_action("simcal_admin_pages", $page);
+		do_action('simcal_admin_pages', $page);
 	}
 
 	/**
@@ -122,48 +122,48 @@ class Pages
 
 		if (!empty($settings) && is_array($settings)) {
 			foreach ($settings as $tab_id => $settings_page) {
-				if (isset($settings_page["sections"])) {
-					$sections = $settings_page["sections"];
+				if (isset($settings_page['sections'])) {
+					$sections = $settings_page['sections'];
 
 					if (!empty($sections) && is_array($sections)) {
 						foreach ($sections as $section_id => $section) {
 							add_settings_section(
 								$section_id,
-								isset($section["title"])
-									? $section["title"]
-									: "",
-								isset($section["callback"])
-									? $section["callback"]
-									: "",
-								"simple-calendar_" . $this->page . "_" . $tab_id
+								isset($section['title'])
+									? $section['title']
+									: '',
+								isset($section['callback'])
+									? $section['callback']
+									: '',
+								'simple-calendar_' . $this->page . '_' . $tab_id
 							);
 
-							if (isset($section["fields"])) {
-								$fields = $section["fields"];
+							if (isset($section['fields'])) {
+								$fields = $section['fields'];
 
 								if (!empty($fields) && is_array($fields)) {
 									foreach ($fields as $field) {
 										if (
-											isset($field["id"]) &&
-											isset($field["type"])
+											isset($field['id']) &&
+											isset($field['type'])
 										) {
 											$field_object = simcal_get_field(
 												$field,
-												$field["type"]
+												$field['type']
 											);
 
 											if (
 												$field_object instanceof Field
 											) {
 												add_settings_field(
-													$field["id"],
-													isset($field["title"])
-														? $field["title"]
-														: "",
-													[$field_object, "html"],
-													"simple-calendar_" .
+													$field['id'],
+													isset($field['title'])
+														? $field['title']
+														: '',
+													[$field_object, 'html'],
+													'simple-calendar_' .
 														$this->page .
-														"_" .
+														'_' .
 														$tab_id,
 													$section_id
 												);
@@ -176,17 +176,17 @@ class Pages
 							$page = simcal_get_admin_page($tab_id);
 
 							register_setting(
-								"simple-calendar_" .
+								'simple-calendar_' .
 									$this->page .
-									"_" .
+									'_' .
 									$tab_id,
-								"simple-calendar_" .
+								'simple-calendar_' .
 									$this->page .
-									"_" .
+									'_' .
 									$tab_id,
 								$page instanceof Admin_Page
-									? [$page, "validate"]
-									: ""
+									? [$page, 'validate']
+									: ''
 							);
 						} // loop sections
 					} // are sections non empty?
@@ -205,9 +205,9 @@ class Pages
 		global $current_tab;
 
 		// Get current tab/section
-		$current_tab = empty($_GET["tab"])
+		$current_tab = empty($_GET['tab'])
 			? $this->tab
-			: sanitize_title($_GET["tab"]);
+			: sanitize_title($_GET['tab']);
 		$this->tab = $current_tab;
 		?>
 		<div class="wrap" id="simcal-settings-page">
@@ -223,68 +223,68 @@ class Pages
     	// Get tabs for the settings page
     	if (!empty($settings_pages) && is_array($settings_pages)) {
     		foreach ($settings_pages as $id => $settings) {
-    			$tab_id = isset($id) ? $id : "";
-    			$tab_label = isset($settings["label"])
-    				? $settings["label"]
-    				: "";
+    			$tab_id = isset($id) ? $id : '';
+    			$tab_label = isset($settings['label'])
+    				? $settings['label']
+    				: '';
     			$tab_link = admin_url(
-    				"edit.php?post_type=calendar&page=simple-calendar_" .
+    				'edit.php?post_type=calendar&page=simple-calendar_' .
     					$this->page .
-    					"&tab=" .
+    					'&tab=' .
     					$tab_id
     			);
 
     			echo '<a href="' .
     				$tab_link .
     				'" class="nav-tab ' .
-    				($current_tab == $tab_id ? "nav-tab-active" : "") .
+    				($current_tab == $tab_id ? 'nav-tab-active' : '') .
     				'">' .
     				$tab_label .
-    				"</a>";
+    				'</a>';
     		}
     	}
 
-    	do_action("simcal_admin_page_" . $this->page . "_tabs");
+    	do_action('simcal_admin_page_' . $this->page . '_tabs');
 
-    	echo "</h2>";
+    	echo '</h2>';
 
     	settings_errors();
 
     	foreach ($settings_pages as $tab_id => $contents) {
     		if ($tab_id === $current_tab) {
-    			echo isset($contents["description"])
-    				? "<p>" . $contents["description"] . "</p>"
-    				: "";
+    			echo isset($contents['description'])
+    				? '<p>' . $contents['description'] . '</p>'
+    				: '';
 
     			do_action(
-    				"simcal_admin_page_" .
+    				'simcal_admin_page_' .
     					$this->page .
-    					"_" .
+    					'_' .
     					$current_tab .
-    					"_start"
+    					'_start'
     			);
 
     			settings_fields(
-    				"simple-calendar_" . $this->page . "_" . $tab_id
+    				'simple-calendar_' . $this->page . '_' . $tab_id
     			);
     			do_settings_sections(
-    				"simple-calendar_" . $this->page . "_" . $tab_id
+    				'simple-calendar_' . $this->page . '_' . $tab_id
     			);
 
     			do_action(
-    				"simcal_admin_page_" .
+    				'simcal_admin_page_' .
     					$this->page .
-    					"_" .
+    					'_' .
     					$current_tab .
-    					"_end"
+    					'_end'
     			);
 
     			$submit = apply_filters(
-    				"simcal_admin_page_" .
+    				'simcal_admin_page_' .
     					$this->page .
-    					"_" .
+    					'_' .
     					$current_tab .
-    					"_submit",
+    					'_submit',
     				true
     			);
     			if (true === $submit) {

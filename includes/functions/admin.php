@@ -7,7 +7,7 @@
  * @package SimpleCalendar/Admin/Functions
  */
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -53,7 +53,7 @@ function simcal_get_admin_page($page)
  *
  * @return null|\SimpleCalendar\Abstracts\Field
  */
-function simcal_get_field($args, $name = "")
+function simcal_get_field($args, $name = '')
 {
 	$objects = \SimpleCalendar\plugin()->objects;
 	return $objects instanceof \SimpleCalendar\Objects
@@ -71,7 +71,7 @@ function simcal_get_field($args, $name = "")
  *
  * @return void
  */
-function simcal_print_field($args, $name = "")
+function simcal_print_field($args, $name = '')
 {
 	$field = simcal_get_field($args, $name);
 
@@ -93,17 +93,17 @@ function simcal_print_field($args, $name = "")
  *
  * @return array|string Sanitized variable
  */
-function simcal_sanitize_input($var, $func = "sanitize_text_field")
+function simcal_sanitize_input($var, $func = 'sanitize_text_field')
 {
 	if (is_null($var)) {
-		return "";
+		return '';
 	}
 
 	if (is_bool($var)) {
 		if ($var === true) {
-			return "yes";
+			return 'yes';
 		} else {
-			return "no";
+			return 'no';
 		}
 	}
 
@@ -111,7 +111,7 @@ function simcal_sanitize_input($var, $func = "sanitize_text_field")
 		$func =
 			is_string($func) && function_exists($func)
 				? $func
-				: "sanitize_text_field";
+				: 'sanitize_text_field';
 		return call_user_func($func, trim(strval($var)));
 	}
 
@@ -127,7 +127,7 @@ function simcal_sanitize_input($var, $func = "sanitize_text_field")
 		return $array;
 	}
 
-	return "";
+	return '';
 }
 
 /**
@@ -140,23 +140,23 @@ function simcal_sanitize_input($var, $func = "sanitize_text_field")
  */
 function simcal_is_admin_screen()
 {
-	$view = function_exists("get_current_screen")
+	$view = function_exists('get_current_screen')
 		? get_current_screen()
 		: false;
 
 	if ($view instanceof WP_Screen) {
 		// Screens used by this plugin.
 		$screens = [
-			"customize",
-			"calendar",
-			"calendar_page_simple-calendar_add_ons",
-			"calendar_page_simple-calendar_settings",
-			"calendar_page_simple-calendar_tools",
-			"edit-calendar",
-			"edit-calendar_category",
-			"dashboard_page_simple-calendar_about",
-			"dashboard_page_simple-calendar_credits",
-			"dashboard_page_simple-calendar_translators",
+			'customize',
+			'calendar',
+			'calendar_page_simple-calendar_add_ons',
+			'calendar_page_simple-calendar_settings',
+			'calendar_page_simple-calendar_tools',
+			'edit-calendar',
+			'edit-calendar_category',
+			'dashboard_page_simple-calendar_about',
+			'dashboard_page_simple-calendar_credits',
+			'dashboard_page_simple-calendar_translators',
 		];
 		if (in_array($view->id, $screens)) {
 			return $view->id;
@@ -197,11 +197,11 @@ function simcal_addon_updater($_api_url, $_plugin_file, $_api_data = null)
  */
 function simcal_get_license_key($addon)
 {
-	$licenses = get_option("simple-calendar_settings_licenses", []);
-	if (isset($licenses["keys"][$addon])) {
-		return empty($licenses["keys"][$addon])
+	$licenses = get_option('simple-calendar_settings_licenses', []);
+	if (isset($licenses['keys'][$addon])) {
+		return empty($licenses['keys'][$addon])
 			? null
-			: $licenses["keys"][$addon];
+			: $licenses['keys'][$addon];
 	}
 	return null;
 }
@@ -219,7 +219,7 @@ function simcal_get_license_key($addon)
  */
 function simcal_get_license_status($addon = null)
 {
-	$licenses = get_option("simple-calendar_licenses_status", []);
+	$licenses = get_option('simple-calendar_licenses_status', []);
 	return isset($licenses[$addon]) ? $licenses[$addon] : $licenses;
 }
 
@@ -243,7 +243,7 @@ function simcal_get_admin_notices()
  */
 function simcal_delete_admin_notices()
 {
-	delete_option("simple-calendar_admin_notices");
+	delete_option('simple-calendar_admin_notices');
 }
 
 /**
@@ -259,13 +259,13 @@ function simcal_print_shortcode_tip($post_id)
 {
 	$browser = new \SimpleCalendar\Browser();
 	if ($browser::PLATFORM_APPLE == $browser->getPlatform()) {
-		$cmd = "&#8984;&#43;C";
+		$cmd = '&#8984;&#43;C';
 	} else {
-		$cmd = "Ctrl&#43;C";
+		$cmd = 'Ctrl&#43;C';
 	}
 
 	$shortcut = sprintf(
-		__("Press %s to copy.", "google-calendar-events"),
+		__('Press %s to copy.', 'google-calendar-events'),
 		$cmd
 	);
 	$shortcode = sprintf('[calendar id="%s"]', $post_id);
@@ -296,10 +296,10 @@ function simcal_ga_campaign_url($base_url, $campaign, $content, $raw = false)
 {
 	$url = add_query_arg(
 		[
-			"utm_source" => "inside-plugin",
-			"utm_medium" => "link",
-			"utm_campaign" => $campaign, // i.e. 'core-plugin', 'gcal-pro'
-			"utm_content" => $content, // i.e. 'sidebar-link', 'settings-link'
+			'utm_source' => 'inside-plugin',
+			'utm_medium' => 'link',
+			'utm_campaign' => $campaign, // i.e. 'core-plugin', 'gcal-pro'
+			'utm_content' => $content, // i.e. 'sidebar-link', 'settings-link'
 		],
 		$base_url
 	);
@@ -327,21 +327,21 @@ function simcal_newsletter_signup()
 
 		$name = $current_user->user_firstname
 			? $current_user->user_firstname
-			: "";
+			: '';
 		?>
 		<div id="simcal-drip" class="<?php echo $screen; ?>">
 			<div class="signup">
 				<p>
 					<?php _e(
      	"Enter your name and email and we'll send you a coupon code for <strong>20% off</strong> all Pro Add-on purchases.",
-     	"google-calendar-events"
+     	'google-calendar-events'
      ); ?>
 				</p>
 
 				<p>
 					<label for="simcal-drip-field-email"><?php _e(
-     	"Your Email",
-     	"google-calendar-events"
+     	'Your Email',
+     	'google-calendar-events'
      ); ?></label><br />
 					<input type="email"
 					       id="simcal-drip-field-email"
@@ -351,8 +351,8 @@ function simcal_newsletter_signup()
 
 				<p>
 					<label for="simcal-drip-field-first_name"><?php _e(
-     	"First Name",
-     	"google-calendar-events"
+     	'First Name',
+     	'google-calendar-events'
      ); ?></label><br />
 					<input type="text"
 					       id="simcal-drip-field-first_name"
@@ -363,26 +363,26 @@ function simcal_newsletter_signup()
 					<a href="#"
 					   id="simcal-drip-signup"
 					   class="button button-primary"><?php _e(
-        	"Send me the coupon",
-        	"google-calendar-events"
+        	'Send me the coupon',
+        	'google-calendar-events'
         ); ?></a>
 				</p>
 				<div class="textright">
-					<em><?php _e("No spam. Unsubscribe anytime.", "google-calendar-events"); ?></em>
+					<em><?php _e('No spam. Unsubscribe anytime.', 'google-calendar-events'); ?></em>
 					<br/>
 					<a href="<?php echo simcal_ga_campaign_url(
-     	simcal_get_url("addons"),
-     	"core-plugin",
-     	"sidebar-link"
+     	simcal_get_url('addons'),
+     	'core-plugin',
+     	'sidebar-link'
      ); ?>"
 					   target="_blank"><?php _e(
-        	"Just take me the add-ons",
-        	"google-calendar-events"
+        	'Just take me the add-ons',
+        	'google-calendar-events'
         ); ?></a>
 				</div>
 			</div>
 			<div class="thank-you" style="display: none;">
-				<?php _e("Thank you!", "google-calendar-events"); ?>
+				<?php _e('Thank you!', 'google-calendar-events'); ?>
 			</div>
 			<div class="clear">
 			</div>
@@ -404,58 +404,58 @@ function simcal_upgrade_to_premium()
 		<div class="main">
 			<p class="heading centered">
 				<?php _e(
-    	"Some of the features included with our premium add-ons",
-    	"google-calendar-events"
+    	'Some of the features included with our premium add-ons',
+    	'google-calendar-events'
     ); ?>
 			</p>
 
 			<ul>
 				<li><div class="dashicons dashicons-yes"></div> <?php _e(
-    	"Display color coded events",
-    	"google-calendar-events"
+    	'Display color coded events',
+    	'google-calendar-events'
     ); ?></li>
 				<li><div class="dashicons dashicons-yes"></div> <?php _e(
-    	"Show week & day views",
-    	"google-calendar-events"
+    	'Show week & day views',
+    	'google-calendar-events'
     ); ?></li>
 				<li><div class="dashicons dashicons-yes"></div> <?php _e(
-    	"Fast view switching",
-    	"google-calendar-events"
+    	'Fast view switching',
+    	'google-calendar-events'
     ); ?></li>
 				<li><div class="dashicons dashicons-yes"></div> <?php _e(
-    	"Event titles & start times in grid",
-    	"google-calendar-events"
+    	'Event titles & start times in grid',
+    	'google-calendar-events'
     ); ?></li>
 				<li><div class="dashicons dashicons-yes"></div> <?php _e(
-    	"Limit event display times",
-    	"google-calendar-events"
+    	'Limit event display times',
+    	'google-calendar-events'
     ); ?></li>
 				<li><div class="dashicons dashicons-yes"></div> <?php _e(
-    	"Display private calendar events",
-    	"google-calendar-events"
+    	'Display private calendar events',
+    	'google-calendar-events'
     ); ?></li>
 				<li><div class="dashicons dashicons-yes"></div> <?php _e(
-    	"Show attendees & RSVP status",
-    	"google-calendar-events"
+    	'Show attendees & RSVP status',
+    	'google-calendar-events'
     ); ?></li>
 				<li><div class="dashicons dashicons-yes"></div> <?php _e(
-    	"Display attachments",
-    	"google-calendar-events"
+    	'Display attachments',
+    	'google-calendar-events'
     ); ?></li>
 				<li><div class="dashicons dashicons-yes"></div> <?php _e(
-    	"Priority email support",
-    	"google-calendar-events"
+    	'Priority email support',
+    	'google-calendar-events'
     ); ?></li>
 			</ul>
 
 			<div class="centered">
 				<a href="<?php echo simcal_ga_campaign_url(
-    	simcal_get_url("addons"),
-    	"core-plugin",
-    	"sidebar-link"
+    	simcal_get_url('addons'),
+    	'core-plugin',
+    	'sidebar-link'
     ); ?>"
 				   class="button-primary button-large" target="_blank">
-					<?php _e("Upgrade to Premium Now", "google-calendar-events"); ?></a>
+					<?php _e('Upgrade to Premium Now', 'google-calendar-events'); ?></a>
 			</div>
 		</div>
 		<?php }

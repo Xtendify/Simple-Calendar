@@ -8,7 +8,7 @@
  * @deprecated
  */
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -23,7 +23,7 @@ function gce_print_calendar($feed_ids, $display, $args)
 	if (is_numeric($feed_ids)) {
 		$id = intval($feed_ids);
 	} elseif (is_array($feed_ids)) {
-		$id = isset($feed_ids[0]) ? intval($feed_ids[0]) : "";
+		$id = isset($feed_ids[0]) ? intval($feed_ids[0]) : '';
 	}
 
 	if ($id > 0) {
@@ -35,20 +35,20 @@ function gce_print_calendar($feed_ids, $display, $args)
  * Convert date from mm/dd/yyyy to unix timestamp.
  * @deprecated Assumes a US-only time format.
  */
-function gce_date_unix($date = "")
+function gce_date_unix($date = '')
 {
 	if (empty($date)) {
-		$current_time = current_time("timestamp");
+		$current_time = current_time('timestamp');
 		$timestamp = mktime(
 			0,
 			0,
 			0,
-			date("m", $current_time),
-			date("d", $current_time),
-			date("Y", $current_time)
+			date('m', $current_time),
+			date('d', $current_time),
+			date('Y', $current_time)
 		);
 	} else {
-		$date = explode("/", $date);
+		$date = explode('/', $date);
 		$month = $date[0];
 		$day = $date[1];
 		$year = $date[2];

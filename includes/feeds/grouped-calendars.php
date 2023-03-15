@@ -10,7 +10,7 @@ use SimpleCalendar\Abstracts\Calendar;
 use SimpleCalendar\Abstracts\Feed;
 use SimpleCalendar\Feeds\Admin\Grouped_Calendars_Admin;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -38,21 +38,21 @@ class Grouped_Calendars extends Feed
 	 *
 	 * @param string|Calendar $calendar
 	 */
-	public function __construct($calendar = "")
+	public function __construct($calendar = '')
 	{
 		parent::__construct($calendar);
 
-		$this->type = "grouped-calendars";
-		$this->name = __("Grouped Calendar", "google-calendar-events");
+		$this->type = 'grouped-calendars';
+		$this->name = __('Grouped Calendar', 'google-calendar-events');
 
 		if ($this->post_id > 0) {
 			$this->set_source();
-			if (!is_admin() || defined("DOING_AJAX")) {
+			if (!is_admin() || defined('DOING_AJAX')) {
 				$this->events = $this->get_events();
 			}
 		}
 
-		if (is_admin() && !defined("DOING_AJAX")) {
+		if (is_admin() && !defined('DOING_AJAX')) {
 			new Grouped_Calendars_Admin($this);
 		}
 	}
@@ -68,40 +68,40 @@ class Grouped_Calendars extends Feed
 	{
 		$source = get_post_meta(
 			$this->post_id,
-			"_grouped_calendars_source",
+			'_grouped_calendars_source',
 			true
 		);
 
-		if ("ids" == $source) {
+		if ('ids' == $source) {
 			if (empty($ids)) {
 				$ids = get_post_meta(
 					$this->post_id,
-					"_grouped_calendars_ids",
+					'_grouped_calendars_ids',
 					true
 				);
 			}
 
 			$this->calendars_ids =
-				!empty($ids) && is_array($ids) ? array_map("absint", $ids) : [];
-		} elseif ("category" == $source) {
+				!empty($ids) && is_array($ids) ? array_map('absint', $ids) : [];
+		} elseif ('category' == $source) {
 			$categories = get_post_meta(
 				$this->post_id,
-				"_grouped_calendars_category",
+				'_grouped_calendars_category',
 				true
 			);
 
 			if ($categories && is_array($categories)) {
 				$tax_query = [
-					"taxonomy" => "calendar_category",
-					"field" => "term_id",
-					"terms" => array_map("absint", $categories),
+					'taxonomy' => 'calendar_category',
+					'field' => 'term_id',
+					'terms' => array_map('absint', $categories),
 				];
 
 				$calendars = get_posts([
-					"post_type" => "calendar",
-					"tax_query" => [$tax_query],
-					"nopaging" => true,
-					"fields" => "ids",
+					'post_type' => 'calendar',
+					'tax_query' => [$tax_query],
+					'nopaging' => true,
+					'fields' => 'ids',
 				]);
 
 				$this->calendars_ids =
@@ -123,9 +123,9 @@ class Grouped_Calendars extends Feed
 	{
 		$ids = $this->calendars_ids;
 		$events = get_transient(
-			"_simple-calendar_feed_id_" .
+			'_simple-calendar_feed_id_' .
 				strval($this->post_id) .
-				"_" .
+				'_' .
 				$this->type
 		);
 
@@ -159,7 +159,7 @@ class Grouped_Calendars extends Feed
 				if ($earliest_event > 0) {
 					$events = $this->array_filter_key($events, [
 						$this,
-						"filter_events_before",
+						'filter_events_before',
 					]);
 				}
 
@@ -168,14 +168,14 @@ class Grouped_Calendars extends Feed
 				if ($latest_event > 0) {
 					$events = $this->array_filter_key($events, [
 						$this,
-						"filter_events_after",
+						'filter_events_after',
 					]);
 				}
 
 				set_transient(
-					"_simple-calendar_feed_id_" .
+					'_simple-calendar_feed_id_' .
 						strval($this->post_id) .
-						"_" .
+						'_' .
 						$this->type,
 					$events,
 					absint($this->cache)
@@ -184,7 +184,7 @@ class Grouped_Calendars extends Feed
 		}
 
 		// Sort events by start time before returning
-		uasort($events, [$this, "sort_by_start_time"]);
+		uasort($events, [$this, 'sort_by_start_time']);
 
 		return $events;
 	}

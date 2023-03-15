@@ -8,7 +8,7 @@ namespace SimpleCalendar\Admin\Fields;
 
 use SimpleCalendar\Abstracts\Field;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -53,30 +53,30 @@ class Select extends Field
 	 */
 	public function __construct($field)
 	{
-		$class = "simcal-field-select";
+		$class = 'simcal-field-select';
 
-		$enhanced = isset($field["enhanced"]) ? $field["enhanced"] : "";
-		if ("enhanced" == $enhanced) {
+		$enhanced = isset($field['enhanced']) ? $field['enhanced'] : '';
+		if ('enhanced' == $enhanced) {
 			$this->enhanced = true;
-			$class .= " simcal-field-select-enhanced";
+			$class .= ' simcal-field-select-enhanced';
 		}
 
-		$multiselect = isset($field["multiselect"])
-			? $field["multiselect"]
-			: "";
-		if ("multiselect" == $multiselect) {
+		$multiselect = isset($field['multiselect'])
+			? $field['multiselect']
+			: '';
+		if ('multiselect' == $multiselect) {
 			$this->multiselect = true;
-			$class .= " simcal-field-multiselect";
+			$class .= ' simcal-field-multiselect';
 		}
 
-		if (isset($field["default"])) {
-			$this->default = $field["default"];
+		if (isset($field['default'])) {
+			$this->default = $field['default'];
 		}
 
 		$this->type_class = $class;
 
-		$allow_void = isset($field["allow_void"]) ? $field["allow_void"] : "";
-		$this->allow_void = "allow_void" == $allow_void ? true : false;
+		$allow_void = isset($field['allow_void']) ? $field['allow_void'] : '';
+		$this->allow_void = 'allow_void' == $allow_void ? true : false;
 
 		parent::__construct($field);
 	}
@@ -89,11 +89,11 @@ class Select extends Field
 	public function html()
 	{
 		if ($this->multiselect === true && !is_array($this->value)) {
-			$this->value = explode(",", $this->value);
+			$this->value = explode(',', $this->value);
 		}
 
 		if ($this->default) {
-			if (empty($this->value) || $this->value == "") {
+			if (empty($this->value) || $this->value == '') {
 				$this->value = $this->default;
 			}
 		}
@@ -101,19 +101,19 @@ class Select extends Field
 		<select name="<?php
   echo $this->name;
   if ($this->multiselect === true) {
-  	echo "[]";
+  	echo '[]';
   }
   ?>"
 		        id="<?php echo $this->id; ?>"
 		        style="<?php echo $this->style; ?>"
 		        class="<?php echo $this->class; ?>"
 				<?php echo $this->attributes; ?>
-				<?php echo $this->multiselect === true ? ' multiple="multiple"' : ""; ?>>
+				<?php echo $this->multiselect === true ? ' multiple="multiple"' : ''; ?>>
 			<?php
    if ($this->allow_void === true) {
    	echo '<option value=""' .
-   		selected("", $this->value, false) .
-   		"></option>";
+   		selected('', $this->value, false) .
+   		'></option>';
    }
 
    foreach ($this->options as $option => $name) {
@@ -126,9 +126,9 @@ class Select extends Field
    		$option .
    		'" ' .
    		$selected .
-   		">" .
+   		'>' .
    		esc_attr($name) .
-   		"</option>";
+   		'</option>';
    }
    ?>
 		</select>
@@ -138,7 +138,7 @@ class Select extends Field
   if (!empty($this->description)) {
   	echo '<p class="description">' .
   		wp_kses_post($this->description) .
-  		"</p>";
+  		'</p>';
   }
 	}
 }

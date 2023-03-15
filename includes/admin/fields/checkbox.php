@@ -8,7 +8,7 @@ namespace SimpleCalendar\Admin\Fields;
 
 use SimpleCalendar\Abstracts\Field;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit(); // Exit if accessed directly.
 }
 
@@ -30,7 +30,7 @@ class Checkbox extends Field
 	 */
 	public function __construct($field)
 	{
-		$this->type_class = "simcal-field-checkboxes";
+		$this->type_class = 'simcal-field-checkboxes';
 		parent::__construct($field);
 	}
 
@@ -45,28 +45,28 @@ class Checkbox extends Field
 			if (!empty($this->description)) {
 				echo '<p class="description">' .
 					wp_kses_post($this->description) .
-					" " .
+					' ' .
 					$this->tooltip .
-					"</p>";
+					'</p>';
 			} ?>
 			<fieldset class="<?php echo $this->class; ?>" <?php echo !empty($this->style)
 	? 'style="' . $this->style . '"'
-	: ""; ?>>
+	: ''; ?>>
 				<?php if (!empty($this->title)) {
     	echo '<legend class="screen-reader-text"><span>' .
     		$this->title .
-    		"</span></legend>";
+    		'</span></legend>';
     } ?>
 				<ul>
 					<?php foreach ($this->options as $option => $name): ?>
 						<li>
-							<label for="<?php echo $this->id . "-" . trim(strval($option)); ?>">
+							<label for="<?php echo $this->id . '-' . trim(strval($option)); ?>">
 								<input name="<?php echo $this->name; ?>"
-								       id="<?php echo $this->id . "-" . trim(strval($option)); ?>"
+								       id="<?php echo $this->id . '-' . trim(strval($option)); ?>"
 								       class="simcal-field simcal-field-checkbox"
 								       type="checkbox"
 								       value="<?php echo trim(strval($option)); ?>"
-										<?php checked($this->value, "yes", true); ?>
+										<?php checked($this->value, 'yes', true); ?>
 									<?php echo $this->attributes; ?>
 									/><?php echo esc_attr($name); ?>
 							</label>
@@ -79,7 +79,7 @@ class Checkbox extends Field
 			 ?>
 			<span class="simcal-field-bool" <?php echo $this->style
    	? 'style="' . $this->style . '"'
-   	: ""; ?>>
+   	: ''; ?>>
 				<?php if (!empty($this->title)): ?>
 					<span class="screen-reader-text"><?php echo $this->title; ?></span>
 				<?php endif; ?>
@@ -88,10 +88,10 @@ class Checkbox extends Field
 				       id="<?php echo $this->id; ?>"
 				       class="simcal-field simcal-field-checkbox <?php echo $this->class; ?>"
 				       value="yes"
-					<?php checked($this->value, "yes", true); ?>
+					<?php checked($this->value, 'yes', true); ?>
 					<?php echo $this->attributes; ?>/><?php echo !empty($this->text)
 	? $this->text
-	: __("Yes", "google-calendar-events"); ?>
+	: __('Yes', 'google-calendar-events'); ?>
 			</span>
 			<?php
    echo $this->tooltip;
@@ -99,7 +99,7 @@ class Checkbox extends Field
    if (!empty($this->description)) {
    	echo '<p class="description">' .
    		wp_kses_post($this->description) .
-   		"</p>";
+   		'</p>';
    }
 
 		}

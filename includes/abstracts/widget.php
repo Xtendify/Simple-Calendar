@@ -6,7 +6,7 @@
  */
 namespace SimpleCalendar\Abstracts;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 

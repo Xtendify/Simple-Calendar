@@ -6,7 +6,7 @@
  */
 namespace SimpleCalendar;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -35,12 +35,12 @@ class Widgets
 	public function __construct()
 	{
 		$this->widgets = apply_filters(
-			"simcal_get_widgets",
-			["SimpleCalendar\Widgets\Calendar"],
+			'simcal_get_widgets',
+			['SimpleCalendar\Widgets\Calendar'],
 			[]
 		);
 
-		add_action("widgets_init", [$this, "register"]);
+		add_action('widgets_init', [$this, 'register']);
 	}
 
 	/**
@@ -58,6 +58,6 @@ class Widgets
 			}
 		}
 
-		do_action("simcal_register_widgets");
+		do_action('simcal_register_widgets');
 	}
 }

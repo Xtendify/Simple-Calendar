@@ -13,7 +13,7 @@ use SimpleCalendar\Abstracts\Calendar_View;
 use SimpleCalendar\Calendars\Default_Calendar;
 use SimpleCalendar\Events\Event;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -75,7 +75,7 @@ class Default_Calendar_List implements Calendar_View
 	 *
 	 * @param string|Calendar $calendar
 	 */
-	public function __construct($calendar = "")
+	public function __construct($calendar = '')
 	{
 		$this->calendar = $calendar;
 	}
@@ -89,7 +89,7 @@ class Default_Calendar_List implements Calendar_View
 	 */
 	public function get_parent()
 	{
-		return "default-calendar";
+		return 'default-calendar';
 	}
 
 	/**
@@ -101,7 +101,7 @@ class Default_Calendar_List implements Calendar_View
 	 */
 	public function get_type()
 	{
-		return "list";
+		return 'list';
 	}
 
 	/**
@@ -113,7 +113,7 @@ class Default_Calendar_List implements Calendar_View
 	 */
 	public function get_name()
 	{
-		return __("List", "google-calendar-events");
+		return __('List', 'google-calendar-events');
 	}
 
 	/**
@@ -123,13 +123,13 @@ class Default_Calendar_List implements Calendar_View
 	 */
 	public function add_ajax_actions()
 	{
-		add_action("wp_ajax_simcal_default_calendar_draw_list", [
+		add_action('wp_ajax_simcal_default_calendar_draw_list', [
 			$this,
-			"draw_list_ajax",
+			'draw_list_ajax',
 		]);
-		add_action("wp_ajax_nopriv_simcal_default_calendar_draw_list", [
+		add_action('wp_ajax_nopriv_simcal_default_calendar_draw_list', [
 			$this,
-			"draw_list_ajax",
+			'draw_list_ajax',
 		]);
 	}
 
@@ -144,25 +144,25 @@ class Default_Calendar_List implements Calendar_View
 	 *
 	 * @return array
 	 */
-	public function scripts($min = "")
+	public function scripts($min = '')
 	{
 		return [
-			"simcal-qtip" => [
-				"src" =>
-					SIMPLE_CALENDAR_ASSETS . "js/vendor/qtip" . $min . ".js",
-				"deps" => ["jquery"],
-				"in_footer" => true,
+			'simcal-qtip' => [
+				'src' =>
+					SIMPLE_CALENDAR_ASSETS . 'js/vendor/qtip' . $min . '.js',
+				'deps' => ['jquery'],
+				'in_footer' => true,
 			],
-			"simcal-default-calendar" => [
-				"src" =>
+			'simcal-default-calendar' => [
+				'src' =>
 					SIMPLE_CALENDAR_ASSETS .
-					"js/default-calendar" .
+					'js/default-calendar' .
 					$min .
-					".js",
-				"deps" => ["jquery", "simcal-qtip"],
-				"in_footer" => true,
-				"localize" => [
-					"simcal_default_calendar" => simcal_common_scripts_variables(),
+					'.js',
+				'deps' => ['jquery', 'simcal-qtip'],
+				'in_footer' => true,
+				'localize' => [
+					'simcal_default_calendar' => simcal_common_scripts_variables(),
 				],
 			],
 		];
@@ -179,16 +179,16 @@ class Default_Calendar_List implements Calendar_View
 	 *
 	 * @return array
 	 */
-	public function styles($min = "")
+	public function styles($min = '')
 	{
 		return [
-			"simcal-default-calendar-list" => [
-				"src" =>
+			'simcal-default-calendar-list' => [
+				'src' =>
 					SIMPLE_CALENDAR_ASSETS .
-					"css/default-calendar-list" .
+					'css/default-calendar-list' .
 					$min .
-					".css",
-				"media" => "all",
+					'.css',
+				'media' => 'all',
 			],
 		];
 	}
@@ -206,34 +206,34 @@ class Default_Calendar_List implements Calendar_View
 			$disabled =
 				$calendar->static === true || empty($calendar->events)
 					? ' disabled="disabled"'
-					: "";
+					: '';
 
 			$hide_header =
 				get_post_meta(
 					$this->calendar->id,
-					"_default_calendar_list_header",
+					'_default_calendar_list_header',
 					true
-				) == "yes"
+				) == 'yes'
 					? true
 					: false;
 			$static_calendar =
 				get_post_meta(
 					$this->calendar->id,
-					"_calendar_is_static",
+					'_calendar_is_static',
 					true
-				) == "yes"
+				) == 'yes'
 					? true
 					: false;
 
-			$header_class = "";
+			$header_class = '';
 			$compact_list_class = $calendar->compact_list
-				? "simcal-calendar-list-compact"
-				: "";
+				? 'simcal-calendar-list-compact'
+				: '';
 
 			edit_post_link(
-				__("Edit Calendar", "google-calendar-events"),
+				__('Edit Calendar', 'google-calendar-events'),
 				'<p class="simcal-align-right"><small>',
-				"</small></p>",
+				'</small></p>',
 				$calendar->id
 			);
 
@@ -247,17 +247,17 @@ class Default_Calendar_List implements Calendar_View
 				echo "\t" . '<div class="simcal-nav">' . "\n";
 				echo "\t\t" .
 					'<button class="simcal-nav-button simcal-prev" title="' .
-					__("Previous", "google-calendar-events") .
+					__('Previous', 'google-calendar-events') .
 					'"' .
 					$disabled .
-					">" .
+					'>' .
 					"\n";
 				echo "\t\t\t" . '<i class="simcal-icon-left"></i>' . "\n";
-				echo "\t\t" . "</button>" . "\n";
-				echo "\t" . "</div>" . "\n";
+				echo "\t\t" . '</button>' . "\n";
+				echo "\t" . '</div>' . "\n";
 
 				if ($hide_header) {
-					$header_class = "simcal-hide-header";
+					$header_class = 'simcal-hide-header';
 				}
 
 				echo "\t" .
@@ -268,27 +268,27 @@ class Default_Calendar_List implements Calendar_View
 					'">' .
 					"\n";
 				echo "\t\t" . '<h3 class="simcal-current-label"> </h3>' . "\n";
-				echo "\t" . "</div>" . "\n";
+				echo "\t" . '</div>' . "\n";
 
 				echo "\t" . '<div class="simcal-nav">';
 				echo "\t\t" .
 					'<button class="simcal-nav-button simcal-next" title="' .
-					__("Next", "google-calendar-events") .
+					__('Next', 'google-calendar-events') .
 					'"' .
 					$disabled .
-					">";
+					'>';
 				echo "\t\t\t" . '<i class="simcal-icon-right"></i>' . "\n";
-				echo "\t\t" . "</button>" . "\n";
-				echo "\t" . "</div>" . "\n";
+				echo "\t\t" . '</button>' . "\n";
+				echo "\t" . '</div>' . "\n";
 
-				echo "</nav>" . "\n";
+				echo '</nav>' . "\n";
 			}
 
 			echo $this->draw_list($calendar->start);
 
 			echo '<div class="simcal-ajax-loader simcal-spinner-top" style="display: none;"><i class="simcal-icon-spinner simcal-icon-spin"></i></div>';
 
-			echo "</div>";
+			echo '</div>';
 		}
 	}
 
@@ -319,17 +319,17 @@ class Default_Calendar_List implements Calendar_View
 
 		$interval = $span = max(absint($calendar->group_span), 1);
 
-		if ("monthly" == $calendar->group_type) {
+		if ('monthly' == $calendar->group_type) {
 			$this->prev = $prev->subMonths($span)->getTimestamp();
 			$this->next = $next->addMonths($span)->getTimestamp();
-		} elseif ("weekly" == $calendar->group_type) {
+		} elseif ('weekly' == $calendar->group_type) {
 			$week = new Carbon($calendar->timezone);
 			$week->setTimestamp($timestamp);
 			//$week->setWeekStartsAt( $calendar->week_starts ); # DEPRECATED: Use startOfWeek() below...
 			$week->startOfWeek($calendar->week_starts);
 			$this->prev = $prev->subWeeks($span)->getTimestamp();
 			$this->next = $next->addWeeks($span)->getTimestamp();
-		} elseif ("daily" == $calendar->group_type) {
+		} elseif ('daily' == $calendar->group_type) {
 			$this->prev = $prev->subDays($span)->getTimestamp();
 			$this->next = $next->addDays($span)->getTimestamp();
 		}
@@ -337,17 +337,17 @@ class Default_Calendar_List implements Calendar_View
 		$events = $calendar->events;
 		$daily_events = $paged_events = $flattened_events = [];
 
-		if ("events" != $calendar->group_type) {
+		if ('events' != $calendar->group_type) {
 			$this->end = $this->next - 1;
 
 			$timestamps = array_keys($events);
 			$lower_bound = array_filter($timestamps, [
 				$this,
-				"filter_events_before",
+				'filter_events_before',
 			]);
 			$higher_bound = array_filter($lower_bound, [
 				$this,
-				"filter_events_after",
+				'filter_events_after',
 			]);
 
 			if (is_array($higher_bound) && !empty($higher_bound)) {
@@ -424,7 +424,7 @@ class Default_Calendar_List implements Calendar_View
 				// Offset value after first day same behavior as Carbon above still.
 				$dtz = new \DateTimeZone($calendar->timezone);
 
-				$date = \DateTime::createFromFormat("U", $timestamp);
+				$date = \DateTime::createFromFormat('U', $timestamp);
 
 				// Doesn't seem to make a difference omitting timezone.
 				//$date = \DateTime::createFromFormat( 'U', $timestamp, $dtz );
@@ -434,12 +434,12 @@ class Default_Calendar_List implements Calendar_View
 				$offset = $dtz->getOffset($date);
 				$date_offset = clone $date;
 				$date_offset->add(
-					\DateInterval::createFromDateString($offset . " seconds")
+					\DateInterval::createFromDateString($offset . ' seconds')
 				);
 
 				// TODO Multiple day events will be off if part-way through there's daylight savings.
 
-				$dateYmd = $date_offset->format("Ymd");
+				$dateYmd = $date_offset->format('Ymd');
 				$daily_events[intval($dateYmd)][] = $events;
 			}
 		}
@@ -506,78 +506,78 @@ class Default_Calendar_List implements Calendar_View
 			// Start and end on the same day.
 			// e.g. 1 February 2020
 			$large = $small = date_i18n($calendar->date_format, $st);
-			if ($date_order["d"] !== false && $date_order["m"] !== false) {
-				if ($date_order["m"] > $date_order["d"]) {
+			if ($date_order['d'] !== false && $date_order['m'] !== false) {
+				if ($date_order['m'] > $date_order['d']) {
 					if (
-						$date_order["y"] !== false &&
-						$date_order["y"] > $date_order["m"]
+						$date_order['y'] !== false &&
+						$date_order['y'] > $date_order['m']
 					) {
-						$small = date_i18n("Y, d M", $st);
+						$small = date_i18n('Y, d M', $st);
 					} else {
-						$small = date_i18n("d M Y", $st);
+						$small = date_i18n('d M Y', $st);
 					}
 				} else {
 					if (
-						$date_order["y"] !== false &&
-						$date_order["y"] > $date_order["m"]
+						$date_order['y'] !== false &&
+						$date_order['y'] > $date_order['m']
 					) {
-						$small = date_i18n("Y, M d", $st);
+						$small = date_i18n('Y, M d', $st);
 					} else {
-						$small = date_i18n("M d Y", $st);
+						$small = date_i18n('M d Y', $st);
 					}
 				}
 			}
 		} elseif ($start->month == $end->month && $start->year == $end->year) {
 			// Start and end days on the same month.
 			// e.g. August 2020
-			if ($date_order["y"] === false) {
+			if ($date_order['y'] === false) {
 				// August.
-				$large = $small = date_i18n("F", $st);
+				$large = $small = date_i18n('F', $st);
 			} else {
-				if ($date_order["y"] < $date_order["m"]) {
+				if ($date_order['y'] < $date_order['m']) {
 					// 2020 August.
-					$large = date_i18n("Y F", $st);
-					$small = date_i18n("Y M", $st);
+					$large = date_i18n('Y F', $st);
+					$small = date_i18n('Y M', $st);
 				} else {
 					// August 2020.
-					$large = date_i18n("F Y", $st);
-					$small = date_i18n("M Y", $st);
+					$large = date_i18n('F Y', $st);
+					$small = date_i18n('M Y', $st);
 				}
 			}
 		} elseif ($start->year == $end->year) {
 			// Start and end days on months of the same year.
 			// e.g. August - September 2020
-			if ($date_order["y"] === false) {
+			if ($date_order['y'] === false) {
 				// August - September.
-				$large = date_i18n("F", $st) . " - " . date_i18n("F", $et);
-				$small = date_i18n("M", $st) . " - " . date_i18n("M", $et);
+				$large = date_i18n('F', $st) . ' - ' . date_i18n('F', $et);
+				$small = date_i18n('M', $st) . ' - ' . date_i18n('M', $et);
 			} else {
-				if ($date_order["y"] < $date_order["m"]) {
+				if ($date_order['y'] < $date_order['m']) {
 					// 2020, August - September.
-					$large = $small = date("Y", $st) . ", ";
-					$large .= date_i18n("F", $st) . " - " . date_i18n("F", $et);
-					$small .= date_i18n("M", $st) . " - " . date_i18n("M", $et);
+					$large = $small = date('Y', $st) . ', ';
+					$large .= date_i18n('F', $st) . ' - ' . date_i18n('F', $et);
+					$small .= date_i18n('M', $st) . ' - ' . date_i18n('M', $et);
 				} else {
 					// August - September, 2020.
 					$large =
-						date_i18n("F", $st) .
-						" - " .
-						date_i18n("F", $et) .
-						", ";
+						date_i18n('F', $st) .
+						' - ' .
+						date_i18n('F', $et) .
+						', ';
 					$small =
-						date_i18n("M", $st) . " - " . date_i18n("M", $et) . " ";
-					$year = date("Y", $st);
+						date_i18n('M', $st) . ' - ' . date_i18n('M', $et) . ' ';
+					$year = date('Y', $st);
 					$large .= $year;
 					$small .= $year;
 				}
 			}
 		} else {
-			$large = $small = date("Y", $st) . " - " . date("Y", $et);
+			$large = $small = date('Y', $st) . ' - ' . date('Y', $et);
 		}
 
 		return [
-			"small" => $small,
-			"large" => $large,
+			'small' => $small,
+			'large' => $large,
 		];
 	}
 
@@ -620,7 +620,7 @@ class Default_Calendar_List implements Calendar_View
 		if (empty($calendar)) {
 			$calendar = $this->calendar = simcal_get_calendar(intval($id));
 			if (!$calendar instanceof Default_Calendar) {
-				return "";
+				return '';
 			}
 		}
 
@@ -633,15 +633,15 @@ class Default_Calendar_List implements Calendar_View
 		// Draw the events.
 
 		$block_tag =
-			$calendar->compact_list && !empty($current_events) ? "div" : "dl";
+			$calendar->compact_list && !empty($current_events) ? 'div' : 'dl';
 
-		$data_heading = "";
+		$data_heading = '';
 		$heading = $this->get_heading();
 		foreach ($heading as $k => $v) {
-			$data_heading .= " data-heading-" . $k . '="' . $v . '"';
+			$data_heading .= ' data-heading-' . $k . '="' . $v . '"';
 		}
 
-		echo "<" .
+		echo '<' .
 			$block_tag .
 			' class="simcal-events-list-container"' .
 			' data-prev="' .
@@ -651,7 +651,7 @@ class Default_Calendar_List implements Calendar_View
 			$this->next .
 			'"' .
 			$data_heading .
-			">";
+			'>';
 
 		if (!empty($current_events) && is_array($current_events)):
 			$last_event = null;
@@ -668,10 +668,10 @@ class Default_Calendar_List implements Calendar_View
 					$first_event->multiple_days > 0
 				) {
 					if (
-						"current_day_only" ==
+						'current_day_only' ==
 						get_post_meta(
 							$calendar->id,
-							"_default_calendar_expand_multi_day_events",
+							'_default_calendar_expand_multi_day_events',
 							true
 						)
 					) {
@@ -699,7 +699,7 @@ class Default_Calendar_List implements Calendar_View
 
 				// Add offset offset for list view day headings.
 				$day_date = Carbon::createFromFormat(
-					"Ymd",
+					'Ymd',
 					$ymd,
 					$calendar->timezone
 				);
@@ -714,22 +714,22 @@ class Default_Calendar_List implements Calendar_View
 						$the_color = new Color($calendar->days_events_color);
 					}
 
-					$bg_color = "#" . $the_color->getHex();
-					$color = $the_color->isDark() ? "#ffffff" : "#000000";
+					$bg_color = '#' . $the_color->getHex();
+					$color = $the_color->isDark() ? '#ffffff' : '#000000';
 					$border_style =
 						' style="border-bottom: 1px solid ' . $bg_color . ';" ';
 					$bg_style =
 						' style="background-color: ' .
 						$bg_color .
-						"; color: " .
+						'; color: ' .
 						$color .
 						';"';
 
 					echo "\t" .
 						'<dt class="simcal-day-label"' .
 						$border_style .
-						">";
-					echo "<span" . $bg_style . ">";
+						'>';
+					echo '<span' . $bg_style . '>';
 
 					echo $format
 						? '<span class="simcal-date-format" data-date-format="' .
@@ -740,11 +740,11 @@ class Default_Calendar_List implements Calendar_View
 								$day_date_ts_offset,
 								strtotime($day_date_offset->toDateTimeString())
 							) .
-							"</span> "
-						: " ";
+							'</span> '
+						: ' ';
 
-					echo "</span>";
-					echo "</dt>" . "\n";
+					echo '</span>';
+					echo '</dt>' . "\n";
 				}
 
 				$list_events = '<ul class="simcal-events">' . "\n";
@@ -753,40 +753,40 @@ class Default_Calendar_List implements Calendar_View
 
 				// Add day of week number to CSS class.
 				$day_classes =
-					"simcal-weekday-" . date("w", $day_date_ts_offset);
+					'simcal-weekday-' . date('w', $day_date_ts_offset);
 
 				// Is this the present, the past or the future, Doc?
 				if ($timestamp <= $now && $timestamp >= $now) {
-					$day_classes .= " simcal-today simcal-present simcal-day";
+					$day_classes .= ' simcal-today simcal-present simcal-day';
 				} elseif ($timestamp < $now) {
-					$day_classes .= " simcal-past simcal-day";
+					$day_classes .= ' simcal-past simcal-day';
 				} elseif ($this->end > $now) {
-					$day_classes .= " simcal-future simcal-day";
+					$day_classes .= ' simcal-future simcal-day';
 				}
 
 				$count = 0;
 
 				foreach ($events as $day_events):
-					usort($day_events, [$this, "cmp"]);
+					usort($day_events, [$this, 'cmp']);
 
 					foreach ($day_events as $event):
 						if ($event instanceof Event):
-							$event_classes = $event_visibility = "";
+							$event_classes = $event_visibility = '';
 
 							$calendar_class =
-								"simcal-events-calendar-" .
+								'simcal-events-calendar-' .
 								strval($event->calendar);
 							$calendar_classes[] = $calendar_class;
 
 							$recurring = $event->recurrence
-								? "simcal-event-recurring "
-								: "";
+								? 'simcal-event-recurring '
+								: '';
 							$has_location = $event->venue
-								? "simcal-event-has-location "
-								: "";
+								? 'simcal-event-has-location '
+								: '';
 
 							$event_classes .=
-								"simcal-event " .
+								'simcal-event ' .
 								$recurring .
 								$has_location .
 								$calendar_class;
@@ -796,21 +796,21 @@ class Default_Calendar_List implements Calendar_View
 								$calendar->events_limit > -1 &&
 								$count >= $calendar->events_limit
 							):
-								$event_classes .= " simcal-event-toggled";
-								$event_visibility = " display: none;";
+								$event_classes .= ' simcal-event-toggled';
+								$event_visibility = ' display: none;';
 							endif;
 
 							$event_color = $event->get_color();
 							if (!empty($event_color)) {
-								$side = is_rtl() ? "right" : "left";
+								$side = is_rtl() ? 'right' : 'left';
 								$event_color =
-									" border-" .
+									' border-' .
 									$side .
-									": 4px solid " .
+									': 4px solid ' .
 									$event_color .
-									"; padding-" .
+									'; padding-' .
 									$side .
-									": 8px;";
+									': 8px;';
 							}
 
 							$list_events .=
@@ -828,27 +828,27 @@ class Default_Calendar_List implements Calendar_View
 								"\t\t" .
 								'<div class="simcal-event-details">' .
 								$calendar->get_event_html($event) .
-								"</div>" .
+								'</div>' .
 								"\n";
-							$list_events .= "\t" . "</li>" . "\n";
+							$list_events .= "\t" . '</li>' . "\n";
 
 							$count++;
 
 							// Event falls within today.
 							if ($this->end <= $now && $this->start >= $now):
-								$day_classes .= " simcal-today-has-events";
+								$day_classes .= ' simcal-today-has-events';
 							endif;
 							$day_classes .=
-								" simcal-day-has-events simcal-day-has-" .
+								' simcal-day-has-events simcal-day-has-' .
 								strval($count) .
-								"-events";
+								'-events';
 
 							if ($calendar_classes):
 								$day_classes .=
-									" " .
+									' ' .
 									trim(
 										implode(
-											" ",
+											' ',
 											array_unique($calendar_classes)
 										)
 									);
@@ -857,7 +857,7 @@ class Default_Calendar_List implements Calendar_View
 					endforeach;
 				endforeach;
 
-				$list_events .= "</ul>" . "\n";
+				$list_events .= '</ul>' . "\n";
 
 				// If events visibility is limited, print the button toggle.
 				if (
@@ -869,8 +869,8 @@ class Default_Calendar_List implements Calendar_View
 				endif;
 
 				// Print final list of events for the current day.
-				$tag = $calendar->compact_list ? "div" : "dd";
-				echo "<" .
+				$tag = $calendar->compact_list ? 'div' : 'dd';
+				echo '<' .
 					$tag .
 					' class="' .
 					$day_classes .
@@ -879,19 +879,19 @@ class Default_Calendar_List implements Calendar_View
 					'">' .
 					"\n";
 				echo "\t" . $list_events . "\n";
-				echo "</" . $tag . ">" . "\n";
+				echo '</' . $tag . '>' . "\n";
 			endforeach;
 		else:
-			echo "\t" . "<p>";
+			echo "\t" . '<p>';
 
-			$message = get_post_meta($calendar->id, "_no_events_message", true);
+			$message = get_post_meta($calendar->id, '_no_events_message', true);
 
-			if ("events" == $calendar->group_type) {
+			if ('events' == $calendar->group_type) {
 				echo !empty($message)
 					? $message
 					: __(
-						"There are no upcoming events.",
-						"google-calendar-events"
+						'There are no upcoming events.',
+						'google-calendar-events'
 					);
 			} else {
 				if (!empty($message)) {
@@ -906,11 +906,11 @@ class Default_Calendar_List implements Calendar_View
 						$calendar->timezone
 					)->getTimestamp();
 					echo apply_filters(
-						"simcal_no_events_message",
+						'simcal_no_events_message',
 						sprintf(
 							__(
 								'Nothing from %1$s to %2$s.',
-								"google-calendar-events"
+								'google-calendar-events'
 							),
 							date_i18n($calendar->date_format, $from),
 							date_i18n($calendar->date_format, $to)
@@ -922,10 +922,10 @@ class Default_Calendar_List implements Calendar_View
 				}
 			}
 
-			echo "\t" . "</p>" . "\n";
+			echo "\t" . '</p>' . "\n";
 		endif;
 
-		echo "</" . $block_tag . ">";
+		echo '</' . $block_tag . '>';
 
 		return ob_get_clean();
 	}
@@ -937,14 +937,14 @@ class Default_Calendar_List implements Calendar_View
 	 */
 	public function draw_list_ajax()
 	{
-		if (isset($_POST["ts"]) && isset($_POST["id"])) {
-			$ts = absint($_POST["ts"]);
-			$id = absint($_POST["id"]);
+		if (isset($_POST['ts']) && isset($_POST['id'])) {
+			$ts = absint($_POST['ts']);
+			$id = absint($_POST['id']);
 
 			wp_send_json_success($this->draw_list($ts, $id));
 		} else {
 			wp_send_json_error(
-				"Missing arguments in default calendar list ajax request."
+				'Missing arguments in default calendar list ajax request.'
 			);
 		}
 	}

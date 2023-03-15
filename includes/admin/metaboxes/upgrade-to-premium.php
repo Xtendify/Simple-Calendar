@@ -8,7 +8,7 @@ namespace SimpleCalendar\Admin\Metaboxes;
 
 use SimpleCalendar\Abstracts\Meta_Box;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 

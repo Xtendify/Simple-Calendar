@@ -18,7 +18,7 @@ use SimpleCalendar\Abstracts\Feed;
 use SimpleCalendar\Feeds\Admin\Google_Admin as Admin;
 use SimpleCalendar\plugin_deps\GuzzleHttp\Client;
 
-if (!defined("ABSPATH")) {
+if (!defined('ABSPATH')) {
 	exit();
 }
 
@@ -53,7 +53,7 @@ class Google extends Feed
 	 * @access protected
 	 * @var string
 	 */
-	protected $google_api_key = "";
+	protected $google_api_key = '';
 
 	/**
 	 * Google Calendar ID.
@@ -61,7 +61,7 @@ class Google extends Feed
 	 * @access protected
 	 * @var string
 	 */
-	protected $google_calendar_id = "";
+	protected $google_calendar_id = '';
 
 	/**
 	 * Google recurring events query setting.
@@ -69,7 +69,7 @@ class Google extends Feed
 	 * @access protected
 	 * @var string
 	 */
-	protected $google_events_recurring = "";
+	protected $google_events_recurring = '';
 
 	/**
 	 * Google search query setting.
@@ -77,7 +77,7 @@ class Google extends Feed
 	 * @access protected
 	 * @var string
 	 */
-	protected $google_search_query = "";
+	protected $google_search_query = '';
 
 	/**
 	 * Google max results query setting.
@@ -95,18 +95,18 @@ class Google extends Feed
 	 * @param string|Calendar $calendar
 	 * @param bool $load_admin
 	 */
-	public function __construct($calendar = "", $load_admin = true)
+	public function __construct($calendar = '', $load_admin = true)
 	{
 		parent::__construct($calendar);
 
-		$this->type = "google";
-		$this->name = __("Google Calendar", "google-calendar-events");
+		$this->type = 'google';
+		$this->name = __('Google Calendar', 'google-calendar-events');
 
 		// Google client config.
-		$settings = get_option("simple-calendar_settings_feeds");
-		$this->google_api_key = isset($settings["google"]["api_key"])
-			? esc_attr($settings["google"]["api_key"])
-			: "";
+		$settings = get_option('simple-calendar_settings_feeds');
+		$this->google_api_key = isset($settings['google']['api_key'])
+			? esc_attr($settings['google']['api_key'])
+			: '';
 		$this->google_client_scopes = [
 			Google_Service_Calendar::CALENDAR_READONLY,
 		];
@@ -115,29 +115,29 @@ class Google extends Feed
 		if ($this->post_id > 0) {
 			// Google query args.
 			$this->google_calendar_id = $this->esc_google_calendar_id(
-				get_post_meta($this->post_id, "_google_calendar_id", true)
+				get_post_meta($this->post_id, '_google_calendar_id', true)
 			);
 			$this->google_events_recurring = esc_attr(
-				get_post_meta($this->post_id, "_google_events_recurring", true)
+				get_post_meta($this->post_id, '_google_events_recurring', true)
 			);
 			// note that google_search_query is used in a URL param and not as HTML output, so don't use esc_attr() on it
 			$this->google_search_query = get_post_meta(
 				$this->post_id,
-				"_google_events_search_query",
+				'_google_events_search_query',
 				true
 			);
 			$this->google_max_results = max(
 				absint(
 					get_post_meta(
 						$this->post_id,
-						"_google_events_max_results",
+						'_google_events_max_results',
 						true
 					)
 				),
 				1
 			);
 
-			if (!is_admin() || defined("DOING_AJAX")) {
+			if (!is_admin() || defined('DOING_AJAX')) {
 				$this->events = !empty($this->google_api_key)
 					? $this->get_events()
 					: [];
@@ -180,14 +180,14 @@ class Google extends Feed
 	public function get_events()
 	{
 		$calendar = get_transient(
-			"_simple-calendar_feed_id_" .
+			'_simple-calendar_feed_id_' .
 				strval($this->post_id) .
-				"_" .
+				'_' .
 				$this->type
 		);
 
 		if (empty($calendar) && !empty($this->google_calendar_id)) {
-			$error = "";
+			$error = '';
 
 			try {
 				$response = $this->make_request($this->google_calendar_id);
@@ -197,25 +197,25 @@ class Google extends Feed
 
 			if (
 				empty($error) &&
-				isset($response["events"]) &&
-				isset($response["timezone"])
+				isset($response['events']) &&
+				isset($response['timezone'])
 			) {
-				$calendar = array_merge($response, ["events" => []]);
+				$calendar = array_merge($response, ['events' => []]);
 
 				// If no timezone has been set, use calendar feed.
-				if ("use_calendar" == $this->timezone_setting) {
-					$this->timezone = $calendar["timezone"];
+				if ('use_calendar' == $this->timezone_setting) {
+					$this->timezone = $calendar['timezone'];
 				}
 
-				$source = isset($response["title"])
-					? sanitize_text_field($response["title"])
-					: "";
+				$source = isset($response['title'])
+					? sanitize_text_field($response['title'])
+					: '';
 
 				if (
-					!empty($response["events"]) &&
-					is_array($response["events"])
+					!empty($response['events']) &&
+					is_array($response['events'])
 				) {
-					foreach ($response["events"] as $event) {
+					foreach ($response['events'] as $event) {
 						if ($event instanceof Google_Service_Calendar_Event) {
 							// Visibility and status.
 							// Public calendars may have private events which can't be properly accessed by simple api key method.
@@ -223,10 +223,10 @@ class Google extends Feed
 							$visibility = $event->getVisibility();
 							$status = $event->getStatus();
 							if (
-								$this->type == "google" &&
-								($visibility == "private" ||
-									$visibility == "confidential" ||
-									$status == "cancelled")
+								$this->type == 'google' &&
+								($visibility == 'private' ||
+									$visibility == 'confidential' ||
+									$status == 'cancelled')
 							) {
 								continue;
 							}
@@ -240,7 +240,7 @@ class Google extends Feed
 										mb_detect_order(),
 										true
 									),
-									"UTF-8",
+									'UTF-8',
 									$title
 								)
 							);
@@ -251,7 +251,7 @@ class Google extends Feed
 										mb_detect_order(),
 										true
 									),
-									"UTF-8",
+									'UTF-8',
 									$event->getDescription()
 								)
 							);
@@ -259,9 +259,9 @@ class Google extends Feed
 							$whole_day = false;
 
 							// Event start properties.
-							if ("use_calendar" == $this->timezone_setting) {
+							if ('use_calendar' == $this->timezone_setting) {
 								$start_timezone = !$event->getStart()->timeZone
-									? $calendar["timezone"]
+									? $calendar['timezone']
 									: $event->getStart()->timeZone;
 							} else {
 								$start_timezone = $this->timezone;
@@ -282,7 +282,7 @@ class Google extends Feed
 									$date->year,
 									$date->month,
 									$date->day,
-									"UTC"
+									'UTC'
 								)
 									->startOfDay()
 									->addSeconds(59);
@@ -295,7 +295,7 @@ class Google extends Feed
 								// Check if there is an event level timezone
 								if (
 									$event->getStart()->timeZone &&
-									"use_calendar" == $this->timezone_setting
+									'use_calendar' == $this->timezone_setting
 								) {
 									// Get the two different times with the separate timezones so we can check the offsets next
 									$google_start1 = Carbon::create(
@@ -344,7 +344,7 @@ class Google extends Feed
 									$date->hour,
 									$date->minute,
 									$date->second,
-									"UTC"
+									'UTC'
 								);
 
 								$this->timezone = $start_timezone;
@@ -354,13 +354,13 @@ class Google extends Feed
 							// Start UTC.
 							$start_utc = $google_start_utc->getTimestamp();
 
-							$end = $end_utc = $end_timezone = "";
+							$end = $end_utc = $end_timezone = '';
 							$span = 0;
 							if (false == $event->getEndTimeUnspecified()) {
 								// Event end properties.
-								if ("use_calendar" == $this->timezone_setting) {
+								if ('use_calendar' == $this->timezone_setting) {
 									$end_timezone = !$event->getEnd()->timeZone
-										? $calendar["timezone"]
+										? $calendar['timezone']
 										: $event->getEnd()->timeZone;
 								} else {
 									$end_timezone = $this->timezone;
@@ -383,7 +383,7 @@ class Google extends Feed
 										$date->year,
 										$date->month,
 										$date->day,
-										"UTC"
+										'UTC'
 									)
 										->startOfDay()
 										->subSeconds(59);
@@ -395,7 +395,7 @@ class Google extends Feed
 									// Check if there is an event level timezone
 									if (
 										$event->getEnd()->timeZone &&
-										"use_calendar" ==
+										'use_calendar' ==
 											$this->timezone_setting
 									) {
 										// Get the two different times with the separate timezones so we can check the offsets next
@@ -445,7 +445,7 @@ class Google extends Feed
 										$date->hour,
 										$date->minute,
 										$date->second,
-										"UTC"
+										'UTC'
 									);
 								}
 								// End.
@@ -461,7 +461,7 @@ class Google extends Feed
 										$google_start->toDateString() !==
 											$google_end->toDateString() &&
 										$google_end->toTimeString() !=
-											"00:00:00"
+											'00:00:00'
 									) {
 										$span = 1;
 									}
@@ -482,9 +482,9 @@ class Google extends Feed
 							}
 
 							// Event link.
-							if ("use_calendar" == $this->timezone_setting) {
+							if ('use_calendar' == $this->timezone_setting) {
 								$link = add_query_arg(
-									["ctz" => $this->timezone],
+									['ctz' => $this->timezone],
 									$event->getHtmlLink()
 								);
 							} else {
@@ -492,40 +492,40 @@ class Google extends Feed
 							}
 
 							// Build the event.
-							$calendar["events"][intval($start)][] = [
-								"type" => "google-calendar",
-								"source" => $source,
-								"title" => $title,
-								"description" => $description,
-								"link" => $link,
-								"visibility" => $visibility,
-								"uid" => $event->id,
-								"ical_id" => $event->getICalUID(),
-								"calendar" => $this->post_id,
-								"timezone" => $this->timezone,
-								"start" => $start,
-								"start_utc" => $start_utc,
-								"start_timezone" => $start_timezone,
-								"start_location" => $start_location,
-								"end" => $end,
-								"end_utc" => $end_utc,
-								"end_timezone" => $end_timezone,
-								"end_location" => $end_location,
-								"whole_day" => $whole_day,
-								"multiple_days" => $multiple_days,
-								"recurrence" => $recurrence,
-								"template" => $this->events_template,
+							$calendar['events'][intval($start)][] = [
+								'type' => 'google-calendar',
+								'source' => $source,
+								'title' => $title,
+								'description' => $description,
+								'link' => $link,
+								'visibility' => $visibility,
+								'uid' => $event->id,
+								'ical_id' => $event->getICalUID(),
+								'calendar' => $this->post_id,
+								'timezone' => $this->timezone,
+								'start' => $start,
+								'start_utc' => $start_utc,
+								'start_timezone' => $start_timezone,
+								'start_location' => $start_location,
+								'end' => $end,
+								'end_utc' => $end_utc,
+								'end_timezone' => $end_timezone,
+								'end_location' => $end_location,
+								'whole_day' => $whole_day,
+								'multiple_days' => $multiple_days,
+								'recurrence' => $recurrence,
+								'template' => $this->events_template,
 							];
 						}
 					}
 
-					if (!empty($calendar["events"])) {
-						ksort($calendar["events"], SORT_NUMERIC);
+					if (!empty($calendar['events'])) {
+						ksort($calendar['events'], SORT_NUMERIC);
 
 						set_transient(
-							"_simple-calendar_feed_id_" .
+							'_simple-calendar_feed_id_' .
 								strval($this->post_id) .
-								"_" .
+								'_' .
 								$this->type,
 							$calendar,
 							max(absint($this->cache), 1) // Since a value of 0 means forever we set the minimum here to 1 if the user has set it to be 0
@@ -534,18 +534,18 @@ class Google extends Feed
 				}
 			} else {
 				$message = __(
-					"While trying to retrieve events, Google returned an error:",
-					"google-calendar-events"
+					'While trying to retrieve events, Google returned an error:',
+					'google-calendar-events'
 				);
-				$message .= "<br><br>" . $error . "<br><br>";
+				$message .= '<br><br>' . $error . '<br><br>';
 				$message .=
 					__(
-						"Please ensure that both your Google Calendar ID and API Key are valid and that the Google Calendar you want to display is public.",
-						"google-calendar-events"
-					) . "<br><br>";
+						'Please ensure that both your Google Calendar ID and API Key are valid and that the Google Calendar you want to display is public.',
+						'google-calendar-events'
+					) . '<br><br>';
 				$message .= __(
-					"Only you can see this notice.",
-					"google-calendar-events"
+					'Only you can see this notice.',
+					'google-calendar-events'
 				);
 
 				return $message;
@@ -554,34 +554,34 @@ class Google extends Feed
 
 		// If no timezone has been set, use calendar feed.
 		if (
-			"use_calendar" == $this->timezone_setting &&
-			isset($calendar["timezone"])
+			'use_calendar' == $this->timezone_setting &&
+			isset($calendar['timezone'])
 		) {
-			$this->timezone = $calendar["timezone"];
+			$this->timezone = $calendar['timezone'];
 		}
 
 		// Custom OR search since Google API doesn't support the OR search for calendar events
-		if (isset($calendar["events"]) && !empty($this->google_search_query)) {
+		if (isset($calendar['events']) && !empty($this->google_search_query)) {
 			$events = [];
 			$search_query = explode(
-				strtolower(" OR "),
+				strtolower(' OR '),
 				strtolower($this->google_search_query)
 			);
 
-			foreach ($calendar["events"] as $k => $v) {
+			foreach ($calendar['events'] as $k => $v) {
 				foreach ($v as $k2) {
 					$search_found = false;
 
 					for ($i = 0; $i < count($search_query); $i++) {
-						$title_check = !empty($k2["title"])
+						$title_check = !empty($k2['title'])
 							? strpos(
-								strtolower($k2["title"]),
+								strtolower($k2['title']),
 								$search_query[$i]
 							)
 							: false;
-						$description_check = !empty($k2["description"])
+						$description_check = !empty($k2['description'])
 							? strpos(
-								strtolower($k2["description"]),
+								strtolower($k2['description']),
 								$search_query[$i]
 							)
 							: false;
@@ -601,11 +601,11 @@ class Google extends Feed
 			}
 
 			if (!empty($events)) {
-				$calendar["events"] = $events;
+				$calendar['events'] = $events;
 			}
 		}
 
-		return isset($calendar["events"]) ? $calendar["events"] : [];
+		return isset($calendar['events']) ? $calendar['events'] : [];
 	}
 
 	/**
@@ -621,7 +621,7 @@ class Google extends Feed
 	 *
 	 * @throws Exception On request failure will throw an exception from Google.
 	 */
-	public function make_request($id = "", $time_min = 0, $time_max = 0)
+	public function make_request($id = '', $time_min = 0, $time_max = 0)
 	{
 		$calendar = [];
 		$google = $this->get_service();
@@ -631,30 +631,30 @@ class Google extends Feed
 			$args = [];
 
 			// Expand recurring events.
-			if ("show" === $this->google_events_recurring) {
-				$args["singleEvents"] = true;
+			if ('show' === $this->google_events_recurring) {
+				$args['singleEvents'] = true;
 			}
 
 			// Query events using search terms.
 			if (
 				!empty($this->google_search_query) &&
-				strpos($this->google_search_query, "OR") === false
+				strpos($this->google_search_query, 'OR') === false
 			) {
-				$args["q"] = rawurlencode($this->google_search_query);
+				$args['q'] = rawurlencode($this->google_search_query);
 			}
 
 			// Max results to query.
-			$args["maxResults"] = strval(
+			$args['maxResults'] = strval(
 				min(absint($this->google_max_results), 2500)
 			);
 
 			// Specify a timezone.
-			$timezone = "";
+			$timezone = '';
 			if (
-				"use_calendar" !=
-				get_post_meta($this->post_id, "_feed_timezone_setting", true)
+				'use_calendar' !=
+				get_post_meta($this->post_id, '_feed_timezone_setting', true)
 			) {
-				$args["timeZone"] = $timezone = $this->timezone;
+				$args['timeZone'] = $timezone = $this->timezone;
 			}
 
 			// Lower bound (inclusive) for an event's end time to filter by.
@@ -665,7 +665,7 @@ class Google extends Feed
 					$timeMin->setTimezone($timezone);
 				}
 				$timeMin->setTimestamp($earliest_event);
-				$args["timeMin"] = $timeMin->toRfc3339String();
+				$args['timeMin'] = $timeMin->toRfc3339String();
 			}
 
 			// Upper bound (exclusive) for an event's start time to filter by.
@@ -676,17 +676,17 @@ class Google extends Feed
 					$timeMax->setTimezone($timezone);
 				}
 				$timeMax->setTimestamp($latest_event);
-				$args["timeMax"] = $timeMax->toRfc3339String();
+				$args['timeMax'] = $timeMax->toRfc3339String();
 			}
 
 			// Trying to order by startTime for non-single events throws
 			// Google v3 API 400 error - "The requested ordering is not available for the particular query.".
 			// Only set this conditionally.
 			if (
-				isset($args["singleEvents"]) &&
-				true === $args["singleEvents"]
+				isset($args['singleEvents']) &&
+				true === $args['singleEvents']
 			) {
-				$args["orderBy"] = "startTime";
+				$args['orderBy'] = 'startTime';
 			}
 
 			// Query events in calendar.
@@ -694,14 +694,14 @@ class Google extends Feed
 
 			if ($response instanceof Google_Service_Calendar_Events) {
 				$calendar = [
-					"id" => $id,
-					"title" => $response->getSummary(),
-					"description" => $response->getDescription(),
-					"timezone" => $response->getTimeZone(),
-					"url" => esc_url(
-						"//www.google.com/calendar/embed?src=" . $id
+					'id' => $id,
+					'title' => $response->getSummary(),
+					'description' => $response->getDescription(),
+					'timezone' => $response->getTimeZone(),
+					'url' => esc_url(
+						'//www.google.com/calendar/embed?src=' . $id
 					),
-					"events" => $response->getItems(),
+					'events' => $response->getItems(),
 				];
 			}
 		}
@@ -720,16 +720,16 @@ class Google extends Feed
 	private function get_client()
 	{
 		$client = new Google_Client();
-		$client->setApplicationName("Simple Calendar");
+		$client->setApplicationName('Simple Calendar');
 		$client->setScopes($this->google_client_scopes);
 		$client->setDeveloperKey($this->google_api_key);
-		$client->setAccessType("online");
+		$client->setAccessType('online');
 
-		$curl_options = apply_filters("simcal_google_client_curl_options", []);
+		$curl_options = apply_filters('simcal_google_client_curl_options', []);
 
 		if (!empty($curl_options)) {
 			$guzzle = new Client([
-				"curl.options" => $curl_options,
+				'curl.options' => $curl_options,
 			]);
 
 			$client->setHttpClient($guzzle);

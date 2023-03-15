@@ -39,10 +39,7 @@
 			$(boxHandle).unbind('click.postboxes');
 			calendarSettings.on('click', 'h3.hndle', function (event) {
 				// If the user clicks on some form input inside the h3 the box should not be toggled.
-				if (
-					$(event.target).filter('input, option, label, select')
-						.length
-				) {
+				if ($(event.target).filter('input, option, label, select').length) {
 					return;
 				}
 				calendarSettings.toggleClass('closed');
@@ -126,9 +123,7 @@
 
 				$('label[for="_calendar_view_' + $(this).val() + '"]').show();
 				$(
-					'#calendar-settings-panel table[id="' +
-						$(this).val() +
-						'-settings"]'
+					'#calendar-settings-panel table[id="' + $(this).val() + '-settings"]'
 				).show();
 			})
 			.trigger('change');
@@ -153,9 +148,7 @@
 					placeholder: '',
 				},
 				dir:
-					simcal_admin.text_dir != 'undefined'
-						? simcal_admin.text_dir
-						: 'ltr',
+					simcal_admin.text_dir != 'undefined' ? simcal_admin.text_dir : 'ltr',
 				tokenSeparators: [','],
 				width: '100%',
 				language: {
@@ -185,10 +178,7 @@
 				};
 
 			$(input).datepicker(args);
-			$(input).datepicker(
-				'option',
-				$.datepicker.regional[simcal_admin.locale]
-			);
+			$(input).datepicker('option', $.datepicker.regional[simcal_admin.locale]);
 		});
 
 		// Datetime formatter field.
@@ -204,9 +194,7 @@
 
 			select.each(function (e, i) {
 				$(i).on('change', function () {
-					formatDateTime(
-						$(this).closest('div.simcal-field-datetime-format')
-					);
+					formatDateTime($(this).closest('div.simcal-field-datetime-format'));
 				});
 			});
 
@@ -323,14 +311,8 @@
 
 				options.each(function (e, option) {
 					const id = $(option).data('show-field'),
-						field =
-							typeof id !== 'undefined' && id.length
-								? $('#' + id)
-								: '',
-						next =
-							typeof id !== 'undefined' && id.length
-								? field.next()
-								: '';
+						field = typeof id !== 'undefined' && id.length ? $('#' + id) : '',
+						next = typeof id !== 'undefined' && id.length ? field.next() : '';
 
 					if (field.length) {
 						if ($(option).is(':selected')) {
@@ -456,9 +438,7 @@
 
 			let manageLicenseAction = '';
 			const button = $(this),
-				buttons = button.closest(
-					'.simcal-addon-manage-license-buttons'
-				),
+				buttons = button.closest('.simcal-addon-manage-license-buttons'),
 				field = button
 					.closest('.simcal-addon-manage-license-field')
 					.find('> input'),
