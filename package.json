@@ -11,6 +11,9 @@
   },
   "devDependencies": {
     "@prettier/plugin-php": "^0.19.3",
+    "@wordpress/eslint-plugin": "^14.1.0",
+    "eslint": "^8.36.0",
+    "eslint-plugin-import": "^2.27.5",
     "grunt": "^1.5.3",
     "grunt-banner": "0.x",
     "grunt-checktextdomain": "1.x",
