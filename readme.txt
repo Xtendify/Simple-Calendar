@@ -100,7 +100,7 @@ We'd love your help! Here's a few things you can do:
 = 3.1.38 =
 * Fix: Add PHP polyfill to fix "Call to undefined function str_contains()" error.
 * Fix: Update Google API client to v2.9.2.
-* Fix: Fix 'Class "Parsedown" not found' by adding `erusev/parsedown` via PHP Scoper.
+* Fix: 'Class "Parsedown" not found' by adding `erusev/parsedown` via PHP Scoper.
 
 = 3.1.37 =
 * Dev: Tested up to WordPress 6.1.1 and PHP 8.1
