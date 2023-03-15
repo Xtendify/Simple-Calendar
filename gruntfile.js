@@ -15,7 +15,6 @@ module.exports = function (grunt) {
 		'!.editorconfig',
 		'!.gitignore',
 		'!.jscsrc',
-		'!.jshintrc',
 		'!bower.json',
 		'!composer.json',
 		'!composer.lock',
@@ -152,14 +151,6 @@ module.exports = function (grunt) {
 			},
 		},
 
-		// JavaScript linting with JSHint.
-		jshint: {
-			options: {
-				ignores: ['**/*.min.js'],
-			},
-			all: ['<%= dirs.js %>/*.js', 'gruntfile.js'],
-		},
-
 		// Compile all .scss files.
 		sass: {
 			options: {
@@ -232,7 +223,7 @@ module.exports = function (grunt) {
 	require('load-grunt-tasks')(grunt);
 
 	grunt.registerTask('css', ['copy:css', 'cssmin', 'usebanner:css']);
-	grunt.registerTask('js', ['jshint', 'copy:js', 'uglify', 'usebanner:js']);
+	grunt.registerTask('js', ['copy:js', 'uglify', 'usebanner:js']);
 	grunt.registerTask('default', ['css', 'js']);
 	grunt.registerTask('build', [
 		'default',
