@@ -8,6 +8,7 @@ namespace SimpleCalendar\Events;
 
 use SimpleCalendar\plugin_deps\Carbon\Carbon;
 use SimpleCalendar\Abstracts\Calendar;
+use SimpleCalendar\plugin_deps\Parsedown;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -670,7 +671,7 @@ return array_merge( array(
 			if ( $allow_html ) {
 				$description = wp_kses_post( $description );
 			} elseif ( $allow_md ) {
-				$markdown    = new \Parsedown();
+				$markdown    = new Parsedown();
 				$description = $markdown->text( wp_strip_all_tags( $description ) );
 			}
 		} else {
@@ -777,8 +778,8 @@ return array_merge( array(
 
 		return '';
 		}
-		
-			
+
+
 		$event_dt = $event->$dt;
 
 		$attr = array_merge( array(

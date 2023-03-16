@@ -175,10 +175,18 @@ class Assets {
 
 						if ( $view instanceof Calendar_View ) {
 							add_filter( 'simcal_front_end_scripts', function ( $scripts, $min ) use ( $view ) {
-								return array_merge( $scripts, $view->scripts( $min ) );
+								if ( is_array( $scripts ) ) {
+									return array_merge( $scripts, $view->scripts( $min ) );
+								} else {
+									return $view->scripts( $min );
+								}
 							}, 100, 2 );
 							add_filter( 'simcal_front_end_styles', function ( $styles, $min ) use ( $view ) {
-								return array_merge( $styles, $view->styles( $min ) );
+								if ( is_array( $styles ) ) {
+									return array_merge( $styles, $view->styles( $min ) );
+								} else {
+									return $view->styles( $min );
+								}
 							}, 100, 2 );
 						}
 
