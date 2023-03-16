@@ -99,7 +99,9 @@ We'd love your help! Here's a few things you can do:
 
 = 3.1.39 =
 * Fix: 'Class "Parsedown" not found' by adding `erusev/parsedown` via PHP Scoper.
+* Fix: Replaced Moment with [Dayjs](https://day.js.org/), it helps with speed and addresses security issues with the Moment library.
 * Chore: Data type check for loading scripts and styles.
+* Chore: Upgraded NPM packages resolving security issues present with trim-newlines library.
 
 = 3.1.38 =
 * Fix: Add PHP polyfill to fix "Call to undefined function str_contains()" error.
