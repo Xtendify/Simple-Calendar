@@ -116,7 +116,7 @@ return array(
 					'vendor-bin',
 				)
 			)
-			->path("#^google/apiclient-services/src/Google/Service/($google_services)/#")
+			->path("#^google/apiclient-services/src/($google_services)/#")
 			->in('vendor'),
 
 		// Google API service entry classes.
@@ -124,7 +124,7 @@ return array(
 			->files()
 			->ignoreVCS(true)
 			->name("#($google_services)\.php#")
-			->in('vendor/google/apiclient-services/src/Google/Service'),
+			->in('vendor/google/apiclient-services/src'),
 	),
 	'exclude-namespaces' => [
         'Symfony\Polyfill'
