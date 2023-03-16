@@ -197,7 +197,7 @@ module.exports = function( grunt ) {
 				},
 				options: {
 					mangle: {
-						except: [ 'jQuery' ]
+						reserved: [ 'jQuery' ]
 					},
 					sourceMap: false,
 					preserveComments: false
