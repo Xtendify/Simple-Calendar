@@ -152,8 +152,9 @@
 				tokenSeparators: [','],
 				width: '100%',
 				language: {
-					noResults() {
-						return noResults != 'undefined' ? noResults : '';
+					// eslint-disable-next-line object-shorthand
+					noResults: function () {
+						return noResults !== 'undefined' ? noResults : '';
 					},
 				},
 			});
@@ -172,7 +173,8 @@
 					prevText: '<i class="simcal-icon-left"></i>',
 					nextText: '<i class="simcal-icon-right"></i>',
 					yearRange: '1900:2050',
-					beforeShow() {
+					// eslint-disable-next-line object-shorthand
+					beforeShow: function () {
 						$('#ui-datepicker-div').addClass('simcal-date-picker');
 					},
 				};
@@ -185,14 +187,15 @@
 		const fieldDateTime = $('.simcal-field-datetime-format');
 		fieldDateTime.sortable({
 			items: '> div',
-			stop() {
+			// eslint-disable-next-line object-shorthand
+			stop: function () {
 				formatDateTime($(this));
 			},
 		});
 		fieldDateTime.each(function (e, i) {
 			const select = $(i).find('> div select');
 
-			select.each(function (e, i) {
+			select.each(function (_, i) {
 				$(i).on('change', function () {
 					formatDateTime($(this).closest('div.simcal-field-datetime-format'));
 				});
@@ -205,8 +208,8 @@
 			const input = $(field).find('input'),
 				select = $(field).find('> div select'),
 				code = $(field).find('code');
-			let format = '',
-				preview = '';
+			let preview = '';
+			let format = '';
 
 			select.each(function (i, e) {
 				const value = $(e).val(),
@@ -382,10 +385,12 @@
 					action: 'simcal_clear_cache',
 					id: $(this).data('id'),
 				},
-				beforeSend() {
+				// eslint-disable-next-line object-shorthand
+				beforeSend: function () {
 					spinner.fadeToggle();
 				},
-				success() {
+				// eslint-disable-next-line object-shorthand
+				success: function () {
 					spinner.fadeToggle();
 				},
 				error(response) {
@@ -463,7 +468,8 @@
 					license_action: manageLicenseAction,
 					nonce: $('#simcal_license_manager').val(),
 				},
-				beforeSend() {
+				// eslint-disable-next-line object-shorthand
+				beforeSend: function () {
 					spinner.fadeToggle();
 				},
 				success(response) {
@@ -513,7 +519,8 @@
 					action: 'simcal_reset_add_ons_licenses',
 					nonce: $('#simcal_license_manager').val(),
 				},
-				beforeSend() {
+				// eslint-disable-next-line object-shorthand
+				beforeSend: function () {
 					spinner.toggle();
 				},
 				success(response) {
