@@ -193,8 +193,7 @@ module.exports = function( grunt ) {
 			all: {
 				files: {
 					'<%= dirs.js %>/admin.min.js': [ '<%= dirs.js %>/admin.js' ],
-					'<%= dirs.js %>/admin-add-calendar.min.js': [ '<%= dirs.js %>/admin-add-calendar.js' ],
-					// '<%= dirs.js %>/default-calendar.min.js': [ '<%= dirs.js %>/default-calendar.js' ]
+					'<%= dirs.js %>/admin-add-calendar.min.js': [ '<%= dirs.js %>/admin-add-calendar.js' ]
 				},
 				options: {
 					mangle: {
