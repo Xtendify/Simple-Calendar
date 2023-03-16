@@ -1,9 +1,11 @@
 <?php
+
 /**
  * Event Builder
  *
  * @package SimpleCalendar/Events
  */
+
 namespace SimpleCalendar\Events;
 
 use SimpleCalendar\plugin_deps\Carbon\Carbon;
@@ -1318,34 +1320,34 @@ class Event_Builder
 		$tagregexp = implode('|', array_values($this->tags));
 
 		return '/' .
-			'\\[' . // Opening bracket
-			'(\\[?)' . // 1: Optional second opening bracket for escaping tags: [[tag]]
-			"($tagregexp)" . // 2: Tag name
-			'(?![\\w-])' . // Not followed by word character or hyphen
-			'(' . // 3: Unroll the loop: Inside the opening tag
-			'[^\\]\\/]*' . // Not a closing bracket or forward slash
-			'(?:' .
-			'\\/(?!\\])' . // A forward slash not followed by a closing bracket
-			'[^\\]\\/]*' . // Not a closing bracket or forward slash
-			')*?' .
-			')' .
-			'(?:' .
-			'(\\/)' . // 4: Self closing tag ...
-			'\\]' . // ... and closing bracket
-			'|' .
-			'\\]' . // Closing bracket
-			'(?:' .
-			'(' . // 5: Unroll the loop: Optionally, anything between the opening and closing tags
-			'[^\\[]*+' . // Not an opening bracket
-			'(?:' .
-			'\\[(?!\\/\\2\\])' . // An opening bracket not followed by the closing tag
-			'[^\\[]*+' . // Not an opening bracket
-			')*+' .
-			')' .
-			'\\[\\/\\2\\]' . // Closing tag
-			')?' .
-			')' .
-			'(\\]?)' . // 6: Optional second closing bracket for escaping tags: [[tag]]
+		'\\[' . // Opening bracket
+		'(\\[?)' . // 1: Optional second opening bracket for escaping tags: [[tag]]
+		"($tagregexp)" . // 2: Tag name
+		'(?![\\w-])' . // Not followed by word character or hyphen
+		'(' . // 3: Unroll the loop: Inside the opening tag
+		'[^\\]\\/]*' . // Not a closing bracket or forward slash
+		'(?:' .
+		'\\/(?!\\])' . // A forward slash not followed by a closing bracket
+		'[^\\]\\/]*' . // Not a closing bracket or forward slash
+		')*?' .
+		')' .
+		'(?:' .
+		'(\\/)' . // 4: Self closing tag ...
+		'\\]' . // ... and closing bracket
+		'|' .
+		'\\]' . // Closing bracket
+		'(?:' .
+		'(' . // 5: Unroll the loop: Optionally, anything between the opening and closing tags
+		'[^\\[]*+' . // Not an opening bracket
+		'(?:' .
+		'\\[(?!\\/\\2\\])' . // An opening bracket not followed by the closing tag
+		'[^\\[]*+' . // Not an opening bracket
+		')*+' .
+		')' .
+		'\\[\\/\\2\\]' . // Closing tag
+		')?' .
+		')' .
+		'(\\]?)' . // 6: Optional second closing bracket for escaping tags: [[tag]]
 			'/s';
 	}
 
