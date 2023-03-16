@@ -149,21 +149,23 @@ return array(
 			global  $patch2;
 			global $patch3;
 
-			if (false !== strpos($file_path, $patch1) || false !== strpos($file_path, $patch2)) {
-				$prefix   = str_replace('\\', '\\\\', $prefix);
-				$contents = str_replace("'\\\\GuzzleHttp\\\\ClientInterface", "'\\\\" . $prefix . '\\\\GuzzleHttp\\\\ClientInterface', $contents);
-				$contents = str_replace('"\\\\GuzzleHttp\\\\ClientInterface', '"\\\\' . $prefix . '\\\\GuzzleHttp\\\\ClientInterface', $contents);
-				$contents = str_replace("'GuzzleHttp\\\\ClientInterface", "'" . $prefix . '\\\\GuzzleHttp\\\\ClientInterface', $contents);
-				$contents = str_replace('"GuzzleHttp\\\\ClientInterface', '"' . $prefix . '\\\\GuzzleHttp\\\\ClientInterface', $contents);
-			}
-			if (false !== strpos($file_path, $patch1)) {
-				$contents = str_replace("'Google_", "'" . $prefix . '\Google_', $contents);
-				$contents = str_replace('\"Google_', '\"' . $prefix . '\Google_', $contents);
-			}
-			if (false !== strpos($file_path, $patch3)) {
-				$contents = str_replace("'Google_Service_", "'" . $prefix . '\Google_Service_', $contents);
-				$contents = str_replace('"Google_Service_', '"' . $prefix . '\Google_Service_', $contents);
-			}
+			// if (false !== strpos($file_path, $patch1) || false !== strpos($file_path, $patch2)) {
+			// 	$prefix   = str_replace('\\', '\\\\', $prefix);
+			// 	$contents = str_replace("'\\\\GuzzleHttp\\\\ClientInterface", "'\\\\" . $prefix . '\\\\GuzzleHttp\\\\ClientInterface', $contents);
+			// 	$contents = str_replace('"\\\\GuzzleHttp\\\\ClientInterface', '"\\\\' . $prefix . '\\\\GuzzleHttp\\\\ClientInterface', $contents);
+			// 	$contents = str_replace("'GuzzleHttp\\\\ClientInterface", "'" . $prefix . '\\\\GuzzleHttp\\\\ClientInterface', $contents);
+			// 	$contents = str_replace('"GuzzleHttp\\\\ClientInterface', '"' . $prefix . '\\\\GuzzleHttp\\\\ClientInterface', $contents);
+			// }
+			// if (false !== strpos($file_path, $patch1)) {
+			// 	$contents = str_replace("'Google_", "'" . $prefix . '\Google_', $contents);
+			// 	$contents = str_replace('\"Google_', '\"' . $prefix . '\Google_', $contents);
+			// }
+			// if (false !== strpos($file_path, $patch3)) {
+			// 	echo $file_path . ' ' . $patch3 . PHP_EOL;
+
+			// 	$contents = str_replace("'Google\\Service", "'" . $prefix . '\Google_Service_', $contents);
+			// 	$contents = str_replace('"Google\\Service_', '"' . $prefix . '\Google_Service_', $contents);
+			// }
 
 			return $contents;
 		},
