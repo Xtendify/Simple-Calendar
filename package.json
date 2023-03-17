@@ -10,6 +10,8 @@
     "url": "https://github.com/Xtendify/Simple-Calendar"
   },
   "devDependencies": {
+    "bower": "1.8.14",
+    "esbuild": "0.17.11",
     "grunt": "1.6.1",
     "grunt-banner": "0.6.0",
     "grunt-checktextdomain": "1.0.1",
@@ -28,10 +30,13 @@
     "postsetup": "grunt",
     "dev": "grunt watch",
     "prebuild": "npm run setup",
-    "build": "grunt build"
+    "build": "grunt build && node .bin/esbuild.mjs"
   },
   "engines": {
     "npm": ">=9.5.0",
     "node": ">=18.15.0"
+  },
+  "dependencies": {
+    "dayjs": "1.11.7"
   }
 }
