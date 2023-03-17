@@ -158,7 +158,7 @@ module.exports = function( grunt ) {
 			options: {
 				ignores: [
 					'**/*.min.js',
-					'assets/js/default-calendar.js'
+					'assets/js/default-calendar*',
 				]
 			},
 			all: [
