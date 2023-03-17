@@ -27,8 +27,6 @@ module.exports = function( grunt ) {
 		'!readme.md',
 		'!*.dump-autoload',
 		'!scoper.inc.php',
-		'!assets/{css,js}/*.{css,js}',
-		'assets/{css,js}/*.min.{css,js}',
 		'!**/*~',
         '!vendor/**'
 	];
