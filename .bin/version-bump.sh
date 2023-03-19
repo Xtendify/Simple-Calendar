@@ -2,17 +2,29 @@
 
 OLD_VERSION=$(node -p -e "require('./package.json').version")
 
-options=("patch" "minor" "major")
+options=("major" "minor" "patch" "premajor" "preminor" "prepatch" "prerelease")
 select opt in "${options[@]}"
 do
     case $opt in
-        "patch")
+        "major")
             break
             ;;
         "minor")
             break
             ;;
-        "major")
+        "patch")
+            break
+            ;;
+        "premajor")
+            break
+            ;;
+        "preminor")
+            break
+            ;;
+        "prepatch")
+            break
+            ;;
+        "prerelease")
             break
             ;;
         *)
@@ -22,7 +34,7 @@ do
     esac
 done
 
-npm version $opt --no-git-tag-version
+npm version $opt --no-git-tag-version --preid=beta
 
 NEW_VERSION=$(node -p -e "require('./package.json').version")
 
