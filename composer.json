@@ -80,5 +80,8 @@
       "cp vendor/composer/autoload_files.php third-party/vendor/composer/autoload_files.php",
       "rm -rf php-scoper"
     ]
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.6"
   }
 }
