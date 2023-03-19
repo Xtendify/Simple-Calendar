@@ -1,4 +1,4 @@
-/*! Simple Calendar - 3.1.40
+/*! Simple Calendar - 3.1.39-beta.0
  * https://simplecalendar.io
  * Copyright (c) Xtendify Technologies 2023
  * Licensed GPLv2+ */
