@@ -149,13 +149,6 @@ module.exports = function (grunt) {
 			},
 		},
 
-		// JavaScript linting with JSHint.
-		jshint: {
-			options: {
-				ignores: ['**/*.min.js', 'assets/js/default-calendar*'],
-			},
-		},
-
 		// Compile all .scss files.
 		sass: {
 			options: {
