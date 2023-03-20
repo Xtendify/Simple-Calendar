@@ -10,6 +10,7 @@ namespace SimpleCalendar\Events;
 
 use SimpleCalendar\plugin_deps\Carbon\Carbon;
 use SimpleCalendar\Abstracts\Calendar;
+use SimpleCalendar\plugin_deps\Parsedown;
 
 if (!defined('ABSPATH')) {
 	exit();
@@ -739,12 +740,12 @@ class Event_Builder
 		$html = '<div class="simcal-event-description" itemprop="description">';
 
 		// Markdown and HTML don't play well together, use one or the other in the same tag.
-		if ($allow_html || $allow_md) {
-			if ($allow_html) {
-				$description = wp_kses_post($description);
-			} elseif ($allow_md) {
-				$markdown = new \Parsedown();
-				$description = $markdown->text(wp_strip_all_tags($description));
+		if ( $allow_html || $allow_md ) {
+			if ( $allow_html ) {
+				$description = wp_kses_post( $description );
+			} elseif ( $allow_md ) {
+				$markdown    = new Parsedown();
+				$description = $markdown->text( wp_strip_all_tags( $description ) );
 			}
 		} else {
 			$description = wpautop($description);
@@ -924,6 +925,10 @@ class Event_Builder
 			return '';
 		}
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 		$event_dt = $event->$dt;
 
 		$attr = array_merge(

@@ -136,33 +136,12 @@ class Default_Calendar_Grid implements Calendar_View
 				'deps' => ['jquery'],
 				'in_footer' => true,
 			],
-			'simcal-fullcal-moment' => [
-				'src' =>
-					SIMPLE_CALENDAR_ASSETS . 'js/vendor/moment' . $min . '.js',
-				'deps' => ['jquery'],
-				'in_footer' => true,
-			],
-			'simcal-moment-timezone' => [
-				'src' =>
-					SIMPLE_CALENDAR_ASSETS .
-					'js/vendor/moment-timezone-with-data' .
-					$min .
-					'.js',
-				'deps' => ['jquery'],
-				'in_footer' => true,
-			],
 			'simcal-default-calendar' => [
-				'src' =>
-					SIMPLE_CALENDAR_ASSETS .
-					'js/default-calendar' .
-					$min .
-					'.js',
-				'deps' => [
+				'src'       => SIMPLE_CALENDAR_ASSETS . 'js/default-calendar-bundled' . $min . '.js',
+				'deps'      => array(
 					'jquery',
-					'simcal-qtip',
-					'simcal-fullcal-moment',
-					'simcal-moment-timezone',
-				],
+					'simcal-qtip'
+				),
 				'in_footer' => true,
 				'localize' => [
 					'simcal_default_calendar' => simcal_common_scripts_variables(),

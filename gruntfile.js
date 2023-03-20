@@ -26,8 +26,6 @@ module.exports = function (grunt) {
 		'!readme.md',
 		'!*.dump-autoload',
 		'!scoper.inc.php',
-		'!assets/{css,js}/*.{css,js}',
-		'assets/{css,js}/*.min.{css,js}',
 		'!**/*~',
 		'!vendor/**',
 	];
@@ -151,6 +149,13 @@ module.exports = function (grunt) {
 			},
 		},
 
+		// JavaScript linting with JSHint.
+		jshint: {
+			options: {
+				ignores: ['**/*.min.js', 'assets/js/default-calendar*'],
+			},
+		},
+
 		// Compile all .scss files.
 		sass: {
 			options: {
@@ -178,13 +183,10 @@ module.exports = function (grunt) {
 					'<%= dirs.js %>/admin-add-calendar.min.js': [
 						'<%= dirs.js %>/admin-add-calendar.js',
 					],
-					'<%= dirs.js %>/default-calendar.min.js': [
-						'<%= dirs.js %>/default-calendar.js',
-					],
 				},
 				options: {
 					mangle: {
-						except: ['jQuery'],
+						reserved: ['jQuery'],
 					},
 					sourceMap: false,
 					preserveComments: false,
