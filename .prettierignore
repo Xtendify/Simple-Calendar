@@ -1,5 +1,6 @@
 assets/js/*.min.js
 assets/js/vendor/*
+assets/js/default-calendar-bundled.js
 assets/css/*.min.css
 assets/css/vendor/*
 node_modules

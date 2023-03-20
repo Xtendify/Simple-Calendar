@@ -1,31 +1,29 @@
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
 
-( function( window, undefined ) {
+(function (window, undefined) {
 	'use strict';
 
-	dayjs.extend(utc)
-	dayjs.extend(timezone)
+	dayjs.extend(utc);
+	dayjs.extend(timezone);
 
-	jQuery( function( $ ) {
-
+	jQuery(function ($) {
 		// Browse calendar pages.
-		$( '.simcal-default-calendar' ).each( function( e, i ) {
-
-			var calendar     = $( i ),
-				id           = calendar.data( 'calendar-id' ),
-				offset       = calendar.data( 'offset' ),
-				start        = calendar.data( 'events-first' ),
-				end          = calendar.data( 'calendar-end' ),
-				nav          = calendar.find( '.simcal-calendar-head' ),
-				buttons      = nav.find( '.simcal-nav-button' ),
-				spinner      = calendar.find( '.simcal-ajax-loader' ),
-				current      = nav.find( '.simcal-current' ),
-				currentTime  = current.data( 'calendar-current' ),
-				currentMonth = current.find( 'span.simcal-current-month' ),
-				currentYear  = current.find( 'span.simcal-current-year' ),
-				currentDate  = dayjs(currentTime * 1000).tz(calendar.data( 'timezone' )),
+		$('.simcal-default-calendar').each(function (e, i) {
+			var calendar = $(i),
+				id = calendar.data('calendar-id'),
+				offset = calendar.data('offset'),
+				start = calendar.data('events-first'),
+				end = calendar.data('calendar-end'),
+				nav = calendar.find('.simcal-calendar-head'),
+				buttons = nav.find('.simcal-nav-button'),
+				spinner = calendar.find('.simcal-ajax-loader'),
+				current = nav.find('.simcal-current'),
+				currentTime = current.data('calendar-current'),
+				currentMonth = current.find('span.simcal-current-month'),
+				currentYear = current.find('span.simcal-current-year'),
+				currentDate = dayjs(currentTime * 1000).tz(calendar.data('timezone')),
 				date,
 				action;
 
@@ -442,7 +440,5 @@ import timezone from "dayjs/plugin/timezone";
 			});
 		}
 		expandEventsToggle();
-
-	} );
-
-} )( this );
+	});
+})(this);
