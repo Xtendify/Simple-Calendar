@@ -83,11 +83,7 @@ final class Plugin
 	 */
 	public function __clone()
 	{
-		_doing_it_wrong(
-			__FUNCTION__,
-			'Cloning the main instance of this plugin is forbidden.',
-			'1.0.0'
-		);
+		_doing_it_wrong(__FUNCTION__, 'Cloning the main instance of this plugin is forbidden.', '1.0.0');
 	}
 
 	/**
@@ -95,11 +91,7 @@ final class Plugin
 	 */
 	public function __wakeup()
 	{
-		_doing_it_wrong(
-			__FUNCTION__,
-			'Unserializing instances of this plugin is forbidden.',
-			'1.0.0'
-		);
+		_doing_it_wrong(__FUNCTION__, 'Unserializing instances of this plugin is forbidden.', '1.0.0');
 	}
 
 	/**
@@ -111,22 +103,12 @@ final class Plugin
 	{
 		// Load plugin.
 		require_once 'autoload.php';
-		$this->locale = apply_filters(
-			'plugin_locale',
-			get_locale(),
-			'google-calendar-events'
-		);
+		$this->locale = apply_filters('plugin_locale', get_locale(), 'google-calendar-events');
 		$this->load();
 
 		// Installation hooks.
-		register_activation_hook(SIMPLE_CALENDAR_MAIN_FILE, [
-			'SimpleCalendar\Installation',
-			'activate',
-		]);
-		register_deactivation_hook(SIMPLE_CALENDAR_MAIN_FILE, [
-			'SimpleCalendar\Installation',
-			'deactivate',
-		]);
+		register_activation_hook(SIMPLE_CALENDAR_MAIN_FILE, ['SimpleCalendar\Installation', 'activate']);
+		register_deactivation_hook(SIMPLE_CALENDAR_MAIN_FILE, ['SimpleCalendar\Installation', 'deactivate']);
 
 		// Do update call here.
 		add_action('admin_init', [$this, 'update'], 999);
@@ -244,8 +226,7 @@ final class Plugin
 	{
 		if (
 			(!empty($_POST) && is_admin() && !defined('DOING_AJAX')) ||
-			(isset($_GET['page']) &&
-				'simple-calendar_settings' === $_GET['page'])
+			(isset($_GET['page']) && 'simple-calendar_settings' === $_GET['page'])
 		) {
 			$settings = new Admin\Pages();
 			$settings->register_settings($settings->get_settings());

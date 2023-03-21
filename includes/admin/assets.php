@@ -34,8 +34,7 @@ class Assets
 	 */
 	public function __construct()
 	{
-		$this->min =
-			defined('SCRIPT_DEBUG') && SCRIPT_DEBUG == true ? '' : '.min';
+		$this->min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG == true ? '' : '.min';
 
 		add_action('admin_enqueue_scripts', [$this, 'load']);
 	}
@@ -59,10 +58,7 @@ class Assets
 		// TipTip uses ".minified.js" filename ending.
 		wp_register_script(
 			'simcal-tiptip',
-			$js_path_vendor .
-				'jquery.tipTip' .
-				($this->min !== '' ? '.minified' : '') .
-				'.js',
+			$js_path_vendor . 'jquery.tipTip' . ($this->min !== '' ? '.minified' : '') . '.js',
 			['jquery'],
 			SIMPLE_CALENDAR_VERSION,
 			true
@@ -77,14 +73,7 @@ class Assets
 		wp_register_script(
 			'simcal-admin',
 			$js_path . 'admin' . $this->min . '.js',
-			[
-				'jquery',
-				'jquery-ui-sortable',
-				'jquery-ui-datepicker',
-				'wp-color-picker',
-				'simcal-tiptip',
-				'simcal-select2',
-			],
+			['jquery', 'jquery-ui-sortable', 'jquery-ui-datepicker', 'wp-color-picker', 'simcal-tiptip', 'simcal-select2'],
 			SIMPLE_CALENDAR_VERSION,
 			true
 		);
@@ -121,11 +110,7 @@ class Assets
 
 		if (simcal_is_admin_screen() !== false) {
 			wp_enqueue_script('simcal-admin');
-			wp_localize_script(
-				'simcal-admin',
-				'simcal_admin',
-				simcal_common_scripts_variables()
-			);
+			wp_localize_script('simcal-admin', 'simcal_admin', simcal_common_scripts_variables());
 
 			wp_enqueue_style('simcal-admin');
 		} else {
@@ -138,21 +123,14 @@ class Assets
 				$post_types = $settings['general']['attach_calendars_posts'];
 			}
 
-			$conditions = [
-				in_array($post_type, (array) $post_types),
-				$screen->id == 'widgets',
-			];
+			$conditions = [in_array($post_type, (array) $post_types), $screen->id == 'widgets'];
 
 			if (in_array(true, $conditions)) {
 				wp_enqueue_script('simcal-admin-add-calendar');
-				wp_localize_script(
-					'simcal-admin-add-calendar',
-					'simcal_admin',
-					[
-						'locale' => get_locale(),
-						'text_dir' => is_rtl() ? 'rtl' : 'ltr',
-					]
-				);
+				wp_localize_script('simcal-admin-add-calendar', 'simcal_admin', [
+					'locale' => get_locale(),
+					'text_dir' => is_rtl() ? 'rtl' : 'ltr',
+				]);
 
 				wp_enqueue_style('simcal-admin-add-calendar');
 			}

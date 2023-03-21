@@ -115,9 +115,7 @@ class Events
 		if (!empty($this->events)) {
 			$offset = intval($n);
 			$length = count($this->events);
-			$this->set_events(
-				array_slice($this->events, $offset, $length, true)
-			);
+			$this->set_events(array_slice($this->events, $offset, $length, true));
 		}
 		return $this;
 	}
@@ -371,9 +369,7 @@ class Events
 	{
 		$last = $this->parse($time);
 		if (!is_null($last)) {
-			$this->set_events(
-				$this->filter_events($time, $last->getTimestamp())
-			);
+			$this->set_events($this->filter_events($time, $last->getTimestamp()));
 		}
 		return $this;
 	}
@@ -391,9 +387,7 @@ class Events
 	{
 		$first = $this->parse($time);
 		if (!is_null($first)) {
-			$this->set_events(
-				$this->filter_events($first->getTimestamp(), $time)
-			);
+			$this->set_events($this->filter_events($first->getTimestamp(), $time));
 		}
 		return $this;
 	}
@@ -522,12 +516,7 @@ class Events
 	{
 		$y = intval($year);
 		$m = min(max(1, absint($month)), 12);
-		$days = Carbon::createFromDate(
-			$y,
-			$m,
-			2,
-			$this->timezone
-		)->startOfMonth()->daysInMonth;
+		$days = Carbon::createFromDate($y, $m, 2, $this->timezone)->startOfMonth()->daysInMonth;
 		$weeks = [];
 		for ($d = 1; $d < $days; $d++) {
 			$current = Carbon::createFromDate($y, $m, $d);

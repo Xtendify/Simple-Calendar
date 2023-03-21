@@ -1,8 +1,7 @@
 @font-face {
 	font-family: 'simple-calendar';
 	src: url('../fonts/simple-calendar.eot?43976014');
-	src: url('../fonts/simple-calendar.eot?43976014#iefix')
-			format('embedded-opentype'),
+	src: url('../fonts/simple-calendar.eot?43976014#iefix') format('embedded-opentype'),
 		url('../fonts/simple-calendar.woff?43976014') format('woff'),
 		url('../fonts/simple-calendar.ttf?43976014') format('truetype'),
 		url('../fonts/simple-calendar.svg?43976014#simple-calendar') format('svg');
@@ -379,15 +378,10 @@ body .simcal-field-textarea {
 #ui-datepicker-div.simcal-date-picker .ui-datepicker-header > a:last-of-type {
 	float: right;
 }
-#ui-datepicker-div.simcal-date-picker
-	.ui-datepicker-header
-	.ui-datepicker-title {
+#ui-datepicker-div.simcal-date-picker .ui-datepicker-header .ui-datepicker-title {
 	margin: 0 10% 4px;
 }
-#ui-datepicker-div.simcal-date-picker
-	.ui-datepicker-header
-	.ui-datepicker-title
-	> select {
+#ui-datepicker-div.simcal-date-picker .ui-datepicker-header .ui-datepicker-title > select {
 	width: 48.5%;
 }
 #ui-datepicker-div.simcal-date-picker .ui-datepicker-today {

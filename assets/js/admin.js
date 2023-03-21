@@ -90,9 +90,7 @@
 			defCalSettings = $('#default-calendar-settings'),
 			gridSettings = defCalSettings.find('.simcal-default-calendar-grid'),
 			listSettings = defCalSettings.find('.simcal-default-calendar-list'),
-			groupedListSettings = defCalSettings.find(
-				'.simcal-default-calendar-list-grouped'
-			);
+			groupedListSettings = defCalSettings.find('.simcal-default-calendar-list-grouped');
 
 		defCalViews
 			.on('change', function () {
@@ -122,9 +120,7 @@
 				$('#calendar-settings-panel table[id*="-settings"]').hide();
 
 				$('label[for="_calendar_view_' + $(this).val() + '"]').show();
-				$(
-					'#calendar-settings-panel table[id="' + $(this).val() + '-settings"]'
-				).show();
+				$('#calendar-settings-panel table[id="' + $(this).val() + '-settings"]').show();
 			})
 			.trigger('change');
 
@@ -148,7 +144,11 @@
 					placeholder: '',
 				},
 				dir:
-					simcal_admin.text_dir != 'undefined' ? simcal_admin.text_dir : 'ltr',
+					// eslint-disable-next-line camelcase, no-undef
+					simcal_admin.text_dir !== 'undefined'
+						? // eslint-disable-next-line camelcase, no-undef
+						  simcal_admin.text_dir
+						: 'ltr',
 				tokenSeparators: [','],
 				width: '100%',
 				language: {
@@ -180,7 +180,11 @@
 				};
 
 			$(input).datepicker(args);
-			$(input).datepicker('option', $.datepicker.regional[simcal_admin.locale]);
+			$(input).datepicker(
+				'option',
+				// eslint-disable-next-line camelcase, no-undef
+				$.datepicker.regional[simcal_admin.locale]
+			);
 		});
 
 		// Datetime formatter field.
@@ -195,6 +199,7 @@
 		fieldDateTime.each(function (e, i) {
 			const select = $(i).find('> div select');
 
+			// eslint-disable-next-line no-shadow
 			select.each(function (_, i) {
 				$(i).on('change', function () {
 					formatDateTime($(this).closest('div.simcal-field-datetime-format'));
@@ -240,6 +245,7 @@
 					action: 'simcal_date_i18n_input_preview',
 					value: input.val(),
 				};
+				// eslint-disable-next-line camelcase, no-undef
 				$.post(simcal_admin.ajax_url, data, function (response) {
 					$(preview).text(response.data);
 				});
@@ -379,6 +385,7 @@
 			const spinner = $(this).find('i');
 
 			$.ajax({
+				// eslint-disable-next-line camelcase, no-undef
 				url: simcal_admin.ajax_url,
 				method: 'POST',
 				data: {
@@ -394,6 +401,7 @@
 					spinner.fadeToggle();
 				},
 				error(response) {
+					// eslint-disable-next-line no-console
 					console.log(response);
 				},
 			});
@@ -422,13 +430,14 @@
 		});
 
 		// Remove the timezone option for "event source" when a grouped calendar is selected.
-		$('#_feed_type').on('change', function (e) {
+		$('#_feed_type').on('change', function () {
 			if ($(this).val() === 'grouped-calendars') {
 				$('#use_calendar').remove();
 			} else if (!$('#use_calendar').length) {
 				// Don't append "event source default" back if already exists.
 				// TODO i18n
 				const html =
+					// eslint-disable-next-line max-len
 					'<option id="use_calendar" value="use_calendar" data-show-field="_use_calendar_warning">Event source default</option>';
 				$('#_feed_timezone_setting').append(html);
 			}
@@ -442,13 +451,6 @@
 			e.preventDefault();
 
 			let manageLicenseAction = '';
-			const button = $(this),
-				buttons = button.closest('.simcal-addon-manage-license-buttons'),
-				field = button
-					.closest('.simcal-addon-manage-license-field')
-					.find('> input'),
-				error = buttons.find('.error'),
-				spinner = button.find('i');
 
 			if ($(this).hasClass('activate')) {
 				manageLicenseAction = 'activate_license';
@@ -457,8 +459,14 @@
 			} else {
 				return;
 			}
+			const button = $(this),
+				buttons = button.closest('.simcal-addon-manage-license-buttons'),
+				field = button.closest('.simcal-addon-manage-license-field').find('> input'),
+				error = buttons.find('.error'),
+				spinner = button.find('i');
 
 			$.ajax({
+				// eslint-disable-next-line camelcase, no-undef
 				url: simcal_admin.ajax_url,
 				method: 'POST',
 				data: {
@@ -495,6 +503,7 @@
 					}
 				},
 				error(response) {
+					// eslint-disable-next-line no-console
 					console.log(response);
 					spinner.fadeToggle();
 				},
@@ -504,15 +513,18 @@
 		$('#simcal-reset-licenses').on('click', function (e) {
 			e.preventDefault();
 
-			const spinner = $(this).find('i'),
-				dialog = $(this).data('dialog'),
+			const dialog = $(this).data('dialog'),
+				// eslint-disable-next-line no-alert
 				reply = confirm(dialog);
 
 			if (true !== reply) {
 				return;
 			}
 
+			const spinner = $(this).find('i');
+
 			$.ajax({
+				// eslint-disable-next-line camelcase, no-undef
 				url: simcal_admin.ajax_url,
 				method: 'POST',
 				data: {
@@ -524,13 +536,15 @@
 					spinner.toggle();
 				},
 				success(response) {
-					if ('success' == response.data) {
+					if ('success' === response.data) {
 						location.reload();
 					} else {
+						// eslint-disable-next-line no-console
 						console.log(response);
 					}
 				},
 				error(response) {
+					// eslint-disable-next-line no-console
 					console.log(response);
 				},
 			});

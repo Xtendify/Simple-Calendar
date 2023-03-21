@@ -51,12 +51,7 @@ class Menus
 		new Welcome();
 
 		// Links and meta content in plugins page.
-		add_filter(
-			'plugin_action_links_' . self::$plugin,
-			[__CLASS__, 'plugin_action_links'],
-			10,
-			5
-		);
+		add_filter('plugin_action_links_' . self::$plugin, [__CLASS__, 'plugin_action_links'], 10, 5);
 		add_filter('plugin_row_meta', [__CLASS__, 'plugin_row_meta'], 10, 2);
 		// Custom text in admin footer.
 		add_filter('admin_footer_text', [$this, 'admin_footer_text'], 1);
@@ -124,9 +119,7 @@ class Menus
 			$links = [];
 			$links['settings'] =
 				'<a href="' .
-				admin_url(
-					'edit.php?post_type=calendar&page=simple-calendar_settings'
-				) .
+				admin_url('edit.php?post_type=calendar&page=simple-calendar_settings') .
 				'">' .
 				__('Settings', 'google-calendar-events') .
 				'</a>';
@@ -137,10 +130,7 @@ class Menus
 				__('Calendars', 'google-calendar-events') .
 				'</a>';
 
-			return apply_filters(
-				'simcal_plugin_action_links',
-				array_merge($links, $action_links)
-			);
+			return apply_filters('simcal_plugin_action_links', array_merge($links, $action_links));
 		}
 
 		return $action_links;
@@ -162,19 +152,12 @@ class Menus
 			$links = [];
 			$links['add-ons'] =
 				'<a href="' .
-				simcal_ga_campaign_url(
-					simcal_get_url('addons'),
-					'core-plugin',
-					'plugin-listing'
-				) .
+				simcal_ga_campaign_url(simcal_get_url('addons'), 'core-plugin', 'plugin-listing') .
 				'" target="_blank" >' .
 				__('Add-ons', 'google-calendar-events') .
 				'</a>';
 
-			return apply_filters(
-				'simcal_plugin_action_links',
-				array_merge($meta_links, $links)
-			);
+			return apply_filters('simcal_plugin_action_links', array_merge($meta_links, $links));
 		}
 
 		return $meta_links;
@@ -247,10 +230,7 @@ class Menus
 					});";
 				$footer_text .= '</script>';
 			} else {
-				$footer_text = __(
-					'Thanks for using Simple Calendar!',
-					'google-calendar-events'
-				);
+				$footer_text = __('Thanks for using Simple Calendar!', 'google-calendar-events');
 			}
 		}
 

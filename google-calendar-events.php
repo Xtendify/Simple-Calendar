@@ -39,15 +39,11 @@ foreach ($this_plugin_constants as $constant => $value) {
 include_once 'includes/wp-requirements.php';
 
 // Check plugin requirements before loading plugin.
-$this_plugin_checks = new SimCal_WP_Requirements(
-	'Simple Calendar',
-	plugin_basename(__FILE__),
-	[
-		'PHP' => '7.3',
-		'WordPress' => '4.2',
-		'Extensions' => ['curl', 'iconv', 'json', 'mbstring'],
-	]
-);
+$this_plugin_checks = new SimCal_WP_Requirements('Simple Calendar', plugin_basename(__FILE__), [
+	'PHP' => '7.3',
+	'WordPress' => '4.2',
+	'Extensions' => ['curl', 'iconv', 'json', 'mbstring'],
+]);
 if ($this_plugin_checks->pass() === false) {
 	$this_plugin_checks->halt();
 

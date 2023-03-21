@@ -49,66 +49,21 @@ class Post_Types
 			// Feed Type.
 			$labels = [
 				'name' => __('Events Source Types', 'google-calendar-events'),
-				'singular_name' => __(
-					'Events Source Type',
-					'google-calendar-events'
-				),
-				'menu_name' => __(
-					'Events Source Type',
-					'google-calendar-events'
-				),
-				'all_items' => __(
-					'All Events Source Types',
-					'google-calendar-events'
-				),
-				'parent_item' => __(
-					'Parent Events Source Type',
-					'google-calendar-events'
-				),
-				'parent_item_colon' => __(
-					'Parent Events Source Type:',
-					'google-calendar-events'
-				),
-				'new_item_name' => __(
-					'New Events Source Type',
-					'google-calendar-events'
-				),
-				'add_new_item' => __(
-					'Add New Events Source Type',
-					'google-calendar-events'
-				),
-				'edit_item' => __(
-					'Edit Events Source Type',
-					'google-calendar-events'
-				),
-				'update_item' => __(
-					'Update Events Source Type',
-					'google-calendar-events'
-				),
-				'view_item' => __(
-					'View Events Source Type',
-					'google-calendar-events'
-				),
-				'separate_items_with_commas' => __(
-					'Separate events source types with commas',
-					'google-calendar-events'
-				),
-				'add_or_remove_items' => __(
-					'Add or remove events source types',
-					'google-calendar-events'
-				),
-				'choose_from_most_used' => __(
-					'Choose from the most used',
-					'google-calendar-events'
-				),
-				'popular_items' => __(
-					'Popular events source types',
-					'google-calendar-events'
-				),
-				'search_items' => __(
-					'Search Events Source Types',
-					'google-calendar-events'
-				),
+				'singular_name' => __('Events Source Type', 'google-calendar-events'),
+				'menu_name' => __('Events Source Type', 'google-calendar-events'),
+				'all_items' => __('All Events Source Types', 'google-calendar-events'),
+				'parent_item' => __('Parent Events Source Type', 'google-calendar-events'),
+				'parent_item_colon' => __('Parent Events Source Type:', 'google-calendar-events'),
+				'new_item_name' => __('New Events Source Type', 'google-calendar-events'),
+				'add_new_item' => __('Add New Events Source Type', 'google-calendar-events'),
+				'edit_item' => __('Edit Events Source Type', 'google-calendar-events'),
+				'update_item' => __('Update Events Source Type', 'google-calendar-events'),
+				'view_item' => __('View Events Source Type', 'google-calendar-events'),
+				'separate_items_with_commas' => __('Separate events source types with commas', 'google-calendar-events'),
+				'add_or_remove_items' => __('Add or remove events source types', 'google-calendar-events'),
+				'choose_from_most_used' => __('Choose from the most used', 'google-calendar-events'),
+				'popular_items' => __('Popular events source types', 'google-calendar-events'),
+				'search_items' => __('Search Events Source Types', 'google-calendar-events'),
 				'not_found' => __('Not Found', 'google-calendar-events'),
 			];
 
@@ -128,63 +83,21 @@ class Post_Types
 			// Calendar Type.
 			$labels = [
 				'name' => __('Calendar Types', 'google-calendar-events'),
-				'singular_name' => __(
-					'Calendar Type',
-					'google-calendar-events'
-				),
+				'singular_name' => __('Calendar Type', 'google-calendar-events'),
 				'menu_name' => __('Calendar Type', 'google-calendar-events'),
-				'all_items' => __(
-					'All Calendar Types',
-					'google-calendar-events'
-				),
-				'parent_item' => __(
-					'Parent Calendar Type',
-					'google-calendar-events'
-				),
-				'parent_item_colon' => __(
-					'Parent Calendar Type:',
-					'google-calendar-events'
-				),
-				'new_item_name' => __(
-					'New Calendar Type',
-					'google-calendar-events'
-				),
-				'add_new_item' => __(
-					'Add New Calendar Type',
-					'google-calendar-events'
-				),
-				'edit_item' => __(
-					'Edit Calendar Type',
-					'google-calendar-events'
-				),
-				'update_item' => __(
-					'Update Calendar Type',
-					'google-calendar-events'
-				),
-				'view_item' => __(
-					'View Calendar Type',
-					'google-calendar-events'
-				),
-				'separate_items_with_commas' => __(
-					'Separate calendar types with commas',
-					'google-calendar-events'
-				),
-				'add_or_remove_items' => __(
-					'Add or remove calendar types',
-					'google-calendar-events'
-				),
-				'choose_from_most_used' => __(
-					'Choose from the most used',
-					'google-calendar-events'
-				),
-				'popular_items' => __(
-					'Popular calendar types',
-					'google-calendar-events'
-				),
-				'search_items' => __(
-					'Search Calendar Types',
-					'google-calendar-events'
-				),
+				'all_items' => __('All Calendar Types', 'google-calendar-events'),
+				'parent_item' => __('Parent Calendar Type', 'google-calendar-events'),
+				'parent_item_colon' => __('Parent Calendar Type:', 'google-calendar-events'),
+				'new_item_name' => __('New Calendar Type', 'google-calendar-events'),
+				'add_new_item' => __('Add New Calendar Type', 'google-calendar-events'),
+				'edit_item' => __('Edit Calendar Type', 'google-calendar-events'),
+				'update_item' => __('Update Calendar Type', 'google-calendar-events'),
+				'view_item' => __('View Calendar Type', 'google-calendar-events'),
+				'separate_items_with_commas' => __('Separate calendar types with commas', 'google-calendar-events'),
+				'add_or_remove_items' => __('Add or remove calendar types', 'google-calendar-events'),
+				'choose_from_most_used' => __('Choose from the most used', 'google-calendar-events'),
+				'popular_items' => __('Popular calendar types', 'google-calendar-events'),
+				'search_items' => __('Search Calendar Types', 'google-calendar-events'),
 				'not_found' => __('Not Found', 'google-calendar-events'),
 			];
 
@@ -207,45 +120,18 @@ class Post_Types
 				'singular_name' => __('Category', 'google-calendar-events'),
 				'menu_name' => __('Categories', 'google-calendar-events'),
 				'all_items' => __('All Categories', 'google-calendar-events'),
-				'parent_item' => __(
-					'Parent Category',
-					'google-calendar-events'
-				),
-				'parent_item_colon' => __(
-					'Parent Category:',
-					'google-calendar-events'
-				),
+				'parent_item' => __('Parent Category', 'google-calendar-events'),
+				'parent_item_colon' => __('Parent Category:', 'google-calendar-events'),
 				'new_item_name' => __('New Category', 'google-calendar-events'),
-				'add_new_item' => __(
-					'Add New Category',
-					'google-calendar-events'
-				),
+				'add_new_item' => __('Add New Category', 'google-calendar-events'),
 				'edit_item' => __('Edit Category', 'google-calendar-events'),
-				'update_item' => __(
-					'Update Category',
-					'google-calendar-events'
-				),
+				'update_item' => __('Update Category', 'google-calendar-events'),
 				'view_item' => __('View Category', 'google-calendar-events'),
-				'separate_items_with_commas' => __(
-					'Separate categories with commas',
-					'google-calendar-events'
-				),
-				'add_or_remove_items' => __(
-					'Add or remove categories',
-					'google-calendar-events'
-				),
-				'choose_from_most_used' => __(
-					'Choose from the most used',
-					'google-calendar-events'
-				),
-				'popular_items' => __(
-					'Popular Categories',
-					'google-calendar-events'
-				),
-				'search_items' => __(
-					'Search Categories',
-					'google-calendar-events'
-				),
+				'separate_items_with_commas' => __('Separate categories with commas', 'google-calendar-events'),
+				'add_or_remove_items' => __('Add or remove categories', 'google-calendar-events'),
+				'choose_from_most_used' => __('Choose from the most used', 'google-calendar-events'),
+				'popular_items' => __('Popular Categories', 'google-calendar-events'),
+				'search_items' => __('Search Categories', 'google-calendar-events'),
 				'not_found' => __('Not Found', 'google-calendar-events'),
 			];
 
@@ -275,47 +161,21 @@ class Post_Types
 		if (!post_type_exists('calendar')) {
 			// Calendar feed post type.
 			$labels = [
-				'name' => _x(
-					'Calendars',
-					'Post Type General Name',
-					'google-calendar-events'
-				),
-				'singular_name' => _x(
-					'Calendar',
-					'Post Type Singular Name',
-					'google-calendar-events'
-				),
+				'name' => _x('Calendars', 'Post Type General Name', 'google-calendar-events'),
+				'singular_name' => _x('Calendar', 'Post Type Singular Name', 'google-calendar-events'),
 				'menu_name' => __('Calendars', 'google-calendar-events'),
 				'name_admin_bar' => __('Calendar', 'google-calendar-events'),
-				'parent_item_colon' => __(
-					'Parent Calendar:',
-					'google-calendar-events'
-				),
+				'parent_item_colon' => __('Parent Calendar:', 'google-calendar-events'),
 				'all_items' => __('All Calendars', 'google-calendar-events'),
-				'add_new_item' => __(
-					'Add New Calendar',
-					'google-calendar-events'
-				),
+				'add_new_item' => __('Add New Calendar', 'google-calendar-events'),
 				'add_new' => __('Add New', 'google-calendar-events'),
 				'new_item' => __('New Calendar', 'google-calendar-events'),
 				'edit_item' => __('Edit Calendar', 'google-calendar-events'),
-				'update_item' => __(
-					'Update Calendar',
-					'google-calendar-events'
-				),
+				'update_item' => __('Update Calendar', 'google-calendar-events'),
 				'view_item' => __('View Calendar', 'google-calendar-events'),
-				'search_items' => __(
-					'Search Calendar',
-					'google-calendar-events'
-				),
-				'not_found' => __(
-					'Calendars not found',
-					'google-calendar-events'
-				),
-				'not_found_in_trash' => __(
-					'Calendars not found in Trash',
-					'google-calendar-events'
-				),
+				'search_items' => __('Search Calendar', 'google-calendar-events'),
+				'not_found' => __('Calendars not found', 'google-calendar-events'),
+				'not_found_in_trash' => __('Calendars not found in Trash', 'google-calendar-events'),
 			];
 
 			$rewrite_rules = [
@@ -346,17 +206,10 @@ class Post_Types
 				'show_in_nav_menus' => true,
 				'show_ui' => true,
 				'supports' => ['title', 'editor'],
-				'taxonomies' => [
-					'calendar_category',
-					'calendar_feed',
-					'calendar_type',
-				],
+				'taxonomies' => ['calendar_category', 'calendar_feed', 'calendar_type'],
 			];
 
-			register_post_type(
-				'calendar',
-				apply_filters('simcal_post_type_registration_args', $args)
-			);
+			register_post_type('calendar', apply_filters('simcal_post_type_registration_args', $args));
 		}
 	}
 
@@ -386,8 +239,7 @@ class Post_Types
 				$post_types = [];
 				$settings = get_option('simple-calendar_settings_calendars');
 				if (isset($settings['general']['attach_calendars_posts'])) {
-					$post_types =
-						$settings['general']['attach_calendars_posts'];
+					$post_types = $settings['general']['attach_calendars_posts'];
 				}
 
 				if (empty($post_types)) {
@@ -395,22 +247,10 @@ class Post_Types
 				}
 
 				if (in_array($post->post_type, (array) $post_types)) {
-					$id = absint(
-						get_post_meta(
-							$post->ID,
-							'_simcal_attach_calendar_id',
-							true
-						)
-					);
+					$id = absint(get_post_meta($post->ID, '_simcal_attach_calendar_id', true));
 
 					if ($id > 0) {
-						$pos = esc_attr(
-							get_post_meta(
-								$post->ID,
-								'_simcal_attach_calendar_position',
-								true
-							)
-						);
+						$pos = esc_attr(get_post_meta($post->ID, '_simcal_attach_calendar_position', true));
 
 						ob_start();
 
@@ -449,10 +289,7 @@ class Post_Types
 		if ('calendar' == $post_type) {
 			$notices = get_option('simple-calendar_admin_notices', []);
 
-			if (
-				!empty($notices) &&
-				isset($notices['calendar_' . strval($post_id)])
-			) {
+			if (!empty($notices) && isset($notices['calendar_' . strval($post_id)])) {
 				unset($notices['calendar_' . strval($post_id)]);
 				update_option('simple-calendar_admin_notices', $notices);
 			}

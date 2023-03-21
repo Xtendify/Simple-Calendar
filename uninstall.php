@@ -14,15 +14,13 @@ if (!defined('WP_UNINSTALL_PLUGIN')) {
 $settings = get_option('simple-calendar_settings_advanced');
 
 if (isset($settings['installation']['delete_settings'])) {
-	$delete_settings =
-		'yes' == $settings['installation']['delete_settings'] ? true : false;
+	$delete_settings = 'yes' == $settings['installation']['delete_settings'] ? true : false;
 } else {
 	$delete_settings = false;
 }
 
 if (isset($settings['installation']['erase_data'])) {
-	$erase_data =
-		'yes' == $settings['installation']['erase_data'] ? true : false;
+	$erase_data = 'yes' == $settings['installation']['erase_data'] ? true : false;
 } else {
 	$erase_data = false;
 }

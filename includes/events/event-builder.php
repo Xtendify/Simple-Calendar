@@ -240,17 +240,11 @@ class Event_Builder
 	public function parse_event_template_tags($template_tags = '')
 	{
 		// Process tags.
-		$result = preg_replace_callback(
-			$this->get_regex(),
-			[$this, 'process_event_content'],
-			$template_tags
-		);
+		$result = preg_replace_callback($this->get_regex(), [$this, 'process_event_content'], $template_tags);
 
 		// Removes extra consecutive <br> tags.
 		// TODO: Doesn't seem to work but going to remove it to allow multiple <br> tags in the editor
-		/*return preg_replace( '#(<br */ /*?>\s*)+#i', '<br />', trim( $result ) );*/ return do_shortcode(
-			trim($result)
-		);
+		/*return preg_replace( '#(<br */ /*?>\s*)+#i', '<br />', trim( $result ) );*/ return do_shortcode(trim($result));
 	}
 
 	/**
@@ -313,19 +307,12 @@ class Event_Builder
 						$value = __('No end time', 'google-calendar-events');
 					}
 
-					return ' <span class="simcal-event-duration" data-event-duration="' .
-						$duration .
-						'">' .
-						$value .
-						'</span>';
+					return ' <span class="simcal-event-duration" data-event-duration="' . $duration . '">' . $value . '</span>';
 
 				case 'location':
 				case 'start-location':
 				case 'end-location':
-					$location =
-						'end-location' == $tag
-							? $event->end_location['address']
-							: $event->start_location['address'];
+					$location = 'end-location' == $tag ? $event->end_location['address'] : $event->start_location['address'];
 					$location_class = 'end-location' == $tag ? 'end' : 'start';
 
 					// location, location.name, location.address (type PostalAddress) all required for schema data.
@@ -352,41 +339,22 @@ class Event_Builder
 				case 'start-location-link':
 				case 'end-location-link':
 				case 'maps-link':
-					$location =
-						'end-location-link' == $tag
-							? $event->end_location['address']
-							: $event->start_location['address'];
+					$location = 'end-location-link' == $tag ? $event->end_location['address'] : $event->start_location['address'];
 					if (!empty($location)) {
 						$url = '//maps.google.com?q=' . urlencode($location);
 
-						return $this->make_link(
-							$tag,
-							$url,
-							$calendar->get_event_html($event, $partial),
-							$attr
-						);
+						return $this->make_link($tag, $url, $calendar->get_event_html($event, $partial), $attr);
 					}
 					break;
 
 				case 'link':
 				case 'url':
-					$content =
-						'link' == $tag
-							? $calendar->get_event_html($event, $partial)
-							: '';
+					$content = 'link' == $tag ? $calendar->get_event_html($event, $partial) : '';
 
-					return $this->make_link(
-						$tag,
-						$event->link,
-						$content,
-						$attr
-					);
+					return $this->make_link($tag, $event->link, $content, $attr);
 
 				case 'add-to-gcal-link':
-					$content =
-						'add-to-gcal-link' == $tag
-							? $calendar->get_event_html($event, $partial)
-							: '';
+					$content = 'add-to-gcal-link' == $tag ? $calendar->get_event_html($event, $partial) : '';
 					if (!empty($content)) {
 						$url = $calendar->get_add_to_gcal_url($event);
 
@@ -454,15 +422,11 @@ class Event_Builder
 
 				case 'if-now':
 				case 'if-not-now':
-					$start_dt = $event->start_dt->setTimezone(
-						$calendar->timezone
-					);
+					$start_dt = $event->start_dt->setTimezone($calendar->timezone);
 					$start = $start_dt->getTimestamp();
 
 					if ($event->end_dt instanceof Carbon) {
-						$end = $event->end_dt
-							->setTimezone($calendar->timezone)
-							->getTimestamp();
+						$end = $event->end_dt->setTimezone($calendar->timezone)->getTimestamp();
 					} else {
 						simcal_log_error('NOT CARBON');
 
@@ -481,9 +445,7 @@ class Event_Builder
 
 				case 'if-started':
 				case 'if-not-started':
-					$start = $event->start_dt
-						->setTimezone($calendar->timezone)
-						->getTimestamp();
+					$start = $event->start_dt->setTimezone($calendar->timezone)->getTimestamp();
 
 					if ('if-started' == $tag) {
 						if ($start < $calendar->now) {
@@ -500,23 +462,15 @@ class Event_Builder
 				case 'if-ended':
 				case 'if-not-ended':
 					if (false !== $event->end) {
-						$end = $event->end_dt
-							->setTimezone($calendar->timezone)
-							->getTimestamp();
+						$end = $event->end_dt->setTimezone($calendar->timezone)->getTimestamp();
 
 						if ('if-ended' == $tag) {
 							if ($end < $calendar->now) {
-								return $calendar->get_event_html(
-									$event,
-									$partial
-								);
+								return $calendar->get_event_html($event, $partial);
 							}
 						} elseif ('if-not-ended' == $tag) {
 							if ($end > $calendar->now) {
-								return $calendar->get_event_html(
-									$event,
-									$partial
-								);
+								return $calendar->get_event_html($event, $partial);
 							}
 						}
 					}
@@ -525,15 +479,11 @@ class Event_Builder
 
 				case 'if-today':
 				case 'if-not-today':
-					$start_dt = $event->start_dt->setTimezone(
-						$calendar->timezone
-					);
+					$start_dt = $event->start_dt->setTimezone($calendar->timezone);
 					$startOfDay = $start_dt->startOfDay()->getTimestamp();
 					$endOfDay = $start_dt->endOfDay()->getTimestamp();
 
-					$today =
-						$startOfDay <= $calendar->now &&
-						$calendar->now <= $endOfDay;
+					$today = $startOfDay <= $calendar->now && $calendar->now <= $endOfDay;
 
 					if ('if-today' == $tag && $today) {
 						return $calendar->get_event_html($event, $partial);
@@ -624,12 +574,7 @@ class Event_Builder
 				 * ======= */
 
 				default:
-					$resultCustom = $this->do_custom_event_tag(
-						$tag,
-						$partial,
-						$attr,
-						$event
-					);
+					$resultCustom = $this->do_custom_event_tag($tag, $partial, $attr, $event);
 					if ($resultCustom != '') {
 						return $resultCustom;
 					}
@@ -698,13 +643,7 @@ class Event_Builder
 			$tag = 'span';
 		}
 
-		return '<' .
-			$tag .
-			' class="simcal-event-title" itemprop="name">' .
-			$title .
-			'</' .
-			$tag .
-			'>';
+		return '<' . $tag . ' class="simcal-event-title" itemprop="name">' . $title . '</' . $tag . '>';
 	}
 
 	/**
@@ -797,10 +736,7 @@ class Event_Builder
 				'itemprop="startDate" content="' .
 				$start_iso .
 				'">' .
-				date_i18n(
-					$this->calendar->time_format,
-					strtotime($start->toDateTimeString())
-				) .
+				date_i18n($this->calendar->time_format, strtotime($start->toDateTimeString())) .
 				'</span>';
 
 			if ($end instanceof Carbon) {
@@ -815,10 +751,7 @@ class Event_Builder
 					'itemprop="endDate" content="' .
 					$end_iso .
 					'">' .
-					date_i18n(
-						$this->calendar->time_format,
-						strtotime($end->toDateTimeString())
-					) .
+					date_i18n($this->calendar->time_format, strtotime($end->toDateTimeString())) .
 					'</span>';
 			} else {
 				simcal_log_error('NOT CARBON');
@@ -837,10 +770,7 @@ class Event_Builder
 				'itemprop="startDate" content="' .
 				$start_iso .
 				'">' .
-				date_i18n(
-					$this->calendar->date_format,
-					strtotime($start->toDateTimeString())
-				) .
+				date_i18n($this->calendar->date_format, strtotime($start->toDateTimeString())) .
 				'</span>' .
 				$time_start;
 
@@ -857,10 +787,7 @@ class Event_Builder
 					'itemprop="endDate" content="' .
 					$end_iso .
 					'">' .
-					date_i18n(
-						$this->calendar->date_format,
-						strtotime($end->toDateTimeString())
-					) .
+					date_i18n($this->calendar->date_format, strtotime($end->toDateTimeString())) .
 					'</span>' .
 					$this->calendar->datetime_separator .
 					$time_end;
@@ -868,10 +795,7 @@ class Event_Builder
 				simcal_log_error('NOT CARBON');
 			}
 		} else {
-			$time_end =
-				!empty($time_start) && !empty($time_end)
-					? ' - ' . $time_end
-					: '';
+			$time_end = !empty($time_start) && !empty($time_end) ? ' - ' . $time_end : '';
 
 			// All-day events also need startDate for schema data.
 			$output =
@@ -885,10 +809,7 @@ class Event_Builder
 				'itemprop="startDate" content="' .
 				$start_iso .
 				'">' .
-				date_i18n(
-					$this->calendar->date_format,
-					strtotime($start->toDateTimeString())
-				) .
+				date_i18n($this->calendar->date_format, strtotime($start->toDateTimeString())) .
 				'</span>' .
 				$time_start .
 				$time_end;
@@ -948,33 +869,15 @@ class Event_Builder
 		$dt_ts = $event_dt->timestamp;
 
 		if ('human' == $format) {
-			$value = human_time_diff(
-				$dt_ts,
-				Carbon::now($event->timezone)->getTimestamp()
-			);
+			$value = human_time_diff($dt_ts, Carbon::now($event->timezone)->getTimestamp());
 
 			if ($dt_ts < Carbon::now($event->timezone)->getTimestamp()) {
-				$value .=
-					' ' .
-					_x(
-						'ago',
-						'human date event builder code modifier',
-						'google-calendar-events'
-					);
+				$value .= ' ' . _x('ago', 'human date event builder code modifier', 'google-calendar-events');
 			} else {
-				$value .=
-					' ' .
-					_x(
-						'from now',
-						'human date event builder code modifier',
-						'google-calendar-events'
-					);
+				$value .= ' ' . _x('from now', 'human date event builder code modifier', 'google-calendar-events');
 			}
 		} else {
-			$value = date_i18n(
-				$dt_format,
-				strtotime($event_dt->toDateTimeString())
-			);
+			$value = date_i18n($dt_format, strtotime($event_dt->toDateTimeString()));
 		}
 
 		return '<span class="simcal-event-' .
@@ -1044,11 +947,7 @@ class Event_Builder
 		 *
 		 * @return string The modified additional link attributes.
 		 */
-		$additional_link_atts = apply_filters(
-			'simcal_additional_event_link_attributes',
-			'',
-			$attr
-		);
+		$additional_link_atts = apply_filters('simcal_additional_event_link_attributes', '', $attr);
 
 		return false !== $anchor
 			? ' <a href="' .
@@ -1080,9 +979,7 @@ class Event_Builder
 		foreach ($attachments as $attachment) {
 			$html .= '<li class="simcal-attachment">';
 			$html .= '<a href="' . $attachment['url'] . '" target="_blank">';
-			$html .= !empty($attachment['icon'])
-				? '<img src="' . $attachment['icon'] . '" />'
-				: '';
+			$html .= !empty($attachment['icon']) ? '<img src="' . $attachment['icon'] . '" />' : '';
 			$html .= '<span>' . $attachment['name'] . '</span>';
 			$html .= '</a>';
 			$html .= '</li>' . "\n";
@@ -1124,43 +1021,22 @@ class Event_Builder
 		foreach ($attendees as $attendee) {
 			if ('yes' == $attr['response'] && 'yes' != $attendee['response']) {
 				continue;
-			} elseif (
-				'no' == $attr['response'] &&
-				'no' != $attendee['response']
-			) {
+			} elseif ('no' == $attr['response'] && 'no' != $attendee['response']) {
 				continue;
-			} elseif (
-				'maybe' == $attr['response'] &&
-				!in_array($attendee['response'], ['yes', 'maybe'])
-			) {
+			} elseif ('maybe' == $attr['response'] && !in_array($attendee['response'], ['yes', 'maybe'])) {
 				continue;
 			}
 
 			if (!empty($attendee['name'])) {
 				$photo =
 					'hide' != $attr['photo']
-						? '<img class="avatar avatar-128 photo" src="' .
-							$attendee['photo'] .
-							'" itemprop="image" />'
+						? '<img class="avatar avatar-128 photo" src="' . $attendee['photo'] . '" itemprop="image" />'
 						: '';
-				$response =
-					'hide' != $attr['rsvp']
-						? $this->get_rsvp_response($attendee['response'])
-						: '';
-				$guest =
-					$photo .
-					'<span itemprop="name">' .
-					$attendee['name'] .
-					$response .
-					'</span>';
+				$response = 'hide' != $attr['rsvp'] ? $this->get_rsvp_response($attendee['response']) : '';
+				$guest = $photo . '<span itemprop="name">' . $attendee['name'] . $response . '</span>';
 
 				if (!empty($attendee['email']) && 'show' == $attr['email']) {
-					$guest = sprintf(
-						'<a href="mailto:' .
-							$attendee['email'] .
-							'" itemprop="email">%s</a>',
-						$guest
-					);
+					$guest = sprintf('<a href="mailto:' . $attendee['email'] . '" itemprop="email">%s</a>', $guest);
 				}
 
 				$html .=
@@ -1178,43 +1054,21 @@ class Event_Builder
 		if ($unknown > 0) {
 			if ($known > 0) {
 				/* translators: One more person attending the event. */
-				$others = sprintf(
-					_n(
-						'1 more attendee',
-						'%s more attendees',
-						$unknown,
-						'google-calendar-events'
-					),
-					$unknown
-				);
+				$others = sprintf(_n('1 more attendee', '%s more attendees', $unknown, 'google-calendar-events'), $unknown);
 			} else {
 				/* translators: One or more persons attending the event whose name is unknown. */
 				$others = sprintf(
-					_n(
-						'1 anonymous attendee',
-						'%s anonymous attendees',
-						$unknown,
-						'google-calendar-events'
-					),
+					_n('1 anonymous attendee', '%s anonymous attendees', $unknown, 'google-calendar-events'),
 					$unknown
 				);
 			}
 			$photo = $attr['photo'] !== 'hide' ? get_avatar('', 128) : '';
 			$html .=
-				'<li class="simcal-attendee simcal-attendee-anonymous">' .
-				$photo .
-				'<span>' .
-				$others .
-				'</span></li>' .
-				"\n";
+				'<li class="simcal-attendee simcal-attendee-anonymous">' . $photo . '<span>' . $others . '</span></li>' . "\n";
 		} elseif ($known === 0) {
 			$html .=
 				'<li class="simcal-attendee">' .
-				_x(
-					'No one yet',
-					'No one yet rsvp to attend the event.',
-					'google-calendar-events'
-				) .
+				_x('No one yet', 'No one yet rsvp to attend the event.', 'google-calendar-events') .
 				'</li>' .
 				"\n";
 		}
@@ -1275,18 +1129,13 @@ class Event_Builder
 
 		$photo =
 			'hide' != $attr['photo']
-				? '<img class="avatar avatar-128 photo" src="' .
-					$organizer['photo'] .
-					'" itemprop="image"  />'
+				? '<img class="avatar avatar-128 photo" src="' . $organizer['photo'] . '" itemprop="image"  />'
 				: '';
-		$organizer_html =
-			$photo . '<span itemprop="name">' . $organizer['name'] . '</span>';
+		$organizer_html = $photo . '<span itemprop="name">' . $organizer['name'] . '</span>';
 
 		if (!empty($organizer['email']) && 'show' == $attr['email']) {
 			$organizer_html = sprintf(
-				'<a href="mailto:' .
-					$organizer['email'] .
-					'" itemprop="email">%s</a>',
+				'<a href="mailto:' . $organizer['email'] . '" itemprop="email">%s</a>',
 				$organizer_html
 			);
 		}
@@ -1363,14 +1212,7 @@ class Event_Builder
 	//allow other plugins to replace own (registered) event tags with their value
 	private function do_custom_event_tag($tag, $partial, $attr, $event)
 	{
-		$returnvalue = apply_filters(
-			'simcal_event_tags_do_custom',
-			'',
-			$tag,
-			$partial,
-			$attr,
-			$event
-		);
+		$returnvalue = apply_filters('simcal_event_tags_do_custom', '', $tag, $partial, $attr, $event);
 
 		return $returnvalue;
 	}

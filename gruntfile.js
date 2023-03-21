@@ -69,11 +69,7 @@ module.exports = function (grunt) {
 				],
 			},
 			files: {
-				src: [
-					'includes/**/*.php',
-					'google-calendar-events.php',
-					'uninstall.php',
-				],
+				src: ['includes/**/*.php', 'google-calendar-events.php', 'uninstall.php'],
 				expand: true,
 			},
 		},
@@ -103,10 +99,7 @@ module.exports = function (grunt) {
 				expand: true,
 				cwd: 'bower_components/',
 				flatten: true,
-				src: [
-					'select2/dist/css/select2.css',
-					'select2/dist/css/select2.min.css',
-				],
+				src: ['select2/dist/css/select2.css', 'select2/dist/css/select2.min.css'],
 				dest: '<%= dirs.css %>/vendor/',
 			},
 			js: {
@@ -173,9 +166,7 @@ module.exports = function (grunt) {
 			all: {
 				files: {
 					'<%= dirs.js %>/admin.min.js': ['<%= dirs.js %>/admin.js'],
-					'<%= dirs.js %>/admin-add-calendar.min.js': [
-						'<%= dirs.js %>/admin-add-calendar.js',
-					],
+					'<%= dirs.js %>/admin-add-calendar.min.js': ['<%= dirs.js %>/admin-add-calendar.js'],
 				},
 				options: {
 					mangle: {
@@ -220,13 +211,7 @@ module.exports = function (grunt) {
 	grunt.registerTask('css', ['copy:css', 'cssmin', 'usebanner:css']);
 	grunt.registerTask('js', ['copy:js', 'uglify', 'usebanner:js']);
 	grunt.registerTask('default', ['css', 'js']);
-	grunt.registerTask('build', [
-		'default',
-		'checktextdomain',
-		'clean:build',
-		'copy:main',
-		'compress',
-	]);
+	grunt.registerTask('build', ['default', 'checktextdomain', 'clean:build', 'copy:main', 'compress']);
 
 	// TODO Add deploy task
 	// grunt.registerTask( 'deploy',	['build'] );

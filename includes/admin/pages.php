@@ -56,9 +56,7 @@ class Pages
 	public function __construct($page = 'settings')
 	{
 		$this->page = $page;
-		$settings_pages = !is_null(\SimpleCalendar\plugin()->objects)
-			? simcal_get_admin_pages()
-			: '';
+		$settings_pages = !is_null(\SimpleCalendar\plugin()->objects) ? simcal_get_admin_pages() : '';
 		$settings_page_tabs = [];
 		$tabs = isset($settings_pages[$page]) ? $settings_pages[$page] : false;
 
@@ -129,12 +127,8 @@ class Pages
 						foreach ($sections as $section_id => $section) {
 							add_settings_section(
 								$section_id,
-								isset($section['title'])
-									? $section['title']
-									: '',
-								isset($section['callback'])
-									? $section['callback']
-									: '',
+								isset($section['title']) ? $section['title'] : '',
+								isset($section['callback']) ? $section['callback'] : '',
 								'simple-calendar_' . $this->page . '_' . $tab_id
 							);
 
@@ -143,28 +137,15 @@ class Pages
 
 								if (!empty($fields) && is_array($fields)) {
 									foreach ($fields as $field) {
-										if (
-											isset($field['id']) &&
-											isset($field['type'])
-										) {
-											$field_object = simcal_get_field(
-												$field,
-												$field['type']
-											);
+										if (isset($field['id']) && isset($field['type'])) {
+											$field_object = simcal_get_field($field, $field['type']);
 
-											if (
-												$field_object instanceof Field
-											) {
+											if ($field_object instanceof Field) {
 												add_settings_field(
 													$field['id'],
-													isset($field['title'])
-														? $field['title']
-														: '',
+													isset($field['title']) ? $field['title'] : '',
 													[$field_object, 'html'],
-													'simple-calendar_' .
-														$this->page .
-														'_' .
-														$tab_id,
+													'simple-calendar_' . $this->page . '_' . $tab_id,
 													$section_id
 												);
 											} // add field
@@ -176,17 +157,9 @@ class Pages
 							$page = simcal_get_admin_page($tab_id);
 
 							register_setting(
-								'simple-calendar_' .
-									$this->page .
-									'_' .
-									$tab_id,
-								'simple-calendar_' .
-									$this->page .
-									'_' .
-									$tab_id,
-								$page instanceof Admin_Page
-									? [$page, 'validate']
-									: ''
+								'simple-calendar_' . $this->page . '_' . $tab_id,
+								'simple-calendar_' . $this->page . '_' . $tab_id,
+								$page instanceof Admin_Page ? [$page, 'validate'] : ''
 							);
 						} // loop sections
 					} // are sections non empty?
@@ -205,9 +178,7 @@ class Pages
 		global $current_tab;
 
 		// Get current tab/section
-		$current_tab = empty($_GET['tab'])
-			? $this->tab
-			: sanitize_title($_GET['tab']);
+		$current_tab = empty($_GET['tab']) ? $this->tab : sanitize_title($_GET['tab']);
 		$this->tab = $current_tab;
 		?>
 		<div class="wrap" id="simcal-settings-page">
@@ -224,15 +195,8 @@ class Pages
     	if (!empty($settings_pages) && is_array($settings_pages)) {
     		foreach ($settings_pages as $id => $settings) {
     			$tab_id = isset($id) ? $id : '';
-    			$tab_label = isset($settings['label'])
-    				? $settings['label']
-    				: '';
-    			$tab_link = admin_url(
-    				'edit.php?post_type=calendar&page=simple-calendar_' .
-    					$this->page .
-    					'&tab=' .
-    					$tab_id
-    			);
+    			$tab_label = isset($settings['label']) ? $settings['label'] : '';
+    			$tab_link = admin_url('edit.php?post_type=calendar&page=simple-calendar_' . $this->page . '&tab=' . $tab_id);
 
     			echo '<a href="' .
     				$tab_link .
@@ -252,41 +216,16 @@ class Pages
 
     	foreach ($settings_pages as $tab_id => $contents) {
     		if ($tab_id === $current_tab) {
-    			echo isset($contents['description'])
-    				? '<p>' . $contents['description'] . '</p>'
-    				: '';
+    			echo isset($contents['description']) ? '<p>' . $contents['description'] . '</p>' : '';
 
-    			do_action(
-    				'simcal_admin_page_' .
-    					$this->page .
-    					'_' .
-    					$current_tab .
-    					'_start'
-    			);
+    			do_action('simcal_admin_page_' . $this->page . '_' . $current_tab . '_start');
 
-    			settings_fields(
-    				'simple-calendar_' . $this->page . '_' . $tab_id
-    			);
-    			do_settings_sections(
-    				'simple-calendar_' . $this->page . '_' . $tab_id
-    			);
+    			settings_fields('simple-calendar_' . $this->page . '_' . $tab_id);
+    			do_settings_sections('simple-calendar_' . $this->page . '_' . $tab_id);
 
-    			do_action(
-    				'simcal_admin_page_' .
-    					$this->page .
-    					'_' .
-    					$current_tab .
-    					'_end'
-    			);
+    			do_action('simcal_admin_page_' . $this->page . '_' . $current_tab . '_end');
 
-    			$submit = apply_filters(
-    				'simcal_admin_page_' .
-    					$this->page .
-    					'_' .
-    					$current_tab .
-    					'_submit',
-    				true
-    			);
+    			$submit = apply_filters('simcal_admin_page_' . $this->page . '_' . $current_tab . '_submit', true);
     			if (true === $submit) {
     				submit_button();
     			}

@@ -9,6 +9,9 @@
     "type": "git",
     "url": "https://github.com/Xtendify/Simple-Calendar"
   },
+  "dependencies": {
+    "dayjs": "1.11.7"
+  },
   "devDependencies": {
     "@prettier/plugin-php": "0.19.3",
     "@wordpress/eslint-plugin": "14.1.0",
@@ -42,8 +45,5 @@
   "engines": {
     "npm": ">=9.5.0",
     "node": ">=18.15.0"
-  },
-  "dependencies": {
-    "dayjs": "1.11.7"
   }
 }

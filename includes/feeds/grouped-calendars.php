@@ -66,29 +66,16 @@ class Grouped_Calendars extends Feed
 	 */
 	public function set_source($ids = [])
 	{
-		$source = get_post_meta(
-			$this->post_id,
-			'_grouped_calendars_source',
-			true
-		);
+		$source = get_post_meta($this->post_id, '_grouped_calendars_source', true);
 
 		if ('ids' == $source) {
 			if (empty($ids)) {
-				$ids = get_post_meta(
-					$this->post_id,
-					'_grouped_calendars_ids',
-					true
-				);
+				$ids = get_post_meta($this->post_id, '_grouped_calendars_ids', true);
 			}
 
-			$this->calendars_ids =
-				!empty($ids) && is_array($ids) ? array_map('absint', $ids) : [];
+			$this->calendars_ids = !empty($ids) && is_array($ids) ? array_map('absint', $ids) : [];
 		} elseif ('category' == $source) {
-			$categories = get_post_meta(
-				$this->post_id,
-				'_grouped_calendars_category',
-				true
-			);
+			$categories = get_post_meta($this->post_id, '_grouped_calendars_category', true);
 
 			if ($categories && is_array($categories)) {
 				$tax_query = [
@@ -104,10 +91,7 @@ class Grouped_Calendars extends Feed
 					'fields' => 'ids',
 				]);
 
-				$this->calendars_ids =
-					!empty($calendars) && is_array($calendars)
-						? $calendars
-						: [];
+				$this->calendars_ids = !empty($calendars) && is_array($calendars) ? $calendars : [];
 			}
 		}
 	}
@@ -122,12 +106,7 @@ class Grouped_Calendars extends Feed
 	public function get_events()
 	{
 		$ids = $this->calendars_ids;
-		$events = get_transient(
-			'_simple-calendar_feed_id_' .
-				strval($this->post_id) .
-				'_' .
-				$this->type
-		);
+		$events = get_transient('_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type);
 
 		if (empty($events) && !empty($ids) && is_array($ids)) {
 			$events = [];
@@ -142,14 +121,10 @@ class Grouped_Calendars extends Feed
 					// When merging the arrays together some of the events will be lost because the keys are the same and one will overwrite the other
 					// This snippet checks if the key already exists in the master events array and if it does it subtracts 1 from it to make the key unique and then unsets the original key.
 					foreach ($calendar->events as $k => $v) {
-						$calendar->events[
-							$this->update_array_timestamp($events, $k)
-						] = $v;
+						$calendar->events[$this->update_array_timestamp($events, $k)] = $v;
 					}
 
-					$events = is_array($calendar->events)
-						? $events + $calendar->events
-						: $events;
+					$events = is_array($calendar->events) ? $events + $calendar->events : $events;
 				}
 			}
 
@@ -157,26 +132,17 @@ class Grouped_Calendars extends Feed
 				// Trim events to set the earliest one as specified in feed settings.
 				$earliest_event = intval($this->time_min);
 				if ($earliest_event > 0) {
-					$events = $this->array_filter_key($events, [
-						$this,
-						'filter_events_before',
-					]);
+					$events = $this->array_filter_key($events, [$this, 'filter_events_before']);
 				}
 
 				// Trim events to set the latest one as specified in feed settings.
 				$latest_event = intval($this->time_max);
 				if ($latest_event > 0) {
-					$events = $this->array_filter_key($events, [
-						$this,
-						'filter_events_after',
-					]);
+					$events = $this->array_filter_key($events, [$this, 'filter_events_after']);
 				}
 
 				set_transient(
-					'_simple-calendar_feed_id_' .
-						strval($this->post_id) .
-						'_' .
-						$this->type,
+					'_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type,
 					$events,
 					absint($this->cache)
 				);

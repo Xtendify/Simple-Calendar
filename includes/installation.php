@@ -87,37 +87,17 @@ class Installation
 				$group = 'simple-calendar_' . $page . '_' . $id;
 
 				if (isset($settings['sections'])) {
-					if (
-						$settings['sections'] &&
-						is_array($settings['sections'])
-					) {
-						foreach (
-							$settings['sections']
-							as $section_id => $section
-						) {
+					if ($settings['sections'] && is_array($settings['sections'])) {
+						foreach ($settings['sections'] as $section_id => $section) {
 							if (isset($section['fields'])) {
-								if (
-									$section['fields'] &&
-									is_array($section['fields'])
-								) {
-									foreach (
-										$section['fields']
-										as $key => $field
-									) {
+								if ($section['fields'] && is_array($section['fields'])) {
+									foreach ($section['fields'] as $key => $field) {
 										if (isset($field['type'])) {
 											// Maybe an associative array.
 											if (is_int($key)) {
-												$default[
-													$section_id
-												] = self::get_field_default_value(
-													$field
-												);
+												$default[$section_id] = self::get_field_default_value($field);
 											} else {
-												$default[$section_id][
-													$key
-												] = self::get_field_default_value(
-													$field
-												);
+												$default[$section_id][$key] = self::get_field_default_value($field);
 											}
 										}
 									} // Loop fields.

@@ -141,20 +141,14 @@ abstract class Feed
 			if (isset($calendar->start)) {
 				$this->calendar_start = $calendar->start;
 			}
-			$this->week_starts = isset($calendar->week_starts)
-				? $calendar->week_starts
-				: get_option('start_of_week');
+			$this->week_starts = isset($calendar->week_starts) ? $calendar->week_starts : get_option('start_of_week');
 			$this->events_template = !empty($calendar->events_template)
 				? $calendar->events_template
 				: simcal_default_event_template();
 
 			if ($this->post_id > 0) {
 				$this->set_cache();
-				$this->timezone_setting = get_post_meta(
-					$this->post_id,
-					'_feed_timezone_setting',
-					true
-				);
+				$this->timezone_setting = get_post_meta($this->post_id, '_feed_timezone_setting', true);
 				$this->timezone = $calendar->timezone;
 				$this->set_earliest_event();
 				$this->set_latest_event();
@@ -186,24 +180,10 @@ abstract class Feed
 		$earliest = intval($timestamp);
 
 		if ($earliest === 0) {
-			$start = Carbon::createFromTimestamp(
-				$this->calendar_start,
-				$this->timezone
-			);
+			$start = Carbon::createFromTimestamp($this->calendar_start, $this->timezone);
 
-			$earliest_date = esc_attr(
-				get_post_meta($this->post_id, '_feed_earliest_event_date', true)
-			);
-			$earliest_range = max(
-				absint(
-					get_post_meta(
-						$this->post_id,
-						'_feed_earliest_event_date_range',
-						true
-					)
-				),
-				1
-			);
+			$earliest_date = esc_attr(get_post_meta($this->post_id, '_feed_earliest_event_date', true));
+			$earliest_range = max(absint(get_post_meta($this->post_id, '_feed_earliest_event_date_range', true)), 1);
 
 			if ('days_before' == $earliest_date) {
 				$earliest = $start->subDays($earliest_range)->getTimestamp();
@@ -242,24 +222,10 @@ abstract class Feed
 		$latest = intval($timestamp);
 
 		if ($latest === 0) {
-			$start = Carbon::createFromTimestamp(
-				$this->calendar_start,
-				$this->timezone
-			)->endOfDay();
+			$start = Carbon::createFromTimestamp($this->calendar_start, $this->timezone)->endOfDay();
 
-			$latest_date = esc_attr(
-				get_post_meta($this->post_id, '_feed_latest_event_date', true)
-			);
-			$latest_range = max(
-				absint(
-					get_post_meta(
-						$this->post_id,
-						'_feed_latest_event_date_range',
-						true
-					)
-				),
-				1
-			);
+			$latest_date = esc_attr(get_post_meta($this->post_id, '_feed_latest_event_date', true));
+			$latest_range = max(absint(get_post_meta($this->post_id, '_feed_latest_event_date_range', true)), 1);
 
 			if ('days_after' == $latest_date) {
 				$latest = $start->addDays($latest_range)->getTimestamp();
@@ -297,10 +263,7 @@ abstract class Feed
 	{
 		if ($time === 0 || !is_numeric($time)) {
 			$cache = get_post_meta($this->post_id, '_feed_cache', true);
-			$time =
-				is_numeric($cache) && $cache >= 0
-					? absint($cache)
-					: $this->cache;
+			$time = is_numeric($cache) && $cache >= 0 ? absint($cache) : $this->cache;
 		}
 		$this->cache = absint($time);
 	}

@@ -82,10 +82,7 @@ class Feeds extends Admin_Page
 
 		arsort($sections);
 
-		return apply_filters(
-			'simcal_add_' . $this->option_group . '_' . $this->id . '_sections',
-			$sections
-		);
+		return apply_filters('simcal_add_' . $this->option_group . '_' . $this->id . '_sections', $sections);
 	}
 
 	/**
@@ -99,42 +96,20 @@ class Feeds extends Admin_Page
 	{
 		$fields = [];
 		$feed_types = $this->feed_types;
-		$this->values = get_option(
-			'simple-calendar_' . $this->option_group . '_' . $this->id
-		);
+		$this->values = get_option('simple-calendar_' . $this->option_group . '_' . $this->id);
 
 		foreach ($this->sections as $type => $contents):
 			if (isset($feed_types[$type]['fields'])) {
 				foreach ($feed_types[$type]['fields'] as $key => $args) {
 					$fields[$type][] = array_merge($args, [
-						'name' =>
-							'simple-calendar_' .
-							$this->option_group .
-							'_' .
-							$this->id .
-							'[' .
-							$type .
-							'][' .
-							$key .
-							']',
-						'id' =>
-							'simple-calendar-' .
-							$this->option_group .
-							'-' .
-							$this->id .
-							'-' .
-							$type .
-							'-' .
-							$key,
+						'name' => 'simple-calendar_' . $this->option_group . '_' . $this->id . '[' . $type . '][' . $key . ']',
+						'id' => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-' . $type . '-' . $key,
 						'value' => $this->get_option_value($type, $key),
 					]);
 				}
 			}
 		endforeach;
 
-		return apply_filters(
-			'simcal_add_' . $this->option_group . '_' . $this->id . '_fields',
-			$fields
-		);
+		return apply_filters('simcal_add_' . $this->option_group . '_' . $this->id . '_fields', $fields);
 	}
 }

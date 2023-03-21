@@ -260,14 +260,7 @@ abstract class Calendar
 				if (!empty($feed->events)) {
 					if (is_array($feed->events)) {
 						$this->set_events($feed->events);
-						if (
-							'use_calendar' ==
-							get_post_meta(
-								$this->id,
-								'_feed_timezone_setting',
-								true
-							)
-						) {
+						if ('use_calendar' == get_post_meta($this->id, '_feed_timezone_setting', true)) {
 							$this->timezone = $feed->timezone;
 							$this->set_start();
 						}
@@ -291,15 +284,11 @@ abstract class Calendar
 			// Set earliest and latest event timestamps.
 			if ($this->events && is_array($this->events)) {
 				$start_event = current($this->events);
-				$start_event_item = !empty($start_event[0]->start)
-					? $start_event[0]->start
-					: 0;
+				$start_event_item = !empty($start_event[0]->start) ? $start_event[0]->start : 0;
 				$this->earliest_event = intval($start_event_item);
 
 				$last_event = current(array_slice($this->events, -1, 1, true));
-				$last_event_item = !empty($last_event[0]->end)
-					? $last_event[0]->end
-					: 0;
+				$last_event_item = !empty($last_event[0]->end) ? $last_event[0]->end : 0;
 				$this->latest_event = intval($last_event_item);
 			}
 
@@ -308,14 +297,8 @@ abstract class Calendar
 
 			// Set view.
 			if (!$view) {
-				$calendar_view = get_post_meta(
-					$this->id,
-					'_calendar_view',
-					true
-				);
-				$calendar_view = isset($calendar_view[$this->type])
-					? $calendar_view[$this->type]
-					: '';
+				$calendar_view = get_post_meta($this->id, '_calendar_view', true);
+				$calendar_view = isset($calendar_view[$this->type]) ? $calendar_view[$this->type] : '';
 
 				$view = esc_attr($calendar_view);
 			}
@@ -418,19 +401,13 @@ abstract class Calendar
 		if ($type = wp_get_object_terms($this->id, 'calendar_type')) {
 			$this->type = sanitize_title(current($type)->name);
 		} else {
-			$this->type = apply_filters(
-				'simcal_calendar_default_type',
-				'default-calendar'
-			);
+			$this->type = apply_filters('simcal_calendar_default_type', 'default-calendar');
 		}
 		// Set feed type.
 		if ($feed_type = wp_get_object_terms($this->id, 'calendar_feed')) {
 			$this->feed = sanitize_title(current($feed_type)->name);
 		} else {
-			$this->feed = apply_filters(
-				'simcal_calendar_default_feed',
-				'google'
-			);
+			$this->feed = apply_filters('simcal_calendar_default_feed', 'google');
 		}
 	}
 
@@ -460,8 +437,7 @@ abstract class Calendar
 		if (!empty($array)) {
 			foreach ($array as $tz => $e) {
 				foreach ($e as $event) {
-					$events[$tz][] =
-						$event instanceof Event ? $event : new Event($event);
+					$events[$tz][] = $event instanceof Event ? $event : new Event($event);
 				}
 			}
 		}
@@ -487,9 +463,7 @@ abstract class Calendar
 	public function set_events_template($template = '')
 	{
 		if (empty($template)) {
-			$template = isset($this->post->post_content)
-				? $this->post->post_content
-				: '';
+			$template = isset($this->post->post_content) ? $this->post->post_content : '';
 		}
 
 		// TODO: Removed wpautop() call.
@@ -501,16 +475,10 @@ abstract class Calendar
 				$this->events_template = wp_kses_post(trim($template));
 				break;
 			case 'no_linebreaks':
-				$this->events_template = wpautop(
-					wp_kses_post(trim($template)),
-					false
-				);
+				$this->events_template = wpautop(wp_kses_post(trim($template)), false);
 				break;
 			default:
-				$this->events_template = wpautop(
-					wp_kses_post(trim($template)),
-					true
-				);
+				$this->events_template = wpautop(wp_kses_post(trim($template)), true);
 		}
 
 		//$this->events_template =  wpautop( wp_kses_post( trim( $template ) ), true );
@@ -533,26 +501,15 @@ abstract class Calendar
 		}
 
 		if (empty($tz)) {
-			$timezone_setting = get_post_meta(
-				$this->id,
-				'_feed_timezone_setting',
-				true
-			);
+			$timezone_setting = get_post_meta($this->id, '_feed_timezone_setting', true);
 
 			if ('use_site' == $timezone_setting) {
 				$tz = $site_tz;
 			} elseif ('use_custom' == $timezone_setting) {
-				$custom_timezone = esc_attr(
-					get_post_meta($this->id, '_feed_timezone', true)
-				);
+				$custom_timezone = esc_attr(get_post_meta($this->id, '_feed_timezone', true));
 				// One may be using a non standard timezone in GMT (UTC) offset format.
-				if (
-					strpos($custom_timezone, 'UTC+') === 0 ||
-					strpos($custom_timezone, 'UTC-') === 0
-				) {
-					$tz = simcal_get_timezone_from_gmt_offset(
-						substr($custom_timezone, 3)
-					);
+				if (strpos($custom_timezone, 'UTC+') === 0 || strpos($custom_timezone, 'UTC-') === 0) {
+					$tz = simcal_get_timezone_from_gmt_offset(substr($custom_timezone, 3));
 				} else {
 					$tz = !empty($custom_timezone) ? $custom_timezone : 'UTC';
 				}
@@ -578,26 +535,18 @@ abstract class Calendar
 		$date_format_custom = $date_format_default = $format;
 
 		if (empty($date_format_custom)) {
-			$date_format_option = esc_attr(
-				get_post_meta($this->id, '_calendar_date_format_setting', true)
-			);
+			$date_format_option = esc_attr(get_post_meta($this->id, '_calendar_date_format_setting', true));
 			$date_format_default = esc_attr(get_option('date_format'));
 			$date_format_custom = '';
 
 			if ('use_custom' == $date_format_option) {
-				$date_format_custom = esc_attr(
-					get_post_meta($this->id, '_calendar_date_format', true)
-				);
+				$date_format_custom = esc_attr(get_post_meta($this->id, '_calendar_date_format', true));
 			} elseif ('use_custom_php' == $date_format_option) {
-				$date_format_custom = esc_attr(
-					get_post_meta($this->id, '_calendar_date_format_php', true)
-				);
+				$date_format_custom = esc_attr(get_post_meta($this->id, '_calendar_date_format_php', true));
 			}
 		}
 
-		$this->date_format = $date_format_custom
-			? $date_format_custom
-			: $date_format_default;
+		$this->date_format = $date_format_custom ? $date_format_custom : $date_format_default;
 	}
 
 	/**
@@ -612,26 +561,18 @@ abstract class Calendar
 		$time_format_custom = $time_format_default = $format;
 
 		if (empty($time_format_custom)) {
-			$time_format_option = esc_attr(
-				get_post_meta($this->id, '_calendar_time_format_setting', true)
-			);
+			$time_format_option = esc_attr(get_post_meta($this->id, '_calendar_time_format_setting', true));
 			$time_format_default = esc_attr(get_option('time_format'));
 			$time_format_custom = '';
 
 			if ('use_custom' == $time_format_option) {
-				$time_format_custom = esc_attr(
-					get_post_meta($this->id, '_calendar_time_format', true)
-				);
+				$time_format_custom = esc_attr(get_post_meta($this->id, '_calendar_time_format', true));
 			} elseif ('use_custom_php' == $time_format_option) {
-				$time_format_custom = esc_attr(
-					get_post_meta($this->id, '_calendar_time_format_php', true)
-				);
+				$time_format_custom = esc_attr(get_post_meta($this->id, '_calendar_time_format_php', true));
 			}
 		}
 
-		$this->time_format = $time_format_custom
-			? $time_format_custom
-			: $time_format_default;
+		$this->time_format = $time_format_custom ? $time_format_custom : $time_format_default;
 	}
 
 	/**
@@ -644,18 +585,10 @@ abstract class Calendar
 	public function set_datetime_separator($separator = '')
 	{
 		if (empty($separator)) {
-			$separator = get_post_meta(
-				$this->id,
-				'_calendar_datetime_separator',
-				true
-			);
+			$separator = get_post_meta($this->id, '_calendar_datetime_separator', true);
 		}
 
-		$separator_spacing = get_post_meta(
-			$this->id,
-			'_calendar_datetime_separator_spacing',
-			true
-		);
+		$separator_spacing = get_post_meta($this->id, '_calendar_datetime_separator_spacing', true);
 		if (empty($separator_spacing)) {
 			$separator = '&nbsp;' . trim($separator) . '&nbsp;';
 		} else {
@@ -676,22 +609,12 @@ abstract class Calendar
 		$week_starts = is_int($weekday) ? $weekday : -1;
 
 		if ($week_starts < 0 || $week_starts > 6) {
-			$week_starts_setting = get_post_meta(
-				$this->id,
-				'_calendar_week_starts_on_setting',
-				true
-			);
+			$week_starts_setting = get_post_meta($this->id, '_calendar_week_starts_on_setting', true);
 			$week_starts = intval(get_option('start_of_week'));
 
 			if ('use_custom' == $week_starts_setting) {
-				$week_starts_on = get_post_meta(
-					$this->id,
-					'_calendar_week_starts_on',
-					true
-				);
-				$week_starts = is_numeric($week_starts_on)
-					? intval($week_starts_on)
-					: $week_starts;
+				$week_starts_on = get_post_meta($this->id, '_calendar_week_starts_on', true);
+				$week_starts = is_numeric($week_starts_on) ? intval($week_starts_on) : $week_starts;
 			}
 		}
 
@@ -714,13 +637,8 @@ abstract class Calendar
 
 		$start_dt = Carbon::now($this->timezone);
 
-		$calendar_begins = esc_attr(
-			get_post_meta($this->id, '_calendar_begins', true)
-		);
-		$nth = max(
-			absint(get_post_meta($this->id, '_calendar_begins_nth', true)),
-			1
-		);
+		$calendar_begins = esc_attr(get_post_meta($this->id, '_calendar_begins', true));
+		$nth = max(absint(get_post_meta($this->id, '_calendar_begins_nth', true)), 1);
 
 		if ('today' == $calendar_begins) {
 			$start_dt = Carbon::today($this->timezone);
@@ -766,18 +684,8 @@ abstract class Calendar
 				->addYears($nth)
 				->startOfYear();
 		} elseif ('custom_date' == $calendar_begins) {
-			if (
-				$date = get_post_meta(
-					$this->id,
-					'_calendar_begins_custom_date',
-					true
-				)
-			) {
-				$start_dt = Carbon::createFromFormat(
-					'Y-m-d',
-					esc_attr($date),
-					$this->timezone
-				)
+			if ($date = get_post_meta($this->id, '_calendar_begins_custom_date', true)) {
+				$start_dt = Carbon::createFromFormat('Y-m-d', esc_attr($date), $this->timezone)
 					->setTimezone($this->timezone)
 					->startOfDay();
 			}
@@ -795,10 +703,7 @@ abstract class Calendar
 	 */
 	public function set_end($timestamp = 0)
 	{
-		$latest =
-			is_int($timestamp) && $timestamp !== 0
-				? $timestamp
-				: $this->latest_event;
+		$latest = is_int($timestamp) && $timestamp !== 0 ? $timestamp : $this->latest_event;
 		$this->end = $latest > $this->start ? $latest : $this->start;
 	}
 
@@ -861,11 +766,7 @@ abstract class Calendar
 	{
 		$event_builder = new Event_Builder($event, $this);
 		// Use the event template to parse tags; if empty, fallback to calendar post content.
-		$template = empty($template)
-			? (empty($event->template)
-				? $this->events_template
-				: $event->template)
-			: $template;
+		$template = empty($template) ? (empty($event->template) ? $this->events_template : $event->template) : $template;
 		return $event_builder->parse_event_template_tags($template);
 	}
 
@@ -937,23 +838,13 @@ abstract class Calendar
 				}
 			} else {
 				// Get a CSS class from the class name of the calendar view (minus namespace part).
-				$view_name = implode(
-					'-',
-					array_map(
-						'lcfirst',
-						explode('_', strtolower(get_class($view)))
-					)
-				);
+				$view_name = implode('-', array_map('lcfirst', explode('_', strtolower(get_class($view)))));
 				$view_class = substr($view_name, strrpos($view_name, '\\') + 1);
 
 				$calendar_class = trim(
 					implode(
 						' simcal-',
-						apply_filters(
-							'simcal_calendar_class',
-							['simcal-calendar', $this->type, $view_class],
-							$this->id
-						)
+						apply_filters('simcal_calendar_class', ['simcal-calendar', $this->type, $view_class], $this->id)
 					)
 				);
 
@@ -1001,10 +892,7 @@ abstract class Calendar
 						$align .
 						'">' .
 						sprintf(
-							__(
-								'Powered by <a href="%s" target="_blank">Simple Calendar</a>',
-								'google-calendar-events'
-							),
+							__('Powered by <a href="%s" target="_blank">Simple Calendar</a>', 'google-calendar-events'),
 							simcal_get_url('home')
 						) .
 						'</small>';

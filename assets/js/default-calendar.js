@@ -1,17 +1,20 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import dayjs from 'dayjs';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import utc from 'dayjs/plugin/utc';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import timezone from 'dayjs/plugin/timezone';
 
-(function (window, undefined) {
+(function (window) {
 	'use strict';
 
 	dayjs.extend(utc);
 	dayjs.extend(timezone);
 
-	jQuery(function ($) {
+	window.jQuery(function ($) {
 		// Browse calendar pages.
 		$('.simcal-default-calendar').each(function (e, i) {
-			var calendar = $(i),
+			const calendar = $(i),
 				id = calendar.data('calendar-id'),
 				offset = calendar.data('offset'),
 				start = calendar.data('events-first'),
@@ -23,9 +26,8 @@ import timezone from 'dayjs/plugin/timezone';
 				currentTime = current.data('calendar-current'),
 				currentMonth = current.find('span.simcal-current-month'),
 				currentYear = current.find('span.simcal-current-year'),
-				currentDate = dayjs(currentTime * 1000).tz(calendar.data('timezone')),
-				date,
-				action;
+				currentDate = dayjs(currentTime * 1000).tz(calendar.data('timezone'));
+			let date, action;
 
 			if (calendar.hasClass('simcal-default-calendar-grid')) {
 				action = 'simcal_default_calendar_draw_grid';
@@ -40,17 +42,16 @@ import timezone from 'dayjs/plugin/timezone';
 
 			// Navigate the calendar.
 			buttons.on('click', function () {
-				var direction = $(this).hasClass('simcal-next') ? 'next' : 'prev';
+				const direction = $(this).hasClass('simcal-next') ? 'next' : 'prev';
 
-				if (action == 'simcal_default_calendar_draw_grid') {
+				if (action === 'simcal_default_calendar_draw_grid') {
 					// Monthly grid calendars.
 
-					var body = calendar.find('.simcal-month'),
-						newDate,
-						month,
-						year;
+					const body = calendar.find('.simcal-month');
 
-					if ('prev' == direction) {
+					let newDate;
+
+					if ('prev' === direction) {
 						// Beginning of the previous month.
 						newDate = new Date(date.setMonth(date.getMonth() - 1, 1));
 					} else {
@@ -62,37 +63,33 @@ import timezone from 'dayjs/plugin/timezone';
 						newDate.setSeconds(59);
 					}
 
-					month = newDate.getMonth();
-					year = newDate.getFullYear();
+					const month = newDate.getMonth();
+					const year = newDate.getFullYear();
 
 					$.ajax({
+						// eslint-disable-next-line camelcase, no-undef
 						url: simcal_default_calendar.ajax_url,
 						type: 'POST',
 						dataType: 'json',
 						cache: false,
 						data: {
-							action: action,
+							action,
 							month: month + 1, // month count in PHP goes 1-12 vs 0-11 in JavaScript
-							year: year,
-							id: id,
+							year,
+							id,
 						},
-						beforeSend: function () {
+						beforeSend() {
 							spinner.fadeToggle();
 						},
-						success: function (response) {
-							currentMonth.text(simcal_default_calendar.months.full[month]);
+						success(response) {
+							currentMonth.text(
+								// eslint-disable-next-line camelcase, no-undef
+								simcal_default_calendar.months.full[month]
+							);
 							currentYear.text(year);
-							current.attr(
-								'data-calendar-current',
-								newDate.getTime() / 1000 + offset + 1
-							);
+							current.attr('data-calendar-current', newDate.getTime() / 1000 + offset + 1);
 
-							toggleGridNavButtons(
-								buttons,
-								newDate.getTime() / 1000,
-								start,
-								end
-							);
+							toggleGridNavButtons(buttons, newDate.getTime() / 1000, start, end);
 
 							spinner.fadeToggle();
 
@@ -100,52 +97,48 @@ import timezone from 'dayjs/plugin/timezone';
 
 							body.replaceWith(response.data);
 
-							calendarBubbles(calendar, list);
+							calendarBubbles(calendar);
 							expandEventsToggle();
 						},
-						error: function (response) {
+						error(response) {
+							// eslint-disable-next-line no-console
 							console.log(response);
 						},
 					});
 				} else {
 					// List calendars.
 
-					var list = calendar.find('.simcal-events-list-container'),
+					const list = calendar.find('.simcal-events-list-container'),
 						prev = list.data('prev'),
 						next = list.data('next'),
-						timestamp = direction == 'prev' ? prev : next;
+						timestamp = direction === 'prev' ? prev : next;
 
 					$.ajax({
+						// eslint-disable-next-line camelcase, no-undef
 						url: simcal_default_calendar.ajax_url,
 						type: 'POST',
 						dataType: 'json',
 						cache: false,
 						data: {
-							action: action,
+							action,
 							ts: timestamp,
-							id: id,
+							id,
 						},
-						beforeSend: function () {
+						beforeSend() {
 							spinner.fadeToggle();
 						},
-						success: function (response) {
+						success(response) {
 							list.replaceWith(response.data);
 							current.attr('data-calendar-current', timestamp);
 
 							toggleListHeading(calendar);
-							toggleListNavButtons(
-								buttons,
-								calendar,
-								start,
-								end,
-								direction,
-								timestamp
-							);
+							toggleListNavButtons(buttons, calendar, start, end, direction, timestamp);
 
 							spinner.fadeToggle();
 							expandEventsToggle();
 						},
-						error: function (response) {
+						error(response) {
+							// eslint-disable-next-line no-console
 							console.log(response);
 						},
 					});
@@ -156,15 +149,15 @@ import timezone from 'dayjs/plugin/timezone';
 		/**
 		 * Enable or disable grid calendar navigation buttons.
 		 *
-		 * @param buttons Previous and Next buttons elements.
-		 * @param time    Current time.
-		 * @param min     Lower bound timestamp.
-		 * @param max     Upper bound timestamp.
+		 * @param {HTMLElement[]} buttons Previous and Next buttons elements.
+		 * @param {number}        time    Current time.
+		 * @param {number}        min     Lower bound timestamp.
+		 * @param {number}        max     Upper bound timestamp.
 		 */
 		function toggleGridNavButtons(buttons, time, min, max) {
 			buttons.each(function (e, i) {
-				var button = $(i),
-					month = new Date(time * 1000);
+				const button = $(i);
+				let month = new Date(time * 1000);
 
 				if (button.hasClass('simcal-prev')) {
 					month = new Date(month.setMonth(month.getMonth(), 1));
@@ -194,31 +187,26 @@ import timezone from 'dayjs/plugin/timezone';
 		/**
 		 * Enable or disable grid calendar navigation buttons.
 		 *
-		 * @param buttons   Previous and Next button elements.
-		 * @param calendar  Current calendar.
-		 * @param start     Lower bound timestamp.
-		 * @param end       Upper bound timestamp.
-		 * @param direction Direction intent.
+		 * @param {HTMLElement[]} buttons     Previous and Next button elements.
+		 * @param {HTMLElement}   calendar    Current calendar.
+		 * @param {number}        start       Lower bound timestamp.
+		 * @param {number}        end         Upper bound timestamp.
+		 * @param {string}        direction   Direction intent.
+		 * @param {number}        currentTime
 		 */
-		function toggleListNavButtons(
-			buttons,
-			calendar,
-			start,
-			end,
-			direction,
-			currentTime
-		) {
-			var list = calendar.find('.simcal-events-list-container'),
+		function toggleListNavButtons(buttons, calendar, start, end, direction, currentTime) {
+			const list = calendar.find('.simcal-events-list-container'),
 				prev = list.data('prev'),
 				next = list.data('next'),
+				// eslint-disable-next-line camelcase
 				last_event = list.find('li.simcal-event:last').data('start');
 
 			buttons.each(function (e, b) {
-				var button = $(b);
+				const button = $(b);
 
 				if (direction) {
 					if (button.hasClass('simcal-prev')) {
-						if (direction == 'prev') {
+						if (direction === 'prev') {
 							if (prev <= start && currentTime <= start) {
 								button.attr('disabled', 'disabled');
 							}
@@ -226,23 +214,29 @@ import timezone from 'dayjs/plugin/timezone';
 							button.removeAttr('disabled');
 						}
 					} else if (button.hasClass('simcal-next')) {
-						if (direction == 'next') {
-							if ((next >= end && currentTime >= end) || last_event >= end) {
+						if (direction === 'next') {
+							if (
+								(next >= end && currentTime >= end) ||
+								// eslint-disable-next-line camelcase
+								last_event >= end
+							) {
 								button.attr('disabled', 'disabled');
 							}
 						} else {
 							button.removeAttr('disabled');
 						}
 					}
-				} else {
-					if (button.hasClass('simcal-prev')) {
-						if (prev <= start && currentTime <= start) {
-							button.attr('disabled', 'disabled');
-						}
-					} else if (button.hasClass('simcal-next')) {
-						if ((next >= end && currentTime >= end) || last_event >= end) {
-							button.attr('disabled', 'disabled');
-						}
+				} else if (button.hasClass('simcal-prev')) {
+					if (prev <= start && currentTime <= start) {
+						button.attr('disabled', 'disabled');
+					}
+				} else if (button.hasClass('simcal-next')) {
+					if (
+						(next >= end && currentTime >= end) ||
+						// eslint-disable-next-line camelcase
+						last_event >= end
+					) {
+						button.attr('disabled', 'disabled');
 					}
 				}
 			});
@@ -251,10 +245,10 @@ import timezone from 'dayjs/plugin/timezone';
 		/**
 		 * Replace the list heading with current page.
 		 *
-		 * @param calendar Current calendar.
+		 * @param {HTMLElement} calendar Current calendar.
 		 */
 		function toggleListHeading(calendar) {
-			var current = $(calendar).find('.simcal-current'),
+			const current = $(calendar).find('.simcal-current'),
 				heading = $(calendar).find('.simcal-events-list-container'),
 				small = heading.data('heading-small'),
 				large = heading.data('heading-large'),
@@ -269,7 +263,7 @@ import timezone from 'dayjs/plugin/timezone';
 			current.html(newHeading);
 		}
 
-		var gridCalendars = $('.simcal-default-calendar-grid');
+		const gridCalendars = $('.simcal-default-calendar-grid');
 
 		/**
 		 * Default calendar grid event bubbles.
@@ -277,10 +271,10 @@ import timezone from 'dayjs/plugin/timezone';
 		 * Initializes tooltips for events in grid.
 		 * Adjusts UI for mobile or desktop.
 		 *
-		 * @param calendar The calendar element.
+		 * @param {HTMLElement} calendar The calendar element.
 		 */
 		function calendarBubbles(calendar) {
-			var table = $(calendar).find('> table'),
+			const table = $(calendar).find('> table'),
 				thead = table.find('thead'),
 				weekDayNames = thead.find('th.simcal-week-day'),
 				cells = table.find('td.simcal-day > div'),
@@ -290,8 +284,9 @@ import timezone from 'dayjs/plugin/timezone';
 				eventsDots = table.find('span.simcal-events-dots'),
 				events = table.find('.simcal-tooltip-content'),
 				hiddenEvents = table.find('.simcal-event-toggled'),
-				bubbleTrigger = table.data('event-bubble-trigger'),
 				width = cells.first().width();
+
+			let bubbleTrigger = table.data('event-bubble-trigger');
 
 			if (width < 60) {
 				weekDayNames.each(function (e, w) {
@@ -301,9 +296,9 @@ import timezone from 'dayjs/plugin/timezone';
 				// Hide list of events titles and show dots.
 				eventsList.hide();
 				eventTitles.hide();
-				if (eventsToggle != 'undefined') {
+				if (eventsToggle !== 'undefined') {
 					eventsToggle.hide();
-					if (hiddenEvents != 'undefined') {
+					if (hiddenEvents !== 'undefined') {
 						hiddenEvents.show();
 					}
 				}
@@ -312,11 +307,9 @@ import timezone from 'dayjs/plugin/timezone';
 				// Force click/tap on mobile.
 				bubbleTrigger = 'click';
 				// Adapts cells to be more squareish on mobile.
-				var minH = width - 10 + 'px';
+				const minH = width - 10 + 'px';
 				cells.css('min-height', minH);
-				table
-					.find('span.simcal-events-dots:not(:empty)')
-					.css('min-height', minH);
+				table.find('span.simcal-events-dots:not(:empty)').css('min-height', minH);
 			} else {
 				if (width <= 240) {
 					weekDayNames.each(function (e, w) {
@@ -331,9 +324,9 @@ import timezone from 'dayjs/plugin/timezone';
 				// Hide dots and show list of events titles and toggle.
 				eventsList.show();
 				eventTitles.show();
-				if (eventsToggle != 'undefined') {
+				if (eventsToggle !== 'undefined') {
 					eventsToggle.show();
-					if (hiddenEvents != 'undefined') {
+					if (hiddenEvents !== 'undefined') {
 						hiddenEvents.hide();
 					}
 				}
@@ -344,12 +337,10 @@ import timezone from 'dayjs/plugin/timezone';
 			}
 
 			// Create bubbles for each cell.
-			cells.each(function (e, cell) {
-				var cellDots = $(cell).find('span.simcal-events-dots'),
-					tooltips = $(cell).find('.simcal-tooltip'),
-					eventBubbles,
-					content,
-					last;
+			cells.each(function (_, cell) {
+				const cellDots = $(cell).find('span.simcal-events-dots'),
+					tooltips = $(cell).find('.simcal-tooltip');
+				let eventBubbles, last;
 
 				// Mobile mode.
 				if (width < 60) {
@@ -362,12 +353,9 @@ import timezone from 'dayjs/plugin/timezone';
 					eventBubbles = tooltips;
 				}
 
-				eventBubbles.each(function (e, i) {
+				eventBubbles.each(function (__, i) {
 					$(i).qtip({
-						content:
-							width < 60
-								? $(cell).find('ul.simcal-events')
-								: $(i).find('> .simcal-tooltip-content'),
+						content: width < 60 ? $(cell).find('ul.simcal-events') : $(i).find('> .simcal-tooltip-content'),
 						position: {
 							my: 'top center',
 							at: 'bottom center',
@@ -385,19 +373,19 @@ import timezone from 'dayjs/plugin/timezone';
 						show: {
 							solo: true,
 							effect: false,
-							event: bubbleTrigger == 'hover' ? 'mouseenter' : 'click',
+							event: bubbleTrigger === 'hover' ? 'mouseenter' : 'click',
 						},
 						hide: {
 							fixed: true,
 							effect: false,
-							event: bubbleTrigger == 'click' ? 'unfocus' : 'mouseleave',
+							event: bubbleTrigger === 'click' ? 'unfocus' : 'mouseleave',
 							delay: 100,
 						},
 						events: {
-							show: function (event, current) {
+							show(event, current) {
 								// Hide when another tooltip opens:
 								if (last && last.id) {
-									if (last.id != current.id) {
+									if (last.id !== current.id) {
 										last.hide();
 									}
 								}
@@ -429,7 +417,7 @@ import timezone from 'dayjs/plugin/timezone';
 		 */
 		function expandEventsToggle() {
 			$('.simcal-events-toggle').each(function (e, button) {
-				var list = $(button).prev('.simcal-events'),
+				const list = $(button).prev('.simcal-events'),
 					toggled = list.find('.simcal-event-toggled'),
 					arrow = $(button).find('i');
 

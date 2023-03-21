@@ -23,9 +23,7 @@
 				}
 
 				if (request.action && request.action === 'save-widget') {
-					widget = $(
-						'input.widget-id[value="' + request['widget-id'] + '"]'
-					).parents('.widget');
+					widget = $('input.widget-id[value="' + request['widget-id'] + '"]').parents('.widget');
 
 					// Trigger manual save, if this was the save request
 					// and if we didn't get the form html response.

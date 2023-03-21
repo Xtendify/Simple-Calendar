@@ -40,10 +40,7 @@ class Ajax
 
 		foreach ($calendars as $calendar => $views) {
 			foreach ($views as $view) {
-				$the_view = simcal_get_calendar_view(
-					0,
-					$calendar . '-' . $view
-				);
+				$the_view = simcal_get_calendar_view(0, $calendar . '-' . $view);
 
 				if ($the_view instanceof Calendar_View) {
 					$the_view->add_ajax_actions();

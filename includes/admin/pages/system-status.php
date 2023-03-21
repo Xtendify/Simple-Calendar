@@ -36,18 +36,12 @@ class System_Status extends Admin_Page
 		$this->fields = $this->add_fields();
 
 		// Disable the submit button for this page.
-		add_filter(
-			'simcal_admin_page_' . $page . '_' . $tab . '_submit',
-			function () {
-				return false;
-			}
-		);
+		add_filter('simcal_admin_page_' . $page . '_' . $tab . '_submit', function () {
+			return false;
+		});
 
 		// Add html.
-		add_action('simcal_admin_page_' . $page . '_' . $tab . '_end', [
-			$this,
-			'html',
-		]);
+		add_action('simcal_admin_page_' . $page . '_' . $tab . '_end', [$this, 'html']);
 	}
 
 	/**
@@ -59,10 +53,7 @@ class System_Status extends Admin_Page
 	{
 		?>
 		<div id="simcal-system-status-report">
-			<p><?php _e(
-   	'Please copy and paste this information when contacting support:',
-   	'google-calendar-events'
-   ); ?> </p>
+			<p><?php _e('Please copy and paste this information when contacting support:', 'google-calendar-events'); ?> </p>
 			<textarea readonly="readonly" onclick="this.select();"></textarea>
 			<p><?php _e(
    	'You can also download your information as a text file to attach, or simply view it below.',
@@ -116,14 +107,10 @@ class System_Status extends Admin_Page
 
   $debug_mode = $script_debug = __('No', 'google-calendar-events');
   if (defined('WP_DEBUG')) {
-  	$debug_mode =
-  		true === WP_DEBUG ? __('Yes', 'google-calendar-events') : $debug_mode;
+  	$debug_mode = true === WP_DEBUG ? __('Yes', 'google-calendar-events') : $debug_mode;
   }
   if (defined('SCRIPT_DEBUG')) {
-  	$script_debug =
-  		true === SCRIPT_DEBUG
-  			? __('Yes', 'google-calendar-events')
-  			: $script_debug;
+  	$script_debug = true === SCRIPT_DEBUG ? __('Yes', 'google-calendar-events') : $script_debug;
   }
 
   $memory = $this->let_to_num(WP_MEMORY_LIMIT);
@@ -183,9 +170,7 @@ class System_Status extends Admin_Page
   	'multisite' => [
   		'label' => __('Multisite', 'google-calendar-events'),
   		'label_export' => 'Multisite',
-  		'result' => $is_multisite
-  			? __('Yes', 'google-calendar-events')
-  			: __('No', 'google-calendar-events'),
+  		'result' => $is_multisite ? __('Yes', 'google-calendar-events') : __('No', 'google-calendar-events'),
   		'result_export' => $is_multisite ? 'Yes' : 'No',
   	],
   	'permalink' => [
@@ -218,28 +203,13 @@ class System_Status extends Admin_Page
 
   if (version_compare($wp_version, '3.4', '<')) {
   	$active_theme = get_theme_data(get_stylesheet_directory() . '/style.css');
-  	$theme_name =
-  		'<a href="' .
-  		$active_theme['URI'] .
-  		'" target="_blank">' .
-  		$active_theme['Name'] .
-  		'</a>';
+  	$theme_name = '<a href="' . $active_theme['URI'] . '" target="_blank">' . $active_theme['Name'] . '</a>';
   	$theme_version = $active_theme['Version'];
-  	$theme_author =
-  		'<a href="' .
-  		$active_theme['AuthorURI'] .
-  		'" target="_blank">' .
-  		$active_theme['Author'] .
-  		'</a>';
+  	$theme_author = '<a href="' . $active_theme['AuthorURI'] . '" target="_blank">' . $active_theme['Author'] . '</a>';
   	$theme_export = $active_theme['Name'] . ' - ' . $theme_version;
   } else {
   	$active_theme = wp_get_theme();
-  	$theme_name =
-  		'<a href="' .
-  		$active_theme->ThemeURI .
-  		'" target="_blank">' .
-  		$active_theme->Name .
-  		'</a>';
+  	$theme_name = '<a href="' . $active_theme->ThemeURI . '" target="_blank">' . $active_theme->Name . '</a>';
   	$theme_version = $active_theme->Version;
   	$theme_author = $active_theme->Author;
   	$theme_export = $active_theme->Name . ' - ' . $theme_version;
@@ -260,10 +230,7 @@ class System_Status extends Admin_Page
   		'<mark class="error">' .
   		$theme_version .
   		' (' .
-  		sprintf(
-  			__('%s is available', 'google-calendar-events'),
-  			esc_html($theme_update_version)
-  		) .
+  		sprintf(__('%s is available', 'google-calendar-events'), esc_html($theme_update_version)) .
   		')</mark>';
   } else {
   	$theme_version = '<mark class="ok">' . $theme_version . '</mark>';
@@ -287,19 +254,15 @@ class System_Status extends Admin_Page
   	} else {
   		$parent = wp_get_theme($active_theme->Template);
   		$parent_theme = '<dl>';
-  		$parent_theme .=
-  			'<dt>' . __('Name', 'google-calendar-events') . '</dt>';
+  		$parent_theme .= '<dt>' . __('Name', 'google-calendar-events') . '</dt>';
   		$parent_theme .= '<dd>' . $parent->Name . '</dd>';
-  		$parent_theme .=
-  			'<dt>' . __('Author', 'google-calendar-events') . '</dt>';
+  		$parent_theme .= '<dt>' . __('Author', 'google-calendar-events') . '</dt>';
   		$parent_theme .= '<dd>' . $parent->Author . '</dd>';
-  		$parent_theme .=
-  			'<dt>' . __('Version', 'google-calendar-events') . '</dt>';
+  		$parent_theme .= '<dt>' . __('Version', 'google-calendar-events') . '</dt>';
   		$parent_theme .= '<dd>' . $parent->Version . '</dd>';
   		$parent_theme .= '</dl>';
 
-  		$parent_theme_export =
-  			strip_tags($parent->Name) . ' - ' . $parent->Version;
+  		$parent_theme_export = strip_tags($parent->Name) . ' - ' . $parent->Version;
   	}
   }
 
@@ -313,9 +276,7 @@ class System_Status extends Admin_Page
   	'theme_child' => [
   		'label' => __('Child Theme', 'google-calendar-events'),
   		'label_export' => 'Child Theme',
-  		'result' => $is_child_theme
-  			? __('Yes', 'google-calendar-events')
-  			: __('No', 'google-calendar-events'),
+  		'result' => $is_child_theme ? __('Yes', 'google-calendar-events') : __('No', 'google-calendar-events'),
   		'result_export' => $is_child_theme ? 'Yes' : 'No',
   	],
   	'theme_parent' => [
@@ -335,10 +296,7 @@ class System_Status extends Admin_Page
 
   $active_plugins = (array) get_option('active_plugins', []);
   if (is_multisite()) {
-  	$active_plugins = array_merge(
-  		$active_plugins,
-  		get_site_option('active_sitewide_plugins', [])
-  	);
+  	$active_plugins = array_merge($active_plugins, get_site_option('active_sitewide_plugins', []));
   }
 
   foreach ($active_plugins as $plugin) {
@@ -360,28 +318,15 @@ class System_Status extends Admin_Page
   			if ($api && !is_wp_error($api)) {
   				if (!empty($api->version)) {
   					$plugin_update_version = $api->version;
-  					if (
-  						version_compare(
-  							$plugin_version,
-  							$plugin_update_version,
-  							'<'
-  						)
-  					) {
+  					if (version_compare($plugin_version, $plugin_update_version, '<')) {
   						$plugin_version =
   							'<mark class="error">' .
   							$plugin_version .
   							' (' .
-  							sprintf(
-  								__(
-  									'%s is available',
-  									'google-calendar-events'
-  								),
-  								esc_html($plugin_update_version)
-  							) .
+  							sprintf(__('%s is available', 'google-calendar-events'), esc_html($plugin_update_version)) .
   							')</mark>';
   					} else {
-  						$plugin_version =
-  							'<mark class="ok">' . $plugin_version . '</mark>';
+  						$plugin_version = '<mark class="ok">' . $plugin_version . '</mark>';
   					}
   				}
   			}
@@ -417,10 +362,7 @@ class System_Status extends Admin_Page
   		'<mark>' .
   		PHP_VERSION .
   		' - ' .
-  		__(
-  			'WordPress.org recommends upgrading to PHP 7 or higher for better security.',
-  			'google-calendar-events'
-  		) .
+  		__('WordPress.org recommends upgrading to PHP 7 or higher for better security.', 'google-calendar-events') .
   		' <a href="https://wordpress.org/about/requirements/" target="_blank">' .
   		__('Read more.', 'google-calendar-events') .
   		'</a>' .
@@ -432,10 +374,7 @@ class System_Status extends Admin_Page
   if ($wpdb->use_mysqli) {
   	$mysql = @mysqli_get_server_info($wpdb->dbh);
   } else {
-  	$mysql =
-  		'<mark class="error">' .
-  		__('Cannot connect to MySQL database.', 'google-calendar-events') .
-  		'</mark>';
+  	$mysql = '<mark class="error">' . __('Cannot connect to MySQL database.', 'google-calendar-events') . '</mark>';
   }
 
   $host = $_SERVER['SERVER_SOFTWARE'];
@@ -449,13 +388,7 @@ class System_Status extends Admin_Page
   if ('UTC' !== $default_timezone) {
   	$server_timezone =
   		'<mark class="error">' .
-  		sprintf(
-  			__(
-  				'Server default timezone is %s - it should be UTC',
-  				'google-calendar-events'
-  			),
-  			$default_timezone
-  		) .
+  		sprintf(__('Server default timezone is %s - it should be UTC', 'google-calendar-events'), $default_timezone) .
   		'</mark>';
   } else {
   	$server_timezone = '<mark class="ok">UTC</mark>';
@@ -468,14 +401,9 @@ class System_Status extends Admin_Page
   		'cmd' => '_notify-validate',
   	],
   ]);
-  if (
-  	!is_wp_error($response) &&
-  	$response['response']['code'] >= 200 &&
-  	$response['response']['code'] < 300
-  ) {
+  if (!is_wp_error($response) && $response['response']['code'] >= 200 && $response['response']['code'] < 300) {
   	$wp_post_export = 'Yes';
-  	$wp_post =
-  		'<mark class="ok">' . __('Yes', 'google-calendar-events') . '</mark>';
+  	$wp_post = '<mark class="ok">' . __('Yes', 'google-calendar-events') . '</mark>';
   } else {
   	$wp_post_export = 'No';
   	$wp_post = '<mark class="error">' . __('No', 'google-calendar-events');
@@ -493,14 +421,9 @@ class System_Status extends Admin_Page
 
   // WP Remote GET test.
   $response = wp_safe_remote_get(get_home_url('/?p=1'));
-  if (
-  	!is_wp_error($response) &&
-  	$response['response']['code'] >= 200 &&
-  	$response['response']['code'] < 300
-  ) {
+  if (!is_wp_error($response) && $response['response']['code'] >= 200 && $response['response']['code'] < 300) {
   	$wp_get_export = 'Yes';
-  	$wp_get =
-  		'<mark class="ok">' . __('Yes', 'google-calendar-events') . '</mark>';
+  	$wp_get = '<mark class="ok">' . __('Yes', 'google-calendar-events') . '</mark>';
   } else {
   	$wp_get_export = 'No';
   	$wp_get = '<mark class="error">' . __('No', 'google-calendar-events');
@@ -543,9 +466,7 @@ class System_Status extends Admin_Page
   	'mysql_version' => [
   		'label' => __('MySQL Version', 'google-calendar-events'),
   		'label_export' => 'MySQL Version',
-  		'result' => version_compare($mysql, '5.5', '>')
-  			? '<mark class="ok">' . $mysql . '</mark>'
-  			: $mysql,
+  		'result' => version_compare($mysql, '5.5', '>') ? '<mark class="ok">' . $mysql . '</mark>' : $mysql,
   		'result_export' => $mysql,
   	],
   	'server_timezone' => [
@@ -557,10 +478,7 @@ class System_Status extends Admin_Page
   	'display_errors' => [
   		'label' => 'Display Errors',
   		'result' => ini_get('display_errors')
-  			? __('Yes', 'google-calendar-events') .
-  				' (' .
-  				ini_get('display_errors') .
-  				')'
+  			? __('Yes', 'google-calendar-events') . ' (' . ini_get('display_errors') . ')'
   			: '-',
   		'result_export' => ini_get('display_errors') ? 'Yes' : 'No',
   	],
@@ -602,9 +520,7 @@ class System_Status extends Admin_Page
   	],
   	'soap' => [
   		'label' => 'SOAP',
-  		'result' => class_exists('SoapClient')
-  			? __('Yes', 'google-calendar-events')
-  			: __('No', 'google-calendar-events'),
+  		'result' => class_exists('SoapClient') ? __('Yes', 'google-calendar-events') : __('No', 'google-calendar-events'),
   		'result_export' => class_exists('SoapClient') ? 'Yes' : 'No',
   	],
   	'suhosin' => [
@@ -645,12 +561,7 @@ class System_Status extends Admin_Page
   $browser .= '</dl>';
 
   $browser_export =
-  	$user_client->getBrowser() .
-  	' ' .
-  	$user_client->getVersion() .
-  	' (' .
-  	$user_client->getPlatform() .
-  	')';
+  	$user_client->getBrowser() . ' ' . $user_client->getVersion() . ' (' . $user_client->getPlatform() . ')';
 
   $sections['client'] = [
   	'user_ip' => [
@@ -678,33 +589,21 @@ class System_Status extends Admin_Page
 				<table class="widefat simcal-system-status-report-panel">
 					<thead class="<?php echo $panel; ?>">
 						<tr>
-							<th colspan="3" data-export="<?php echo $v['export']; ?>"><?php echo $v[
-	'label'
-]; ?></th>
+							<th colspan="3" data-export="<?php echo $v['export']; ?>"><?php echo $v['label']; ?></th>
 						</tr>
 					</thead>
 					<tbody>
 						<?php foreach ($sections[$panel] as $row => $cell): ?>
 							<tr>
 								<?php
-        $label_export = isset($cell['label_export'])
-        	? $cell['label_export']
-        	: $cell['label'];
-        $result_export = isset($cell['result_export'])
-        	? $cell['result_export']
-        	: $cell['result'];
+        $label_export = isset($cell['label_export']) ? $cell['label_export'] : $cell['label'];
+        $result_export = isset($cell['result_export']) ? $cell['result_export'] : $cell['result'];
         ?>
 								<td class="tooltip"><?php echo isset($cell['tooltip'])
-        	? ' <i class="simcal-icon-help simcal-help-tip" data-tip="' .
-        		$cell['tooltip'] .
-        		'"></i> '
+        	? ' <i class="simcal-icon-help simcal-help-tip" data-tip="' . $cell['tooltip'] . '"></i> '
         	: ''; ?></td>
-								<td class="label" data-export="<?php echo trim(
-        	$label_export
-        ); ?>"><?php echo $cell['label']; ?></td>
-								<td class="result" data-export="<?php echo trim(
-        	$result_export
-        ); ?>"><?php echo $cell['result']; ?></td>
+								<td class="label" data-export="<?php echo trim($label_export); ?>"><?php echo $cell['label']; ?></td>
+								<td class="result" data-export="<?php echo trim($result_export); ?>"><?php echo $cell['result']; ?></td>
 							</tr>
 						<?php endforeach; ?>
 					</tbody>
@@ -779,9 +678,7 @@ class System_Status extends Admin_Page
 				var file = new Blob( [ report ], { type: 'text/plain' } );
 				jQuery( this ).attr( 'href', URL.createObjectURL( file ) );
 				jQuery( this ).attr( 'download', '<?php echo sanitize_title(
-    	str_replace(['http://', 'https://'], '', get_bloginfo('url')) .
-    		'-system-report-' .
-    		date('Y-m-d', time())
+    	str_replace(['http://', 'https://'], '', get_bloginfo('url')) . '-system-report-' . date('Y-m-d', time())
     ); ?>' );
 			} );
 

@@ -30,10 +30,7 @@ if (!function_exists('SimpleCalendar_Autoload')) {
 		}
 
 		// Converts Class_Name (class convention) to class-name (file convention).
-		$class_name = implode(
-			'-',
-			array_map('lcfirst', explode('_', strtolower($class)))
-		);
+		$class_name = implode('-', array_map('lcfirst', explode('_', strtolower($class))));
 
 		// Remove the root namespace.
 		$unprefixed = substr($class_name, strlen($namespace));

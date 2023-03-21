@@ -28,10 +28,7 @@ function is_simple_calendar()
 		if ('calendar' == $post_type) {
 			return true;
 		} else {
-			if (
-				false !==
-				get_post_meta($post->ID, '_simcal_attach_calendar_id', true)
-			) {
+			if (false !== get_post_meta($post->ID, '_simcal_attach_calendar_id', true)) {
 				return true;
 			}
 			if (has_shortcode($post->post_content, 'calendar')) {
@@ -73,9 +70,7 @@ function simcal_get_url($url)
 function simcal_get_feed_types()
 {
 	$objects = \SimpleCalendar\plugin()->objects;
-	return $objects instanceof \SimpleCalendar\Objects
-		? $objects->get_feed_types()
-		: [];
+	return $objects instanceof \SimpleCalendar\Objects ? $objects->get_feed_types() : [];
 }
 
 /**
@@ -90,9 +85,7 @@ function simcal_get_feed_types()
 function simcal_get_feed($object)
 {
 	$objects = \SimpleCalendar\plugin()->objects;
-	return $objects instanceof \SimpleCalendar\Objects
-		? $objects->get_feed($object)
-		: null;
+	return $objects instanceof \SimpleCalendar\Objects ? $objects->get_feed($object) : null;
 }
 
 /**
@@ -105,9 +98,7 @@ function simcal_get_feed($object)
 function simcal_get_calendar_types()
 {
 	$objects = \SimpleCalendar\plugin()->objects;
-	return $objects instanceof \SimpleCalendar\Objects
-		? $objects->get_calendar_types()
-		: [];
+	return $objects instanceof \SimpleCalendar\Objects ? $objects->get_calendar_types() : [];
 }
 
 /**
@@ -122,9 +113,7 @@ function simcal_get_calendar_types()
 function simcal_get_calendar($object)
 {
 	$objects = \SimpleCalendar\plugin()->objects;
-	return $objects instanceof \SimpleCalendar\Objects
-		? $objects->get_calendar($object)
-		: null;
+	return $objects instanceof \SimpleCalendar\Objects ? $objects->get_calendar($object) : null;
 }
 
 /**
@@ -140,9 +129,7 @@ function simcal_get_calendar($object)
 function simcal_get_calendar_view($id = 0, $name = '')
 {
 	$objects = \SimpleCalendar\plugin()->objects;
-	return $objects instanceof \SimpleCalendar\Objects
-		? $objects->get_calendar_view($id, $name)
-		: false;
+	return $objects instanceof \SimpleCalendar\Objects ? $objects->get_calendar_view($id, $name) : false;
 }
 
 /**
@@ -190,10 +177,7 @@ function simcal_common_scripts_variables()
 		'meridiem' => simcal_get_calendar_names_i18n('meridiem'),
 	];
 
-	return array_merge(
-		$vars,
-		apply_filters('simcal_common_scripts_variables', [])
-	);
+	return array_merge($vars, apply_filters('simcal_common_scripts_variables', []));
 }
 
 /**
@@ -229,10 +213,7 @@ function simcal_get_calendars($exclude = '', $cached = true)
 		if (is_numeric($exclude)) {
 			unset($calendars[intval($exclude)]);
 		} elseif (is_array($exclude)) {
-			array_diff_key(
-				$calendars,
-				array_map('intval', array_keys($exclude))
-			);
+			array_diff_key($calendars, array_map('intval', array_keys($exclude)));
 		}
 	}
 
@@ -311,11 +292,7 @@ function simcal_default_event_template()
 	$content .= '[location]';
 	$content .= "\n";
 	$content .= '<div>' . '[description]' . '</div>';
-	$content .=
-		"\n" .
-		'[link newwindow="yes"]' .
-		__('See more details', 'google-calendar-events') .
-		'[/link]';
+	$content .= "\n" . '[link newwindow="yes"]' . __('See more details', 'google-calendar-events') . '[/link]';
 
 	return apply_filters('simcal_default_event_template', $content);
 }
@@ -490,12 +467,7 @@ function simcal_delete_feed_transients($id = '')
 			$calendar = simcal_get_calendar($post);
 			if ($calendar instanceof \SimpleCalendar\Abstracts\Calendar) {
 				foreach ($feed_types as $feed_type) {
-					delete_transient(
-						'_simple-calendar_feed_id_' .
-							strval($calendar->id) .
-							'_' .
-							$feed_type
-					);
+					delete_transient('_simple-calendar_feed_id_' . strval($calendar->id) . '_' . $feed_type);
 				}
 			}
 		}
@@ -504,12 +476,7 @@ function simcal_delete_feed_transients($id = '')
 		$calendar = simcal_get_calendar($post);
 		if ($calendar instanceof \SimpleCalendar\Abstracts\Calendar) {
 			foreach ($feed_types as $feed_type) {
-				delete_transient(
-					'_simple-calendar_feed_id_' .
-						strval($calendar->id) .
-						'_' .
-						$feed_type
-				);
+				delete_transient('_simple-calendar_feed_id_' . strval($calendar->id) . '_' . $feed_type);
 			}
 		}
 	}

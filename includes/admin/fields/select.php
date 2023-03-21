@@ -61,9 +61,7 @@ class Select extends Field
 			$class .= ' simcal-field-select-enhanced';
 		}
 
-		$multiselect = isset($field['multiselect'])
-			? $field['multiselect']
-			: '';
+		$multiselect = isset($field['multiselect']) ? $field['multiselect'] : '';
 		if ('multiselect' == $multiselect) {
 			$this->multiselect = true;
 			$class .= ' simcal-field-multiselect';
@@ -111,9 +109,7 @@ class Select extends Field
 				<?php echo $this->multiselect === true ? ' multiple="multiple"' : ''; ?>>
 			<?php
    if ($this->allow_void === true) {
-   	echo '<option value=""' .
-   		selected('', $this->value, false) .
-   		'></option>';
+   	echo '<option value=""' . selected('', $this->value, false) . '></option>';
    }
 
    foreach ($this->options as $option => $name) {
@@ -122,13 +118,7 @@ class Select extends Field
    	} else {
    		$selected = selected($this->value, trim(strval($option)), false);
    	}
-   	echo '<option value="' .
-   		$option .
-   		'" ' .
-   		$selected .
-   		'>' .
-   		esc_attr($name) .
-   		'</option>';
+   	echo '<option value="' . $option . '" ' . $selected . '>' . esc_attr($name) . '</option>';
    }
    ?>
 		</select>
@@ -136,9 +126,7 @@ class Select extends Field
   echo $this->tooltip;
 
   if (!empty($this->description)) {
-  	echo '<p class="description">' .
-  		wp_kses_post($this->description) .
-  		'</p>';
+  	echo '<p class="description">' . wp_kses_post($this->description) . '</p>';
   }
 	}
 }

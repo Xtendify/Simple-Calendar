@@ -48,10 +48,7 @@ class Calendar extends \WP_Widget implements Widget
 		$id_base = 'gce_widget'; // old id kept for legacy reasons
 		$name = __('Simple Calendar', 'google-calendar-events');
 		$widget_options = [
-			'description' => __(
-				'Display a calendar of events from one of your calendar feeds.',
-				'google-calendar-events'
-			),
+			'description' => __('Display a calendar of events from one of your calendar feeds.', 'google-calendar-events'),
 		];
 
 		parent::__construct($id_base, $name, $widget_options);
@@ -78,14 +75,10 @@ class Calendar extends \WP_Widget implements Widget
 		echo $args['before_widget'];
 
 		if (!empty($instance['title'])) {
-			echo $args['before_title'] .
-				apply_filters('widget_title', $instance['title']) .
-				$args['after_title'];
+			echo $args['before_title'] . apply_filters('widget_title', $instance['title']) . $args['after_title'];
 		}
 
-		$id = isset($instance['calendar_id'])
-			? absint($instance['calendar_id'])
-			: 0;
+		$id = isset($instance['calendar_id']) ? absint($instance['calendar_id']) : 0;
 		if ($id > 0) {
 			simcal_print_calendar($id);
 		}
@@ -111,12 +104,8 @@ class Calendar extends \WP_Widget implements Widget
 	{
 		$instance = [];
 
-		$instance['title'] = !empty($new_instance['title'])
-			? sanitize_text_field($new_instance['title'])
-			: '';
-		$instance['calendar_id'] = !empty($new_instance['calendar_id'])
-			? absint($new_instance['calendar_id'])
-			: '';
+		$instance['title'] = !empty($new_instance['title']) ? sanitize_text_field($new_instance['title']) : '';
+		$instance['calendar_id'] = !empty($new_instance['calendar_id']) ? absint($new_instance['calendar_id']) : '';
 
 		return $instance;
 	}
@@ -132,19 +121,13 @@ class Calendar extends \WP_Widget implements Widget
 	 */
 	public function form($instance)
 	{
-		$title = isset($instance['title'])
-			? esc_attr($instance['title'])
-			: __('Calendar', 'google-calendar-events');
-		$calendar_id = isset($instance['calendar_id'])
-			? esc_attr($instance['calendar_id'])
-			: '';
+		$title = isset($instance['title']) ? esc_attr($instance['title']) : __('Calendar', 'google-calendar-events');
+		$calendar_id = isset($instance['calendar_id']) ? esc_attr($instance['calendar_id']) : '';
 		?>
 		<div class="simcal-calendar-widget-settings">
 
 			<p>
-				<label for="<?php echo $this->get_field_id(
-    	'title'
-    ); ?>"><?php _e('Title:', 'google-calendar-events'); ?></label>
+				<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:', 'google-calendar-events'); ?></label>
 				<br>
 				<input type="text"
 				       name="<?php echo $this->get_field_name('title'); ?>"
@@ -158,18 +141,13 @@ class Calendar extends \WP_Widget implements Widget
     	'calendar_id'
     ); ?>"><?php _e('Calendar:', 'google-calendar-events'); ?></label>
 				<br>
-				<?php $multiselect =
-    	count($this->calendars) > 15 ? ' simcal-field-select-enhanced' : ''; ?>
+				<?php $multiselect = count($this->calendars) > 15 ? ' simcal-field-select-enhanced' : ''; ?>
 				<select name="<?php echo $this->get_field_name('calendar_id'); ?>"
 				        id="<?php echo $this->get_field_id('calendar_id'); ?>"
 						class="simcal-field simcal-field-select<?php echo $multiselect; ?>"
 						data-noresults="<?php __('No calendars found.', 'google-calendar-events'); ?>">
 						<?php foreach ($this->calendars as $id => $name): ?>
-							<option value="<?php echo $id; ?>" <?php selected(
-	$id,
-	$calendar_id,
-	true
-); ?>><?php echo $name; ?></option>
+							<option value="<?php echo $id; ?>" <?php selected($id, $calendar_id, true); ?>><?php echo $name; ?></option>
 						<?php endforeach; ?>
 				</select>
 			</p>

@@ -43,19 +43,11 @@ class Checkbox extends Field
 	{
 		if (!empty($this->options) && count((array) $this->options) > 1) {
 			if (!empty($this->description)) {
-				echo '<p class="description">' .
-					wp_kses_post($this->description) .
-					' ' .
-					$this->tooltip .
-					'</p>';
+				echo '<p class="description">' . wp_kses_post($this->description) . ' ' . $this->tooltip . '</p>';
 			} ?>
-			<fieldset class="<?php echo $this->class; ?>" <?php echo !empty($this->style)
-	? 'style="' . $this->style . '"'
-	: ''; ?>>
+			<fieldset class="<?php echo $this->class; ?>" <?php echo !empty($this->style) ? 'style="' . $this->style . '"' : ''; ?>>
 				<?php if (!empty($this->title)) {
-    	echo '<legend class="screen-reader-text"><span>' .
-    		$this->title .
-    		'</span></legend>';
+    	echo '<legend class="screen-reader-text"><span>' . $this->title . '</span></legend>';
     } ?>
 				<ul>
 					<?php foreach ($this->options as $option => $name): ?>
@@ -77,9 +69,7 @@ class Checkbox extends Field
 			<?php
 		} else {
 			 ?>
-			<span class="simcal-field-bool" <?php echo $this->style
-   	? 'style="' . $this->style . '"'
-   	: ''; ?>>
+			<span class="simcal-field-bool" <?php echo $this->style ? 'style="' . $this->style . '"' : ''; ?>>
 				<?php if (!empty($this->title)): ?>
 					<span class="screen-reader-text"><?php echo $this->title; ?></span>
 				<?php endif; ?>
@@ -89,17 +79,13 @@ class Checkbox extends Field
 				       class="simcal-field simcal-field-checkbox <?php echo $this->class; ?>"
 				       value="yes"
 					<?php checked($this->value, 'yes', true); ?>
-					<?php echo $this->attributes; ?>/><?php echo !empty($this->text)
-	? $this->text
-	: __('Yes', 'google-calendar-events'); ?>
+					<?php echo $this->attributes; ?>/><?php echo !empty($this->text) ? $this->text : __('Yes', 'google-calendar-events'); ?>
 			</span>
 			<?php
    echo $this->tooltip;
 
    if (!empty($this->description)) {
-   	echo '<p class="description">' .
-   		wp_kses_post($this->description) .
-   		'</p>';
+   	echo '<p class="description">' . wp_kses_post($this->description) . '</p>';
    }
 
 		}

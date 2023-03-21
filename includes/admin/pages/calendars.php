@@ -91,10 +91,7 @@ class Calendars extends Admin_Page
 
 		arsort($calendar_types);
 
-		return apply_filters(
-			'simcal_add_' . $this->option_group . '_' . $this->id . '_sections',
-			$sections
-		);
+		return apply_filters('simcal_add_' . $this->option_group . '_' . $this->id . '_sections', $sections);
 	}
 
 	/**
@@ -108,9 +105,7 @@ class Calendars extends Admin_Page
 	{
 		$fields = [];
 		$feed_types = $this->calendar_types;
-		$this->values = get_option(
-			'simple-calendar_' . $this->option_group . '_' . $this->id
-		);
+		$this->values = get_option('simple-calendar_' . $this->option_group . '_' . $this->id);
 
 		foreach ($this->sections as $section => $contents):
 			if ('general' == $section) {
@@ -142,55 +137,23 @@ class Calendars extends Admin_Page
 						'google-calendar-events'
 					),
 					'name' =>
-						'simple-calendar_' .
-						$this->option_group .
-						'_' .
-						$this->id .
-						'[' .
-						$section .
-						'][attach_calendars_posts]',
-					'id' =>
-						'simple-calendar-' .
-						$this->option_group .
-						'-' .
-						$this->id .
-						'-attach-calendars-posts',
-					'value' => $this->get_option_value(
-						$section,
-						'attach_calendars_posts'
-					),
+						'simple-calendar_' . $this->option_group . '_' . $this->id . '[' . $section . '][attach_calendars_posts]',
+					'id' => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-attach-calendars-posts',
+					'value' => $this->get_option_value($section, 'attach_calendars_posts'),
 					'default' => 'post,page',
 					'options' => $options,
 				];
 			} elseif (isset($feed_types[$section]['fields'])) {
 				foreach ($feed_types[$section]['fields'] as $key => $args) {
 					$fields[$section][] = array_merge($args, [
-						'name' =>
-							'simple-calendar_' .
-							$this->option_group .
-							'_' .
-							$this->id .
-							'[' .
-							$section .
-							'][' .
-							$key .
-							']',
-						'id' =>
-							'simple-calendar-' .
-							$this->option_group .
-							'-' .
-							$this->id .
-							'-' .
-							$key,
+						'name' => 'simple-calendar_' . $this->option_group . '_' . $this->id . '[' . $section . '][' . $key . ']',
+						'id' => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-' . $key,
 						'value' => $this->get_option_value($section, $key),
 					]);
 				}
 			}
 		endforeach;
 
-		return apply_filters(
-			'simcal_add_' . $this->option_group . '_' . $this->id . '_fields',
-			$fields
-		);
+		return apply_filters('simcal_add_' . $this->option_group . '_' . $this->id . '_fields', $fields);
 	}
 }

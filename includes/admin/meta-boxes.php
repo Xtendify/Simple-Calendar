@@ -61,18 +61,8 @@ class Meta_Boxes
 		add_action('add_meta_boxes', [$this, 'add_meta_boxes'], 30);
 
 		// Process meta boxes.
-		add_action(
-			'simcal_save_settings_meta',
-			'\SimpleCalendar\Admin\Metaboxes\Settings::save',
-			10,
-			2
-		);
-		add_action(
-			'simcal_save_attach_calendar_meta',
-			'\SimpleCalendar\Admin\Metaboxes\Attach_Calendar::save',
-			10,
-			2
-		);
+		add_action('simcal_save_settings_meta', '\SimpleCalendar\Admin\Metaboxes\Settings::save', 10, 2);
+		add_action('simcal_save_attach_calendar_meta', '\SimpleCalendar\Admin\Metaboxes\Attach_Calendar::save', 10, 2);
 
 		// Save meta boxes data.
 		add_action('save_post', [$this, 'save_meta_boxes'], 1, 2);
@@ -166,19 +156,12 @@ class Meta_Boxes
 		}
 
 		// Don't save meta boxes for revisions or autosaves.
-		if (
-			defined('DOING_AUTOSAVE') ||
-			is_int(wp_is_post_revision($post)) ||
-			is_int(wp_is_post_autosave($post))
-		) {
+		if (defined('DOING_AUTOSAVE') || is_int(wp_is_post_revision($post)) || is_int(wp_is_post_autosave($post))) {
 			return;
 		}
 
 		// Check the nonce.
-		if (
-			empty($_POST['simcal_meta_nonce']) ||
-			!wp_verify_nonce($_POST['simcal_meta_nonce'], 'simcal_save_data')
-		) {
+		if (empty($_POST['simcal_meta_nonce']) || !wp_verify_nonce($_POST['simcal_meta_nonce'], 'simcal_save_data')) {
 			return;
 		}
 

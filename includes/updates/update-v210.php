@@ -27,11 +27,7 @@ class Update_V210
 				$url = get_post_meta($post->ID, 'gce_feed_url', true);
 
 				if ($url) {
-					$url = str_replace(
-						'https://www.google.com/calendar/feeds/',
-						'',
-						$url
-					);
+					$url = str_replace('https://www.google.com/calendar/feeds/', '', $url);
 					$url = str_replace('/public/basic', '', $url);
 					$url = str_replace('%40', '@', $url);
 

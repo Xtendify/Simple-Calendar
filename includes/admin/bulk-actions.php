@@ -43,9 +43,7 @@ class Bulk_Actions
 	 */
 	public function __construct($post_type)
 	{
-		$this->bulk_action_post_type = post_type_exists($post_type)
-			? $post_type
-			: '';
+		$this->bulk_action_post_type = post_type_exists($post_type) ? $post_type : '';
 	}
 
 	/**
@@ -59,16 +57,10 @@ class Bulk_Actions
 	public function register_bulk_action($args)
 	{
 		$func = [];
-		$func['action_name'] = isset($args['action_name'])
-			? sanitize_key($args['action_name'])
-			: '';
+		$func['action_name'] = isset($args['action_name']) ? sanitize_key($args['action_name']) : '';
 		$func['callback'] = isset($args['callback']) ? $args['callback'] : '';
-		$func['menu_text'] = isset($args['menu_text'])
-			? esc_attr($args['menu_text'])
-			: '';
-		$func['admin_notice'] = isset($args['admin_notice'])
-			? esc_attr($args['admin_notice'])
-			: '';
+		$func['menu_text'] = isset($args['menu_text']) ? esc_attr($args['menu_text']) : '';
+		$func['admin_notice'] = isset($args['admin_notice']) ? esc_attr($args['admin_notice']) : '';
 
 		if ($func['action_name'] && $func['callback']) {
 			$this->actions[$func['action_name']] = $func;
@@ -85,10 +77,7 @@ class Bulk_Actions
 	public function init()
 	{
 		if (is_admin()) {
-			add_action('admin_footer-edit.php', [
-				$this,
-				'custom_bulk_admin_footer',
-			]);
+			add_action('admin_footer-edit.php', [$this, 'custom_bulk_admin_footer']);
 			add_action('load-edit.php', [$this, 'custom_bulk_action']);
 			add_action('admin_notices', [$this, 'custom_bulk_admin_notices']);
 		}
@@ -158,10 +147,7 @@ class Bulk_Actions
 			}
 
 			// This is based on wp-admin/edit.php.
-			$sendback = remove_query_arg(
-				['exported', 'untrashed', 'deleted', 'ids'],
-				wp_get_referer()
-			);
+			$sendback = remove_query_arg(['exported', 'untrashed', 'deleted', 'ids'], wp_get_referer());
 			if (!$sendback) {
 				$sendback = admin_url("edit.php?post_type=$post_type");
 			}
@@ -180,10 +166,7 @@ class Bulk_Actions
 				call_user_func($this->actions[$action]['callback'], $post_ids);
 			}
 
-			$sendback = add_query_arg(
-				['success_action' => $action, 'ids' => join(',', $post_ids)],
-				$sendback
-			);
+			$sendback = add_query_arg(['success_action' => $action, 'ids' => join(',', $post_ids)], $sendback);
 			$sendback = remove_query_arg(
 				[
 					'action',
@@ -229,23 +212,14 @@ class Bulk_Actions
 
 		$post_ids_count = is_array($post_ids) ? count($post_ids) : 1;
 
-		if (
-			$pagenow == 'edit.php' &&
-			$post_type == $this->bulk_action_post_type
-		) {
+		if ($pagenow == 'edit.php' && $post_type == $this->bulk_action_post_type) {
 			if (isset($_REQUEST['success_action'])) {
 				// Print notice in admin bar.
-				$message =
-					$this->actions[$_REQUEST['success_action']]['admin_notice'];
+				$message = $this->actions[$_REQUEST['success_action']]['admin_notice'];
 
 				if (is_array($message)) {
 					$message = sprintf(
-						_n(
-							$message['single'],
-							$message['plural'],
-							$post_ids_count,
-							'google-calendar-events'
-						),
+						_n($message['single'], $message['plural'], $post_ids_count, 'google-calendar-events'),
 						$post_ids_count
 					);
 				}

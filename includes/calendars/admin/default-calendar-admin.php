@@ -25,19 +25,9 @@ class Default_Calendar_Admin
 	public function __construct()
 	{
 		if (simcal_is_admin_screen() !== false) {
-			add_action(
-				'simcal_settings_meta_calendar_panel',
-				[$this, 'add_settings_meta_calendar_panel'],
-				10,
-				1
-			);
+			add_action('simcal_settings_meta_calendar_panel', [$this, 'add_settings_meta_calendar_panel'], 10, 1);
 		}
-		add_action(
-			'simcal_process_settings_meta',
-			[$this, 'process_meta'],
-			10,
-			1
-		);
+		add_action('simcal_process_settings_meta', [$this, 'process_meta'], 10, 1);
 	}
 
 	/**
@@ -92,10 +82,7 @@ class Default_Calendar_Admin
 		?>
 		<table id="default-calendar-settings">
 			<thead>
-			<tr><th colspan="2"><?php _e(
-   	'Default Calendar',
-   	'google-calendar-events'
-   ); ?></th></tr>
+			<tr><th colspan="2"><?php _e('Default Calendar', 'google-calendar-events'); ?></th></tr>
 			</thead>
 			<tbody class="simcal-panel-section">
 
@@ -106,11 +93,7 @@ class Default_Calendar_Admin
     ); ?></label></th>
 				<td>
 					<?php
-     $bubbles = get_post_meta(
-     	$post_id,
-     	'_default_calendar_event_bubble_trigger',
-     	true
-     );
+     $bubbles = get_post_meta($post_id, '_default_calendar_event_bubble_trigger', true);
 
      simcal_print_field([
      	'type' => 'radio',
@@ -132,10 +115,7 @@ class Default_Calendar_Admin
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-grid" style="display: none;">
-				<th><label for="_default_calendar_trim_titles"><?php _e(
-    	'Trim Event Titles',
-    	'google-calendar-events'
-    ); ?></label></th>
+				<th><label for="_default_calendar_trim_titles"><?php _e('Trim Event Titles', 'google-calendar-events'); ?></label></th>
 				<td>
 					<?php
      $trim = get_post_meta($post_id, '_default_calendar_trim_titles', true);
@@ -163,18 +143,7 @@ class Default_Calendar_Admin
      	'class' => ['simcal-field-tiny'],
      	'value' =>
      		'yes' == $trim
-     			? strval(
-     				max(
-     					absint(
-     						get_post_meta(
-     							$post_id,
-     							'_default_calendar_trim_titles_chars',
-     							true
-     						)
-     					),
-     					1
-     				)
-     			)
+     			? strval(max(absint(get_post_meta($post_id, '_default_calendar_trim_titles_chars', true)), 1))
      			: '20',
      	'attributes' => [
      		'min' => '1',
@@ -184,18 +153,10 @@ class Default_Calendar_Admin
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-list" style="display: none;">
-				<th><label for="_default_calendar_list_grouped_span"><?php _e(
-    	'Span',
-    	'google-calendar-events'
-    ); ?></label></th>
+				<th><label for="_default_calendar_list_grouped_span"><?php _e('Span', 'google-calendar-events'); ?></label></th>
 				<td>
 					<?php
-     $list_span = max(
-     	absint(
-     		get_post_meta($post_id, '_default_calendar_list_range_span', true)
-     	),
-     	1
-     );
+     $list_span = max(absint(get_post_meta($post_id, '_default_calendar_list_range_span', true)), 1);
 
      simcal_print_field([
      	'type' => 'standard',
@@ -209,20 +170,13 @@ class Default_Calendar_Admin
      	],
      ]);
 
-     $list_type = get_post_meta(
-     	$post_id,
-     	'_default_calendar_list_range_type',
-     	true
-     );
+     $list_type = get_post_meta($post_id, '_default_calendar_list_range_type', true);
 
      simcal_print_field([
      	'type' => 'select',
      	'name' => '_default_calendar_list_range_type',
      	'id' => '_default_calendar_list_range_type',
-     	'tooltip' => __(
-     		'Range of events to show on each calendar page.',
-     		'google-calendar-events'
-     	),
+     	'tooltip' => __('Range of events to show on each calendar page.', 'google-calendar-events'),
      	'class' => ['simcal-field-inline'],
      	'value' => $list_type,
      	'options' => [
@@ -236,10 +190,7 @@ class Default_Calendar_Admin
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-list" style="display: none;">
-				<th><label for="_default_calendar_list_header"><?php _e(
-    	'Hide Header',
-    	'google-calendar-events'
-    ); ?></label></th>
+				<th><label for="_default_calendar_list_header"><?php _e('Hide Header', 'google-calendar-events'); ?></label></th>
 				<td>
 					<?php
      $header = get_post_meta($post_id, '_default_calendar_list_header', true);
@@ -248,20 +199,14 @@ class Default_Calendar_Admin
      	'type' => 'checkbox',
      	'name' => '_default_calendar_list_header',
      	'id' => '_default_calendar_list_header',
-     	'tooltip' => __(
-     		'You can use this to hide the month header for this calendar.',
-     		'google-calendar-events'
-     	),
+     	'tooltip' => __('You can use this to hide the month header for this calendar.', 'google-calendar-events'),
      	'value' => 'yes' == $header ? 'yes' : 'no',
      ]);
      ?>
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-list" style="display: none;">
-				<th><label for="_default_calendar_compact_list"><?php _e(
-    	'Compact List',
-    	'google-calendar-events'
-    ); ?></label></th>
+				<th><label for="_default_calendar_compact_list"><?php _e('Compact List', 'google-calendar-events'); ?></label></th>
 				<td>
 					<?php
      $compact = get_post_meta($post_id, '_default_calendar_compact_list', true);
@@ -286,11 +231,7 @@ class Default_Calendar_Admin
     ); ?></label></th>
 				<td>
 					<?php
-     $limit = get_post_meta(
-     	$post_id,
-     	'_default_calendar_limit_visible_events',
-     	true
-     );
+     $limit = get_post_meta($post_id, '_default_calendar_limit_visible_events', true);
 
      simcal_print_field([
      	'type' => 'checkbox',
@@ -303,9 +244,7 @@ class Default_Calendar_Admin
      	],
      ]);
 
-     $visible_events = absint(
-     	get_post_meta($post_id, '_default_calendar_visible_events', true)
-     );
+     $visible_events = absint(get_post_meta($post_id, '_default_calendar_visible_events', true));
      $visible_events = $visible_events > 0 ? $visible_events : 3;
 
      simcal_print_field([
@@ -338,11 +277,7 @@ class Default_Calendar_Admin
      if (!is_array($post_meta) && !empty($post_meta)) {
      	$multi_day_value = 'current_day_only';
      } else {
-     	$multi_day_value = get_post_meta(
-     		$post_id,
-     		'_default_calendar_expand_multi_day_events',
-     		true
-     	);
+     	$multi_day_value = get_post_meta($post_id, '_default_calendar_expand_multi_day_events', true);
      }
 
      simcal_print_field([
@@ -357,14 +292,8 @@ class Default_Calendar_Admin
      	),
      	'value' => $multi_day_value,
      	'options' => [
-     		'yes' => __(
-     			'Yes, display on all days of event',
-     			'google-calendar-events'
-     		),
-     		'no' => __(
-     			'No, display only on first day of event',
-     			'google-calendar-events'
-     		),
+     		'yes' => __('Yes, display on all days of event', 'google-calendar-events'),
+     		'no' => __('No, display only on first day of event', 'google-calendar-events'),
      		'current_day_only' => __(
      			'No, display on all days of event up to current day (list view only)',
      			'google-calendar-events'
@@ -379,24 +308,17 @@ class Default_Calendar_Admin
 			<?php
    // TODO Defaults repeated here and in process_meta(). Need to consolidate at some point.
    $settings = get_option('simple-calendar_settings_calendars');
-   $default_theme = isset($settings['default-calendar']['theme'])
-   	? $settings['default-calendar']['theme']
-   	: 'light';
+   $default_theme = isset($settings['default-calendar']['theme']) ? $settings['default-calendar']['theme'] : 'light';
    $default_today_color = isset($settings['default-calendar']['today_color'])
    	? $settings['default-calendar']['today_color']
    	: '#1e73be';
-   $default_days_events_color = isset(
-   	$settings['default-calendar']['days_events_color']
-   )
+   $default_days_events_color = isset($settings['default-calendar']['days_events_color'])
    	? $settings['default-calendar']['days_events_color']
    	: '#000000';
    ?>
 			<tbody class="simcal-panel-section">
 			<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list" style="display: none;">
-				<th><label for="_default_calendar_style_theme"><?php _e(
-    	'Theme',
-    	'google-calendar-events'
-    ); ?></label></th>
+				<th><label for="_default_calendar_style_theme"><?php _e('Theme', 'google-calendar-events'); ?></label></th>
 				<td>
 					<?php
      $saved = get_post_meta($post_id, '_default_calendar_style_theme', true);
@@ -407,10 +329,7 @@ class Default_Calendar_Admin
      	'name' => '_default_calendar_style_theme',
      	'id' => '_default_calendar_style_theme',
      	'value' => $value,
-     	'tooltip' => __(
-     		'Choose a calendar theme to match your site theme.',
-     		'google-calendar-events'
-     	),
+     	'tooltip' => __('Choose a calendar theme to match your site theme.', 'google-calendar-events'),
      	'options' => [
      		'light' => __('Light', 'google-calendar-events'),
      		'dark' => __('Dark', 'google-calendar-events'),
@@ -420,10 +339,7 @@ class Default_Calendar_Admin
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list" style="display: none;">
-				<th><label for="_default_calendar_style_today"><?php _e(
-    	'Today',
-    	'google-calendar-events'
-    ); ?></label></th>
+				<th><label for="_default_calendar_style_today"><?php _e('Today', 'google-calendar-events'); ?></label></th>
 				<td>
 					<?php
      $saved = get_post_meta($post_id, '_default_calendar_style_today', true);
@@ -450,11 +366,7 @@ class Default_Calendar_Admin
     ); ?></label></th>
 				<td>
 					<?php
-     $saved = get_post_meta(
-     	$post_id,
-     	'_default_calendar_style_days_events',
-     	true
-     );
+     $saved = get_post_meta($post_id, '_default_calendar_style_days_events', true);
      $value = !$saved ? $default_days_events_color : $saved;
 
      simcal_print_field([
@@ -497,23 +409,13 @@ class Default_Calendar_Admin
 		$today_color = isset($_POST['_default_calendar_style_today'])
 			? sanitize_text_field($_POST['_default_calendar_style_today'])
 			: '#1e73be';
-		update_post_meta(
-			$post_id,
-			'_default_calendar_style_today',
-			$today_color
-		);
+		update_post_meta($post_id, '_default_calendar_style_today', $today_color);
 
 		// Days with events color.
-		$days_events_color = isset(
-			$_POST['_default_calendar_style_days_events']
-		)
+		$days_events_color = isset($_POST['_default_calendar_style_days_events'])
 			? sanitize_text_field($_POST['_default_calendar_style_days_events'])
 			: '#000000';
-		update_post_meta(
-			$post_id,
-			'_default_calendar_style_days_events',
-			$days_events_color
-		);
+		update_post_meta($post_id, '_default_calendar_style_days_events', $days_events_color);
 
 		// List range span.
 		$span = isset($_POST['_default_calendar_list_range_span'])
@@ -532,20 +434,12 @@ class Default_Calendar_Admin
 		update_post_meta($post_id, '_default_calendar_list_header', $header);
 
 		// Compact list.
-		$compact = isset($_POST['_default_calendar_compact_list'])
-			? 'yes'
-			: 'no';
+		$compact = isset($_POST['_default_calendar_compact_list']) ? 'yes' : 'no';
 		update_post_meta($post_id, '_default_calendar_compact_list', $compact);
 
 		// Limit number of initially visible daily events.
-		$limit = isset($_POST['_default_calendar_limit_visible_events'])
-			? 'yes'
-			: 'no';
-		update_post_meta(
-			$post_id,
-			'_default_calendar_limit_visible_events',
-			$limit
-		);
+		$limit = isset($_POST['_default_calendar_limit_visible_events']) ? 'yes' : 'no';
+		update_post_meta($post_id, '_default_calendar_limit_visible_events', $limit);
 		$number = isset($_POST['_default_calendar_visible_events'])
 			? absint($_POST['_default_calendar_visible_events'])
 			: 3;
@@ -555,11 +449,7 @@ class Default_Calendar_Admin
 		$bubbles = isset($_POST['_default_calendar_event_bubble_trigger'])
 			? esc_attr($_POST['_default_calendar_event_bubble_trigger'])
 			: 'hover';
-		update_post_meta(
-			$post_id,
-			'_default_calendar_event_bubble_trigger',
-			$bubbles
-		);
+		update_post_meta($post_id, '_default_calendar_event_bubble_trigger', $bubbles);
 
 		// Trim event titles characters length.
 		$trim = isset($_POST['_default_calendar_trim_titles']) ? 'yes' : 'no';
@@ -567,24 +457,14 @@ class Default_Calendar_Admin
 		$chars = isset($_POST['_default_calendar_trim_titles_chars'])
 			? max(absint($_POST['_default_calendar_trim_titles_chars']), 1)
 			: 20;
-		update_post_meta(
-			$post_id,
-			'_default_calendar_trim_titles_chars',
-			$chars
-		);
+		update_post_meta($post_id, '_default_calendar_trim_titles_chars', $chars);
 
 		// Expand multiple day events on each day.
 		$multi_day =
 			isset($_POST['_default_calendar_expand_multi_day_events']) &&
 			!empty($_POST['_default_calendar_expand_multi_day_events'])
-				? sanitize_key(
-					$_POST['_default_calendar_expand_multi_day_events']
-				)
+				? sanitize_key($_POST['_default_calendar_expand_multi_day_events'])
 				: 'yes';
-		update_post_meta(
-			$post_id,
-			'_default_calendar_expand_multi_day_events',
-			$multi_day
-		);
+		update_post_meta($post_id, '_default_calendar_expand_multi_day_events', $multi_day);
 	}
 }

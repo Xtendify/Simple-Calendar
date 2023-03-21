@@ -110,9 +110,7 @@ class Notice
 	{
 		if (!empty($notice['id']) && !empty($notice['content'])) {
 			// Content.
-			$this->id = is_array($notice['id'])
-				? array_map('sanitize_key', $notice['id'])
-				: sanitize_key($notice['id']);
+			$this->id = is_array($notice['id']) ? array_map('sanitize_key', $notice['id']) : sanitize_key($notice['id']);
 			$this->content = wp_kses_post($notice['content']);
 			if (!empty($notice['class'])) {
 				$this->class = is_array($notice['class'])
@@ -122,9 +120,7 @@ class Notice
 
 			// Type.
 			$default = 'notice';
-			$type = isset($notice['type'])
-				? esc_attr($notice['type'])
-				: $default;
+			$type = isset($notice['type']) ? esc_attr($notice['type']) : $default;
 			$types = ['error', 'notice', 'updated', 'update-nag'];
 			$this->type = in_array($type, $types) ? $type : $default;
 
@@ -138,13 +134,10 @@ class Notice
 					: [esc_attr($notice['screen'])];
 			}
 			if (!empty($notice['post'])) {
-				$this->post = is_array($notice['post'])
-					? array_map('intval', $notice['post'])
-					: [intval($notice['post'])];
+				$this->post = is_array($notice['post']) ? array_map('intval', $notice['post']) : [intval($notice['post'])];
 			}
 			if (!empty($notice['dismissible'])) {
-				$this->dismissible =
-					$notice['dismissible'] === false ? false : true;
+				$this->dismissible = $notice['dismissible'] === false ? false : true;
 			}
 			if (!empty($notice['visible'])) {
 				$this->visible = $notice['visible'] === false ? false : true;

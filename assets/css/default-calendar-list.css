@@ -1,8 +1,7 @@
 @font-face {
 	font-family: 'simple-calendar';
 	src: url('../fonts/simple-calendar.eot?43976014');
-	src: url('../fonts/simple-calendar.eot?43976014#iefix')
-			format('embedded-opentype'),
+	src: url('../fonts/simple-calendar.eot?43976014#iefix') format('embedded-opentype'),
 		url('../fonts/simple-calendar.woff?43976014') format('woff'),
 		url('../fonts/simple-calendar.ttf?43976014') format('truetype'),
 		url('../fonts/simple-calendar.svg?43976014#simple-calendar') format('svg');
@@ -471,18 +470,12 @@
 	display: inline-block;
 	padding: 0;
 }
-.simcal-default-calendar-list.simcal-default-calendar-light
-	.simcal-events-toggle {
+.simcal-default-calendar-list.simcal-default-calendar-light .simcal-events-toggle {
 	background-color: rgba(0, 0, 0, 0.1);
 }
-.simcal-default-calendar-list.simcal-default-calendar-dark
-	.simcal-events-toggle {
+.simcal-default-calendar-list.simcal-default-calendar-dark .simcal-events-toggle {
 	background-color: rgba(255, 255, 255, 0.1);
 }
-.simcal-default-calendar-list
-	.simcal-calendar-list-compact
-	.simcal-calendar-head
-	.simcal-nav
-	h3 {
+.simcal-default-calendar-list .simcal-calendar-list-compact .simcal-calendar-head .simcal-nav h3 {
 	font-size: 1em;
 }

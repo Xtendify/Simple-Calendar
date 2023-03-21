@@ -32,17 +32,9 @@ class Post_Types
 		new Meta_Boxes();
 
 		// Add column headers in calendar feeds admin archives.
-		add_filter('manage_calendar_posts_columns', [
-			$this,
-			'add_calendar_feed_column_headers',
-		]);
+		add_filter('manage_calendar_posts_columns', [$this, 'add_calendar_feed_column_headers']);
 		// Process column contents for calendar feeds.
-		add_action(
-			'manage_calendar_posts_custom_column',
-			[$this, 'calendar_feed_column_content'],
-			10,
-			2
-		);
+		add_action('manage_calendar_posts_custom_column', [$this, 'calendar_feed_column_content'], 10, 2);
 
 		// Add actions in calendar feed rows.
 		add_filter('post_row_actions', [$this, 'row_actions'], 10, 2);
@@ -55,18 +47,11 @@ class Post_Types
 		add_filter('default_content', [$this, 'default_event_template'], 10, 2);
 
 		// Add a clear cache link in submit post box.
-		add_action('post_submitbox_misc_actions', [
-			$this,
-			'clear_cache_button',
-		]);
+		add_action('post_submitbox_misc_actions', [$this, 'clear_cache_button']);
 
 		// Add media button to post editor for adding a shortcode.
 		add_action('media_buttons', [$this, 'add_shortcode_button'], 100);
-		add_action(
-			'edit_form_after_editor',
-			[$this, 'add_shortcode_panel'],
-			100
-		);
+		add_action('edit_form_after_editor', [$this, 'add_shortcode_panel'], 100);
 	}
 
 	/**
@@ -81,11 +66,15 @@ class Post_Types
 	public function add_calendar_feed_column_headers($columns)
 	{
 		// New columns.
-		$feed_info = ['feed' => __('Events Source', 'google-calendar-events')];
+		$feed_info = [
+			'feed' => __('Events Source', 'google-calendar-events'),
+		];
 		$calendar_info = [
 			'calendar' => __('Calendar Type', 'google-calendar-events'),
 		];
-		$shortcode = ['shortcode' => __('Shortcode', 'google-calendar-events')];
+		$shortcode = [
+			'shortcode' => __('Shortcode', 'google-calendar-events'),
+		];
 
 		// Merge with existing columns and rearrange.
 		$columns =
@@ -125,14 +114,8 @@ class Post_Types
 
 					if ($calendar instanceof Calendar) {
 						$info = $calendar->name;
-						$views = get_post_meta(
-							$post_id,
-							'_calendar_view',
-							true
-						);
-						$view = isset($views[$calendar->type])
-							? $views[$calendar->type]
-							: '';
+						$views = get_post_meta($post_id, '_calendar_view', true);
+						$view = isset($views[$calendar->type]) ? $views[$calendar->type] : '';
 
 						if (isset($calendar->views[$view])) {
 							$info .= ' &rarr; ' . $calendar->views[$view];
@@ -250,11 +233,7 @@ class Post_Types
 	{
 		if ($duplicate = get_post(intval($post_id), 'ARRAY_A')) {
 			if ('calendar' == $duplicate['post_type']) {
-				$duplicate['post_title'] =
-					$duplicate['post_title'] .
-					' (' .
-					__('Copy', 'google-calendar-events') .
-					')';
+				$duplicate['post_title'] = $duplicate['post_title'] . ' (' . __('Copy', 'google-calendar-events') . ')';
 
 				unset($duplicate['ID']);
 				unset($duplicate['guid']);
@@ -272,11 +251,7 @@ class Post_Types
 
 				$custom_fields = get_post_custom($post_id);
 				foreach ($custom_fields as $key => $value) {
-					add_post_meta(
-						$duplicate_id,
-						$key,
-						maybe_unserialize($value[0])
-					);
+					add_post_meta($duplicate_id, $key, maybe_unserialize($value[0]));
 				}
 			}
 		}
@@ -294,9 +269,7 @@ class Post_Types
 	 */
 	public function default_event_template($content, $post)
 	{
-		return 'calendar' == $post->post_type
-			? simcal_default_event_template()
-			: $content;
+		return 'calendar' == $post->post_type ? simcal_default_event_template() : $content;
 	}
 
 	/**
@@ -366,8 +339,7 @@ class Post_Types
 				<?php if (!empty($calendars) && is_array($calendars)): ?>
 					<p>
 						<label for="simcal-choose-calendar">
-							<?php $multiselect =
-       	count($calendars) > 15 ? ' simcal-field-select-enhanced' : ''; ?>
+							<?php $multiselect = count($calendars) > 15 ? ' simcal-field-select-enhanced' : ''; ?>
 							<select id="simcal-choose-calendar"
 							        class="simcal-field simcal-field-select<?php echo $multiselect; ?>"
 							        name="">
@@ -382,10 +354,7 @@ class Post_Types
      	'google-calendar-events'
      ); ?>" id="simcal-insert-shortcode" class="button button-primary button-large" name="" /></p>
 				<?php else: ?>
-					<p><em><?php _e(
-     	'Could not find any calendars to add to this post.',
-     	'google-calendar-events'
-     ); ?></em></p>
+					<p><em><?php _e('Could not find any calendars to add to this post.', 'google-calendar-events'); ?></em></p>
 					<strong><a href="post-new.php?post_type=calendar"><?php _e(
      	'Please add and configure new calendar first.',
      	'google-calendar-events'

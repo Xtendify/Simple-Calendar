@@ -108,18 +108,10 @@ if (!class_exists('SimCal_WP_Requirements')) {
 				);
 
 				// Check for WordPress version.
-				if (
-					$requirements['WordPress'] &&
-					is_string($requirements['WordPress'])
-				) {
+				if ($requirements['WordPress'] && is_string($requirements['WordPress'])) {
 					if (function_exists('get_bloginfo')) {
 						$wp_version = get_bloginfo('version');
-						if (
-							version_compare(
-								$wp_version,
-								$requirements['WordPress']
-							) === -1
-						) {
+						if (version_compare($wp_version, $requirements['WordPress']) === -1) {
 							$failures['WordPress'] = $wp_version;
 							$this->wp = false;
 						}
@@ -128,33 +120,23 @@ if (!class_exists('SimCal_WP_Requirements')) {
 
 				// Check fo PHP version.
 				if ($requirements['PHP'] && is_string($requirements['PHP'])) {
-					if (
-						version_compare(PHP_VERSION, $requirements['PHP']) ===
-						-1
-					) {
+					if (version_compare(PHP_VERSION, $requirements['PHP']) === -1) {
 						$failures['PHP'] = PHP_VERSION;
 						$this->php = false;
 					}
 				}
 
 				// Check fo PHP Extensions.
-				if (
-					$requirements['Extensions'] &&
-					is_array($requirements['Extensions'])
-				) {
+				if ($requirements['Extensions'] && is_array($requirements['Extensions'])) {
 					foreach ($requirements['Extensions'] as $extension) {
 						if ($extension && is_string($extension)) {
-							$extensions[$extension] = extension_loaded(
-								$extension
-							);
+							$extensions[$extension] = extension_loaded($extension);
 						}
 					}
 					if (in_array(false, $extensions)) {
 						foreach ($extensions as $extension_name => $found) {
 							if ($found === false) {
-								$failures['Extensions'][
-									$extension_name
-								] = $extension_name;
+								$failures['Extensions'][$extension_name] = $extension_name;
 							}
 						}
 						$this->extensions = false;
@@ -163,10 +145,7 @@ if (!class_exists('SimCal_WP_Requirements')) {
 
 				$this->failures = $failures;
 			} else {
-				trigger_error(
-					'WP Requirements: the requirements are invalid.',
-					E_USER_ERROR
-				);
+				trigger_error('WP Requirements: the requirements are invalid.', E_USER_ERROR);
 			}
 		}
 
@@ -209,38 +188,22 @@ if (!class_exists('SimCal_WP_Requirements')) {
 			if (!empty($failures) && is_array($failures)) {
 				$notice = '<div class="error">' . "\n";
 				$notice .= "\t" . '<p>' . "\n";
-				$notice .=
-					'<strong>' .
-					sprintf('%s could not be activated.', $name) .
-					'</strong><br>';
+				$notice .= '<strong>' . sprintf('%s could not be activated.', $name) . '</strong><br>';
 
 				foreach ($failures as $requirement => $found) {
 					$required = $this->requirements[$requirement];
 
 					if ('Extensions' == $requirement) {
 						if (is_array($found)) {
-							$notice .=
-								sprintf(
-									'Required PHP Extension(s) not found: %s.',
-									join(', ', $found)
-								) . '<br>';
+							$notice .= sprintf('Required PHP Extension(s) not found: %s.', join(', ', $found)) . '<br>';
 						}
 					} else {
 						$notice .=
-							sprintf(
-								'Required %1$s version: %2$s - Version found: %3$s',
-								$requirement,
-								$required,
-								$found
-							) . '<br>';
+							sprintf('Required %1$s version: %2$s - Version found: %3$s', $requirement, $required, $found) . '<br>';
 					}
 				}
 
-				$notice .=
-					'<em>' .
-					sprintf('Please update to meet %s requirements.', $name) .
-					'</em>' .
-					"\n";
+				$notice .= '<em>' . sprintf('Please update to meet %s requirements.', $name) . '</em>' . "\n";
 				$notice .= "\t" . '</p>' . "\n";
 				if ($message) {
 					$notice .= $message;
@@ -264,10 +227,7 @@ if (!class_exists('SimCal_WP_Requirements')) {
 		 */
 		public function deactivate_plugin()
 		{
-			if (
-				function_exists('deactivate_plugins') &&
-				function_exists('plugin_basename')
-			) {
+			if (function_exists('deactivate_plugins') && function_exists('plugin_basename')) {
 				deactivate_plugins($this->plugin);
 			}
 		}

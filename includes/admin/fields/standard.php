@@ -37,9 +37,7 @@ class Standard extends Field
 	 */
 	public function __construct($field)
 	{
-		$this->subtype = isset($field['subtype'])
-			? esc_attr($field['subtype'])
-			: 'text';
+		$this->subtype = isset($field['subtype']) ? esc_attr($field['subtype']) : 'text';
 		$this->type_class = 'simcal-field-' . $this->subtype;
 
 		parent::__construct($field);
@@ -66,9 +64,7 @@ echo $this->attributes;
   echo $this->tooltip;
 
   if (!empty($this->description)) {
-  	echo '<p class="description">' .
-  		wp_kses_post($this->description) .
-  		'</p>';
+  	echo '<p class="description">' . wp_kses_post($this->description) . '</p>';
   }
 
   if (is_string($this->validation) && !empty($this->validation)) {

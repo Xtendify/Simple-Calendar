@@ -47,27 +47,16 @@ class Date_Picker extends Field
 	 */
 	public function __construct($field)
 	{
-		$this->range = isset($field['range'])
-			? ($field['range'] === true
-				? true
-				: false)
-			: false;
-		$this->inline = isset($field['inline'])
-			? ($field['inline'] === true
-				? true
-				: false)
-			: true;
+		$this->range = isset($field['range']) ? ($field['range'] === true ? true : false) : false;
+		$this->inline = isset($field['inline']) ? ($field['inline'] === true ? true : false) : true;
 
-		$subtype =
-			$this->range === true ? 'simcal-field-date-picker-range ' : '';
+		$subtype = $this->range === true ? 'simcal-field-date-picker-range ' : '';
 		$this->type_class = 'simcal-field-date-picker ' . $subtype;
 
 		$data = [
 			'data-inline' => $this->inline === true ? 'true' : 'false',
 		];
-		$field['attributes'] = isset($field['attributes'])
-			? array_merge($field['attributes'], $data)
-			: $data;
+		$field['attributes'] = isset($field['attributes']) ? array_merge($field['attributes'], $data) : $data;
 
 		parent::__construct($field);
 	}
@@ -80,9 +69,7 @@ class Date_Picker extends Field
 	public function html()
 	{
 		if (!empty($this->description)) {
-			echo '<p class="description">' .
-				wp_kses_post($this->description) .
-				'</p>';
+			echo '<p class="description">' . wp_kses_post($this->description) . '</p>';
 		} ?>
 		<div id="<?php echo $this->id; ?>"
 		     class="<?php echo $this->class; ?>"

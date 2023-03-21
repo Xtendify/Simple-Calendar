@@ -179,21 +179,12 @@ abstract class Field
 		}
 
 		// Escaping.
-		if (
-			!empty($field['escaping']) &&
-			(is_string($field['escaping']) || is_array($field['escaping']))
-		) {
+		if (!empty($field['escaping']) && (is_string($field['escaping']) || is_array($field['escaping']))) {
 			if (isset($field['default'])) {
-				$this->default = $this->escape_callback(
-					$field['escaping'],
-					$field['default']
-				);
+				$this->default = $this->escape_callback($field['escaping'], $field['default']);
 			}
 			if (isset($field['value'])) {
-				$this->value = $this->escape_callback(
-					$field['escaping'],
-					$field['value']
-				);
+				$this->value = $this->escape_callback($field['escaping'], $field['value']);
 			}
 		} else {
 			if (isset($field['default'])) {
@@ -206,10 +197,7 @@ abstract class Field
 
 		// Validation.
 		if (!empty($field['validation'])) {
-			$this->validation = $this->validate(
-				$field['validation'],
-				$this->value
-			);
+			$this->validation = $this->validate($field['validation'], $this->value);
 		}
 
 		// CSS classes and styles.
@@ -227,9 +215,7 @@ abstract class Field
 		// Tooltip markup.
 		if (isset($field['tooltip'])) {
 			$this->tooltip =
-				' <i class="simcal-icon-help simcal-help-tip" data-tip="' .
-				esc_attr($field['tooltip']) .
-				'"></i> ';
+				' <i class="simcal-icon-help simcal-help-tip" data-tip="' . esc_attr($field['tooltip']) . '"></i> ';
 		}
 	}
 
@@ -302,9 +288,7 @@ abstract class Field
 			$error = 'simcal-field-error ';
 		}
 
-		$this->class = trim(
-			$error . 'simcal-field ' . $type_class . ' ' . $classes
-		);
+		$this->class = trim($error . 'simcal-field ' . $type_class . ' ' . $classes);
 	}
 
 	/**
@@ -321,11 +305,7 @@ abstract class Field
 	 */
 	protected function escape($value)
 	{
-		return !empty($value)
-			? (is_array($value)
-				? array_map('esc_attr', $value)
-				: esc_attr($value))
-			: '';
+		return !empty($value) ? (is_array($value) ? array_map('esc_attr', $value) : esc_attr($value)) : '';
 	}
 
 	/**
@@ -365,9 +345,7 @@ abstract class Field
 	protected function validate($callback, $value)
 	{
 		if ($callback && (is_string($callback) || is_array($callback))) {
-			$screen = function_exists('get_current_screen')
-				? get_current_screen()
-				: '';
+			$screen = function_exists('get_current_screen') ? get_current_screen() : '';
 			return call_user_func($callback, $value, $screen);
 		}
 		return true;

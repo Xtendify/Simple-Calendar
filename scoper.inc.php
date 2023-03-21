@@ -73,17 +73,8 @@ return [
 		Finder::create()
 			->files()
 			->ignoreVCS(true)
-			->notName(
-				'/LICENSE|.*\\.md|.*\\.dist|Makefile|composer\\.json|composer\\.lock/'
-			)
-			->exclude([
-				'doc',
-				'test',
-				'test_old',
-				'tests',
-				'Tests',
-				'vendor-bin',
-			])
+			->notName('/LICENSE|.*\\.md|.*\\.dist|Makefile|composer\\.json|composer\\.lock/')
+			->exclude(['doc', 'test', 'test_old', 'tests', 'Tests', 'vendor-bin'])
 			->path('#^firebase/#')
 			->path('#^google/apiclient/#')
 			->path('#^google/auth/#')
@@ -102,20 +93,9 @@ return [
 		Finder::create()
 			->files()
 			->ignoreVCS(true)
-			->notName(
-				'/LICENSE|.*\\.md|.*\\.dist|Makefile|composer\\.json|composer\\.lock/'
-			)
-			->exclude([
-				'doc',
-				'test',
-				'test_old',
-				'tests',
-				'Tests',
-				'vendor-bin',
-			])
-			->path(
-				"#^google/apiclient-services/src/Google/Service/($google_services)/#"
-			)
+			->notName('/LICENSE|.*\\.md|.*\\.dist|Makefile|composer\\.json|composer\\.lock/')
+			->exclude(['doc', 'test', 'test_old', 'tests', 'Tests', 'vendor-bin'])
+			->path("#^google/apiclient-services/src/Google/Service/($google_services)/#")
 			->in('vendor'),
 
 		// Google API service entry classes.
@@ -143,10 +123,7 @@ return [
 			global $patch2;
 			global $patch3;
 
-			if (
-				false !== strpos($file_path, $patch1) ||
-				false !== strpos($file_path, $patch2)
-			) {
+			if (false !== strpos($file_path, $patch1) || false !== strpos($file_path, $patch2)) {
 				$prefix = str_replace('\\', '\\\\', $prefix);
 				$contents = str_replace(
 					"'\\\\GuzzleHttp\\\\ClientInterface",
@@ -170,28 +147,12 @@ return [
 				);
 			}
 			if (false !== strpos($file_path, $patch1)) {
-				$contents = str_replace(
-					"'Google_",
-					"'" . $prefix . '\Google_',
-					$contents
-				);
-				$contents = str_replace(
-					'\"Google_',
-					'\"' . $prefix . '\Google_',
-					$contents
-				);
+				$contents = str_replace("'Google_", "'" . $prefix . '\Google_', $contents);
+				$contents = str_replace('\"Google_', '\"' . $prefix . '\Google_', $contents);
 			}
 			if (false !== strpos($file_path, $patch3)) {
-				$contents = str_replace(
-					"'Google_Service_",
-					"'" . $prefix . '\Google_Service_',
-					$contents
-				);
-				$contents = str_replace(
-					'"Google_Service_',
-					'"' . $prefix . '\Google_Service_',
-					$contents
-				);
+				$contents = str_replace("'Google_Service_", "'" . $prefix . '\Google_Service_', $contents);
+				$contents = str_replace('"Google_Service_', '"' . $prefix . '\Google_Service_', $contents);
 			}
 
 			return $contents;

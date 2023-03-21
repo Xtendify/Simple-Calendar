@@ -75,10 +75,7 @@ class Update_V300
 
 			// List calendar settings.
 			$list_span = get_post_meta($post_id, 'gce_events_per_page', true);
-			$list_range = max(
-				absint(get_post_meta($post_id, 'gce_per_page_num', true)),
-				1
-			);
+			$list_range = max(absint(get_post_meta($post_id, 'gce_per_page_num', true)), 1);
 			if ('days' == $list_span) {
 				$list_type = 'daily';
 			} elseif ('week' == $list_span) {
@@ -90,16 +87,8 @@ class Update_V300
 			} else {
 				$list_type = 'events';
 			}
-			update_post_meta(
-				$post_id,
-				'_default_calendar_list_range_type',
-				$list_type
-			);
-			update_post_meta(
-				$post_id,
-				'_default_calendar_list_range_span',
-				$list_range
-			);
+			update_post_meta($post_id, '_default_calendar_list_range_type', $list_type);
+			update_post_meta($post_id, '_default_calendar_list_range_span', $list_range);
 
 			$calendar_begins = 'today';
 
@@ -109,53 +98,26 @@ class Update_V300
 				$ends = get_post_meta($post_id, 'gce_feed_range_end', true);
 
 				if ($begins && $ends) {
-					update_post_meta(
-						$post_id,
-						'_calendar_begins',
-						'custom_date'
-					);
-					update_post_meta(
-						$post_id,
-						'_calendar_begins_custom_date',
-						$this->convert_legacy_range($begins)
-					);
+					update_post_meta($post_id, '_calendar_begins', 'custom_date');
+					update_post_meta($post_id, '_calendar_begins_custom_date', $this->convert_legacy_range($begins));
 				} else {
-					update_post_meta(
-						$post_id,
-						'_calendar_begins',
-						$calendar_begins
-					);
+					update_post_meta($post_id, '_calendar_begins', $calendar_begins);
 				}
 			} else {
 				// Legacy list calendars may have a start offset.
-				$offset = absint(
-					get_post_meta($post_id, 'gce_list_start_offset_num', true)
-				);
+				$offset = absint(get_post_meta($post_id, 'gce_list_start_offset_num', true));
 				if ('list' == $display && $offset > 0) {
 					$calendar_begins =
-						'back' ==
-						get_post_meta(
-							$post_id,
-							'gce_list_start_offset_direction',
-							true
-						)
-							? 'days_before'
-							: 'days_after';
+						'back' == get_post_meta($post_id, 'gce_list_start_offset_direction', true) ? 'days_before' : 'days_after';
 					update_post_meta($post_id, '_calendar_begins_nth', $offset);
 				}
 
-				update_post_meta(
-					$post_id,
-					'_calendar_begins',
-					$calendar_begins
-				);
+				update_post_meta($post_id, '_calendar_begins', $calendar_begins);
 			}
 
 			// Earliest event.
 			$start_before = get_post_meta($post_id, 'gce_feed_start', true);
-			$start_amt = absint(
-				get_post_meta($post_id, 'gce_feed_start_num', true)
-			);
+			$start_amt = absint(get_post_meta($post_id, 'gce_feed_start_num', true));
 			if ($start_amt > 0) {
 				if ('years' == $start_before) {
 					$earliest = 'years_before';
@@ -164,34 +126,16 @@ class Update_V300
 				} else {
 					$earliest = 'days_before';
 				}
-				update_post_meta(
-					$post_id,
-					'_feed_earliest_event_date',
-					$earliest
-				);
-				update_post_meta(
-					$post_id,
-					'_feed_earliest_event_date_range',
-					$start_amt
-				);
+				update_post_meta($post_id, '_feed_earliest_event_date', $earliest);
+				update_post_meta($post_id, '_feed_earliest_event_date_range', $start_amt);
 			} else {
-				update_post_meta(
-					$post_id,
-					'_feed_earliest_event_date',
-					'calendar_start'
-				);
-				update_post_meta(
-					$post_id,
-					'_feed_earliest_event_date_range',
-					1
-				);
+				update_post_meta($post_id, '_feed_earliest_event_date', 'calendar_start');
+				update_post_meta($post_id, '_feed_earliest_event_date_range', 1);
 			}
 
 			// Latest event.
 			$end_after = get_post_meta($post_id, 'gce_feed_end', true);
-			$end_amt = absint(
-				get_post_meta($post_id, 'gce_feed_end_num', true)
-			);
+			$end_amt = absint(get_post_meta($post_id, 'gce_feed_end_num', true));
 			if ($end_amt > 0) {
 				if ('years' == $end_after) {
 					$latest = 'years_after';
@@ -201,17 +145,9 @@ class Update_V300
 					$latest = 'days_after';
 				}
 				update_post_meta($post_id, '_feed_latest_event_date', $latest);
-				update_post_meta(
-					$post_id,
-					'_feed_latest_event_date_range',
-					$end_amt
-				);
+				update_post_meta($post_id, '_feed_latest_event_date_range', $end_amt);
 			} else {
-				update_post_meta(
-					$post_id,
-					'_feed_latest_event_date',
-					'calendar_start'
-				);
+				update_post_meta($post_id, '_feed_latest_event_date', 'calendar_start');
 				update_post_meta($post_id, '_feed_latest_event_date_range', 1);
 			}
 
@@ -221,34 +157,18 @@ class Update_V300
 			}
 
 			// Default calendar bubble trigger (click was unavailable before 3.0.0).
-			update_post_meta(
-				$post_id,
-				'_default_calendar_event_bubble_trigger',
-				'hover'
-			);
+			update_post_meta($post_id, '_default_calendar_event_bubble_trigger', 'hover');
 
 			// Default calendar multiple day events.
 			if (get_post_meta($post_id, 'gce_multi_day_events', true)) {
-				update_post_meta(
-					$post_id,
-					'_default_calendar_expand_multi_day_events',
-					'yes'
-				);
+				update_post_meta($post_id, '_default_calendar_expand_multi_day_events', 'yes');
 			} else {
-				update_post_meta(
-					$post_id,
-					'_default_calendar_expand_multi_day_events',
-					'no'
-				);
+				update_post_meta($post_id, '_default_calendar_expand_multi_day_events', 'no');
 			}
 
 			// Google Calendar ID.
 			$google_id = get_post_meta($post_id, 'gce_feed_url', true);
-			update_post_meta(
-				$post_id,
-				'_google_calendar_id',
-				base64_encode(trim($google_id))
-			);
+			update_post_meta($post_id, '_google_calendar_id', base64_encode(trim($google_id)));
 
 			// Google max results.
 			update_post_meta($post_id, '_google_events_max_results', 2500);
@@ -256,69 +176,33 @@ class Update_V300
 			// Google calendar feed search terms.
 			$google_search = get_post_meta($post_id, 'gce_search_query', true);
 			if (!empty($google_search)) {
-				update_post_meta(
-					$post_id,
-					'_google_events_search_query',
-					trim($google_search)
-				);
+				update_post_meta($post_id, '_google_events_search_query', trim($google_search));
 			}
 
 			// Google recurring events.
 			if (get_post_meta($post_id, 'gce_expand_recurring', true)) {
 				update_post_meta($post_id, '_google_events_recurring', 'show');
 			} else {
-				update_post_meta(
-					$post_id,
-					'_google_events_recurring',
-					'first-only'
-				);
+				update_post_meta($post_id, '_google_events_recurring', 'first-only');
 			}
 
 			// Date and time format.
 			$date_format = get_post_meta($post_id, 'gce_date_format', true);
 			if (!empty($date_format)) {
-				update_post_meta(
-					$post_id,
-					'_calendar_date_format_setting',
-					'use_custom_php'
-				);
-				update_post_meta(
-					$post_id,
-					'_calendar_date_format_php',
-					$date_format
-				);
+				update_post_meta($post_id, '_calendar_date_format_setting', 'use_custom_php');
+				update_post_meta($post_id, '_calendar_date_format_php', $date_format);
 			} else {
-				update_post_meta(
-					$post_id,
-					'_calendar_date_format_setting',
-					'use_site'
-				);
+				update_post_meta($post_id, '_calendar_date_format_setting', 'use_site');
 			}
 			$time_format = get_post_meta($post_id, 'gce_time_format', true);
 			if (!empty($time_format)) {
-				update_post_meta(
-					$post_id,
-					'_calendar_time_format_setting',
-					'use_custom_php'
-				);
-				update_post_meta(
-					$post_id,
-					'_calendar_time_format_php',
-					$time_format
-				);
+				update_post_meta($post_id, '_calendar_time_format_setting', 'use_custom_php');
+				update_post_meta($post_id, '_calendar_time_format_php', $time_format);
 			} else {
-				update_post_meta(
-					$post_id,
-					'_calendar_time_format_setting',
-					'use_site'
-				);
+				update_post_meta($post_id, '_calendar_time_format_setting', 'use_site');
 			}
 			update_post_meta($post_id, '_calendar_datetime_separator', '@');
-			update_post_meta(
-				$post_id,
-				'_calendar_week_starts_on_setting',
-				'use_site'
-			);
+			update_post_meta($post_id, '_calendar_week_starts_on_setting', 'use_site');
 
 			// Feed transient cache duration.
 			$cache = get_post_meta($post_id, 'gce_cache', true);
@@ -434,27 +318,14 @@ UPDATE {$table} SET `post_type`='calendar' WHERE `post_type`='gce_feed';
 	{
 		$old_settings = get_option('gce_settings_general');
 		$new_settings_feeds = get_option('simple-calendar_settings_feeds');
-		$new_settings_advanced = get_option(
-			'simple-calendar_settings_advanced'
-		);
+		$new_settings_advanced = get_option('simple-calendar_settings_advanced');
 
 		// If empty probably using a legacy hardcoded key (no longer recommended).
-		$new_settings_feeds['google']['api_key'] = !empty(
-			$old_settings['api_key']
-		)
-			? $old_settings['api_key']
-			: '';
+		$new_settings_feeds['google']['api_key'] = !empty($old_settings['api_key']) ? $old_settings['api_key'] : '';
 		update_option('simple-calendar_settings_feeds', $new_settings_feeds);
 
-		$new_settings_advanced['assets']['disable_css'] = !empty(
-			$old_settings['disable_css']
-		)
-			? 'yes'
-			: '';
-		update_option(
-			'simple-calendar_settings_advanced',
-			$new_settings_advanced
-		);
+		$new_settings_advanced['assets']['disable_css'] = !empty($old_settings['disable_css']) ? 'yes' : '';
+		update_option('simple-calendar_settings_advanced', $new_settings_advanced);
 
 		// Delete legacy options.
 		delete_option('gce_version');
@@ -476,18 +347,10 @@ UPDATE {$table} SET `post_type`='calendar' WHERE `post_type`='gce_feed';
 
 			foreach ($old_widgets as $i => $old_widget) {
 				if (isset($old_widget['id'])) {
-					$id = absint(
-						substr(
-							$old_widget['id'],
-							0,
-							strspn($old_widget['id'], '0123456789')
-						)
-					);
+					$id = absint(substr($old_widget['id'], 0, strspn($old_widget['id'], '0123456789')));
 
 					if ($id > 0) {
-						$new_widgets[$i]['title'] = isset($old_widget['name'])
-							? $old_widget['name']
-							: 'Simple Calendar';
+						$new_widgets[$i]['title'] = isset($old_widget['name']) ? $old_widget['name'] : 'Simple Calendar';
 						$new_widgets[$i]['calendar_id'] = $id;
 					}
 				}

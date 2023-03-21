@@ -34,11 +34,7 @@ class Widgets
 	 */
 	public function __construct()
 	{
-		$this->widgets = apply_filters(
-			'simcal_get_widgets',
-			['SimpleCalendar\Widgets\Calendar'],
-			[]
-		);
+		$this->widgets = apply_filters('simcal_get_widgets', ['SimpleCalendar\Widgets\Calendar'], []);
 
 		add_action('widgets_init', [$this, 'register']);
 	}

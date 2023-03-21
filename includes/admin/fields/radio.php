@@ -39,11 +39,7 @@ class Radio extends Field
 	public function __construct($field)
 	{
 		$this->type_class = 'simcal-field-radios';
-		$this->inline = isset($field['inline'])
-			? ('inline' == $field['inline']
-				? true
-				: false)
-			: false;
+		$this->inline = isset($field['inline']) ? ('inline' == $field['inline'] ? true : false) : false;
 
 		parent::__construct($field);
 	}
@@ -60,9 +56,7 @@ class Radio extends Field
 		          class="<?php echo $this->class; ?>"
 			<?php echo $this->style ? 'style="' . $this->style . '"' : ''; ?>>
 			<?php
-   echo $this->description
-   	? '<p class="description">' . wp_kses_post($this->description) . '</p>'
-   	: '';
+   echo $this->description ? '<p class="description">' . wp_kses_post($this->description) . '</p>' : '';
 
    if (!empty($this->title)): ?>
 				<legend class="screen-reader-text">
@@ -70,9 +64,7 @@ class Radio extends Field
 				</legend>
 				<?php endif;
    ?>
-			<ul <?php echo $this->inline === true
-   	? 'class="simcal-field-radios-inline"'
-   	: ''; ?>>
+			<ul <?php echo $this->inline === true ? 'class="simcal-field-radios-inline"' : ''; ?>>
 				<?php foreach ($this->options as $option => $name): ?>
 					<li>
 						<label for="<?php echo $this->id . '-' . trim(strval($option)); ?>">

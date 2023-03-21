@@ -92,24 +92,15 @@ abstract class Admin_Page
 		if (!empty($this->sections) && is_array($this->sections)) {
 			foreach ($this->sections as $section => $content) {
 				$settings[$this->id]['sections'][$section] = [
-					'title' => isset($content['title'])
-						? $content['title']
-						: '',
-					'description' => isset($content['description'])
-						? $content['description']
-						: '',
+					'title' => isset($content['title']) ? $content['title'] : '',
+					'description' => isset($content['description']) ? $content['description'] : '',
 					'callback' => [$this, 'add_settings_section_callback'],
-					'fields' => isset($this->fields[$section])
-						? $this->fields[$section]
-						: '',
+					'fields' => isset($this->fields[$section]) ? $this->fields[$section] : '',
 				];
 			}
 		}
 
-		return apply_filters(
-			'simcal_get_' . $this->option_group . '_' . $this->id,
-			$settings
-		);
+		return apply_filters('simcal_get_' . $this->option_group . '_' . $this->id, $settings);
 	}
 
 	/**
@@ -128,9 +119,7 @@ abstract class Admin_Page
 		$option = $this->values;
 
 		if (!empty($option) && is_array($option)) {
-			return isset($option[$section][$setting])
-				? $option[$section][$setting]
-				: '';
+			return isset($option[$section][$setting]) ? $option[$section][$setting] : '';
 		}
 
 		return '';
@@ -165,23 +154,12 @@ abstract class Admin_Page
 	 */
 	public function add_settings_section_callback($section)
 	{
-		$callback = isset($section['callback'][0])
-			? $section['callback'][0]
-			: '';
+		$callback = isset($section['callback'][0]) ? $section['callback'][0] : '';
 		$sections = isset($callback->sections) ? $callback->sections : '';
-		$description = isset($sections[$section['id']]['description'])
-			? $sections[$section['id']]['description']
-			: '';
+		$description = isset($sections[$section['id']]['description']) ? $sections[$section['id']]['description'] : '';
 		$default = $description ? '<p>' . $description . '</p>' : '';
 
-		echo apply_filters(
-			'simcal_' .
-				$this->option_group .
-				'_' .
-				$this->id .
-				'_sections_callback',
-			$default
-		);
+		echo apply_filters('simcal_' . $this->option_group . '_' . $this->id . '_sections_callback', $default);
 	}
 
 	/**

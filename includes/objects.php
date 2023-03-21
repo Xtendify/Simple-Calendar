@@ -34,10 +34,7 @@ class Objects
 		add_filter(
 			'simcal_get_feed_types',
 			function ($feed_types) {
-				return array_merge($feed_types, [
-					'google',
-					'grouped-calendars',
-				]);
+				return array_merge($feed_types, ['google', 'grouped-calendars']);
 			},
 			10,
 			1
@@ -128,9 +125,7 @@ class Objects
 	public function get_calendar($object)
 	{
 		if (is_string($object)) {
-			return !empty($object)
-				? $this->get_object($object, 'calendar', '')
-				: null;
+			return !empty($object) ? $this->get_object($object, 'calendar', '') : null;
 		}
 
 		if (is_object($object)) {
@@ -142,20 +137,13 @@ class Objects
 					return $this->get_object($name, 'calendar', $object);
 				}
 			} elseif (isset($object->type) && isset($object->id)) {
-				return $this->get_object(
-					$object->type,
-					'calendar',
-					$object->id
-				);
+				return $this->get_object($object->type, 'calendar', $object->id);
 			}
 		}
 
 		if (is_int($object)) {
 			$post = get_post($object);
-			if (
-				$post &&
-				($type = wp_get_object_terms($post->ID, 'calendar_type'))
-			) {
+			if ($post && ($type = wp_get_object_terms($post->ID, 'calendar_type'))) {
 				$name = sanitize_title(current($type)->name);
 				return $this->get_object($name, 'calendar', $post);
 			}
@@ -181,9 +169,7 @@ class Objects
 
 			if ($terms = wp_get_object_terms($id, 'calendar_type')) {
 				$calendar_type = sanitize_title(current($terms)->name);
-				$name = isset($calendar_view[$calendar_type])
-					? $calendar_type . '-' . $calendar_view[$calendar_type]
-					: '';
+				$name = isset($calendar_view[$calendar_type]) ? $calendar_type . '-' . $calendar_view[$calendar_type] : '';
 			}
 		}
 
@@ -204,21 +190,14 @@ class Objects
 	public function get_feed($object)
 	{
 		if (is_string($object)) {
-			return !empty($object)
-				? $this->get_object($object, 'feed', '')
-				: null;
+			return !empty($object) ? $this->get_object($object, 'feed', '') : null;
 		}
 
 		if (is_object($object)) {
 			if ($object instanceof SimpleCalObject\Calendar) {
 				$feed_name = '';
 				if (empty($object->feed)) {
-					if (
-						$feed_type = wp_get_object_terms(
-							$object->id,
-							'feed_type'
-						)
-					) {
+					if ($feed_type = wp_get_object_terms($object->id, 'feed_type')) {
 						$feed_name = sanitize_title(current($feed_type)->name);
 					}
 				} else {
@@ -229,11 +208,7 @@ class Objects
 				$calendar = $this->get_calendar($object);
 
 				if (isset($calendar->feed)) {
-					return $this->get_object(
-						$calendar->feed,
-						'feed',
-						$calendar
-					);
+					return $this->get_object($calendar->feed, 'feed', $calendar);
 				} else {
 					return null;
 				}
@@ -244,9 +219,7 @@ class Objects
 
 		if (is_int($object)) {
 			$calendar = $this->get_calendar($object);
-			return isset($calendar->feed)
-				? $this->get_object($calendar->feed, 'feed', $calendar)
-				: null;
+			return isset($calendar->feed) ? $this->get_object($calendar->feed, 'feed', $calendar) : null;
 		}
 
 		return null;
@@ -303,11 +276,7 @@ class Objects
 
 		if (in_array($type, $types)) {
 			$class_name = $this->make_class_name($name, $type);
-			$parent =
-				'\\' .
-				__NAMESPACE__ .
-				'\Abstracts\\' .
-				implode('_', array_map('ucfirst', explode('-', $type)));
+			$parent = '\\' . __NAMESPACE__ . '\Abstracts\\' . implode('_', array_map('ucfirst', explode('-', $type)));
 			$class = class_exists($class_name) ? new $class_name($args) : false;
 
 			return $class instanceof $parent ? $class : null;

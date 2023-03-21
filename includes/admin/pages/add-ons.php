@@ -34,18 +34,12 @@ class Add_Ons extends Admin_Page
 		$this->fields = $this->add_fields();
 
 		// Disable the submit button for this page.
-		add_filter(
-			'simcal_admin_page_' . $page . '_' . $tab . '_submit',
-			function () {
-				return false;
-			}
-		);
+		add_filter('simcal_admin_page_' . $page . '_' . $tab . '_submit', function () {
+			return false;
+		});
 
 		// Add html.
-		add_action('simcal_admin_page_' . $page . '_' . $tab . '_end', [
-			$this,
-			'html',
-		]);
+		add_action('simcal_admin_page_' . $page . '_' . $tab . '_end', [$this, 'html']);
 	}
 
 	/**
@@ -59,12 +53,7 @@ class Add_Ons extends Admin_Page
 		$js_redirect = '<script type="text/javascript">';
 		$js_redirect .=
 			'window.location = "' .
-			simcal_ga_campaign_url(
-				simcal_get_url('addons'),
-				'core-plugin',
-				'plugin-submenu-link',
-				true
-			) .
+			simcal_ga_campaign_url(simcal_get_url('addons'), 'core-plugin', 'plugin-submenu-link', true) .
 			'"';
 		$js_redirect .= '</script>';
 

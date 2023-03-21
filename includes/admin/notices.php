@@ -53,11 +53,7 @@ class Notices
 							}
 						}
 
-						if (
-							!empty($notice->screen) &&
-							is_array($notice->screen) &&
-							function_exists('get_current_screen')
-						) {
+						if (!empty($notice->screen) && is_array($notice->screen) && function_exists('get_current_screen')) {
 							$screen = get_current_screen();
 							if (isset($screen->id)) {
 								if (!in_array($screen->id, $notice->screen)) {
@@ -68,12 +64,7 @@ class Notices
 
 						if (!empty($notice->post) && is_array($notice->post)) {
 							if (isset($_GET['post'])) {
-								if (
-									!in_array(
-										intval($_GET['post']),
-										$notice->post
-									)
-								) {
+								if (!in_array(intval($_GET['post']), $notice->post)) {
 									continue;
 								}
 							} else {
@@ -105,16 +96,11 @@ class Notices
 			add_action(
 				'admin_notices',
 				$print_notice = function () use ($notice) {
-					$name = is_array($notice->id)
-						? key($notice->id)
-						: $notice->id;
+					$name = is_array($notice->id) ? key($notice->id) : $notice->id;
 					$url = add_query_arg(['dismiss_simcal_notice' => $name]);
 					$dismiss_link =
 						$notice->dismissible === true
-							? sprintf(
-								'<a class="dashicons-before dashicons-dismiss simcal-dismiss-notice" href="%1$s"></a>',
-								$url
-							)
+							? sprintf('<a class="dashicons-before dashicons-dismiss simcal-dismiss-notice" href="%1$s"></a>', $url)
 							: '';
 
 					echo '<div class="' .
@@ -214,9 +200,6 @@ class Notices
 	 */
 	public function get_notices()
 	{
-		return apply_filters(
-			'simcal_admin_notices',
-			get_option('simple-calendar_admin_notices', [])
-		);
+		return apply_filters('simcal_admin_notices', get_option('simple-calendar_admin_notices', []));
 	}
 }

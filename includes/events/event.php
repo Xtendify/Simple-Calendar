@@ -300,24 +300,15 @@ class Event
 		 * =========== */
 
 		if (!empty($event['start'])) {
-			$this->start = is_numeric($event['start'])
-				? intval($event['start'])
-				: 0;
+			$this->start = is_numeric($event['start']) ? intval($event['start']) : 0;
 			if (!empty($event['start_utc'])) {
-				$this->start_utc = is_numeric($event['start_utc'])
-					? intval($event['start_utc'])
-					: 0;
+				$this->start_utc = is_numeric($event['start_utc']) ? intval($event['start_utc']) : 0;
 			}
 			if (!empty($event['start_timezone'])) {
 				$this->start_timezone = esc_attr($event['start_timezone']);
 			}
-			$this->start_dt = Carbon::createFromTimestamp(
-				$this->start,
-				$this->start_timezone
-			);
-			$start_location = isset($event['start_location'])
-				? $event['start_location']
-				: '';
+			$this->start_dt = Carbon::createFromTimestamp($this->start, $this->start_timezone);
+			$start_location = isset($event['start_location']) ? $event['start_location'] : '';
 			$this->start_location = $this->esc_location($start_location);
 		}
 
@@ -326,24 +317,15 @@ class Event
 		 * ========= */
 
 		if (!empty($event['end'])) {
-			$this->end = is_numeric($event['end'])
-				? intval($event['end'])
-				: false;
+			$this->end = is_numeric($event['end']) ? intval($event['end']) : false;
 			if (!empty($event['end_utc'])) {
-				$this->end_utc = is_numeric($event['end_utc'])
-					? intval($event['end_utc'])
-					: false;
+				$this->end_utc = is_numeric($event['end_utc']) ? intval($event['end_utc']) : false;
 			}
 			if (!empty($event['end_timezone'])) {
 				$this->end_timezone = esc_attr($event['end_timezone']);
 			}
-			$this->end_dt = Carbon::createFromTimestamp(
-				$this->end,
-				$this->end_timezone
-			);
-			$end_location = isset($event['end_location'])
-				? $event['end_location']
-				: '';
+			$this->end_dt = Carbon::createFromTimestamp($this->end, $this->end_timezone);
+			$end_location = isset($event['end_location']) ? $event['end_location'] : '';
 			$this->end_location = $this->esc_location($end_location);
 		}
 
@@ -363,9 +345,7 @@ class Event
 
 		// Event recurrence.
 		if (isset($event['recurrence'])) {
-			$this->recurrence = !empty($event['recurrence'])
-				? $event['recurrence']
-				: false;
+			$this->recurrence = !empty($event['recurrence']) ? $event['recurrence'] : false;
 		}
 
 		/* ========== *
@@ -413,18 +393,10 @@ class Event
 			$var = (array) $var;
 		}
 
-		$location['name'] = isset($var['name'])
-			? esc_attr(strip_tags($var['name']))
-			: '';
-		$location['address'] = isset($var['address'])
-			? esc_attr(strip_tags($var['address']))
-			: '';
-		$location['lat'] = isset($var['lat'])
-			? $this->esc_coordinate($var['lat'])
-			: 0;
-		$location['lng'] = isset($var['lng'])
-			? $this->esc_coordinate($var['lng'])
-			: 0;
+		$location['name'] = isset($var['name']) ? esc_attr(strip_tags($var['name'])) : '';
+		$location['address'] = isset($var['address']) ? esc_attr(strip_tags($var['address'])) : '';
+		$location['lat'] = isset($var['lat']) ? $this->esc_coordinate($var['lat']) : 0;
+		$location['lng'] = isset($var['lng']) ? $this->esc_coordinate($var['lng']) : 0;
 
 		if (!empty($location['name']) || !empty($location['address'])) {
 			$location['venue'] = true;
@@ -502,9 +474,7 @@ class Event
 	 */
 	public function ends_today()
 	{
-		return !is_null($this->end_dt)
-			? $this->end_dt->setTimezone($this->timezone)->isToday()
-			: true;
+		return !is_null($this->end_dt) ? $this->end_dt->setTimezone($this->timezone)->isToday() : true;
 	}
 
 	/**
@@ -528,9 +498,7 @@ class Event
 	 */
 	public function ends_tomorrow()
 	{
-		return !is_null($this->end_dt)
-			? $this->end_dt->setTimezone($this->timezone)->isTomorrow()
-			: false;
+		return !is_null($this->end_dt) ? $this->end_dt->setTimezone($this->timezone)->isTomorrow() : false;
 	}
 
 	/**
@@ -554,9 +522,7 @@ class Event
 	 */
 	public function ended_yesterday()
 	{
-		return !is_null($this->end_dt)
-			? $this->end_dt->setTimezone($this->timezone)->isYesterday()
-			: false;
+		return !is_null($this->end_dt) ? $this->end_dt->setTimezone($this->timezone)->isYesterday() : false;
 	}
 
 	/**
@@ -580,9 +546,7 @@ class Event
 	 */
 	public function ends_future()
 	{
-		return !is_null($this->end_dt)
-			? $this->end_dt->setTimezone($this->timezone)->isFuture()
-			: false;
+		return !is_null($this->end_dt) ? $this->end_dt->setTimezone($this->timezone)->isFuture() : false;
 	}
 
 	/**
@@ -606,9 +570,7 @@ class Event
 	 */
 	public function ended_past()
 	{
-		return !is_null($this->end_dt)
-			? $this->end_dt->setTimezone($this->timezone)->isPast()
-			: false;
+		return !is_null($this->end_dt) ? $this->end_dt->setTimezone($this->timezone)->isPast() : false;
 	}
 
 	/**
@@ -623,9 +585,7 @@ class Event
 	public function get_color($default = '')
 	{
 		if (isset($this->meta['color'])) {
-			return !empty($this->meta['color'])
-				? esc_attr($this->meta['color'])
-				: $default;
+			return !empty($this->meta['color']) ? esc_attr($this->meta['color']) : $default;
 		}
 		return $default;
 	}
@@ -639,9 +599,7 @@ class Event
 	 */
 	public function get_attachments()
 	{
-		return isset($this->meta['attachments'])
-			? $this->meta['attachments']
-			: [];
+		return isset($this->meta['attachments']) ? $this->meta['attachments'] : [];
 	}
 
 	/**

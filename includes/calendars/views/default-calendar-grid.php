@@ -103,14 +103,8 @@ class Default_Calendar_Grid implements Calendar_View
 	 */
 	public function add_ajax_actions()
 	{
-		add_action('wp_ajax_simcal_default_calendar_draw_grid', [
-			$this,
-			'draw_grid_ajax',
-		]);
-		add_action('wp_ajax_nopriv_simcal_default_calendar_draw_grid', [
-			$this,
-			'draw_grid_ajax',
-		]);
+		add_action('wp_ajax_simcal_default_calendar_draw_grid', [$this, 'draw_grid_ajax']);
+		add_action('wp_ajax_nopriv_simcal_default_calendar_draw_grid', [$this, 'draw_grid_ajax']);
 	}
 
 	/**
@@ -128,20 +122,12 @@ class Default_Calendar_Grid implements Calendar_View
 	{
 		return [
 			'simcal-qtip' => [
-				'src' =>
-					SIMPLE_CALENDAR_ASSETS .
-					'js/vendor/jquery.qtip' .
-					$min .
-					'.js',
+				'src' => SIMPLE_CALENDAR_ASSETS . 'js/vendor/jquery.qtip' . $min . '.js',
 				'deps' => ['jquery'],
 				'in_footer' => true,
 			],
 			'simcal-default-calendar' => [
-				'src' =>
-					SIMPLE_CALENDAR_ASSETS .
-					'js/default-calendar-bundled' .
-					$min .
-					'.js',
+				'src' => SIMPLE_CALENDAR_ASSETS . 'js/default-calendar-bundled' . $min . '.js',
 				'deps' => ['jquery', 'simcal-qtip'],
 				'in_footer' => true,
 				'localize' => [
@@ -166,28 +152,16 @@ class Default_Calendar_Grid implements Calendar_View
 	{
 		return [
 			'simcal-qtip' => [
-				'src' =>
-					SIMPLE_CALENDAR_ASSETS .
-					'css/vendor/jquery.qtip' .
-					$min .
-					'.css',
+				'src' => SIMPLE_CALENDAR_ASSETS . 'css/vendor/jquery.qtip' . $min . '.css',
 				'media' => 'all',
 			],
 			'simcal-default-calendar-grid' => [
-				'src' =>
-					SIMPLE_CALENDAR_ASSETS .
-					'css/default-calendar-grid' .
-					$min .
-					'.css',
+				'src' => SIMPLE_CALENDAR_ASSETS . 'css/default-calendar-grid' . $min . '.css',
 				'deps' => ['simcal-qtip'],
 				'media' => 'all',
 			],
 			'simcal-default-calendar-list' => [
-				'src' =>
-					SIMPLE_CALENDAR_ASSETS .
-					'css/default-calendar-list' .
-					$min .
-					'.css',
+				'src' => SIMPLE_CALENDAR_ASSETS . 'css/default-calendar-list' . $min . '.css',
 				'deps' => ['simcal-qtip'],
 				'media' => 'all',
 			],
@@ -227,10 +201,7 @@ class Default_Calendar_Grid implements Calendar_View
                             ); ?>"><i class="simcal-icon-left"></i></button>
                         </th>
 					<?php } ?>
-                    <th colspan="<?php echo apply_filters(
-                    	'simcal_current_cols',
-                    	$calendar->static ? '7' : '5'
-                    ); ?>"
+                    <th colspan="<?php echo apply_filters('simcal_current_cols', $calendar->static ? '7' : '5'); ?>"
                         class="simcal-nav simcal-current"
                         data-calendar-current="<?php echo $calendar->start; ?>">
 						<?php
@@ -248,8 +219,7 @@ class Default_Calendar_Grid implements Calendar_View
       }
 
       foreach ($current as $k => $v) {
-      	echo ' <span class="simcal-current-' . $k,
-      		'">' . date_i18n($v, $calendar->start) . '</span> ';
+      	echo ' <span class="simcal-current-' . $k, '">' . date_i18n($v, $calendar->start) . '</span> ';
       }
 
       echo '</h3>';
@@ -277,45 +247,28 @@ class Default_Calendar_Grid implements Calendar_View
 
      for ($i = $week_starts; $i <= 6; $i++): ?>
                         <th class="simcal-week-day simcal-week-day-<?php echo $i; ?>"
-                            data-screen-small="<?php echo mb_substr(
-                            	$week_days_short[$i],
-                            	0,
-                            	1,
-                            	'UTF-8'
-                            ); ?>"
-                            data-screen-medium="<?php echo $week_days_short[
-                            	$i
-                            ]; ?>"
-                            data-screen-large="<?php echo $week_days_full[
-                            	$i
-                            ]; ?>"><?php echo $week_days_short[$i]; ?></th>
+                            data-screen-small="<?php echo mb_substr($week_days_short[$i], 0, 1, 'UTF-8'); ?>"
+                            data-screen-medium="<?php echo $week_days_short[$i]; ?>"
+                            data-screen-large="<?php echo $week_days_full[$i]; ?>"><?php echo $week_days_short[
+	$i
+]; ?></th>
 						<?php endfor;
 
      if ($week_starts !== 0):
      	for ($i = 0; $i < $week_starts; $i++): ?>
                             <th class="simcal-week-day simcal-week-day-<?php echo $i; ?>"
-                                data-screen-small="<?php echo mb_substr(
-                                	$week_days_short[$i],
-                                	0,
-                                	1,
-                                	'UTF-8'
-                                ); ?>"
-                                data-screen-medium="<?php echo $week_days_short[
-                                	$i
-                                ]; ?>"
-                                data-screen-large="<?php echo $week_days_full[
-                                	$i
-                                ]; ?>"><?php echo $week_days_short[$i]; ?></th>
+                                data-screen-small="<?php echo mb_substr($week_days_short[$i], 0, 1, 'UTF-8'); ?>"
+                                data-screen-medium="<?php echo $week_days_short[$i]; ?>"
+                                data-screen-large="<?php echo $week_days_full[$i]; ?>"><?php echo $week_days_short[
+	$i
+]; ?></th>
 							<?php endfor;
      endif;
      ?>
                 </tr>
                 </thead>
 
-				<?php echo $this->draw_month(
-    	date('n', $calendar->start),
-    	date('Y', $calendar->start)
-    ); ?>
+				<?php echo $this->draw_month(date('n', $calendar->start), date('Y', $calendar->start)); ?>
 
             </table>
 
@@ -371,15 +324,7 @@ class Default_Calendar_Grid implements Calendar_View
 
 		// Variables to cycle days in current month and find today in calendar.
 		$now = $calendar->now;
-		$current = Carbon::create(
-			$year,
-			$month,
-			1,
-			0,
-			0,
-			0,
-			$calendar->timezone
-		);
+		$current = Carbon::create($year, $month, 1, 0, 0, 0, $calendar->timezone);
 		$current_min = $current->getTimestamp();
 		$current_max = $current->endOfDay()->getTimestamp();
 
@@ -397,23 +342,11 @@ class Default_Calendar_Grid implements Calendar_View
 		if ($events && is_array($events)) {
 			// Filter events within the boundaries previously set above.
 			$timestamps = array_keys($events);
-			$lower_bound = array_filter($timestamps, [
-				$this,
-				'filter_events_before',
-			]);
-			$higher_bound = array_filter($lower_bound, [
-				$this,
-				'filter_events_after',
-			]);
+			$lower_bound = array_filter($timestamps, [$this, 'filter_events_before']);
+			$higher_bound = array_filter($lower_bound, [$this, 'filter_events_after']);
 			$filtered =
-				is_array($events) &&
-				is_array($higher_bound) &&
-				!empty($events) &&
-				!empty($higher_bound)
-					? array_intersect_key(
-						$events,
-						array_combine($higher_bound, $higher_bound)
-					)
+				is_array($events) && is_array($higher_bound) && !empty($events) && !empty($higher_bound)
+					? array_intersect_key($events, array_combine($higher_bound, $higher_bound))
 					: [];
 
 			// Put resulting events in an associative array, with day of the month as key for easy retrieval in calendar days loop.
@@ -421,12 +354,7 @@ class Default_Calendar_Grid implements Calendar_View
 			foreach ($filtered as $timestamp => $events_in_day) {
 				foreach ($events_in_day as $event) {
 					if ($event instanceof Event) {
-						$day = intval(
-							Carbon::createFromTimestamp(
-								$timestamp,
-								$calendar->timezone
-							)->endOfDay()->day
-						);
+						$day = intval(Carbon::createFromTimestamp($timestamp, $calendar->timezone)->endOfDay()->day);
 						$day_events[$day][] = $event;
 					}
 				}
@@ -438,10 +366,7 @@ class Default_Calendar_Grid implements Calendar_View
 		ob_start();
 
 		echo '<tbody class="simcal-month simcal-month-' . $month . '">' . "\n";
-		echo "\t" .
-			'<tr class="simcal-week simcal-week-' .
-			$week_of_year .
-			'">';
+		echo "\t" . '<tr class="simcal-week simcal-week-' . $week_of_year . '">';
 
 		$days_in_row = 0;
 		// Week may start on an arbitrary day (sun, 0 - sat, 6).
@@ -458,10 +383,7 @@ class Default_Calendar_Grid implements Calendar_View
 		for ($a = $week_starts; $a < $b; $a++):
 			$last_void_day_class = $a === $b - 1 ? 'simcal-day-void-last' : '';
 
-			echo '<td class="simcal-day simcal-day-void ' .
-				$last_void_day_class .
-				'"></td>' .
-				"\n";
+			echo '<td class="simcal-day simcal-day-void ' . $last_void_day_class . '"></td>' . "\n";
 
 			// Reset day of the week count (sun, 0 - sat, 6).
 			if ($week_day === 6) {
@@ -476,8 +398,7 @@ class Default_Calendar_Grid implements Calendar_View
 		for ($day = 1; $day <= $days_in_month; $day++):
 			$count = 0;
 			$calendar_classes = [];
-			$day_classes =
-				'simcal-day-' . $day . ' simcal-weekday-' . $week_day;
+			$day_classes = 'simcal-day-' . $day . ' simcal-weekday-' . $week_day;
 
 			$border_style = $bg_color = $color = '';
 
@@ -507,46 +428,26 @@ class Default_Calendar_Grid implements Calendar_View
 
 					if ($event instanceof Event):
 						// Store the calendar id where the event belongs (useful in grouped calendar feeds)
-						$calendar_class =
-							'simcal-events-calendar-' .
-							strval($event->calendar);
+						$calendar_class = 'simcal-events-calendar-' . strval($event->calendar);
 						$calendar_classes[] = $calendar_class;
 
-						$recurring = $event->recurrence
-							? 'simcal-event-recurring '
-							: '';
-						$has_location = $event->venue
-							? 'simcal-event-has-location '
-							: '';
+						$recurring = $event->recurrence ? 'simcal-event-recurring ' : '';
+						$has_location = $event->venue ? 'simcal-event-has-location ' : '';
 
-						$event_classes .=
-							'simcal-event ' .
-							$recurring .
-							$has_location .
-							$calendar_class .
-							' simcal-tooltip';
+						$event_classes .= 'simcal-event ' . $recurring . $has_location . $calendar_class . ' simcal-tooltip';
 
 						// Toggle some events visibility if more than optional limit.
-						if (
-							$calendar->events_limit > -1 &&
-							$count >= $calendar->events_limit
-						):
+						if ($calendar->events_limit > -1 && $count >= $calendar->events_limit):
 							$event_classes .= ' simcal-event-toggled';
 							$event_visibility = ' style="display: none"';
 						endif;
 
 						// Event title in list.
-						$title = !empty($event->title)
-							? trim($event->title)
-							: __('Event', 'google-calendar-events');
+						$title = !empty($event->title) ? trim($event->title) : __('Event', 'google-calendar-events');
 						if ($calendar->trim_titles >= 1) {
 							$title =
 								strlen($title) > $calendar->trim_titles
-									? mb_substr(
-											$title,
-											0,
-											$calendar->trim_titles
-										) . '&hellip;'
+									? mb_substr($title, 0, $calendar->trim_titles) . '&hellip;'
 									: $title;
 						}
 
@@ -555,10 +456,7 @@ class Default_Calendar_Grid implements Calendar_View
 						//$bullet_color = '#000';
 						$event_color = $event->get_color();
 						if (!empty($event_color)) {
-							$bullet =
-								'<span style="color: ' .
-								$event_color .
-								';">&#9632;</span> ';
+							$bullet = '<span style="color: ' . $event_color . ';">&#9632;</span> ';
 							$bullet_colors[] = $event_color;
 						} else {
 							$bullet_colors[] = '#000';
@@ -573,13 +471,7 @@ class Default_Calendar_Grid implements Calendar_View
 							$event_visibility .
 							' itemscope itemtype="http://schema.org/Event">' .
 							"\n";
-						$list_events .=
-							"\t\t" .
-							'<span class="simcal-event-title">' .
-							$bullet .
-							$title .
-							'</span>' .
-							"\n";
+						$list_events .= "\t\t" . '<span class="simcal-event-title">' . $bullet . $title . '</span>' . "\n";
 						$list_events .=
 							"\t\t" .
 							'<div class="simcal-event-details simcal-tooltip-content" style="display: none;">' .
@@ -595,24 +487,16 @@ class Default_Calendar_Grid implements Calendar_View
 				if ($current_min <= $now && $current_max >= $now) {
 					$day_classes .= ' simcal-today-has-events';
 				}
-				$day_classes .=
-					' simcal-day-has-events simcal-day-has-' .
-					strval($count) .
-					'-events';
+				$day_classes .= ' simcal-day-has-events simcal-day-has-' . strval($count) . '-events';
 
 				if ($calendar_classes) {
-					$day_classes .=
-						' ' .
-						trim(implode(' ', array_unique($calendar_classes)));
+					$day_classes .= ' ' . trim(implode(' ', array_unique($calendar_classes)));
 				}
 
 				$list_events .= '</ul>' . "\n";
 
 				// Optional button to toggle hidden events in list.
-				if (
-					$calendar->events_limit > -1 &&
-					$count > $calendar->events_limit
-				):
+				if ($calendar->events_limit > -1 && $count > $calendar->events_limit):
 					$list_events .=
 						'<button class="simcal-events-toggle"><i class="simcal-icon-down simcal-icon-animate"></i></button>';
 				endif;
@@ -623,55 +507,28 @@ class Default_Calendar_Grid implements Calendar_View
 			endif;
 
 			// The actual days with numbers and events in each row cell.
-			echo '<td class="' .
-				$day_classes .
-				'" data-events-count="' .
-				strval($count) .
-				'">' .
-				"\n";
+			echo '<td class="' . $day_classes . '" data-events-count="' . strval($count) . '">' . "\n";
 
 			if ($color) {
-				$day_style =
-					' style="background-color: ' .
-					$bg_color .
-					'; color: ' .
-					$color .
-					'"';
+				$day_style = ' style="background-color: ' . $bg_color . '; color: ' . $color . '"';
 			} elseif ($count > 0) {
 				$the_color = new Color($calendar->days_events_color);
-				$color = !$color
-					? ($the_color->isDark()
-						? '#ffffff'
-						: '#000000')
-					: $color;
+				$color = !$color ? ($the_color->isDark() ? '#ffffff' : '#000000') : $color;
 				$bg_color = !$bg_color ? '#' . $the_color->getHex() : $bg_color;
-				$day_style =
-					' style="background-color: ' .
-					$bg_color .
-					'; color: ' .
-					$color .
-					'"';
+				$day_style = ' style="background-color: ' . $bg_color . '; color: ' . $color . '"';
 			} else {
 				$day_style = '';
 			}
 
 			echo "\t" . '<div' . $border_style . '>' . "\n";
-			echo "\t\t" .
-				'<span class="simcal-day-label simcal-day-number"' .
-				$day_style .
-				'>' .
-				$day .
-				'</span>' .
-				"\n";
+			echo "\t\t" . '<span class="simcal-day-label simcal-day-number"' . $day_style . '>' . $day . '</span>' . "\n";
 			echo "\t\t" . $list_events . "\n";
 			echo "\t\t";
 			echo '<span class="simcal-events-dots" style="display: none;">';
 
 			// Event bullets for calendar mobile mode.
 			for ($i = 0; $i < $count; $i++) {
-				echo '<b style="color: ' .
-					$bullet_colors[$i] .
-					';"> &bull; </b>';
+				echo '<b style="color: ' . $bullet_colors[$i] . ';"> &bull; </b>';
 			}
 
 			echo '</span>' . "\n";
@@ -691,10 +548,7 @@ class Default_Calendar_Grid implements Calendar_View
 
 				// Open a new week row.
 				if ($day < $days_in_month) {
-					echo '<tr class="simcal-week simcal-week-' .
-						$week_of_year++ .
-						'">' .
-						"\n";
+					echo '<tr class="simcal-week simcal-week-' . $week_of_year++ . '">' . "\n";
 				}
 
 				$days_in_row = -1;
@@ -702,16 +556,10 @@ class Default_Calendar_Grid implements Calendar_View
 
 			$days_in_row++;
 
-			$current_min = Carbon::createFromTimestamp(
-				$current_min,
-				$calendar->timezone
-			)
+			$current_min = Carbon::createFromTimestamp($current_min, $calendar->timezone)
 				->addDay()
 				->getTimestamp();
-			$current_max = Carbon::createFromTimestamp(
-				$current_max,
-				$calendar->timezone
-			)
+			$current_max = Carbon::createFromTimestamp($current_max, $calendar->timezone)
 				->addDay()
 				->getTimestamp();
 		endfor;
@@ -720,13 +568,9 @@ class Default_Calendar_Grid implements Calendar_View
 		$remainder_days = 6 - $days_in_row;
 
 		for ($i = 0; $i <= $remainder_days; $i++) {
-			$last_void_day_class =
-				$i == $remainder_days ? 'simcal-day-void-last' : '';
+			$last_void_day_class = $i == $remainder_days ? 'simcal-day-void-last' : '';
 
-			echo '<td class="simcal-day simcal-day-void ' .
-				$last_void_day_class .
-				'"></td>' .
-				"\n";
+			echo '<td class="simcal-day simcal-day-void ' . $last_void_day_class . '"></td>' . "\n";
 
 			$week_day++;
 		}
@@ -744,20 +588,14 @@ class Default_Calendar_Grid implements Calendar_View
 	 */
 	public function draw_grid_ajax()
 	{
-		if (
-			isset($_POST['month']) &&
-			isset($_POST['year']) &&
-			isset($_POST['id'])
-		) {
+		if (isset($_POST['month']) && isset($_POST['year']) && isset($_POST['id'])) {
 			$month = absint($_POST['month']);
 			$year = absint($_POST['year']);
 			$id = absint($_POST['id']);
 
 			wp_send_json_success($this->draw_month($month, $year, $id));
 		} else {
-			wp_send_json_error(
-				'Missing arguments in default calendar grid ajax request.'
-			);
+			wp_send_json_error('Missing arguments in default calendar grid ajax request.');
 		}
 	}
 

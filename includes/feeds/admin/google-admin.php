@@ -56,11 +56,8 @@ class Google_Admin
 	 * @param string $google_api_key
 	 * @param string $google_calendar_id
 	 */
-	public function __construct(
-		Google $feed,
-		$google_api_key,
-		$google_calendar_id
-	) {
+	public function __construct(Google $feed, $google_api_key, $google_calendar_id)
+	{
 		$this->feed = $feed;
 		$this->google_api_key = $google_api_key;
 		$this->google_calendar_id = $google_calendar_id;
@@ -69,26 +66,11 @@ class Google_Admin
 
 		if ('calendar' == $screen) {
 			$this->test_api_key_connection($this->google_calendar_id);
-			add_filter(
-				'simcal_settings_meta_tabs_li',
-				[$this, 'add_settings_meta_tab_li'],
-				10,
-				1
-			);
-			add_action(
-				'simcal_settings_meta_panels',
-				[$this, 'add_settings_meta_panel'],
-				10,
-				1
-			);
+			add_filter('simcal_settings_meta_tabs_li', [$this, 'add_settings_meta_tab_li'], 10, 1);
+			add_action('simcal_settings_meta_panels', [$this, 'add_settings_meta_panel'], 10, 1);
 		}
 
-		add_action(
-			'simcal_process_settings_meta',
-			[$this, 'process_meta'],
-			10,
-			1
-		);
+		add_action('simcal_process_settings_meta', [$this, 'process_meta'], 10, 1);
 	}
 
 	/**
@@ -114,11 +96,7 @@ class Google_Admin
 						'<strong>Note:</strong> Calendars configured to use the <strong><a href="%s" target="_blank">Google Calendar Pro add-on</a></strong> use a different method of authorization.',
 						'google-calendar-events'
 					),
-					simcal_ga_campaign_url(
-						simcal_get_url('addons'),
-						'core-plugin',
-						'settings-link'
-					)
+					simcal_ga_campaign_url(simcal_get_url('addons'), 'core-plugin', 'settings-link')
 				) .
 				'</em>',
 			'fields' => [
@@ -155,31 +133,19 @@ class Google_Admin
 			$api_key = $this->google_api_key;
 			if (empty($api_key)) {
 				$settings = get_option('simple-calendar_settings_feeds');
-				$api_key = isset($settings['google']['api_key'])
-					? esc_attr($settings['google']['api_key'])
-					: '';
+				$api_key = isset($settings['google']['api_key']) ? esc_attr($settings['google']['api_key']) : '';
 			}
 		}
 
 		$message =
 			'<p class="description">' .
 			sprintf(
-				__(
-					'<a href="%s" target="_blank">Step-by-step instructions</a> ',
-					'google-calendar-events'
-				),
-				simcal_ga_campaign_url(
-					simcal_get_url('docs') . '/google-api-key/',
-					'core-plugin',
-					'settings-link'
-				)
+				__('<a href="%s" target="_blank">Step-by-step instructions</a> ', 'google-calendar-events'),
+				simcal_ga_campaign_url(simcal_get_url('docs') . '/google-api-key/', 'core-plugin', 'settings-link')
 			) .
 			'<br/>' .
 			sprintf(
-				__(
-					'<a href="%s" target="_blank">Google Developers Console</a> ',
-					'google-calendar-events'
-				),
+				__('<a href="%s" target="_blank">Google Developers Console</a> ', 'google-calendar-events'),
 				simcal_get_url('gdev-console')
 			) .
 			'</p>';
@@ -229,10 +195,7 @@ class Google_Admin
 						'Visit your Google Calendar account, copy your public calendar ID, then paste it here.',
 						'google-calendar-events'
 					),
-					'placeholder' => __(
-						'Enter a valid Google Calendar ID from a public calendar',
-						'google-calendar-events'
-					),
+					'placeholder' => __('Enter a valid Google Calendar ID from a public calendar', 'google-calendar-events'),
 					'escaping' => [$this->feed, 'esc_google_calendar_id'],
 					'validation' => [$this, 'test_api_key_connection'],
 				],
@@ -246,26 +209,17 @@ class Google_Admin
 						'Type in keywords if you only want display events that match these terms. You can use basic boolean search operators too.',
 						'google-calendar-events'
 					),
-					'placeholder' => __(
-						'Filter events to display by search terms...',
-						'google-calendar-events'
-					),
+					'placeholder' => __('Filter events to display by search terms...', 'google-calendar-events'),
 				],
 				'_google_events_recurring' => [
 					'type' => 'select',
 					'name' => '_google_events_recurring',
 					'id' => '_google_events_recurring',
 					'title' => __('Recurring Events', 'google-calendar-events'),
-					'tooltip' => __(
-						'Events that are programmed to repeat themselves periodically.',
-						'google-calendar-events'
-					),
+					'tooltip' => __('Events that are programmed to repeat themselves periodically.', 'google-calendar-events'),
 					'options' => [
 						'show' => __('Show all', 'google-calendar-events'),
-						'first-only' => __(
-							'Only show first occurrence',
-							'google-calendar-events'
-						),
+						'first-only' => __('Only show first occurrence', 'google-calendar-events'),
 					],
 				],
 				'_google_events_max_results' => [
@@ -290,10 +244,7 @@ class Google_Admin
 		<div id="google-settings-panel" class="simcal-panel">
 			<table>
 				<thead>
-					<tr><th colspan="2"><?php _e(
-     	'Google Calendar Settings',
-     	'google-calendar-events'
-     ); ?></th></tr>
+					<tr><th colspan="2"><?php _e('Google Calendar Settings', 'google-calendar-events'); ?></th></tr>
 				</thead>
 				<?php Settings::print_panel_fields($inputs, $post_id); ?>
 			</table>
@@ -341,11 +292,7 @@ class Google_Admin
 					'core-plugin',
 					'settings-link'
 				),
-				simcal_ga_campaign_url(
-					simcal_get_url('docs') . '/find-google-calendar-id/',
-					'core-plugin',
-					'settings-link'
-				)
+				simcal_ga_campaign_url(simcal_get_url('docs') . '/find-google-calendar-id/', 'core-plugin', 'settings-link')
 			) .
 			'</p>';
 
@@ -364,9 +311,7 @@ class Google_Admin
 							'Your Google Calendar events will not show up until you <a href="%s">create and save a Google API key</a>.',
 							'google-calendar-events'
 						),
-						admin_url(
-							'edit.php?post_type=calendar&page=simple-calendar_settings&tab=feeds'
-						)
+						admin_url('edit.php?post_type=calendar&page=simple-calendar_settings&tab=feeds')
 					) .
 					'</p>',
 			]);
@@ -381,9 +326,7 @@ class Google_Admin
 					$this->feed->make_request($google_calendar_id);
 				} catch (Google_Service_Exception $e) {
 					$error = $e->getMessage();
-					$message = !empty($error)
-						? '<blockquote>' . $error . '</blockquote>'
-						: '';
+					$message = !empty($error) ? '<blockquote>' . $error . '</blockquote>' : '';
 				}
 
 				$error_notice = new Notice([
@@ -395,10 +338,7 @@ class Google_Admin
 					'content' =>
 						'<p>' .
 						'<i class="simcal-icon-warning"></i> ' .
-						__(
-							'While trying to retrieve events, Google returned an error:',
-							'google-calendar-events'
-						) .
+						__('While trying to retrieve events, Google returned an error:', 'google-calendar-events') .
 						'<br>' .
 						$message .
 						'<br>' .
@@ -431,28 +371,18 @@ class Google_Admin
 	 */
 	public function process_meta($post_id)
 	{
-		$calendar_id = isset($_POST['_google_calendar_id'])
-			? base64_encode(trim($_POST['_google_calendar_id']))
-			: '';
+		$calendar_id = isset($_POST['_google_calendar_id']) ? base64_encode(trim($_POST['_google_calendar_id'])) : '';
 		update_post_meta($post_id, '_google_calendar_id', $calendar_id);
 
 		$search_query = isset($_POST['_google_events_search_query'])
 			? sanitize_text_field($_POST['_google_events_search_query'])
 			: '';
-		update_post_meta(
-			$post_id,
-			'_google_events_search_query',
-			$search_query
-		);
+		update_post_meta($post_id, '_google_events_search_query', $search_query);
 
-		$recurring = isset($_POST['_google_events_recurring'])
-			? sanitize_key($_POST['_google_events_recurring'])
-			: 'show';
+		$recurring = isset($_POST['_google_events_recurring']) ? sanitize_key($_POST['_google_events_recurring']) : 'show';
 		update_post_meta($post_id, '_google_events_recurring', $recurring);
 
-		$max_results = isset($_POST['_google_events_max_results'])
-			? absint($_POST['_google_events_max_results'])
-			: '2500';
+		$max_results = isset($_POST['_google_events_max_results']) ? absint($_POST['_google_events_max_results']) : '2500';
 		update_post_meta($post_id, '_google_events_max_results', $max_results);
 
 		$this->test_api_key_connection($calendar_id);

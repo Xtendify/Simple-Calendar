@@ -36,18 +36,12 @@ class Licenses extends Admin_Page
 		$this->fields = $this->add_fields();
 
 		// Disabled the 'save changes' button for this page.
-		add_filter(
-			'simcal_admin_page_' . $page . '_' . $tab . '_submit',
-			function () {
-				return false;
-			}
-		);
+		add_filter('simcal_admin_page_' . $page . '_' . $tab . '_submit', function () {
+			return false;
+		});
 
 		// Add html to page.
-		add_action('simcal_admin_page_' . $page . '_' . $tab . '_end', [
-			__CLASS__,
-			'html',
-		]);
+		add_action('simcal_admin_page_' . $page . '_' . $tab . '_end', [__CLASS__, 'html']);
 	}
 
 	/**
@@ -60,10 +54,7 @@ class Licenses extends Admin_Page
 	public static function html()
 	{
 		// Add a nonce field used in ajax.
-		wp_nonce_field(
-			'simcal_license_manager',
-			'simcal_license_manager'
-		);// Add a license 'reset' button.
+		wp_nonce_field('simcal_license_manager', 'simcal_license_manager');// Add a license 'reset' button.
 		?>
 		<br><br>
 		<a href="#" id="simcal-reset-licenses" data-dialog="<?php _e(
@@ -87,10 +78,7 @@ class Licenses extends Admin_Page
 	{
 		$sections = [
 			'keys' => [
-				'title' => __(
-					'Premium Add-on License Keys',
-					'google-calendar-events'
-				),
+				'title' => __('Premium Add-on License Keys', 'google-calendar-events'),
 				'description' =>
 					__(
 						'Enter your add-on license keys below, making sure to activate each one to ensure they are valid.',
@@ -105,10 +93,7 @@ class Licenses extends Admin_Page
 					'</em>',
 			],
 		];
-		return apply_filters(
-			'simcal_add_' . $this->option_group . '_' . $this->id . '_sections',
-			$sections
-		);
+		return apply_filters('simcal_add_' . $this->option_group . '_' . $this->id . '_sections', $sections);
 	}
 
 	/**
@@ -121,9 +106,7 @@ class Licenses extends Admin_Page
 	public function add_fields()
 	{
 		$fields = [];
-		$this->values = get_option(
-			'simple-calendar_' . $this->option_group . '_' . $this->id
-		);
+		$this->values = get_option('simple-calendar_' . $this->option_group . '_' . $this->id);
 
 		foreach ($this->sections as $section => $contents) {
 			if ('keys' == $section) {
@@ -136,15 +119,7 @@ class Licenses extends Admin_Page
 							'addon' => $addon_id,
 							'title' => esc_attr($addon_name),
 							'name' =>
-								'simple-calendar_' .
-								$this->option_group .
-								'_' .
-								$this->id .
-								'[' .
-								$section .
-								'][' .
-								$addon_id .
-								']',
+								'simple-calendar_' . $this->option_group . '_' . $this->id . '[' . $section . '][' . $addon_id . ']',
 							'id' =>
 								'simple-calendar-' .
 								$this->option_group .
@@ -154,10 +129,7 @@ class Licenses extends Admin_Page
 								$section .
 								'-' .
 								sanitize_key($addon_id),
-							'value' => $this->get_option_value(
-								$section,
-								$addon_id
-							),
+							'value' => $this->get_option_value($section, $addon_id),
 							'class' => ['regular-text', 'ltr'],
 						];
 					}
@@ -165,9 +137,6 @@ class Licenses extends Admin_Page
 			}
 		}
 
-		return apply_filters(
-			'simcal_add_' . $this->option_group . '_' . $this->id . '_fields',
-			$fields
-		);
+		return apply_filters('simcal_add_' . $this->option_group . '_' . $this->id . '_fields', $fields);
 	}
 }

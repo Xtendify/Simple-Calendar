@@ -39,14 +39,7 @@ function gce_date_unix($date = '')
 {
 	if (empty($date)) {
 		$current_time = current_time('timestamp');
-		$timestamp = mktime(
-			0,
-			0,
-			0,
-			date('m', $current_time),
-			date('d', $current_time),
-			date('Y', $current_time)
-		);
+		$timestamp = mktime(0, 0, 0, date('m', $current_time), date('d', $current_time), date('Y', $current_time));
 	} else {
 		$date = explode('/', $date);
 		$month = $date[0];

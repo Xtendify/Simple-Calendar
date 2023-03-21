@@ -1,8 +1,7 @@
 @font-face {
 	font-family: 'simple-calendar';
 	src: url('../fonts/simple-calendar.eot?43976014');
-	src: url('../fonts/simple-calendar.eot?43976014#iefix')
-			format('embedded-opentype'),
+	src: url('../fonts/simple-calendar.eot?43976014#iefix') format('embedded-opentype'),
 		url('../fonts/simple-calendar.woff?43976014') format('woff'),
 		url('../fonts/simple-calendar.ttf?43976014') format('truetype'),
 		url('../fonts/simple-calendar.svg?43976014#simple-calendar') format('svg');
@@ -425,9 +424,7 @@
 	padding: 10px 0;
 	vertical-align: middle;
 }
-.simcal-default-calendar-grid
-	.simcal-calendar-head
-	.simcal-nav.simcal-prev-wrapper,
+.simcal-default-calendar-grid .simcal-calendar-head .simcal-nav.simcal-prev-wrapper,
 .simcal-default-calendar-grid .simcal-calendar-head .simcal-nav.simcal-current {
 	border-right: 0;
 }
@@ -466,8 +463,7 @@
 .simcal-default-calendar-grid.simcal-default-calendar-light .simcal-day-void {
 	background-color: rgba(0, 0, 0, 0.04);
 }
-.simcal-default-calendar-grid.simcal-default-calendar-light
-	.simcal-day-void:hover {
+.simcal-default-calendar-grid.simcal-default-calendar-light .simcal-day-void:hover {
 	background-color: rgba(0, 0, 0, 0.04);
 }
 
@@ -482,8 +478,7 @@
 .simcal-default-calendar-grid.simcal-default-calendar-dark .simcal-day-void {
 	background-color: rgba(255, 255, 255, 0.05);
 }
-.simcal-default-calendar-grid.simcal-default-calendar-dark
-	.simcal-day-void:hover {
+.simcal-default-calendar-grid.simcal-default-calendar-dark .simcal-day-void:hover {
 	background-color: rgba(255, 255, 255, 0.05);
 }
 

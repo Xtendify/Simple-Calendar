@@ -41,20 +41,14 @@ class Attach_Calendar implements Meta_Box
 			'name' => '_simcal_attach_calendar_id',
 			'enhanced' => count($calendars) > 15 ? 'enhanced' : '',
 			'allow_void' => 'allow_void',
-			'value' => absint(
-				get_post_meta($post->ID, '_simcal_attach_calendar_id', true)
-			),
+			'value' => absint(get_post_meta($post->ID, '_simcal_attach_calendar_id', true)),
 			'options' => $calendars,
 			'attributes' => [
 				'data-allowclear' => 'true',
 			],
 		]);
 
-		$position = get_post_meta(
-			$post->ID,
-			'_simcal_attach_calendar_position',
-			true
-		);
+		$position = get_post_meta($post->ID, '_simcal_attach_calendar_position', true);
 
 		simcal_print_field([
 			'type' => 'radio',
@@ -78,18 +72,12 @@ class Attach_Calendar implements Meta_Box
 	 */
 	public static function save($post_id, $post)
 	{
-		$id = isset($_POST['_simcal_attach_calendar_id'])
-			? absint($_POST['_simcal_attach_calendar_id'])
-			: '';
+		$id = isset($_POST['_simcal_attach_calendar_id']) ? absint($_POST['_simcal_attach_calendar_id']) : '';
 		update_post_meta($post_id, '_simcal_attach_calendar_id', $id);
 
 		$position = isset($_POST['_simcal_attach_calendar_position'])
 			? sanitize_title($_POST['_simcal_attach_calendar_position'])
 			: 'after';
-		update_post_meta(
-			$post_id,
-			'_simcal_attach_calendar_position',
-			$position
-		);
+		update_post_meta($post_id, '_simcal_attach_calendar_position', $position);
 	}
 }

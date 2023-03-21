@@ -123,14 +123,8 @@ class Default_Calendar_List implements Calendar_View
 	 */
 	public function add_ajax_actions()
 	{
-		add_action('wp_ajax_simcal_default_calendar_draw_list', [
-			$this,
-			'draw_list_ajax',
-		]);
-		add_action('wp_ajax_nopriv_simcal_default_calendar_draw_list', [
-			$this,
-			'draw_list_ajax',
-		]);
+		add_action('wp_ajax_simcal_default_calendar_draw_list', [$this, 'draw_list_ajax']);
+		add_action('wp_ajax_nopriv_simcal_default_calendar_draw_list', [$this, 'draw_list_ajax']);
 	}
 
 	/**
@@ -148,17 +142,12 @@ class Default_Calendar_List implements Calendar_View
 	{
 		return [
 			'simcal-qtip' => [
-				'src' =>
-					SIMPLE_CALENDAR_ASSETS . 'js/vendor/qtip' . $min . '.js',
+				'src' => SIMPLE_CALENDAR_ASSETS . 'js/vendor/qtip' . $min . '.js',
 				'deps' => ['jquery'],
 				'in_footer' => true,
 			],
 			'simcal-default-calendar' => [
-				'src' =>
-					SIMPLE_CALENDAR_ASSETS .
-					'js/default-calendar' .
-					$min .
-					'.js',
+				'src' => SIMPLE_CALENDAR_ASSETS . 'js/default-calendar' . $min . '.js',
 				'deps' => ['jquery', 'simcal-qtip'],
 				'in_footer' => true,
 				'localize' => [
@@ -183,11 +172,7 @@ class Default_Calendar_List implements Calendar_View
 	{
 		return [
 			'simcal-default-calendar-list' => [
-				'src' =>
-					SIMPLE_CALENDAR_ASSETS .
-					'css/default-calendar-list' .
-					$min .
-					'.css',
+				'src' => SIMPLE_CALENDAR_ASSETS . 'css/default-calendar-list' . $min . '.css',
 				'media' => 'all',
 			],
 		];
@@ -203,32 +188,13 @@ class Default_Calendar_List implements Calendar_View
 		$calendar = $this->calendar;
 
 		if ($calendar instanceof Default_Calendar) {
-			$disabled =
-				$calendar->static === true || empty($calendar->events)
-					? ' disabled="disabled"'
-					: '';
+			$disabled = $calendar->static === true || empty($calendar->events) ? ' disabled="disabled"' : '';
 
-			$hide_header =
-				get_post_meta(
-					$this->calendar->id,
-					'_default_calendar_list_header',
-					true
-				) == 'yes'
-					? true
-					: false;
-			$static_calendar =
-				get_post_meta(
-					$this->calendar->id,
-					'_calendar_is_static',
-					true
-				) == 'yes'
-					? true
-					: false;
+			$hide_header = get_post_meta($this->calendar->id, '_default_calendar_list_header', true) == 'yes' ? true : false;
+			$static_calendar = get_post_meta($this->calendar->id, '_calendar_is_static', true) == 'yes' ? true : false;
 
 			$header_class = '';
-			$compact_list_class = $calendar->compact_list
-				? 'simcal-calendar-list-compact'
-				: '';
+			$compact_list_class = $calendar->compact_list ? 'simcal-calendar-list-compact' : '';
 
 			edit_post_link(
 				__('Edit Calendar', 'google-calendar-events'),
@@ -237,9 +203,7 @@ class Default_Calendar_List implements Calendar_View
 				$calendar->id
 			);
 
-			echo '<div class="simcal-calendar-list ' .
-				$compact_list_class .
-				'">';
+			echo '<div class="simcal-calendar-list ' . $compact_list_class . '">';
 
 			if (!$hide_header && !$static_calendar) {
 				echo '<nav class="simcal-calendar-head">' . "\n";
@@ -341,20 +305,11 @@ class Default_Calendar_List implements Calendar_View
 			$this->end = $this->next - 1;
 
 			$timestamps = array_keys($events);
-			$lower_bound = array_filter($timestamps, [
-				$this,
-				'filter_events_before',
-			]);
-			$higher_bound = array_filter($lower_bound, [
-				$this,
-				'filter_events_after',
-			]);
+			$lower_bound = array_filter($timestamps, [$this, 'filter_events_before']);
+			$higher_bound = array_filter($lower_bound, [$this, 'filter_events_after']);
 
 			if (is_array($higher_bound) && !empty($higher_bound)) {
-				$filtered = array_intersect_key(
-					$events,
-					array_combine($higher_bound, $higher_bound)
-				);
+				$filtered = array_intersect_key($events, array_combine($higher_bound, $higher_bound));
 				foreach ($filtered as $timestamp => $events) {
 					$paged_events[intval($timestamp)] = $events;
 				}
@@ -378,25 +333,13 @@ class Default_Calendar_List implements Calendar_View
 				}
 			}
 
-			$paged_events = array_slice(
-				$flattened_events,
-				$current,
-				$interval,
-				true
-			);
+			$paged_events = array_slice($flattened_events, $current, $interval, true);
 
-			$events_end = isset($keys[$current + $interval])
-				? $keys[$current + $interval]
-				: $calendar->end;
-			$this->end =
-				$events_end > $calendar->end ? $calendar->end : $events_end;
+			$events_end = isset($keys[$current + $interval]) ? $keys[$current + $interval] : $calendar->end;
+			$this->end = $events_end > $calendar->end ? $calendar->end : $events_end;
 
-			$this->prev = isset($keys[$current - $interval])
-				? $keys[$current - $interval]
-				: $calendar->earliest_event;
-			$this->next = isset($keys[$current + $interval])
-				? $keys[$current + $interval]
-				: $this->end;
+			$this->prev = isset($keys[$current - $interval]) ? $keys[$current - $interval] : $calendar->earliest_event;
+			$this->next = isset($keys[$current + $interval]) ? $keys[$current + $interval] : $this->end;
 		}
 
 		// Put resulting events in an associative array, with Ymd date as key for easy retrieval in calendar days loop.
@@ -433,9 +376,7 @@ class Default_Calendar_List implements Calendar_View
 				// TODO Need to add +1 second also?
 				$offset = $dtz->getOffset($date);
 				$date_offset = clone $date;
-				$date_offset->add(
-					\DateInterval::createFromDateString($offset . ' seconds')
-				);
+				$date_offset->add(\DateInterval::createFromDateString($offset . ' seconds'));
 
 				// TODO Multiple day events will be off if part-way through there's daylight savings.
 
@@ -471,26 +412,17 @@ class Default_Calendar_List implements Calendar_View
 	private function get_heading()
 	{
 		$calendar = $this->calendar;
-		$start = Carbon::createFromTimestamp(
-			$calendar->start,
-			$calendar->timezone
-		);
+		$start = Carbon::createFromTimestamp($calendar->start, $calendar->timezone);
 		$end = Carbon::createFromTimestamp($this->end, $calendar->timezone);
 		$date_format = $this->calendar->date_format;
 		$date_order = simcal_get_date_format_order($date_format);
 
 		if ($this->first_event !== 0) {
-			$start = Carbon::createFromTimestamp(
-				$this->first_event,
-				$calendar->timezone
-			);
+			$start = Carbon::createFromTimestamp($this->first_event, $calendar->timezone);
 		}
 
 		if ($this->last_event !== 0) {
-			$end = Carbon::createFromTimestamp(
-				$this->last_event,
-				$calendar->timezone
-			);
+			$end = Carbon::createFromTimestamp($this->last_event, $calendar->timezone);
 		}
 
 		$st = strtotime($start->toDateTimeString());
@@ -498,29 +430,19 @@ class Default_Calendar_List implements Calendar_View
 
 		// TODO Is logic here causing the weird "29 Oct, 2016" format when navigating?
 
-		if (
-			$start->day == $end->day &&
-			$start->month == $end->month &&
-			$start->year == $end->year
-		) {
+		if ($start->day == $end->day && $start->month == $end->month && $start->year == $end->year) {
 			// Start and end on the same day.
 			// e.g. 1 February 2020
 			$large = $small = date_i18n($calendar->date_format, $st);
 			if ($date_order['d'] !== false && $date_order['m'] !== false) {
 				if ($date_order['m'] > $date_order['d']) {
-					if (
-						$date_order['y'] !== false &&
-						$date_order['y'] > $date_order['m']
-					) {
+					if ($date_order['y'] !== false && $date_order['y'] > $date_order['m']) {
 						$small = date_i18n('Y, d M', $st);
 					} else {
 						$small = date_i18n('d M Y', $st);
 					}
 				} else {
-					if (
-						$date_order['y'] !== false &&
-						$date_order['y'] > $date_order['m']
-					) {
+					if ($date_order['y'] !== false && $date_order['y'] > $date_order['m']) {
 						$small = date_i18n('Y, M d', $st);
 					} else {
 						$small = date_i18n('M d Y', $st);
@@ -559,13 +481,8 @@ class Default_Calendar_List implements Calendar_View
 					$small .= date_i18n('M', $st) . ' - ' . date_i18n('M', $et);
 				} else {
 					// August - September, 2020.
-					$large =
-						date_i18n('F', $st) .
-						' - ' .
-						date_i18n('F', $et) .
-						', ';
-					$small =
-						date_i18n('M', $st) . ' - ' . date_i18n('M', $et) . ' ';
+					$large = date_i18n('F', $st) . ' - ' . date_i18n('F', $et) . ', ';
+					$small = date_i18n('M', $st) . ' - ' . date_i18n('M', $et) . ' ';
 					$year = date('Y', $st);
 					$large .= $year;
 					$small .= $year;
@@ -632,8 +549,7 @@ class Default_Calendar_List implements Calendar_View
 
 		// Draw the events.
 
-		$block_tag =
-			$calendar->compact_list && !empty($current_events) ? 'div' : 'dl';
+		$block_tag = $calendar->compact_list && !empty($current_events) ? 'div' : 'dl';
 
 		$data_heading = '';
 		$heading = $this->get_heading();
@@ -663,27 +579,13 @@ class Default_Calendar_List implements Calendar_View
 
 				$first_event = $events[0][0];
 
-				if (
-					isset($first_event->multiple_days) &&
-					$first_event->multiple_days > 0
-				) {
-					if (
-						'current_day_only' ==
-						get_post_meta(
-							$calendar->id,
-							'_default_calendar_expand_multi_day_events',
-							true
-						)
-					) {
+				if (isset($first_event->multiple_days) && $first_event->multiple_days > 0) {
+					if ('current_day_only' == get_post_meta($calendar->id, '_default_calendar_expand_multi_day_events', true)) {
 						$year = substr($ymd, 0, 4);
 						$month = substr($ymd, 4, 2);
 						$day = substr($ymd, 6, 2);
 
-						$temp_date = Carbon::createFromDate(
-							$year,
-							$month,
-							$day
-						);
+						$temp_date = Carbon::createFromDate($year, $month, $day);
 
 						if (!($temp_date < Carbon::now()->endOfDay())) {
 							// Break here only if event already shown once.
@@ -698,11 +600,7 @@ class Default_Calendar_List implements Calendar_View
 				}
 
 				// Add offset offset for list view day headings.
-				$day_date = Carbon::createFromFormat(
-					'Ymd',
-					$ymd,
-					$calendar->timezone
-				);
+				$day_date = Carbon::createFromFormat('Ymd', $ymd, $calendar->timezone);
 				$day_date_offset = clone $day_date;
 				$day_date_offset->addSeconds($day_date->offset);
 				$day_date_ts_offset = $day_date_offset->timestamp;
@@ -716,30 +614,17 @@ class Default_Calendar_List implements Calendar_View
 
 					$bg_color = '#' . $the_color->getHex();
 					$color = $the_color->isDark() ? '#ffffff' : '#000000';
-					$border_style =
-						' style="border-bottom: 1px solid ' . $bg_color . ';" ';
-					$bg_style =
-						' style="background-color: ' .
-						$bg_color .
-						'; color: ' .
-						$color .
-						';"';
+					$border_style = ' style="border-bottom: 1px solid ' . $bg_color . ';" ';
+					$bg_style = ' style="background-color: ' . $bg_color . '; color: ' . $color . ';"';
 
-					echo "\t" .
-						'<dt class="simcal-day-label"' .
-						$border_style .
-						'>';
+					echo "\t" . '<dt class="simcal-day-label"' . $border_style . '>';
 					echo '<span' . $bg_style . '>';
 
 					echo $format
 						? '<span class="simcal-date-format" data-date-format="' .
 							$format .
 							'">' .
-							date_i18n(
-								$format,
-								$day_date_ts_offset,
-								strtotime($day_date_offset->toDateTimeString())
-							) .
+							date_i18n($format, $day_date_ts_offset, strtotime($day_date_offset->toDateTimeString())) .
 							'</span> '
 						: ' ';
 
@@ -752,8 +637,7 @@ class Default_Calendar_List implements Calendar_View
 				$calendar_classes = [];
 
 				// Add day of week number to CSS class.
-				$day_classes =
-					'simcal-weekday-' . date('w', $day_date_ts_offset);
+				$day_classes = 'simcal-weekday-' . date('w', $day_date_ts_offset);
 
 				// Is this the present, the past or the future, Doc?
 				if ($timestamp <= $now && $timestamp >= $now) {
@@ -773,29 +657,16 @@ class Default_Calendar_List implements Calendar_View
 						if ($event instanceof Event):
 							$event_classes = $event_visibility = '';
 
-							$calendar_class =
-								'simcal-events-calendar-' .
-								strval($event->calendar);
+							$calendar_class = 'simcal-events-calendar-' . strval($event->calendar);
 							$calendar_classes[] = $calendar_class;
 
-							$recurring = $event->recurrence
-								? 'simcal-event-recurring '
-								: '';
-							$has_location = $event->venue
-								? 'simcal-event-has-location '
-								: '';
+							$recurring = $event->recurrence ? 'simcal-event-recurring ' : '';
+							$has_location = $event->venue ? 'simcal-event-has-location ' : '';
 
-							$event_classes .=
-								'simcal-event ' .
-								$recurring .
-								$has_location .
-								$calendar_class;
+							$event_classes .= 'simcal-event ' . $recurring . $has_location . $calendar_class;
 
 							// Toggle some events visibility if more than optional limit.
-							if (
-								$calendar->events_limit > -1 &&
-								$count >= $calendar->events_limit
-							):
+							if ($calendar->events_limit > -1 && $count >= $calendar->events_limit):
 								$event_classes .= ' simcal-event-toggled';
 								$event_visibility = ' display: none;';
 							endif;
@@ -803,14 +674,7 @@ class Default_Calendar_List implements Calendar_View
 							$event_color = $event->get_color();
 							if (!empty($event_color)) {
 								$side = is_rtl() ? 'right' : 'left';
-								$event_color =
-									' border-' .
-									$side .
-									': 4px solid ' .
-									$event_color .
-									'; padding-' .
-									$side .
-									': 8px;';
+								$event_color = ' border-' . $side . ': 4px solid ' . $event_color . '; padding-' . $side . ': 8px;';
 							}
 
 							$list_events .=
@@ -825,11 +689,7 @@ class Default_Calendar_List implements Calendar_View
 								'">' .
 								"\n";
 							$list_events .=
-								"\t\t" .
-								'<div class="simcal-event-details">' .
-								$calendar->get_event_html($event) .
-								'</div>' .
-								"\n";
+								"\t\t" . '<div class="simcal-event-details">' . $calendar->get_event_html($event) . '</div>' . "\n";
 							$list_events .= "\t" . '</li>' . "\n";
 
 							$count++;
@@ -838,20 +698,10 @@ class Default_Calendar_List implements Calendar_View
 							if ($this->end <= $now && $this->start >= $now):
 								$day_classes .= ' simcal-today-has-events';
 							endif;
-							$day_classes .=
-								' simcal-day-has-events simcal-day-has-' .
-								strval($count) .
-								'-events';
+							$day_classes .= ' simcal-day-has-events simcal-day-has-' . strval($count) . '-events';
 
 							if ($calendar_classes):
-								$day_classes .=
-									' ' .
-									trim(
-										implode(
-											' ',
-											array_unique($calendar_classes)
-										)
-									);
+								$day_classes .= ' ' . trim(implode(' ', array_unique($calendar_classes)));
 							endif;
 						endif;
 					endforeach;
@@ -860,24 +710,14 @@ class Default_Calendar_List implements Calendar_View
 				$list_events .= '</ul>' . "\n";
 
 				// If events visibility is limited, print the button toggle.
-				if (
-					$calendar->events_limit > -1 &&
-					$count > $calendar->events_limit
-				):
+				if ($calendar->events_limit > -1 && $count > $calendar->events_limit):
 					$list_events .=
 						'<button class="simcal-events-toggle"><i class="simcal-icon-down simcal-icon-animate"></i></button>';
 				endif;
 
 				// Print final list of events for the current day.
 				$tag = $calendar->compact_list ? 'div' : 'dd';
-				echo '<' .
-					$tag .
-					' class="' .
-					$day_classes .
-					'" data-events-count="' .
-					strval($count) .
-					'">' .
-					"\n";
+				echo '<' . $tag . ' class="' . $day_classes . '" data-events-count="' . strval($count) . '">' . "\n";
 				echo "\t" . $list_events . "\n";
 				echo '</' . $tag . '>' . "\n";
 			endforeach;
@@ -887,31 +727,17 @@ class Default_Calendar_List implements Calendar_View
 			$message = get_post_meta($calendar->id, '_no_events_message', true);
 
 			if ('events' == $calendar->group_type) {
-				echo !empty($message)
-					? $message
-					: __(
-						'There are no upcoming events.',
-						'google-calendar-events'
-					);
+				echo !empty($message) ? $message : __('There are no upcoming events.', 'google-calendar-events');
 			} else {
 				if (!empty($message)) {
 					echo $message;
 				} else {
-					$from = Carbon::createFromTimestamp(
-						$this->start,
-						$calendar->timezone
-					)->getTimestamp();
-					$to = Carbon::createFromTimestamp(
-						$this->end,
-						$calendar->timezone
-					)->getTimestamp();
+					$from = Carbon::createFromTimestamp($this->start, $calendar->timezone)->getTimestamp();
+					$to = Carbon::createFromTimestamp($this->end, $calendar->timezone)->getTimestamp();
 					echo apply_filters(
 						'simcal_no_events_message',
 						sprintf(
-							__(
-								'Nothing from %1$s to %2$s.',
-								'google-calendar-events'
-							),
+							__('Nothing from %1$s to %2$s.', 'google-calendar-events'),
 							date_i18n($calendar->date_format, $from),
 							date_i18n($calendar->date_format, $to)
 						),
@@ -943,9 +769,7 @@ class Default_Calendar_List implements Calendar_View
 
 			wp_send_json_success($this->draw_list($ts, $id));
 		} else {
-			wp_send_json_error(
-				'Missing arguments in default calendar list ajax request.'
-			);
+			wp_send_json_error('Missing arguments in default calendar list ajax request.');
 		}
 	}
 

@@ -125,10 +125,7 @@ class Default_Calendar extends Calendar
 			add_filter(
 				'simcal_calendar_class',
 				function ($class, $post_id) use ($theme, $id) {
-					if (
-						in_array('default-calendar', $class) &&
-						$post_id === $id
-					) {
+					if (in_array('default-calendar', $class) && $post_id === $id) {
 						array_push($class, 'default-calendar-' . $theme);
 					}
 
@@ -157,122 +154,47 @@ class Default_Calendar extends Calendar
 	private function set_properties($view)
 	{
 		// Set styles.
-		if (
-			'dark' ==
-			get_post_meta($this->id, '_default_calendar_style_theme', true)
-		) {
+		if ('dark' == get_post_meta($this->id, '_default_calendar_style_theme', true)) {
 			$this->theme = 'dark';
 		}
-		if (
-			$today_color = get_post_meta(
-				$this->id,
-				'_default_calendar_style_today',
-				true
-			)
-		) {
+		if ($today_color = get_post_meta($this->id, '_default_calendar_style_today', true)) {
 			$this->today_color = esc_attr($today_color);
 		}
-		if (
-			$day_events_color = get_post_meta(
-				$this->id,
-				'_default_calendar_style_days_events',
-				true
-			)
-		) {
+		if ($day_events_color = get_post_meta($this->id, '_default_calendar_style_days_events', true)) {
 			$this->days_events_color = esc_attr($day_events_color);
 		}
 
 		// Hide too many events.
-		if (
-			'yes' ==
-			get_post_meta(
-				$this->id,
-				'_default_calendar_limit_visible_events',
-				true
-			)
-		) {
-			$this->events_limit = absint(
-				get_post_meta(
-					$this->id,
-					'_default_calendar_visible_events',
-					true
-				)
-			);
+		if ('yes' == get_post_meta($this->id, '_default_calendar_limit_visible_events', true)) {
+			$this->events_limit = absint(get_post_meta($this->id, '_default_calendar_visible_events', true));
 		}
 
 		// Expand multiple day events.
 		if (
-			'yes' ==
-				get_post_meta(
-					$this->id,
-					'_default_calendar_expand_multi_day_events',
-					true
-				) ||
+			'yes' == get_post_meta($this->id, '_default_calendar_expand_multi_day_events', true) ||
 			('list' == $view &&
-				'current_day_only' ==
-					get_post_meta(
-						$this->id,
-						'_default_calendar_expand_multi_day_events',
-						true
-					))
+				'current_day_only' == get_post_meta($this->id, '_default_calendar_expand_multi_day_events', true))
 		) {
 			$this->events = $this->expand_multiple_days_events();
 		}
 
 		if ('grid' == $view) {
 			// Use hover to open event bubbles.
-			if (
-				'hover' ==
-				get_post_meta(
-					$this->id,
-					'_default_calendar_event_bubble_trigger',
-					true
-				)
-			) {
+			if ('hover' == get_post_meta($this->id, '_default_calendar_event_bubble_trigger', true)) {
 				$this->event_bubble_trigger = 'hover';
 			}
 
 			// Trim long event titles.
-			if (
-				'yes' ==
-				get_post_meta($this->id, '_default_calendar_trim_titles', true)
-			) {
-				$this->trim_titles = max(
-					absint(
-						get_post_meta(
-							$this->id,
-							'_default_calendar_trim_titles_chars',
-							true
-						)
-					),
-					1
-				);
+			if ('yes' == get_post_meta($this->id, '_default_calendar_trim_titles', true)) {
+				$this->trim_titles = max(absint(get_post_meta($this->id, '_default_calendar_trim_titles_chars', true)), 1);
 			}
 		} else {
 			// List range.
-			$this->group_type = esc_attr(
-				get_post_meta(
-					$this->id,
-					'_default_calendar_list_range_type',
-					true
-				)
-			);
-			$this->group_span = max(
-				absint(
-					get_post_meta(
-						$this->id,
-						'_default_calendar_list_range_span',
-						true
-					)
-				),
-				1
-			);
+			$this->group_type = esc_attr(get_post_meta($this->id, '_default_calendar_list_range_type', true));
+			$this->group_span = max(absint(get_post_meta($this->id, '_default_calendar_list_range_span', true)), 1);
 
 			// Make the list look more compact.
-			if (
-				'yes' ==
-				get_post_meta($this->id, '_default_calendar_compact_list', true)
-			) {
+			if ('yes' == get_post_meta($this->id, '_default_calendar_compact_list', true)) {
 				$this->compact_list = true;
 			}
 		}
@@ -300,12 +222,8 @@ class Default_Calendar extends Calendar
 
 							if ($days > 0) {
 								for ($d = 1; $d <= $days; $d++) {
-									$current_day_ts =
-										$event->start +
-										($d * DAY_IN_SECONDS - 1);
-									$new_events[
-										intval($current_day_ts)
-									][] = $event;
+									$current_day_ts = $event->start + ($d * DAY_IN_SECONDS - 1);
+									$new_events[intval($current_day_ts)][] = $event;
 								}
 							}
 						}
