@@ -97,7 +97,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.1.40 =
+= 3.1.41 =
 * Fix: Event bubbles not working on mobile devices.
 
 = 3.1.39 =
