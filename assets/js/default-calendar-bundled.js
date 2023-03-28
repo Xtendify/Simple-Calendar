@@ -1,4 +1,4 @@
-/*! Simple Calendar - 3.1.39
+/*! Simple Calendar - 3.1.40
  * https://simplecalendar.io
  * Copyright (c) Xtendify Technologies 2023
  * Licensed GPLv2+ */
@@ -37,7 +37,7 @@
         "object" == typeof exports && "undefined" != typeof module ? module.exports = e() : "function" == typeof define && define.amd ? define(e) : (t = "undefined" != typeof globalThis ? globalThis : t || self).dayjs = e();
       }(exports, function() {
         "use strict";
-        var t = 1e3, e = 6e4, n = 36e5, r = "millisecond", i = "second", s = "minute", u = "hour", a = "day", o = "week", f = "month", h = "quarter", c = "year", d = "date", l = "Invalid Date", $ = /^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[Tt\s]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/, y = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g, M = { name: "en", weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"), months: "January_February_March_April_May_June_July_August_September_October_November_December".split("_"), ordinal: function(t2) {
+        var t = 1e3, e = 6e4, n = 36e5, r = "millisecond", i = "second", s = "minute", u = "hour", a = "day", o = "week", f = "month", h = "quarter", c = "year", d = "date", l = "Invalid Date", $2 = /^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[Tt\s]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/, y = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g, M = { name: "en", weekdays: "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"), months: "January_February_March_April_May_June_July_August_September_October_November_December".split("_"), ordinal: function(t2) {
           var e2 = ["th", "st", "nd", "rd"], n2 = t2 % 100;
           return "[" + t2 + (e2[(n2 - 20) % 10] || e2[n2] || e2[0]) + "]";
         } }, m = function(t2, e2, n2) {
@@ -100,7 +100,7 @@
               if (e2 instanceof Date)
                 return new Date(e2);
               if ("string" == typeof e2 && !/Z$/i.test(e2)) {
-                var r2 = e2.match($);
+                var r2 = e2.match($2);
                 if (r2) {
                   var i2 = r2[2] - 1 || 0, s2 = (r2[7] || "0").substring(0, 3);
                   return n2 ? new Date(Date.UTC(r2[1], i2, r2[3] || 1, r2[4] || 0, r2[5] || 0, r2[6] || 0, s2)) : new Date(r2[1], i2, r2[3] || 1, r2[4] || 0, r2[5] || 0, r2[6] || 0, s2);
@@ -132,7 +132,7 @@
             var n2 = this, r2 = !!O.u(e2) || e2, h2 = O.p(t2), l2 = function(t3, e3) {
               var i2 = O.w(n2.$u ? Date.UTC(n2.$y, e3, t3) : new Date(n2.$y, e3, t3), n2);
               return r2 ? i2 : i2.endOf(a);
-            }, $2 = function(t3, e3) {
+            }, $3 = function(t3, e3) {
               return O.w(n2.toDate()[t3].apply(n2.toDate("s"), (r2 ? [0, 0, 0, 0] : [23, 59, 59, 999]).slice(e3)), n2);
             }, y2 = this.$W, M3 = this.$M, m3 = this.$D, v2 = "set" + (this.$u ? "UTC" : "");
             switch (h2) {
@@ -145,25 +145,25 @@
                 return l2(r2 ? m3 - D2 : m3 + (6 - D2), M3);
               case a:
               case d:
-                return $2(v2 + "Hours", 0);
+                return $3(v2 + "Hours", 0);
               case u:
-                return $2(v2 + "Minutes", 1);
+                return $3(v2 + "Minutes", 1);
               case s:
-                return $2(v2 + "Seconds", 2);
+                return $3(v2 + "Seconds", 2);
               case i:
-                return $2(v2 + "Milliseconds", 3);
+                return $3(v2 + "Milliseconds", 3);
               default:
                 return this.clone();
             }
           }, m2.endOf = function(t2) {
             return this.startOf(t2, false);
           }, m2.$set = function(t2, e2) {
-            var n2, o2 = O.p(t2), h2 = "set" + (this.$u ? "UTC" : ""), l2 = (n2 = {}, n2[a] = h2 + "Date", n2[d] = h2 + "Date", n2[f] = h2 + "Month", n2[c] = h2 + "FullYear", n2[u] = h2 + "Hours", n2[s] = h2 + "Minutes", n2[i] = h2 + "Seconds", n2[r] = h2 + "Milliseconds", n2)[o2], $2 = o2 === a ? this.$D + (e2 - this.$W) : e2;
+            var n2, o2 = O.p(t2), h2 = "set" + (this.$u ? "UTC" : ""), l2 = (n2 = {}, n2[a] = h2 + "Date", n2[d] = h2 + "Date", n2[f] = h2 + "Month", n2[c] = h2 + "FullYear", n2[u] = h2 + "Hours", n2[s] = h2 + "Minutes", n2[i] = h2 + "Seconds", n2[r] = h2 + "Milliseconds", n2)[o2], $3 = o2 === a ? this.$D + (e2 - this.$W) : e2;
             if (o2 === f || o2 === c) {
               var y2 = this.clone().set(d, 1);
-              y2.$d[l2]($2), y2.init(), this.$d = y2.set(d, Math.min(this.$D, y2.daysInMonth())).$d;
+              y2.$d[l2]($3), y2.init(), this.$d = y2.set(d, Math.min(this.$D, y2.daysInMonth())).$d;
             } else
-              l2 && this.$d[l2]($2);
+              l2 && this.$d[l2]($3);
             return this.init(), this;
           }, m2.set = function(t2, e2) {
             return this.clone().$set(t2, e2);
@@ -172,19 +172,19 @@
           }, m2.add = function(r2, h2) {
             var d2, l2 = this;
             r2 = Number(r2);
-            var $2 = O.p(h2), y2 = function(t2) {
+            var $3 = O.p(h2), y2 = function(t2) {
               var e2 = w(l2);
               return O.w(e2.date(e2.date() + Math.round(t2 * r2)), l2);
             };
-            if ($2 === f)
+            if ($3 === f)
               return this.set(f, this.$M + r2);
-            if ($2 === c)
+            if ($3 === c)
               return this.set(c, this.$y + r2);
-            if ($2 === a)
+            if ($3 === a)
               return y2(1);
-            if ($2 === o)
+            if ($3 === o)
               return y2(7);
-            var M3 = (d2 = {}, d2[s] = e, d2[u] = n, d2[i] = t, d2)[$2] || 1, m3 = this.$d.getTime() + r2 * M3;
+            var M3 = (d2 = {}, d2[s] = e, d2[u] = n, d2[i] = t, d2)[$3] || 1, m3 = this.$d.getTime() + r2 * M3;
             return O.w(m3, this);
           }, m2.subtract = function(t2, e2) {
             return this.add(-1 * t2, e2);
@@ -199,15 +199,15 @@
             }, d2 = n2.meridiem || function(t3, e3, n3) {
               var r3 = t3 < 12 ? "AM" : "PM";
               return n3 ? r3.toLowerCase() : r3;
-            }, $2 = { YY: String(this.$y).slice(-2), YYYY: this.$y, M: a2 + 1, MM: O.s(a2 + 1, 2, "0"), MMM: h2(n2.monthsShort, a2, f2, 3), MMMM: h2(f2, a2), D: this.$D, DD: O.s(this.$D, 2, "0"), d: String(this.$W), dd: h2(n2.weekdaysMin, this.$W, o2, 2), ddd: h2(n2.weekdaysShort, this.$W, o2, 3), dddd: o2[this.$W], H: String(s2), HH: O.s(s2, 2, "0"), h: c2(1), hh: c2(2), a: d2(s2, u2, true), A: d2(s2, u2, false), m: String(u2), mm: O.s(u2, 2, "0"), s: String(this.$s), ss: O.s(this.$s, 2, "0"), SSS: O.s(this.$ms, 3, "0"), Z: i2 };
+            }, $3 = { YY: String(this.$y).slice(-2), YYYY: this.$y, M: a2 + 1, MM: O.s(a2 + 1, 2, "0"), MMM: h2(n2.monthsShort, a2, f2, 3), MMMM: h2(f2, a2), D: this.$D, DD: O.s(this.$D, 2, "0"), d: String(this.$W), dd: h2(n2.weekdaysMin, this.$W, o2, 2), ddd: h2(n2.weekdaysShort, this.$W, o2, 3), dddd: o2[this.$W], H: String(s2), HH: O.s(s2, 2, "0"), h: c2(1), hh: c2(2), a: d2(s2, u2, true), A: d2(s2, u2, false), m: String(u2), mm: O.s(u2, 2, "0"), s: String(this.$s), ss: O.s(this.$s, 2, "0"), SSS: O.s(this.$ms, 3, "0"), Z: i2 };
             return r2.replace(y, function(t3, e3) {
-              return e3 || $2[t3] || i2.replace(":", "");
+              return e3 || $3[t3] || i2.replace(":", "");
             });
           }, m2.utcOffset = function() {
             return 15 * -Math.round(this.$d.getTimezoneOffset() / 15);
           }, m2.diff = function(r2, d2, l2) {
-            var $2, y2 = O.p(d2), M3 = w(r2), m3 = (M3.utcOffset() - this.utcOffset()) * e, v2 = this - M3, g2 = O.m(this, M3);
-            return g2 = ($2 = {}, $2[c] = g2 / 12, $2[f] = g2, $2[h] = g2 / 3, $2[o] = (v2 - m3) / 6048e5, $2[a] = (v2 - m3) / 864e5, $2[u] = v2 / n, $2[s] = v2 / e, $2[i] = v2 / t, $2)[y2] || v2, l2 ? g2 : O.a(g2);
+            var $3, y2 = O.p(d2), M3 = w(r2), m3 = (M3.utcOffset() - this.utcOffset()) * e, v2 = this - M3, g2 = O.m(this, M3);
+            return g2 = ($3 = {}, $3[c] = g2 / 12, $3[f] = g2, $3[h] = g2 / 3, $3[o] = (v2 - m3) / 6048e5, $3[a] = (v2 - m3) / 864e5, $3[u] = v2 / n, $3[s] = v2 / e, $3[i] = v2 / t, $3)[y2] || v2, l2 ? g2 : O.a(g2);
           }, m2.daysInMonth = function() {
             return this.endOf(f).$D;
           }, m2.$locale = function() {
@@ -395,289 +395,290 @@
   });
 
   // assets/js/default-calendar.js
-  var require_default_calendar = __commonJS({
-    "assets/js/default-calendar.js"(exports) {
-      var import_dayjs = __toESM(require_dayjs_min());
-      var import_utc = __toESM(require_utc());
-      var import_timezone = __toESM(require_timezone());
-      (function(window, undefined) {
-        "use strict";
-        import_dayjs.default.extend(import_utc.default);
-        import_dayjs.default.extend(import_timezone.default);
-        jQuery(function($) {
-          $(".simcal-default-calendar").each(function(e, i) {
-            var calendar = $(i), id = calendar.data("calendar-id"), offset = calendar.data("offset"), start = calendar.data("events-first"), end = calendar.data("calendar-end"), nav = calendar.find(".simcal-calendar-head"), buttons = nav.find(".simcal-nav-button"), spinner = calendar.find(".simcal-ajax-loader"), current = nav.find(".simcal-current"), currentTime = current.data("calendar-current"), currentMonth = current.find("span.simcal-current-month"), currentYear = current.find("span.simcal-current-year"), currentDate = (0, import_dayjs.default)(currentTime * 1e3).tz(calendar.data("timezone")), date, action;
-            if (calendar.hasClass("simcal-default-calendar-grid")) {
-              action = "simcal_default_calendar_draw_grid";
-              date = new Date(currentDate.year(), currentDate.month());
-              toggleGridNavButtons(buttons, date.getTime() / 1e3, start, end);
-            } else {
-              action = "simcal_default_calendar_draw_list";
-              toggleListNavButtons(buttons, calendar, start, end, false, currentTime);
-              toggleListHeading(calendar);
-            }
-            buttons.on("click", function() {
-              var direction = $(this).hasClass("simcal-next") ? "next" : "prev";
-              if (action == "simcal_default_calendar_draw_grid") {
-                var body = calendar.find(".simcal-month"), newDate, month, year;
-                if ("prev" == direction) {
-                  newDate = new Date(date.setMonth(date.getMonth() - 1, 1));
-                } else {
-                  newDate = new Date(date.setMonth(date.getMonth() + 2, 1));
-                  newDate.setDate(0);
-                  newDate.setHours(23);
-                  newDate.setMinutes(59);
-                  newDate.setSeconds(59);
-                }
-                month = newDate.getMonth();
-                year = newDate.getFullYear();
-                $.ajax({
-                  url: simcal_default_calendar.ajax_url,
-                  type: "POST",
-                  dataType: "json",
-                  cache: false,
-                  data: {
-                    action,
-                    month: month + 1,
-                    // month count in PHP goes 1-12 vs 0-11 in JavaScript
-                    year,
-                    id
-                  },
-                  beforeSend: function() {
-                    spinner.fadeToggle();
-                  },
-                  success: function(response) {
-                    currentMonth.text(simcal_default_calendar.months.full[month]);
-                    currentYear.text(year);
-                    current.attr("data-calendar-current", newDate.getTime() / 1e3 + offset + 1);
-                    toggleGridNavButtons(buttons, newDate.getTime() / 1e3, start, end);
-                    spinner.fadeToggle();
-                    date = newDate;
-                    body.replaceWith(response.data);
-                    calendarBubbles(calendar, list);
-                    expandEventsToggle();
-                  },
-                  error: function(response) {
-                    console.log(response);
-                  }
-                });
-              } else {
-                var list = calendar.find(".simcal-events-list-container"), prev = list.data("prev"), next = list.data("next"), timestamp = direction == "prev" ? prev : next;
-                $.ajax({
-                  url: simcal_default_calendar.ajax_url,
-                  type: "POST",
-                  dataType: "json",
-                  cache: false,
-                  data: {
-                    action,
-                    ts: timestamp,
-                    id
-                  },
-                  beforeSend: function() {
-                    spinner.fadeToggle();
-                  },
-                  success: function(response) {
-                    list.replaceWith(response.data);
-                    current.attr("data-calendar-current", timestamp);
-                    toggleListHeading(calendar);
-                    toggleListNavButtons(buttons, calendar, start, end, direction, timestamp);
-                    spinner.fadeToggle();
-                    expandEventsToggle();
-                  },
-                  error: function(response) {
-                    console.log(response);
-                  }
-                });
-              }
-            });
-          });
-          function toggleGridNavButtons(buttons, time, min, max) {
-            buttons.each(function(e, i) {
-              var button = $(i), month = new Date(time * 1e3);
-              if (button.hasClass("simcal-prev")) {
-                month = new Date(month.setMonth(month.getMonth(), 1));
-                month.setDate(0);
-                if (month.getTime() / 1e3 <= min) {
-                  button.attr("disabled", "disabled");
-                } else {
-                  button.removeAttr("disabled");
-                }
-              } else {
-                month = new Date(month.setMonth(month.getMonth() + 1, 1));
-                month.setDate(0);
-                month.setHours(23);
-                month.setMinutes(59);
-                month.setSeconds(59);
-                if (month.getTime() / 1e3 >= max) {
-                  button.attr("disabled", "disabled");
-                } else {
-                  button.removeAttr("disabled");
-                }
-              }
-            });
-          }
-          function toggleListNavButtons(buttons, calendar, start, end, direction, currentTime) {
-            var list = calendar.find(".simcal-events-list-container"), prev = list.data("prev"), next = list.data("next"), last_event = list.find("li.simcal-event:last").data("start");
-            buttons.each(function(e, b) {
-              var button = $(b);
-              if (direction) {
-                if (button.hasClass("simcal-prev")) {
-                  if (direction == "prev") {
-                    if (prev <= start && currentTime <= start) {
-                      button.attr("disabled", "disabled");
-                    }
-                  } else {
-                    button.removeAttr("disabled");
-                  }
-                } else if (button.hasClass("simcal-next")) {
-                  if (direction == "next") {
-                    if (next >= end && currentTime >= end || last_event >= end) {
-                      button.attr("disabled", "disabled");
-                    }
-                  } else {
-                    button.removeAttr("disabled");
-                  }
-                }
-              } else {
-                if (button.hasClass("simcal-prev")) {
-                  if (prev <= start && currentTime <= start) {
-                    button.attr("disabled", "disabled");
-                  }
-                } else if (button.hasClass("simcal-next")) {
-                  if (next >= end && currentTime >= end || last_event >= end) {
-                    button.attr("disabled", "disabled");
-                  }
-                }
-              }
-            });
-          }
-          function toggleListHeading(calendar) {
-            var current = $(calendar).find(".simcal-current"), heading = $(calendar).find(".simcal-events-list-container"), small = heading.data("heading-small"), large = heading.data("heading-large"), newHeading = $("<h3 />");
-            if (calendar.width() < 400) {
-              newHeading.text(small);
-            } else {
-              newHeading.text(large);
-            }
-            current.html(newHeading);
-          }
-          var gridCalendars = $(".simcal-default-calendar-grid");
-          function calendarBubbles(calendar) {
-            var table = $(calendar).find("> table"), thead = table.find("thead"), weekDayNames = thead.find("th.simcal-week-day"), cells = table.find("td.simcal-day > div"), eventsList = table.find("ul.simcal-events"), eventTitles = eventsList.find("> li > .simcal-event-title"), eventsToggle = table.find(".simcal-events-toggle"), eventsDots = table.find("span.simcal-events-dots"), events = table.find(".simcal-tooltip-content"), hiddenEvents = table.find(".simcal-event-toggled"), bubbleTrigger = table.data("event-bubble-trigger"), width = cells.first().width();
-            if (width < 60) {
-              weekDayNames.each(function(e, w) {
-                $(w).text($(w).data("screen-small"));
-              });
-              eventsList.hide();
-              eventTitles.hide();
-              if (eventsToggle != "undefined") {
-                eventsToggle.hide();
-                if (hiddenEvents != "undefined") {
-                  hiddenEvents.show();
-                }
-              }
-              eventsDots.show();
-              bubbleTrigger = "click";
-              var minH = width - 10 + "px";
-              cells.css("min-height", minH);
-              table.find("span.simcal-events-dots:not(:empty)").css("min-height", minH);
-            } else {
-              if (width <= 240) {
-                weekDayNames.each(function(e, w) {
-                  $(w).text($(w).data("screen-medium"));
-                });
-              } else {
-                weekDayNames.each(function(e, w) {
-                  $(w).text($(w).data("screen-large"));
-                });
-              }
-              eventsList.show();
-              eventTitles.show();
-              if (eventsToggle != "undefined") {
-                eventsToggle.show();
-                if (hiddenEvents != "undefined") {
-                  hiddenEvents.hide();
-                }
-              }
-              eventsDots.hide();
-              cells.css("min-height", width + "px");
-            }
-            cells.each(function(e, cell) {
-              var cellDots = $(cell).find("span.simcal-events-dots"), tooltips = $(cell).find(".simcal-tooltip"), eventBubbles, content, last;
-              if (width < 60) {
-                events.show();
-                eventBubbles = cellDots;
-              } else {
-                events.hide();
-                eventBubbles = tooltips;
-              }
-              eventBubbles.each(function(e2, i) {
-                $(i).qtip({
-                  content: width < 60 ? $(cell).find("ul.simcal-events") : $(i).find("> .simcal-tooltip-content"),
-                  position: {
-                    my: "top center",
-                    at: "bottom center",
-                    target: $(i),
-                    viewport: width < 60 ? $(window) : true,
-                    adjust: {
-                      method: "shift",
-                      scroll: false
-                    }
-                  },
-                  style: {
-                    def: false,
-                    classes: "simcal-default-calendar simcal-event-bubble"
-                  },
-                  show: {
-                    solo: true,
-                    effect: false,
-                    event: bubbleTrigger == "hover" ? "mouseenter" : "click"
-                  },
-                  hide: {
-                    fixed: true,
-                    effect: false,
-                    event: bubbleTrigger == "click" ? "unfocus" : "mouseleave",
-                    delay: 100
-                  },
-                  events: {
-                    show: function(event, current) {
-                      if (last && last.id) {
-                        if (last.id != current.id) {
-                          last.hide();
-                        }
-                      }
-                      last = current;
-                    }
-                  },
-                  overwrite: false
-                });
-              });
-            });
-          }
-          gridCalendars.each(function(e, calendar) {
-            calendarBubbles(calendar);
-            $(calendar).on("change", function() {
-              calendarBubbles(this);
-            });
-          });
-          window.onresize = function() {
-            gridCalendars.each(function(e, calendar) {
-              calendarBubbles(calendar);
-            });
-          };
-          function expandEventsToggle() {
-            $(".simcal-events-toggle").each(function(e, button) {
-              var list = $(button).prev(".simcal-events"), toggled = list.find(".simcal-event-toggled"), arrow = $(button).find("i");
-              $(button).on("click", function() {
-                arrow.toggleClass("simcal-icon-rotate-180");
-                toggled.slideToggle();
-              });
-            });
-          }
-          expandEventsToggle();
-        });
-      })(exports);
+  var import_dayjs = __toESM(require_dayjs_min());
+  var import_utc = __toESM(require_utc());
+  var import_timezone = __toESM(require_timezone());
+  $ = window.jQuery;
+  import_dayjs.default.extend(import_utc.default);
+  import_dayjs.default.extend(import_timezone.default);
+  $(".simcal-default-calendar").each(function(e, i) {
+    var calendar = $(i), id = calendar.data("calendar-id"), offset = calendar.data("offset"), start = calendar.data("events-first"), end = calendar.data("calendar-end"), nav = calendar.find(".simcal-calendar-head"), buttons = nav.find(".simcal-nav-button"), spinner = calendar.find(".simcal-ajax-loader"), current = nav.find(".simcal-current"), currentTime = current.data("calendar-current"), currentMonth = current.find("span.simcal-current-month"), currentYear = current.find("span.simcal-current-year"), currentDate = (0, import_dayjs.default)(currentTime * 1e3).tz(calendar.data("timezone")), date, action;
+    if (calendar.hasClass("simcal-default-calendar-grid")) {
+      action = "simcal_default_calendar_draw_grid";
+      date = new Date(currentDate.year(), currentDate.month());
+      toggleGridNavButtons(buttons, date.getTime() / 1e3, start, end);
+    } else {
+      action = "simcal_default_calendar_draw_list";
+      toggleListNavButtons(buttons, calendar, start, end, false, currentTime);
+      toggleListHeading(calendar);
     }
+    buttons.on("click", function() {
+      var direction = $(this).hasClass("simcal-next") ? "next" : "prev";
+      if (action == "simcal_default_calendar_draw_grid") {
+        var body = calendar.find(".simcal-month"), newDate, month, year;
+        if ("prev" == direction) {
+          newDate = new Date(date.setMonth(date.getMonth() - 1, 1));
+        } else {
+          newDate = new Date(date.setMonth(date.getMonth() + 2, 1));
+          newDate.setDate(0);
+          newDate.setHours(23);
+          newDate.setMinutes(59);
+          newDate.setSeconds(59);
+        }
+        month = newDate.getMonth();
+        year = newDate.getFullYear();
+        $.ajax({
+          url: simcal_default_calendar.ajax_url,
+          type: "POST",
+          dataType: "json",
+          cache: false,
+          data: {
+            action,
+            month: month + 1,
+            // month count in PHP goes 1-12 vs 0-11 in JavaScript
+            year,
+            id
+          },
+          beforeSend: function() {
+            spinner.fadeToggle();
+          },
+          success: function(response) {
+            currentMonth.text(simcal_default_calendar.months.full[month]);
+            currentYear.text(year);
+            current.attr(
+              "data-calendar-current",
+              newDate.getTime() / 1e3 + offset + 1
+            );
+            toggleGridNavButtons(buttons, newDate.getTime() / 1e3, start, end);
+            spinner.fadeToggle();
+            date = newDate;
+            body.replaceWith(response.data);
+            calendarBubbles(calendar, list);
+            expandEventsToggle();
+          },
+          error: function(response) {
+            console.log(response);
+          }
+        });
+      } else {
+        var list = calendar.find(".simcal-events-list-container"), prev = list.data("prev"), next = list.data("next"), timestamp = direction == "prev" ? prev : next;
+        $.ajax({
+          url: simcal_default_calendar.ajax_url,
+          type: "POST",
+          dataType: "json",
+          cache: false,
+          data: {
+            action,
+            ts: timestamp,
+            id
+          },
+          beforeSend: function() {
+            spinner.fadeToggle();
+          },
+          success: function(response) {
+            list.replaceWith(response.data);
+            current.attr("data-calendar-current", timestamp);
+            toggleListHeading(calendar);
+            toggleListNavButtons(
+              buttons,
+              calendar,
+              start,
+              end,
+              direction,
+              timestamp
+            );
+            spinner.fadeToggle();
+            expandEventsToggle();
+          },
+          error: function(response) {
+            console.log(response);
+          }
+        });
+      }
+    });
   });
-  require_default_calendar();
+  function toggleGridNavButtons(buttons, time, min, max) {
+    buttons.each(function(e, i) {
+      var button = $(i), month = new Date(time * 1e3);
+      if (button.hasClass("simcal-prev")) {
+        month = new Date(month.setMonth(month.getMonth(), 1));
+        month.setDate(0);
+        if (month.getTime() / 1e3 <= min) {
+          button.attr("disabled", "disabled");
+        } else {
+          button.removeAttr("disabled");
+        }
+      } else {
+        month = new Date(month.setMonth(month.getMonth() + 1, 1));
+        month.setDate(0);
+        month.setHours(23);
+        month.setMinutes(59);
+        month.setSeconds(59);
+        if (month.getTime() / 1e3 >= max) {
+          button.attr("disabled", "disabled");
+        } else {
+          button.removeAttr("disabled");
+        }
+      }
+    });
+  }
+  function toggleListNavButtons(buttons, calendar, start, end, direction, currentTime) {
+    var list = calendar.find(".simcal-events-list-container"), prev = list.data("prev"), next = list.data("next"), last_event = list.find("li.simcal-event:last").data("start");
+    buttons.each(function(e, b) {
+      var button = $(b);
+      if (direction) {
+        if (button.hasClass("simcal-prev")) {
+          if (direction == "prev") {
+            if (prev <= start && currentTime <= start) {
+              button.attr("disabled", "disabled");
+            }
+          } else {
+            button.removeAttr("disabled");
+          }
+        } else if (button.hasClass("simcal-next")) {
+          if (direction == "next") {
+            if (next >= end && currentTime >= end || last_event >= end) {
+              button.attr("disabled", "disabled");
+            }
+          } else {
+            button.removeAttr("disabled");
+          }
+        }
+      } else {
+        if (button.hasClass("simcal-prev")) {
+          if (prev <= start && currentTime <= start) {
+            button.attr("disabled", "disabled");
+          }
+        } else if (button.hasClass("simcal-next")) {
+          if (next >= end && currentTime >= end || last_event >= end) {
+            button.attr("disabled", "disabled");
+          }
+        }
+      }
+    });
+  }
+  function toggleListHeading(calendar) {
+    var current = $(calendar).find(".simcal-current"), heading = $(calendar).find(".simcal-events-list-container"), small = heading.data("heading-small"), large = heading.data("heading-large"), newHeading = $("<h3 />");
+    if (calendar.width() < 400) {
+      newHeading.text(small);
+    } else {
+      newHeading.text(large);
+    }
+    current.html(newHeading);
+  }
+  var gridCalendars = $(".simcal-default-calendar-grid");
+  function calendarBubbles(calendar) {
+    var table = $(calendar).find("> table"), thead = table.find("thead"), weekDayNames = thead.find("th.simcal-week-day"), cells = table.find("td.simcal-day > div"), eventsList = table.find("ul.simcal-events"), eventTitles = eventsList.find("> li > .simcal-event-title"), eventsToggle = table.find(".simcal-events-toggle"), eventsDots = table.find("span.simcal-events-dots"), events = table.find(".simcal-tooltip-content"), hiddenEvents = table.find(".simcal-event-toggled"), bubbleTrigger = table.data("event-bubble-trigger"), width = cells.first().width();
+    if (width < 60) {
+      weekDayNames.each(function(e, w) {
+        $(w).text($(w).data("screen-small"));
+      });
+      eventsList.hide();
+      eventTitles.hide();
+      if (eventsToggle != "undefined") {
+        eventsToggle.hide();
+        if (hiddenEvents != "undefined") {
+          hiddenEvents.show();
+        }
+      }
+      eventsDots.show();
+      bubbleTrigger = "click";
+      var minH = width - 10 + "px";
+      cells.css("min-height", minH);
+      table.find("span.simcal-events-dots:not(:empty)").css("min-height", minH);
+    } else {
+      if (width <= 240) {
+        weekDayNames.each(function(e, w) {
+          $(w).text($(w).data("screen-medium"));
+        });
+      } else {
+        weekDayNames.each(function(e, w) {
+          $(w).text($(w).data("screen-large"));
+        });
+      }
+      eventsList.show();
+      eventTitles.show();
+      if (eventsToggle != "undefined") {
+        eventsToggle.show();
+        if (hiddenEvents != "undefined") {
+          hiddenEvents.hide();
+        }
+      }
+      eventsDots.hide();
+      cells.css("min-height", width + "px");
+    }
+    cells.each(function(e, cell) {
+      var cellDots = $(cell).find("span.simcal-events-dots"), tooltips = $(cell).find(".simcal-tooltip"), eventBubbles, content, last;
+      if (width < 60) {
+        events.show();
+        eventBubbles = cellDots;
+      } else {
+        events.hide();
+        eventBubbles = tooltips;
+      }
+      eventBubbles.each(function(e2, i) {
+        $(i).qtip({
+          content: width < 60 ? $(cell).find("ul.simcal-events") : $(i).find("> .simcal-tooltip-content"),
+          position: {
+            my: "top center",
+            at: "bottom center",
+            target: $(i),
+            viewport: width < 60 ? $(window) : true,
+            adjust: {
+              method: "shift",
+              scroll: false
+            }
+          },
+          style: {
+            def: false,
+            classes: "simcal-default-calendar simcal-event-bubble"
+          },
+          show: {
+            solo: true,
+            effect: false,
+            event: bubbleTrigger == "hover" ? "mouseenter" : "click"
+          },
+          hide: {
+            fixed: true,
+            effect: false,
+            event: bubbleTrigger == "click" ? "unfocus" : "mouseleave",
+            delay: 100
+          },
+          events: {
+            show: function(event, current) {
+              if (last && last.id) {
+                if (last.id != current.id) {
+                  last.hide();
+                }
+              }
+              last = current;
+            }
+          },
+          overwrite: false
+        });
+      });
+    });
+  }
+  gridCalendars.each(function(e, calendar) {
+    calendarBubbles(calendar);
+    $(calendar).on("change", function() {
+      calendarBubbles(this);
+    });
+  });
+  window.onresize = function() {
+    gridCalendars.each(function(e, calendar) {
+      calendarBubbles(calendar);
+    });
+  };
+  function expandEventsToggle() {
+    $(".simcal-events-toggle").each(function(e, button) {
+      var list = $(button).prev(".simcal-events"), toggled = list.find(".simcal-event-toggled"), arrow = $(button).find("i");
+      $(button).on("click", function() {
+        arrow.toggleClass("simcal-icon-rotate-180");
+        toggled.slideToggle();
+      });
+    });
+  }
+  expandEventsToggle();
 })();
 //# sourceMappingURL=default-calendar-bundled.js.map
