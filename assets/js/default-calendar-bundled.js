@@ -1,4 +1,4 @@
-/*! Simple Calendar - 3.1.39
+/*! Simple Calendar - 3.1.41
  * https://simplecalendar.io
  * Copyright (c) Xtendify Technologies 2023
  * Licensed GPLv2+ */
@@ -395,289 +395,291 @@
   });
 
   // assets/js/default-calendar.js
-  var require_default_calendar = __commonJS({
-    "assets/js/default-calendar.js"(exports) {
-      var import_dayjs = __toESM(require_dayjs_min());
-      var import_utc = __toESM(require_utc());
-      var import_timezone = __toESM(require_timezone());
-      (function(window, undefined) {
-        "use strict";
-        import_dayjs.default.extend(import_utc.default);
-        import_dayjs.default.extend(import_timezone.default);
-        jQuery(function($) {
-          $(".simcal-default-calendar").each(function(e, i) {
-            var calendar = $(i), id = calendar.data("calendar-id"), offset = calendar.data("offset"), start = calendar.data("events-first"), end = calendar.data("calendar-end"), nav = calendar.find(".simcal-calendar-head"), buttons = nav.find(".simcal-nav-button"), spinner = calendar.find(".simcal-ajax-loader"), current = nav.find(".simcal-current"), currentTime = current.data("calendar-current"), currentMonth = current.find("span.simcal-current-month"), currentYear = current.find("span.simcal-current-year"), currentDate = (0, import_dayjs.default)(currentTime * 1e3).tz(calendar.data("timezone")), date, action;
-            if (calendar.hasClass("simcal-default-calendar-grid")) {
-              action = "simcal_default_calendar_draw_grid";
-              date = new Date(currentDate.year(), currentDate.month());
-              toggleGridNavButtons(buttons, date.getTime() / 1e3, start, end);
-            } else {
-              action = "simcal_default_calendar_draw_list";
-              toggleListNavButtons(buttons, calendar, start, end, false, currentTime);
+  var import_dayjs = __toESM(require_dayjs_min());
+  var import_utc = __toESM(require_utc());
+  var import_timezone = __toESM(require_timezone());
+  import_dayjs.default.extend(import_utc.default);
+  import_dayjs.default.extend(import_timezone.default);
+  jQuery(function($) {
+    $(".simcal-default-calendar").each(function(e, i) {
+      var calendar = $(i), id = calendar.data("calendar-id"), offset = calendar.data("offset"), start = calendar.data("events-first"), end = calendar.data("calendar-end"), nav = calendar.find(".simcal-calendar-head"), buttons = nav.find(".simcal-nav-button"), spinner = calendar.find(".simcal-ajax-loader"), current = nav.find(".simcal-current"), currentTime = current.data("calendar-current"), currentMonth = current.find("span.simcal-current-month"), currentYear = current.find("span.simcal-current-year"), currentDate = (0, import_dayjs.default)(currentTime * 1e3).tz(calendar.data("timezone")), date, action;
+      if (calendar.hasClass("simcal-default-calendar-grid")) {
+        action = "simcal_default_calendar_draw_grid";
+        date = new Date(currentDate.year(), currentDate.month());
+        toggleGridNavButtons(buttons, date.getTime() / 1e3, start, end);
+      } else {
+        action = "simcal_default_calendar_draw_list";
+        toggleListNavButtons(buttons, calendar, start, end, false, currentTime);
+        toggleListHeading(calendar);
+      }
+      buttons.on("click", function() {
+        var direction = $(this).hasClass("simcal-next") ? "next" : "prev";
+        if (action == "simcal_default_calendar_draw_grid") {
+          var body = calendar.find(".simcal-month"), newDate, month, year;
+          if ("prev" == direction) {
+            newDate = new Date(date.setMonth(date.getMonth() - 1, 1));
+          } else {
+            newDate = new Date(date.setMonth(date.getMonth() + 2, 1));
+            newDate.setDate(0);
+            newDate.setHours(23);
+            newDate.setMinutes(59);
+            newDate.setSeconds(59);
+          }
+          month = newDate.getMonth();
+          year = newDate.getFullYear();
+          $.ajax({
+            url: simcal_default_calendar.ajax_url,
+            type: "POST",
+            dataType: "json",
+            cache: false,
+            data: {
+              action,
+              month: month + 1,
+              // month count in PHP goes 1-12 vs 0-11 in JavaScript
+              year,
+              id
+            },
+            beforeSend: function() {
+              spinner.fadeToggle();
+            },
+            success: function(response) {
+              currentMonth.text(simcal_default_calendar.months.full[month]);
+              currentYear.text(year);
+              current.attr(
+                "data-calendar-current",
+                newDate.getTime() / 1e3 + offset + 1
+              );
+              toggleGridNavButtons(buttons, newDate.getTime() / 1e3, start, end);
+              spinner.fadeToggle();
+              date = newDate;
+              body.replaceWith(response.data);
+              calendarBubbles(calendar, list);
+              expandEventsToggle();
+            },
+            error: function(response) {
+              console.log(response);
+            }
+          });
+        } else {
+          var list = calendar.find(".simcal-events-list-container"), prev = list.data("prev"), next = list.data("next"), timestamp = direction == "prev" ? prev : next;
+          $.ajax({
+            url: simcal_default_calendar.ajax_url,
+            type: "POST",
+            dataType: "json",
+            cache: false,
+            data: {
+              action,
+              ts: timestamp,
+              id
+            },
+            beforeSend: function() {
+              spinner.fadeToggle();
+            },
+            success: function(response) {
+              list.replaceWith(response.data);
+              current.attr("data-calendar-current", timestamp);
               toggleListHeading(calendar);
+              toggleListNavButtons(
+                buttons,
+                calendar,
+                start,
+                end,
+                direction,
+                timestamp
+              );
+              spinner.fadeToggle();
+              expandEventsToggle();
+            },
+            error: function(response) {
+              console.log(response);
             }
-            buttons.on("click", function() {
-              var direction = $(this).hasClass("simcal-next") ? "next" : "prev";
-              if (action == "simcal_default_calendar_draw_grid") {
-                var body = calendar.find(".simcal-month"), newDate, month, year;
-                if ("prev" == direction) {
-                  newDate = new Date(date.setMonth(date.getMonth() - 1, 1));
-                } else {
-                  newDate = new Date(date.setMonth(date.getMonth() + 2, 1));
-                  newDate.setDate(0);
-                  newDate.setHours(23);
-                  newDate.setMinutes(59);
-                  newDate.setSeconds(59);
-                }
-                month = newDate.getMonth();
-                year = newDate.getFullYear();
-                $.ajax({
-                  url: simcal_default_calendar.ajax_url,
-                  type: "POST",
-                  dataType: "json",
-                  cache: false,
-                  data: {
-                    action,
-                    month: month + 1,
-                    // month count in PHP goes 1-12 vs 0-11 in JavaScript
-                    year,
-                    id
-                  },
-                  beforeSend: function() {
-                    spinner.fadeToggle();
-                  },
-                  success: function(response) {
-                    currentMonth.text(simcal_default_calendar.months.full[month]);
-                    currentYear.text(year);
-                    current.attr("data-calendar-current", newDate.getTime() / 1e3 + offset + 1);
-                    toggleGridNavButtons(buttons, newDate.getTime() / 1e3, start, end);
-                    spinner.fadeToggle();
-                    date = newDate;
-                    body.replaceWith(response.data);
-                    calendarBubbles(calendar, list);
-                    expandEventsToggle();
-                  },
-                  error: function(response) {
-                    console.log(response);
-                  }
-                });
-              } else {
-                var list = calendar.find(".simcal-events-list-container"), prev = list.data("prev"), next = list.data("next"), timestamp = direction == "prev" ? prev : next;
-                $.ajax({
-                  url: simcal_default_calendar.ajax_url,
-                  type: "POST",
-                  dataType: "json",
-                  cache: false,
-                  data: {
-                    action,
-                    ts: timestamp,
-                    id
-                  },
-                  beforeSend: function() {
-                    spinner.fadeToggle();
-                  },
-                  success: function(response) {
-                    list.replaceWith(response.data);
-                    current.attr("data-calendar-current", timestamp);
-                    toggleListHeading(calendar);
-                    toggleListNavButtons(buttons, calendar, start, end, direction, timestamp);
-                    spinner.fadeToggle();
-                    expandEventsToggle();
-                  },
-                  error: function(response) {
-                    console.log(response);
-                  }
-                });
-              }
-            });
           });
-          function toggleGridNavButtons(buttons, time, min, max) {
-            buttons.each(function(e, i) {
-              var button = $(i), month = new Date(time * 1e3);
-              if (button.hasClass("simcal-prev")) {
-                month = new Date(month.setMonth(month.getMonth(), 1));
-                month.setDate(0);
-                if (month.getTime() / 1e3 <= min) {
-                  button.attr("disabled", "disabled");
-                } else {
-                  button.removeAttr("disabled");
-                }
-              } else {
-                month = new Date(month.setMonth(month.getMonth() + 1, 1));
-                month.setDate(0);
-                month.setHours(23);
-                month.setMinutes(59);
-                month.setSeconds(59);
-                if (month.getTime() / 1e3 >= max) {
-                  button.attr("disabled", "disabled");
-                } else {
-                  button.removeAttr("disabled");
-                }
-              }
-            });
+        }
+      });
+    });
+    function toggleGridNavButtons(buttons, time, min, max) {
+      buttons.each(function(e, i) {
+        var button = $(i), month = new Date(time * 1e3);
+        if (button.hasClass("simcal-prev")) {
+          month = new Date(month.setMonth(month.getMonth(), 1));
+          month.setDate(0);
+          if (month.getTime() / 1e3 <= min) {
+            button.attr("disabled", "disabled");
+          } else {
+            button.removeAttr("disabled");
           }
-          function toggleListNavButtons(buttons, calendar, start, end, direction, currentTime) {
-            var list = calendar.find(".simcal-events-list-container"), prev = list.data("prev"), next = list.data("next"), last_event = list.find("li.simcal-event:last").data("start");
-            buttons.each(function(e, b) {
-              var button = $(b);
-              if (direction) {
-                if (button.hasClass("simcal-prev")) {
-                  if (direction == "prev") {
-                    if (prev <= start && currentTime <= start) {
-                      button.attr("disabled", "disabled");
-                    }
-                  } else {
-                    button.removeAttr("disabled");
-                  }
-                } else if (button.hasClass("simcal-next")) {
-                  if (direction == "next") {
-                    if (next >= end && currentTime >= end || last_event >= end) {
-                      button.attr("disabled", "disabled");
-                    }
-                  } else {
-                    button.removeAttr("disabled");
-                  }
-                }
-              } else {
-                if (button.hasClass("simcal-prev")) {
-                  if (prev <= start && currentTime <= start) {
-                    button.attr("disabled", "disabled");
-                  }
-                } else if (button.hasClass("simcal-next")) {
-                  if (next >= end && currentTime >= end || last_event >= end) {
-                    button.attr("disabled", "disabled");
-                  }
-                }
-              }
-            });
+        } else {
+          month = new Date(month.setMonth(month.getMonth() + 1, 1));
+          month.setDate(0);
+          month.setHours(23);
+          month.setMinutes(59);
+          month.setSeconds(59);
+          if (month.getTime() / 1e3 >= max) {
+            button.attr("disabled", "disabled");
+          } else {
+            button.removeAttr("disabled");
           }
-          function toggleListHeading(calendar) {
-            var current = $(calendar).find(".simcal-current"), heading = $(calendar).find(".simcal-events-list-container"), small = heading.data("heading-small"), large = heading.data("heading-large"), newHeading = $("<h3 />");
-            if (calendar.width() < 400) {
-              newHeading.text(small);
-            } else {
-              newHeading.text(large);
-            }
-            current.html(newHeading);
-          }
-          var gridCalendars = $(".simcal-default-calendar-grid");
-          function calendarBubbles(calendar) {
-            var table = $(calendar).find("> table"), thead = table.find("thead"), weekDayNames = thead.find("th.simcal-week-day"), cells = table.find("td.simcal-day > div"), eventsList = table.find("ul.simcal-events"), eventTitles = eventsList.find("> li > .simcal-event-title"), eventsToggle = table.find(".simcal-events-toggle"), eventsDots = table.find("span.simcal-events-dots"), events = table.find(".simcal-tooltip-content"), hiddenEvents = table.find(".simcal-event-toggled"), bubbleTrigger = table.data("event-bubble-trigger"), width = cells.first().width();
-            if (width < 60) {
-              weekDayNames.each(function(e, w) {
-                $(w).text($(w).data("screen-small"));
-              });
-              eventsList.hide();
-              eventTitles.hide();
-              if (eventsToggle != "undefined") {
-                eventsToggle.hide();
-                if (hiddenEvents != "undefined") {
-                  hiddenEvents.show();
-                }
-              }
-              eventsDots.show();
-              bubbleTrigger = "click";
-              var minH = width - 10 + "px";
-              cells.css("min-height", minH);
-              table.find("span.simcal-events-dots:not(:empty)").css("min-height", minH);
-            } else {
-              if (width <= 240) {
-                weekDayNames.each(function(e, w) {
-                  $(w).text($(w).data("screen-medium"));
-                });
-              } else {
-                weekDayNames.each(function(e, w) {
-                  $(w).text($(w).data("screen-large"));
-                });
-              }
-              eventsList.show();
-              eventTitles.show();
-              if (eventsToggle != "undefined") {
-                eventsToggle.show();
-                if (hiddenEvents != "undefined") {
-                  hiddenEvents.hide();
-                }
-              }
-              eventsDots.hide();
-              cells.css("min-height", width + "px");
-            }
-            cells.each(function(e, cell) {
-              var cellDots = $(cell).find("span.simcal-events-dots"), tooltips = $(cell).find(".simcal-tooltip"), eventBubbles, content, last;
-              if (width < 60) {
-                events.show();
-                eventBubbles = cellDots;
-              } else {
-                events.hide();
-                eventBubbles = tooltips;
-              }
-              eventBubbles.each(function(e2, i) {
-                $(i).qtip({
-                  content: width < 60 ? $(cell).find("ul.simcal-events") : $(i).find("> .simcal-tooltip-content"),
-                  position: {
-                    my: "top center",
-                    at: "bottom center",
-                    target: $(i),
-                    viewport: width < 60 ? $(window) : true,
-                    adjust: {
-                      method: "shift",
-                      scroll: false
-                    }
-                  },
-                  style: {
-                    def: false,
-                    classes: "simcal-default-calendar simcal-event-bubble"
-                  },
-                  show: {
-                    solo: true,
-                    effect: false,
-                    event: bubbleTrigger == "hover" ? "mouseenter" : "click"
-                  },
-                  hide: {
-                    fixed: true,
-                    effect: false,
-                    event: bubbleTrigger == "click" ? "unfocus" : "mouseleave",
-                    delay: 100
-                  },
-                  events: {
-                    show: function(event, current) {
-                      if (last && last.id) {
-                        if (last.id != current.id) {
-                          last.hide();
-                        }
-                      }
-                      last = current;
-                    }
-                  },
-                  overwrite: false
-                });
-              });
-            });
-          }
-          gridCalendars.each(function(e, calendar) {
-            calendarBubbles(calendar);
-            $(calendar).on("change", function() {
-              calendarBubbles(this);
-            });
-          });
-          window.onresize = function() {
-            gridCalendars.each(function(e, calendar) {
-              calendarBubbles(calendar);
-            });
-          };
-          function expandEventsToggle() {
-            $(".simcal-events-toggle").each(function(e, button) {
-              var list = $(button).prev(".simcal-events"), toggled = list.find(".simcal-event-toggled"), arrow = $(button).find("i");
-              $(button).on("click", function() {
-                arrow.toggleClass("simcal-icon-rotate-180");
-                toggled.slideToggle();
-              });
-            });
-          }
-          expandEventsToggle();
-        });
-      })(exports);
+        }
+      });
     }
+    function toggleListNavButtons(buttons, calendar, start, end, direction, currentTime) {
+      var list = calendar.find(".simcal-events-list-container"), prev = list.data("prev"), next = list.data("next"), last_event = list.find("li.simcal-event:last").data("start");
+      buttons.each(function(e, b) {
+        var button = $(b);
+        if (direction) {
+          if (button.hasClass("simcal-prev")) {
+            if (direction == "prev") {
+              if (prev <= start && currentTime <= start) {
+                button.attr("disabled", "disabled");
+              }
+            } else {
+              button.removeAttr("disabled");
+            }
+          } else if (button.hasClass("simcal-next")) {
+            if (direction == "next") {
+              if (next >= end && currentTime >= end || last_event >= end) {
+                button.attr("disabled", "disabled");
+              }
+            } else {
+              button.removeAttr("disabled");
+            }
+          }
+        } else {
+          if (button.hasClass("simcal-prev")) {
+            if (prev <= start && currentTime <= start) {
+              button.attr("disabled", "disabled");
+            }
+          } else if (button.hasClass("simcal-next")) {
+            if (next >= end && currentTime >= end || last_event >= end) {
+              button.attr("disabled", "disabled");
+            }
+          }
+        }
+      });
+    }
+    function toggleListHeading(calendar) {
+      var current = $(calendar).find(".simcal-current"), heading = $(calendar).find(".simcal-events-list-container"), small = heading.data("heading-small"), large = heading.data("heading-large"), newHeading = $("<h3 />");
+      if (calendar.width() < 400) {
+        newHeading.text(small);
+      } else {
+        newHeading.text(large);
+      }
+      current.html(newHeading);
+    }
+    var gridCalendars = $(".simcal-default-calendar-grid");
+    function calendarBubbles(calendar) {
+      var table = $(calendar).find("> table"), thead = table.find("thead"), weekDayNames = thead.find("th.simcal-week-day"), cells = table.find("td.simcal-day > div"), eventsList = table.find("ul.simcal-events"), eventTitles = eventsList.find("> li > .simcal-event-title"), eventsToggle = table.find(".simcal-events-toggle"), eventsDots = table.find("span.simcal-events-dots"), events = table.find(".simcal-tooltip-content"), hiddenEvents = table.find(".simcal-event-toggled"), bubbleTrigger = table.data("event-bubble-trigger"), width = cells.first().width();
+      if (width < 60) {
+        weekDayNames.each(function(e, w) {
+          $(w).text($(w).data("screen-small"));
+        });
+        eventsList.hide();
+        eventTitles.hide();
+        if (eventsToggle != "undefined") {
+          eventsToggle.hide();
+          if (hiddenEvents != "undefined") {
+            hiddenEvents.show();
+          }
+        }
+        eventsDots.show();
+        bubbleTrigger = "click";
+        var minH = width - 10 + "px";
+        cells.css("min-height", minH);
+        table.find("span.simcal-events-dots:not(:empty)").css("min-height", minH);
+      } else {
+        if (width <= 240) {
+          weekDayNames.each(function(e, w) {
+            $(w).text($(w).data("screen-medium"));
+          });
+        } else {
+          weekDayNames.each(function(e, w) {
+            $(w).text($(w).data("screen-large"));
+          });
+        }
+        eventsList.show();
+        eventTitles.show();
+        if (eventsToggle != "undefined") {
+          eventsToggle.show();
+          if (hiddenEvents != "undefined") {
+            hiddenEvents.hide();
+          }
+        }
+        eventsDots.hide();
+        cells.css("min-height", width + "px");
+      }
+      cells.each(function(e, cell) {
+        var cellDots = $(cell).find("span.simcal-events-dots"), tooltips = $(cell).find(".simcal-tooltip"), eventBubbles, content, last;
+        if (width < 60) {
+          events.show();
+          eventBubbles = cellDots;
+        } else {
+          events.hide();
+          eventBubbles = tooltips;
+        }
+        eventBubbles.each(function(e2, i) {
+          $(i).qtip({
+            content: width < 60 ? $(cell).find("ul.simcal-events") : $(i).find("> .simcal-tooltip-content"),
+            position: {
+              my: "top center",
+              at: "bottom center",
+              target: $(i),
+              viewport: width < 60 ? $(window) : true,
+              adjust: {
+                method: "shift",
+                scroll: false
+              }
+            },
+            style: {
+              def: false,
+              classes: "simcal-default-calendar simcal-event-bubble"
+            },
+            show: {
+              solo: true,
+              effect: false,
+              event: bubbleTrigger == "hover" ? "mouseenter" : "click"
+            },
+            hide: {
+              fixed: true,
+              effect: false,
+              event: bubbleTrigger == "click" ? "unfocus" : "mouseleave",
+              delay: 100
+            },
+            events: {
+              show: function(event, current) {
+                if (last && last.id) {
+                  if (last.id != current.id) {
+                    last.hide();
+                  }
+                }
+                last = current;
+              }
+            },
+            overwrite: false
+          });
+        });
+      });
+    }
+    gridCalendars.each(function(e, calendar) {
+      calendarBubbles(calendar);
+      $(calendar).on("change", function() {
+        calendarBubbles(this);
+      });
+    });
+    window.onresize = function() {
+      gridCalendars.each(function(e, calendar) {
+        calendarBubbles(calendar);
+      });
+    };
+    function expandEventsToggle() {
+      $(".simcal-events-toggle").each(function(e, button) {
+        var list = $(button).prev(".simcal-events"), toggled = list.find(".simcal-event-toggled"), arrow = $(button).find("i");
+        $(button).on("click", function() {
+          arrow.toggleClass("simcal-icon-rotate-180");
+          toggled.slideToggle();
+        });
+      });
+    }
+    expandEventsToggle();
   });
-  require_default_calendar();
 })();
 //# sourceMappingURL=default-calendar-bundled.js.map

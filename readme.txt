@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.1.41 =
+* Fix: Event bubbles not working on mobile devices.
+
 = 3.1.39 =
 * Fix: 'Class "Parsedown" not found' by adding `erusev/parsedown` via PHP Scoper.
 * Fix: Replaced Moment with [Dayjs](https://day.js.org/), it helps with speed and addresses security issues with the Moment library.
