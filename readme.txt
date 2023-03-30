@@ -98,7 +98,7 @@ We'd love your help! Here's a few things you can do:
 == Changelog ==
 
 = 3.1.42 =
-* Fix: Testing with WordPress version 6.2.
+* Dev: Testing with WordPress version 6.2.
 
 = 3.1.41 =
 * Fix: Event bubbles not working on mobile devices.
