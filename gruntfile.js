@@ -21,9 +21,14 @@ module.exports = function( grunt ) {
 		'!composer.lock',
 		'!contributing.md',
 		'!gruntfile.js',
+		'!renovate.json',
 		'!package.json',
+		'!package-lock.json',
 		'!readme.md',
-		'!**/*~'
+		'!*.dump-autoload',
+		'!scoper.inc.php',
+		'!**/*~',
+        '!vendor/**'
 	];
 
 	grunt.initConfig( {
@@ -39,7 +44,7 @@ module.exports = function( grunt ) {
 		// Create comment banner to add to the top of minified .js and .css files.
 		banner: '/*! <%= pkg.title %> - <%= pkg.version %>\n' +
 		        ' * <%=pkg.homepage %>\n' +
-		        ' * Copyright (c) Moonstone Media <%= grunt.template.today("yyyy") %>\n' +
+		        ' * Copyright (c) Xtendify Technologies <%= grunt.template.today("yyyy") %>\n' +
 		        ' * Licensed GPLv2+' +
 		        ' */\n',
 
@@ -152,7 +157,8 @@ module.exports = function( grunt ) {
 		jshint: {
 			options: {
 				ignores: [
-					'**/*.min.js'
+					'**/*.min.js',
+					'assets/js/default-calendar*',
 				]
 			},
 			all: [
@@ -185,12 +191,11 @@ module.exports = function( grunt ) {
 			all: {
 				files: {
 					'<%= dirs.js %>/admin.min.js': [ '<%= dirs.js %>/admin.js' ],
-					'<%= dirs.js %>/admin-add-calendar.min.js': [ '<%= dirs.js %>/admin-add-calendar.js' ],
-					'<%= dirs.js %>/default-calendar.min.js': [ '<%= dirs.js %>/default-calendar.js' ]
+					'<%= dirs.js %>/admin-add-calendar.min.js': [ '<%= dirs.js %>/admin-add-calendar.js' ]
 				},
 				options: {
 					mangle: {
-						except: [ 'jQuery' ]
+						reserved: [ 'jQuery' ]
 					},
 					sourceMap: false,
 					preserveComments: false
@@ -229,7 +234,7 @@ module.exports = function( grunt ) {
 
 	require( 'load-grunt-tasks' )( grunt );
 
-	grunt.registerTask( 'css', [ 'sass', 'copy:css', 'cssmin', 'usebanner:css' ] );
+	grunt.registerTask( 'css', [ 'copy:css', 'cssmin', 'usebanner:css' ] );
 	grunt.registerTask( 'js', [ 'jshint', 'copy:js', 'uglify', 'usebanner:js' ] );
 	grunt.registerTask( 'default', [ 'css', 'js' ] );
 	grunt.registerTask( 'build', [ 'default', 'checktextdomain', 'clean:build', 'copy:main', 'compress' ] );

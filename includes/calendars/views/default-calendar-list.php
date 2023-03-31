@@ -6,8 +6,8 @@
  */
 namespace SimpleCalendar\Calendars\Views;
 
-use Carbon\Carbon;
-use Mexitek\PHPColors\Color;
+use SimpleCalendar\plugin_deps\Carbon\Carbon;
+use SimpleCalendar\plugin_deps\Mexitek\PHPColors\Color;
 use SimpleCalendar\Abstracts\Calendar;
 use SimpleCalendar\Abstracts\Calendar_View;
 use SimpleCalendar\Calendars\Default_Calendar;
@@ -268,7 +268,8 @@ class Default_Calendar_List implements Calendar_View {
 		} elseif ( 'weekly' == $calendar->group_type ) {
 			$week = new Carbon( $calendar->timezone );
 			$week->setTimestamp( $timestamp );
-			$week->setWeekStartsAt( $calendar->week_starts );
+			//$week->setWeekStartsAt( $calendar->week_starts ); # DEPRECATED: Use startOfWeek() below...
+			$week->startOfWeek( $calendar->week_starts);
 			$this->prev = $prev->subWeeks( $span )->getTimestamp();
 			$this->next = $next->addWeeks( $span )->getTimestamp();
 		} elseif ( 'daily' == $calendar->group_type ) {
@@ -483,6 +484,25 @@ class Default_Calendar_List implements Calendar_View {
 	}
 
 	/**
+	 * Added sorting for events with the same start time to be sorted
+	 * alphabetically.
+	 *
+	 * @since  3.1.28
+	 * @access private
+	 */
+	private static function cmp( $a, $b ) {
+		if ($a->start == $b->start) {
+			if($a->title == $b->title) {
+				return 0;
+			}
+			return ($a->title < $b->title) ? -1 : 1;
+		}
+		else {
+			return ($a->start < $b->start) ? -1 : 1;
+		}
+	}
+
+	/**
 	 * Make a calendar list of events.
 	 *
 	 * Outputs a list of events according to events for the specified range.
@@ -523,9 +543,9 @@ class Default_Calendar_List implements Calendar_View {
 		}
 
 		echo '<' . $block_tag . ' class="simcal-events-list-container"' .
-			' data-prev="' . $this->prev . '"' .
-			' data-next="' . $this->next . '"' .
-			$data_heading . '>';
+		     ' data-prev="' . $this->prev . '"' .
+		     ' data-next="' . $this->next . '"' .
+		     $data_heading . '>';
 
 		if ( ! empty( $current_events ) && is_array( $current_events ) ) :
 
@@ -608,6 +628,8 @@ class Default_Calendar_List implements Calendar_View {
 				$count = 0;
 
 				foreach ( $events as $day_events ) :
+					usort($day_events, array($this,'cmp'));
+
 					foreach ( $day_events as $event ) :
 
 						if ( $event instanceof Event ) :
@@ -625,16 +647,16 @@ class Default_Calendar_List implements Calendar_View {
 							// Toggle some events visibility if more than optional limit.
 							if ( ( $calendar->events_limit > - 1 ) && ( $count >= $calendar->events_limit ) ) :
 								$event_classes .= ' simcal-event-toggled';
-								$event_visibility = ' style="display: none"';
+								$event_visibility = ' display: none;';
 							endif;
 
 							$event_color = $event->get_color();
 							if ( ! empty( $event_color ) ) {
 								$side = is_rtl() ? 'right' : 'left';
-								$event_color = ' style="border-' . $side . ': 4px solid ' . $event_color . '; padding-' . $side . ': 8px;"';
+								$event_color = ' border-' . $side . ': 4px solid ' . $event_color . '; padding-' . $side . ': 8px;';
 							}
 
-							$list_events .= "\t" . '<li class="' . $event_classes . '"' . $event_visibility . $event_color . ' itemscope itemtype="http://schema.org/Event" data-start="' . esc_attr( $event->start ) . '">' . "\n";
+							$list_events .= "\t" . '<li class="' . $event_classes . '" style="' . $event_visibility . $event_color . '" itemscope itemtype="http://schema.org/Event" data-start="' . esc_attr( $event->start ) . '">' . "\n";
 							$list_events .= "\t\t" . '<div class="simcal-event-details">' . $calendar->get_event_html( $event ) . '</div>' . "\n";
 							$list_events .= "\t" . '</li>' . "\n";
 

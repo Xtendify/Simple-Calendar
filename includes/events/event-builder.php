@@ -6,8 +6,9 @@
  */
 namespace SimpleCalendar\Events;
 
-use Carbon\Carbon;
+use SimpleCalendar\plugin_deps\Carbon\Carbon;
 use SimpleCalendar\Abstracts\Calendar;
+use SimpleCalendar\plugin_deps\Parsedown;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -68,7 +69,8 @@ class Event_Builder {
 	 * @return array
 	 */
 	public function get_content_tags() {
-		return array_merge( array(
+
+return array_merge( array(
 
 			/* ============ *
 			 * Content Tags *
@@ -177,6 +179,11 @@ class Event_Builder {
 			// If the event has ended (event could be any time in the past).
 			'if-not-ended',
 			// If the event has NOT ended (may as well as not started yet).
+
+			'if-today',
+			// If the event is taking place today
+			'if-not-today',
+			// If the event is NOT taking place today
 
 			'if-whole-day',
 			// If the event lasts the whole day.
@@ -409,7 +416,10 @@ class Event_Builder {
 
 					if ( $event->end_dt instanceof Carbon ) {
 						$end = $event->end_dt->setTimezone( $calendar->timezone )->getTimestamp();
+
 					} else {
+					simcal_log_error("NOT CARBON");
+
 						return '';
 					}
 
@@ -457,6 +467,22 @@ class Event_Builder {
 							}
 						}
 
+					}
+
+					break;
+
+				case 'if-today' :
+				case 'if-not-today' :
+					$start_dt   = $event->start_dt->setTimezone( $calendar->timezone );
+					$startOfDay = $start_dt->startOfDay()->getTimestamp();
+					$endOfDay   = $start_dt->endOfDay()->getTimestamp();
+
+					$today = ( $startOfDay <= $calendar->now ) && ( $calendar->now <= $endOfDay );
+
+					if ( ( 'if-today' == $tag ) && $today ) {
+						return $calendar->get_event_html( $event, $partial );
+					} elseif ( ( 'if-not-today' == $tag ) && ( false == $today ) ) {
+						return $calendar->get_event_html( $event, $partial );
 					}
 
 					break;
@@ -645,7 +671,7 @@ class Event_Builder {
 			if ( $allow_html ) {
 				$description = wp_kses_post( $description );
 			} elseif ( $allow_md ) {
-				$markdown    = new \Parsedown();
+				$markdown    = new Parsedown();
 				$description = $markdown->text( wp_strip_all_tags( $description ) );
 			}
 		} else {
@@ -687,23 +713,30 @@ class Event_Builder {
 
 		if ( ! $event->whole_day ) {
 
-			$time_start = $this->calendar->datetime_separator . ' <span class="simcal-event-start simcal-event-start-time" ' . 'data-event-start="' . $start_ts . '" ' . 'data-event-format="' . $this->calendar->time_format . '" ' . 'itemprop="startDate" content="' . $start_iso . '">' . date_i18n( $this->calendar->time_format, strtotime( $start->toDateTimeString() ) ) . '</span> ';
+			$time_start = $this->calendar->datetime_separator . '<span class="simcal-event-start simcal-event-start-time" ' . 'data-event-start="' . $start_ts . '" ' . 'data-event-format="' . $this->calendar->time_format . '" ' . 'itemprop="startDate" content="' . $start_iso . '">' . date_i18n( $this->calendar->time_format, strtotime( $start->toDateTimeString() ) ) . '</span>';
 
 			if ( $end instanceof Carbon ) {
 
-				$time_end = ' <span class="simcal-event-end simcal-event-end-time" ' . 'data-event-end="' . $end_ts . '" ' . 'data-event-format="' . $this->calendar->time_format . '" ' . 'itemprop="endDate" content="' . $end_iso . '">' . date_i18n( $this->calendar->time_format, strtotime( $end->toDateTimeString() ) ) . '</span> ';
+				$time_end = '<span class="simcal-event-end simcal-event-end-time" ' . 'data-event-end="' . $end_ts . '" ' . 'data-event-format="' . $this->calendar->time_format . '" ' . 'itemprop="endDate" content="' . $end_iso . '">' . date_i18n( $this->calendar->time_format, strtotime( $end->toDateTimeString() ) ) . '</span>';
 
+			}
+			else
+			{
+				simcal_log_error("NOT CARBON");
 			}
 
 		}
 
 		if ( $event->multiple_days ) {
 
-			$output = ' <span class="simcal-event-start simcal-event-start-date" ' . 'data-event-start="' . $start_ts . '" ' . 'data-event-format="' . $this->calendar->date_format . '" ' . 'itemprop="startDate" content="' . $start_iso . '">' . date_i18n( $this->calendar->date_format, strtotime( $start->toDateTimeString() ) ) . '</span> ' . $time_start;
+			$output = '<span class="simcal-event-start simcal-event-start-date" ' . 'data-event-start="' . $start_ts . '" ' . 'data-event-format="' . $this->calendar->date_format . '" ' . 'itemprop="startDate" content="' . $start_iso . '">' . date_i18n( $this->calendar->date_format, strtotime( $start->toDateTimeString() ) ) . '</span>' . $time_start;
 
 			if ( $end instanceof Carbon ) {
 
-				$output .= '-' . ' <span class="simcal-event-start simcal-event-end-date" ' . 'data-event-start="' . $end_ts . '" ' . 'data-event-format="' . $this->calendar->date_format . '" ' . 'itemprop="endDate" content="' . $end_iso . '">' . date_i18n( $this->calendar->date_format, strtotime( $end->toDateTimeString() ) ) . '</span> ' . $time_end;
+				$output .= ' - ' . '<span class="simcal-event-start simcal-event-end-date" ' . 'data-event-start="' . $end_ts . '" ' . 'data-event-format="' . $this->calendar->date_format . '" ' . 'itemprop="endDate" content="' . $end_iso . '">' . date_i18n( $this->calendar->date_format, strtotime( $end->toDateTimeString() ) ) . '</span>' . $this->calendar->datetime_separator . $time_end;
+			}
+			else{
+				simcal_log_error("NOT CARBON");
 			}
 
 		} else {
@@ -711,7 +744,7 @@ class Event_Builder {
 			$time_end = ! empty( $time_start ) && ! empty( $time_end ) ? ' - ' . $time_end : '';
 
 			// All-day events also need startDate for schema data.
-			$output = ' <span class="simcal-event-start simcal-event-start-date" ' . 'data-event-start="' . $start_ts . '" ' . 'data-event-format="' . $this->calendar->date_format . '" ' . 'itemprop="startDate" content="' . $start_iso . '">' . date_i18n( $this->calendar->date_format, strtotime( $start->toDateTimeString() ) ) . '</span> ' . $time_start . $time_end;
+			$output = '<span class="simcal-event-start simcal-event-start-date" ' . 'data-event-start="' . $start_ts . '" ' . 'data-event-format="' . $this->calendar->date_format . '" ' . 'itemprop="startDate" content="' . $start_iso . '">' . date_i18n( $this->calendar->date_format, strtotime( $start->toDateTimeString() ) ) . '</span>' . $time_start . $time_end;
 
 		}
 
@@ -741,8 +774,11 @@ class Event_Builder {
 		$dt = $bound . '_dt';
 
 		if ( ! $event->$dt instanceof Carbon ) {
-			return '';
+		simcal_log_error("NOT CARBON");
+
+		return '';
 		}
+
 
 		$event_dt = $event->$dt;
 
@@ -805,9 +841,21 @@ class Event_Builder {
 		), (array) shortcode_parse_atts( $attr ) );
 
 		$anchor = $tag != 'url' ? 'yes' : $attr['autolink'];
-		$target = $attr['newwindow'] !== false ? 'target="_blank"' : '';
+		$target = false !== $attr['newwindow'] ? 'target="_blank"' : '';
 
-		return $anchor !== false ? ' <a href="' . esc_url( $url ) . '" ' . $target . '>' . $text . '</a>' : ' ' . $text;
+		/**
+		 * Add additional event link attributes.
+		 *
+		 * @since 3.1.18
+		 *
+		 * @param string The additional link attributes.
+		 * @param array $attr The current shortcode attributes.
+		 *
+		 * @return string The modified additional link attributes.
+		 */
+		$additional_link_atts =  apply_filters( 'simcal_additional_event_link_attributes', '', $attr );
+
+		return false !== $anchor ? ' <a href="' . esc_url( $url ) . '" ' . wp_kses_post( $target ) . ' ' . wp_kses_post( $additional_link_atts ) . '>' . $text . '</a>' : ' ' . $text;
 	}
 
 	/**

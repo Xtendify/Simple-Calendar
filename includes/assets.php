@@ -128,6 +128,11 @@ class Assets {
 			}
 		}
 
+		// Prevent duplicate localization variables for default calendar.
+		if ( isset( $scripts[1]['simcal-default-calendar']['localize'] ) ) {
+			unset( $scripts[1]['simcal-default-calendar']['localize'] );
+		}
+
 		$this->get_widgets_assets();
 		$this->scripts = apply_filters( 'simcal_front_end_scripts', $scripts, $this->min );
 		// First check if there is a multi-dimensional array of scripts
@@ -170,10 +175,18 @@ class Assets {
 
 						if ( $view instanceof Calendar_View ) {
 							add_filter( 'simcal_front_end_scripts', function ( $scripts, $min ) use ( $view ) {
-								return array_merge( $scripts, $view->scripts( $min ) );
+								if ( is_array( $scripts ) ) {
+									return array_merge( $scripts, $view->scripts( $min ) );
+								} else {
+									return $view->scripts( $min );
+								}
 							}, 100, 2 );
 							add_filter( 'simcal_front_end_styles', function ( $styles, $min ) use ( $view ) {
-								return array_merge( $styles, $view->styles( $min ) );
+								if ( is_array( $styles ) ) {
+									return array_merge( $styles, $view->styles( $min ) );
+								} else {
+									return $view->styles( $min );
+								}
 							}, 100, 2 );
 						}
 
@@ -212,9 +225,10 @@ class Assets {
 					// TODO Rework dependencies part (or remove completely).
 
 					$src        = esc_url( $v['src'] );
-					$in_footer  = isset( $v['in_footer'] )   ? $v['in_footer']  : false;
+					$in_footer  = isset( $v['in_footer'] ) ? $v['in_footer'] : false;
+					$deps       = isset( $v['deps'] ) ? $v['deps'] : array();
 
-					wp_enqueue_script( $script, $src, array(), SIMPLE_CALENDAR_VERSION, $in_footer );
+					wp_enqueue_script( $script, $src, $deps, SIMPLE_CALENDAR_VERSION, $in_footer );
 
 					if ( ! empty( $v['localize'] ) && is_array( $v['localize'] ) ) {
 						foreach ( $v['localize'] as $object => $l10n ) {

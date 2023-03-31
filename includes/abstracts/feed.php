@@ -6,7 +6,7 @@
  */
 namespace SimpleCalendar\Abstracts;
 
-use Carbon\Carbon;
+use SimpleCalendar\plugin_deps\Carbon\Carbon;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;

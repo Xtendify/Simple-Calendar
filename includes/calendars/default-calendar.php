@@ -6,7 +6,7 @@
  */
 namespace SimpleCalendar\Calendars;
 
-use Carbon\Carbon;
+use SimpleCalendar\plugin_deps\Carbon\Carbon;
 use SimpleCalendar\Abstracts\Calendar;
 use SimpleCalendar\Abstracts\Calendar_View;
 use SimpleCalendar\Calendars\Admin\Default_Calendar_Admin;

@@ -1,5 +1,5 @@
 {
-  "name": "moonstonemedia/Simple-Calendar",
+  "name": "xtendify/simple-calendar",
   "description": "Add Google Calendar events to your WordPress site.",
   "homepage": "https://simplecalendar.io",
   "type": "wordpress-plugin",
@@ -12,28 +12,73 @@
   ],
   "authors": [
     {
-      "name": "Moonstone Media",
-      "email": "phil@moonstonemediagroup.com",
-      "homepage": "http://moonstonemediagroup.com/"
+      "name": "Simple Calendar",
+      "email": "rohit@simplecalendar.io",
+      "homepage": "https://simplecalendar.io/"
     }
   ],
   "support": {
-    "source": "https://github.com/moonstonemedia/Simple-Calendar/",
-    "issues": "https://github.com/moonstonemedia/Simple-Calendar/issues",
+    "source": "https://github.com/Xtendify/Simple-Calendar/",
+    "issues": "https://github.com/Xtendify/Simple-Calendar/issues",
     "forum": "https://wordpress.org/support/plugin/google-calendar-events"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "php": ">=5.3.3",
+    "php": ">=7.3.0",
     "ext-curl": "*",
     "ext-iconv": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
-    "composer/installers": "1.x",
-    "google/apiclient": "1.x",
-    "nesbot/carbon": "1.x",
+    "composer/installers": "2.x",
+    "google/apiclient": "2.9.2",
+    "nesbot/carbon": "2.66.0",
     "erusev/parsedown": "1.x",
-    "mexitek/phpcolors": "dev-master"
+    "mexitek/phpcolors": "dev-master",
+    "guzzlehttp/guzzle": "7.5.0",
+    "instituteweb/composer-scripts": "^1.0",
+    "google/apiclient-services": "0.13",
+    "symfony/polyfill-mbstring": "1.27.0"
+  },
+  "autoload": {
+    "files": [
+      "vendor/guzzlehttp/guzzle/src/functions_include.php",
+      "vendor/guzzlehttp/psr7/src/functions_include.php",
+      "vendor/guzzlehttp/promises/src/functions_include.php"
+    ]
+  },
+  "extra": {
+    "google/apiclient-services": [
+      "Calendar",
+      "Drive"
+    ]
+  },
+  "config": {
+    "platform": {
+      "php": "7.3"
+    },
+    "allow-plugins": {
+      "composer/installers": true
+    }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "Google\\Task\\Composer::cleanup",
+      "@prefix-dependencies"
+    ],
+    "post-update-cmd": [
+      "Google\\Task\\Composer::cleanup",
+      "@prefix-dependencies"
+    ],
+    "prefix-dependencies": [
+      "rm -rf php-scoper && mkdir php-scoper",
+      "cd php-scoper && composer init -q --name \"calendar/php_scoper\" && composer require humbug/php-scoper:0.17.7",
+      "\\InstituteWeb\\ComposerScripts\\ImprovedScriptExecution::apply",
+      "./php-scoper/vendor/bin/php-scoper add --output-dir=./third-party --force",
+      "cp composer.include.dump-autoload includes/composer.json && cd includes && composer dump-autoload --no-plugins -vvv --classmap-authoritative --no-interaction && rm composer.json",
+      "cp composer.third-party.dump-autoload third-party/composer.json && cd third-party && composer dump-autoload -vvv --no-plugins --classmap-authoritative --no-interaction && rm composer.json",
+      "cp vendor/composer/autoload_files.php third-party/vendor/composer/autoload_files.php",
+      "rm -rf php-scoper"
+    ]
   }
 }
