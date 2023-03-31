@@ -112,6 +112,62 @@ function simcal_get_calendar( $object ) {
 	$objects = \SimpleCalendar\plugin()->objects;
 	return $objects instanceof \SimpleCalendar\Objects ? $objects->get_calendar( $object ) : null;
 }
+/**
+ * Formats strings to ical standard
+ *
+ * @param string $s
+ *
+ * @return string
+ */
+function format_ical_string( $s ) {
+    $r = wordwrap(
+        preg_replace(
+            array( '/,/', '/;/', '/[\r\n]/' ),
+            array( '\,', '\;', '\n' ),
+            $s
+        ), 73, "\n", TRUE
+    );
+
+    // Indent all lines but first:
+    $r = preg_replace( '/\n/', "\n  ", $r );
+
+    return $r;
+}
+
+
+/**
+ * Compose and return a ics feed from the calendar
+ * @param  string|int|object|WP_Post $object
+ * @return void
+ *
+ */
+function simcal_draw_calendar_ics($post) {
+	$calendar = simcal_get_calendar($post);
+	$events = $calendar->events;
+	header('Content-Type:text/calendar');
+	$ics = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Wordpress/Simple-Calendar\r\n";
+
+	foreach($events as $eventarr) {
+		$event = $eventarr[0];
+		if(strpos($ics, $event->uid) == false) {
+			$ics .= "BEGIN:VEVENT\r\n";
+			$ics .="UID:" . $event->uid . "\r\n";
+			$ics .="DTSTAMP:" . $event->start_dt->format('Ymd\THis') . "\r\n";
+			$ics .= "ORGANIZER;CN=" . $event->source . ":MAILTO:".$event->source."\r\n";
+			$ics .= "DTSTART:" . $event->start_dt->format('Ymd\THis') . "\r\n";
+			$ics .= "DTEND:" . $event->end_dt->format('Ymd\THis') . "\r\n";
+			$ics.= "SUMMARY:" . format_ical_string($event->title) . "\r\n";
+			$ics .= "DESCRIPTION:" . format_ical_string($event->description) . "\r\n";
+			$ics .= "LOCATION:" . $event->start_location["name"] .';' . $event->start_location["address"] ."\r\n";
+			$ics .= "GEO:" . $event->start_location["lat"] . ';' . $event->start_location["lng"] . "\r\n";
+			$ics .= "END:VEVENT\r\n";
+		}
+
+	}
+
+	$ics .= 'END:VCALENDAR';
+	die($ics);
+}
 
 /**
  * Get a calendar view.
@@ -140,7 +196,6 @@ function simcal_get_calendar_view( $id = 0, $name = '' ) {
 function simcal_print_calendar( $object ) {
 
 	$calendar = simcal_get_calendar( $object );
-
 	if ( $calendar instanceof \SimpleCalendar\Abstracts\Calendar ) {
 		$calendar->html();
 	}
@@ -287,11 +342,11 @@ function simcal_default_event_template() {
 
 	$content  = '<strong>' . '[title]' . '</strong>';
 	$content .= "\n\n";
-	$content .= '[when]' . "\n";
+	$content .= '[when]' . "\r\n";
 	$content .= '[location]';
-	$content .= "\n";
+	$content .= "\r\n";
 	$content .= '<div>' . '[description]' . '</div>';
-	$content .= "\n" . '[link newwindow="yes"]' . __( 'See more details', 'google-calendar-events' ) . '[/link]';
+	$content .= "\r\n" . '[link newwindow="yes"]' . __( 'See more details', 'google-calendar-events' ) . '[/link]';
 
 	return apply_filters( 'simcal_default_event_template', $content );
 }
