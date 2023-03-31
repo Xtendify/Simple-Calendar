@@ -1,9 +1,10 @@
 === Simple Calendar - Google Calendar Plugin ===
-Contributors: simplecalendar, sureswiftcapital, pderksen, nickyoung87, nekojira, rosshanney
+Contributors: simplecalendar, rosinghal, pderksen, nickyoung87, nekojira, rosshanney
 Tags: google calendar, calendar, calendars, google, event calendar, custom calendar, custom calendars, event, events
 Requires at least: 4.2
-Tested up to: 4.9
-Stable tag: 3.1.11
+Requires PHP: 7.3
+Tested up to: 6.2
+Stable tag: 3.1.42
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,7 +27,7 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 * Integration with [Event Calendar Newsletter](https://wordpress.org/plugins/event-calendar-newsletter/) for quickly turning your events into a newsletter-friendly format.
 * Additional functionality offered with [add-ons](https://simplecalendar.io/addons/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description).
 * Translations available with more being added on a regular basis. [Translations welcome!](https://translate.wordpress.org/projects/wp-plugins/google-calendar-events)
-* Open source with code hosted on GitHub. [Contributions welcome!](https://github.com/moonstonemedia/Simple-Calendar)
+* Open source with code hosted on GitHub. [Contributions welcome!](https://github.com/Xtendify/Simple-Calendar)
 
 >**[Love using Simple Calendar? Consider purchasing a Premium Add-on](https://simplecalendar.io/addons/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)**
 
@@ -80,7 +81,7 @@ We'd love your help! Here's a few things you can do:
 
 * [Rate our plugin](https://wordpress.org/support/view/plugin-reviews/google-calendar-events?postform#postform) and help spread the word!
 * Help answer questions in our [community support forum](https://wordpress.org/support/plugin/google-calendar-events).
-* Report bugs (with steps to reproduce) or submit pull requests [on GitHub](https://github.com/moonstonemedia/Simple-Calendar).
+* Report bugs (with steps to reproduce) or submit pull requests [on GitHub](https://github.com/Xtendify/Simple-Calendar).
 * Help add or update a [plugin translation](https://translate.wordpress.org/projects/wp-plugins/google-calendar-events).
 
 == Screenshots ==
@@ -96,8 +97,98 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.1.11 - December 27, 2017 =
-* Dev: Update Google API Client libraries to v2. NOTE: Version 5.4+ for PHP now required.
+= 3.1.42 =
+* Dev: Testing with WordPress version 6.2.
+
+= 3.1.41 =
+* Fix: Event bubbles not working on mobile devices.
+
+= 3.1.39 =
+* Fix: 'Class "Parsedown" not found' by adding `erusev/parsedown` via PHP Scoper.
+* Fix: Replaced Moment with [Dayjs](https://day.js.org/), it helps with speed and addresses security issues with the Moment library.
+* Chore: Data type check for loading scripts and styles.
+* Chore: Upgraded NPM packages resolving security issues present with trim-newlines library.
+* Fix: Include unmodified assets in the build for a better debugging experience.
+* Fix: Multi-day events not showing properly. Shoutout to [MartinixH](https://github.com/MartinixH).
+
+= 3.1.38 =
+* Fix: Add PHP polyfill to fix "Call to undefined function str_contains()" error.
+* Fix: Update Google API client to v2.9.2.
+
+= 3.1.37 =
+* Dev: Tested up to WordPress 6.1.1 and PHP 8.1
+* Chore: Updated Github path.
+
+= 3.1.36 =
+* Fix: Namspace conflicts with other plugins and composer libraries. Huge shoutout to @mickwall001 on github for this.
+
+= 3.1.35 =
+* Fix: Get rid of empty needle PHP warning
+
+= 3.1.34 =
+* Dev: Tested up to WordPress 5.6
+* Fix: OR searches will now work as OR, not as AND
+* Fix: Revert Guzzle to < 7.x version to avoid conflicts (temporary)
+
+= 3.1.33 =
+* Fix: Trimmed overall size of the plugin to reduce errors from installation failing.
+* Dev: Updated minimum PHP requirement to 7.3
+* Dev: Updated all vendor packages to latest versions.
+* Dev: Tested up to WordPress 5.5.1
+
+= 3.1.32 =
+* Fix: Undefined index error when saving calendar.
+* Fix: Updated Carbon library to latest version.
+* Fix: Update date check on list view to remove PHP deprecated warnings.
+* Dev: Tested up to WordPress 5.4.2
+
+= 3.1.28 =
+* Feature: Automatically sort events with the same day and time alphabetically.
+* Fix: Issue with jQuery not being added as a script dependency.
+* Fix: Updated google/apiclient to ^2.0 to fix Gmail conflicts with other SMTP plugins.
+* Security: Updated dependencies.
+
+= 3.1.27 =
+* Reverted codebase to 3.1.22 version to skip recent update that has an error.
+
+= 3.1.22 =
+* This bumps the version number but is the same code as 3.1.20 so plugins can auto update to the fixed version.
+
+= 3.1.20 - December 13, 2018 =
+* Dev: Add the "simcal_post_type_registration_args" filter to allow changes to the calendar post type registration arguments.
+
+= 3.1.19 - July 25, 2018 =
+* Fix: Issue with moment.js not being available/throwing JS errors.
+
+= 3.1.18 - July 3, 2018 =
+* Dev: Add filter "simcal_additional_link_attributes" to facilitate additional event link attributes.
+
+= 3.1.17 - June 6, 2018 =
+* Fix: Issue with calendar settings not saving.
+
+= 3.1.16 - June 6, 2018 =
+* Fix: Issue with slow loading admin settings page.
+
+= 3.1.15 - May 22, 2018 =
+* Fix: Issue with jQuery $.ajax call parameter compatibility with older versions of jQuery.
+* Fix: Issue with Google API feed sorting not showing correct events in list view.
+* Fix: Issue with duplicate default calendar JSON data being output.
+
+= 3.1.14 - February 15, 2018 =
+* Fix: Issue where navigation to next month would be disabled when multi-day events extended to future months.
+
+= 3.1.13 - February 5, 2018 =
+* Fix: Issue where calendar event pop-ups would display without content.
+
+= 3.1.12 - January 4, 2018 =
+* Backwards Compat: Restored previous version (v1) of Google API Client lib to support older versions of PHP.
+* Fix: Fixed bug present in PHP 7.2 which was causing fatal errors.
+
+= 3.1.11.1 - January 3, 2018 =
+* Fix: Bump required PHP version to match 3.1.11 requiring PHP 5.5 so site's running older versions don't crash when updating.
+
+= 3.1.11 - January 2, 2018 =
+* Dev: Update Google API Client libraries to v2. NOTE: Version 5.5+ for PHP now required.
 * Fix: Default calendar list view not showing pro calendar coloring when Calendar Settings > Appearance > Limit Visible Events is set.
 
 = 3.1.10 - August 22, 2017 =
@@ -316,7 +407,7 @@ We'd love your help! Here's a few things you can do:
 * Feature: Many new settings panel in admin dashboard, with better semantics and organization.
 * Feature: A System Report page to help you troubleshoot problems and improve support response.
 * Tweak: Use categories to organize your calendars.
-* Tweak: Feeds moved from 'gce_feed' to 'calendar' post type slug, permalink change. 
+* Tweak: Feeds moved from 'gce_feed' to 'calendar' post type slug, permalink change.
 * Fix: Timezones handling are more accurate.
 * Fix: Incompatibilities with themes and other plugins.
 * Fix: Several other bugfixes.

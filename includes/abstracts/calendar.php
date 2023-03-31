@@ -6,7 +6,7 @@
  */
 namespace SimpleCalendar\Abstracts;
 
-use Carbon\Carbon;
+use SimpleCalendar\plugin_deps\Carbon\Carbon;
 use SimpleCalendar\Events\Event;
 use SimpleCalendar\Events\Event_Builder;
 use SimpleCalendar\Events\Events;
@@ -284,8 +284,13 @@ abstract class Calendar {
 
 			// Set earliest and latest event timestamps.
 			if ( $this->events && is_array( $this->events ) ) {
-				$this->earliest_event = intval( current( array_keys( $this->events ) ) );
-				$this->latest_event   = intval( key( array_slice( $this->events, -1, 1, true ) ) );
+				$start_event          = current( $this->events );
+				$start_event_item     = ! empty( $start_event[0]->start ) ? $start_event[0]->start : 0;
+				$this->earliest_event = intval( $start_event_item );
+
+				$last_event         = current( array_slice( $this->events, - 1, 1, true ) );
+				$last_event_item    = ! empty( $last_event[0]->end ) ? $last_event[0]->end : 0;
+				$this->latest_event = intval( $last_event_item );
 			}
 
 			// Set calendar end.
@@ -431,6 +436,12 @@ abstract class Calendar {
 				}
 			}
 		}
+
+		// Sort by end date so that navigation buttons are displayed
+		// correctly for events spanning multiple days.
+		uasort( $events, function( $a, $b ) {
+			return ( $a[0]->end - $b[0]->end );
+		} );
 
 		$this->events = $events;
 	}
@@ -635,15 +646,18 @@ abstract class Calendar {
 			$start_dt = Carbon::today( $this->timezone )->addDays( $nth );
 		} elseif ( 'this_week' == $calendar_begins ) {
 			$week = new Carbon( 'now', $this->timezone );
-			$week->setWeekStartsAt( $this->week_starts );
+			// $week->setWeekStartsAt( $this->week_starts ); # DEPRECATED: Use startOfWeek() below...
+			$week->startOfWeek( $this->week_starts );
 			$start_dt = $week->startOfWeek();
 		} elseif ( 'weeks_before' == $calendar_begins ) {
 			$week = new Carbon( 'now', $this->timezone );
-			$week->setWeekStartsAt( $this->week_starts );
+			//$week->setWeekStartsAt( $this->week_starts ); # DEPRECATED: Use startOfWeek() below...
+			$week->startOfWeek( $this->week_starts );
 			$start_dt = $week->startOfWeek()->subWeeks( $nth );
 		} elseif ( 'weeks_after' == $calendar_begins ) {
 			$week = new Carbon( 'now', $this->timezone );
-			$week->setWeekStartsAt( $this->week_starts );
+			// $week->setWeekStartsAt( $this->week_starts ); # DEPRECATED: Use startOfWeek() below...
+			$week->startOfWeek( $this->week_starts );
 			$start_dt = $week->startOfWeek()->addWeeks( $nth );
 		} elseif ( 'this_month' == $calendar_begins ) {
 			$start_dt = Carbon::today( $this->timezone )->startOfMonth();

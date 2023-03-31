@@ -11,6 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+use SimpleCalendar\plugin_deps\Carbon\Carbon;
+
 /**
  * Check if there is a calendar.
  *
@@ -38,6 +40,15 @@ function is_simple_calendar() {
 
 	return false;
 }
+
+
+function simcal_log_error( $text ) {
+	 if (true === WP_DEBUG) {
+	 	error_log($text);
+	 }
+	 return true;
+}
+
 
 /**
  * Get plugin URL.
@@ -227,7 +238,7 @@ function simcal_get_calendar_names_i18n( $group, $style = 'full' ) {
 		$format = '';
 		$length = 0;
 
-		$date = \Carbon\Carbon::now();
+		$date = Carbon::now();
 
 		if ( 'month' == $group ) {
 			$date->month( 0 )->startOfMonth();
@@ -299,10 +310,14 @@ function simcal_default_event_template() {
  */
 function simcal_get_date_format_order( $date_format ) {
 
+	$d = strpbrk( $date_format, 'Dj' );
+	$m = strpbrk( $date_format, 'FMmn' );
+	$y = strpbrk( $date_format, 'Yy' );
+
 	$pos = array(
-		'd' => strpos( $date_format, strpbrk( $date_format, 'Dj' ) ),
-		'm' => strpos( $date_format, strpbrk( $date_format, 'FMmn' ) ),
-		'y' => strpos( $date_format, strpbrk( $date_format, 'Yy' ) ),
+		'd' => ! empty( $d ) ? strpos( $date_format, $d ) : '',
+		'm' => ! empty( $m ) ? strpos( $date_format, $m ) : '',
+		'y' => ! empty( $y ) ? strpos( $date_format, $y ) : '',
 	);
 
 	// @TODO When one date piece is not found, perhaps fallback to ISO standard position.

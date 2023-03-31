@@ -6,11 +6,17 @@
  */
 namespace SimpleCalendar\Feeds;
 
-use Carbon\Carbon;
-use Carbon\CarbonInterval;
+use SimpleCalendar\plugin_deps\Google_Service_Calendar;
+use SimpleCalendar\plugin_deps\Google_Client;
+use SimpleCalendar\plugin_deps\Google_Service_Calendar_Event;
+use SimpleCalendar\plugin_deps\Google_Service_Calendar_Events;
+use SimpleCalendar\plugin_deps\Google_Service_Exception;
+
+use SimpleCalendar\plugin_deps\Carbon\Carbon;
 use SimpleCalendar\Abstracts\Calendar;
 use SimpleCalendar\Abstracts\Feed;
 use SimpleCalendar\Feeds\Admin\Google_Admin as Admin;
+use SimpleCalendar\plugin_deps\GuzzleHttp\Client;
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -100,7 +106,7 @@ class Google extends Feed {
 		// Google client config.
 		$settings = get_option( 'simple-calendar_settings_feeds' );
 		$this->google_api_key = isset( $settings['google']['api_key'] ) ? esc_attr( $settings['google']['api_key'] ) : '';
-		$this->google_client_scopes = array( \Google_Service_Calendar::CALENDAR_READONLY );
+		$this->google_client_scopes = array( Google_Service_Calendar::CALENDAR_READONLY );
 		$this->google_client = $this->get_client();
 
 		if ( $this->post_id > 0 ) {
@@ -155,7 +161,7 @@ class Google extends Feed {
 
 			try {
 				$response = $this->make_request( $this->google_calendar_id );
-			} catch ( \Exception $e ) {
+			} catch ( Google_Service_Exception $e ) {
 				$error .= $e->getMessage();
 			}
 
@@ -172,7 +178,7 @@ class Google extends Feed {
 
 				if ( ! empty( $response['events'] ) && is_array( $response['events'] ) ) {
 					foreach ( $response['events'] as $event ) {
-						if ( $event instanceof \Google_Service_Calendar_Event ) {
+						if ( $event instanceof Google_Service_Calendar_Event ) {
 
 							// Visibility and status.
 							// Public calendars may have private events which can't be properly accessed by simple api key method.
@@ -280,7 +286,7 @@ class Google extends Feed {
 								$end_utc = $google_end_utc->getTimestamp();
 
 								// Count multiple days.
-								$span = $google_start->diffInDays( $google_end );
+								$span = $google_start->diffInDays( $google_end->endOfDay() );
 
 								if ( $span == 0 ) {
 									if ( ( $google_start->toDateString() !== $google_end->toDateString() ) && $google_end->toTimeString() != '00:00:00' ) {
@@ -367,6 +373,39 @@ class Google extends Feed {
 			$this->timezone = $calendar['timezone'];
 		}
 
+		// Custom OR search since Google API doesn't support the OR search for calendar events
+		if ( isset( $calendar['events'] ) && ! empty( $this->google_search_query ) ) {
+
+			$events = array();
+			$search_query = explode( strtolower( ' OR ' ), strtolower( $this->google_search_query ) );
+
+			foreach ( $calendar['events'] as $k => $v ) {
+
+				foreach( $v as $k2 ) {
+
+					$search_found = false;
+
+					for( $i = 0; $i < count( $search_query ); $i++ ) {
+						$title_check       = ! empty( $k2['title'] ) ? strpos( strtolower( $k2['title'] ), $search_query[ $i ] ) : false;
+						$description_check = ! empty( $k2['description'] ) ? strpos( strtolower( $k2['description'] ), $search_query[ $i ] ) : false;
+
+						if ( $title_check !== false || $description_check !== false ) {
+							$search_found = true;
+						}
+					}
+
+					if ( $search_found ) {
+						$events[ $k ] = $v;
+					}
+				}
+
+			}
+
+			if ( ! empty( $events ) ) {
+				$calendar['events'] = $events;
+			}
+		}
+
 		return isset( $calendar['events'] ) ? $calendar['events'] : array();
 	}
 
@@ -381,7 +420,7 @@ class Google extends Feed {
 	 *
 	 * @return array
 	 *
-	 * @throws \Exception On request failure will throw an exception from Google.
+	 * @throws Exception On request failure will throw an exception from Google.
 	 */
 	public function make_request( $id = '', $time_min = 0, $time_max = 0 ) {
 
@@ -394,12 +433,12 @@ class Google extends Feed {
 			$args = array();
 
 			// Expand recurring events.
-			if ( $this->google_events_recurring == 'show' ) {
+			if ( 'show' === $this->google_events_recurring ) {
 				$args['singleEvents'] = true;
 			}
 
 			// Query events using search terms.
-			if ( ! empty( $this->google_search_query ) ) {
+			if ( ! empty( $this->google_search_query ) && strpos( $this->google_search_query, 'OR' ) === false ) {
 				$args['q'] = rawurlencode( $this->google_search_query );
 			}
 
@@ -434,10 +473,17 @@ class Google extends Feed {
 				$args['timeMax'] = $timeMax->toRfc3339String();
 			}
 
+			// Trying to order by startTime for non-single events throws
+			// Google v3 API 400 error - "The requested ordering is not available for the particular query.".
+			// Only set this conditionally.
+			if ( isset( $args['singleEvents'] ) && true === $args['singleEvents'] ) {
+				$args['orderBy'] = 'startTime';
+			}
+
 			// Query events in calendar.
 			$response = $google->events->listEvents( $id, $args );
 
-			if ( $response instanceof \Google_Service_Calendar_Events ) {
+			if ( $response instanceof Google_Service_Calendar_Events ) {
 				$calendar = array(
 					'id'            => $id,
 					'title'         => $response->getSummary(),
@@ -462,11 +508,21 @@ class Google extends Feed {
 	 */
 	private function get_client() {
 
-		$client = new \Google_Client();
+		$client = new Google_Client();
 		$client->setApplicationName( 'Simple Calendar' );
 		$client->setScopes( $this->google_client_scopes );
 		$client->setDeveloperKey( $this->google_api_key );
 		$client->setAccessType( 'online' );
+
+		$curl_options = apply_filters( 'simcal_google_client_curl_options', array() );
+
+		if ( ! empty( $curl_options ) ) {
+			$guzzle = new Client( array(
+				'curl.options' => $curl_options,
+			) );
+
+			$client->setHttpClient( $guzzle );
+		}
 
 		return $client;
 	}
@@ -477,10 +533,10 @@ class Google extends Feed {
 	 * @since  3.0.0
 	 * @access protected
 	 *
-	 * @return null|\Google_Service_Calendar
+	 * @return null|Google_Service_Calendar
 	 */
 	protected function get_service() {
-		return $this->google_client instanceof \Google_Client ? new \Google_Service_Calendar( $this->google_client ) : null;
+		return $this->google_client instanceof Google_Client ? new Google_Service_Calendar( $this->google_client ) : null;
 	}
 
 }
