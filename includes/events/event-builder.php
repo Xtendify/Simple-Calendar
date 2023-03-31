@@ -474,8 +474,9 @@ return array_merge( array(
 				case 'if-today' :
 				case 'if-not-today' :
 					$start_dt   = $event->start_dt->setTimezone( $calendar->timezone );
-					$startOfDay = $start_dt->startOfDay()->getTimestamp();
-					$endOfDay   = $start_dt->endOfDay()->getTimestamp();
+					/* keynet fix: avoid trashing the event start - use copy */
+					$startOfDay = $start_dt->copy()->startOfDay()->getTimestamp();
+					$endOfDay   = $start_dt->copy()->endOfDay()->getTimestamp();
 
 					$today = ( $startOfDay <= $calendar->now ) && ( $calendar->now <= $endOfDay );
 
