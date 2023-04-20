@@ -28,8 +28,8 @@ const commonOptions = {
 const cssConfig = {
 	...commonOptions,
 	entryPoints: [
-		'assets/css/admin-add-calendar.css',
 		'assets/css/admin.css',
+		'assets/css/admin-add-calendar.css',
 		'assets/css/default-calendar-list.css',
 		'assets/css/default-calendar-grid.css',
 	],
@@ -41,7 +41,7 @@ await esbuild.build(cssConfig);
 
 const jsConfig = {
 	...commonOptions,
-	entryPoints: ['assets/js/admin-add-calendar.js', 'assets/js/admin.js', 'assets/js/default-calendar.js'],
+	entryPoints: ['assets/js/admin.js', 'assets/js/admin-add-calendar.js', 'assets/js/default-calendar.js'],
 	outdir: 'assets/min',
 	minify: true,
 };

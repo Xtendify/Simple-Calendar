@@ -113,10 +113,6 @@ module.exports = function (grunt) {
 					'jquery-tiptip/jquery.tipTip.minified.js',
 					'select2/dist/js/select2.js', // Using "non-full" version
 					'select2/dist/js/select2.min.js',
-					'moment/moment.js',
-					'moment/min/moment.min.js',
-					'moment-timezone/builds/moment-timezone-with-data.js',
-					'moment-timezone/builds/moment-timezone-with-data.min.js',
 				],
 				dest: '<%= dirs.js %>/vendor/',
 			},
@@ -208,14 +204,8 @@ module.exports = function (grunt) {
 
 	require('load-grunt-tasks')(grunt);
 
-	// grunt.registerTask('css', ['copy:css', 'cssmin', 'usebanner:css']);
-	// grunt.registerTask('js', ['copy:js', 'uglify', 'usebanner:js']);
-	// grunt.registerTask('default', ['css', 'js']);
 	grunt.registerTask('default', []);
 	grunt.registerTask('build', ['default', 'checktextdomain', 'clean:build', 'copy:main', 'compress']);
-
-	// TODO Add deploy task
-	// grunt.registerTask( 'deploy',	['build'] );
 
 	grunt.util.linefeed = '\n';
 };

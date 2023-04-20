@@ -38,7 +38,7 @@
     "postsetup": "grunt",
     "dev": "grunt watch",
     "prebuild": "npm run setup",
-    "build": "grunt build && node .bin/esbuild.mjs",
+    "build": "grunt build && rm -rf assets/min && node .bin/esbuild.mjs && cp -r assets/min build/google-calendar-events/assets",
     "lint": "prettier --check .",
     "lint:fix": "prettier --write ."
   },

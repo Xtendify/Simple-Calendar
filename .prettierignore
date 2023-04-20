@@ -1,8 +1,4 @@
-assets/css/*.min.css
-assets/css/*.min.css.map
 assets/css/vendor
-assets/js/*.min.js
-assets/js/*.min.js.map
 assets/js/vendor
 assets/min
 node_modules
