@@ -46,10 +46,10 @@ class Assets
 	 */
 	public function load()
 	{
-		$css_path = SIMPLE_CALENDAR_ASSETS . 'css/';
-		$css_path_vendor = $css_path . 'vendor/';
-		$js_path = SIMPLE_CALENDAR_ASSETS . 'js/';
-		$js_path_vendor = $js_path . 'vendor/';
+		$css_path = SIMPLE_CALENDAR_ASSETS . 'min/';
+		$css_path_vendor = SIMPLE_CALENDAR_ASSETS . 'css/vendor/';
+		$js_path = SIMPLE_CALENDAR_ASSETS . 'min/';
+		$js_path_vendor = SIMPLE_CALENDAR_ASSETS . 'js/vendor/';
 
 		/* ====================== *
 		 * Register Admin Scripts *
@@ -72,14 +72,14 @@ class Assets
 		);
 		wp_register_script(
 			'simcal-admin',
-			$js_path . 'admin' . $this->min . '.js',
+			$js_path . 'admin.min.js',
 			['jquery', 'jquery-ui-sortable', 'jquery-ui-datepicker', 'wp-color-picker', 'simcal-tiptip', 'simcal-select2'],
 			SIMPLE_CALENDAR_VERSION,
 			true
 		);
 		wp_register_script(
 			'simcal-admin-add-calendar',
-			$js_path . 'admin-add-calendar' . $this->min . '.js',
+			$js_path . 'admin-add-calendar.min.js',
 			['simcal-select2'],
 			SIMPLE_CALENDAR_VERSION,
 			true

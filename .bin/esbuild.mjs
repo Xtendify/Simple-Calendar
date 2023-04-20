@@ -25,14 +25,6 @@ const commonOptions = {
 	},
 };
 
-const defaultCalendarConfig = {
-	...commonOptions,
-	entryPoints: ['assets/js/default-calendar.js'],
-	outfile: 'assets/js/default-calendar-bundled.js',
-};
-
-await esbuild.build(defaultCalendarConfig);
-
 const cssConfig = {
 	...commonOptions,
 	entryPoints: [
@@ -49,7 +41,7 @@ await esbuild.build(cssConfig);
 
 const jsConfig = {
 	...commonOptions,
-	entryPoints: ['assets/js/admin-add-calendar.js', 'assets/js/admin.js', 'assets/js/default-calendar-bundled.js'],
+	entryPoints: ['assets/js/admin-add-calendar.js', 'assets/js/admin.js', 'assets/js/default-calendar.js'],
 	outdir: 'assets/min',
 	minify: true,
 };

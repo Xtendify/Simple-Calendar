@@ -127,7 +127,7 @@ class Default_Calendar_Grid implements Calendar_View
 				'in_footer' => true,
 			],
 			'simcal-default-calendar' => [
-				'src' => SIMPLE_CALENDAR_ASSETS . 'js/default-calendar-bundled' . $min . '.js',
+				'src' => SIMPLE_CALENDAR_ASSETS . 'min/default-calendar.min.js',
 				'deps' => ['jquery', 'simcal-qtip'],
 				'in_footer' => true,
 				'localize' => [
@@ -156,12 +156,12 @@ class Default_Calendar_Grid implements Calendar_View
 				'media' => 'all',
 			],
 			'simcal-default-calendar-grid' => [
-				'src' => SIMPLE_CALENDAR_ASSETS . 'css/default-calendar-grid' . $min . '.css',
+				'src' => SIMPLE_CALENDAR_ASSETS . 'min/default-calendar-grid.min.css',
 				'deps' => ['simcal-qtip'],
 				'media' => 'all',
 			],
 			'simcal-default-calendar-list' => [
-				'src' => SIMPLE_CALENDAR_ASSETS . 'css/default-calendar-list' . $min . '.css',
+				'src' => SIMPLE_CALENDAR_ASSETS . 'min/default-calendar-list.min.css',
 				'deps' => ['simcal-qtip'],
 				'media' => 'all',
 			],

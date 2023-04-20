@@ -162,40 +162,40 @@ module.exports = function (grunt) {
 		},
 
 		// Minify .js files.
-		uglify: {
-			all: {
-				files: {
-					'<%= dirs.js %>/admin.min.js': ['<%= dirs.js %>/admin.js'],
-					'<%= dirs.js %>/admin-add-calendar.min.js': ['<%= dirs.js %>/admin-add-calendar.js'],
-				},
-				options: {
-					mangle: {
-						reserved: ['jQuery'],
-					},
-					sourceMap: false,
-					preserveComments: false,
-				},
-			},
-		},
+		// uglify: {
+		// 	all: {
+		// 		files: {
+		// 			'<%= dirs.js %>/admin.min.js': ['<%= dirs.js %>/admin.js'],
+		// 			'<%= dirs.js %>/admin-add-calendar.min.js': ['<%= dirs.js %>/admin-add-calendar.js'],
+		// 		},
+		// 		options: {
+		// 			mangle: {
+		// 				reserved: ['jQuery'],
+		// 			},
+		// 			sourceMap: false,
+		// 			preserveComments: false,
+		// 		},
+		// 	},
+		// },
 
 		// Add comment banner to each minified .js and .css file.
-		usebanner: {
-			options: {
-				position: 'top',
-				banner: '<%= banner %>',
-				linebreak: true,
-			},
-			js: {
-				files: {
-					src: ['<%= dirs.js %>/*.min.js'],
-				},
-			},
-			css: {
-				files: {
-					src: ['<%= dirs.css %>/*.min.css'],
-				},
-			},
-		},
+		// usebanner: {
+		// 	options: {
+		// 		position: 'top',
+		// 		banner: '<%= banner %>',
+		// 		linebreak: true,
+		// 	},
+		// 	js: {
+		// 		files: {
+		// 			src: ['<%= dirs.js %>/*.min.js'],
+		// 		},
+		// 	},
+		// 	css: {
+		// 		files: {
+		// 			src: ['<%= dirs.css %>/*.min.css'],
+		// 		},
+		// 	},
+		// },
 
 		// .scss to .css file watcher. Run when project is loaded in PhpStorm or other IDE.
 		watch: {
@@ -208,9 +208,10 @@ module.exports = function (grunt) {
 
 	require('load-grunt-tasks')(grunt);
 
-	grunt.registerTask('css', ['copy:css', 'cssmin', 'usebanner:css']);
-	grunt.registerTask('js', ['copy:js', 'uglify', 'usebanner:js']);
-	grunt.registerTask('default', ['css', 'js']);
+	// grunt.registerTask('css', ['copy:css', 'cssmin', 'usebanner:css']);
+	// grunt.registerTask('js', ['copy:js', 'uglify', 'usebanner:js']);
+	// grunt.registerTask('default', ['css', 'js']);
+	grunt.registerTask('default', []);
 	grunt.registerTask('build', ['default', 'checktextdomain', 'clean:build', 'copy:main', 'compress']);
 
 	// TODO Add deploy task

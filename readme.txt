@@ -3,8 +3,8 @@ Contributors: simplecalendar, rosinghal, pderksen, nickyoung87, nekojira, rossha
 Tags: google calendar, calendar, calendars, google, event calendar, custom calendar, custom calendars, event, events
 Requires at least: 4.2
 Requires PHP: 7.3
-Tested up to: 6.1.1
-Stable tag: 3.1.39
+Tested up to: 6.2
+Stable tag: 3.1.42
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,12 @@ We'd love your help! Here's a few things you can do:
 8. Attach a calendar to a post or page
 
 == Changelog ==
+
+= 3.1.42 =
+* Dev: Testing with WordPress version 6.2.
+
+= 3.1.41 =
+* Fix: Event bubbles not working on mobile devices.
 
 = 3.1.39 =
 * Fix: 'Class "Parsedown" not found' by adding `erusev/parsedown` via PHP Scoper.
