@@ -39,3 +39,6 @@ phpunit.xml
 # Windows crap
 ehthumbs.db
 Thumbs.db
+
+# Auto-generated files
+assets/min
