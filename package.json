@@ -10,6 +10,7 @@
     "url": "https://github.com/Xtendify/Simple-Calendar"
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.14",
     "bower": "1.8.14",
     "esbuild": "0.17.14",
     "grunt": "1.6.1",
@@ -23,7 +24,9 @@
     "grunt-contrib-uglify": "5.2.2",
     "grunt-contrib-watch": "1.1.0",
     "grunt-sass": "3.1.0",
-    "load-grunt-tasks": "5.1.0"
+    "load-grunt-tasks": "5.1.0",
+    "postcss-cli": "^10.1.0",
+    "tailwindcss": "^3.3.1"
   },
   "scripts": {
     "setup": "npm install --include=dev && composer install && composer dump-autoload -o",
@@ -37,6 +40,7 @@
     "node": ">=18.15.0"
   },
   "dependencies": {
-    "dayjs": "1.11.7"
+    "dayjs": "1.11.7",
+    "flowbite": "^1.6.4"
   }
 }

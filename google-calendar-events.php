@@ -60,3 +60,22 @@ include_once 'third-party/vendor/autoload.php';
 
 // Load plugin.
 include_once 'includes/main.php';
+?>
+<link href="/css/output-style.css" rel="stylesheet">
+<link href="/css/admin-sett-style.css" rel="stylesheet">
+<?php
+
+function sd_admin_scripts() {
+
+
+	wp_register_style( 'admin-sd-style', SIMPLE_CALENDAR_ASSETS . 'css/output-style.css' , false );
+	wp_enqueue_style( 'admin-sd-style' );
+	wp_register_style( 'admin-sett-style', SIMPLE_CALENDAR_ASSETS . 'css/admin-sett-style.css' , false );
+	wp_enqueue_style( 'admin-sett-style' );
+
+	// wp_register_script( 'select2', 'https://cdn.tailwindcss.com', array( 'tailwindcss' ),  true );
+	// wp_enqueue_script( 'select2' );
+	
+	 }
+	
+	add_action( 'admin_enqueue_scripts', 'sd_admin_scripts' );
