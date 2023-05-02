@@ -33,7 +33,8 @@
     "postsetup": "grunt",
     "dev": "grunt watch",
     "prebuild": "npm run setup",
-    "build": "grunt build && node .bin/esbuild.mjs"
+    "build": "grunt build && node .bin/esbuild.mjs",
+    "tailwind":"npx tailwindcss -i ./assets/css/tailwind-input-style.css -o ./assets/css/tailwind-output-style.css --watch"
   },
   "engines": {
     "npm": ">=9.5.0",
