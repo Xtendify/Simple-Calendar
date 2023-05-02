@@ -2,7 +2,11 @@
   /* setting admin page */
   #simcal-settings-page-form .form-table th{
     width: 100%;
-    display: block;
+    display: block;  
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px; 
+    font-family: poppins,sans-serif;
   }
   #simcal-settings-page-form .form-table td{
     width: 100%;
@@ -20,6 +24,10 @@
     border-radius: 7px;
     width: 150px;
     height: 40px;
+    
+  }
+  #simcal-settings-page-form .submit{
+    padding: unset;
   }
 
   .flex h2{

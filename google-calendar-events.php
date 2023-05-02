@@ -63,16 +63,4 @@ include_once 'includes/main.php';
 
 
 
-
-function sd_admin_scripts() {
-	$screen = get_current_screen();
-	if ( 'calendar_page_simple-calendar_settings' == $screen->id ) {
-		wp_register_style( 'sc-admin-style', SIMPLE_CALENDAR_ASSETS . 'css/admin-sett-style.css', array(), true, 'all' );
-		wp_enqueue_style( 'sc-admin-style' );	
-		wp_register_style( 'sc-tail-style', SIMPLE_CALENDAR_ASSETS . 'css/tailwind-output-style.css', array(), true, 'all' );
-		wp_enqueue_style( 'sc-tail-style' );		
-		}
-	}
-	add_action( 'admin_enqueue_scripts', 'sd_admin_scripts' );
-
 	

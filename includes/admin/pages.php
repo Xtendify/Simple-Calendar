@@ -198,8 +198,7 @@ class Pages {
 	 *
 	 * @since 3.0.0
 	 */
-	 public function html() {
-		
+	 public function html() {	
 
 		global $current_tab;
 		$admin_image_about_path = SIMPLE_CALENDAR_ASSETS . '/images';
@@ -233,7 +232,6 @@ class Pages {
 
 							echo '<a href="' . $tab_link . '" class=" ml-[100px] text-base font-normal text-sc_grey-100' . ( $current_tab == $tab_id ? 'nav-tab-active ml-[100px] text-base font-normal bg-sc_blue-100 border-b-[3px]  pb-[7px] pr-[7px] pl-[7px] border-b-sc_green-200' : '' ) . '">' . $tab_label . '</a>';
 						}
-
 					}
 
 					do_action( 'simcal_admin_page_' . $this->page . '_tabs' );
@@ -250,11 +248,7 @@ class Pages {
 
 						if ( $tab_id === $current_tab ) {
 							
-							// $admin_height= "372";
-							// if ( is_plugin_active( 'Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php' )  )  {	
-							// 	$admin_height= "789";
-							// }
-							echo '<div class="bg-white p-[30px] w-[795px] ml-[102px]">';
+							echo '<div class="bg-white p-[30px] w-[795px] ml-[102px] ">';
 
 							echo isset( $contents['description'] ) ? '<p>' . $contents['description'] . '</p>' : '';
 
@@ -269,37 +263,38 @@ class Pages {
 							if ( true === $submit ) {
 								submit_button();
 							}
-							echo '</div>'; 
-							
+							echo '</div>'; 							
 						}
 					}
 					?>
-						<div class="w-[481px] h-[366px] ml-[25px] bg-white" >
+						<div class="w-[481px] h-[366px] ml-[25px] bg-white">
 							<div>					
 								<img class="m-auto mt-[19px]" src="<?php echo $admin_image_about_path . '/rating.png'; ?>" />							
 							</div>
 							<div class=" mt-[15px] text-center font-semibold text-lg">
-								<Span> <?php _e('Please Rate Us !','google-calendar-events')?></Span>
+								<Span><?php _e('Please Rate Us !','google-calendar-events')?></Span>
 							</div>
 							<div class=" mt-[5px] text-center font-normal text-base text-gray-500">
-								<Span> <?php _e('If you like Simple Calendar please Rate Us','google-calendar-events')?> </Span>
+								<Span><?php _e('If you like Simple Calendar please Rate Us','google-calendar-events')?> </Span>
 							</div>
 							<div class="mt-[44px]">
-							<?php
-								rating();
-							?>				
+								<?php
+								// Rating function is used here 
+									sc_rating();
+								?>				
 							</div> 
 							<a href="https://wordpress.org/support/plugin/google-calendar-events/reviews/#new-post">
 								<button type="button" class="mt-[20px] m-auto flex justify-center items-center w-[405px] h-[40px] bg-sc_green-200 text-white text-xl font-medium rounded-md">
-									<?php _e('Rate Now','google-calendar-events')?>							
+								<?php _e('Rate Now','google-calendar-events')?>							
 								</button>
 							</a>
-							<div class=" mt-[25px] text-center text-base text-sc_blue-200 hover:underline">
+							<div class="mt-[25px] text-center text-base text-sc_blue-200 hover:underline">
 								<a href="https://wordpress.org/plugins/google-calendar-events/#reviews"><?php _e('See All Rating 4 Out of 5 Stars','google-calendar-events')?></a>
 							</div>
 						</div>
 					<?php
-					echo '</div>';					
+					echo '</div>';	
+					// It will display when the Pro is deactivated.				
 					if (! is_plugin_active( 'Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php' )  )  {		
 					?>
 						<div class="bg-sc_green-100 h-[399px] w-[1302px] ml-[102px] mt-[41px] flex max-xl:ml-[0px]">
