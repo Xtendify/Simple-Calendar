@@ -1,8 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['includes/**/*.{html,js,php}'],
-  theme: {
-    
+  theme: {    
     extend: {
       colors:{
         sc_green:{          
@@ -15,11 +14,11 @@ module.exports = {
         },
         sc_grey:{
           100:"#7F8490",
-        }
+        },
       },
       fontFamily:{
-        sc_popi: ['Poppins']
-      }
+       poppins: ['Poppins', 'sans-serif'],
+      },
     },
   },
   plugins: [],

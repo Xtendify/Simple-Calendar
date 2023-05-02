@@ -81,7 +81,6 @@ class Google_Admin {
 	 * @return array
 	 */
 	public function settings_fields() {
-		$admin_image_about_path = SIMPLE_CALENDAR_ASSETS . '/images';
 		
 		return array(
 			
@@ -101,7 +100,7 @@ class Google_Admin {
 					'class'      => array( 'simcal-wide-text text-base','ltr' ),
 					'title'      => __( 'Google API Key', 'google-calendar-events' ),
 					'validation' => array( $this, 'check_google_api_key' ),
-					'tooltip'     => __( 'You can choose on which content types to add the ability to attach calendars.', 'google-calendar-events' ),
+					'tooltip'    => __( 'You can choose on which content types to add the ability to attach calendars.', 'google-calendar-events' ),
 				),
 			),
 		);
@@ -358,5 +357,6 @@ class Google_Admin {
 
 		$this->test_api_key_connection( $calendar_id );
 	}
+	
 
 }

@@ -44,7 +44,7 @@ class Pages {
 	 * @access private
 	 * @var array
 	 */
-	private $settings = array();
+	private $settings = array();	
 
 	/**
 	 * Constructor.
@@ -198,8 +198,8 @@ class Pages {
 	 *
 	 * @since 3.0.0
 	 */
-	
 	 public function html() {
+		
 
 		global $current_tab;
 		$admin_image_about_path = SIMPLE_CALENDAR_ASSETS . '/images';
@@ -241,7 +241,7 @@ class Pages {
 					echo '</h2>';
 					echo '<div class="bg-sc_blue-100">';
 
-					echo '<div class=" flex pt-[114px]  " >';
+					echo '<div class="flex pt-[114px]">';
 					
 
 					settings_errors();
@@ -249,8 +249,12 @@ class Pages {
 					foreach ( $settings_pages as $tab_id => $contents ) {
 
 						if ( $tab_id === $current_tab ) {
-
-							echo '<div class="bg-white p-[30] w-[795px] ml-[102px] h-[372px] ">';
+							
+							// $admin_height= "372";
+							// if ( is_plugin_active( 'Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php' )  )  {	
+							// 	$admin_height= "789";
+							// }
+							echo '<div class="bg-white p-[30px] w-[795px] ml-[102px]">';
 
 							echo isset( $contents['description'] ) ? '<p>' . $contents['description'] . '</p>' : '';
 
@@ -270,140 +274,95 @@ class Pages {
 						}
 					}
 					?>
-					<div class="w-[481px] h-[360px] ml-[25px] bg-white" >
-						<div >					
-							<img class="m-auto mt-[19px]" src="<?php echo $admin_image_about_path . '/top-rated 1.png'; ?>" />							
-						</div>
-						<div class=" mt-[15px] text-center font-semibold text-lg">
-							<Span>Please Rate Us !</Span>
-						</div>
-						<div class=" mt-[5px] text-center font-normal text-base text-gray-500">
-							<Span>If you like Simple Calendar please Rate Us </Span>
-						</div>
-						<div class="mt-[44px]">
-							<div class='rating flex flex-row justify-center gap-3'>							
-								<svg class="h-6 transition-all duration-100 fill-gray-400  fill-yellow-200  cursor-pointer"
-									viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-									xmlns:xlink="http://www.w3.org/1999/xlink">
-									<path
-										d="M575.852903 115.426402L661.092435 288.054362c10.130509 20.465674 29.675227 34.689317 52.289797 37.963825l190.433097 27.62866c56.996902 8.288598 79.7138 78.281203 38.475467 118.496253l-137.836314 134.35715c-16.372539 15.963226-23.84251 38.987109-19.954032 61.49935l32.540421 189.716799c9.721195 56.792245-49.833916 100.077146-100.793444 73.267113L545.870691 841.446188a69.491196 69.491196 0 0 0-64.67153 0l-170.376737 89.537324c-50.959528 26.810033-110.51464-16.474868-100.793444-73.267113L242.569401 667.9996c3.888478-22.512241-3.581493-45.536125-19.954032-61.49935L84.779055 472.245428c-41.238333-40.215049-18.521435-110.207655 38.475467-118.496252l190.433097-27.62866c22.61457-3.274508 42.159288-17.498151 52.289797-37.963826L451.319277 115.426402c25.479764-51.675827 99.053862-51.675827 124.533626 0z"
-										></path>
-								</svg>
-								<svg class="h-6 transition-all duration-100 fill-gray-400  cursor-pointer"
-									viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-									xmlns:xlink="http://www.w3.org/1999/xlink">
-									<path
-										d="M575.852903 115.426402L661.092435 288.054362c10.130509 20.465674 29.675227 34.689317 52.289797 37.963825l190.433097 27.62866c56.996902 8.288598 79.7138 78.281203 38.475467 118.496253l-137.836314 134.35715c-16.372539 15.963226-23.84251 38.987109-19.954032 61.49935l32.540421 189.716799c9.721195 56.792245-49.833916 100.077146-100.793444 73.267113L545.870691 841.446188a69.491196 69.491196 0 0 0-64.67153 0l-170.376737 89.537324c-50.959528 26.810033-110.51464-16.474868-100.793444-73.267113L242.569401 667.9996c3.888478-22.512241-3.581493-45.536125-19.954032-61.49935L84.779055 472.245428c-41.238333-40.215049-18.521435-110.207655 38.475467-118.496252l190.433097-27.62866c22.61457-3.274508 42.159288-17.498151 52.289797-37.963826L451.319277 115.426402c25.479764-51.675827 99.053862-51.675827 124.533626 0z"
-										></path>
-								</svg>
-								<svg class="h-6 transition-all duration-100 fill-gray-400  cursor-pointer"
-									viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-									xmlns:xlink="http://www.w3.org/1999/xlink">
-									<path
-										d="M575.852903 115.426402L661.092435 288.054362c10.130509 20.465674 29.675227 34.689317 52.289797 37.963825l190.433097 27.62866c56.996902 8.288598 79.7138 78.281203 38.475467 118.496253l-137.836314 134.35715c-16.372539 15.963226-23.84251 38.987109-19.954032 61.49935l32.540421 189.716799c9.721195 56.792245-49.833916 100.077146-100.793444 73.267113L545.870691 841.446188a69.491196 69.491196 0 0 0-64.67153 0l-170.376737 89.537324c-50.959528 26.810033-110.51464-16.474868-100.793444-73.267113L242.569401 667.9996c3.888478-22.512241-3.581493-45.536125-19.954032-61.49935L84.779055 472.245428c-41.238333-40.215049-18.521435-110.207655 38.475467-118.496252l190.433097-27.62866c22.61457-3.274508 42.159288-17.498151 52.289797-37.963826L451.319277 115.426402c25.479764-51.675827 99.053862-51.675827 124.533626 0z"
-										></path>
-								</svg>
-								<svg class="h-6 transition-all duration-100 fill-gray-400  cursor-pointer"
-									viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-									xmlns:xlink="http://www.w3.org/1999/xlink">
-									<path
-										d="M575.852903 115.426402L661.092435 288.054362c10.130509 20.465674 29.675227 34.689317 52.289797 37.963825l190.433097 27.62866c56.996902 8.288598 79.7138 78.281203 38.475467 118.496253l-137.836314 134.35715c-16.372539 15.963226-23.84251 38.987109-19.954032 61.49935l32.540421 189.716799c9.721195 56.792245-49.833916 100.077146-100.793444 73.267113L545.870691 841.446188a69.491196 69.491196 0 0 0-64.67153 0l-170.376737 89.537324c-50.959528 26.810033-110.51464-16.474868-100.793444-73.267113L242.569401 667.9996c3.888478-22.512241-3.581493-45.536125-19.954032-61.49935L84.779055 472.245428c-41.238333-40.215049-18.521435-110.207655 38.475467-118.496252l190.433097-27.62866c22.61457-3.274508 42.159288-17.498151 52.289797-37.963826L451.319277 115.426402c25.479764-51.675827 99.053862-51.675827 124.533626 0z"
-										></path>
-								</svg>
-								<svg class="h-6 transition-all duration-100 fill-gray-400  cursor-pointer"
-									viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
-									xmlns:xlink="http://www.w3.org/1999/xlink">
-									<path
-										d="M575.852903 115.426402L661.092435 288.054362c10.130509 20.465674 29.675227 34.689317 52.289797 37.963825l190.433097 27.62866c56.996902 8.288598 79.7138 78.281203 38.475467 118.496253l-137.836314 134.35715c-16.372539 15.963226-23.84251 38.987109-19.954032 61.49935l32.540421 189.716799c9.721195 56.792245-49.833916 100.077146-100.793444 73.267113L545.870691 841.446188a69.491196 69.491196 0 0 0-64.67153 0l-170.376737 89.537324c-50.959528 26.810033-110.51464-16.474868-100.793444-73.267113L242.569401 667.9996c3.888478-22.512241-3.581493-45.536125-19.954032-61.49935L84.779055 472.245428c-41.238333-40.215049-18.521435-110.207655 38.475467-118.496252l190.433097-27.62866c22.61457-3.274508 42.159288-17.498151 52.289797-37.963826L451.319277 115.426402c25.479764-51.675827 99.053862-51.675827 124.533626 0z"></path>
-								</svg>
+						<div class="w-[481px] h-[366px] ml-[25px] bg-white" >
+							<div>					
+								<img class="m-auto mt-[19px]" src="<?php echo $admin_image_about_path . '/rating.png'; ?>" />							
 							</div>
-						
-						<script>
-							const svgs = document.querySelector('.rating').children;
-							for(let i = 0;i<svgs.length;i++){ 
-								svgs[i].onclick = ()=>{
-									for(let j = 0;j<=i;j++){
-										svgs[j].classList.add("fill-yellow-200"); // this class should be added to whitelist while in production mode
-									}
-									for(let k = i + 1;k<svgs.length;k++){
-										svgs[k].classList.remove("fill-yellow-200"); // this class should be added to whitelist while in production mode
-									}
-								}
-							}
-						</script>
-						</div> 
-						<button type="button" class="mt-[20px] m-auto flex justify-center items-center w-[405px] h-[40px] bg-sc_green-200 text-white text-xl font-medium rounded-md">
-							Rate Now							
-						</button>
-						<div class=" mt-[25px] text-center text-base text-sc_blue-200 hover:underline">
-							<a href="">See All Rating 3.8 Out of 5 Stars</a>
+							<div class=" mt-[15px] text-center font-semibold text-lg">
+								<Span> <?php _e('Please Rate Us !','google-calendar-events')?></Span>
+							</div>
+							<div class=" mt-[5px] text-center font-normal text-base text-gray-500">
+								<Span> <?php _e('If you like Simple Calendar please Rate Us','google-calendar-events')?> </Span>
+							</div>
+							<div class="mt-[44px]">
+							<?php
+								rating();
+							?>				
+							</div> 
+							<a href="https://wordpress.org/support/plugin/google-calendar-events/reviews/#new-post">
+								<button type="button" class="mt-[20px] m-auto flex justify-center items-center w-[405px] h-[40px] bg-sc_green-200 text-white text-xl font-medium rounded-md">
+									<?php _e('Rate Now','google-calendar-events')?>							
+								</button>
+							</a>
+							<div class=" mt-[25px] text-center text-base text-sc_blue-200 hover:underline">
+								<a href="https://wordpress.org/plugins/google-calendar-events/#reviews"><?php _e('See All Rating 4 Out of 5 Stars','google-calendar-events')?></a>
+							</div>
 						</div>
-					</div>
 					<?php
-					echo '</div>';
-				
-				
-				?>
-				<div class="bg-sc_green-100 h-[399] w-[1302] ml-[102] mt-[41] flex max-xl:ml-[0px]">
-					<div class="w-[654] flex relative ">
-						<div class="ml-[37px] mt-[18px]">
-							<img src="<?php echo $admin_image_about_path . '/image1.png'; ?>" />
+					echo '</div>';					
+					if (! is_plugin_active( 'Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php' )  )  {		
+					?>
+						<div class="bg-sc_green-100 h-[399px] w-[1302px] ml-[102px] mt-[41px] flex max-xl:ml-[0px]">
+							<div class="w-[654px] flex relative ">
+								<div class="ml-[37px] mt-[18px]">
+									<img src="<?php echo $admin_image_about_path . '/pro-banner.png'; ?>" />
+								</div>
+								<div class="absolute right-0 top-28">
+									<img src="<?php echo $admin_image_about_path . '/arrow.png'; ?>" />
+								</div>	
+							</div>
+							<div class="w-[639px] pl-[47px]">
+								<div class="mt-[38px] flex ">
+									<div>
+										<img src="<?php echo $admin_image_about_path . '/black-tick.png'; ?>" />
+									</div>
+									<div class="ml-[9px] text-xl font-semibold text-sc_green-200">
+										<span><?php _e('Pro Version','google-calendar-events')?></span>
+									</div>
+								</div>
+								<div class=" mt-3 text-base text-gray-400 ">
+									<span><?php _e('Calendars configured to use the','google-calendar-events')?><b class="text-black"><?php _e(' Google Calendar Pro add-on','google-calendar-events')?></b> <?php _e('use a different method of authorization.','google-calendar-events')?></span>
+								</div>
+								<div class="flex items-center text-gray-400 mt-[21px]">
+									<div>
+										<img src="<?php echo $admin_image_about_path . '/green-tick.png'; ?>" />
+									</div>
+									<div class="ml-[9px] text-base text-gray-400 font-normal" >
+										<span><?php _e('Display events from both private and public Google Calendars.','google-calendar-events')?></span>
+									</div>
+								</div>
+								<div class="flex items-center mt-[14px] ">
+									<div>
+										<img src="<?php echo $admin_image_about_path . '/green-tick.png'; ?>" />
+									</div>
+									<div class="ml-[9px] text-base text-gray-400 font-normal " >
+										<span> <?php _e('Lorem ipsum dolor sit amet, consectetur adipiscing elit','google-calendar-events')?></span>
+									</div>
+								</div>
+								<div class="flex items-center mt-[14px] ">
+									<div>
+										<img src="<?php echo $admin_image_about_path . '/green-tick.png'; ?>" />
+									</div>
+									<div class="ml-[9px] text-base text-gray-400 font-normal">
+										<span><?php _e('Many More...','google-calendar-events')?></span>
+									</div>
+								</div>
+								<a href="https://simplecalendar.io/downloads/google-calendar-pro/">
+									<button type="button" class="mt-[45px] flex justify-center items-center w-[533px] h-[40px] bg-sc_green-200 text-white text-xl font-medium rounded-md">
+										<img class="p-[8px]" src="<?php echo $admin_image_about_path . '/crown.png'; ?>" />
+										<?php _e('Get Pro Version','google-calendar-events')?>						
+									</button>
+								</a>
+							</div>
 						</div>
-						<div class="absolute right-0 top-28">
-							<img src="<?php echo $admin_image_about_path . '/Group 12.png'; ?>" />
-						</div>	
-					</div>
-					<div class="w-[639] pl-[47px]">
-						<div class="mt-[38] flex ">
-							<div class="">
-								<img src="<?php echo $admin_image_about_path . '/Vector (1).png'; ?>" />
-							</div>
-							<div class=" ml-[9px] text-xl font-semibold text-sc_green-200" >
-								<span>Pro Version</span>
-							</div>
-						</div>
-						<div class=" mt-3 text-base text-gray-400 ">
-							<span>Calendars configured to use the <b class="text-black">Google Calendar Pro add-on</b> use a different method of authorization.</span>
-						</div>
-						<div class="flex items-center text-gray-400 mt-[21px]">
-							<div class="">
-								<img src="<?php echo $admin_image_about_path . '/Vector (2).png'; ?>" />
-							</div>
-							<div class="ml-[9px] text-base text-gray-400 font-normal" >
-								<span>Display events from both private and public Google Calendars.</span>
-							</div>
-						</div>
-						<div class="flex items-center mt-[14px] ">
-							<div class="">
-								<img src="<?php echo $admin_image_about_path . '/Vector (2).png'; ?>" />
-							</div>
-							<div class="ml-[9px] text-base text-gray-400 font-normal " >
-								<span>Lorem ipsum dolor sit amet, consectetur adipiscing elit </span>
-							</div>
-						</div>
-						<div class="flex items-center mt-[14px] ">
-							<div class="">
-								<img src="<?php echo $admin_image_about_path . '/Vector (2).png'; ?>" />
-							</div>
-							<div class="ml-[9px] text-base text-gray-400 font-normal " >
-								<span>Many More...</span>
-							</div>
-						</div>
-						<button type="button" class="mt-[45px] flex justify-center items-center w-[533px] h-[40px] bg-sc_green-200 text-white text-xl font-medium rounded-md">
-							<img class="p-[8px]" src="<?php echo $admin_image_about_path . '/Vector.png'; ?>" />
-							Get Pro Version							
-						</button>
-					</div>
-				</div>
-				<?php
-				
+					<?php						
+						}				
 				echo '</div>';
 				}
 				?>
 			</form>
 		</div>
-
-		<?php
+	<?php
 
 	}
 

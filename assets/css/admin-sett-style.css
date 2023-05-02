@@ -1,24 +1,23 @@
 
   /* setting admin page */
-  .form-table th{
-    width: 100%!important;
-    display: block!important;
+  #simcal-settings-page-form .form-table th{
+    width: 100%;
+    display: block;
   }
-  .form-table td{
-    width: 100%!important;
-    display: block!important;
+  #simcal-settings-page-form .form-table td{
+    width: 100%;
+    display: block;
   }
 
   .form-table td{
     padding: unset;
   }
 
-  .button-primary{
-    background-color: #60BC4E!important;
-    font-size: 16px!important;
-    border-color: unset!important;
-    border-radius: 7px!important;
-    /* padding: 8px, 16px, 8px, 16px!important; */
+  #simcal-settings-page-form .button-primary{
+    background-color: #60BC4E;
+    font-size: 16px;
+    border-color: unset;
+    border-radius: 7px;
     width: 150px;
     height: 40px;
   }
@@ -27,29 +26,31 @@
     font-size: 20px;
     font-weight: 600;
   }
-  .form-table, .form-table td, .form-table td p, .form-table th h2{
-    font-size: 16px!important;
+  
+  #simcal-settings-page-form .form-table, .form-table td, .form-table td p, .form-table th h2{
+    font-size: 16px;
   }
+
   .form-table th {
     font-weight: 400;
     font-size: 16px;
   }
+
   .nav-tab-wrapper, .wrap h2.nav-tab-wrapper, h1.nav-tab-wrapper {
     border-bottom: unset;
   }
+
   .wp-person a:focus .gravatar, a:focus, a:focus .media-icon img, a:focus .plugin-icon{
     box-shadow: unset;
   }
+
   .simcal-icon-help:before{
     color: #60BC4E;
   }
-  /* .nav-tab-active{
-    background-color: white;
-    text-decoration: underline;
-  } */
 
-
-  /* input#simple-calendar-settings-feeds-google-api_key {
-    width: 100%;
-    display: block;
-} */
+  #simcal-settings-page-form p {
+    font-size: 14px;
+    font-weight: 400;  
+    line-height: 21px;  
+  }
+  

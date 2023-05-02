@@ -662,12 +662,8 @@ video {
   height: 1.5rem;
 }
 
-.h-\[360px\]{
-  height: 360px;
-}
-
-.h-\[372px\]{
-  height: 372px;
+.h-\[366px\]{
+  height: 366px;
 }
 
 .h-\[399\]{
@@ -898,18 +894,8 @@ video {
   text-decoration-line: underline;
 }
 
-@media (min-width: 1280px){
-  .xl\:ml-0{
-    margin-left: 0px;
-  }
-
-  .xl\:ml-\[0px\]{
-    margin-left: 0px;
-  }
-}
-
-@media (min-width: 1536px){
-  .\32xl\:ml-\[0px\]{
+@media not all and (min-width: 1280px){
+  .max-xl\:ml-\[0px\]{
     margin-left: 0px;
   }
 }
