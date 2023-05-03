@@ -92,13 +92,6 @@ class Assets {
 			SIMPLE_CALENDAR_VERSION,
 			true
 		);
-		wp_register_script(
-			'simcal-admin-rating',
-			$js_path . 'admin-rating-calender.js',
-			array(),
-			SIMPLE_CALENDAR_VERSION,
-			true
-		);
 
 		/* ===================== *
 		 * Register Admin Styles *
@@ -163,8 +156,8 @@ class Assets {
 
 				wp_enqueue_style( 'simcal-admin-add-calendar' );
 			}
-
 		}	
+		
 		// Load the style in admin setting page only.	
 		if ( 'calendar_page_simple-calendar_settings' == $sc_screen->id ) {
 			wp_enqueue_style(
@@ -179,9 +172,6 @@ class Assets {
 				array(),
 				SIMPLE_CALENDAR_VERSION
 			);
-			wp_enqueue_script( 'simcal-admin-rating' );
 		}
-
 	}
-
 }

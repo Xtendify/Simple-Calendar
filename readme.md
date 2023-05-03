@@ -9,6 +9,12 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 
 Premium add-ons available at [simplecalendar.io](https://simplecalendar.io)
 
+## Run Tailwind 
+To Run Tailwind Watch Use This Command .
+npx tailwindcss -i ./assets/css/tailwind-input-style.css -o ./assets/css/tailwind-output-style.css --watch
+
+
+
 ## Support
 
 GitHub is for *bug reports and contributions only*. If you have a support question or a request for a customization this is not the right place to post it. Use the [WordPress.org support forums](https://wordpress.org/support/plugin/google-calendar-events) instead.

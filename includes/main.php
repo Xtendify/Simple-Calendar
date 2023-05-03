@@ -159,6 +159,9 @@ final class Plugin {
 	 */
 	public function load_admin() {
 
+		// Back end only svg functions.
+		include_once 'functions/admin-svg.php';
+
 		// Back end only functions.
 		include_once 'functions/admin.php';
 
