@@ -279,13 +279,13 @@ class Pages {
 											sc_rating();
 										?>				
 									</div> 
-									<a href="https://wordpress.org/support/plugin/google-calendar-events/reviews/#new-post">
+									<a href="https://wordpress.org/support/plugin/google-calendar-events/reviews/?filter=5#new-post">
 										<button type="button" class="mt-[20px] m-auto flex justify-center items-center w-[405px] h-[40px] bg-sc_green-200 text-white text-xl font-medium rounded-md">
 										<?php _e('Rate Now','google-calendar-events')?>							
 										</button>
 									</a>
 									<div class="mt-[25px] text-center text-base text-sc_blue-200 hover:underline">
-										<a href="https://wordpress.org/plugins/google-calendar-events/#reviews"><?php _e('See All Rating 4 Out of 5 Stars','google-calendar-events')?></a>
+										<a href="https://wordpress.org/support/plugin/google-calendar-events/reviews/?filter=5"><?php _e('See All Rating 4 Out of 5 Stars','google-calendar-events')?></a>
 									</div>
 								</div>
 								<?php
