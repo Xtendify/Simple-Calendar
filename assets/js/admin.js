@@ -399,7 +399,8 @@
 				method: 'POST',
 				data: {
 					action: 'simcal_clear_cache',
-					id: $( this ).data( 'id' )
+					id: $( this ).data( 'id' ),
+					nonce: simcal_admin.nonce,
 				},
 				beforeSend: function() {
 					spinner.fadeToggle();
