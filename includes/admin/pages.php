@@ -208,7 +208,7 @@ class Pages {
 		$this->tab = $current_tab;
 
 		?>
-		<div class="wrap bg-neutral-100 font-sc_popi" id="simcal-settings-page">
+		<div class="wrap  font-poppins" id="simcal-settings-page">
 			<form id="simcal-settings-page-form"
 			      method="post"
 			      action="options.php">
@@ -246,7 +246,7 @@ class Pages {
 					foreach ( $settings_pages as $tab_id => $contents ) {
 
 						if ( $tab_id === $current_tab ) {
-							echo '<div class="bg-white p-[30px] w-[795px] ml-[102px] ">';
+							echo '<div class="bg-white p-[30px] w-[795px] ml-[102px] rounded-s ">';
 
 							echo isset( $contents['description'] ) ? '<p>' . $contents['description'] . '</p>' : '';
 
@@ -263,11 +263,11 @@ class Pages {
 							}
 							echo '</div>'; 
 								?>
-									<div class="w-[481px] h-[366px] ml-[25px] bg-white">
+									<div class="w-[481px] h-[372px] ml-[25px] rounded-s bg-white">
 									<div>					
-										<img class="m-auto mt-[19px]" src="<?php echo $admin_image_about_path . '/rating.png'; ?>" />							
+										<img class="m-auto mt-[25px]" src="<?php echo $admin_image_about_path . '/rating.png'; ?>" />							
 									</div>
-									<div class=" mt-[15px] text-center font-semibold text-lg">
+									<div class=" mt-[15px] text-center font-semibold text-lg ">
 										<Span><?php _e('Please Rate Us !','google-calendar-events')?></Span>
 									</div>
 									<div class=" mt-[5px] text-center font-normal text-base text-gray-500">
@@ -295,7 +295,7 @@ class Pages {
 							// It will display when the Pro is deactivated.				
 							if (! is_plugin_active( 'Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php' )  )  {		
 							?>
-								<div class="bg-sc_green-100 h-[399px] w-[1302px] ml-[102px] mt-[41px] flex max-xl:ml-[0px]">
+								<div class="bg-sc_green-100 h-[399px] w-[1302px] ml-[102px] mt-[41px] flex max-xl:ml-[0px] rounded-s">
 									<div class="w-[654px] flex relative ">
 										<div class="ml-[37px] mt-[18px]">
 											<img src="<?php echo $admin_image_about_path . '/pro-banner.png'; ?>" />
@@ -305,7 +305,7 @@ class Pages {
 										</div>	
 									</div>
 									<div class="w-[639px] pl-[47px]">
-										<div class="mt-[38px] flex ">
+										<div class="mt-[51px] flex ">
 											<div>
 												<img src="<?php echo $admin_image_about_path . '/black-tick.png'; ?>" />
 											</div>

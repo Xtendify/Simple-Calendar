@@ -85,8 +85,8 @@ class Google_Admin {
 		return array(
 			
 			'name' => $this->feed->name,
-			'description' => __( "To read events from your public Google Calendars you'll need create a Google API key and save it here.", 'google-calendar-events' ) .
-			                 '<br/><br/>' .
+			'description' => '<div class="font-poppins text-sm font-normal text-sc_grey-100 mt-[5px]">'.__( "To read events from your public Google Calendars you'll need create a Google API key and save it here.", 'google-calendar-events' ) .
+			                 '</div><br/><br/>' .
 			                 '<em style="font-size: 14px;">' .
 			                 sprintf( __( '<strong>Note:</strong> Calendars configured to use the <strong><a href="%s" target="_blank">Google Calendar Pro add-on</a></strong> use a different method of authorization.', 'google-calendar-events' ),
 				                 simcal_ga_campaign_url( simcal_get_url( 'addons' ), 'core-plugin', 'settings-link' )
@@ -96,11 +96,10 @@ class Google_Admin {
 				'api_key' => array(
 					'type'       => 'standard',
 					'subtype'    => 'text',
-					'placeholder'=> 'Type here..',
-					'class'      => array( 'simcal-wide-text text-base','ltr' ),
+					'placeholder'=> 'Type here...',
+					'class'      => array( 'simcal-wide-text text-base w-[689px]','ltr' ),
 					'title'      => __( 'Google API Key', 'google-calendar-events' ),
 					'validation' => array( $this, 'check_google_api_key' ),
-					'tooltip'    => __( 'You can choose on which content types to add the ability to attach calendars.', 'google-calendar-events' ),
 				),
 			),
 		);

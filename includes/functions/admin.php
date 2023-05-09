@@ -386,12 +386,8 @@ function sc_rating() {
 	?>
 		<div class='rating flex flex-row justify-center gap-3'>	
 			<?php
-			for($i =1; $i<=5; $i++){
-				if($i<= 1){
-					svgfillstar();			
-				}else{					
-					svgemptystar();
-				}	
+			for ($i = 0; $i < 5; $i++){
+				svgfillstar();
 			}
 			?>
 		</div>	
