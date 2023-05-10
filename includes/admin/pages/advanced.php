@@ -45,12 +45,12 @@ class Advanced extends Admin_Page {
 	public function add_sections() {
 		return apply_filters( 'simcal_add_' . $this->option_group . '_' . $this->id .'_sections', array(
 			'assets' => array(
-				'title'       => __( 'Styles', 'google-calendar-events' ),
-				'description' => __( 'Manage front end assets that handle the calendars appearance.', 'google-calendar-events' )
+				'title'       => __( 'Styles', 'google-calendar-events' ),				
+				'description' => '<div class="text-sm font-poppins font-normal text-sc_grey-100 mt-[5px]">'.__( 'Manage front end assets that handle the calendars appearance.', 'google-calendar-events' ).'</div>'
 			),
 			'installation' => array(
 				'title'       => __( 'Installation', 'google-calendar-events' ),
-				'description' => __( 'Manage your data (plugin settings and saved calendars).', 'google-calendar-events' )
+				'description' => '<div class="text-sm font-poppins font-normal text-sc_grey-100 mt-[5px]">'.__( 'Manage your data (plugin settings and saved calendars).', 'google-calendar-events' ).'</div>'
 			)
 		) );
 	}

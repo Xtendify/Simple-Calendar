@@ -137,6 +137,7 @@ class Calendars extends Admin_Page {
 					'multiselect' => 'multiselect',
 					'enhanced'    => 'enhanced',
 					'title'       => __( 'Attach Calendars', 'google-calendar-events' ),
+					'placeholder' => 'Attach...',
 					'tooltip'     => __( 'You can choose on which content types to add the ability to attach calendars.', 'google-calendar-events' ),
 					'name'        => 'simple-calendar_' . $this->option_group . '_' . $this->id . '[' . $section . '][attach_calendars_posts]',
 					'id'          => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-attach-calendars-posts',

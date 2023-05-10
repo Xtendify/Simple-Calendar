@@ -85,7 +85,7 @@ class Google_Admin {
 		return array(
 			
 			'name' => $this->feed->name,
-			'description' => '<div class="font-poppins text-sm font-normal text-sc_grey-100 mt-[5px]">'.__( "To read events from your public Google Calendars you'll need create a Google API key and save it here.", 'google-calendar-events' ) .
+			'description' => '<div class="text-sm font-poppins font-normal text-sc_grey-100 mt-[5px]">'.__( "To read events from your public Google Calendars you'll need create a Google API key and save it here.", 'google-calendar-events' ) .
 			                 '</div><br/><br/>' .
 			                 '<em style="font-size: 14px;">' .
 			                 sprintf( __( '<strong>Note:</strong> Calendars configured to use the <strong><a href="%s" target="_blank">Google Calendar Pro add-on</a></strong> use a different method of authorization.', 'google-calendar-events' ),

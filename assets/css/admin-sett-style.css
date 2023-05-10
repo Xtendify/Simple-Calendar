@@ -1,8 +1,8 @@
   #wpwrap{
-    background-color: #F2F7FB;
-    
+    background-color: #F2F7FB;    
   }
-  #simcal-settings-page-form .form-table th{
+
+   .semical-feeds-tab .form-table th{
     width: 100%;
     display: block;  
     font-size: 16px;
@@ -11,14 +11,23 @@
     font-family: 'poppins',sans-serif;
   }
 
-  #simcal-settings-page-form .form-table td{
-    width: 100%;
+  .semical-feeds-tab .form-table td{
     display: block;
+    padding: unset;
+  } 
+   .semical-calendars-tab .form-table th{
+    display: block;  
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px; 
+    font-family: 'poppins',sans-serif;
   }
 
-  .form-table td{
+  .semical-calendars-tab .form-table td{
+    width: 100%;
+    display: block;
     padding: unset;
-  }
+  } 
 
   #simcal-settings-page-form .button-primary{
     background-color: #60BC4E;
@@ -70,11 +79,11 @@
   }
   
   #simcal-settings-page-form div#setting-error-settings_updated {
-    width: 77%;
+    max-width: 1302px;
     margin: 10px 0 0 101px ;
   }
   
   #simcal-settings-page .simcal-wide-text {
-    width: 689px;
+    max-width: 689px;
 }
   
