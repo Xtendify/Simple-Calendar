@@ -388,6 +388,7 @@ window.jQuery(function ($) {
 			data: {
 				action: 'simcal_clear_cache',
 				id: $(this).data('id'),
+				nonce: simcal_admin.nonce,
 			},
 			// eslint-disable-next-line object-shorthand
 			beforeSend: function () {

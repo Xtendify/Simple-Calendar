@@ -47,6 +47,9 @@ class Ajax
 	 */
 	public function clear_cache()
 	{
+		if (!wp_verify_nonce($nonce, 'simcal')) {
+			return;
+		}
 		$id = isset($_POST['id'])
 			? (is_array($_POST['id'])
 				? array_map('intval', $_POST['id'])
