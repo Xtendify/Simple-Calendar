@@ -183,10 +183,11 @@ function simcal_common_scripts_variables() {
  *
  * @param  string|int|array $exclude Id or array of ids to drop from results.
  * @param  bool $cached Use cached query.
+ * @param  bool $includegrouped True if this function includes grouped calendars; false otherwise
  *
  * @return array Associative array with ids as keys and feed titles as values.
  */
-function simcal_get_calendars( $exclude = '', $cached = true ) {
+function simcal_get_calendars( $exclude = '', $cached = true, $includegrouped = false ) {
 
 	$calendars = get_transient( '_simple-calendar_feed_ids' );
 
@@ -211,6 +212,16 @@ function simcal_get_calendars( $exclude = '', $cached = true ) {
 			unset( $calendars[ intval( $exclude ) ] );
 		} elseif ( is_array( $exclude ) ) {
 			array_diff_key( $calendars, array_map( 'intval', array_keys( $exclude ) ) );
+		}
+	}
+
+	if( $includegrouped === false ) {
+		// Exclude grouped calendars
+		foreach ($calendars as $key => $value) {
+			$meta_calendarGrouped = get_post_meta($key,'_grouped_calendars_ids');
+			if( $meta_calendarGrouped[0] != '' ){
+				unset($calendars[$key]);
+			}
 		}
 	}
 

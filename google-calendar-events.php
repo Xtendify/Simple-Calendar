@@ -60,3 +60,45 @@ include_once 'third-party/vendor/autoload.php';
 
 // Load plugin.
 include_once 'includes/main.php';
+
+// Remove any taxonomy associated
+function simple_calendar_unlink_category($post_id, $post, $update){
+    $taxonomy = 'calendar_category';
+    wp_delete_object_term_relationships($post_id,$taxonomy);
+    // Add filter to show information message
+    add_filter( 'redirect_post_location', 'calendar_remove_taxonomy', 99 );
+}
+
+// Catch before save post
+function simple_calendar_category_check( $data, $post ){
+
+	// Check that is a grouped calendar
+    if( isset($post['_feed_type']) and $post['_feed_type'] == 'grouped-calendars' ){
+    	// Add filter to remove taxonomies relationship
+        add_filter( 'wp_insert_post', 'simple_calendar_unlink_category', '99', 3 );
+    }
+
+    return $data;
+
+}
+add_filter( 'wp_insert_post_data', 'simple_calendar_category_check', '99', 2 );
+
+function calendar_remove_taxonomy( $location ) {
+    remove_filter( 'redirect_post_location', __FILTER__, 99 );
+    // Add argument to detect when is necessary show the message
+    $location = add_query_arg ( 'remove_category_grouped_calendars', 997, $location );
+    return $location;
+}
+
+// Check message to modify
+function calendar_remove_taxonomy_message($messages) {
+
+    if( isset( $_GET['remove_category_grouped_calendars'] ) ){
+    	// Modify success message
+    	$messages['post'][1] = $messages['post'][1]." <br>".__('Grouped calendars can not have any taxonomy associated.','google-calendar-events');
+		return $messages;
+	}
+
+	return $messages;
+}
+add_action( 'post_updated_messages', 'calendar_remove_taxonomy_message' );
