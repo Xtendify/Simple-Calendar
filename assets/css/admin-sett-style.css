@@ -2,7 +2,7 @@
     background-color: #F2F7FB;    
   }
 
-   .semical-feeds-tab .form-table th{
+  .semical-feeds-tab .form-table th,.semical-calendars-tab .form-table th{
     width: 100%;
     display: block;  
     font-size: 16px;
@@ -11,20 +11,7 @@
     font-family: 'poppins',sans-serif;
   }
 
-  .semical-feeds-tab .form-table td{
-    display: block;
-    padding: unset;
-  } 
-   .semical-calendars-tab .form-table th{
-    display: block;  
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 24px; 
-    font-family: 'poppins',sans-serif;
-  }
-
-  .semical-calendars-tab .form-table td{
-    width: 100%;
+  .semical-feeds-tab .form-table td,.semical-calendars-tab .form-table td{
     display: block;
     padding: unset;
   } 
@@ -38,6 +25,7 @@
     height: 40px;
     
   }
+
   #simcal-settings-page-form .submit{
     padding: unset;
   }
@@ -85,5 +73,12 @@
   
   #simcal-settings-page .simcal-wide-text {
     max-width: 689px;
-}
+  }
+
+  #simcal-settings-page .select2 {
+    max-width: 95%;
+  }
+
+
+
   
