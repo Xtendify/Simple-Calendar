@@ -588,6 +588,8 @@ class Default_Calendar_List implements Calendar_View {
 				$day_date_offset->addSeconds( $day_date->offset );
 				$day_date_ts_offset = $day_date_offset->timestamp;
 
+				$calendar->date_currently_processing = $day_date_offset->toDateString();
+
 				if ( ! $calendar->compact_list ) {
 					if ( $day_date_offset->isToday() ) {
 						$the_color = new Color( $calendar->today_color );
