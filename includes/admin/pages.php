@@ -218,7 +218,7 @@ class Pages {
 				$settings_pages = self::get_settings();
 				if ( ! empty( $settings_pages ) && is_array( $settings_pages ) ) {
 
-					echo '<h2 class="nav-tab-wrapper simcal-nav-tab-wrapper flex space-x-[102px] bg-sc_blue-100">';
+					echo '<h2 class="nav-tab-wrapper simcal-nav-tab-wrapper flex space-x-[102px] bg-sc_blue-100 text-sc_grey-100">';
 
 					// Get tabs for the settings page
 					if ( ! empty( $settings_pages ) && is_array( $settings_pages ) ) {
@@ -229,7 +229,7 @@ class Pages {
 							$tab_label = isset( $settings['label'] ) ? $settings['label'] : '';
 							$tab_link  = admin_url( 'edit.php?post_type=calendar&page=simple-calendar_' . $this->page . '&tab=' . $tab_id );
 
-							echo '<a href="' . $tab_link . '" class=" ml-[100px] text-base font-normal text-sc_grey-100 ' . ( $current_tab == $tab_id ? 'nav-tab-active ml-[100px] text-base font-normal bg-sc_blue-100 border-b-[3px]  pb-[7px] pr-[7px] pl-[7px] border-b-sc_green-200 nav-tab-active' : '' ) . '">' . $tab_label . '</a>';
+							echo '<a href="' . $tab_link . '" class=" ml-[100px] text-base font-normal  ' . ( $current_tab == $tab_id ? 'nav-tab-active ml-[100px] text-base font-normal hover:bg-inherit bg-sc_blue-100 border-b-[3px]  pb-[7px] pr-[7px] pl-[7px] border-b-sc_green-200 nav-tab-active' : '' ) . '">' . $tab_label . '</a>';
 						}
 
 					}
@@ -263,9 +263,9 @@ class Pages {
 							}
 							echo '</div>'; 
 								?>
-									<div class="w-[481px] h-[400px] ml-[25px] rounded-s bg-white">
-									<div>					
-										<img class="m-auto mt-[25px]" src="<?php echo $admin_image_about_path . '/rating.png'; ?>" />							
+								<div class="w-[481px] h-[400px] ml-[25px] rounded-s bg-white">
+									<div class="mt-[9%]">					
+										<img class="m-auto " src="<?php echo $admin_image_about_path . '/rating.png'; ?>" />							
 									</div>
 									<div class=" mt-[15px] text-center font-semibold text-lg ">
 										<Span><?php _e('Please Rate Us !','google-calendar-events')?></Span>
@@ -292,7 +292,7 @@ class Pages {
 								echo '</div>'; 
 								}
 							}
-							// It will display when the Pro is deactivated.				
+							// It will display when the Pro is activated.				
 							if (! is_plugin_active( 'Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php' )  )  {		
 							?>
 								<div class="pt-[41px]">

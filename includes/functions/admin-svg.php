@@ -8,7 +8,7 @@
  */
  function svgfillstar(){
     ?>
-    <svg class="h-6 transition-all duration-100 fill-gray-400  fill-yellow-200  cursor-pointer"
+    <svg class="h-6 transition-all duration-100 fill-gray-400  fill-yellow-500  cursor-pointer"
             viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink">
             <path
