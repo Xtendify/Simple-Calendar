@@ -2,6 +2,26 @@
     background-color: #F2F7FB;    
   }
 
+  .nav-tab-active, .nav-tab-active:focus, .nav-tab-active:hover{
+    background: none;
+    border-bottom: 3px solid #60BC4E;
+  }
+
+  .nav-tab-active:active{
+    color: black;
+  }
+  
+  #simcal-settings-page-form a:hover{
+    color: #60BC4E;
+  }
+
+  #simcal-settings-page-form a:active{
+    color: black;
+  }
+
+  span.simcal-field-bool {
+    margin-left: 25%;
+  }
   .semical-feeds-tab .form-table th,.semical-calendars-tab .form-table th{
     width: 100%;
     display: block;  
@@ -15,6 +35,9 @@
     display: block;
     padding: unset;
   } 
+  .form-table th{
+    padding: 14px 14px 14px 0px;
+  }
 
   #simcal-settings-page-form .button-primary{
     background-color: #60BC4E;
@@ -79,6 +102,147 @@
     max-width: 95%;
   }
 
+  input[type=checkbox]:checked::before{
+    content: url('green-tick.png');
+    margin: unset;
+  }
 
+  input[type=checkbox], input[type=radio]{
+    height: 21px;
+    width: 22px;
+    padding: 3px;
+  }
+  
+  /* css for welcome page */
+  #simcal-welcome .about-text{
+    font-size: 18px;
+    margin: unset;
+    color: white;
+  }
+
+  #simcal-welcome .whats-new-wrap img{
+    border: unset;
+  }
+  #simcal-welcome .about-wrap img{
+    width: unset;
+    margin: unset;
+    
+  }
+  
+  #simcal-welcome .nav-tab{ 
+    background: unset;
+  }
+  
+  .wp-people-group .wp-person{
+    max-width: 220px;
+  }
+  .gravatar{
+    border-radius: 50%;
+  }
+  .about-wrap .wp-person .web{
+    margin-left: 15px;
+  }
+  #simcal-welcome a.button.button-primary {
+    background: rgb(114, 85, 207);
+    border-radius: 20px;
+    border: 1px solid white;
+    margin: 6px;
+  }
+  #simcal-welcome a.button.button-primary:hover {
+    background-color: white;
+    color: #60BC4E;
+    
+  }
+  .nav-tab{
+    border: unset;
+  }
+  .nav-tab-active{
+    border-bottom: 3px solid #60BC4E;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /* css custom post setting  */
+  
+  /* .simcal-panel-field th{
+    width: 100%;
+    display: block;
+  }
+  .simcal-panel-field td{
+     max-width: 100%;
+    display: block;
+  } */
+
+  /* body .simcal-field-tiny, body .simcal-panel-field .simcal-field-tiny {
+    max-width: 100%;
+  }
+  select#_calendar_begins {
+    width: 93%;
+  }
+  .simcal-panel-field>td {
+    width: 100%;
+  }
+  select#_feed_earliest_event_date{
+    width: 65%;
+  }
+  select#_feed_latest_event_date{
+    width: 65%;
+  }
+
+  .postbox{
+    border: unset;
+  } */
+
+  /* .calendar-settings.active .simcal-panel-field td{
+
+    width: 100%;
+    display: revert!important;
+  }
+  .calendar-settings.active .simcal-panel-field th{
+
+    width: 100%;
+    display: revert!important;
+  } */
+
+  /* .events-settings .simcal-panel-field th{
+    width: 100%;
+    display: block;
+  }
+  .events-settings .simcal-panel-field td{
+    width: 100%;
+    display: block;
+  } */
 
   
