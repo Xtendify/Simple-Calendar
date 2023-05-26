@@ -8,21 +8,21 @@
   }
 
   .nav-tab-active:active{
-    color: black;
+    color: #3A414C;
   }
   
-  #simcal-settings-page-form a:hover{
+  #simcal-settings-page-form .sc-link:hover{
     color: #60BC4E;
   }
 
   #simcal-settings-page-form a:active{
-    color: black;
+    color: #3A414C;
   }
 
   span.simcal-field-bool {
     margin-left: 25%;
   }
-  .semical-feeds-tab .form-table th,.semical-calendars-tab .form-table th{
+  .semical-feeds-tab .form-table th,.semical-calendars-tab .form-table th,.semical-licenses-tab .form-table th{
     width: 100%;
     display: block;  
     font-size: 16px;
@@ -31,7 +31,7 @@
     font-family: 'poppins',sans-serif;
   }
 
-  .semical-feeds-tab .form-table td,.semical-calendars-tab .form-table td{
+  .semical-feeds-tab .form-table td,.semical-calendars-tab .form-table td,.semical-licenses-tab .form-table td{
     display: block;
     padding: unset;
   } 
@@ -46,6 +46,10 @@
     border-radius: 7px;
     width: 150px;
     height: 40px;
+    
+  }
+  #simcal-settings-page-form .button-primary:focus{
+   box-shadow: unset;
     
   }
 
@@ -93,6 +97,19 @@
     max-width: 1302px;
     margin: 10px 0 0 101px ;
   }
+  #simcal-settings-page-form .notice-error{
+    margin-left: 8%;
+  }
+  a.button.button-secondary{
+    background:#60BC4E ;
+    color: white;
+    border: unset;
+  }
+  a.button.button-secondary:hover{
+    background:#60BC4E ;
+    color: white;
+    border: unset;
+  }
   
   #simcal-settings-page .simcal-wide-text {
     max-width: 689px;
@@ -112,137 +129,42 @@
     width: 22px;
     padding: 3px;
   }
+  h2 , h3{
+    color: #3A414C;
+  }
   
-  /* css for welcome page */
-  #simcal-welcome .about-text{
-    font-size: 18px;
-    margin: unset;
-    color: white;
+  .form-table th, .form-wrap label {
+    color: #3A414C;
   }
-
-  #simcal-welcome .whats-new-wrap img{
-    border: unset;
-  }
-  #simcal-welcome .about-wrap img{
-    width: unset;
-    margin: unset;
     
-  }
-  
-  #simcal-welcome .nav-tab{ 
+  .wp-core-ui .button-primary.active, .wp-core-ui .button-primary.active:focus, .wp-core-ui .button-primary.active:hover, .wp-core-ui .button-primary:active{
+    border: unset;
     background: unset;
-  }
-  
-  .wp-people-group .wp-person{
-    max-width: 220px;
-  }
-  .gravatar{
-    border-radius: 50%;
-  }
-  .about-wrap .wp-person .web{
-    margin-left: 15px;
-  }
-  #simcal-welcome a.button.button-primary {
-    background: rgb(114, 85, 207);
-    border-radius: 20px;
-    border: 1px solid white;
-    margin: 6px;
-  }
-  #simcal-welcome a.button.button-primary:hover {
-    background-color: white;
-    color: #60BC4E;
-    
-  }
-  .nav-tab{
+  }  
+
+  .simcal-addon-manage-license-buttons {
+    margin-top: 20px;
+}
+
+  button.button-secondary.simcal-addon-manage-license.activate, button.button-secondary.simcal-addon-manage-license.deactivate{
+    background-color: #60BC4E;
+    color: white;
     border: unset;
   }
-  .nav-tab-active{
-    border-bottom: 3px solid #60BC4E;
+
+  .form-table{
+    border-collapse:unset;
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  /* css custom post setting  */
-  
-  /* .simcal-panel-field th{
-    width: 100%;
-    display: block;
-  }
-  .simcal-panel-field td{
-     max-width: 100%;
-    display: block;
-  } */
-
-  /* body .simcal-field-tiny, body .simcal-panel-field .simcal-field-tiny {
-    max-width: 100%;
-  }
-  select#_calendar_begins {
-    width: 93%;
-  }
-  .simcal-panel-field>td {
-    width: 100%;
-  }
-  select#_feed_earliest_event_date{
-    width: 65%;
-  }
-  select#_feed_latest_event_date{
-    width: 65%;
+  .regular-text {
+    width: 90%;
   }
 
-  .postbox{
-    border: unset;
-  } */
-
-  /* .calendar-settings.active .simcal-panel-field td{
-
-    width: 100%;
-    display: revert!important;
+  .notice.notice-error.is-dismissible {
+  max-width: 1302px;
+  margin: 10px 0 0 101px;
   }
-  .calendar-settings.active .simcal-panel-field th{
 
-    width: 100%;
-    display: revert!important;
-  } */
-
-  /* .events-settings .simcal-panel-field th{
-    width: 100%;
-    display: block;
+  .wp-core-ui .button-secondary:focus, .wp-core-ui .button.focus, .wp-core-ui .button:focus {
+    box-shadow: unset;
   }
-  .events-settings .simcal-panel-field td{
-    width: 100%;
-    display: block;
-  } */
-
-  
