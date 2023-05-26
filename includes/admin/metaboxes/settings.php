@@ -38,12 +38,12 @@ class Settings implements Meta_Box {
 		wp_nonce_field( 'simcal_save_data', 'simcal_meta_nonce' );
 
 		?>
-		<div class="simcal-panels-wrap">
+		<div class="simcal-panels-wrap text-[16px] font-poppins ">
 
 			<span class="simcal-box-handle">
 				<?php self::settings_handle( $post ); ?>
 			</span>
-			<ul class="simcal-tabs">
+			<ul class="simcal-tabs font-medium text-sc_grey-200  ">
 				<?php self::settings_tabs( $post ); ?>
 				<?php do_action( 'simcal_settings_meta_tabs' ); ?>
 			</ul>
@@ -69,6 +69,7 @@ class Settings implements Meta_Box {
 			<div class="clear">
 			</div>
 		</div>
+		
 		<?php
 
 	}
@@ -1053,5 +1054,7 @@ class Settings implements Meta_Box {
 		// Clear cache.
 		simcal_delete_feed_transients( $post_id );
 	}
+
+	
 
 }
