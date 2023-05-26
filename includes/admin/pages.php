@@ -218,7 +218,7 @@ class Pages {
 				$settings_pages = self::get_settings();
 				if ( ! empty( $settings_pages ) && is_array( $settings_pages ) ) {
 
-					echo '<h2 class="nav-tab-wrapper simcal-nav-tab-wrapper flex space-x-[102px] bg-sc_blue-100 text-sc_grey-100">';
+					echo '<h2 class="nav-tab-wrapper simcal-nav-tab-wrapper flex space-x-[102px] bg-sc_blue-100 text-sc_grey-100 ">';
 
 					// Get tabs for the settings page
 					if ( ! empty( $settings_pages ) && is_array( $settings_pages ) ) {
@@ -229,7 +229,7 @@ class Pages {
 							$tab_label = isset( $settings['label'] ) ? $settings['label'] : '';
 							$tab_link  = admin_url( 'edit.php?post_type=calendar&page=simple-calendar_' . $this->page . '&tab=' . $tab_id );
 
-							echo '<a href="' . $tab_link . '" class=" ml-[100px] text-base font-normal  ' . ( $current_tab == $tab_id ? 'nav-tab-active ml-[100px] text-base font-normal hover:bg-inherit bg-sc_blue-100 border-b-[3px]  pb-[7px] pr-[7px] pl-[7px] border-b-sc_green-200 nav-tab-active' : '' ) . '">' . $tab_label . '</a>';
+							echo '<a href="' . $tab_link . '" class=" sc-link ml-[100px] text-base font-normal  ' . ( $current_tab == $tab_id ? 'nav-tab-active ml-[100px] text-base font-normal hover:bg-inherit bg-sc_blue-100 border-b-[3px]  pb-[7px] pr-[7px] pl-[7px] border-b-sc_green-200 ' : '' ) . '">' . $tab_label . '</a>';
 						}
 
 					}
@@ -237,9 +237,10 @@ class Pages {
 					do_action( 'simcal_admin_page_' . $this->page . '_tabs' );
 
 					echo '</h2>';
+					echo '<div class="max-w-[1302px]">';
 					echo '<div class="bg-sc_blue-100 ml-[101px]">';
 
-					echo '<div class="flex pt-[114px] max-w-[1302px]">';
+					echo '<div class="flex pt-[114px] ">';
 
 					settings_errors();
 
@@ -316,7 +317,7 @@ class Pages {
 												</div>
 											</div>
 											<div class=" mt-3 text-base text-gray-400 ">
-												<span><?php _e('Calendars configured to use the','google-calendar-events')?><b class="text-black"><?php _e(' Google Calendar Pro add-on','google-calendar-events')?></b> <?php _e('use a different method of authorization.','google-calendar-events')?></span>
+												<span><?php _e('Calendars configured to use the','google-calendar-events')?><b class="text-sc_black-100"><?php _e(' Google Calendar Pro add-on','google-calendar-events')?></b> <?php _e('use a different method of authorization.','google-calendar-events')?></span>
 											</div>
 											<div class="flex items-center text-gray-400 mt-[21px]">
 												<div>
@@ -354,6 +355,7 @@ class Pages {
 								</div>
 							<?php						
 						}	
+					echo '</div>'; 						
 					echo '</div>'; 						
 				}
 				?>
