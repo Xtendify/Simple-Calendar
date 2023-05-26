@@ -23,9 +23,6 @@ module.exports = {
         sc_cream:{
           100:"#E7BE9E",
         },
-        sc_black:{
-          100:"#3A414C",
-        },
       },
       fontFamily:{
        poppins: ['Poppins' ,'sans-serif'],

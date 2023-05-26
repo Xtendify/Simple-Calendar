@@ -8,21 +8,21 @@
   }
 
   .nav-tab-active:active{
-    color: #3A414C;
+    color: black;
   }
   
-  #simcal-settings-page-form .sc-link:hover{
+  #simcal-settings-page-form a:hover{
     color: #60BC4E;
   }
 
   #simcal-settings-page-form a:active{
-    color: #3A414C;
+    color: black;
   }
 
   span.simcal-field-bool {
     margin-left: 25%;
   }
-  .semical-feeds-tab .form-table th,.semical-calendars-tab .form-table th,.semical-licenses-tab .form-table th{
+  .semical-feeds-tab .form-table th,.semical-calendars-tab .form-table th{
     width: 100%;
     display: block;  
     font-size: 16px;
@@ -31,7 +31,7 @@
     font-family: 'poppins',sans-serif;
   }
 
-  .semical-feeds-tab .form-table td,.semical-calendars-tab .form-table td,.semical-licenses-tab .form-table td{
+  .semical-feeds-tab .form-table td,.semical-calendars-tab .form-table td{
     display: block;
     padding: unset;
   } 
@@ -46,10 +46,6 @@
     border-radius: 7px;
     width: 150px;
     height: 40px;
-    
-  }
-  #simcal-settings-page-form .button-primary:focus{
-   box-shadow: unset;
     
   }
 
@@ -97,19 +93,6 @@
     max-width: 1302px;
     margin: 10px 0 0 101px ;
   }
-  #simcal-settings-page-form .notice-error{
-    margin-left: 8%;
-  }
-  a.button.button-secondary{
-    background:#60BC4E ;
-    color: white;
-    border: unset;
-  }
-  a.button.button-secondary:hover{
-    background:#60BC4E ;
-    color: white;
-    border: unset;
-  }
   
   #simcal-settings-page .simcal-wide-text {
     max-width: 689px;
@@ -129,45 +112,7 @@
     width: 22px;
     padding: 3px;
   }
-  h2 , h3{
-    color: #3A414C;
-  }
   
-  .form-table th, .form-wrap label {
-    color: #3A414C;
-  }
-    
-  .wp-core-ui .button-primary.active, .wp-core-ui .button-primary.active:focus, .wp-core-ui .button-primary.active:hover, .wp-core-ui .button-primary:active{
-    border: unset;
-    background: unset;
-  }  
-
-  .simcal-addon-manage-license-buttons {
-    margin-top: 20px;
-}
-
-  button.button-secondary.simcal-addon-manage-license.activate, button.button-secondary.simcal-addon-manage-license.deactivate{
-    background-color: #60BC4E;
-    color: white;
-    border: unset;
-  }
-
-  .form-table{
-    border-collapse:unset;
-  }
-
-  .regular-text {
-    width: 90%;
-  }
-
-  .notice.notice-error.is-dismissible {
-  max-width: 1302px;
-  margin: 10px 0 0 101px;
-  }
-
-  .wp-core-ui .button-secondary:focus, .wp-core-ui .button.focus, .wp-core-ui .button:focus {
-    box-shadow: unset;
-  }
   /* css for welcome page */
   #simcal-welcome .about-text{
     font-size: 18px;
