@@ -375,3 +375,38 @@ function simcal_upgrade_to_premium() {
 		<?php
 	}
 }
+
+/**
+ * Notice to update the Pro addon if version is less then 1.1.2.
+ * This function can be remove June 1 2024.
+ * @since  3.1.43
+ *
+ * @return void
+ */
+function simcal_notice_to_update_pro_addon(){
+	$all_plugins = get_plugins();
+	$notices = get_option( 'simple-calendar_admin_notices', array() );
+
+	if ( array_key_exists( 'Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php', $all_plugins ) &&  $all_plugins['Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php']['Version'] > '1.1.2'  )  {
+		$update_pro_notice = new Notice( array(
+				'id'          => array( 'check_pro_updated' => 'update_pro_notice' ),
+				'type'        => 'error',
+				'dismissable' => false,
+				'content'     => '<p>' .
+				                 '<i class="simcal-icon-calendar-logo"></i> ' .
+				                 sprintf(
+					                 __( 'Broken changes are comming Please update <strong>Simple Calendar - Google Calendar Pro Add-on</strong> Plugin.  <a href="%s">Click Here</a>.', 'google-calendar-events' ),
+					                 admin_url( 'plugins.php' )
+				                 ) .
+				                 '</p>',
+			)
+		);
+
+		$update_pro_notice->add();
+
+	}elseif ( is_array( $notices ) ) {
+		unset( $notices[ 'check_pro_updated' ] );
+		update_option( 'simple-calendar_admin_notices', $notices );	
+	}
+}
+add_action( 'admin_init', 'simcal_notice_to_update_pro_addon');
