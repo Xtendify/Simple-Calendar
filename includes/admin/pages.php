@@ -229,7 +229,7 @@ class Pages {
 							$tab_label = isset( $settings['label'] ) ? $settings['label'] : '';
 							$tab_link  = admin_url( 'edit.php?post_type=calendar&page=simple-calendar_' . $this->page . '&tab=' . $tab_id );
 
-							echo '<a href="' . $tab_link . '" class=" sc-link ml-[100px] text-base font-normal  ' . ( $current_tab == $tab_id ? 'nav-tab-active ml-[100px] text-base font-normal hover:bg-inherit bg-sc_blue-100 border-b-[3px]  pb-[7px] pr-[7px] pl-[7px] border-b-sc_green-200 ' : '' ) . '">' . $tab_label . '</a>';
+							echo '<a href="' . $tab_link . '" class=" sc-link ml-[5%] text-base font-normal' . ( $current_tab == $tab_id ? 'nav-tab-active hover:bg-inherit bg-sc_blue-100 border-b-[3px] pb-[7px] pr-[7px] pl-[7px] border-b-sc_green-200 ' : '' ) . '">' . $tab_label . '</a>';
 						}
 
 					}
@@ -237,8 +237,8 @@ class Pages {
 					do_action( 'simcal_admin_page_' . $this->page . '_tabs' );
 
 					echo '</h2>';
-					echo '<div class="max-w-[1302px]">';
-					echo '<div class="bg-sc_blue-100 ml-[101px]">';
+					echo '<div class="max-w-[100%]">';
+					echo '<div class="bg-sc_blue-100 ml-[5%]">';
 
 					echo '<div class="flex pt-[114px] ">';
 
@@ -247,7 +247,7 @@ class Pages {
 					foreach ( $settings_pages as $tab_id => $contents ) {
 
 						if ( $tab_id === $current_tab ) {
-							echo '<div class="bg-white p-[30px] w-[795px] rounded-s ">';
+							echo '<div class="bg-white p-[30px] w-[60%] rounded-[5px] ">';
 
 							echo isset( $contents['description'] ) ? '<p>' . $contents['description'] . '</p>' : '';
 
@@ -260,11 +260,11 @@ class Pages {
 
 							$submit = apply_filters( 'simcal_admin_page_' . $this->page . '_' . $current_tab . '_submit', true );
 							if ( true === $submit ) {
-								submit_button();
+								submit_button();								
 							}
 							echo '</div>'; 
 								?>
-								<div class="w-[481px] h-[400px] ml-[25px] rounded-s bg-white">
+								<div class="w-[40%] h-[452px] ml-[25px] rounded-[5px] bg-white">
 									<div class="mt-[9%]">					
 										<img class="m-auto " src="<?php echo $admin_image_about_path . '/rating.png'; ?>" />							
 									</div>
@@ -281,7 +281,7 @@ class Pages {
 										?>				
 									</div> 
 									<a href="https://wordpress.org/support/plugin/google-calendar-events/reviews/?filter=5#new-post">
-										<button type="button" class="mt-[20px] m-auto flex justify-center items-center w-[405px] h-[40px] bg-sc_green-200 text-white text-xl font-medium rounded-md">
+										<button type="button" class="mt-[20px] m-auto flex justify-center items-center w-[85%] h-[40px] bg-sc_green-200 text-white text-xl font-medium rounded-md">
 										<?php _e('Rate Now','google-calendar-events')?>							
 										</button>
 									</a>
@@ -296,9 +296,9 @@ class Pages {
 							// It will display when the Pro is activated.				
 							if (! is_plugin_active( 'Simple-Calendar-Google-Calendar-Pro-main/simple-calendar-google-calendar-pro.php' )  )  {		
 							?>
-								<div class="pt-[41px]">
-									<div class="flex rounded-s h-[399px] max-w-[1302px]">
-										<div class="w-[655px] flex relative bg-sc_green-100 ">
+								<div class="pt-[41px] max-w-[100%]">
+									<div class="flex h-[430px] ">
+										<div class="w-[52%] flex relative bg-sc_green-100 rounded-l-[5px] ">
 											<div class="pl-[37px] pt-[18px]">
 												<img src="<?php echo $admin_image_about_path . '/pro-banner.png'; ?>" />
 											</div>
@@ -306,8 +306,8 @@ class Pages {
 												<img src="<?php echo $admin_image_about_path . '/arrow.png'; ?>" />
 											</div>	
 										</div>
-										<div class="w-[645px] pl-[44px] bg-sc_green-100 ">
-											<div class="w-[534px]">
+										<div class="w-[48%] pl-[4%] bg-sc_green-100 rounded-r-[5px] ">
+											<div class="w-[90%]">
 											<div class="mt-[51px] flex ">
 												<div>
 													<img src="<?php echo $admin_image_about_path . '/black-tick.png'; ?>" />
@@ -317,7 +317,7 @@ class Pages {
 												</div>
 											</div>
 											<div class=" mt-3 text-base text-gray-400 ">
-												<span><?php _e('Calendars configured to use the','google-calendar-events')?><b class="text-sc_black-100"><?php _e(' Google Calendar Pro add-on','google-calendar-events')?></b> <?php _e('use a different method of authorization.','google-calendar-events')?></span>
+												<span><?php _e('Calendars configured to use the','google-calendar-events')?><b class="text-sc_black-100 hover:text-sc_green-200"><?php _e(' Google Calendar Pro add-on','google-calendar-events')?></b> <?php _e('use a different method of authorization.','google-calendar-events')?></span>
 											</div>
 											<div class="flex items-center text-gray-400 mt-[21px]">
 												<div>
@@ -344,7 +344,7 @@ class Pages {
 												</div>
 											</div>
 											<a href="https://simplecalendar.io/downloads/google-calendar-pro/">
-												<button type="button" class="mt-[45px] flex justify-center items-center w-[533px] h-[40px] bg-sc_green-200 text-white text-xl font-medium rounded-md">
+												<button type="button" class="mt-[45px] flex justify-center items-center w-[97%] h-[40px] bg-sc_green-200 text-white text-xl font-medium rounded-md">
 													<img class="p-[8px]" src="<?php echo $admin_image_about_path . '/crown.png'; ?>" />
 													<?php _e('Get Pro Version','google-calendar-events')?>						
 												</button>

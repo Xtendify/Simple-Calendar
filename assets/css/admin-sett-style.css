@@ -20,7 +20,7 @@
 }
 
 span.simcal-field-bool {
-  margin-left: 25%;
+  margin-left: 35%;
 }
 .semical-feeds-tab .form-table th,.semical-calendars-tab .form-table th,.semical-licenses-tab .form-table th{
   width: 100%;
@@ -95,11 +95,11 @@ span.simcal-field-bool {
 
 #simcal-settings-page-form div#setting-error-settings_updated {
   max-width: 1302px;
-  margin: 10px 0 0 101px ;
+  margin: 1% 0 0 5% ;
 }
 #simcal-settings-page-form .notice-error{
   max-width: 1302px;
-  margin: 10px 0 0 101px ;
+  margin: 1% 0 0 5% ;
 }
 a.button.button-secondary{
   background:#60BC4E ;
@@ -122,14 +122,18 @@ a.button.button-secondary:hover{
 
 input[type=checkbox]:checked::before{
   content: url('green-tick.png');
-  margin: unset;
+  margin: 0px;
+  width: 0px;
+ border: none;
 }
 
+
+
 input[type=checkbox], input[type=radio]{
-  height: 21px;
-  width: 22px;
-  padding: 3px;
+  height: 21.5px;
+  width: 21.5px; 
 }
+
 h2 , h3{
   color: #3A414C;
 }
@@ -163,7 +167,7 @@ button.button-secondary.simcal-addon-manage-license.activate, button.button-seco
 
 .notice.notice-error.is-dismissible {
 max-width: 1302px;
-margin: 10px 0 0 101px;
+margin: 1% 0 0 5% ;
 }
 
 .wp-core-ui .button-secondary:focus, .wp-core-ui .button.focus, .wp-core-ui .button:focus {
@@ -173,7 +177,6 @@ margin: 10px 0 0 101px;
 .sc-error-notice{
   display: inherit;
   margin-top: 25px;
-  background: whitesmoke;
   padding: 20px 5px;    
   text-decoration: blink;
   -webkit-animation-name: blinker;
@@ -188,6 +191,29 @@ margin: 10px 0 0 101px;
   to {opacity: 0.0;}
 }
 
+#simcal-settings-page-form input[type=color], input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week], select, textarea {
+  box-shadow: 0 0 0 transparent;
+  border-radius: 4px;
+  border: 1px solid #D4D4D8;
+  background-color: #fff;
+  color: #71717A;
+}
+
+.select2-container .select2-selection--multiple .select2-selection__rendered{
+  display: unset;
+  height: 40px;
+  border-radius: 5px;
+}
+.select2-container .select2-selection--multiple{
+  height: 40px;
+  border-radius: 5px;
+}
+
+input[type=checkbox]:focus, input[type=color]:focus, input[type=date]:focus, input[type=datetime-local]:focus, input[type=datetime]:focus, input[type=email]:focus, input[type=month]:focus, input[type=number]:focus, input[type=password]:focus, input[type=radio]:focus, input[type=search]:focus, input[type=tel]:focus, input[type=text]:focus, input[type=time]:focus, input[type=url]:focus, input[type=week]:focus, select:focus, textarea:focus {
+  box-shadow: unset;
+  border-color: unset;
+  outline: unset;
+}
 
 
 

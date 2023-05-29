@@ -26,6 +26,9 @@ module.exports = {
         sc_black:{
           100:"#3A414C",
         },
+        sc_yellow:{
+          100:"#F7D100",
+        },
       },
       fontFamily:{
        poppins: ['Poppins' ,'sans-serif'],
