@@ -81,7 +81,7 @@ class License extends Field {
 						<i class="simcal-icon-spinner simcal-icon-spin" style="display: none; border: unset;"></i><?php _e( 'Activate', 'google-calendar-events' ); ?>
 					</button>
 
-					<span class="error" style="color: red; display: none; vertical-align: sub;"> </span>
+					<span class="error sc-error-notice" style="color: red; display: none; vertical-align: sub;"> </span>
 
 					<strong class="label" style="color:green; <?php echo $active; ?>"> <?php _e( '(active)', 'google-calendar-events' ); ?></strong>
 

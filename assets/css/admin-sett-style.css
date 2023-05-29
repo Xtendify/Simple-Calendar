@@ -98,7 +98,8 @@ span.simcal-field-bool {
   margin: 10px 0 0 101px ;
 }
 #simcal-settings-page-form .notice-error{
-  margin-left: 8%;
+  max-width: 1302px;
+  margin: 10px 0 0 101px ;
 }
 a.button.button-secondary{
   background:#60BC4E ;
@@ -169,51 +170,22 @@ margin: 10px 0 0 101px;
   box-shadow: unset;
 }
 
-/* css for welcome page */
-#simcal-welcome .about-text{
-  font-size: 18px;
-  margin: unset;
-  color: white;
+.sc-error-notice{
+  display: inherit;
+  margin-top: 25px;
+  background: whitesmoke;
+  padding: 20px 5px;    
+  text-decoration: blink;
+  -webkit-animation-name: blinker;
+  -webkit-animation-duration: 0.6s;
+  -webkit-animation-iteration-count:infinite;
+  -webkit-animation-timing-function:ease-in-out;
+  -webkit-animation-direction: alternate;    
 }
 
-#simcal-welcome .whats-new-wrap img{
-  border: unset;
-}
-#simcal-welcome .about-wrap img{
-  width: unset;
-  margin: unset;
-  
-}
-
-#simcal-welcome .nav-tab{ 
-  background: unset;
-}
-
-.wp-people-group .wp-person{
-  max-width: 220px;
-}
-.gravatar{
-  border-radius: 50%;
-}
-.about-wrap .wp-person .web{
-  margin-left: 15px;
-}
-#simcal-welcome a.button.button-primary {
-  background: rgb(114, 85, 207);
-  border-radius: 20px;
-  border: 1px solid white;
-  margin: 6px;
-}
-#simcal-welcome a.button.button-primary:hover {
-  background-color: white;
-  color: #60BC4E;
-  
-}
-.nav-tab{
-  border: unset;
-}
-.nav-tab-active{
-  border-bottom: 3px solid #60BC4E;
+@-webkit-keyframes blinker {
+  from {opacity: 1.0;}
+  to {opacity: 0.0;}
 }
 
 
@@ -227,77 +199,4 @@ margin: 10px 0 0 101px;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* css custom post setting  */
-
-/* .simcal-panel-field th{
-  width: 100%;
-  display: block;
-}
-.simcal-panel-field td{
-   max-width: 100%;
-  display: block;
-} */
-
-/* body .simcal-field-tiny, body .simcal-panel-field .simcal-field-tiny {
-  max-width: 100%;
-}
-select#_calendar_begins {
-  width: 93%;
-}
-.simcal-panel-field>td {
-  width: 100%;
-}
-select#_feed_earliest_event_date{
-  width: 65%;
-}
-select#_feed_latest_event_date{
-  width: 65%;
-}
-
-.postbox{
-  border: unset;
-} */
-
-/* .calendar-settings.active .simcal-panel-field td{
-
-  width: 100%;
-  display: revert!important;
-}
-.calendar-settings.active .simcal-panel-field th{
-
-  width: 100%;
-  display: revert!important;
-} */
-
-/* .events-settings .simcal-panel-field th{
-  width: 100%;
-  display: block;
-}
-.events-settings .simcal-panel-field td{
-  width: 100%;
-  display: block;
-} */
 

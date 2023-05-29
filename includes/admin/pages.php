@@ -294,7 +294,7 @@ class Pages {
 								}
 							}
 							// It will display when the Pro is activated.				
-							if (! is_plugin_active( 'Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php' )  )  {		
+							if (! is_plugin_active( 'Simple-Calendar-Google-Calendar-Pro-main/simple-calendar-google-calendar-pro.php' )  )  {		
 							?>
 								<div class="pt-[41px]">
 									<div class="flex rounded-s h-[399px] max-w-[1302px]">
