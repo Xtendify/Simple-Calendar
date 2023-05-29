@@ -98,12 +98,12 @@ class Welcome {
 	public function main_nav_links() {
 
 		?>
-		<div class="font-poppins font-medium">
+		<p>
 			<a href="<?php echo admin_url( 'edit.php?post_type=calendar' ); ?>"
 			   class="button button-primary"
 				><?php _e( 'Calendars', 'google-calendar-events' ); ?></a>
 			<a href="<?php echo esc_url( add_query_arg( 'page', 'simple-calendar_settings', admin_url( 'admin.php' ) ) ); ?>"
-			   class="button button-primary "
+			   class="button button-primary"
 				><?php _e( 'Settings', 'google-calendar-events' ); ?></a>
 			<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'addons' ), 'core-plugin', 'welcome-page' ); ?>"
 			   class="docs button button-primary" target="_blank"
@@ -111,75 +111,7 @@ class Welcome {
 			<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'docs' ), 'core-plugin', 'welcome-page' ); ?>"
 			   class="docs button button-primary" target="_blank"
 				><?php _e( 'Documentation', 'google-calendar-events' ); ?></a>
-	</div>
-		<?php
-
-	}
-	/**
-	 * nav links at top .
-	 *
-	 * @since 3.0.0
-	 */
-	public function nav_links() {
-		?>
-		<h2 class="nav-tab-wrapper text-sc_grey-100 font-poppins">
-			<a class="nav-tab <?php if ( $_GET['page'] == 'simple-calendar_about' ) {
-				echo 'nav-tab-active ';
-			} ?>"
-			   href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'simple-calendar_about' ), 'index.php' ) ) ); ?>"
-				><?php _e( "What's New", 'google-calendar-events' ); ?></a>
-			<a class="nav-tab <?php if ( $_GET['page'] == 'simple-calendar_credits' ) {
-				echo 'nav-tab-active ';
-			} ?>"
-			   href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'simple-calendar_credits' ), 'index.php' ) ) ); ?>"
-				><?php _e( 'Credits', 'google-calendar-events' ); ?></a>
-			<a class="nav-tab <?php if ( $_GET['page'] == 'simple-calendar_translators' ) {
-				echo 'nav-tab-active';
-			} ?>"
-			   href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'simple-calendar_translators' ), 'index.php' ) ) ); ?>"
-				><?php _e( 'Translators', 'google-calendar-events border-b-[3px]' ); ?></a>
-		</h2>	
-		<?php
-
-	}
-	/**
-	 * intro section .
-	 *
-	 * @since 3.0.0
-	 */
-	public function sc_intro_section() {
-		$welcome_image_about_path = SIMPLE_CALENDAR_ASSETS . '/images/welcome';
-		?>		
-		<div class="mt-[100px] h-[408px] border-2 relative bg-sc_banner-bg rounded-[20px]">
-					<div class="pl-[62px] pt-[61px] max-w-[745px] text-white ">
-						<?php $this->intro(); ?>
-					</div>
-					<div class="">
-						<div class=" w-[409px] h-[237px] absolute right-0 top-[-35px]">
-						<img src="<?php echo $welcome_image_about_path . '/cal-meeting.png'; ?>" />	
-						</div>
-						<div Class="absolute h-[78px] right-[35%] rounded-full bg-white ">
-							<img class="max-w-[61px] max-h-[47px]" src="<?php echo $welcome_image_about_path . '/cal-icon.png'; ?>" />	
-						</div>
-						<div Class=" absolute bg-white w-[359px] h-[156px] right-[37%] bottom-[-20%] flex rounded-[15px]">
-							<div class="pl-[30px] pt-[30px]">
-								<img class="max-w-[75px] max-h-[75px] " src="<?php echo $welcome_image_about_path . '/review-img.png'; ?>" />
-							</div>
-							<div class="pl-[30px] pt-[30px] font-poppins">
-								<div class="text-lg font-semibold">
-									<?php _e( 'Suke Tran', 'google-calendar-events' ); ?>
-								</div>
-								<div>
-									<?php _e( 'excellent plugin with additional features', 'google-calendar-events' ); ?>
-								</div>
-								<div class="pr-[60px]">
-									<?php sc_rating(); ?>
-								</div>
-							</div>
-						</div>
-						
-					</div>
-		</div>
+		</p>
 		<?php
 
 	}
@@ -191,15 +123,15 @@ class Welcome {
 	 */
 	private function intro() {
 
-		?>		
-		<div class="font-poppins font-bold text-4xl">
+		?>
+		<h1>
 			<?php
 			/* translators: %s prints the current version of the plugin. */
 			printf( __( 'Welcome to Simple Calendar %s', 'google-calendar-events' ), SIMPLE_CALENDAR_VERSION );
 			?>
-		</div>
+		</h1>
 
-		<div class="about-text font-poppins ">
+		<div class="about-text">
 			<?php
 
 			// Difference message if updating vs fresh install.
@@ -216,15 +148,31 @@ class Welcome {
 			?>
 			<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'docs' ), 'core-plugin', 'welcome-page' ); ?>"
 			   target="_blank"
-			><br><?php _e( 'Check out our documentation', 'google-calendar-events' ); ?></a>
+			><?php _e( 'Check out our documentation', 'google-calendar-events' ); ?></a>
 			<?php _e( 'to get started now.', 'google-calendar-events' ); ?>
 		</div>
 
-		<!-- <div class="simcal-badge">&nbsp;</div> -->
-		<div class="pt-[54px]">
+		<div class="simcal-badge">&nbsp;</div>
+
 		<?php $this->main_nav_links(); ?>
-		</div>
-			
+
+		<h2 class="nav-tab-wrapper">
+			<a class="nav-tab <?php if ( $_GET['page'] == 'simple-calendar_about' ) {
+				echo 'nav-tab-active';
+			} ?>"
+			   href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'simple-calendar_about' ), 'index.php' ) ) ); ?>"
+				><?php _e( "What's New", 'google-calendar-events' ); ?></a>
+			<a class="nav-tab <?php if ( $_GET['page'] == 'simple-calendar_credits' ) {
+				echo 'nav-tab-active';
+			} ?>"
+			   href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'simple-calendar_credits' ), 'index.php' ) ) ); ?>"
+				><?php _e( 'Credits', 'google-calendar-events' ); ?></a>
+			<a class="nav-tab <?php if ( $_GET['page'] == 'simple-calendar_translators' ) {
+				echo 'nav-tab-active';
+			} ?>"
+			   href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'simple-calendar_translators' ), 'index.php' ) ) ); ?>"
+				><?php _e( 'Translators', 'google-calendar-events' ); ?></a>
+		</h2>
 		<?php
 
 	}
@@ -237,76 +185,33 @@ class Welcome {
 	public function about_screen() {
 		$welcome_image_about_path = SIMPLE_CALENDAR_ASSETS . '/images/welcome';
 		$welcome_addons_link = simcal_ga_campaign_url( simcal_get_url( 'addons' ), 'core-plugin', 'welcome-page' );
+
 		?>
 		<div id="simcal-welcome">
-			<div class="wrap about-wrap whats-new-wrap max-w-[1606px]">
-				<?php $this->nav_links(); ?>				
-				<?php $this->sc_intro_section(); ?>				
-				
-				<div class="grid gap-x-10 grid-cols-3 mt-[170px] font-poppins">
-					<div class="h-[436px] bg-sc_cream-100 text-white pt-[52px] pl-[33px] pr-[15px] rounded-[15px] ">
-						<span class="text-[24px] font-bold leading-[31px]"><?php _e( 'Configure event colors, number of events to display, grid or list style', 'google-calendar-events' ); ?></span>
-						<span class="text-[24px]"> <?php _e( ' and more.', 'google-calendar-events' ); ?></span>
-						<img src="<?php echo $welcome_image_about_path . '/cal-meeting.png'; ?>" />
-						
-					</div>
-					<div class="h-[436px] bg-sc_green-200 text-white pt-[52px] pl-[33px] rounded-[15px]">
-						<span class="text-[24px] font-bold leading-[31px] "><?php _e( 'Mobile responsive and ', 'google-calendar-events' ); ?></span>						
-						<span class="text-[24px]"> <?php _e( 'widget ready.', 'google-calendar-events' ); ?></span>	
-						<img src="<?php echo $welcome_image_about_path . '/jan-cal.png'; ?>" />												
-					</div>
-					<div class="h-[436px] bg-sc_blue-300 text-white pt-[52px] pl-[33px] rounded-[15px]">
-						<span class="text-[24px] font-bold leading-[31px] "><?php _e( 'Add even more display options with add-ons like', 'google-calendar-events' ); ?> </span>
-						<span class="text-[24px] "> <?php _e( 'Full Calendar and Google Calendar Pro.', 'google-calendar-events' ); ?></span>
-						<img src="<?php echo $welcome_image_about_path . '/mar-cal.png'; ?>" />	
-					</div>
-				</div>
-				<div class="mt-[50px] max-w-[1606px] h-[266px] pl-[62px] pt-[45px] flex bg-sc_green-100 font-poppins rounded">
-					<div>
-						<div class="flex">
-							<div class="">
-								<img src="<?php echo $welcome_image_about_path . '/bl-crown.png'; ?>" />
-							</div>
-							<div class="pl-[17px] font-semibold text-[16px]">
-								<?php _e( 'View Pricing and Try a Demo of our', 'google-calendar-events' ); ?>
-								<span class="text-sc_green-200"><?php _e( 'Simple Calendar Pro Add-ons.', 'google-calendar-events' ); ?></span>
-							</div>
-						</div>
-						<div class="flex items-center mt-[34px] ">
-							<div>
-								<img src="<?php echo $welcome_image_about_path . '/green-tick.png'; ?>" />
-							</div>
-							<div class="ml-[9px] text-base text-gray-400 font-normal">
-								<span><?php _e('Display events from both private and public Google Calendars.','google-calendar-events')?></span>
-							</div>
-						</div>
-						<div class="flex items-center mt-[14px] ">
-							<div >
-								<img src="<?php echo $welcome_image_about_path . '/green-tick.png'; ?>" />
-							</div>
-							<div class="ml-[9px] text-base text-gray-400 font-normal">
-								<span><?php _e('Lorem ipsum dolor sit amet, consectetur adipiscing elit','google-calendar-events')?></span>
-							</div>
-						</div>
-						<div class="flex items-center mt-[14px] ">
-							<div>
-								<img src="<?php echo $welcome_image_about_path . '/green-tick.png'; ?>" />
-							</div>
-							<div class="ml-[9px] text-base text-gray-400 font-normal">
-								<span><?php _e('Many More...','google-calendar-events')?></span>
-							</div>
-						</div>
-					</div>
-					<div class="m-auto">
-						<a href="https://simplecalendar.io/downloads/google-calendar-pro/">
-							<button type="button" class="flex justify-center items-center w-[377px] h-[40px] bg-sc_green-200 text-white text-base font-medium rounded-md font-poppins">
-								<img class="p-[8px]" src="<?php echo $welcome_image_about_path . '/crown.png'; ?>" />
-								<?php _e('Get Pro Version','google-calendar-events')?>						
-							</button>
-						</a>
-					</div>
-				</div>
-			</div>			
+			<div class="wrap about-wrap whats-new-wrap">
+
+				<?php $this->intro(); ?>
+
+				<h3><?php _e( 'Configure event colors, number of events to display, grid or list style and more.', 'google-calendar-events' ); ?></h3>
+				<img src="<?php echo $welcome_image_about_path . '/grid-view-basic.png'; ?>" />
+
+				<h3><?php _e( 'Mobile responsive and widget ready.', 'google-calendar-events' ); ?></h3>
+				<img src="<?php echo $welcome_image_about_path . '/list-view-widget.png'; ?>" />
+				<img src="<?php echo $welcome_image_about_path . '/grid-view-widget-dark-theme.png'; ?>" />
+
+				<h3>
+					<?php _e( 'Add even more display options with add-ons like', 'google-calendar-events' ); ?>
+					<a href="<?php echo $welcome_addons_link; ?>" target="_blank"><?php _e( 'FullCalendar and Google Calendar Pro', 'google-calendar-events' ); ?></a>.
+				</h3>
+				<a href="<?php echo $welcome_addons_link; ?>" target="_blank"><img src="<?php echo $welcome_image_about_path . '/fullcalendar-google-calendar-pro-grid-view.png'; ?>" /></a>
+
+				<h3><a href="<?php echo $welcome_addons_link; ?>" target="_blank"><?php _e( 'View Pricing and Try a Demo of our Simple Calendar Pro Add-ons.', 'google-calendar-events' ); ?></a></h3>
+
+				<hr/>
+
+				<?php $this->main_nav_links(); ?>
+
+			</div>
 		</div>
 		<?php
 
@@ -318,68 +223,22 @@ class Welcome {
 	 * @since 3.0.0
 	 */
 	public function credits_screen() {
-		$welcome_image_about_path = SIMPLE_CALENDAR_ASSETS . '/images/welcome';
 
-		?>	
+		?>
 		<div id="simcal-welcome">
-			<div class="wrap about-wrap credits-wrap max-w-[1606px] font-poppins">
-			<?php $this->nav_links(); ?>				
-				<?php $this->sc_intro_section(); ?>	
-				<div class="mt-[54px] max-w-[1606px] h-[auto] bg-sc_green-100 rounded-[20px] pl-[74px]">
-					<div class="pt-[62px] font-bold text-xl">
-						<?php _e("Simple Calendar is created by a worldwide team of developers. If you'd ",'google-calendar-events')?>	
-					</div>
-					<div class="text-xl">
-						<?php _e("like to contribute please visit our <a href='%s' class='text-sc_green-200' target='_blank'>GitHub repo </a>",'google-calendar-events')?>	
-					</div>
-					<div class="flex flex-row pt-[54px]">
-						<div class="basis-3/5">
-							<?php
-							  echo $this->contributors();
-							?>
-						</div>
-						<div class="basis-2/5">
-							
-							<div class="mt-[54px] mr-[118px] w-[481px] h-[366px] rounded-[20px] bg-white ">
-								<div class="pl-[42%] " >					
-									<img class="pt-[19px]" src="<?php echo $welcome_image_about_path . '/wel-rating.png'; ?>" />							
-								</div>
-								<div class=" mt-[15px] text-center font-semibold text-lg ">
-									<Span><?php _e('Please Rate Us !','google-calendar-events')?></Span>
-								</div>
-								<div class=" mt-[5px] text-center font-normal text-base text-gray-500">
-									<Span><?php _e('If you like Simple Calendar please Rate Us','google-calendar-events')?> </Span>
-								</div>
-								<div class="mt-[44px]">
-									<?php
-									// Rating function is used here 
-										sc_rating();
-									?>				
-								</div> 
-								<a href="https://wordpress.org/support/plugin/google-calendar-events/reviews/?filter=5#new-post">
-									<button type="button" class="mt-[20px] m-auto flex justify-center items-center w-[405px] h-[40px] bg-sc_green-200 text-white text-xl font-medium rounded-md">
-									<?php _e('Rate Now','google-calendar-events')?>							
-									</button>
-								</a>
-								<div class="mt-[25px] text-center text-base text-sc_blue-200 hover:underline">
-									<a href="https://wordpress.org/support/plugin/google-calendar-events/reviews/?filter=5"><?php _e('See All Rating 4 Out of 5 Stars','google-calendar-events')?></a>
-								</div>
-							</div>
-						
-						</div>
-					</div>
-				</div>
+			<div class="wrap about-wrap credits-wrap">
+				<?php $this->intro(); ?>
 				<p class="about-description">
 					<?php
 
 					printf(
-						__( "", 'google-calendar-events' ),
+						__( "Simple Calendar is created by a worldwide team of developers. If you'd like to contribute please visit our <a href='%s' target='_blank'>GitHub repo</a>.", 'google-calendar-events' ),
 						simcal_get_url( 'github' )
 					);
 
 					?>
 				</p>
-				
+				<?php echo $this->contributors(); ?>
 			</div>
 		</div>
 		<?php
@@ -395,22 +254,14 @@ class Welcome {
 
 		?>
 		<div id="simcal-welcome">
-			<div class="wrap about-wrap translators-wrap max-w-[1606px] fonlat-poppins">
-				<?php $this->nav_links(); ?>
-				<?php $this->sc_intro_section(); ?>
-				<div class="font-bold text-xl mt-[31px]">
-					<span><?php _e( 'Simple Calendar has been kindly translated into several other ', 'google-calendar-events' ); ?></span>
-				</div>
-				<div class=" text-xl">
-					<span><?php _e( 'languages by contributors from all over the world.', 'google-calendar-events' ); ?></span>
-				</div>
-				<div class="mt-[42px]">
-						<a href="https://translate.wordpress.org/projects/wp-plugins/google-calendar-events">
-							<button type="button" class=" items-center w-[257px] h-[40px] bg-sc_green-200 text-white text-base rounded-[7px] font-poppins">
-								<?php _e('Click here to help translate','google-calendar-events')?>						
-							</button>
-						</a>
-					</div>
+			<div class="wrap about-wrap translators-wrap">
+				<?php $this->intro(); ?>
+				<p class="about-description">
+					<?php _e( 'Simple Calendar has been kindly translated into several other languages by contributors from all over the world.', 'google-calendar-events' ); ?>
+				</p>
+				<p class="about-description">
+					<a href="https://translate.wordpress.org/projects/wp-plugins/google-calendar-events" target="_blank"><?php _e( 'Click here to help translate', 'google-calendar-events' ); ?></a>
+				</p>
 				<?php
 
 				// Transifex API is not open and requires authentication,
@@ -442,7 +293,7 @@ class Welcome {
 			return '';
 		}
 
-		$contributor_list = '<div class="wp-people-group">';
+		$contributor_list = '<ul class="wp-people-group">';
 
 		foreach ( $contributors as $contributor ) {
 
@@ -452,23 +303,23 @@ class Welcome {
 				continue;
 			}
 
-			$contributor_list .= '<div class="wp-person mt-[43px]">';
+			$contributor_list .= '<li class="wp-person">';
 			$contributor_list .= sprintf(
 				'<a href="%s" title="%s" target="_blank">%s</a>',
 				esc_url( 'https://github.com/' . $contributor->login ),
 				esc_html( sprintf( __( 'View %s', 'google-calendar-events' ), $contributor->login ) ),
-				sprintf( '<img src="%s" width="50px" height="50px" class="gravatar" alt="%s" />', esc_url( $contributor->avatar_url ), esc_html( $contributor->login ) )
+				sprintf( '<img src="%s" width="64" height="64" class="gravatar" alt="%s" />', esc_url( $contributor->avatar_url ), esc_html( $contributor->login ) )
 			);
 			$contributor_list .= sprintf(
 				'<a class="web" href="%s" target="_blank">%s</a>',
 				esc_url( 'https://github.com/' . $contributor->login ),
 				esc_html( $contributor->login )
 			);
-			$contributor_list .= '</div>';
+			$contributor_list .= '</li>';
 
 		}
 
-		$contributor_list .= '</div>';
+		$contributor_list .= '</ul>';
 
 		return $contributor_list;
 	}
