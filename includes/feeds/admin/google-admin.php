@@ -88,7 +88,7 @@ class Google_Admin {
 			'description' => '<div class="text-sm font-poppins font-normal text-sc_grey-100 mt-[5px]">'.__( "To read events from your public Google Calendars you'll need create a Google API key and save it here.", 'google-calendar-events' ) .
 			                 '</div><br/><br/>' .
 			                 '<em style="font-size: 14px;">' .
-			                 sprintf( __( '<strong>Note:</strong> Calendars configured to use the <strong><a href="%s" target="_blank">Google Calendar Pro add-on</a></strong> use a different method of authorization.', 'google-calendar-events' ),
+			                 sprintf( __( '<strong>Note:</strong> Calendars configured to use the <strong><a href="%s" class="hover:text-sc_green-200" target="_blank">Google Calendar Pro add-on</a></strong> use a different method of authorization.', 'google-calendar-events' ),
 				                 simcal_ga_campaign_url( simcal_get_url( 'addons' ), 'core-plugin', 'settings-link' )
 			                 ) .
 			                 '</em><section class="mt-[20px]"><hr></section>',			 

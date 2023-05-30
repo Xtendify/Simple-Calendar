@@ -265,8 +265,8 @@ class Pages {
 							echo '</div>'; 
 								?>
 								<div class="w-[40%] h-[452px] ml-[25px] rounded-[5px] bg-white">
-									<div class="mt-[9%]">					
-										<img class="m-auto " src="<?php echo $admin_image_about_path . '/rating.png'; ?>" />							
+									<div class="mt-[15%]">					
+										<img class="m-auto" src="<?php echo $admin_image_about_path . '/rating.png'; ?>" />							
 									</div>
 									<div class=" mt-[15px] text-center font-semibold text-lg ">
 										<Span><?php _e('Please Rate Us !','google-calendar-events')?></Span>

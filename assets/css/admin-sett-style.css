@@ -22,6 +22,7 @@
 span.simcal-field-bool {
   margin-left: 35%;
 }
+
 .semical-feeds-tab .form-table th,.semical-calendars-tab .form-table th,.semical-licenses-tab .form-table th{
   width: 100%;
   display: block;  
@@ -45,9 +46,9 @@ span.simcal-field-bool {
   border-color: unset;
   border-radius: 7px;
   width: 150px;
-  height: 40px;
-  
+  height: 40px; 
 }
+
 #simcal-settings-page-form .button-primary:focus{
  box-shadow: unset;
   
@@ -83,12 +84,6 @@ span.simcal-field-bool {
   color: #60BC4E;
 }
 
-#simcal-settings-page-form p {
-  font-size: 14px;
-  font-weight: 400;  
-  line-height: 21px;  
-}
-
 #simcal-settings-page-form .simcal-field-bool>input {
   line-height: unset;
 }
@@ -101,6 +96,11 @@ span.simcal-field-bool {
   max-width: 1302px;
   margin: 1% 0 0 5% ;
 }
+
+#simcal-settings-page-form a:active{
+color: #60BC4E;
+}
+
 a.button.button-secondary{
   background:#60BC4E ;
   color: white;
@@ -113,21 +113,23 @@ a.button.button-secondary:hover{
 }
 
 #simcal-settings-page .simcal-wide-text {
-  max-width: 689px;
+  max-width: 99%;
 }
 
 #simcal-settings-page .select2 {
   max-width: 95%;
+ 
+}
+#simcal-settings-page .simcal-wide-text{
+  width: 99%;
 }
 
 input[type=checkbox]:checked::before{
   content: url('green-tick.png');
   margin: 0px;
   width: 0px;
- border: none;
+  border: none;
 }
-
-
 
 input[type=checkbox], input[type=radio]{
   height: 21.5px;
@@ -174,10 +176,15 @@ margin: 1% 0 0 5% ;
   box-shadow: unset;
 }
 
+#simcal-settings-page .select2-container--open .select2-selection{
+  box-shadow: 0 0 2px #D4D4D8;
+  border-color: #71717A;
+}
+
 .sc-error-notice{
   display: inherit;
   margin-top: 25px;
-  padding: 20px 5px;    
+  padding: 20px 5px 0px 0px;    
   text-decoration: blink;
   -webkit-animation-name: blinker;
   -webkit-animation-duration: 0.6s;
@@ -197,6 +204,8 @@ margin: 1% 0 0 5% ;
   border: 1px solid #D4D4D8;
   background-color: #fff;
   color: #71717A;
+  height: 40px;
+  width: 99%;
 }
 
 .select2-container .select2-selection--multiple .select2-selection__rendered{
@@ -215,6 +224,9 @@ input[type=checkbox]:focus, input[type=color]:focus, input[type=date]:focus, inp
   outline: unset;
 }
 
+.sc-del-notice{
+  margin-left: 2px;
+}
 
 
 
