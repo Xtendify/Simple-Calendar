@@ -238,16 +238,16 @@ class Pages {
 
 					echo '</h2>';
 					echo '<div class="max-w-[100%]">';
-					echo '<div class="bg-sc_blue-100 ml-[5%]">';
+					echo '<div class="bg-sc_blue-100 ">';
 
-					echo '<div class="flex pt-[114px] ">';
+					echo '<div class="flex pt-[114px] ml-[5%] ">';
 
 					settings_errors();
 
 					foreach ( $settings_pages as $tab_id => $contents ) {
 
 						if ( $tab_id === $current_tab ) {
-							echo '<div class="bg-white p-[30px] w-[60%] rounded-[5px] ">';
+							echo '<div class="bg-white p-[2%] w-[49%] rounded-[5px] ">';
 
 							echo isset( $contents['description'] ) ? '<p>' . $contents['description'] . '</p>' : '';
 
@@ -264,7 +264,7 @@ class Pages {
 							}
 							echo '</div>'; 
 								?>
-								<div class="w-[40%] h-[452px] ml-[25px] rounded-[5px] bg-white">
+								<div class="w-[30%] h-[452px] ml-[2%] rounded-[5px] bg-white">
 									<div class="mt-[15%]">					
 										<img class="m-auto" src="<?php echo $admin_image_about_path . '/rating.png'; ?>" />							
 									</div>
@@ -296,19 +296,19 @@ class Pages {
 							// It will display when the Pro is activated.				
 							if (! is_plugin_active( 'Simple-Calendar-Google-Calendar-Pro-main/simple-calendar-google-calendar-pro.php' )  )  {		
 							?>
-								<div class="pt-[41px] max-w-[100%]">
-									<div class="flex h-[430px] ">
-										<div class="w-[52%] flex relative bg-sc_green-100 rounded-l-[5px] ">
-											<div class="pl-[37px] pt-[18px]">
+								<div class="pt-[41px] max-w-[100%] ml-[5%]">
+									<div class="flex h-[430px] xl:h-[450px] ">
+										<div class="w-[40%] flex relative bg-sc_green-100 rounded-l-[5px] ">
+											<div class="pl-[37px] pt-[20px]">
 												<img src="<?php echo $admin_image_about_path . '/pro-banner.png'; ?>" />
 											</div>
 											<div class="absolute right-[-15px] top-[120px]">
 												<img src="<?php echo $admin_image_about_path . '/arrow.png'; ?>" />
 											</div>	
 										</div>
-										<div class="w-[48%] pl-[4%] bg-sc_green-100 rounded-r-[5px] ">
-											<div class="w-[90%]">
-											<div class="mt-[51px] flex ">
+										<div class="w-[41%] pl-[5%] bg-sc_green-100 rounded-r-[5px] ">
+											<div class="pr-[9%] mt-[66px]">
+											<div class=" flex ">
 												<div>
 													<img src="<?php echo $admin_image_about_path . '/black-tick.png'; ?>" />
 												</div>

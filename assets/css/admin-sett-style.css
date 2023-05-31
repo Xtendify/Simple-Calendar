@@ -2,6 +2,10 @@
   background-color: #F2F7FB;    
 }
 
+#simcal-settings-page .select2-selection{
+  border-radius: 5px;
+}
+
 .nav-tab-active, .nav-tab-active:focus, .nav-tab-active:hover{
   background: none;
   border-bottom: 3px solid #60BC4E;
@@ -20,7 +24,7 @@
 }
 
 span.simcal-field-bool {
-  margin-left: 35%;
+  margin-left: 155px;
 }
 
 .semical-feeds-tab .form-table th,.semical-calendars-tab .form-table th,.semical-licenses-tab .form-table th{
@@ -35,7 +39,8 @@ span.simcal-field-bool {
 .semical-feeds-tab .form-table td,.semical-calendars-tab .form-table td,.semical-licenses-tab .form-table td{
   display: block;
   padding: unset;
-} 
+}
+
 .form-table th{
   padding: 14px 14px 14px 0px;
 }
@@ -50,8 +55,8 @@ span.simcal-field-bool {
 }
 
 #simcal-settings-page-form .button-primary:focus{
- box-shadow: unset;
-  
+  box-shadow: unset;
+ 
 }
 
 #simcal-settings-page-form .submit{
@@ -63,7 +68,7 @@ span.simcal-field-bool {
   font-weight: 600;
 }
 
-#simcal-settings-page-form .form-table, .form-table td, .form-table td p, .form-table th h2{
+#simcal-settings-page-form .form-table, .form-table td, .form-table th h2{
   font-size: 16px;
 }
 
@@ -82,23 +87,27 @@ span.simcal-field-bool {
 
 .simcal-icon-help:before{
   color: #60BC4E;
+  font-size: 20px;
+  margin-left: 5px;
 }
 
 #simcal-settings-page-form .simcal-field-bool>input {
   line-height: unset;
+  margin-right: 10px;
 }
 
 #simcal-settings-page-form div#setting-error-settings_updated {
-  max-width: 1302px;
+  max-width: 100%;
   margin: 1% 0 0 5% ;
 }
+
 #simcal-settings-page-form .notice-error{
-  max-width: 1302px;
+  max-width: 100%;
   margin: 1% 0 0 5% ;
 }
 
 #simcal-settings-page-form a:active{
-color: #60BC4E;
+  color: #60BC4E;
 }
 
 a.button.button-secondary{
@@ -118,22 +127,24 @@ a.button.button-secondary:hover{
 
 #simcal-settings-page .select2 {
   max-width: 95%;
- 
 }
+
 #simcal-settings-page .simcal-wide-text{
-  width: 99%;
+  width: 95%;
 }
 
 input[type=checkbox]:checked::before{
   content: url('green-tick.png');
   margin: 0px;
-  width: 0px;
+  margin-top: -1px;
+  margin-left: -1px;
   border: none;
 }
 
 input[type=checkbox], input[type=radio]{
-  height: 21.5px;
-  width: 21.5px; 
+  height: 19.5px;
+  width: 19.5px;
+  margin-left: -1px;
 }
 
 h2 , h3{
@@ -168,8 +179,8 @@ button.button-secondary.simcal-addon-manage-license.activate, button.button-seco
 }
 
 .notice.notice-error.is-dismissible {
-max-width: 1302px;
-margin: 1% 0 0 5% ;
+  max-width: 1302px;
+  margin: 1% 0 0 5% ;
 }
 
 .wp-core-ui .button-secondary:focus, .wp-core-ui .button.focus, .wp-core-ui .button:focus {
@@ -200,7 +211,7 @@ margin: 1% 0 0 5% ;
 
 #simcal-settings-page-form input[type=color], input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week], select, textarea {
   box-shadow: 0 0 0 transparent;
-  border-radius: 4px;
+  border-radius: 5px;
   border: 1px solid #D4D4D8;
   background-color: #fff;
   color: #71717A;
@@ -213,6 +224,7 @@ margin: 1% 0 0 5% ;
   height: 40px;
   border-radius: 5px;
 }
+
 .select2-container .select2-selection--multiple{
   height: 40px;
   border-radius: 5px;
@@ -222,10 +234,24 @@ input[type=checkbox]:focus, input[type=color]:focus, input[type=date]:focus, inp
   box-shadow: unset;
   border-color: unset;
   outline: unset;
+  margin-left: -1px;
 }
 
 .sc-del-notice{
   margin-left: 2px;
+}
+
+/* media query */
+@media only screen and (max-width: 1765px)  {
+    #simcal-settings-page .select2 {
+      max-width: 93%;
+   }
+}
+
+@media only screen and (max-width: 1025px)  {
+    #simcal-settings-page .select2 {
+      max-width: 90%;
+   }
 }
 
 

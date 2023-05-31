@@ -91,7 +91,7 @@ class Google_Admin {
 			                 sprintf( __( '<strong>Note:</strong> Calendars configured to use the <strong><a href="%s" class="hover:text-sc_green-200" target="_blank">Google Calendar Pro add-on</a></strong> use a different method of authorization.', 'google-calendar-events' ),
 				                 simcal_ga_campaign_url( simcal_get_url( 'addons' ), 'core-plugin', 'settings-link' )
 			                 ) .
-			                 '</em><section class="mt-[20px]"><hr></section>',			 
+			                 '</em><section class="mt-[15px]"><hr></section>',			 
 			'fields' => array(
 				'api_key' => array(
 					'type'       => 'standard',
@@ -131,11 +131,11 @@ class Google_Admin {
 			}
 		}
 
-		$message = '<p class="description">' .
-				   sprintf( __( '<a href="%s" class="underline hover:text-sc_green-200" target="_blank">Step-by-step instructions</a> ', 'google-calendar-events' ),
+		$message = '<p class="description text-[13px]">' .
+				   sprintf( __( '<a href="%s" class="underline hover:text-sc_green-200 " target="_blank">Step-by-step instructions</a> ', 'google-calendar-events' ),
 					   simcal_ga_campaign_url( simcal_get_url( 'docs' ) . '/google-api-key/', 'core-plugin', 'settings-link' )
 				   ) .
-				   sprintf( __( '<a href="%s" class="pl-[20px] underline hover:text-sc_green-200" target="_blank">Google Developers Console</a> ', 'google-calendar-events' ),
+				   sprintf( __( '<a href="%s" class="pl-[20px] underline hover:text-sc_green-200 text-[13px]" target="_blank">Google Developers Console</a> ', 'google-calendar-events' ),
 					   simcal_get_url( 'gdev-console' )
 				   ) .
 				   '</p>';
