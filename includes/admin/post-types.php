@@ -153,7 +153,10 @@ class Post_Types {
 	 * @since 3.0.0
 	 */
 	public function bulk_actions() {
-
+		// Check user has permission to edit
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			return;
+		}
 		// Clear an individual feed cache.
 		// @todo Convert the clear cache request to ajax.
 		if ( isset( $_REQUEST['clear_cache'] ) ) {
@@ -171,6 +174,7 @@ class Post_Types {
 		if ( isset( $_REQUEST['duplicate_feed'] ) ) {
 			if(!current_user_can( 'edit_posts' )){
 				wp_redirect( remove_query_arg( 'duplicate_feed' ) );
+				return;
 			}
 			$id = intval( $_REQUEST['duplicate_feed'] );
 
@@ -221,6 +225,10 @@ class Post_Types {
 	 * @param int $post_id
 	 */
 	private function duplicate_feed( $post_id ) {
+		
+		if(!current_user_can( 'edit_posts' )){
+			return;
+		}
 
 		if ( $duplicate = get_post( intval( $post_id ), 'ARRAY_A' ) ) {
 
