@@ -176,7 +176,7 @@ class Menus {
 					'<a href="https://wordpress.org/support/view/plugin-reviews/google-calendar-events?filter=5#postform" target="_blank" class="simcal-rating-link" data-rated="' . esc_attr__( 'Thanks :)', 'google-calendar-events' ) . '">', '</a>'
 				);
 				// Add a nonce field used in ajax.
-				$footer_text .=  wp_nonce_field( 'simcal_rating_link', 'simcal_rating_link' );
+				$footer_text .=  wp_nonce_field( 'simcal_rating_nonce', 'simcal_rating_nonce' );
 				$footer_text .= '<script type="text/javascript">';
 				$footer_text .= "jQuery( 'a.simcal-rating-link' ).click( function() {
 						jQuery.post( '" . \SimpleCalendar\plugin()->ajax_url() . "', { action: 'simcal_rated', nonce: jQuery( '#simcal_rating_link' ).val() } );

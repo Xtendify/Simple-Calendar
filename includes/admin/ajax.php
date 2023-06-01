@@ -47,7 +47,8 @@ class Ajax {
 	 * @since 3.0.0
 	 */
 	public function clear_cache() {
-		if(!wp_verify_nonce($_POST['nonce'],'simcal') && ! current_user_can( 'edit_posts' ) ){
+		$nonce  = isset( $_POST['nonce'] ) ? esc_attr( $_POST['nonce'] ) : '';
+		if(!wp_verify_nonce($nonce,'simcal') && ! current_user_can( 'edit_posts' ) ){
 			return;
 		}
 
@@ -67,7 +68,7 @@ class Ajax {
 		
 		// Verify this request comes from the add-ons licenses activation settings page.
 		$nonce  = isset( $_POST['nonce'] ) ? esc_attr( $_POST['nonce'] ) : '';
-		if ( ! wp_verify_nonce( $nonce, 'simcal_rating_link' ) ) {
+		if ( ! wp_verify_nonce( $nonce, 'simcal_rating_nonce' ) ) {
 			wp_send_json_error( sprintf( __( 'An error occurred: %s', 'google-calendar-events' ), 'Nonce verification failed.' ) );
 		}
 		update_option( 'simple-calendar_admin_footer_text_rated', date( 'Y-m-d', time() ) );
