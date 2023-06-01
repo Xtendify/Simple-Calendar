@@ -68,10 +68,8 @@ class Settings implements Meta_Box {
 			</div>
 			<div class="clear">
 			</div>
-		</div>
-		
+		</div>		
 		<?php
-
 	}
 
 	/**
@@ -1054,7 +1052,5 @@ class Settings implements Meta_Box {
 		// Clear cache.
 		simcal_delete_feed_transients( $post_id );
 	}
-
-	
 
 }
