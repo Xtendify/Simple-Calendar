@@ -59,8 +59,4 @@ include_once 'third-party/vendor/autoload.php';
 
 
 // Load plugin.
-include_once 'includes/main.php';
-
-
-
-	
+include_once 'includes/main.php';	

@@ -80,10 +80,8 @@ class Google_Admin {
 	 *
 	 * @return array
 	 */
-	public function settings_fields() {
-		
-		return array(
-			
+	public function settings_fields() {		
+		return array(			
 			'name' => $this->feed->name,
 			'description' => '<div class="text-sm font-poppins font-normal text-sc_grey-100 mt-[5px]">'.__( "To read events from your public Google Calendars you'll need create a Google API key and save it here.", 'google-calendar-events' ) .
 			                 '</div><br/><br/>' .
@@ -355,6 +353,5 @@ class Google_Admin {
 
 		$this->test_api_key_connection( $calendar_id );
 	}
-	
 
 }

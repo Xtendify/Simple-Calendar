@@ -80,8 +80,7 @@ class Advanced extends Admin_Page {
 						'id'      => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-' . $section . '-disable-css',
 						'value'   => $this->get_option_value( $section, 'disable_css' )
 					),
-				);
-				
+				);				
 			} elseif ( 'installation' == $section ) {
 
 				$fields[ $section ] = array(

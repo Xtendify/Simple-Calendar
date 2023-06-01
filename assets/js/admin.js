@@ -553,10 +553,6 @@
 					console.log( response );
 				}
 			} );
-
 		} );
-
-	} );	
-	
-		
+	} );			
 })( this );

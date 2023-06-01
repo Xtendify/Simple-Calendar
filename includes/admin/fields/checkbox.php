@@ -88,12 +88,9 @@ class Checkbox extends Field {
 				       value="yes"
 					<?php checked( $this->value, 'yes', true ); ?>
 					<?php echo $this->attributes; ?>/><?php echo ( ! empty( $this->text ) ? $this->text : __( 'Yes', 'google-calendar-events' ) ); ?>
-			</span>
-					
+			</span>					
 			<?php
-
-			echo $this->tooltip;
-				
+			echo $this->tooltip;				
 			if ( ! empty( $this->description ) ) {
 				echo '<p class="description">' . wp_kses_post( $this->description ) . '</p>';
 			}

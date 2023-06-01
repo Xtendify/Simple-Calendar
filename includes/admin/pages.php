@@ -308,48 +308,48 @@ class Pages {
 										</div>
 										<div class="w-[41%] pl-[5%] bg-sc_green-100 rounded-r-[5px] ">
 											<div class="pr-[9%] mt-[66px]">
-											<div class=" flex ">
-												<div>
-													<img src="<?php echo $admin_image_about_path . '/black-tick.png'; ?>" />
+												<div class=" flex ">
+													<div>
+														<img src="<?php echo $admin_image_about_path . '/black-tick.png'; ?>" />
+													</div>
+													<div class="ml-[9px] text-xl font-semibold text-sc_green-200">
+														<span><?php _e('Pro Version','google-calendar-events')?></span>
+													</div>
 												</div>
-												<div class="ml-[9px] text-xl font-semibold text-sc_green-200">
-													<span><?php _e('Pro Version','google-calendar-events')?></span>
+												<div class=" mt-3 text-base text-gray-400 ">
+													<span><?php _e('Calendars configured to use the','google-calendar-events')?><b class="text-sc_black-100 hover:text-sc_green-200"><?php _e(' Google Calendar Pro add-on','google-calendar-events')?></b> <?php _e('use a different method of authorization.','google-calendar-events')?></span>
 												</div>
+												<div class="flex items-center text-gray-400 mt-[21px]">
+													<div>
+														<img src="<?php echo $admin_image_about_path . '/green-tick.png'; ?>" />
+													</div>
+													<div class="ml-[9px] text-base text-gray-400 font-normal" >
+														<span><?php _e('Display events from both private and public Google Calendars.','google-calendar-events')?></span>
+													</div>
+												</div>
+												<div class="flex items-center mt-[14px] ">
+													<div>
+														<img src="<?php echo $admin_image_about_path . '/green-tick.png'; ?>" />
+													</div>
+													<div class="ml-[9px] text-base text-gray-400 font-normal " >
+														<span> <?php _e('Lorem ipsum dolor sit amet, consectetur adipiscing elit','google-calendar-events')?></span>
+													</div>
+												</div>
+												<div class="flex items-center mt-[14px] ">
+													<div>
+														<img src="<?php echo $admin_image_about_path . '/green-tick.png'; ?>" />
+													</div>
+													<div class="ml-[9px] text-base text-gray-400 font-normal">
+														<span><?php _e('Many More...','google-calendar-events')?></span>
+													</div>
+												</div>
+												<a href="https://simplecalendar.io/downloads/google-calendar-pro/">
+													<button type="button" class="mt-[45px] flex justify-center items-center w-[97%] h-[40px] bg-sc_green-200 text-white text-xl font-medium rounded-md">
+														<img class="p-[8px]" src="<?php echo $admin_image_about_path . '/crown.png'; ?>" />
+														<?php _e('Get Pro Version','google-calendar-events')?>						
+													</button>
+												</a>
 											</div>
-											<div class=" mt-3 text-base text-gray-400 ">
-												<span><?php _e('Calendars configured to use the','google-calendar-events')?><b class="text-sc_black-100 hover:text-sc_green-200"><?php _e(' Google Calendar Pro add-on','google-calendar-events')?></b> <?php _e('use a different method of authorization.','google-calendar-events')?></span>
-											</div>
-											<div class="flex items-center text-gray-400 mt-[21px]">
-												<div>
-													<img src="<?php echo $admin_image_about_path . '/green-tick.png'; ?>" />
-												</div>
-												<div class="ml-[9px] text-base text-gray-400 font-normal" >
-													<span><?php _e('Display events from both private and public Google Calendars.','google-calendar-events')?></span>
-												</div>
-											</div>
-											<div class="flex items-center mt-[14px] ">
-												<div>
-													<img src="<?php echo $admin_image_about_path . '/green-tick.png'; ?>" />
-												</div>
-												<div class="ml-[9px] text-base text-gray-400 font-normal " >
-													<span> <?php _e('Lorem ipsum dolor sit amet, consectetur adipiscing elit','google-calendar-events')?></span>
-												</div>
-											</div>
-											<div class="flex items-center mt-[14px] ">
-												<div>
-													<img src="<?php echo $admin_image_about_path . '/green-tick.png'; ?>" />
-												</div>
-												<div class="ml-[9px] text-base text-gray-400 font-normal">
-													<span><?php _e('Many More...','google-calendar-events')?></span>
-												</div>
-											</div>
-											<a href="https://simplecalendar.io/downloads/google-calendar-pro/">
-												<button type="button" class="mt-[45px] flex justify-center items-center w-[97%] h-[40px] bg-sc_green-200 text-white text-xl font-medium rounded-md">
-													<img class="p-[8px]" src="<?php echo $admin_image_about_path . '/crown.png'; ?>" />
-													<?php _e('Get Pro Version','google-calendar-events')?>						
-												</button>
-											</a>
-										</div>
 										</div>
 									</div>
 								</div>

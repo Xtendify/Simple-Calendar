@@ -354,5 +354,4 @@ class Welcome {
 
 		return $contributors;
 	}
-
 }

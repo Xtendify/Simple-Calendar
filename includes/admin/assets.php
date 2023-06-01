@@ -168,7 +168,6 @@ class Assets {
 				$css_path . 'tailwind-output-style.css',
 				array(),
 				SIMPLE_CALENDAR_VERSION
-			);
-		
+			);		
 	}
 }
