@@ -363,4 +363,5 @@ class Pages {
 		</div>
 		<?php
 	}
+	
 }
