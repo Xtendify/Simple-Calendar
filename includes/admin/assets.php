@@ -168,6 +168,12 @@ class Assets {
 				$css_path . 'tailwind-output-style.css',
 				array(),
 				SIMPLE_CALENDAR_VERSION
-			);		
+			);	
+			wp_enqueue_style(
+				'sc-welcome-style',
+				$css_path . 'sc-welcome-pg-style.css',
+				array(),
+				SIMPLE_CALENDAR_VERSION
+			);	
 	}
 }
