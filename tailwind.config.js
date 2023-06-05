@@ -3,9 +3,6 @@ module.exports = {
   content: ['includes/**/*.{html,js,php}'],
   theme: {    
     extend: {
-      backgroundImage: {
-        'sc_banner-bg': "url('bg-banner-img.png')",
-      },
       colors:{
         sc_green:{          
           100:"#E9F3F4",
