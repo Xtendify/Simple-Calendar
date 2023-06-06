@@ -4,7 +4,7 @@ Tags: google calendar, calendar, calendars, google, event calendar, custom calen
 Requires at least: 4.2
 Requires PHP: 7.3
 Tested up to: 6.2
-Stable tag: 3.1.43
+Stable tag: 3.1.44
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,10 @@ We'd love your help! Here's a few things you can do:
 8. Attach a calendar to a post or page
 
 == Changelog ==
+
+= 3.1.44 =
+* Dev: Added admin notice for plugin update.
+* Fixed: Possible CSRF vulnerability.
 
 = 3.1.43 =
 * Fixed: Cross Site Request Forgery (CSRF) vulnerability.

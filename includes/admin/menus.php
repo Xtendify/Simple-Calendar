@@ -179,7 +179,7 @@ class Menus {
 				$footer_text .=  wp_nonce_field( 'simcal_rating_nonce', 'simcal_rating_nonce' );
 				$footer_text .= '<script type="text/javascript">';
 				$footer_text .= "jQuery( 'a.simcal-rating-link' ).click( function() {
-						jQuery.post( '" . \SimpleCalendar\plugin()->ajax_url() . "', { action: 'simcal_rated', nonce: jQuery( '#simcal_rating_link' ).val() } );
+						jQuery.post( '" . \SimpleCalendar\plugin()->ajax_url() . "', { action: 'simcal_rated', nonce: jQuery( '#simcal_rating_nonce' ).val() } );
 						jQuery( this ).parent().text( jQuery( this ).data( 'rated' ) );
 					});";
 				$footer_text .= '</script>';
