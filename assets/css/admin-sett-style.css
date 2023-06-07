@@ -238,10 +238,6 @@ input[type=checkbox]:focus, input[type=color]:focus, input[type=date]:focus, inp
   margin-left: -1px;
 }
 
-.sc-del-notice{
-  margin-left: 2px;
-}
-
 /* media query */
 @media only screen and (max-width: 1765px)  {
     #simcal-settings-page .select2 {

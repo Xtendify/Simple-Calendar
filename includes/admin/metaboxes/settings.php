@@ -43,7 +43,7 @@ class Settings implements Meta_Box {
 			<span class="simcal-box-handle">
 				<?php self::settings_handle( $post ); ?>
 			</span>
-			<ul class="simcal-tabs font-medium">
+			<ul class="simcal-tabs">
 				<?php self::settings_tabs( $post ); ?>
 				<?php do_action( 'simcal_settings_meta_tabs' ); ?>
 			</ul>

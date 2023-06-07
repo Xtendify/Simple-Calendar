@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.3.1 | MIT License | https://tailwindcss.com
+! tailwindcss v3.3.2 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -422,6 +422,38 @@ video {
   display: none;
 }
 
+@font-face {
+  font-family: 'Poppins';
+
+  font-weight: 400;
+
+  src: url('../fonts/Poppins-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Poppins';
+
+  font-weight: 500;
+
+  src: url('../fonts/Poppins-Medium.ttf');
+}
+
+@font-face {
+  font-family: 'Poppins';
+
+  font-weight: 600;
+
+  src: url('../fonts/Poppins-SemiBold.ttf');
+}
+
+@font-face {
+  font-family: 'Poppins';
+
+  font-weight: 700;
+
+  src: url('../fonts/Poppins-Bold.ttf');
+}
+
 *, ::before, ::after {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
@@ -436,6 +468,9 @@ video {
   --tw-pan-y:  ;
   --tw-pinch-zoom:  ;
   --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
   --tw-ordinal:  ;
   --tw-slashed-zero:  ;
   --tw-numeric-figure:  ;
@@ -483,6 +518,9 @@ video {
   --tw-pan-y:  ;
   --tw-pinch-zoom:  ;
   --tw-scroll-snap-strictness: proximity;
+  --tw-gradient-from-position:  ;
+  --tw-gradient-via-position:  ;
+  --tw-gradient-to-position:  ;
   --tw-ordinal:  ;
   --tw-slashed-zero:  ;
   --tw-numeric-figure:  ;
@@ -606,6 +644,10 @@ video {
 
 .mt-\[66px\] {
   margin-top: 66px;
+}
+
+.ml-\[2px\] {
+  margin-left: 2px;
 }
 
 .block {
@@ -837,10 +879,6 @@ video {
   font-size: 13px;
 }
 
-.text-\[16px\] {
-  font-size: 16px;
-}
-
 .text-base {
   font-size: 1rem;
   line-height: 1.5rem;
@@ -903,11 +941,6 @@ video {
   color: rgb(127 132 144 / var(--tw-text-opacity));
 }
 
-.text-sc_grey-200 {
-  --tw-text-opacity: 1;
-  color: rgb(127 132 144 / var(--tw-text-opacity));
-}
-
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
@@ -931,18 +964,6 @@ video {
   transition-duration: 100ms;
 }
 
-@font-face {
-  font-family: 'Poppins';
-
-  src: url('../fonts/Poppins-SemiBold.ttf');
-}
-
-@font-face {
-  font-family: 'Poppins';
-
-  src: url('../fonts/Poppins-Regular.ttf');
-}
-
 .hover\:bg-inherit:hover {
   background-color: inherit;
 }
@@ -961,3 +982,4 @@ video {
     height: 450px;
   }
 }
+
