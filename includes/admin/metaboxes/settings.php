@@ -38,12 +38,12 @@ class Settings implements Meta_Box {
 		wp_nonce_field( 'simcal_save_data', 'simcal_meta_nonce' );
 
 		?>
-		<div class="simcal-panels-wrap text-[16px] font-poppins ">
+		<div class="simcal-panels-wrap">
 
 			<span class="simcal-box-handle">
 				<?php self::settings_handle( $post ); ?>
 			</span>
-			<ul class="simcal-tabs font-medium text-sc_grey-200  ">
+			<ul class="simcal-tabs font-medium">
 				<?php self::settings_tabs( $post ); ?>
 				<?php do_action( 'simcal_settings_meta_tabs' ); ?>
 			</ul>
