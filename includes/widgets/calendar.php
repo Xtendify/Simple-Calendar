@@ -53,7 +53,7 @@ class Calendar extends \WP_Widget implements Widget {
 
 		parent::__construct( $id_base, $name, $widget_options );
 
-		if ( is_admin() ) {
+		if ( WP_ADMIN  ) {
 			if ( ! defined( 'DOING_AJAX' ) ) {
 				$this->calendars = simcal_get_calendars();
 			} else {
