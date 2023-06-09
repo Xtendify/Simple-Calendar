@@ -123,15 +123,11 @@ a.button.button-secondary:hover{
 }
 
 #simcal-settings-page .simcal-wide-text {
-  max-width: 99%;
+  width: 100%;
 }
 
 #simcal-settings-page .select2 {
   max-width: 95%;
-}
-
-#simcal-settings-page .simcal-wide-text{
-  width: 95%;
 }
 
 input[type=checkbox]:checked::before{
@@ -210,7 +206,7 @@ button.button-secondary.simcal-addon-manage-license.activate, button.button-seco
   to {opacity: 0.0;}
 }
 
-#simcal-settings-page-form input[type=color], input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week], select, textarea {
+#simcal-settings-page-form .sc-btn-input {
   box-shadow: 0 0 0 transparent;
   border-radius: 5px;
   border: 1px solid #D4D4D8;
@@ -238,6 +234,14 @@ input[type=checkbox]:focus, input[type=color]:focus, input[type=date]:focus, inp
   margin-left: -1px;
 }
 
+.select2-container--default .select2-selection--multiple .select2-selection__choice{
+  margin-top: 8px;
+}
+
+a.button.button-secondary.sc-btn-suth {
+  margin-bottom: 5px;
+}
+
 /* media query */
 @media only screen and (max-width: 1765px)  {
     #simcal-settings-page .select2 {
@@ -250,14 +254,3 @@ input[type=checkbox]:focus, input[type=color]:focus, input[type=date]:focus, inp
       max-width: 90%;
    }
 }
-
-
-
-
-
-
-
-
-
-
-

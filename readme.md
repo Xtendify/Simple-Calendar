@@ -11,7 +11,7 @@ Premium add-ons available at [simplecalendar.io](https://simplecalendar.io)
 
 ## Run Tailwind 
 To Run Tailwind Watch Use This Command .
-npx tailwindcss -i ./assets/css/tailwind-input-style.css -o ./assets/css/tailwind-output-style.css --watch
+npm run tailwind .
 
 
 

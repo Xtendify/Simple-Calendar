@@ -86,7 +86,7 @@ class Google_Admin {
 			'description' => '<div class="text-sm font-poppins font-normal text-sc_grey-100 mt-[5px]">'.__( "To read events from your public Google Calendars you'll need create a Google API key and save it here.", 'google-calendar-events' ) .
 			                 '</div><br/><br/>' .
 			                 '<em style="font-size: 14px;">' .
-			                 sprintf( __( '<strong>Note:</strong> Calendars configured to use the <strong><a href="%s" class="hover:text-sc_green-200" target="_blank">Google Calendar Pro add-on</a></strong> use a different method of authorization.', 'google-calendar-events' ),
+			                 sprintf( __( '<strong>Note:</strong> Calendars configured to use the <a href="%s" class="text-sc_green-200 hover:text-green-600 underline" target="_blank">Google Calendar Pro add-on</a> use a different method of authorization.', 'google-calendar-events' ),
 				                 simcal_ga_campaign_url( simcal_get_url( 'addons' ), 'core-plugin', 'settings-link' )
 			                 ) .
 			                 '</em><section class="mt-[15px]"><hr></section>',			 
@@ -95,7 +95,7 @@ class Google_Admin {
 					'type'       => 'standard',
 					'subtype'    => 'text',
 					'placeholder'=> 'Type here...',
-					'class'      => array( 'simcal-wide-text text-base w-[80%] h-[40px] mb-[13px]','ltr' ),
+					'class'      => array( 'simcal-wide-text text-base sc-btn-input w-[80%] h-[40px] mb-[13px]','ltr' ),
 					'title'      => __( 'Google API Key', 'google-calendar-events' ),
 					'validation' => array( $this, 'check_google_api_key' ),
 				),
@@ -130,10 +130,10 @@ class Google_Admin {
 		}
 
 		$message = '<p class="description text-[13px]">' .
-				   sprintf( __( '<a href="%s" class="underline hover:text-sc_green-200 " target="_blank">Step-by-step instructions</a> ', 'google-calendar-events' ),
+				   sprintf( __( '<a href="%s" class="underline text-sc_green-200 hover:text-green-600 text-[13px]" target="_blank">Step-by-step instructions</a> ', 'google-calendar-events' ),
 					   simcal_ga_campaign_url( simcal_get_url( 'docs' ) . '/google-api-key/', 'core-plugin', 'settings-link' )
 				   ) .
-				   sprintf( __( '<a href="%s" class="pl-[20px] underline hover:text-sc_green-200 text-[13px]" target="_blank">Google Developers Console</a> ', 'google-calendar-events' ),
+				   sprintf( __( '<a href="%s" class="pl-[20px] underline text-sc_green-200 hover:text-green-600 text-[13px]" target="_blank">Google Developers Console</a> ', 'google-calendar-events' ),
 					   simcal_get_url( 'gdev-console' )
 				   ) .
 				   '</p>';
