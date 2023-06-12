@@ -53,14 +53,12 @@ class Calendar extends \WP_Widget implements Widget {
 
 		parent::__construct( $id_base, $name, $widget_options );
 
-		if ( is_admin() ) {
+		if ( WP_ADMIN  ) {
 			if ( ! defined( 'DOING_AJAX' ) ) {
 				$this->calendars = simcal_get_calendars();
 			} else {
 				$this->calendars = get_transient( '_simple-calendar_feed_ids' );
 			}
-		}else{
-			$this->calendars = simcal_get_calendars();
 		}
 	}
 
@@ -139,11 +137,7 @@ class Calendar extends \WP_Widget implements Widget {
 				       class="widefat simcal-field simcal-field-standard simcal-field-text"
 				       value="<?php echo $title; ?>">
 			</p>
-<?php if(is_admin())
-    {
-		echo "afafaf";
-		print_r($this->calendars);
-	} ?>
+
 			<p>
 				<label for="<?php echo $this->get_field_id( 'calendar_id' ); ?>"><?php _e( 'Calendar:', 'google-calendar-events' ); ?></label>
 				<br>
@@ -152,7 +146,7 @@ class Calendar extends \WP_Widget implements Widget {
 				        id="<?php echo $this->get_field_id( 'calendar_id' ) ?>"
 						class="simcal-field simcal-field-select<?php echo $multiselect; ?>"
 						data-noresults="<?php __( 'No calendars found.', 'google-calendar-events' ); ?>">
-						<?php  foreach ( $this->calendars as $id => $name ) : ?>
+						<?php foreach ( $this->calendars as $id => $name ) : ?>
 							<option value="<?php echo $id; ?>" <?php selected( $id, $calendar_id, true ); ?>><?php echo $name; ?></option>
 						<?php endforeach; ?>
 				</select>
