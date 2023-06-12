@@ -41,7 +41,6 @@
     "node": ">=18.15.0"
   },
   "dependencies": {
-    "dayjs": "1.11.7",
-    "flowbite": "^1.6.4"
+    "dayjs": "1.11.7"
   }
 }

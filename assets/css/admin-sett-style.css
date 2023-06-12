@@ -2,16 +2,16 @@
   background-color: #F2F7FB;    
 }
 
-#simcal-settings-page .select2-selection{
+#simcal-settings-page-form .select2-selection{
   border-radius: 5px;
 }
 
-.nav-tab-active, .nav-tab-active:focus, .nav-tab-active:hover{
+#simcal-settings-page-form .nav-tab-active, .nav-tab-active:focus, .nav-tab-active:hover{
   background: none;
   border-bottom: 3px solid #60BC4E;
 }
 
-.nav-tab-active:active{
+#simcal-settings-page-form .nav-tab-active:active{
   color: #3A414C;
 }
 
@@ -23,7 +23,7 @@
   color: #3A414C;
 }
 
-span.simcal-field-bool {
+#simcal-settings-page-form span.simcal-field-bool {
   margin-left: 155px;
 }
 
@@ -41,7 +41,7 @@ span.simcal-field-bool {
   padding: unset;
 }
 
-.form-table th{
+#simcal-settings-page-form .form-table th{
   padding: 14px 14px 14px 0px;
 }
 
@@ -55,15 +55,14 @@ span.simcal-field-bool {
 }
 
 #simcal-settings-page-form .button-primary:focus{
-  box-shadow: unset;
- 
+  box-shadow: unset; 
 }
 
 #simcal-settings-page-form .submit{
   padding: unset;
 }
 
-.flex h2{
+#simcal-settings-page-form .flex h2{
   font-size: 20px;
   font-weight: 600;
 }
@@ -72,20 +71,20 @@ span.simcal-field-bool {
   font-size: 16px;
 }
 
-.form-table th {
+#simcal-settings-page-form .form-table th{
   font-weight: 400;
   font-size: 16px;
 }
 
-.nav-tab-wrapper, .wrap h2.nav-tab-wrapper, h1.nav-tab-wrapper {
+#simcal-settings-page-form .nav-tab-wrapper, .wrap h2.nav-tab-wrapper, h1.nav-tab-wrapper{
   border-bottom: unset;
 }
 
-.wp-person a:focus .gravatar, a:focus, a:focus .media-icon img, a:focus .plugin-icon{
+#simcal-settings-page-form .wp-person a:focus .gravatar, a:focus, a:focus .media-icon img, a:focus .plugin-icon{
   box-shadow: unset;
 }
 
-.simcal-icon-help:before{
+#simcal-settings-page-form .simcal-icon-help:before{
   color: #60BC4E;
   font-size: 20px;
   margin-left: 5px;
@@ -110,27 +109,27 @@ span.simcal-field-bool {
   color: #60BC4E;
 }
 
-a.button.button-secondary{
+#simcal-settings-page-form a.button.button-secondary{
   background:#60BC4E ;
   color: white;
   border: unset;
 }
 
-a.button.button-secondary:hover{
+#simcal-settings-page-form a.button.button-secondary:hover{
   background:#60BC4E ;
   color: white;
   border: unset;
 }
 
-#simcal-settings-page .simcal-wide-text {
+#simcal-settings-page-form .simcal-wide-text {
   width: 100%;
 }
 
-#simcal-settings-page .select2 {
+#simcal-settings-page-form .select2 {
   max-width: 95%;
 }
 
-input[type=checkbox]:checked::before{
+#simcal-settings-page-form input[type=checkbox]:checked::before{
   content: url('green-tick.png');
   margin: 0px;
   margin-top: -1px;
@@ -138,7 +137,7 @@ input[type=checkbox]:checked::before{
   border: none;
 }
 
-input[type=checkbox], input[type=radio]{
+#simcal-settings-page-form input[type=checkbox], input[type=radio]{
   height: 19.5px;
   width: 19.5px;
   margin-left: -1px;
@@ -148,48 +147,48 @@ h2 , h3{
   color: #3A414C;
 }
 
-.form-table th, .form-wrap label {
+#simcal-settings-page-form .form-table th, .form-wrap label {
   color: #3A414C;
 }
   
-.wp-core-ui .button-primary.active, .wp-core-ui .button-primary.active:focus, .wp-core-ui .button-primary.active:hover, .wp-core-ui .button-primary:active{
+#simcal-settings-page-form .wp-core-ui .button-primary.active, .wp-core-ui .button-primary.active:focus, .wp-core-ui .button-primary.active:hover, .wp-core-ui .button-primary:active{
   border: unset;
   background: unset;
 }  
 
-.simcal-addon-manage-license-buttons {
+#simcal-settings-page-form .simcal-addon-manage-license-buttons {
   margin-top: 20px;
 }
 
-button.button-secondary.simcal-addon-manage-license.activate, button.button-secondary.simcal-addon-manage-license.deactivate{
+#simcal-settings-page-form button.button-secondary.simcal-addon-manage-license.activate, button.button-secondary.simcal-addon-manage-license.deactivate{
   background-color: #60BC4E;
   color: white;
   border: unset;
 }
 
-.form-table{
+#simcal-settings-page-form .form-table{
   border-collapse:unset;
 }
 
-.regular-text {
+#simcal-settings-page-form .regular-text {
   width: 90%;
 }
 
-.notice.notice-error.is-dismissible {
+#simcal-settings-page-form .notice.notice-error.is-dismissible {
   max-width: 1302px;
   margin: 1% 0 0 5% ;
 }
 
-.wp-core-ui .button-secondary:focus, .wp-core-ui .button.focus, .wp-core-ui .button:focus {
+#simcal-settings-page-form .wp-core-ui .button-secondary:focus, .wp-core-ui .button.focus, .wp-core-ui .button:focus {
   box-shadow: unset;
 }
 
-#simcal-settings-page .select2-container--open .select2-selection{
+#simcal-settings-page-form #simcal-settings-page .select2-container--open .select2-selection{
   box-shadow: 0 0 2px #D4D4D8;
   border-color: #71717A;
 }
 
-.sc-error-notice{
+#simcal-settings-page-form .sc-error-notice{
   display: inherit;
   margin-top: 25px;
   padding: 20px 5px 0px 0px;    
@@ -216,29 +215,29 @@ button.button-secondary.simcal-addon-manage-license.activate, button.button-seco
   width: 99%;
 }
 
-.select2-container .select2-selection--multiple .select2-selection__rendered{
+#simcal-settings-page-form .select2-container .select2-selection--multiple .select2-selection__rendered{
   display: unset;
   height: 40px;
   border-radius: 5px;
 }
 
-.select2-container .select2-selection--multiple{
+#simcal-settings-page-form .select2-container .select2-selection--multiple{
   height: 40px;
   border-radius: 5px;
 }
 
-input[type=checkbox]:focus, input[type=color]:focus, input[type=date]:focus, input[type=datetime-local]:focus, input[type=datetime]:focus, input[type=email]:focus, input[type=month]:focus, input[type=number]:focus, input[type=password]:focus, input[type=radio]:focus, input[type=search]:focus, input[type=tel]:focus, input[type=text]:focus, input[type=time]:focus, input[type=url]:focus, input[type=week]:focus, select:focus, textarea:focus {
-  box-shadow: unset;
-  border-color: unset;
-  outline: unset;
-  margin-left: -1px;
-}
+  #simcal-settings-page-form input[type=checkbox]:focus{
+    box-shadow: unset;
+    border-color: unset;
+    outline: unset;
+    margin-left: -1px;
+  }
 
-.select2-container--default .select2-selection--multiple .select2-selection__choice{
+#simcal-settings-page-form .select2-container--default .select2-selection--multiple .select2-selection__choice{
   margin-top: 8px;
 }
 
-a.button.button-secondary.sc-btn-suth {
+#simcal-settings-page-form a.button.button-secondary.sc-btn-suth {
   margin-bottom: 5px;
 }
 
