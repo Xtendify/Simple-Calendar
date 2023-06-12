@@ -47,6 +47,10 @@ class Ajax {
 	 * @since 3.0.0
 	 */
 	public function clear_cache() {
+		$nonce  = isset( $_POST['nonce'] ) ? esc_attr( $_POST['nonce'] ) : '';
+		if(!wp_verify_nonce($nonce,'simcal') && ! current_user_can( 'edit_posts' ) ){
+			return;
+		}
 
 		$id = isset( $_POST['id'] ) ? ( is_array( $_POST['id'] ) ? array_map( 'intval', $_POST['id'] ) : intval( $_POST['id'] ) ) : '';
 
@@ -61,6 +65,12 @@ class Ajax {
 	 * @since 3.0.0
 	 */
 	public function rate_plugin() {
+		
+		// Verify this request comes from the add-ons licenses activation settings page.
+		$nonce  = isset( $_POST['nonce'] ) ? esc_attr( $_POST['nonce'] ) : '';
+		if ( ! wp_verify_nonce( $nonce, 'simcal_rating_nonce' ) ) {
+			wp_send_json_error( sprintf( __( 'An error occurred: %s', 'google-calendar-events' ), 'Nonce verification failed.' ) );
+		}
 		update_option( 'simple-calendar_admin_footer_text_rated', date( 'Y-m-d', time() ) );
 	}
 
@@ -86,19 +96,23 @@ class Ajax {
 	 */
 	public function manage_add_on_license() {
 
+		// Verify this request comes from the add-ons licenses activation settings page.
+		$nonce  = isset( $_POST['nonce'] ) ? esc_attr( $_POST['nonce'] ) : '';
+		if ( ! wp_verify_nonce( $nonce, 'simcal_license_manager' ) ) {
+			wp_send_json_error( sprintf( __( 'An error occurred: %s', 'google-calendar-events' ), 'Nonce verification failed.' ) );
+		}
+		// Check for user capabilities.
+		if(! current_user_can( 'edit_posts' )){
+			wp_send_json_error( sprintf( __( 'An error occurred: %s', 'google-calendar-events' ), 'You don\'t have permission to make changes.' ) );
+		}
+
 		$addon  = isset( $_POST['add_on'] )         ? sanitize_key( $_POST['add_on'] ) : false;
 		$action = isset( $_POST['license_action'] ) ? esc_attr( $_POST['license_action'] ) : false;
 		$key    = isset( $_POST['license_key'] )    ? esc_attr( $_POST['license_key'] ) : '';
-		$nonce  = isset( $_POST['nonce'] )          ? esc_attr( $_POST['nonce'] ) : '';
 
 		// Verify that there are valid variables to process.
 		if ( false === $addon || ! in_array( $action, array( 'activate_license', 'deactivate_license' ) ) ) {
 			wp_send_json_error( __( 'Add-on unspecified or invalid action.', 'google-calendar-events' ) );
-		}
-
-		// Verify this request comes from the add-ons licenses activation settings page.
-		if ( ! wp_verify_nonce( $nonce, 'simcal_license_manager' ) ) {
-			wp_send_json_error( sprintf( __( 'An error occurred: %s', 'google-calendar-events' ), 'Nonce verification failed.' ) );
 		}
 
 		// Removes the prefix and converts simcal_{id_no} to {id_no}.
@@ -168,6 +182,10 @@ class Ajax {
 			wp_send_json_error( sprintf( __( 'An error occurred: %s', 'google-calendar-events' ), 'Nonce verification failed.' ) );
 		}
 
+		// Check for user capabilities.
+		if(! current_user_can( 'edit_posts' )){
+			wp_send_json_error( sprintf( __( 'An error occurred: %s', 'google-calendar-events' ), 'You don\'t have permission to make changes.' ) );
+		}
 		delete_option( 'simple-calendar_settings_licenses' );
 		delete_option( 'simple-calendar_licenses_status' );
 

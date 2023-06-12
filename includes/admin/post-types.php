@@ -139,7 +139,7 @@ class Post_Types {
 	public function row_actions( $actions, $post ) {
 
 		// Add a clear feed cache action link.
-		if ( $post->post_type == 'calendar' ) {
+		if ( $post->post_type == 'calendar' && current_user_can( 'edit_posts' ) ) {
 			$actions['duplicate_feed'] = '<a href="' . esc_url( add_query_arg( array( 'duplicate_feed' => $post->ID ) ) ) . '">' . __( 'Clone', 'google-calendar-events' )       . '</a>';
 			$actions['clear_cache']    = '<a href="' . esc_url( add_query_arg( array( 'clear_cache' => $post->ID ) ) ) . '">'    . __( 'Clear Cache', 'google-calendar-events' ) . '</a>';
 		}
@@ -153,7 +153,10 @@ class Post_Types {
 	 * @since 3.0.0
 	 */
 	public function bulk_actions() {
-
+		// Check user has permission to edit
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			return;
+		}
 		// Clear an individual feed cache.
 		// @todo Convert the clear cache request to ajax.
 		if ( isset( $_REQUEST['clear_cache'] ) ) {
@@ -169,7 +172,10 @@ class Post_Types {
 
 		// Duplicate a feed post type.
 		if ( isset( $_REQUEST['duplicate_feed'] ) ) {
-
+			if(!current_user_can( 'edit_posts' )){
+				wp_redirect( remove_query_arg( 'duplicate_feed' ) );
+				return;
+			}
 			$id = intval( $_REQUEST['duplicate_feed'] );
 
 			if ( $id > 0 ) {
@@ -219,6 +225,10 @@ class Post_Types {
 	 * @param int $post_id
 	 */
 	private function duplicate_feed( $post_id ) {
+		
+		if(!current_user_can( 'edit_posts' )){
+			return;
+		}
 
 		if ( $duplicate = get_post( intval( $post_id ), 'ARRAY_A' ) ) {
 

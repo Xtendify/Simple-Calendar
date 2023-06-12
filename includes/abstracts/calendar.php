@@ -773,7 +773,8 @@ abstract class Calendar {
 		$is_all_day     = ( true == $event->whole_day );
 		$gcal_dt_format = $is_all_day ? 'Ymd' : 'Ymd\THi00';
 		$gcal_begin_dt  = $event->start_dt->format( $gcal_dt_format );
-		$end_dt_raw     = $is_all_day ? $event->end_dt->addDay() : $event->end_dt;
+		/* keynet fix - copy() prevents day being added each time called! */
+		$end_dt_raw     = $is_all_day ? $event->end_dt->copy()->addDay() : $event->end_dt;
 		$gcal_end_dt    = $end_dt_raw->format( $gcal_dt_format );
 		$gcal_dt_string = $gcal_begin_dt . '/' . $gcal_end_dt;
 

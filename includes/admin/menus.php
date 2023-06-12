@@ -168,35 +168,6 @@ class Menus {
 		$screen = simcal_is_admin_screen();
 		if ( $screen !== false ) {
 
-			if ( 'calendar' == $screen ) {
-
-				// Add Drip promo signup form (@see Newsletter meta box).
-				// Removed 9/26/16.
-
-				/*
-				$drip_form_id = '5368192';
-
-				?>
-				<form id="simcal-drip-form"
-				      method="post"
-				      target="_blank"
-				      action="https://www.getdrip.com/forms/<?php echo $drip_form_id; ?>/submissions/"
-				      data-drip-embedded-form="<?php echo $drip_form_id; ?>">
-					<input type="hidden"
-					       id="simcal-drip-real-field-first_name"
-					       name="fields[first_name]"
-					       value="" />
-					<input type="hidden"
-					       id="simcal-drip-real-field-email"
-					       name="fields[email]"
-					       value="" />
-					<input type="submit"
-					       class="hidden"/>
-				</form>
-				<?php
-				*/
-			}
-
 			// Change the footer text
 			if ( ! get_option( 'simple-calendar_admin_footer_text_rated' ) ) {
 
@@ -204,10 +175,11 @@ class Menus {
 					__( 'If you like <strong>Simple Calendar</strong> please leave us a %s&#9733;&#9733;&#9733;&#9733;&#9733; rating on WordPress.org%s. A huge thank you in advance!', 'google-calendar-events' ),
 					'<a href="https://wordpress.org/support/view/plugin-reviews/google-calendar-events?filter=5#postform" target="_blank" class="simcal-rating-link" data-rated="' . esc_attr__( 'Thanks :)', 'google-calendar-events' ) . '">', '</a>'
 				);
-
+				// Add a nonce field used in ajax.
+				$footer_text .=  wp_nonce_field( 'simcal_rating_nonce', 'simcal_rating_nonce' );
 				$footer_text .= '<script type="text/javascript">';
 				$footer_text .= "jQuery( 'a.simcal-rating-link' ).click( function() {
-						jQuery.post( '" . \SimpleCalendar\plugin()->ajax_url() . "', { action: 'simcal_rated' } );
+						jQuery.post( '" . \SimpleCalendar\plugin()->ajax_url() . "', { action: 'simcal_rated', nonce: jQuery( '#simcal_rating_nonce' ).val() } );
 						jQuery( this ).parent().text( jQuery( this ).data( 'rated' ) );
 					});";
 				$footer_text .= '</script>';
