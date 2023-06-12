@@ -229,7 +229,7 @@ class Pages {
 							$tab_label = isset( $settings['label'] ) ? $settings['label'] : '';
 							$tab_link  = admin_url( 'edit.php?post_type=calendar&page=simple-calendar_' . $this->page . '&tab=' . $tab_id );
 
-							echo '<a href="' . $tab_link . '" class=" sc-link ml-[5%] text-base font-normal' . ( $current_tab == $tab_id ? 'nav-tab-active hover:bg-inherit bg-sc_blue-100 border-b-[3px] pb-[7px] pr-[7px] pl-[7px] border-b-sc_green-200 ' : '' ) . '">' . $tab_label . '</a>';
+							echo '<a href="' . $tab_link . '" class=" sc-link ml-[5%] text-base font-normal' . ( $current_tab == $tab_id ? ' nav-tab-active hover:bg-inherit bg-sc_blue-100 border-b-[3px] pb-[7px] pr-[7px] pl-[7px] border-b-sc_green-200 ' : '' ) . '">' . $tab_label . '</a>';
 						}
 
 					}
@@ -240,14 +240,14 @@ class Pages {
 					echo '<div class="max-w-[100%]">';
 					echo '<div class="bg-sc_blue-100 ">';
 
-					echo '<div class="flex pt-[114px] ml-[5%] ">';
+					echo '<div class="flex pt-[80px] ml-[5%] ">';
 
 					settings_errors();
 
 					foreach ( $settings_pages as $tab_id => $contents ) {
 
 						if ( $tab_id === $current_tab ) {
-							echo '<div class="bg-white p-[2%] w-[49%] rounded-[5px] ">';
+							echo '<div class="bg-white p-[2%] w-[54%] rounded-[5px] ">';
 
 							echo isset( $contents['description'] ) ? '<p>' . $contents['description'] . '</p>' : '';
 
@@ -264,7 +264,7 @@ class Pages {
 							}
 							echo '</div>'; 
 								?>
-								<div class="w-[30%] h-[452px] ml-[2%] rounded-[5px] bg-white">
+								<div class="w-[38%] h-[452px] ml-[2%] rounded-[5px] bg-white">
 									<div class="mt-[15%]">					
 										<img class="m-auto" src="<?php echo $admin_image_about_path . '/rating.png'; ?>" />							
 									</div>
@@ -286,7 +286,7 @@ class Pages {
 										</button>
 									</a>
 									<div class="mt-[25px] text-center text-base text-sc_blue-200 hover:underline">
-										<a href="https://wordpress.org/support/plugin/google-calendar-events/reviews/?filter=5"><?php _e('See All Rating 4 Out of 5 Stars','google-calendar-events')?></a>
+										<a href="https://wordpress.org/support/plugin/google-calendar-events/reviews/?filter=5"><?php _e('See All Customers Reviews','google-calendar-events')?></a>
 									</div>
 								</div>
 								<?php
@@ -298,7 +298,7 @@ class Pages {
 							?>
 								<div class="pt-[41px] max-w-[100%] ml-[5%]">
 									<div class="flex h-[430px] xl:h-[450px] ">
-										<div class="w-[40%] flex relative bg-sc_green-100 rounded-l-[5px] ">
+										<div class="w-[48%] flex relative bg-sc_green-100 rounded-l-[5px] ">
 											<div class="pl-[37px] pt-[20px]">
 												<img src="<?php echo $admin_image_about_path . '/pro-banner.png'; ?>" />
 											</div>
@@ -306,7 +306,7 @@ class Pages {
 												<img src="<?php echo $admin_image_about_path . '/arrow.png'; ?>" />
 											</div>	
 										</div>
-										<div class="w-[41%] pl-[5%] bg-sc_green-100 rounded-r-[5px] ">
+										<div class="w-[46%] pl-[5%] bg-sc_green-100 rounded-r-[5px] ">
 											<div class="pr-[9%] mt-[66px]">
 												<div class=" flex ">
 													<div>
@@ -332,7 +332,7 @@ class Pages {
 														<img src="<?php echo $admin_image_about_path . '/green-tick.png'; ?>" />
 													</div>
 													<div class="ml-[9px] text-base text-gray-400 font-normal " >
-														<span> <?php _e('Lorem ipsum dolor sit amet, consectetur adipiscing elit','google-calendar-events')?></span>
+														<span> <?php _e('Display a list of attachments with links to their original source.','google-calendar-events')?></span>
 													</div>
 												</div>
 												<div class="flex items-center mt-[14px] ">
@@ -343,7 +343,7 @@ class Pages {
 														<span><?php _e('Many More...','google-calendar-events')?></span>
 													</div>
 												</div>
-												<a href="https://simplecalendar.io/downloads/google-calendar-pro/">
+												<a href="https://simplecalendar.io/addons/?utm_source=inside-plugin&utm_medium=link&utm_campaign=core-plugin&utm_content=settings-link">
 													<button type="button" class="mt-[45px] flex justify-center items-center w-[97%] h-[40px] bg-sc_green-200 text-white text-xl font-medium rounded-md">
 														<img class="p-[8px]" src="<?php echo $admin_image_about_path . '/crown.png'; ?>" />
 														<?php _e('Get Pro Version','google-calendar-events')?>						

@@ -74,9 +74,9 @@ class Licenses extends Admin_Page {
 		$sections = array(
 			'keys' => array(
 				'title' => __( 'Premium Add-on License Keys', 'google-calendar-events' ),
-				'description' => __( 'Enter your add-on license keys below, making sure to activate each one to ensure they are valid.', 'google-calendar-events' ) .
-				                 '<br/><br/>' .
-				                 '<em>' . __( 'Your license keys are used for access to automatic upgrades and premium support.', 'google-calendar-events' ) . '</em>',
+				'description' => '<div class="text-sm font-poppins font-normal text-sc_grey-100 mt-[5px]">'.__( 'Enter your add-on license keys below, making sure to activate each one to ensure they are valid.', 'google-calendar-events' ) .
+				                 '</div><br/><br/>' .
+				                 '<em class="text-sc_grey-100">' . __( 'Your license keys are used for access to automatic upgrades and premium support.', 'google-calendar-events' ) . '</em>',
 			),
 		);
 		return apply_filters( 'simcal_add_' . $this->option_group . '_' . $this->id .'_sections', $sections );
@@ -114,6 +114,7 @@ class Licenses extends Admin_Page {
 							'class'     => array(
 								'regular-text',
 								'ltr',
+								'sc-btn-input',
 							)
 						);
 
