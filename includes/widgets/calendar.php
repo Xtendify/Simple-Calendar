@@ -53,7 +53,7 @@ class Calendar extends \WP_Widget implements Widget {
 
 		parent::__construct( $id_base, $name, $widget_options );
 
-		if ( WP_ADMIN  ) {
+		if ( is_admin() ) {
 			if ( ! defined( 'DOING_AJAX' ) ) {
 				$this->calendars = simcal_get_calendars();
 			} else {
@@ -137,7 +137,11 @@ class Calendar extends \WP_Widget implements Widget {
 				       class="widefat simcal-field simcal-field-standard simcal-field-text"
 				       value="<?php echo $title; ?>">
 			</p>
-
+				<?php 
+				if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+					$this->calendars = simcal_get_calendars();
+				}
+			?>
 			<p>
 				<label for="<?php echo $this->get_field_id( 'calendar_id' ); ?>"><?php _e( 'Calendar:', 'google-calendar-events' ); ?></label>
 				<br>
