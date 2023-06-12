@@ -285,8 +285,8 @@ class Pages {
 										<?php _e('Rate Now','google-calendar-events')?>							
 										</button>
 									</a>
-									<div class="mt-[25px] text-center text-base text-sc_blue-200 hover:underline">
-										<a href="https://wordpress.org/support/plugin/google-calendar-events/reviews/?filter=5"><?php _e('See All Customers Reviews','google-calendar-events')?></a>
+									<div class="mt-[25px] text-center text-base underline ">
+										<a class="hover:text-sc_green-200" href="https://wordpress.org/support/plugin/google-calendar-events/reviews/?filter=5"><?php _e('See All Customers Reviews','google-calendar-events')?></a>
 									</div>
 								</div>
 								<?php

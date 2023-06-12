@@ -129,7 +129,7 @@
   max-width: 95%;
 }
 
-#simcal-settings-page-form input[type=checkbox]:checked::before{
+#simcal-settings-page-form .sc-chk-box:checked::before{
   content: url('green-tick.png');
   margin: 0px;
   margin-top: -1px;
@@ -137,13 +137,13 @@
   border: none;
 }
 
-#simcal-settings-page-form input[type=checkbox], input[type=radio]{
+#simcal-settings-page-form .sc-chk-box{
   height: 19.5px;
   width: 19.5px;
   margin-left: -1px;
 }
 
-h2 , h3{
+#simcal-settings-page-form h2 , h3{
   color: #3A414C;
 }
 
@@ -183,7 +183,7 @@ h2 , h3{
   box-shadow: unset;
 }
 
-#simcal-settings-page-form #simcal-settings-page .select2-container--open .select2-selection{
+#simcal-settings-page .select2-container--open .select2-selection{
   box-shadow: 0 0 2px #D4D4D8;
   border-color: #71717A;
 }
@@ -226,7 +226,7 @@ h2 , h3{
   border-radius: 5px;
 }
 
-  #simcal-settings-page-form input[type=checkbox]:focus{
+  #simcal-settings-page-form .sc-chk-box:focus{
     box-shadow: unset;
     border-color: unset;
     outline: unset;

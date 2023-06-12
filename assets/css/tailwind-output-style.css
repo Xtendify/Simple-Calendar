@@ -922,11 +922,6 @@ video {
   color: rgb(58 65 76 / var(--tw-text-opacity));
 }
 
-.text-sc_blue-200 {
-  --tw-text-opacity: 1;
-  color: rgb(62 175 239 / var(--tw-text-opacity));
-}
-
 .text-sc_green-200 {
   --tw-text-opacity: 1;
   color: rgb(96 188 78 / var(--tw-text-opacity));
@@ -972,10 +967,6 @@ video {
 .hover\:text-sc_green-200:hover {
   --tw-text-opacity: 1;
   color: rgb(96 188 78 / var(--tw-text-opacity));
-}
-
-.hover\:underline:hover {
-  text-decoration-line: underline;
 }
 
 @media (min-width: 1280px) {
