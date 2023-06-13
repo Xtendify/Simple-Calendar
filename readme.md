@@ -1,4 +1,5 @@
 # Simple Calendar
+
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 Add Google Calendar events to your WordPress site in minutes. Beautiful calendar displays. Mobile responsive.
@@ -9,12 +10,6 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 
 Premium add-ons available at [simplecalendar.io](https://simplecalendar.io)
 
-## Run Tailwind 
-To Run Tailwind Watch Use This Command .
-npm run tailwind .
-
-
-
 ## Support
 
 GitHub is for *bug reports and contributions only*. If you have a support question or a request for a customization this is not the right place to post it. Use the [WordPress.org support forums](https://wordpress.org/support/plugin/google-calendar-events) instead.
@@ -22,3 +17,6 @@ GitHub is for *bug reports and contributions only*. If you have a support questi
 ## Contributing
 
 Read further on how to [contribute to this project](https://github.com/Xtendify/Simple-Calendar/blob/main/contributing.md).
+
+To Run Tailwind Watch Use This Command .
+`npm run tailwind`

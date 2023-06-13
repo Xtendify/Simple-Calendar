@@ -4,7 +4,7 @@ Tags: google calendar, calendar, calendars, google, event calendar, custom calen
 Requires at least: 4.2
 Requires PHP: 7.3
 Tested up to: 6.2
-Stable tag: 3.1.46
+Stable tag: 3.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,11 @@ We'd love your help! Here's a few things you can do:
 8. Attach a calendar to a post or page
 
 == Changelog ==
+
+= 3.2.0 =
+* Dev: Revamp admin setting page.
+* Fix: 'Simple Calendar Widget' Calendar selection on block editor.
+* Fix: 'if-not-today' and 'add-to-gcal-link' shortcode with all day event display issue.
 
 = 3.1.46 =
 * Dev: Added admin notice for plugin update.
