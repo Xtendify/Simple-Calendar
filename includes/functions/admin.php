@@ -386,7 +386,7 @@ function simcal_upgrade_to_premium() {
  */
 function sc_rating() {
 	?>
-		<div class='rating flex flex-row justify-center gap-3'>	
+		<div class='simcal-flex simcal-flex-row simcal-justify-center simcal-gap-3'>	
 			<?php
 			for ($i = 0; $i < 5; $i++){
 				svgfillstar();
