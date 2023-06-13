@@ -17,6 +17,3 @@ GitHub is for *bug reports and contributions only*. If you have a support questi
 ## Contributing
 
 Read further on how to [contribute to this project](https://github.com/Xtendify/Simple-Calendar/blob/main/contributing.md).
-
-To Run Tailwind Watch Use This Command .
-`npm run tailwind`
