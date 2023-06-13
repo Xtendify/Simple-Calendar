@@ -6,7 +6,7 @@
   border-radius: 5px;
 }
 
-#simcal-settings-page-form .nav-tab-active, .nav-tab-active:focus, .nav-tab-active:hover{
+#simcal-settings-page-form .nav-tab-active,#simcal-settings-page-form .nav-tab-active:focus,#simcal-settings-page-form .nav-tab-active:hover{
   background: none;
   border-bottom: 3px solid #60BC4E;
 }
@@ -67,7 +67,7 @@
   font-weight: 600;
 }
 
-#simcal-settings-page-form .form-table, .form-table td, .form-table th h2{
+#simcal-settings-page-form .form-table, #simcal-settings-page-form .form-table td, #simcal-settings-page-form .form-table th h2{
   font-size: 16px;
 }
 
@@ -76,7 +76,7 @@
   font-size: 16px;
 }
 
-#simcal-settings-page-form .nav-tab-wrapper, .wrap h2.nav-tab-wrapper, h1.nav-tab-wrapper{
+#simcal-settings-page-form .nav-tab-wrapper, #simcal-settings-page-form .wrap h2.nav-tab-wrapper, #simcal-settings-page-form h1.nav-tab-wrapper{
   border-bottom: unset;
 }
 
@@ -143,15 +143,15 @@
   margin-left: -1px;
 }
 
-#simcal-settings-page-form h2 , h3{
+#simcal-settings-page-form h2 , #simcal-settings-page-form h3{
   color: #3A414C;
 }
 
-#simcal-settings-page-form .form-table th, .form-wrap label {
+#simcal-settings-page-form .form-table th, #simcal-settings-page-form .form-wrap label {
   color: #3A414C;
 }
   
-#simcal-settings-page-form .wp-core-ui .button-primary.active, .wp-core-ui .button-primary.active:focus, .wp-core-ui .button-primary.active:hover, .wp-core-ui .button-primary:active{
+#simcal-settings-page-form .wp-core-ui .button-primary.active, #simcal-settings-page-form .wp-core-ui .button-primary.active:focus, #simcal-settings-page-form .wp-core-ui .button-primary.active:hover, #simcal-settings-page-form .wp-core-ui .button-primary:active{
   border: unset;
   background: unset;
 }  
@@ -160,7 +160,7 @@
   margin-top: 20px;
 }
 
-#simcal-settings-page-form button.button-secondary.simcal-addon-manage-license.activate, button.button-secondary.simcal-addon-manage-license.deactivate{
+#simcal-settings-page-form button.button-secondary.simcal-addon-manage-license.activate, #simcal-settings-page-form button.button-secondary.simcal-addon-manage-license.deactivate{
   background-color: #60BC4E;
   color: white;
   border: unset;
@@ -179,7 +179,7 @@
   margin: 1% 0 0 5% ;
 }
 
-#simcal-settings-page-form .wp-core-ui .button-secondary:focus, .wp-core-ui .button.focus, .wp-core-ui .button:focus {
+#simcal-settings-page-form .wp-core-ui .button-secondary:focus, #simcal-settings-page-form .wp-core-ui .button.focus, #simcal-settings-page-form .wp-core-ui .button:focus {
   box-shadow: unset;
 }
 
