@@ -62,11 +62,6 @@
   padding: unset;
 }
 
-#simcal-settings-page-form .flex h2{
-  font-size: 20px;
-  font-weight: 600;
-}
-
 #simcal-settings-page-form .form-table, #simcal-settings-page-form .form-table td, #simcal-settings-page-form .form-table th h2{
   font-size: 16px;
 }
@@ -145,6 +140,8 @@
 
 #simcal-settings-page-form h2 , #simcal-settings-page-form h3{
   color: #3A414C;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 #simcal-settings-page-form .form-table th, #simcal-settings-page-form .form-wrap label {

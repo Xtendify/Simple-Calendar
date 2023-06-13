@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  prefix: 'simcal-',
   content: ['includes/**/*.{html,js,php}'],
   theme: {    
     extend: {
