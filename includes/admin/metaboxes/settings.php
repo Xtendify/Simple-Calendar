@@ -68,9 +68,8 @@ class Settings implements Meta_Box {
 			</div>
 			<div class="clear">
 			</div>
-		</div>
+		</div>		
 		<?php
-
 	}
 
 	/**

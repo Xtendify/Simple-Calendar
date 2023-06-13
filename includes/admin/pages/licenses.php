@@ -55,7 +55,7 @@ class Licenses extends Admin_Page {
 		// Add a license 'reset' button.
 		?>
 		<br><br>
-		<a href="#" id="simcal-reset-licenses" data-dialog="<?php _e( 'WARNING: Are you sure you want to start over and delete all license keys from the settings?', 'google-calendar-events' ) ?>">
+		<a href="#" class="ml-[2px]" id="simcal-reset-licenses" data-dialog="<?php _e( 'WARNING: Are you sure you want to start over and delete all license keys from the settings?', 'google-calendar-events' ) ?>">
 			<?php _e( 'Delete your license keys', 'google-calendar-events' ) ?>
 			<i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i>
 		</a>
@@ -74,9 +74,9 @@ class Licenses extends Admin_Page {
 		$sections = array(
 			'keys' => array(
 				'title' => __( 'Premium Add-on License Keys', 'google-calendar-events' ),
-				'description' => __( 'Enter your add-on license keys below, making sure to activate each one to ensure they are valid.', 'google-calendar-events' ) .
-				                 '<br/><br/>' .
-				                 '<em>' . __( 'Your license keys are used for access to automatic upgrades and premium support.', 'google-calendar-events' ) . '</em>',
+				'description' => '<div class="text-sm font-poppins font-normal text-sc_grey-100 mt-[5px]">'.__( 'Enter your add-on license keys below, making sure to activate each one to ensure they are valid.', 'google-calendar-events' ) .
+				                 '</div><br/><br/>' .
+				                 '<em class="text-sc_grey-100">' . __( 'Your license keys are used for access to automatic upgrades and premium support.', 'google-calendar-events' ) . '</em>',
 			),
 		);
 		return apply_filters( 'simcal_add_' . $this->option_group . '_' . $this->id .'_sections', $sections );
@@ -114,6 +114,7 @@ class Licenses extends Admin_Page {
 							'class'     => array(
 								'regular-text',
 								'ltr',
+								'sc-btn-input',
 							)
 						);
 

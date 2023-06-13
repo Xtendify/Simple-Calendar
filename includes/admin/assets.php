@@ -50,6 +50,7 @@ class Assets {
 		$css_path_vendor = $css_path . 'vendor/';
 		$js_path         = SIMPLE_CALENDAR_ASSETS . 'js/';
 		$js_path_vendor  = $js_path . 'vendor/';
+		$sc_screen       = get_current_screen();
 
 		/* ====================== *
 		 * Register Admin Scripts *
@@ -155,9 +156,21 @@ class Assets {
 
 				wp_enqueue_style( 'simcal-admin-add-calendar' );
 			}
-
-		}
-
+		}	
+	// Load the style in admin setting page only.	
+		if ( 'calendar_page_simple-calendar_settings' == $sc_screen->id ) {
+			wp_enqueue_style(
+				'sc-admin-style',
+				$css_path . 'admin-sett-style.css',
+				array(),
+				SIMPLE_CALENDAR_VERSION
+			);
+			wp_enqueue_style(
+				'sc-tail-style',
+				$css_path . 'tailwind-output-style.css',
+				array(),
+				SIMPLE_CALENDAR_VERSION
+			);	
+		}	
 	}
-
 }

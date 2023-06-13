@@ -71,21 +71,21 @@ class License extends Field {
 				       value="<?php echo $this->value; ?>"
 				       class="<?php echo $this->class; ?>" />
 
-				<span class="simcal-addon-manage-license-buttons">
+				<div class="simcal-addon-manage-license-buttons">
 
-					<button class="button-secondary simcal-addon-manage-license deactivate" data-add-on="<?php echo $this->addon; ?>" style="<?php echo $display_deactivate; ?>">
-				        <i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i><?php _e( 'Deactivate', 'google-calendar-events' ); ?>
+					<button class="button-secondary button-primary simcal-addon-manage-license deactivate" data-add-on="<?php echo $this->addon; ?>" style="<?php echo $display_deactivate; ?>">
+				        <i class="simcal-icon-spinner simcal-icon-spin" style="display: none; "></i><?php _e( 'Deactivate', 'google-calendar-events' ); ?>
 					</button>
 
-					<button class="button-secondary simcal-addon-manage-license activate" data-add-on="<?php echo $this->addon; ?>" style="<?php echo $display_activate; ?>">
-						<i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i><?php _e( 'Activate', 'google-calendar-events' ); ?>
+					<button class="button-secondary button-primary simcal-addon-manage-license activate" data-add-on="<?php echo $this->addon; ?>" style="<?php echo $display_activate; ?>">
+						<i class="simcal-icon-spinner simcal-icon-spin" style="display: none; border: unset;"></i><?php _e( 'Activate', 'google-calendar-events' ); ?>
 					</button>
 
-					<span class="error" style="color: red; display: none"> </span>
+					<span class="error sc-error-notice" style="color: red; display: none; vertical-align: sub;"> </span>
 
 					<strong class="label" style="color:green; <?php echo $active; ?>"> <?php _e( '(active)', 'google-calendar-events' ); ?></strong>
 
-				</span>
+		</div>
 
 			</div>
 			<?php

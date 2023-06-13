@@ -554,9 +554,6 @@
 					console.log( response );
 				}
 			} );
-
 		} );
-
-	} );
-
+	} );			
 })( this );

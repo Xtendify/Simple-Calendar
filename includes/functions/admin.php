@@ -377,6 +377,25 @@ function simcal_upgrade_to_premium() {
 		<?php
 	}
 }
+/**
+ * Rating 
+ *
+ * @since  3.1.42
+ *
+ * 
+ */
+function sc_rating() {
+	?>
+		<div class='rating flex flex-row justify-center gap-3'>	
+			<?php
+			for ($i = 0; $i < 5; $i++){
+				svgfillstar();
+			}
+			?>
+		</div>	
+	<?php
+}
+
 
 /**
  * Notice to update the Pro addon if version is less then 1.1.2.
