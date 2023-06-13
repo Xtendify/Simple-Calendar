@@ -8,8 +8,8 @@ namespace SimpleCalendar;
 
 use SimpleCalendar\Abstracts\Calendar_View;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+	exit();
 }
 
 /**
@@ -17,15 +17,16 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-class Ajax {
-
+class Ajax
+{
 	/**
 	 * Hook in tabs.
 	 *
 	 * @since 3.0.0
 	 */
-	public function __construct() {
-		add_action( 'init', array( $this, 'add_callbacks' ), 100 );
+	public function __construct()
+	{
+		add_action('init', [$this, 'add_callbacks'], 100);
 	}
 
 	/**
@@ -33,23 +34,20 @@ class Ajax {
 	 *
 	 * @since 3.0.0
 	 */
-	public function add_callbacks() {
-
+	public function add_callbacks()
+	{
 		$calendars = simcal_get_calendar_types();
 
-		foreach ( $calendars as $calendar => $views ) {
+		foreach ($calendars as $calendar => $views) {
+			foreach ($views as $view) {
+				$the_view = simcal_get_calendar_view(0, $calendar . '-' . $view);
 
-			foreach ( $views as $view ) {
-
-				$the_view = simcal_get_calendar_view( 0, $calendar . '-' . $view );
-
-				if ( $the_view instanceof Calendar_View ) {
+				if ($the_view instanceof Calendar_View) {
 					$the_view->add_ajax_actions();
 				}
 			}
 		}
 
-		do_action( 'simcal_add_ajax_callbacks' );
+		do_action('simcal_add_ajax_callbacks');
 	}
-
 }

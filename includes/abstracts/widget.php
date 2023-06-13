@@ -6,8 +6,8 @@
  */
 namespace SimpleCalendar\Abstracts;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+	exit();
 }
 
 /**
@@ -17,8 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-interface Widget {
-
+interface Widget
+{
 	/**
 	 * Constructor.
 	 *
@@ -36,7 +36,7 @@ interface Widget {
 	 *
 	 * @return void
 	 */
-	public function widget( $args, $instance );
+	public function widget($args, $instance);
 
 	/**
 	 * Update a particular instance of the widget.
@@ -52,7 +52,7 @@ interface Widget {
 	 *
 	 * @return array Settings to save or bool false to cancel saving.
 	 */
-	public function update( $new_instance, $old_instance );
+	public function update($new_instance, $old_instance);
 
 	/**
 	 * Print the settings update form.
@@ -63,6 +63,5 @@ interface Widget {
 	 *
 	 * @return string
 	 */
-	public function form( $instance );
-
+	public function form($instance);
 }

@@ -1,8 +1,7 @@
-module.exports = function( grunt ) {
+module.exports = function (grunt) {
+	var pkg = grunt.file.readJSON('package.json');
 
-	var pkg = grunt.file.readJSON( 'package.json' );
-
-	console.log( pkg.title + ' - ' + pkg.version );
+	console.log(pkg.title + ' - ' + pkg.version);
 
 	// Files to include/exclude in a release.
 	var distFiles = [
@@ -28,25 +27,25 @@ module.exports = function( grunt ) {
 		'!*.dump-autoload',
 		'!scoper.inc.php',
 		'!**/*~',
-        '!vendor/**'
+		'!vendor/**',
 	];
 
-	grunt.initConfig( {
-
+	grunt.initConfig({
 		pkg: pkg,
 
 		// Set folder variables.
 		dirs: {
 			css: 'assets/css',
-			js: 'assets/js'
+			js: 'assets/js',
 		},
 
 		// Create comment banner to add to the top of minified .js and .css files.
-		banner: '/*! <%= pkg.title %> - <%= pkg.version %>\n' +
-		        ' * <%=pkg.homepage %>\n' +
-		        ' * Copyright (c) Xtendify Technologies <%= grunt.template.today("yyyy") %>\n' +
-		        ' * Licensed GPLv2+' +
-		        ' */\n',
+		banner:
+			'/*! <%= pkg.title %> - <%= pkg.version %>\n' +
+			' * <%=pkg.homepage %>\n' +
+			' * Copyright (c) Xtendify Technologies <%= grunt.template.today("yyyy") %>\n' +
+			' * Licensed GPLv2+' +
+			' */\n',
 
 		// Validate i18n text domain slug throughout.
 		checktextdomain: {
@@ -66,22 +65,18 @@ module.exports = function( grunt ) {
 					'_n:1,2,4d',
 					'_nx:1,2,4c,5d',
 					'_n_noop:1,2,3d',
-					'_nx_noop:1,2,3c,4d'
-				]
+					'_nx_noop:1,2,3c,4d',
+				],
 			},
 			files: {
-				src: [
-					'includes/**/*.php',
-					'google-calendar-events.php',
-					'uninstall.php'
-				],
-				expand: true
-			}
+				src: ['includes/**/*.php', 'google-calendar-events.php', 'uninstall.php'],
+				expand: true,
+			},
 		},
 
 		// Wipe out build folder.
 		clean: {
-			build: [ 'build' ]
+			build: ['build'],
 		},
 
 		// Build the plugin zip file and place in build folder.
@@ -89,12 +84,12 @@ module.exports = function( grunt ) {
 			main: {
 				options: {
 					mode: 'zip',
-					archive: './build/simple-calendar-<%= pkg.version %>.zip'
+					archive: './build/simple-calendar-<%= pkg.version %>.zip',
 				},
 				expand: true,
 				src: distFiles,
-				dest: '/google-calendar-events'
-			}
+				dest: '/google-calendar-events',
+			},
 		},
 
 		// 'css' & 'js' tasks need to copy vendor-minified assets from bower folder to assets folder (select2, etc).
@@ -104,11 +99,8 @@ module.exports = function( grunt ) {
 				expand: true,
 				cwd: 'bower_components/',
 				flatten: true,
-				src: [
-					'select2/dist/css/select2.css',
-					'select2/dist/css/select2.min.css'
-				],
-				dest: '<%= dirs.css %>/vendor/'
+				src: ['select2/dist/css/select2.css', 'select2/dist/css/select2.min.css'],
+				dest: '<%= dirs.css %>/vendor/',
 			},
 			js: {
 				expand: true,
@@ -124,83 +116,74 @@ module.exports = function( grunt ) {
 					'moment/moment.js',
 					'moment/min/moment.min.js',
 					'moment-timezone/builds/moment-timezone-with-data.js',
-					'moment-timezone/builds/moment-timezone-with-data.min.js'
+					'moment-timezone/builds/moment-timezone-with-data.min.js',
 				],
-				dest: '<%= dirs.js %>/vendor/'
+				dest: '<%= dirs.js %>/vendor/',
 			},
 			main: {
 				expand: true,
 				src: distFiles,
-				dest: 'build/google-calendar-events'
-			}
+				dest: 'build/google-calendar-events',
+			},
 		},
 
 		// Minify .css files.
 		cssmin: {
 			options: {
 				processImport: false,
-				keepSpecialComments: 0
+				keepSpecialComments: 0,
 			},
 			minify: {
 				expand: true,
 				cwd: '<%= dirs.css %>',
-				src: [
-					'*.css',
-					'!*.min.css'
-				],
+				src: ['*.css', '!*.min.css'],
 				dest: '<%= dirs.css %>',
-				ext: '.min.css'
-			}
+				ext: '.min.css',
+			},
 		},
 
 		// JavaScript linting with JSHint.
 		jshint: {
 			options: {
-				ignores: [
-					'**/*.min.js',
-					'assets/js/default-calendar*',
-				]
+				ignores: ['**/*.min.js', 'assets/js/default-calendar*'],
 			},
-			all: [
-				'<%= dirs.js %>/*.js',
-				'gruntfile.js'
-			]
+			all: ['<%= dirs.js %>/*.js', 'gruntfile.js'],
 		},
 
 		// Compile all .scss files.
 		sass: {
 			options: {
 				precision: 2,
-				sourceMap: false
+				sourceMap: false,
 			},
 			all: {
 				files: [
 					{
 						expand: true,
 						cwd: '<%= dirs.css %>/sass/',
-						src: [ '*.scss' ],
+						src: ['*.scss'],
 						dest: '<%= dirs.css %>/',
-						ext: '.css'
-					}
-				]
-			}
+						ext: '.css',
+					},
+				],
+			},
 		},
 
 		// Minify .js files.
 		uglify: {
 			all: {
 				files: {
-					'<%= dirs.js %>/admin.min.js': [ '<%= dirs.js %>/admin.js' ],
-					'<%= dirs.js %>/admin-add-calendar.min.js': [ '<%= dirs.js %>/admin-add-calendar.js' ]
+					'<%= dirs.js %>/admin.min.js': ['<%= dirs.js %>/admin.js'],
+					'<%= dirs.js %>/admin-add-calendar.min.js': ['<%= dirs.js %>/admin-add-calendar.js'],
 				},
 				options: {
 					mangle: {
-						reserved: [ 'jQuery' ]
+						reserved: ['jQuery'],
 					},
 					sourceMap: false,
-					preserveComments: false
-				}
-			}
+					preserveComments: false,
+				},
+			},
 		},
 
 		// Add comment banner to each minified .js and .css file.
@@ -208,36 +191,35 @@ module.exports = function( grunt ) {
 			options: {
 				position: 'top',
 				banner: '<%= banner %>',
-				linebreak: true
+				linebreak: true,
 			},
 			js: {
 				files: {
-					src: [ '<%= dirs.js %>/*.min.js' ]
-				}
+					src: ['<%= dirs.js %>/*.min.js'],
+				},
 			},
 			css: {
 				files: {
-					src: [ '<%= dirs.css %>/*.min.css' ]
-				}
-			}
+					src: ['<%= dirs.css %>/*.min.css'],
+				},
+			},
 		},
 
 		// .scss to .css file watcher. Run when project is loaded in PhpStorm or other IDE.
 		watch: {
 			css: {
 				files: '**/*.scss',
-				tasks: [ 'sass' ]
-			}
-		}
+				tasks: ['sass'],
+			},
+		},
+	});
 
-	} );
+	require('load-grunt-tasks')(grunt);
 
-	require( 'load-grunt-tasks' )( grunt );
-
-	grunt.registerTask( 'css', [ 'copy:css', 'cssmin', 'usebanner:css' ] );
-	grunt.registerTask( 'js', [ 'jshint', 'copy:js', 'uglify', 'usebanner:js' ] );
-	grunt.registerTask( 'default', [ 'css', 'js' ] );
-	grunt.registerTask( 'build', [ 'default', 'checktextdomain', 'clean:build', 'copy:main', 'compress' ] );
+	grunt.registerTask('css', ['copy:css', 'cssmin', 'usebanner:css']);
+	grunt.registerTask('js', ['jshint', 'copy:js', 'uglify', 'usebanner:js']);
+	grunt.registerTask('default', ['css', 'js']);
+	grunt.registerTask('build', ['default', 'checktextdomain', 'clean:build', 'copy:main', 'compress']);
 
 	// TODO Add deploy task
 	//grunt.registerTask( 'deploy',	['build'] );
