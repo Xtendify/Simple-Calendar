@@ -125,6 +125,9 @@ class Calendar extends \WP_Widget implements Widget {
 		$title          = isset( $instance['title'] )       ? esc_attr( $instance['title'] ) : __( 'Calendar', 'google-calendar-events' );
 		$calendar_id    = isset( $instance['calendar_id'] ) ? esc_attr( $instance['calendar_id'] ) : '';
 
+		if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+			$this->calendars = simcal_get_calendars();
+		}
 		?>
 		<div class="simcal-calendar-widget-settings">
 
@@ -137,11 +140,7 @@ class Calendar extends \WP_Widget implements Widget {
 				       class="widefat simcal-field simcal-field-standard simcal-field-text"
 				       value="<?php echo $title; ?>">
 			</p>
-				<?php 
-				if ( defined( 'REST_REQUEST' ) && REST_REQUEST ) {
-					$this->calendars = simcal_get_calendars();
-				}
-			?>
+
 			<p>
 				<label for="<?php echo $this->get_field_id( 'calendar_id' ); ?>"><?php _e( 'Calendar:', 'google-calendar-events' ); ?></label>
 				<br>
