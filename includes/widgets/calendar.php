@@ -125,6 +125,9 @@ class Calendar extends \WP_Widget implements Widget {
 		$title          = isset( $instance['title'] )       ? esc_attr( $instance['title'] ) : __( 'Calendar', 'google-calendar-events' );
 		$calendar_id    = isset( $instance['calendar_id'] ) ? esc_attr( $instance['calendar_id'] ) : '';
 
+		if ( empty($this->calendars)  && defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+			$this->calendars = simcal_get_calendars();
+		}
 		?>
 		<div class="simcal-calendar-widget-settings">
 
