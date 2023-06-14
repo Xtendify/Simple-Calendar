@@ -22,9 +22,9 @@ If something isn't working, you can help us fix it by submitting an issue report
 2. Make sure you have a [GitHub account](https://github.com/signup/free).
 3. Search the [Existing Issues](https://github.com/Xtendify/Simple-Calendar/issues) to be sure that the one you've noticed isn't already there.
 4. Submit a report for your issue:
-    * Clearly describe the issue.
-    * Include steps to reproduce the issue if it's a bug.
-    * If it's a compatibility issue, please add further details.
+   * Clearly describe the issue.
+   * Include steps to reproduce the issue if it's a bug.
+   * If it's a compatibility issue, please add further details.
 
 ### Submitting Pull Requests
 
@@ -41,6 +41,10 @@ This project uses [Composer](https://getcomposer.org/) and NPM to grab dependenc
 If you plan to work with CSS or JavaScript you may want to use Grunt as well:
 
     $ npm run dev
+
+This project also uses Tailwind CSS. To setup run:
+
+    $ npm run tailwind
 
 First make your changes locally, then push them to your forked repository.
 

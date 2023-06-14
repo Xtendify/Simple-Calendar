@@ -1,4 +1,5 @@
 # Simple Calendar
+
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
 Add Google Calendar events to your WordPress site in minutes. Beautiful calendar displays. Mobile responsive.
@@ -8,12 +9,6 @@ Add Google Calendar events to your WordPress site in minutes. Beautiful calendar
 [Download](https://wordpress.org/plugins/google-calendar-events/) | [Docs](https://docs.simplecalendar.io) | [Demo](https://demo.simplecalendar.io) | [Changelog](https://wordpress.org/plugins/google-calendar-events/changelog/)
 
 Premium add-ons available at [simplecalendar.io](https://simplecalendar.io)
-
-## Run Tailwind 
-To Run Tailwind Watch Use This Command .
-npm run tailwind .
-
-
 
 ## Support
 
