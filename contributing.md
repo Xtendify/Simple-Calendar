@@ -42,6 +42,10 @@ If you plan to work with CSS or JavaScript you may want to use Grunt as well:
 
     $ npm run dev
 
+This project also uses Tailwind CSS. To setup run:
+
+    $ npm run tailwind
+
 First make your changes locally, then push them to your forked repository.
 
 Next, issue a pull request in the original repository with your remote branch (use the master branch as target, do not bother with other branches).
