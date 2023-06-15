@@ -5,29 +5,16 @@ module.exports = function (grunt) {
 
 	// Files to include/exclude in a release.
 	var distFiles = [
-		'**',
+		'assets/**',
 		'!assets/css/sass/**',
 		'!assets/images/wp/**',
-		'!bower_components/**',
-		'!build/**',
-		'!node_modules/**',
-		'!.editorconfig',
-		'!.gitignore',
-		'!.jscsrc',
-		'!.jshintrc',
-		'!bower.json',
-		'!composer.json',
-		'!composer.lock',
-		'!contributing.md',
-		'!gruntfile.js',
-		'!renovate.json',
-		'!package.json',
-		'!package-lock.json',
-		'!readme.md',
-		'!*.dump-autoload',
-		'!scoper.inc.php',
-		'!**/*~',
-		'!vendor/**',
+		'google-calendar-events.php',
+		'i18n/**',
+		'includes/**',
+		'license.txt',
+		'readme.txt',
+		'third-party/**',
+		'uninstall.php',
 	];
 
 	grunt.initConfig({
