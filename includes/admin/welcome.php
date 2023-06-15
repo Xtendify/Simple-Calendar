@@ -137,7 +137,7 @@ class Welcome {
 				echo 'nav-tab-active simcal-border-b-[3px] simcal-border-sc_green-200 focus:simcal-border-b-[3px] hover:simcal-border-b-[3px] active:simcal-border-b-[3px] focus:simcal-border-sc_green-200 hover:simcal-border-sc_green-200 active:simcal-border-sc_green-200 focus:simcal-shadow-none';
 			} ?>"
 			   href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'simple-calendar_translators' ), 'index.php' ) ) ); ?>"
-				><?php _e( 'Translators', 'google-calendar-events simcal-border-b-[3px]' ); ?></a>
+				><?php _e( 'Translators', 'google-calendar-events' ); ?></a>
 		</h2>	
 		<?php
 
