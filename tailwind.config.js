@@ -4,6 +4,9 @@ module.exports = {
   content: ['includes/**/*.{html,js,php}'],
   theme: {    
     extend: {
+      backgroundImage: {
+        'sc_banner-bg': "url('../images/welcome/bg-banner-img.png')",
+      },
       colors:{
         sc_green:{          
           100:"#E9F3F4",
@@ -22,6 +25,7 @@ module.exports = {
         },
         sc_black:{
           100:"#3A414C",
+          200:"#1D2327",
         },
         sc_yellow:{
           100:"#F7D100",
@@ -43,6 +47,12 @@ module.exports = {
   
       'xl': '1280px',
       // => @media (min-width: 1280px) { ... }
+
+      '2xl': '1536px',
+      // => @media (min-width: 1536px) { ... }
+
+      '3xl': '1920px',
+      // => @media (min-width: 1920px) { ... }   
     }
   },
   plugins: [],
