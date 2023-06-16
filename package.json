@@ -10,6 +10,7 @@
     "url": "https://github.com/Xtendify/Simple-Calendar"
   },
   "devDependencies": {
+    "@prettier/plugin-php": "^0.19.6",
     "autoprefixer": "^10.4.14",
     "bower": "1.8.14",
     "esbuild": "0.18.3",
@@ -26,6 +27,7 @@
     "grunt-sass": "3.1.0",
     "load-grunt-tasks": "5.1.0",
     "postcss-cli": "^10.1.0",
+    "prettier": "^2.8.8",
     "tailwindcss": "^3.3.1"
   },
   "scripts": {
@@ -34,7 +36,9 @@
     "dev": "grunt watch",
     "prebuild": "npm run setup",
     "build": "grunt build && node .bin/esbuild.mjs",
-    "tailwind":"npx tailwindcss -i ./assets/css/tailwind-input-style.css -o ./assets/css/tailwind-output-style.css --watch"
+    "tailwind": "npx tailwindcss -i ./assets/css/tailwind-input-style.css -o ./assets/css/tailwind-output-style.css --watch",
+    "lint": "prettier --check .",
+    "lint:fix": "prettier --write ."
   },
   "engines": {
     "npm": ">=9.5.0",

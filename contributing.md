@@ -22,9 +22,9 @@ If something isn't working, you can help us fix it by submitting an issue report
 2. Make sure you have a [GitHub account](https://github.com/signup/free).
 3. Search the [Existing Issues](https://github.com/Xtendify/Simple-Calendar/issues) to be sure that the one you've noticed isn't already there.
 4. Submit a report for your issue:
-   * Clearly describe the issue.
-   * Include steps to reproduce the issue if it's a bug.
-   * If it's a compatibility issue, please add further details.
+   - Clearly describe the issue.
+   - Include steps to reproduce the issue if it's a bug.
+   - If it's a compatibility issue, please add further details.
 
 ### Submitting Pull Requests
 
@@ -54,8 +54,8 @@ Please review the [GitHub recommended guidelines for using pull requests](https:
 
 There are a few things to keep in mind when making changes and developing locally for this project.
 
-* The most important one is to **ensure you stick to the [WordPress Coding Standards](http://make.wordpress.org/core/handbook/coding-standards/)**.
-* When commiting reference your issue number (e.g. #1234) and include a note about the fix/changes you are proposing.
-* Please **don't** modify the changelogs or readme.txt or other meta assets.
+- The most important one is to **ensure you stick to the [WordPress Coding Standards](http://make.wordpress.org/core/handbook/coding-standards/)**.
+- When commiting reference your issue number (e.g. #1234) and include a note about the fix/changes you are proposing.
+- Please **don't** modify the changelogs or readme.txt or other meta assets.
 
 Finally, a big thanks from us and the plugin community for your help.

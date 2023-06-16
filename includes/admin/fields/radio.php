@@ -8,8 +8,8 @@ namespace SimpleCalendar\Admin\Fields;
 
 use SimpleCalendar\Abstracts\Field;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+	exit();
 }
 
 /**
@@ -19,8 +19,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-class Radio extends Field {
-
+class Radio extends Field
+{
 	/**
 	 * Inline radios.
 	 *
@@ -36,12 +36,12 @@ class Radio extends Field {
 	 *
 	 * @param array $field
 	 */
-	public function __construct( $field ) {
-
+	public function __construct($field)
+	{
 		$this->type_class = 'simcal-field-radios';
-		$this->inline     = isset( $field['inline'] ) ? ( 'inline' == $field['inline'] ? true : false ) : false;
+		$this->inline = isset($field['inline']) ? ('inline' == $field['inline'] ? true : false) : false;
 
-		parent::__construct( $field );
+		parent::__construct($field);
 	}
 
 	/**
@@ -49,40 +49,34 @@ class Radio extends Field {
 	 *
 	 * @since 3.0.0
 	 */
-	public function html() {
-
+	public function html()
+	{
 		?>
 		<fieldset id="<?php echo $this->id; ?>"
 		          class="<?php echo $this->class; ?>"
-			<?php echo $this->style ? 'style="' . $this->style .'"' : ''; ?>>
+			<?php echo $this->style ? 'style="' . $this->style . '"' : ''; ?>>
 			<?php
+   echo $this->description ? '<p class="description">' . wp_kses_post($this->description) . '</p>' : '';
 
-			echo $this->description ? '<p class="description">' . wp_kses_post( $this->description ) . '</p>' : '';
-
-			if ( ! empty( $this->title ) ) :
-
-				?>
+   if (!empty($this->title)): ?>
 				<legend class="screen-reader-text">
 					<span><?php echo $this->title; ?></span>
 				</legend>
-				<?php
-
-			endif;
-
-			?>
+				<?php endif;
+   ?>
 			<ul <?php echo $this->inline === true ? 'class="simcal-field-radios-inline"' : ''; ?>>
-				<?php foreach ( $this->options as $option => $name ) : ?>
+				<?php foreach ($this->options as $option => $name): ?>
 					<li>
-						<label for="<?php echo $this->id . '-' . trim( strval( $option ) ); ?>">
+						<label for="<?php echo $this->id . '-' . trim(strval($option)); ?>">
 							<input name="<?php echo $this->name; ?>"
-							       id="<?php echo $this->id . '-' . trim( strval( $option ) ); ?>"
+							       id="<?php echo $this->id . '-' . trim(strval($option)); ?>"
 							       class="simcal-field simcal-field-radio"
 							       type="radio"
-							       value="<?php echo trim( strval( $option ) ); ?>"
+							       value="<?php echo trim(strval($option)); ?>"
 								<?php echo $this->attributes; ?>
-								<?php checked( $option, $this->value, true ); ?>
+								<?php checked($option, $this->value, true); ?>
 								/>
-							<?php echo esc_attr( $name ); ?>
+							<?php echo esc_attr($name); ?>
 						</label>
 					</li>
 				<?php endforeach; ?>
@@ -92,7 +86,5 @@ class Radio extends Field {
 
 		</fieldset>
 		<?php
-
 	}
-
 }

@@ -11,10 +11,9 @@
  * @license GPL2+
  */
 
-if ( ! class_exists( 'SimCal_WP_Requirements' ) ) {
-
-	class SimCal_WP_Requirements {
-
+if (!class_exists('SimCal_WP_Requirements')) {
+	class SimCal_WP_Requirements
+	{
 		/**
 		 * Plugin name.
 		 *
@@ -63,7 +62,7 @@ if ( ! class_exists( 'SimCal_WP_Requirements' ) ) {
 		 * @access private
 		 * @var array
 		 */
-		private $requirements = array();
+		private $requirements = [];
 
 		/**
 		 * Results failures.
@@ -73,7 +72,7 @@ if ( ! class_exists( 'SimCal_WP_Requirements' ) ) {
 		 * @access private
 		 * @var array
 		 */
-		private $failures = array();
+		private $failures = [];
 
 		/**
 		 * Admin notice.
@@ -90,29 +89,29 @@ if ( ! class_exists( 'SimCal_WP_Requirements' ) ) {
 		 * @param string $plugin       Output of `plugin_basename( __FILE__ )`.
 		 * @param array  $requirements Associative array with requirements.
 		 */
-		public function __construct( $name, $plugin, $requirements ) {
-
-			$this->name = htmlspecialchars( strip_tags( $name ) );
+		public function __construct($name, $plugin, $requirements)
+		{
+			$this->name = htmlspecialchars(strip_tags($name));
 			$this->plugin = $plugin;
 			$this->requirements = $requirements;
 
-			if ( ! empty( $requirements ) && is_array( $requirements ) ) {
-
-				$failures = $extensions = array();
+			if (!empty($requirements) && is_array($requirements)) {
+				$failures = $extensions = [];
 
 				$requirements = array_merge(
-					array(
-						'WordPress'  => '',
-						'PHP'        => '',
+					[
+						'WordPress' => '',
+						'PHP' => '',
 						'Extensions' => '',
-					), $requirements
+					],
+					$requirements
 				);
 
 				// Check for WordPress version.
-				if ( $requirements['WordPress'] && is_string( $requirements['WordPress'] ) ) {
-					if ( function_exists( 'get_bloginfo' ) ) {
-						$wp_version = get_bloginfo( 'version' );
-						if ( version_compare( $wp_version, $requirements['WordPress'] ) === - 1 ) {
+				if ($requirements['WordPress'] && is_string($requirements['WordPress'])) {
+					if (function_exists('get_bloginfo')) {
+						$wp_version = get_bloginfo('version');
+						if (version_compare($wp_version, $requirements['WordPress']) === -1) {
 							$failures['WordPress'] = $wp_version;
 							$this->wp = false;
 						}
@@ -120,24 +119,24 @@ if ( ! class_exists( 'SimCal_WP_Requirements' ) ) {
 				}
 
 				// Check fo PHP version.
-				if ( $requirements['PHP'] && is_string( $requirements['PHP'] ) ) {
-					if ( version_compare( PHP_VERSION, $requirements['PHP'] ) === -1 ) {
+				if ($requirements['PHP'] && is_string($requirements['PHP'])) {
+					if (version_compare(PHP_VERSION, $requirements['PHP']) === -1) {
 						$failures['PHP'] = PHP_VERSION;
 						$this->php = false;
 					}
 				}
 
 				// Check fo PHP Extensions.
-				if ( $requirements['Extensions'] && is_array( $requirements['Extensions'] ) ) {
-					foreach ( $requirements['Extensions'] as $extension ) {
-						if ( $extension && is_string( $extension ) ) {
-							$extensions[ $extension ] = extension_loaded( $extension );
+				if ($requirements['Extensions'] && is_array($requirements['Extensions'])) {
+					foreach ($requirements['Extensions'] as $extension) {
+						if ($extension && is_string($extension)) {
+							$extensions[$extension] = extension_loaded($extension);
 						}
 					}
-					if ( in_array( false, $extensions ) ) {
-						foreach ( $extensions as $extension_name => $found  ) {
-							if ( $found === false ) {
-								$failures['Extensions'][ $extension_name ] = $extension_name;
+					if (in_array(false, $extensions)) {
+						foreach ($extensions as $extension_name => $found) {
+							if ($found === false) {
+								$failures['Extensions'][$extension_name] = $extension_name;
 							}
 						}
 						$this->extensions = false;
@@ -145,11 +144,8 @@ if ( ! class_exists( 'SimCal_WP_Requirements' ) ) {
 				}
 
 				$this->failures = $failures;
-
 			} else {
-
-				trigger_error( 'WP Requirements: the requirements are invalid.', E_USER_ERROR );
-
+				trigger_error('WP Requirements: the requirements are invalid.', E_USER_ERROR);
 			}
 		}
 
@@ -158,7 +154,8 @@ if ( ! class_exists( 'SimCal_WP_Requirements' ) ) {
 		 *
 		 * @return array
 		 */
-		public function failures() {
+		public function failures()
+		{
 			return $this->failures;
 		}
 
@@ -167,12 +164,9 @@ if ( ! class_exists( 'SimCal_WP_Requirements' ) ) {
 		 *
 		 * @return bool
 		 */
-		public function pass() {
-			if ( in_array( false, array(
-				$this->wp,
-				$this->php,
-				$this->extensions,
-			) ) ) {
+		public function pass()
+		{
+			if (in_array(false, [$this->wp, $this->php, $this->extensions])) {
 				return false;
 			}
 			return true;
@@ -185,43 +179,33 @@ if ( ! class_exists( 'SimCal_WP_Requirements' ) ) {
 		 *
 		 * @return string
 		 */
-		public function get_notice( $message = '' ) {
-
-			$notice   = '';
-			$name     = $this->name;
+		public function get_notice($message = '')
+		{
+			$notice = '';
+			$name = $this->name;
 			$failures = $this->failures;
 
-			if ( ! empty( $failures ) && is_array( $failures ) ) {
-
-				$notice  = '<div class="error">' . "\n";
+			if (!empty($failures) && is_array($failures)) {
+				$notice = '<div class="error">' . "\n";
 				$notice .= "\t" . '<p>' . "\n";
-				$notice .= '<strong>' . sprintf( '%s could not be activated.', $name ) . '</strong><br>';
+				$notice .= '<strong>' . sprintf('%s could not be activated.', $name) . '</strong><br>';
 
-				foreach ( $failures as $requirement => $found ) {
+				foreach ($failures as $requirement => $found) {
+					$required = $this->requirements[$requirement];
 
-					$required = $this->requirements[ $requirement ];
-
-					if ( 'Extensions' == $requirement ) {
-						if ( is_array( $found ) ) {
-							$notice .= sprintf( 
-									'Required PHP Extension(s) not found: %s.', 
-									join( ', ', $found ) 
-								) . '<br>';
+					if ('Extensions' == $requirement) {
+						if (is_array($found)) {
+							$notice .= sprintf('Required PHP Extension(s) not found: %s.', join(', ', $found)) . '<br>';
 						}
 					} else {
-						$notice .= sprintf( 
-								'Required %1$s version: %2$s - Version found: %3$s',
-								$requirement, 
-								$required, 
-								$found 
-							) . '<br>';
+						$notice .=
+							sprintf('Required %1$s version: %2$s - Version found: %3$s', $requirement, $required, $found) . '<br>';
 					}
-
 				}
 
-				$notice .= '<em>' . sprintf( 'Please update to meet %s requirements.', $name ) . '</em>' . "\n";
+				$notice .= '<em>' . sprintf('Please update to meet %s requirements.', $name) . '</em>' . "\n";
 				$notice .= "\t" . '</p>' . "\n";
-				if ( $message ) {
+				if ($message) {
 					$notice .= $message;
 				}
 				$notice .= '</div>';
@@ -233,16 +217,18 @@ if ( ! class_exists( 'SimCal_WP_Requirements' ) ) {
 		/**
 		 * Print notice.
 		 */
-		public function print_notice() {
+		public function print_notice()
+		{
 			echo $this->notice;
 		}
 
 		/**
 		 * Deactivate plugin.
 		 */
-		public function deactivate_plugin() {
-			if ( function_exists( 'deactivate_plugins' ) && function_exists( 'plugin_basename' ) ) {
-				deactivate_plugins( $this->plugin );
+		public function deactivate_plugin()
+		{
+			if (function_exists('deactivate_plugins') && function_exists('plugin_basename')) {
+				deactivate_plugins($this->plugin);
 			}
 		}
 
@@ -251,21 +237,18 @@ if ( ! class_exists( 'SimCal_WP_Requirements' ) ) {
 		 *
 		 * @param string $message An additional message in notice.
 		 */
-		public function halt( $message = '' ) {
+		public function halt($message = '')
+		{
+			$this->notice = $this->get_notice($message);
 
-			$this->notice = $this->get_notice( $message );
+			if ($this->notice && function_exists('add_action')) {
+				add_action('admin_notices', [$this, 'print_notice']);
+				add_action('admin_init', [$this, 'deactivate_plugin']);
 
-			if ( $this->notice && function_exists( 'add_action' ) ) {
-
-				add_action( 'admin_notices', array( $this, 'print_notice' ) );
-				add_action( 'admin_init', array( $this, 'deactivate_plugin' ) );
-
-				if ( isset( $_GET['activate'] ) ) {
-					unset( $_GET['activate'] );
+				if (isset($_GET['activate'])) {
+					unset($_GET['activate']);
 				}
 			}
 		}
-
 	}
-
 }

@@ -6,8 +6,8 @@
  */
 namespace SimpleCalendar;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+	exit();
 }
 
 /**
@@ -17,28 +17,26 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-class Widgets {
-
+class Widgets
+{
 	/**
 	 * Widgets.
 	 *
 	 * @access public
 	 * @var array
 	 */
-	public $widgets = array();
+	public $widgets = [];
 
 	/**
 	 * Register new widgets.
 	 *
 	 * @since 3.0.0
 	 */
-	public function __construct() {
+	public function __construct()
+	{
+		$this->widgets = apply_filters('simcal_get_widgets', ['SimpleCalendar\Widgets\Calendar'], []);
 
-		$this->widgets = apply_filters( 'simcal_get_widgets', array(
-			'SimpleCalendar\Widgets\Calendar'
-		), array() );
-
-		add_action( 'widgets_init', array( $this, 'register' ) );
+		add_action('widgets_init', [$this, 'register']);
 	}
 
 	/**
@@ -46,17 +44,16 @@ class Widgets {
 	 *
 	 * @since 3.0.0
 	 */
-	public function register() {
-
+	public function register()
+	{
 		$widgets = $this->widgets;
 
-		if ( ! empty( $widgets ) && is_array( $widgets ) ) {
-			foreach ( $widgets as $widget ) {
-				register_widget( $widget );
+		if (!empty($widgets) && is_array($widgets)) {
+			foreach ($widgets as $widget) {
+				register_widget($widget);
 			}
 		}
 
-		do_action( 'simcal_register_widgets' );
+		do_action('simcal_register_widgets');
 	}
-
 }

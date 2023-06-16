@@ -4,10 +4,11 @@
  *
  * @since  3.1.42
  *
- * 
+ *
  */
- function svgfillstar(){
-    ?>
+function svgfillstar()
+{
+	?>
     <svg class="simcal-h-6 simcal-fill-sc_yellow-100 simcal-cursor-pointer"
             viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg"
             xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -16,4 +17,4 @@
             ></path>
 	</svg>
     <?php
- }
+}

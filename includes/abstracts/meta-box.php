@@ -6,8 +6,8 @@
  */
 namespace SimpleCalendar\Abstracts;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+	exit();
 }
 
 /**
@@ -17,8 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-interface Meta_Box {
-
+interface Meta_Box
+{
 	/**
 	 * Output the meta box markup.
 	 *
@@ -28,7 +28,7 @@ interface Meta_Box {
 	 *
 	 * @return void
 	 */
-	public static function html( $post );
+	public static function html($post);
 
 	/**
 	 * Validate and save the meta box fields.
@@ -40,6 +40,5 @@ interface Meta_Box {
 	 *
 	 * @return void
 	 */
-	public static function save( $post_id, $post );
-
+	public static function save($post_id, $post);
 }

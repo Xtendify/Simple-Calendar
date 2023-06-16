@@ -1,10 +1,10 @@
-import * as esbuild from "esbuild";
-import pkg from "../package.json" assert { type: "json" };
+import * as esbuild from 'esbuild';
+import pkg from '../package.json' assert { type: 'json' };
 
 const defaultCalendarConfig = {
-	entryPoints: ["assets/js/default-calendar.js"],
+	entryPoints: ['assets/js/default-calendar.js'],
 	bundle: true,
-	outfile: "assets/js/default-calendar-bundled.js",
+	outfile: 'assets/js/default-calendar-bundled.js',
 	sourcemap: true,
 	banner: {
 		js:
@@ -16,14 +16,12 @@ const defaultCalendarConfig = {
 	},
 };
 
-const defaultCalendarMinifiedConfig =  {
+const defaultCalendarMinifiedConfig = {
 	...defaultCalendarConfig,
-	outfile: defaultCalendarConfig.outfile.replace(".js", ".min.js"),
+	outfile: defaultCalendarConfig.outfile.replace('.js', '.min.js'),
 	minify: true,
 	sourcemap: true,
-}
-
-
+};
 
 await esbuild.build(defaultCalendarConfig);
 await esbuild.build(defaultCalendarMinifiedConfig);
