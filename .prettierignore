@@ -1,0 +1,12 @@
+assets/css/vendor
+assets/css/*.min.css
+assets/css/tailwind-output-style.css
+assets/js/vendor
+assets/js/*.min.js
+node_modules
+third-party
+vendor
+build
+composer.lock
+package-lock.json
+.jshintrc

@@ -6,8 +6,8 @@
  */
 namespace SimpleCalendar\Admin;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+	exit();
 }
 
 /**
@@ -17,8 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-class Notice {
-
+class Notice
+{
 	/**
 	 * Notice id.
 	 * Will be the notice key in saved notices option.
@@ -61,7 +61,7 @@ class Notice {
 	 * @access public
 	 * @var array
 	 */
-	public $screen = array();
+	public $screen = [];
 
 	/**
 	 * For which posts edit screens the notice should appear.
@@ -70,7 +70,7 @@ class Notice {
 	 * @access public
 	 * @var array
 	 */
-	public $post = array();
+	public $post = [];
 
 	/**
 	 * Can the notice be dismissed by the user?
@@ -106,46 +106,43 @@ class Notice {
 	 *
 	 * @param array $notice
 	 */
-	public function __construct( $notice ) {
-
-		if ( ! empty( $notice['id'] ) && ! empty( $notice['content'] ) ) {
-
+	public function __construct($notice)
+	{
+		if (!empty($notice['id']) && !empty($notice['content'])) {
 			// Content.
-			$this->id = is_array( $notice['id'] ) ? array_map( 'sanitize_key', $notice['id'] ) : sanitize_key( $notice['id'] );
-			$this->content = wp_kses_post( $notice['content'] );
-			if ( ! empty( $notice['class'] ) ) {
-				$this->class = is_array( $notice['class'] ) ? join( ' ', array_map( 'esc_attr', $notice['class'] ) ) : esc_attr( $notice['class'] );
+			$this->id = is_array($notice['id']) ? array_map('sanitize_key', $notice['id']) : sanitize_key($notice['id']);
+			$this->content = wp_kses_post($notice['content']);
+			if (!empty($notice['class'])) {
+				$this->class = is_array($notice['class'])
+					? join(' ', array_map('esc_attr', $notice['class']))
+					: esc_attr($notice['class']);
 			}
 
 			// Type.
 			$default = 'notice';
-			$type = isset( $notice['type'] ) ? esc_attr( $notice['type'] ) : $default;
-			$types = array(
-				'error',
-				'notice',
-				'updated',
-				'update-nag',
-			);
-			$this->type = in_array( $type, $types ) ? $type : $default;
+			$type = isset($notice['type']) ? esc_attr($notice['type']) : $default;
+			$types = ['error', 'notice', 'updated', 'update-nag'];
+			$this->type = in_array($type, $types) ? $type : $default;
 
 			// Visibility.
-			if ( ! empty( $notice['capability'] ) ) {
-				$this->capability = esc_attr( $notice['capability'] );
+			if (!empty($notice['capability'])) {
+				$this->capability = esc_attr($notice['capability']);
 			}
-			if ( ! empty( $notice['screen'] ) ) {
-				$this->screen = is_array( $notice['screen'] ) ? array_map( 'esc_attr', $notice['screens'] ) : array( esc_attr( $notice['screen'] ) );
+			if (!empty($notice['screen'])) {
+				$this->screen = is_array($notice['screen'])
+					? array_map('esc_attr', $notice['screens'])
+					: [esc_attr($notice['screen'])];
 			}
-			if ( ! empty( $notice['post'] ) ) {
-				$this->post = is_array( $notice['post'] ) ? array_map( 'intval', $notice['post'] ) : array( intval( $notice['post'] ) );
+			if (!empty($notice['post'])) {
+				$this->post = is_array($notice['post']) ? array_map('intval', $notice['post']) : [intval($notice['post'])];
 			}
-			if ( ! empty( $notice['dismissible'] ) ) {
-				$this->dismissible = $notice['dismissible'] === false ? false: true;
+			if (!empty($notice['dismissible'])) {
+				$this->dismissible = $notice['dismissible'] === false ? false : true;
 			}
-			if ( ! empty( $notice['visible'] ) ) {
-				$this->visible = $notice['visible'] === false ? false: true;
+			if (!empty($notice['visible'])) {
+				$this->visible = $notice['visible'] === false ? false : true;
 			}
 		}
-
 	}
 
 	/**
@@ -153,17 +150,18 @@ class Notice {
 	 *
 	 * @since 3.0.0
 	 */
-	public function add() {
-		if ( ! empty( $this->id ) && ! empty( $this->content ) ) {
-			$notices = get_option( 'simple-calendar_admin_notices', array() );
-			if ( is_array( $this->id ) ) {
-				foreach ( $this->id as $k => $v ) {
-					$notices[ $k ][ $v ] = $this;
+	public function add()
+	{
+		if (!empty($this->id) && !empty($this->content)) {
+			$notices = get_option('simple-calendar_admin_notices', []);
+			if (is_array($this->id)) {
+				foreach ($this->id as $k => $v) {
+					$notices[$k][$v] = $this;
 				}
 			} else {
-				$notices[ $this->id ][] = $this;
+				$notices[$this->id][] = $this;
 			}
-			update_option( 'simple-calendar_admin_notices', $notices );
+			update_option('simple-calendar_admin_notices', $notices);
 		}
 	}
 
@@ -172,18 +170,18 @@ class Notice {
 	 *
 	 * @since 3.0.0
 	 */
-	public function remove() {
-		if ( ! empty( $this->id ) && ! empty( $this->content ) ) {
-			$notices = get_option( 'simple-calendar_admin_notices', array() );
-			if ( is_array( $this->id ) ) {
-				foreach ( $this->id as $k => $v ) {
-					unset( $notices[ $k ] );
+	public function remove()
+	{
+		if (!empty($this->id) && !empty($this->content)) {
+			$notices = get_option('simple-calendar_admin_notices', []);
+			if (is_array($this->id)) {
+				foreach ($this->id as $k => $v) {
+					unset($notices[$k]);
 				}
 			} else {
-				unset( $notices[ $this->id ] );
+				unset($notices[$this->id]);
 			}
-			update_option( 'simple-calendar_admin_notices', $notices );
+			update_option('simple-calendar_admin_notices', $notices);
 		}
 	}
-
 }

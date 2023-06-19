@@ -731,8 +731,8 @@ video {
   display: grid;
 }
 
-.simcal-h-6 {
-  height: 1.5rem;
+.simcal-h-\[452px\] {
+  height: 452px;
 }
 
 .simcal-h-\[330px\] {
@@ -1182,6 +1182,16 @@ video {
   color: rgb(0 0 0 / var(--tw-text-opacity));
 }
 
+.simcal-text-sc_grey-100 {
+  --tw-text-opacity: 1;
+  color: rgb(127 132 144 / var(--tw-text-opacity));
+}
+
+.simcal-text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
 .simcal-underline {
   text-decoration-line: underline;
 }
@@ -1302,6 +1312,11 @@ video {
   .max-2xl\:simcal-mt-\[88px\] {
     margin-top: 88px;
   }
+}
+
+.hover\:simcal-text-sc_green-200:hover {
+  --tw-text-opacity: 1;
+  color: rgb(96 188 78 / var(--tw-text-opacity));
 }
 
 @media (min-width: 1280px) {

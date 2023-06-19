@@ -6,8 +6,8 @@
  */
 namespace SimpleCalendar\Admin;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+	exit();
 }
 
 /**
@@ -17,16 +17,17 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-class Notices {
-
+class Notices
+{
 	/**
 	 * Get notices.
 	 *
 	 * @since 3.0.0
 	 */
-	public function __construct() {
-		add_action( 'admin_init', array( $this, 'remove_notice' ), 10 );
-		add_action( 'admin_init', array( $this, 'process_notices' ), 40 );
+	public function __construct()
+	{
+		add_action('admin_init', [$this, 'remove_notice'], 10);
+		add_action('admin_init', [$this, 'process_notices'], 40);
 	}
 
 	/**
@@ -34,39 +35,36 @@ class Notices {
 	 *
 	 * @since 3.0.0
 	 */
-	public function process_notices() {
-
+	public function process_notices()
+	{
 		$notices = $this->get_notices();
 
-		if ( ! empty( $notices ) && is_array( $notices ) ) {
-
-			foreach ( $notices as $group ) {
-				foreach ( $group as $notice ) {
-
-					if ( $notice instanceof Notice ) {
-
-						if ( $notice->visible === false ) {
+		if (!empty($notices) && is_array($notices)) {
+			foreach ($notices as $group) {
+				foreach ($group as $notice) {
+					if ($notice instanceof Notice) {
+						if ($notice->visible === false) {
 							continue;
 						}
 
-						if ( ! empty( $notice->capability ) ) {
-							if ( ! current_user_can( $notice->capability ) ) {
+						if (!empty($notice->capability)) {
+							if (!current_user_can($notice->capability)) {
 								continue;
 							}
 						}
 
-						if ( ! empty( $notice->screen ) && is_array( $notice->screen ) && function_exists( 'get_current_screen' ) ) {
+						if (!empty($notice->screen) && is_array($notice->screen) && function_exists('get_current_screen')) {
 							$screen = get_current_screen();
-							if ( isset( $screen->id ) ) {
-								if ( ! in_array( $screen->id, $notice->screen ) ) {
+							if (isset($screen->id)) {
+								if (!in_array($screen->id, $notice->screen)) {
 									continue;
 								}
 							}
 						}
 
-						if ( ! empty( $notice->post ) && is_array( $notice->post ) ) {
-							if ( isset( $_GET['post'] ) ) {
-								if ( ! in_array( intval( $_GET['post'] ), $notice->post ) ) {
+						if (!empty($notice->post) && is_array($notice->post)) {
+							if (isset($_GET['post'])) {
+								if (!in_array(intval($_GET['post']), $notice->post)) {
 									continue;
 								}
 							} else {
@@ -74,7 +72,7 @@ class Notices {
 							}
 						}
 
-						$this->add_notice( $notice );
+						$this->add_notice($notice);
 					}
 				}
 			}
@@ -92,21 +90,31 @@ class Notices {
 	 *
 	 * @return void
 	 */
-	public function add_notice( $notice ) {
+	public function add_notice($notice)
+	{
+		if ($notice instanceof Notice) {
+			add_action(
+				'admin_notices',
+				$print_notice = function () use ($notice) {
+					$name = is_array($notice->id) ? key($notice->id) : $notice->id;
+					$url = add_query_arg(['dismiss_simcal_notice' => $name]);
+					$dismiss_link =
+						$notice->dismissible === true
+							? sprintf('<a class="dashicons-before dashicons-dismiss simcal-dismiss-notice" href="%1$s"></a>', $url)
+							: '';
 
-		if ( $notice instanceof Notice ) {
-
-			add_action( 'admin_notices', $print_notice = function() use ( $notice ) {
-
-				$name         = is_array( $notice->id ) ? key( $notice->id ) : $notice->id;
-				$url          = add_query_arg( array( 'dismiss_simcal_notice' => $name ) );
-				$dismiss_link = $notice->dismissible === true
-					? sprintf( '<a class="dashicons-before dashicons-dismiss simcal-dismiss-notice" href="%1$s"></a>', $url )
-					: '';
-
-				echo '<div class="' . $notice->type . ' ' . $notice->class . ' simcal-admin-notice" data-notice-id="' . $name . '">' . $dismiss_link . $notice->content . '</div>';
-			} );
-
+					echo '<div class="' .
+						$notice->type .
+						' ' .
+						$notice->class .
+						' simcal-admin-notice" data-notice-id="' .
+						$name .
+						'">' .
+						$dismiss_link .
+						$notice->content .
+						'</div>';
+				}
+			);
 		}
 	}
 
@@ -121,27 +129,27 @@ class Notices {
 	 *
 	 * @return void
 	 */
-	public function remove_notice( $notice = '' ) {
-
+	public function remove_notice($notice = '')
+	{
 		$notices = $this->get_notices();
 		$update = false;
 
-		if ( ! empty( $notice ) ) {
-			if ( isset( $notices[ $notice ] ) ) {
-				unset( $notices[ $notice ] );
+		if (!empty($notice)) {
+			if (isset($notices[$notice])) {
+				unset($notices[$notice]);
 				$update = true;
 			}
 		}
 
-		if ( isset( $_GET['dismiss_simcal_notice'] ) ) {
-			if ( isset( $notices[ $_GET['dismiss_simcal_notice'] ] ) ) {
-				unset( $notices[ esc_attr( $_GET['dismiss_simcal_notice'] ) ] );
+		if (isset($_GET['dismiss_simcal_notice'])) {
+			if (isset($notices[$_GET['dismiss_simcal_notice']])) {
+				unset($notices[esc_attr($_GET['dismiss_simcal_notice'])]);
 				$update = true;
 			}
 		}
 
-		if ( $update === true ) {
-			update_option( 'simple-calendar_admin_notices', $notices );
+		if ($update === true) {
+			update_option('simple-calendar_admin_notices', $notices);
 		}
 	}
 
@@ -154,13 +162,13 @@ class Notices {
 	 *
 	 * @return void
 	 */
-	public function show_notice( $notice ) {
-
+	public function show_notice($notice)
+	{
 		$notices = $this->get_notices();
 
-		if ( isset( $notices[ $notice ]->visible ) ) {
-			$notices[ $notice ]->visible = true;
-			update_option( 'simple-calendar_admin_notices', $notices );
+		if (isset($notices[$notice]->visible)) {
+			$notices[$notice]->visible = true;
+			update_option('simple-calendar_admin_notices', $notices);
 		}
 	}
 
@@ -173,13 +181,13 @@ class Notices {
 	 *
 	 * @return void
 	 */
-	public function hide_notice( $notice ) {
-
+	public function hide_notice($notice)
+	{
 		$notices = $this->get_notices();
 
-		if ( isset( $notices[ $notice ]->visible ) ) {
-			$notices[ $notice ]->visible = false;
-			update_option( 'simple-calendar_admin_notices', $notices );
+		if (isset($notices[$notice]->visible)) {
+			$notices[$notice]->visible = false;
+			update_option('simple-calendar_admin_notices', $notices);
 		}
 	}
 
@@ -190,11 +198,8 @@ class Notices {
 	 *
 	 * @return array
 	 */
-	public function get_notices() {
-		return apply_filters(
-			'simcal_admin_notices',
-			get_option( 'simple-calendar_admin_notices', array() )
-		);
+	public function get_notices()
+	{
+		return apply_filters('simcal_admin_notices', get_option('simple-calendar_admin_notices', []));
 	}
-
 }

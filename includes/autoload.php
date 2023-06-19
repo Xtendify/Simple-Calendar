@@ -5,12 +5,11 @@
  * @package SimpleCalendar
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+	exit();
 }
 
-if ( ! function_exists( 'SimpleCalendar_Autoload' ) ) {
-
+if (!function_exists('SimpleCalendar_Autoload')) {
 	/**
 	 * Plugin autoloader.
 	 *
@@ -22,31 +21,29 @@ if ( ! function_exists( 'SimpleCalendar_Autoload' ) ) {
 	 *
 	 * @param $class
 	 */
-	function SimpleCalendar_Autoload( $class ) {
-
+	function SimpleCalendar_Autoload($class)
+	{
 		// Do not load unless in plugin domain.
 		$namespace = 'SimpleCalendar';
-		if ( strpos( $class, $namespace ) !== 0 ) {
+		if (strpos($class, $namespace) !== 0) {
 			return;
 		}
 
 		// Converts Class_Name (class convention) to class-name (file convention).
-		$class_name = implode( '-', array_map( 'lcfirst', explode( '_', strtolower( $class ) ) ) );
+		$class_name = implode('-', array_map('lcfirst', explode('_', strtolower($class))));
 
 		// Remove the root namespace.
-		$unprefixed = substr( $class_name, strlen( $namespace ) );
+		$unprefixed = substr($class_name, strlen($namespace));
 
 		// Build the file path.
-		$file_path = str_replace( '\\', DIRECTORY_SEPARATOR, $unprefixed );
-		$file      = dirname( __FILE__ ) . '/' . $file_path . '.php';
+		$file_path = str_replace('\\', DIRECTORY_SEPARATOR, $unprefixed);
+		$file = dirname(__FILE__) . '/' . $file_path . '.php';
 
-		if ( file_exists( $file ) ) {
+		if (file_exists($file)) {
 			require $file;
 		}
-
 	}
 
 	// Register the autoloader.
-	spl_autoload_register( 'SimpleCalendar_Autoload' );
-
+	spl_autoload_register('SimpleCalendar_Autoload');
 }

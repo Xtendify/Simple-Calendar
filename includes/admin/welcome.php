@@ -8,8 +8,8 @@
  */
 namespace SimpleCalendar\Admin;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+	exit();
 }
 
 /**
@@ -19,8 +19,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-class Welcome {
-
+class Welcome
+{
 	/**
 	 * Install type.
 	 *
@@ -34,12 +34,12 @@ class Welcome {
 	 *
 	 * @since 3.0.0
 	 */
-	public function __construct() {
+	public function __construct()
+	{
+		$this->install = isset($_GET['simcal_install']) ? esc_attr($_GET['simcal_install']) : '';
 
-		$this->install = isset( $_GET['simcal_install'] ) ? esc_attr( $_GET['simcal_install'] ) : '';
-
-		add_action( 'admin_menu', array( $this, 'welcome_page_tabs' ) );
-		add_action( 'admin_head', array( $this, 'remove_submenu_pages' ) );
+		add_action('admin_menu', [$this, 'welcome_page_tabs']);
+		add_action('admin_head', [$this, 'remove_submenu_pages']);
 	}
 
 	/**
@@ -47,34 +47,39 @@ class Welcome {
 	 *
 	 * @since 3.0.0
 	 */
-	public function welcome_page_tabs() {
+	public function welcome_page_tabs()
+	{
+		$welcome_page_name = __('About Simple Calendar', 'google-calendar-events');
+		$welcome_page_title = __('Welcome to Simple Calendar', 'google-calendar-events');
 
-		$welcome_page_name  = __( 'About Simple Calendar', 'google-calendar-events' );
-		$welcome_page_title = __( 'Welcome to Simple Calendar', 'google-calendar-events' );
+		$page = isset($_GET['page']) ? $_GET['page'] : 'simple-calendar_about';
 
-		$page = isset( $_GET['page'] ) ? $_GET['page'] : 'simple-calendar_about';
-
-		switch ( $page ) {
-
-			case 'simple-calendar_about' :
-				$page = add_dashboard_page( $welcome_page_title, $welcome_page_name, 'manage_options', 'simple-calendar_about', array(
+		switch ($page) {
+			case 'simple-calendar_about':
+				$page = add_dashboard_page($welcome_page_title, $welcome_page_name, 'manage_options', 'simple-calendar_about', [
 					$this,
 					'about_screen',
-				) );
+				]);
 				break;
 
-			case 'simple-calendar_credits' :
-				$page = add_dashboard_page( $welcome_page_title, $welcome_page_name, 'manage_options', 'simple-calendar_credits', array(
-					$this,
-					'credits_screen',
-				) );
+			case 'simple-calendar_credits':
+				$page = add_dashboard_page(
+					$welcome_page_title,
+					$welcome_page_name,
+					'manage_options',
+					'simple-calendar_credits',
+					[$this, 'credits_screen']
+				);
 				break;
 
-			case 'simple-calendar_translators' :
-				$page = add_dashboard_page( $welcome_page_title, $welcome_page_name, 'manage_options', 'simple-calendar_translators', array(
-					$this,
-					'translators_screen',
-				) );
+			case 'simple-calendar_translators':
+				$page = add_dashboard_page(
+					$welcome_page_title,
+					$welcome_page_name,
+					'manage_options',
+					'simple-calendar_translators',
+					[$this, 'translators_screen']
+				);
 				break;
 		}
 	}
@@ -84,10 +89,11 @@ class Welcome {
 	 *
 	 * @since 3.0.0
 	 */
-	public function remove_submenu_pages() {
-		remove_submenu_page( 'index.php', 'simple-calendar_about' );
-		remove_submenu_page( 'index.php', 'simple-calendar_credits' );
-		remove_submenu_page( 'index.php', 'simple-calendar_translators' );
+	public function remove_submenu_pages()
+	{
+		remove_submenu_page('index.php', 'simple-calendar_about');
+		remove_submenu_page('index.php', 'simple-calendar_credits');
+		remove_submenu_page('index.php', 'simple-calendar_translators');
 	}
 
 	/**
@@ -95,8 +101,8 @@ class Welcome {
 	 *
 	 * @since 3.0.0
 	 */
-	public function main_nav_links() {
-
+	public function main_nav_links()
+	{
 		?>
 		<div class="simcal-font-poppins simcal-font-medium">
 			<a href="<?php echo admin_url( 'edit.php?post_type=calendar' ); ?>"
@@ -107,13 +113,12 @@ class Welcome {
 				><?php _e( 'Settings', 'google-calendar-events' ); ?></a>
 			<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'addons' ), 'core-plugin', 'welcome-page' ); ?>"
 			   class="docs button button-primary" target="_blank"
-				><?php _e( 'Add-ons', 'google-calendar-events' ); ?></a>
-			<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'docs' ), 'core-plugin', 'welcome-page' ); ?>"
+				><?php _e('Add-ons', 'google-calendar-events'); ?></a>
+			<a href="<?php echo simcal_ga_campaign_url(simcal_get_url('docs'), 'core-plugin', 'welcome-page'); ?>"
 			   class="docs button button-primary" target="_blank"
 				><?php _e( 'Documentation', 'google-calendar-events' ); ?></a>
 		</div>
 		<?php
-
 	}
 	/**
 	 * nav links at top .
@@ -182,20 +187,22 @@ class Welcome {
 
 		<div class="about-text simcal-font-poppins simcal-font-normal simcal-text-lg">
 			<?php
+   // Difference message if updating vs fresh install.
+   if ('update' == $this->install) {
+   	$message = __('Thanks for updating to the latest version!', 'google-calendar-events');
+   } else {
+   	$message = __('Thanks for installing!', 'google-calendar-events');
+   }
 
-			// Difference message if updating vs fresh install.
-			if ( 'update' == $this->install ) {
-				$message = __( 'Thanks for updating to the latest version!', 'google-calendar-events' );
-			} else {
-				$message = __( 'Thanks for installing!', 'google-calendar-events' );
-			}
+   echo $message;
 
-			echo $message;
-
-			/* translators: %s prints the current version of the plugin. */
-			printf( ' ' . __( "Simple Calendar %s has a few display options to configure. ", 'google-calendar-events' ), SIMPLE_CALENDAR_VERSION );
-			?>
-			<a href="<?php echo simcal_ga_campaign_url( simcal_get_url( 'docs' ), 'core-plugin', 'welcome-page' ); ?>"
+   /* translators: %s prints the current version of the plugin. */
+   printf(
+   	' ' . __('Simple Calendar %s has a few display options to configure. ', 'google-calendar-events'),
+   	SIMPLE_CALENDAR_VERSION
+   );
+   ?>
+			<a href="<?php echo simcal_ga_campaign_url(simcal_get_url('docs'), 'core-plugin', 'welcome-page'); ?>"
 			   target="_blank"
 			><br><?php _e( 'Check out our documentation', 'google-calendar-events' ); ?></a>
 			<?php _e( 'to get started now.', 'google-calendar-events' ); ?>
@@ -213,7 +220,8 @@ class Welcome {
 	 *
 	 * @since 3.0.0
 	 */
-	public function about_screen() {
+	public function about_screen()
+	{
 		$welcome_image_about_path = SIMPLE_CALENDAR_ASSETS . '/images/welcome';
 		$image_about_path = SIMPLE_CALENDAR_ASSETS . '/images';
 		?>
@@ -374,8 +382,8 @@ class Welcome {
 	 *
 	 * @since 3.0.0
 	 */
-	public function translators_screen() {
-
+	public function translators_screen()
+	{
 		?>
 		<div id="simcal-welcome">
 			<div class="wrap about-wrap translators-wrap simcal-max-w-[100%] simcal-font-poppins simcal-mr-[4%] simcal-ml-[4%] simcal-text-sm">
@@ -396,18 +404,11 @@ class Welcome {
 					</div>
 				<?php
 
-				// Transifex API is not open and requires authentication,
-				// Otherwise something like this would be possible:
-				// `json_decode( 'https://www.transifex.com/api/2/project/simple-calendar/languages/', true );`
-				// Since this is not possible, this has to be done manually.
-
-				// @TODO switch to WordPress language packs and try to pull list of translators from there
-
-				?>
+		// @TODO switch to WordPress language packs and try to pull list of translators from there
+		?>
 			</div>
 		</div>
 		<?php
-
 	}
 
 	/**
@@ -417,21 +418,20 @@ class Welcome {
 	 *
 	 * @return string $contributor_list HTML formatted list of contributors.
 	 */
-	public function contributors() {
-
+	public function contributors()
+	{
 		$contributors = $this->get_contributors();
 
-		if ( empty( $contributors ) ) {
+		if (empty($contributors)) {
 			return '';
 		}
 
 		$contributor_list = '<div class="simcal-flex simcal-flex-wrap simcal-gap-[1%]">';
 
-		foreach ( $contributors as $contributor ) {
-
+		foreach ($contributors as $contributor) {
 			// Skip contributor bots
-			$contributor_bots = array( 'gitter-badger' );
-			if ( in_array( $contributor->login, $contributor_bots ) ) {
+			$contributor_bots = ['gitter-badger'];
+			if (in_array($contributor->login, $contributor_bots)) {
 				continue;
 			}
 
@@ -444,8 +444,8 @@ class Welcome {
 			);
 			$contributor_list .= sprintf(
 				'<a class="web" href="%s" target="_blank">%s</a>',
-				esc_url( 'https://github.com/' . $contributor->login ),
-				esc_html( $contributor->login )
+				esc_url('https://github.com/' . $contributor->login),
+				esc_html($contributor->login)
 			);
 			$contributor_list .= '</div>';
 
@@ -463,26 +463,24 @@ class Welcome {
 	 *
 	 * @return mixed
 	 */
-	public function get_contributors() {
-
-		$contributors = get_transient( '_simple-calendar_contributors' );
-		if ( false !== $contributors ) {
+	public function get_contributors()
+	{
+		$contributors = get_transient('_simple-calendar_contributors');
+		if (false !== $contributors) {
 			return $contributors;
 		}
 
-		$response = wp_safe_remote_get(
-			'https://api.github.com/repos/Xtendify/Simple-Calendar/contributors'
-		);
-		if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) ) {
-			return array();
+		$response = wp_safe_remote_get('https://api.github.com/repos/Xtendify/Simple-Calendar/contributors');
+		if (is_wp_error($response) || 200 != wp_remote_retrieve_response_code($response)) {
+			return [];
 		}
 
-		$contributors = json_decode( wp_remote_retrieve_body( $response ) );
-		if ( ! is_array( $contributors ) ) {
-			return array();
+		$contributors = json_decode(wp_remote_retrieve_body($response));
+		if (!is_array($contributors)) {
+			return [];
 		}
 
-		set_transient( '_simple-calendar_contributors', $contributors, HOUR_IN_SECONDS );
+		set_transient('_simple-calendar_contributors', $contributors, HOUR_IN_SECONDS);
 
 		return $contributors;
 	}
