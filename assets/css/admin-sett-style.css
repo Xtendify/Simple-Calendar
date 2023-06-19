@@ -138,11 +138,11 @@ a:focus .plugin-icon {
 }
 
 #simcal-settings-page-form .sc-chk-box:checked::before {
-  content: url('../images/green-tick-check.png');
-  margin: 0px;
-  margin-top: -1px;
-  margin-left: -1px;
-  border: none;
+	content: url("../images/green-tick-check.png");
+	margin: 0px;
+	margin-top: -1px;
+	margin-left: -1px;
+	border: none;
 }
 
 #simcal-settings-page-form .sc-chk-box {
