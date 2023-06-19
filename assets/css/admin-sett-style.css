@@ -37,7 +37,7 @@
 	font-size: 16px;
 	font-weight: 400;
 	line-height: 24px;
-	font-family: "poppins", sans-serif;
+	font-family: 'poppins', sans-serif;
 }
 
 .semical-feeds-tab .form-table td,
@@ -138,7 +138,7 @@ a:focus .plugin-icon {
 }
 
 #simcal-settings-page-form .sc-chk-box:checked::before {
-	content: url("../images/green-tick-check.png");
+	content: url('../images/green-tick-check.png');
 	margin: 0px;
 	margin-top: -1px;
 	margin-left: -1px;
@@ -175,10 +175,8 @@ a:focus .plugin-icon {
 	margin-top: 20px;
 }
 
-#simcal-settings-page-form
-	button.button-secondary.simcal-addon-manage-license.activate,
-#simcal-settings-page-form
-	button.button-secondary.simcal-addon-manage-license.deactivate {
+#simcal-settings-page-form button.button-secondary.simcal-addon-manage-license.activate,
+#simcal-settings-page-form button.button-secondary.simcal-addon-manage-license.deactivate {
 	background-color: #60bc4e;
 	color: white;
 	border: unset;
@@ -239,10 +237,7 @@ a:focus .plugin-icon {
 	width: 99%;
 }
 
-#simcal-settings-page-form
-	.select2-container
-	.select2-selection--multiple
-	.select2-selection__rendered {
+#simcal-settings-page-form .select2-container .select2-selection--multiple .select2-selection__rendered {
 	display: unset;
 	height: 40px;
 	border-radius: 5px;
@@ -260,10 +255,7 @@ a:focus .plugin-icon {
 	margin-left: -1px;
 }
 
-#simcal-settings-page-form
-	.select2-container--default
-	.select2-selection--multiple
-	.select2-selection__choice {
+#simcal-settings-page-form .select2-container--default .select2-selection--multiple .select2-selection__choice {
 	margin-top: 8px;
 }
 
