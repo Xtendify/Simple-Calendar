@@ -137,7 +137,7 @@ a:focus .plugin-icon {
 	max-width: 95%;
 }
 
-#simcal-settings-page-form .sc-chk-box:checked::before{
+#simcal-settings-page-form .sc-chk-box:checked::before {
   content: url('../images/green-tick-check.png');
   margin: 0px;
   margin-top: -1px;
