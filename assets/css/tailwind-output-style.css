@@ -679,10 +679,6 @@ video {
   margin-top: 34px;
 }
 
-.simcal-mt-\[41px\] {
-  margin-top: 41px;
-}
-
 .simcal-mt-\[42px\] {
   margin-top: 42px;
 }
@@ -707,20 +703,20 @@ video {
   margin-top: 54px;
 }
 
-.simcal-mt-\[5px\] {
-  margin-top: 5px;
-}
-
-.simcal-mt-\[66px\] {
-  margin-top: 66px;
-}
-
 .simcal-mt-\[57px\] {
   margin-top: 57px;
 }
 
 .simcal-mt-\[58px\] {
   margin-top: 58px;
+}
+
+.simcal-mt-\[5px\] {
+  margin-top: 5px;
+}
+
+.simcal-mt-\[66px\] {
+  margin-top: 66px;
 }
 
 .simcal-flex {
@@ -731,8 +727,8 @@ video {
   display: grid;
 }
 
-.simcal-h-\[452px\] {
-  height: 452px;
+.simcal-h-6 {
+  height: 1.5rem;
 }
 
 .simcal-h-\[330px\] {
@@ -1177,27 +1173,8 @@ video {
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
-.simcal-text-black {
-  --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity));
-}
-
-.simcal-text-sc_grey-100 {
-  --tw-text-opacity: 1;
-  color: rgb(127 132 144 / var(--tw-text-opacity));
-}
-
-.simcal-text-white {
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
 .simcal-underline {
   text-decoration-line: underline;
-}
-
-.hover\:simcal-border-\[2px\]:hover {
-  border-width: 2px;
 }
 
 .hover\:simcal-border-b-\[3px\]:hover {
@@ -1207,11 +1184,6 @@ video {
 .hover\:simcal-border-sc_green-200:hover {
   --tw-border-opacity: 1;
   border-color: rgb(96 188 78 / var(--tw-border-opacity));
-}
-
-.hover\:simcal-border-white:hover {
-  --tw-border-opacity: 1;
-  border-color: rgb(255 255 255 / var(--tw-border-opacity));
 }
 
 .hover\:simcal-bg-inherit:hover {
@@ -1240,10 +1212,6 @@ video {
 .hover\:simcal-text-white:hover {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.hover\:simcal-underline:hover {
-  text-decoration-line: underline;
 }
 
 .focus\:simcal-border-b-\[3px\]:focus {
@@ -1283,10 +1251,6 @@ video {
     top: -20;
   }
 
-  .max-3xl\:simcal-mt-\[70px\] {
-    margin-top: 70px;
-  }
-
   .max-3xl\:simcal-mt-\[87px\] {
     margin-top: 87px;
   }
@@ -1314,14 +1278,8 @@ video {
   }
 }
 
-.hover\:simcal-text-sc_green-200:hover {
-  --tw-text-opacity: 1;
-  color: rgb(96 188 78 / var(--tw-text-opacity));
-}
-
 @media (min-width: 1280px) {
   .xl\:simcal-h-\[450px\] {
     height: 450px;
   }
 }
-

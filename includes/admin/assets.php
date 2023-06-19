@@ -135,31 +135,31 @@ class Assets
 
 				wp_enqueue_style('simcal-admin-add-calendar');
 			}
-		}	
+		}
+		wp_enqueue_style(
+			'sc-tail-style',
+			$css_path . 'tailwind-output-style.css',
+			array(),
+			SIMPLE_CALENDAR_VERSION
+		);
+
+		// Load the style on where that needed.	
+		if ('calendar_page_simple-calendar_settings' == $sc_screen->id) {
+
 			wp_enqueue_style(
-				'sc-tail-style',
-				$css_path . 'tailwind-output-style.css',
+				'sc-admin-style',
+				$css_path . 'admin-sett-style.css',
 				array(),
 				SIMPLE_CALENDAR_VERSION
 			);
-
-            // Load the style on where that needed.	
-			if ( 'calendar_page_simple-calendar_settings' == $sc_screen->id  ) {		
-		   
-				wp_enqueue_style(
-					'sc-admin-style',
-					$css_path . 'admin-sett-style.css',
-					array(),
-					SIMPLE_CALENDAR_VERSION
-				);
-			}
-			if( 'dashboard_page_simple-calendar_about' || 'dashboard_page_simple-calendar_credits' || 'dashboard_page_simple-calendar_translators' == $sc_screen->id ){
-				wp_enqueue_style(
-					'sc-welcome-style',
-					$css_path . 'sc-welcome-pg-style.css',
-					array(),
-					SIMPLE_CALENDAR_VERSION
-				);	
-			}		
+		}
+		if ('dashboard_page_simple-calendar_about' || 'dashboard_page_simple-calendar_credits' || 'dashboard_page_simple-calendar_translators' == $sc_screen->id) {
+			wp_enqueue_style(
+				'sc-welcome-style',
+				$css_path . 'sc-welcome-pg-style.css',
+				array(),
+				SIMPLE_CALENDAR_VERSION
+			);
+		}
 	}
 }
