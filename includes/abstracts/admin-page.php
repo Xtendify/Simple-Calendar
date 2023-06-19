@@ -6,8 +6,8 @@
  */
 namespace SimpleCalendar\Abstracts;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+	exit();
 }
 
 /**
@@ -15,8 +15,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-abstract class Admin_Page {
-
+abstract class Admin_Page
+{
 	/**
 	 * Admin page ID.
 	 *
@@ -71,7 +71,7 @@ abstract class Admin_Page {
 	 * @access protected
 	 * @var array
 	 */
-	protected $values = array();
+	protected $values = [];
 
 	/**
 	 * Get admin page settings.
@@ -80,31 +80,27 @@ abstract class Admin_Page {
 	 *
 	 * @return array
 	 */
-	public function get_settings() {
+	public function get_settings()
+	{
+		$settings = [];
 
-		$settings = array();
+		$settings[$this->id] = [
+			'label' => $this->label,
+			'description' => $this->description,
+		];
 
-		$settings[ $this->id ] = array(
-			'label'         => $this->label,
-			'description'   => $this->description,
-		);
-
-		if ( ! empty( $this->sections ) && is_array( $this->sections ) ) {
-
-			foreach ( $this->sections as $section => $content ) {
-
-				$settings[ $this->id ]['sections'][ $section ] = array(
-					'title'         => isset( $content['title'] ) ? $content['title'] : '',
-					'description'   => isset( $content['description'] ) ? $content['description'] : '',
-					'callback'      => array( $this, 'add_settings_section_callback' ),
-					'fields'        => isset( $this->fields[ $section ] ) ? $this->fields[ $section ] : '',
-				);
-
+		if (!empty($this->sections) && is_array($this->sections)) {
+			foreach ($this->sections as $section => $content) {
+				$settings[$this->id]['sections'][$section] = [
+					'title' => isset($content['title']) ? $content['title'] : '',
+					'description' => isset($content['description']) ? $content['description'] : '',
+					'callback' => [$this, 'add_settings_section_callback'],
+					'fields' => isset($this->fields[$section]) ? $this->fields[$section] : '',
+				];
 			}
-
 		}
 
-		return apply_filters( 'simcal_get_' . $this->option_group . '_' . $this->id , $settings );
+		return apply_filters('simcal_get_' . $this->option_group . '_' . $this->id, $settings);
 	}
 
 	/**
@@ -118,12 +114,12 @@ abstract class Admin_Page {
 	 *
 	 * @return string
 	 */
-	protected function get_option_value( $section, $setting ) {
-
+	protected function get_option_value($section, $setting)
+	{
 		$option = $this->values;
 
-		if ( ! empty( $option ) && is_array( $option ) ) {
-			return isset( $option[ $section ][ $setting ] ) ? $option[ $section ][ $setting ] : '';
+		if (!empty($option) && is_array($option)) {
+			return isset($option[$section][$setting]) ? $option[$section][$setting] : '';
 		}
 
 		return '';
@@ -156,14 +152,14 @@ abstract class Admin_Page {
 	 *
 	 * @return string
 	 */
-	public function add_settings_section_callback( $section ) {
+	public function add_settings_section_callback($section)
+	{
+		$callback = isset($section['callback'][0]) ? $section['callback'][0] : '';
+		$sections = isset($callback->sections) ? $callback->sections : '';
+		$description = isset($sections[$section['id']]['description']) ? $sections[$section['id']]['description'] : '';
+		$default = $description ? '<p>' . $description . '</p>' : '';
 
-		$callback    = isset( $section['callback'][0] ) ? $section['callback'][0] : '';
-		$sections    = isset( $callback->sections ) ? $callback->sections : '';
-		$description = isset( $sections[ $section['id'] ]['description'] ) ? $sections[ $section['id'] ]['description'] : '';
-		$default     = $description ? '<p>' . $description . '</p>' : '';
-
-		echo apply_filters( 'simcal_' . $this->option_group . '_' . $this->id . '_sections_callback', $default );
+		echo apply_filters('simcal_' . $this->option_group . '_' . $this->id . '_sections_callback', $default);
 	}
 
 	/**
@@ -177,19 +173,18 @@ abstract class Admin_Page {
 	 *
 	 * @return array Sanitized settings.
 	 */
-	public function validate( $settings ) {
+	public function validate($settings)
+	{
+		$sanitized = [];
 
-		$sanitized = array();
-
-		if ( is_array( $settings ) ) {
-			foreach ( $settings as $k => $v ) {
-				$sanitized[ $k ] = simcal_sanitize_input( $v );
+		if (is_array($settings)) {
+			foreach ($settings as $k => $v) {
+				$sanitized[$k] = simcal_sanitize_input($v);
 			}
 		} else {
-			$sanitized = simcal_sanitize_input( $settings );
+			$sanitized = simcal_sanitize_input($settings);
 		}
 
 		return $sanitized;
 	}
-
 }

@@ -102,7 +102,7 @@ We'd love your help! Here's a few things you can do:
 * Fix: 'Simple Calendar Widget' Calendar selection on block editor.
 * Fix: 'if-not-today' and 'add-to-gcal-link' shortcode with all day event display issue.
 
-= 3.1.46 =
+= 3.1.47 =
 * Dev: Added admin notice for plugin update.
 * Fixed: Possible CSRF vulnerability.
 

@@ -8,8 +8,8 @@ namespace SimpleCalendar\Admin\Fields;
 
 use SimpleCalendar\Abstracts\Field;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+	exit();
 }
 
 /**
@@ -17,8 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-class Nonce extends Field {
-
+class Nonce extends Field
+{
 	/**
 	 * Construct.
 	 *
@@ -26,8 +26,9 @@ class Nonce extends Field {
 	 *
 	 * @param array $field
 	 */
-	public function __construct( $field ) {
-		parent::__construct( $field );
+	public function __construct($field)
+	{
+		parent::__construct($field);
 	}
 
 	/**
@@ -35,8 +36,8 @@ class Nonce extends Field {
 	 *
 	 * @since 3.0.0
 	 */
-	public function html() {
-		wp_nonce_field( $this->name, $this->value );
+	public function html()
+	{
+		wp_nonce_field($this->name, $this->value);
 	}
-
 }

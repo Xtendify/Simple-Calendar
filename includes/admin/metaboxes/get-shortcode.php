@@ -8,8 +8,8 @@ namespace SimpleCalendar\Admin\Metaboxes;
 
 use SimpleCalendar\Abstracts\Meta_Box;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+	exit();
 }
 
 /**
@@ -17,8 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-class Get_Shortcode implements Meta_Box {
-
+class Get_Shortcode implements Meta_Box
+{
 	/**
 	 * Output HTML.
 	 *
@@ -26,8 +26,9 @@ class Get_Shortcode implements Meta_Box {
 	 *
 	 * @param \WP_Post $post
 	 */
-	public static function html( $post ) {
-		simcal_print_shortcode_tip( $post->ID );
+	public static function html($post)
+	{
+		simcal_print_shortcode_tip($post->ID);
 	}
 
 	/**
@@ -38,8 +39,8 @@ class Get_Shortcode implements Meta_Box {
 	 * @param int      $post_id
 	 * @param \WP_Post $post
 	 */
-	public static function save( $post_id, $post ) {
+	public static function save($post_id, $post)
+	{
 		// This Meta Box does not have settings.
 	}
-
 }
