@@ -190,10 +190,8 @@ class Welcome
 	{
 		?>
 		<div class="simcal-font-poppins simcal-font-bold simcal-text-4xl">
-		<?php // translators: %s prints the current version of the plugin.
-  printf(__('Welcome to Simple Calendar %s', 'google-calendar-events'), SIMPLE_CALENDAR_VERSION); ?>
+		<?php printf(__('Welcome to Simple Calendar %s', 'google-calendar-events'), SIMPLE_CALENDAR_VERSION); ?>
 		</div>
-
 		<div class="about-text simcal-font-poppins simcal-font-normal simcal-text-lg">
 			<?php
    // Difference message if updating vs fresh install.
