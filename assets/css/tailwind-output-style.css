@@ -688,12 +688,12 @@ video {
   margin-top: 25px;
 }
 
-.simcal-mt-\[42px\] {
-  margin-top: 42px;
+.simcal-mt-\[4\%\] {
+  margin-top: 4%;
 }
 
-.simcal-mt-\[43px\] {
-  margin-top: 43px;
+.simcal-mt-\[42px\] {
+  margin-top: 42px;
 }
 
 .simcal-mt-\[44px\] {
@@ -726,14 +726,6 @@ video {
 
 .simcal-mt-\[66px\] {
   margin-top: 66px;
-}
-
-.simcal-mt-\[50\%\] {
-  margin-top: 50%;
-}
-
-.simcal-mt-\[4\%\] {
-  margin-top: 4%;
 }
 
 .simcal-flex {

@@ -384,13 +384,13 @@ class Welcome
       	'google-calendar-events'
       ); ?>
 					</div>
-					<div class="simcal-flex simcal-pt-[54px]">
+					<div class="simcal-flex simcal-pt-[20px]">
 						<div class="simcal-w-[60%]">
 							<?php echo $this->contributors(); ?>
 						</div>
 						<div class="simcal-w-[40%]">
 							<div
-								class="simcal-mt-[54px] simcal-mr-[5%] simcal-w-[83%] simcal-h-[366px] simcal-rounded-[20px] simcal-bg-white ">
+								class="simcal-mt-[20px] simcal-mr-[5%] simcal-w-[83%] simcal-h-[366px] simcal-rounded-[20px] simcal-bg-white ">
 								<div class="simcal-pl-[42%] ">
 									<img class="simcal-pt-[19px]" src="<?php echo $image_about_path . '/rating.png'; ?>" />
 								</div>
@@ -498,7 +498,7 @@ class Welcome
 			}
 
 			$contributor_list .=
-				'<div class="wp-person simcal-mt-[43px] simcal-rounded-[15px] simcal-pt-[10px] simcal-pl-[8px] simcal-font-medium hover:simcal-bg-sc_green-200">';
+				'<div class="wp-person simcal-mt-[25px] simcal-rounded-[15px] simcal-pt-[10px] simcal-pl-[8px] simcal-font-medium hover:simcal-bg-sc_green-200">';
 			$contributor_list .= sprintf(
 				'<a href="%s" class="hover:simcal-text-white" title="%s" target="_blank">%s</a>',
 				esc_url('https://github.com/' . $contributor->login),

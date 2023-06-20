@@ -32,6 +32,7 @@
 #simcal-welcome .about-wrap .wp-person .gravatar {
 	border-radius: 50%;
 	height: 50px;
+	padding: 0px;
 }
 
 #simcal-welcome .about-wrap .wp-person .web {
