@@ -298,7 +298,7 @@ class Pages
 							</span>			
 						</div>
 						<div class="simcal-pt-[29px]">
-							<a href="https://simplecalendar.io/downloads/google-calendar-pro/">
+							<a href="https://simplecalendar.io/addons/?utm_source=inside-plugin&utm_medium=link&utm_campaign=core-plugin&utm_content=settings-link">
 								<button type="button"
 									class="simcal-flex simcal-justify-center simcal-items-center simcal-w-[100%] simcal-h-[40px] simcal-bg-sc_green-200 simcal-text-white simcal-text-base simcal-font-medium simcal-rounded-md simcal-font-poppins">
 									<img class="simcal-p-[8px]" src="<?php echo $admin_image_about_path . '/crown.png'; ?>" />
@@ -311,7 +311,7 @@ class Pages
 						<img src="<?php echo $admin_image_about_path . '/arrow.png'; ?>" />
 					</div>		
 					<div class="simcal-bg-sc_green-100 simcal-rounded-r-[5px] simcal-pr-[1%] simcal-pt-[5px] ">
-						<div class="">
+						<div>
 							<div class="simcal-flex simcal-items-center simcal-text-gray-400 simcal-mt-[21px]">
 								<div>
 									<img src="<?php echo $admin_image_about_path . '/green-tick.png'; ?>" />
