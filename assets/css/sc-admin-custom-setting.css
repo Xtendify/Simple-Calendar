@@ -31,7 +31,8 @@ body .simcal-panel-field .simcal-field-tiny {
 	width: 100%;
 }
 
-#simcal-calendar-settings select#_feed_earliest_event_date , #simcal-calendar-settings select#_feed_latest_event_date {
+#simcal-calendar-settings select#_feed_earliest_event_date,
+#simcal-calendar-settings select#_feed_latest_event_date {
 	width: 65%;
 }
 

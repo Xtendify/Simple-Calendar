@@ -204,7 +204,15 @@ class Settings implements Meta_Box
 				$icon = $tab['icon'] ? $tab['icon'] : 'simcal-icon-panel';
 				$class = $tab['class'] ? $tab['class'] : [];
 
-				echo '<li class="simcal-h-[43px] ' . $key . '-settings ' . $key . '-tab ' . implode(' ', $class) . '" data-tab="' . $key . '">';
+				echo '<li class="simcal-h-[43px] ' .
+					$key .
+					'-settings ' .
+					$key .
+					'-tab ' .
+					implode(' ', $class) .
+					'" data-tab="' .
+					$key .
+					'">';
 				echo '<a href="#' .
 					$tab['target'] .
 					'"><i class="' .
@@ -231,7 +239,10 @@ class Settings implements Meta_Box
 		<table>
 			<thead>
 				<tr>
-					<th colspan="2" class="simcal-text-sc_black-100 simcal-text-lg simcal-block simcal-w-[100%]"><?php _e('Event Settings', 'google-calendar-events'); ?></th>
+					<th colspan="2" class="simcal-text-sc_black-100 simcal-text-lg simcal-block simcal-w-[100%]"><?php _e(
+     	'Event Settings',
+     	'google-calendar-events'
+     ); ?></th>
 				</tr>
 			</thead>
 			<tbody class="simcal-panel-section simcal-panel-section-events-range">
