@@ -36,17 +36,17 @@ class Settings implements Meta_Box
 	{
 		// @see Meta_Boxes::save_meta_boxes()
 		wp_nonce_field('simcal_save_data', 'simcal_meta_nonce'); ?>
-		<div class="simcal-panels-wrap">
+		<div class="simcal-panels-wrap simcal-text-base simcal-font-poppins">
 
 			<span class="simcal-box-handle">
 				<?php self::settings_handle($post); ?>
 			</span>
-			<ul class="simcal-tabs">
+			<ul class="simcal-tabs simcal-font-medium simcal-text-sc_grey-100 simcal-bg-sc_green-300 simcal-pt-[33px]">
 				<?php self::settings_tabs($post); ?>
 				<?php do_action('simcal_settings_meta_tabs'); ?>
 			</ul>
 			<div class="simcal-panels">
-				<div id="events-settings-panel" class="simcal-panel">
+				<div id="events-settings-panel" class="simcal-panel simcal-ml-[23%]">
 					<?php self::events_settings_panel($post); ?>
 					<?php do_action('simcal_settings_meta_events_panel', $post->ID); ?>
 				</div>
@@ -204,7 +204,7 @@ class Settings implements Meta_Box
 				$icon = $tab['icon'] ? $tab['icon'] : 'simcal-icon-panel';
 				$class = $tab['class'] ? $tab['class'] : [];
 
-				echo '<li class="' . $key . '-settings ' . $key . '-tab ' . implode(' ', $class) . '" data-tab="' . $key . '">';
+				echo '<li class="simcal-h-[43px] ' . $key . '-settings ' . $key . '-tab ' . implode(' ', $class) . '" data-tab="' . $key . '">';
 				echo '<a href="#' .
 					$tab['target'] .
 					'"><i class="' .
@@ -231,7 +231,7 @@ class Settings implements Meta_Box
 		<table>
 			<thead>
 				<tr>
-					<th colspan="2"><?php _e('Event Settings', 'google-calendar-events'); ?></th>
+					<th colspan="2" class="simcal-text-sc_black-100 simcal-text-lg simcal-block simcal-w-[100%]"><?php _e('Event Settings', 'google-calendar-events'); ?></th>
 				</tr>
 			</thead>
 			<tbody class="simcal-panel-section simcal-panel-section-events-range">

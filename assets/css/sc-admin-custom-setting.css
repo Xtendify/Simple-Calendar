@@ -1,0 +1,61 @@
+#wpcontent {
+	background-color: #f2f7fb;
+}
+#simcal-calendar-settings .simcal-panel-field th {
+	width: 100%;
+	display: block;
+}
+
+#simcal-calendar-settings button.button-secondary.simcal-addon-manage-license.activate,
+#simcal-calendar-settings button.button-secondary.simcal-addon-manage-license.deactivate {
+	background-color: #60bc4e;
+	color: white;
+	border: unset;
+}
+
+#simcal-calendar-settings .simcal-panel-field td {
+	max-width: 100%;
+	display: block;
+}
+
+body .simcal-field-tiny,
+body .simcal-panel-field .simcal-field-tiny {
+	max-width: 100%;
+}
+
+#simcal-calendar-settings select#_calendar_begins {
+	width: 95%;
+}
+
+#simcal-calendar-settings .simcal-panel-field > td {
+	width: 100%;
+}
+
+#simcal-calendar-settings select#_feed_earliest_event_date , #simcal-calendar-settings select#_feed_latest_event_date {
+	width: 65%;
+}
+
+.postbox {
+	border: unset;
+}
+
+#simcal-calendar-settings.regular-text {
+	width: 90%;
+}
+
+#simcal-calendar-settings .simcal-tabs:after {
+	background-color: #f7fcf6;
+}
+
+#simcal-calendar-settings .simcal-tabs a {
+	border-bottom: 0px;
+}
+
+#simcal-calendar-settings .simcal-tabs a:hover {
+	color: #60bc4e;
+}
+
+#simcal-calendar-settings .simcal-tabs li.active a {
+	background-color: white;
+	color: #60bc4e;
+}

@@ -638,6 +638,22 @@ video {
   margin-top: 66px;
 }
 
+.simcal-mr-\[24\%\] {
+  margin-right: 24%;
+}
+
+.simcal-ml-\[24\%\] {
+  margin-left: 24%;
+}
+
+.simcal-ml-\[23\%\] {
+  margin-left: 23%;
+}
+
+.simcal-block {
+  display: block;
+}
+
 .simcal-flex {
   display: flex;
 }
@@ -656,6 +672,10 @@ video {
 
 .simcal-h-\[452px\] {
   height: 452px;
+}
+
+.simcal-h-\[43px\] {
+  height: 43px;
 }
 
 .simcal-w-\[38\%\] {
@@ -684,6 +704,14 @@ video {
 
 .simcal-w-\[97\%\] {
   width: 97%;
+}
+
+.simcal-w-\[24\%\] {
+  width: 24%;
+}
+
+.simcal-w-\[100\%\] {
+  width: 100%;
 }
 
 .simcal-max-w-\[100\%\] {
@@ -763,6 +791,11 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
+.simcal-bg-sc_green-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(247 252 246 / var(--tw-bg-opacity));
+}
+
 .simcal-fill-sc_yellow-100 {
   fill: #F7D100;
 }
@@ -813,6 +846,10 @@ video {
 
 .simcal-pt-\[80px\] {
   padding-top: 80px;
+}
+
+.simcal-pt-\[33px\] {
+  padding-top: 33px;
 }
 
 .simcal-text-center {
@@ -907,9 +944,13 @@ video {
   color: rgb(96 188 78 / var(--tw-text-opacity));
 }
 
+.active\:simcal-bg-white:active {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
 @media (min-width: 1280px) {
   .xl\:simcal-h-\[450px\] {
     height: 450px;
   }
 }
-
