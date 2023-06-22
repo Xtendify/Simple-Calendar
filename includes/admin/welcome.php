@@ -284,7 +284,7 @@ class Welcome
 						</div>
 					</div>
 				</div>
-				<div class="simcal-mt-[50px] simcal-pl-[4%] simcal-pr-[4%] simcal-max-w-[100%] simcal-h-[247px] simcal-pt-[45px] simcal-flex simcal-bg-sc_green-100 simcal-font-poppins simcal-rounded">
+				<div class="simcal-mt-[50px] simcal-p-[3%] simcal-max-w-[100%] simcal-flex simcal-bg-sc_green-100 simcal-font-poppins simcal-rounded">
 					<div class="simcal-w-[36%]">
 						<div class="simcal-flex">
 							<div>
@@ -323,30 +323,30 @@ class Welcome
 					</div>		
 					<div class="simcal-bg-sc_green-100 simcal-rounded-r-[5px] simcal-pr-[1%] simcal-pt-[5px] ">
 						<div class="">
-							<div class="simcal-flex simcal-items-center simcal-text-gray-400 simcal-mt-[21px]">
-								<div>
+							<div class="simcal-flex simcal-text-sc_grey-100 simcal-mt-[21px]">
+								<div class="simcal-mt-[2px]">
 									<img src="<?php echo esc_url($image_about_path) . '/green-tick.png'; ?>" />
 								</div>
-								<div class="simcal-ml-[9px] simcal-text-base simcal-text-gray-400 simcal-font-normal" >
+								<div class="simcal-ml-[9px] simcal-text-base simcal-text-sc_grey-100 simcal-font-normal" >
 									<span><?php _e('Display events from both private and public Google Calendars.', 'google-calendar-events'); ?></span>
 								</div>
 							</div>
-							<div class="simcal-flex simcal-items-center simcal-mt-[14px] ">
-								<div>
+							<div class="simcal-flex simcal-mt-[14px] ">
+								<div class="simcal-mt-[2px]">
 									<img src="<?php echo esc_url($image_about_path) . '/green-tick.png'; ?>" />
 								</div>
-								<div class="simcal-ml-[9px] simcal-text-base simcal-text-gray-400 simcal-font-normal " >
+								<div class="simcal-ml-[9px] simcal-text-base simcal-text-sc_grey-100 simcal-font-normal " >
 									<span> <?php _e(
          	'Display a list of attachments with links to their original source.',
          	'google-calendar-events'
          ); ?></span>
 								</div>
 							</div>
-							<div class="simcal-flex simcal-items-center simcal-mt-[14px] ">
-								<div>
+							<div class="simcal-flex simcal-mt-[14px] ">
+								<div class="simcal-mt-[2px]">
 									<img src="<?php echo esc_url($image_about_path) . '/green-tick.png'; ?>" />
 								</div>
-								<div class="simcal-ml-[9px] simcal-text-base simcal-text-gray-400 simcal-font-normal">
+								<div class="simcal-ml-[9px] simcal-text-base simcal-text-sc_grey-100 simcal-font-normal">
 									<span><?php _e('Many More...', 'google-calendar-events'); ?></span>
 								</div>
 							</div>							
@@ -427,9 +427,6 @@ class Welcome
 						</div>
 					</div>
 				</div>
-				<p class="about-description">
-					<?php printf(__('', 'google-calendar-events'), simcal_get_url('github')); ?>
-				</p>
 			</div>
 		</div>
 		<?php
@@ -500,11 +497,11 @@ class Welcome
 			$contributor_list .=
 				'<div class="wp-person simcal-mt-[25px] simcal-rounded-[15px] simcal-pt-[10px] simcal-pl-[8px] simcal-font-medium hover:simcal-bg-sc_green-200">';
 			$contributor_list .= sprintf(
-				'<a href="%s" class="hover:simcal-text-white" title="%s" target="_blank">%s</a>',
+				'<a href="%s" title="%s" target="_blank">%s</a>',
 				esc_url('https://github.com/' . $contributor->login),
 				esc_html(sprintf(__('View %s', 'google-calendar-events'), $contributor->login)),
 				sprintf(
-					'<img src="%s" width="50" height="50" class="gravatar" alt="%s" />',
+					'<img src="%s" width="50" height="50" class="gravatar simcal-align-middle" alt="%s" />',
 					esc_url($contributor->avatar_url),
 					esc_html($contributor->login)
 				)
