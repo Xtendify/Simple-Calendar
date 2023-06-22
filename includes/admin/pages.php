@@ -243,7 +243,7 @@ class Pages
     			?>
 								<div class="simcal-w-[39%] simcal-h-[452px] simcal-ml-[2%] simcal-rounded-[5px] simcal-bg-white">
 									<div class="simcal-mt-[75px]">
-										<img class="simcal-m-auto" src="<?php echo $admin_image_about_path . '/rating.png'; ?>" />
+										<img class="simcal-m-auto" src="<?php echo esc_url($admin_image_about_path) . '/rating.png'; ?>" />
 									</div>
 									<div class="simcal-mt-[15px] simcal-text-center simcal-font-semibold simcal-text-lg ">
 										<Span><?php _e('Please Rate Us !', 'google-calendar-events'); ?></Span>
@@ -277,7 +277,7 @@ class Pages
 					<div class="simcal-w-[36%]"> 
 						<div class="simcal-flex">
 							<div>
-								<img src="<?php echo $admin_image_about_path . '/black-tick.png'; ?>" />
+								<img src="<?php echo esc_url($admin_image_about_path) . '/black-tick.png'; ?>" />
 							</div>							
 							<div class="simcal-text-sc_green-200 simcal-m-auto simcal-ml-2.5 simcal-font-semibold simcal-text-xl">
 								<span>
@@ -301,20 +301,20 @@ class Pages
 							<a href="https://simplecalendar.io/addons/?utm_source=inside-plugin&utm_medium=link&utm_campaign=core-plugin&utm_content=settings-link">
 								<button type="button"
 									class="simcal-flex simcal-justify-center simcal-items-center simcal-w-[100%] simcal-h-[40px] simcal-bg-sc_green-200 simcal-text-white simcal-text-base simcal-font-medium simcal-rounded-md simcal-font-poppins">
-									<img class="simcal-p-[8px]" src="<?php echo $admin_image_about_path . '/crown.png'; ?>" />
+									<img class="simcal-p-[8px]" src="<?php echo esc_url($admin_image_about_path) . '/crown.png'; ?>" />
 									<?php _e('Get Pro Version', 'google-calendar-events'); ?>
 								</button>
 							</a>
 						</div>						
 					</div>
 					<div class="simcal-mx-auto simcal-mt-[4%]">
-						<img src="<?php echo $admin_image_about_path . '/arrow.png'; ?>" />
+						<img src="<?php echo esc_url($admin_image_about_path) . '/arrow.png'; ?>" />
 					</div>		
 					<div class="simcal-bg-sc_green-100 simcal-rounded-r-[5px] simcal-pr-[1%] simcal-pt-[5px] ">
 						<div>
 							<div class="simcal-flex simcal-items-center simcal-text-gray-400 simcal-mt-[21px]">
 								<div>
-									<img src="<?php echo $admin_image_about_path . '/green-tick.png'; ?>" />
+									<img src="<?php echo esc_url($admin_image_about_path) . '/green-tick.png'; ?>" />
 								</div>
 								<div class="simcal-ml-[9px] simcal-text-base simcal-text-gray-400 simcal-font-normal" >
 									<span><?php _e('Display events from both private and public Google Calendars.', 'google-calendar-events'); ?></span>
@@ -322,7 +322,7 @@ class Pages
 							</div>
 							<div class="simcal-flex simcal-items-center simcal-mt-[14px] ">
 								<div>
-									<img src="<?php echo $admin_image_about_path . '/green-tick.png'; ?>" />
+									<img src="<?php echo esc_url($admin_image_about_path) . '/green-tick.png'; ?>" />
 								</div>
 								<div class="simcal-ml-[9px] simcal-text-base simcal-text-gray-400 simcal-font-normal " >
 									<span> <?php _e(
@@ -333,7 +333,7 @@ class Pages
 							</div>
 							<div class="simcal-flex simcal-items-center simcal-mt-[14px] ">
 								<div>
-									<img src="<?php echo $admin_image_about_path . '/green-tick.png'; ?>" />
+									<img src="<?php esc_url($admin_image_about_path) . '/green-tick.png'; ?>" />
 								</div>
 								<div class="simcal-ml-[9px] simcal-text-base simcal-text-gray-400 simcal-font-normal">
 									<span><?php _e('Many More...', 'google-calendar-events'); ?></span>
