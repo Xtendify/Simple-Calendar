@@ -273,7 +273,7 @@ class Pages
     	}
     	// It will display when the Pro is activated.
     	if (!is_plugin_active('Simple-Calendar-Google-Calendar-Pro-main/simple-calendar-google-calendar-pro.php')) { ?>
-								<div class="simcal-mr-[5%] simcal-mt-[50px] simcal-pl-[4%] simcal-pr-[4%] simcal-max-w-[100%] simcal-h-[247px] simcal-pt-[45px] simcal-flex simcal-bg-sc_green-100 simcal-font-poppins simcal-rounded">
+								<div class="simcal-mr-[5%] simcal-mt-[50px] simcal-p-[3%] simcal-max-w-[100%] simcal-flex simcal-bg-sc_green-100 simcal-font-poppins simcal-rounded">
 					<div class="simcal-w-[36%]"> 
 						<div class="simcal-flex">
 							<div>
@@ -312,30 +312,30 @@ class Pages
 					</div>		
 					<div class="simcal-bg-sc_green-100 simcal-rounded-r-[5px] simcal-pr-[1%] simcal-pt-[5px] ">
 						<div>
-							<div class="simcal-flex simcal-items-center simcal-text-gray-400 simcal-mt-[21px]">
-								<div>
+							<div class="simcal-flex simcal-text-gray-400 simcal-mt-[21px]">
+								<div class="simcal-mt-[2px]">
 									<img src="<?php echo esc_url($admin_image_about_path) . '/green-tick.png'; ?>" />
 								</div>
-								<div class="simcal-ml-[9px] simcal-text-base simcal-text-gray-400 simcal-font-normal" >
+								<div class="simcal-ml-[9px] simcal-text-base simcal-text-sc_grey-100 simcal-font-normal" >
 									<span><?php _e('Display events from both private and public Google Calendars.', 'google-calendar-events'); ?></span>
 								</div>
 							</div>
-							<div class="simcal-flex simcal-items-center simcal-mt-[14px] ">
-								<div>
+							<div class="simcal-flex simcal-mt-[14px] ">
+								<div class="simcal-mt-[2px]">
 									<img src="<?php echo esc_url($admin_image_about_path) . '/green-tick.png'; ?>" />
 								</div>
-								<div class="simcal-ml-[9px] simcal-text-base simcal-text-gray-400 simcal-font-normal " >
+								<div class="simcal-ml-[9px] simcal-text-base simcal-text-sc_grey-100 simcal-font-normal " >
 									<span> <?php _e(
          	'Display a list of attachments with links to their original source.',
          	'google-calendar-events'
          ); ?></span>
 								</div>
 							</div>
-							<div class="simcal-flex simcal-items-center simcal-mt-[14px] ">
-								<div>
-									<img src="<?php esc_url($admin_image_about_path) . '/green-tick.png'; ?>" />
+							<div class="simcal-flex simcal-mt-[14px] ">
+								<div class="simcal-mt-[2px]">
+									<img src="<?php echo esc_url($admin_image_about_path) . '/green-tick.png'; ?>" />
 								</div>
-								<div class="simcal-ml-[9px] simcal-text-base simcal-text-gray-400 simcal-font-normal">
+								<div class="simcal-ml-[9px] simcal-text-base simcal-text-sc_grey-100 simcal-font-normal">
 									<span><?php _e('Many More...', 'google-calendar-events'); ?></span>
 								</div>
 							</div>							

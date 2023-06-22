@@ -635,6 +635,10 @@ video {
   margin-top: 75px;
 }
 
+.simcal-mt-\[2px\] {
+  margin-top: 2px;
+}
+
 .simcal-flex {
   display: flex;
 }
@@ -763,8 +767,16 @@ video {
   padding: 2%;
 }
 
+.simcal-p-\[5\%\] {
+  padding: 5%;
+}
+
 .simcal-p-\[8px\] {
   padding: 8px;
+}
+
+.simcal-p-\[3\%\] {
+  padding: 3%;
 }
 
 .simcal-pb-\[7px\] {
@@ -775,20 +787,12 @@ video {
   padding-left: 20px;
 }
 
-.simcal-pl-\[4\%\] {
-  padding-left: 4%;
-}
-
 .simcal-pl-\[7px\] {
   padding-left: 7px;
 }
 
 .simcal-pr-\[1\%\] {
   padding-right: 1%;
-}
-
-.simcal-pr-\[4\%\] {
-  padding-right: 4%;
 }
 
 .simcal-pr-\[7px\] {
@@ -801,10 +805,6 @@ video {
 
 .simcal-pt-\[29px\] {
   padding-top: 29px;
-}
-
-.simcal-pt-\[45px\] {
-  padding-top: 45px;
 }
 
 .simcal-pt-\[5px\] {
