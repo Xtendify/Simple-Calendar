@@ -173,7 +173,7 @@ class Welcome
 				<div class="simcal-max-w-[100%]">
 					<div
 						class="simcal-absolute simcal-right-[-45px] simcal-top-[-30px] max-3xl:simcal-w-[66%] max-3xl:simcal-right-[-40px] max-3xl:simcal-top-[-20]">
-						<img src="<?php echo $welcome_image_about_path . '/banner-right.png'; ?>" />
+						<img src="<?php echo esc_url($welcome_image_about_path) . '/banner-right.png'; ?>" />
 					</div>
 				</div>
 			</div>
@@ -251,7 +251,7 @@ class Welcome
 						</div>
 						<div
 							class="simcal-ml-[20px] simcal-mr-[20px] simcal-mt-[57px] max-2xl:simcal-mt-[88px] max-3xl:simcal-mt-[87px]">
-							<img src="<?php echo $welcome_image_about_path . '/cal-meeting.png'; ?>" />
+							<img src="<?php echo esc_url($welcome_image_about_path) . '/cal-meeting.png'; ?>" />
 						</div>
 					</div>
 					<div
@@ -265,9 +265,9 @@ class Welcome
 							</span>
 						</div>
 						<img class="simcal-absolute simcal-bottom-0"
-							src="<?php echo $welcome_image_about_path . '/jan-cal.png'; ?>" />
+							src="<?php echo esc_url($welcome_image_about_path) . '/jan-cal.png'; ?>" />
 						<img class="simcal-absolute simcal-inset-y-20 simcal-right-0"
-							src="<?php echo $welcome_image_about_path . '/cof-house.png'; ?>" />
+							src="<?php echo esc_url($welcome_image_about_path) . '/cof-house.png'; ?>" />
 					</div>
 					<div class="simcal-h-[436px] simcal-bg-sc_blue-300 simcal-text-white simcal-pt-[52px] simcal-rounded-[15px]">
 						<div class="simcal-pl-[5%] simcal-pr-[5%]">
@@ -280,7 +280,7 @@ class Welcome
 						</div>
 						<div
 							class="simcal-ml-[20px] simcal-mr-[20px] simcal-mt-[58px] max-2xl:simcal-mt-[84px] max-3xl:simcal-mt-[94px]">
-							<img src="<?php echo $welcome_image_about_path . '/mar-cal.png'; ?>" />
+							<img src="<?php echo esc_url($welcome_image_about_path) . '/mar-cal.png'; ?>" />
 						</div>
 					</div>
 				</div>
@@ -288,7 +288,7 @@ class Welcome
 					<div class="simcal-w-[36%]">
 						<div class="simcal-flex">
 							<div>
-								<img src="<?php echo $image_about_path . '/black-tick.png'; ?>" />
+								<img src="<?php echo esc_url($image_about_path) . '/black-tick.png'; ?>" />
 							</div>							
 							<div class="simcal-text-sc_green-200 simcal-m-auto simcal-ml-2.5 simcal-font-semibold simcal-text-xl">
 								<span>
@@ -312,20 +312,20 @@ class Welcome
 							<a href="https://simplecalendar.io/downloads/google-calendar-pro/">
 								<button type="button"
 									class="simcal-flex simcal-justify-center simcal-items-center simcal-w-[100%] simcal-h-[40px] simcal-bg-sc_green-200 simcal-text-white simcal-text-base simcal-font-medium simcal-rounded-md simcal-font-poppins">
-									<img class="simcal-p-[8px]" src="<?php echo $image_about_path . '/crown.png'; ?>" />
+									<img class="simcal-p-[8px]" src="<?php echo esc_url($image_about_path) . '/crown.png'; ?>" />
 									<?php _e('Get Pro Version', 'google-calendar-events'); ?>
 								</button>
 							</a>
 						</div>						
 					</div>
 					<div class="simcal-mx-auto simcal-mt-[4%]">
-						<img src="<?php echo $image_about_path . '/arrow.png'; ?>" />
+						<img src="<?php echo esc_url($image_about_path) . '/arrow.png'; ?>" />
 					</div>		
 					<div class="simcal-bg-sc_green-100 simcal-rounded-r-[5px] simcal-pr-[1%] simcal-pt-[5px] ">
 						<div class="">
 							<div class="simcal-flex simcal-items-center simcal-text-gray-400 simcal-mt-[21px]">
 								<div>
-									<img src="<?php echo $image_about_path . '/green-tick.png'; ?>" />
+									<img src="<?php echo esc_url($image_about_path) . '/green-tick.png'; ?>" />
 								</div>
 								<div class="simcal-ml-[9px] simcal-text-base simcal-text-gray-400 simcal-font-normal" >
 									<span><?php _e('Display events from both private and public Google Calendars.', 'google-calendar-events'); ?></span>
@@ -333,7 +333,7 @@ class Welcome
 							</div>
 							<div class="simcal-flex simcal-items-center simcal-mt-[14px] ">
 								<div>
-									<img src="<?php echo $image_about_path . '/green-tick.png'; ?>" />
+									<img src="<?php echo esc_url($image_about_path) . '/green-tick.png'; ?>" />
 								</div>
 								<div class="simcal-ml-[9px] simcal-text-base simcal-text-gray-400 simcal-font-normal " >
 									<span> <?php _e(
@@ -344,7 +344,7 @@ class Welcome
 							</div>
 							<div class="simcal-flex simcal-items-center simcal-mt-[14px] ">
 								<div>
-									<img src="<?php echo $image_about_path . '/green-tick.png'; ?>" />
+									<img src="<?php echo esc_url($image_about_path) . '/green-tick.png'; ?>" />
 								</div>
 								<div class="simcal-ml-[9px] simcal-text-base simcal-text-gray-400 simcal-font-normal">
 									<span><?php _e('Many More...', 'google-calendar-events'); ?></span>
@@ -392,7 +392,7 @@ class Welcome
 							<div
 								class="simcal-mt-[20px] simcal-mr-[5%] simcal-w-[83%] simcal-h-[366px] simcal-rounded-[20px] simcal-bg-white ">
 								<div class="simcal-pl-[42%] ">
-									<img class="simcal-pt-[19px]" src="<?php echo $image_about_path . '/rating.png'; ?>" />
+									<img class="simcal-pt-[19px]" src="<?php echo esc_url($image_about_path) . '/rating.png'; ?>" />
 								</div>
 								<div class="simcal-mt-[15px] simcal-text-center simcal-font-semibold simcal-text-lg ">
 									<Span>
