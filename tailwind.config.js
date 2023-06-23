@@ -4,9 +4,6 @@ module.exports = {
 	content: ['includes/**/*.{html,js,php}'],
 	theme: {
 		extend: {
-			backgroundImage: {
-				'sc_banner-bg': "url('../images/welcome/bg-banner-img.png')",
-			},
 			colors: {
 				sc_green: {
 					100: '#E9F3F4',
@@ -30,6 +27,7 @@ module.exports = {
 				sc_yellow: {
 					100: '#F7D100',
 				},
+				sc_purple: 'rgba(255, 255, 255, 0.2)',
 			},
 			fontFamily: {
 				poppins: ['Poppins', 'sans-serif'],

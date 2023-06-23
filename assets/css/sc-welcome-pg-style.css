@@ -8,18 +8,6 @@
 	box-shadow: unset;
 }
 
-#simcal-welcome a.button.button-primary {
-	background: rgba(255, 255, 255, 0.2);
-	border-radius: 100px;
-	border: 1px solid white;
-	margin: 6px;
-}
-
-#simcal-welcome .about-text {
-	margin: 15px 0px 0px 0px;
-	color: white;
-}
-
 #simcal-welcome .whats-new-wrap img {
 	border: unset;
 	margin: unset;
@@ -35,35 +23,10 @@
 	padding: 0px;
 }
 
-#simcal-welcome .about-wrap .wp-person .web {
-	font-weight: 500;
-	font-size: 14px;
-	color: #000000;
-}
-
-#simcal-welcome .about-wrap .wp-person {
-	width: 23%;
-}
-
-#simcal-welcome a.button.button-primary:hover {
-	background-color: white;
-	color: #60bc4e;
-}
-
-#simcal-welcome .nav-tab-active {
-	color: #3a414c;
-}
-
 #simcal-welcome .wp-person:hover .web {
 	color: #fff;
 }
 
 #simcal-welcome .wp-person:hover img {
 	border: 2px solid white;
-}
-
-@media only screen and (max-width: 1765px) {
-	#simcal-welcome .about-wrap .wp-person {
-		width: 28%;
-	}
 }
