@@ -203,7 +203,7 @@ class Welcome
 		<div class="simcal-font-poppins simcal-font-bold simcal-text-4xl">
 		<?php printf(__('Welcome to Simple Calendar %s', 'google-calendar-events'), SIMPLE_CALENDAR_VERSION); ?>
 		</div>
-		<div class="about-text !simcal-m-[0px] !simcal-m1-[15px] !simcal-text-white simcal-font-poppins !simcal-text-lg">
+		<div class="about-text !simcal-m-[0px] !simcal-mt-[19px] !simcal-text-white simcal-font-poppins !simcal-text-lg">
 			<?php
    // Difference message if updating vs fresh install.
    if ('update' == $this->install) {
@@ -320,7 +320,7 @@ class Welcome
 							</span>			
 						</div>
 						<div class="simcal-pt-[29px]">
-							<a href="https://simplecalendar.io/downloads/google-calendar-pro/">
+							<a href="https://simplecalendar.io/addons/?utm_source=inside-plugin&utm_medium=link&utm_campaign=core-plugin&utm_content=settings-link">
 								<button type="button"
 									class="simcal-flex simcal-justify-center simcal-items-center simcal-w-[100%] simcal-h-[40px] simcal-bg-sc_green-200 simcal-text-white simcal-text-base simcal-font-medium simcal-rounded-md simcal-font-poppins">
 									<img class="simcal-p-[8px]" src="<?php echo esc_url($image_about_path) . '/crown.png'; ?>" />

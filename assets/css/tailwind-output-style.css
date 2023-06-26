@@ -736,6 +736,10 @@ video {
   margin-top: 66px;
 }
 
+.\!simcal-mt-\[19px\] {
+  margin-top: 19px !important;
+}
+
 .simcal-flex {
   display: flex;
 }
@@ -956,6 +960,10 @@ video {
   border-bottom-color: rgb(96 188 78 / var(--tw-border-opacity));
 }
 
+.\!simcal-bg-sc_purple {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+}
+
 .simcal-bg-sc_blue-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(242 247 251 / var(--tw-bg-opacity));
@@ -988,10 +996,6 @@ video {
 .simcal-bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.\!simcal-bg-sc_purple {
-  background-color: rgba(255, 255, 255, 0.2) !important;
 }
 
 .simcal-bg-\[url\(\'\.\.\/images\/welcome\/bg-banner-img\.png\'\)\] {
