@@ -183,7 +183,7 @@ class Welcome
 				</div>
 				<div class="simcal-max-w-[100%]">
 					<div
-						class="simcal-absolute simcal-right-[-45px] simcal-top-[-30px] max-3xl:simcal-w-[66%] max-3xl:simcal-right-[-40px] max-3xl:simcal-top-[-20]">
+						class="simcal-absolute simcal-right-[-45px] simcal-top-[-30px] 2xl:simcal-w-[62%] 2xl:simcal-top-[0px] 2xl:simcal-right-[-39px] 3xl:simcal-w-[56%] 3xl:simcal-top-[-17] 3xl:simcal-right-[-40px]">
 						<img src="<?php echo esc_url($welcome_image_about_path) . '/banner-right.png'; ?>" />
 					</div>
 				</div>
@@ -200,10 +200,10 @@ class Welcome
 	private function intro()
 	{
 		?>
-		<div class="simcal-font-poppins simcal-font-bold simcal-text-4xl">
+		<div class="simcal-font-poppins simcal-font-bold simcal-text-4xl 2xl:simcal-text-3xl">
 		<?php printf(__('Welcome to Simple Calendar %s', 'google-calendar-events'), SIMPLE_CALENDAR_VERSION); ?>
 		</div>
-		<div class="about-text !simcal-m-[0px] !simcal-mt-[19px] !simcal-text-white simcal-font-poppins !simcal-text-lg">
+		<div class="about-text !simcal-m-[0px] !simcal-mt-[19px] !simcal-text-white simcal-font-poppins !simcal-text-lg 2xl:!simcal-text-base">
 			<?php
    // Difference message if updating vs fresh install.
    if ('update' == $this->install) {
@@ -252,26 +252,26 @@ class Welcome
 				<div class="simcal-grid simcal-gap-x-10 simcal-grid-cols-3 simcal-mt-[170px] simcal-font-poppins">
 					<div
 						class="simcal-h-[436px] simcal-bg-sc_cream-100 simcal-text-white simcal-pt-[52px] simcal-rounded-[15px] ">
-						<div class="simcal-pl-[5%] simcal-pr-[5%]">
-							<span class="simcal-text-[24px] simcal-font-bold simcal-leading-[31px]">
+						<div class="simcal-pl-[5%] simcal-pr-[5%] simcal-leading-[31px]">
+							<span class="simcal-text-[24px] max-3xl:simcal-text-[20px] simcal-font-bold">
 								<?php _e('Configure event colors, number of events to display, grid or list style', 'google-calendar-events'); ?>
 							</span>
-							<span class="simcal-text-[24px] ">
+							<span class="simcal-text-[24px] max-3xl:simcal-text-[20px]">
 								<?php _e(' and more.', 'google-calendar-events'); ?>
 							</span>
 						</div>
 						<div
-							class="simcal-ml-[20px] simcal-mr-[20px] simcal-mt-[57px] max-2xl:simcal-mt-[88px] max-3xl:simcal-mt-[87px]">
+							class="simcal-ml-[20px] simcal-mr-[20px] simcal-mt-[40px] max-2xl:simcal-mt-[88px] max-3xl:simcal-mt-[106px]">
 							<img src="<?php echo esc_url($welcome_image_about_path) . '/cal-meeting.png'; ?>" />
 						</div>
 					</div>
 					<div
 						class="simcal-h-[436px] simcal-bg-sc_green-200 simcal-text-white simcal-pt-[52px] simcal-rounded-[15px] simcal-relative">
-						<div class="simcal-pl-[5%]">
-							<span class="simcal-text-[24px] simcal-font-bold simcal-leading-[31px] ">
+						<div class="simcal-pl-[5%] simcal-leading-[31px]">
+							<span class="simcal-text-[24px] max-3xl:simcal-text-[20px] simcal-font-bold">
 								<?php _e('Mobile responsive and ', 'google-calendar-events'); ?>
 							</span><br>
-							<span class="simcal-text-[24px] simcal-font-normal">
+							<span class="simcal-text-[24px] max-3xl:simcal-text-[20px] simcal-font-normal">
 								<?php _e('widget ready.', 'google-calendar-events'); ?>
 							</span>
 						</div>
@@ -281,16 +281,16 @@ class Welcome
 							src="<?php echo esc_url($welcome_image_about_path) . '/cof-house.png'; ?>" />
 					</div>
 					<div class="simcal-h-[436px] simcal-bg-sc_blue-300 simcal-text-white simcal-pt-[52px] simcal-rounded-[15px]">
-						<div class="simcal-pl-[5%] simcal-pr-[5%]">
-							<span class="simcal-text-[24px] simcal-font-bold simcal-leading-[31px] ">
+						<div class="simcal-pl-[5%] simcal-pr-[5%] simcal-leading-[31px]">
+							<span class="simcal-text-[24px] max-3xl:simcal-text-[20px] simcal-font-bold">
 								<?php _e('Add even more display options with add-ons like', 'google-calendar-events'); ?>
 							</span>
-							<span class="simcal-text-[24px] ">
+							<span class="simcal-text-[24px] max-3xl:simcal-text-[20px]">
 								<?php _e('Full Calendar and Google Calendar Pro.', 'google-calendar-events'); ?>
 							</span>
 						</div>
 						<div
-							class="simcal-ml-[20px] simcal-mr-[20px] simcal-mt-[58px] max-2xl:simcal-mt-[84px] max-3xl:simcal-mt-[94px]">
+							class="simcal-ml-[20px] simcal-mr-[20px] simcal-mt-[41px] max-2xl:simcal-mt-[84px] max-3xl:simcal-mt-[107px]">
 							<img src="<?php echo esc_url($welcome_image_about_path) . '/mar-cal.png'; ?>" />
 						</div>
 					</div>

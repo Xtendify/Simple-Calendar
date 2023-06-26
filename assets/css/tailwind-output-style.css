@@ -608,6 +608,10 @@ video {
   margin-right: auto;
 }
 
+.\!simcal-mt-\[19px\] {
+  margin-top: 19px !important;
+}
+
 .simcal-mb-\[13px\] {
   margin-bottom: 13px;
 }
@@ -736,8 +740,12 @@ video {
   margin-top: 66px;
 }
 
-.\!simcal-mt-\[19px\] {
-  margin-top: 19px !important;
+.simcal-mt-\[40px\] {
+  margin-top: 40px;
+}
+
+.simcal-mt-\[41px\] {
+  margin-top: 41px;
 }
 
 .simcal-flex {
@@ -1330,6 +1338,14 @@ video {
     margin-top: 94px;
   }
 
+  .max-3xl\:simcal-mt-\[106px\] {
+    margin-top: 106px;
+  }
+
+  .max-3xl\:simcal-mt-\[107px\] {
+    margin-top: 107px;
+  }
+
   .max-3xl\:\!simcal-w-\[28\%\] {
     width: 28% !important;
   }
@@ -1341,6 +1357,10 @@ video {
   .max-3xl\:simcal-pt-\[25px\] {
     padding-top: 25px;
   }
+
+  .max-3xl\:simcal-text-\[20px\] {
+    font-size: 20px;
+  }
 }
 
 @media not all and (min-width: 1536px) {
@@ -1351,10 +1371,105 @@ video {
   .max-2xl\:simcal-mt-\[88px\] {
     margin-top: 88px;
   }
+
+  .max-2xl\:simcal-w-\[66\%\] {
+    width: 66%;
+  }
+
+  .max-2xl\:simcal-text-\[20px\] {
+    font-size: 20px;
+  }
 }
 
 @media (min-width: 1280px) {
   .xl\:simcal-h-\[450px\] {
     height: 450px;
+  }
+}
+
+@media (min-width: 1536px) {
+  .\32xl\:simcal-top-0 {
+    top: 0px;
+  }
+
+  .\32xl\:simcal-top-\[0px\] {
+    top: 0px;
+  }
+
+  .\32xl\:simcal-right-\[-39px\] {
+    right: -39px;
+  }
+
+  .\32xl\:simcal-w-\[64\%\] {
+    width: 64%;
+  }
+
+  .\32xl\:simcal-w-\[66\%\] {
+    width: 66%;
+  }
+
+  .\32xl\:simcal-w-\[60\%\] {
+    width: 60%;
+  }
+
+  .\32xl\:simcal-w-\[62\%\] {
+    width: 62%;
+  }
+
+  .\32xl\:simcal-text-base {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  .\32xl\:simcal-text-3xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
+
+  .\32xl\:\!simcal-text-base {
+    font-size: 1rem !important;
+    line-height: 1.5rem !important;
+  }
+
+  .\32xl\:simcal-text-\[20px\] {
+    font-size: 20px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .\33xl\:simcal-right-\[-40px\] {
+    right: -40px;
+  }
+
+  .\33xl\:simcal-top-\[-20\] {
+    top: -20;
+  }
+
+  .\33xl\:simcal-left-\[0px\] {
+    left: 0px;
+  }
+
+  .\33xl\:simcal-top-0 {
+    top: 0px;
+  }
+
+  .\33xl\:simcal-top-\[-17\] {
+    top: -17;
+  }
+
+  .\33xl\:simcal-right-\[-39px\] {
+    right: -39px;
+  }
+
+  .\33xl\:simcal-w-\[66\%\] {
+    width: 66%;
+  }
+
+  .\33xl\:simcal-w-\[64\%\] {
+    width: 64%;
+  }
+
+  .\33xl\:simcal-w-\[56\%\] {
+    width: 56%;
   }
 }
