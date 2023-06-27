@@ -261,7 +261,7 @@ class Welcome
 							</span>
 						</div>
 						<div
-							class="simcal-ml-[20px] simcal-mr-[20px] simcal-mt-[40px] lg:simcal-mt-[109px] max-2xl:simcal-mt-[88px] max-3xl:simcal-mt-[106px]">
+							class="simcal-ml-[20px] simcal-mr-[20px] simcal-mt-[40px] max-xl:simcal-mt-[109px] max-2xl:simcal-mt-[88px] max-3xl:simcal-mt-[106px]">
 							<img src="<?php echo esc_url($welcome_image_about_path) . '/cal-meeting.png'; ?>" />
 						</div>
 					</div>
@@ -290,7 +290,7 @@ class Welcome
 							</span>
 						</div>
 						<div
-							class="simcal-ml-[20px] simcal-mr-[20px] simcal-mt-[41px] max-2xl:simcal-mt-[84px] max-3xl:simcal-mt-[107px] lg:simcal-mt-[109px]">
+							class="simcal-ml-[20px] simcal-mr-[20px] simcal-mt-[41px] max-2xl:simcal-mt-[84px] max-3xl:simcal-mt-[107px] max-xl:simcal-mt-[109px]">
 							<img src="<?php echo esc_url($welcome_image_about_path) . '/mar-cal.png'; ?>" />
 						</div>
 					</div>
@@ -496,7 +496,7 @@ class Welcome
 			return '';
 		}
 
-		$contributor_list = '<div class="simcal-flex simcal-flex-wrap simcal-gap-[1%] lg:simcal-gap-[15%]">';
+		$contributor_list = '<div class="simcal-flex simcal-flex-wrap simcal-gap-[1%] max-xl:simcal-gap-[15%]">';
 
 		foreach ($contributors as $contributor) {
 			// Skip contributor bots
@@ -506,7 +506,7 @@ class Welcome
 			}
 
 			$contributor_list .=
-				'<div class="wp-person !simcal-w-[23%] lg:!simcal-w-[34%] max-3xl:!simcal-w-[28%] simcal-mt-[25px] simcal-rounded-[15px] simcal-pt-[10px] simcal-pl-[8px] simcal-font-medium hover:simcal-bg-sc_green-200">';
+				'<div class="wp-person !simcal-w-[23%] max-xl:!simcal-w-[34%] max-3xl:!simcal-w-[28%] simcal-mt-[25px] simcal-rounded-[15px] simcal-pt-[10px] simcal-pl-[8px] simcal-font-medium hover:simcal-bg-sc_green-200">';
 			$contributor_list .= sprintf(
 				'<a href="%s" title="%s" target="_blank">%s</a>',
 				esc_url('https://github.com/' . $contributor->login),
