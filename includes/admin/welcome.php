@@ -178,12 +178,12 @@ class Welcome
 		<div class="simcal-max-w-[100%]">
 			<div
 				class="simcal-mt-[100px] simcal-h-[408px] simcal-border-2 simcal-relative simcal-bg-[url('../images/welcome/bg-banner-img.png')] simcal-rounded-[20px]">
-				<div class="simcal-pl-[4%] simcal-pt-[61px] simcal-w-[51%] simcal-text-white ">
+				<div class="simcal-pl-[4%] simcal-pt-[61px] simcal-w-[51%] lg:simcal-w-[60%] simcal-text-white ">
 					<?php $this->intro(); ?>
 				</div>
 				<div class="simcal-max-w-[100%]">
 					<div
-						class="simcal-absolute simcal-right-[-45px] simcal-top-[-30px] 2xl:simcal-w-[62%] 2xl:simcal-top-[0px] 2xl:simcal-right-[-39px] 3xl:simcal-w-[56%] 3xl:simcal-top-[-17] 3xl:simcal-right-[-40px]">
+						class="simcal-absolute simcal-right-[-45px] simcal-top-[-30px] lg:simcal-w-[60%] lg:simcal-top-[73px] lg:simcal-right-[-27px] 2xl:simcal-w-[62%] 2xl:simcal-top-[0px] 2xl:simcal-right-[-39px] 3xl:simcal-w-[56%] 3xl:simcal-top-[-17] 3xl:simcal-right-[-40px]">
 						<img src="<?php echo esc_url($welcome_image_about_path) . '/banner-right.png'; ?>" />
 					</div>
 				</div>
@@ -249,7 +249,7 @@ class Welcome
 				class="wrap about-wrap whats-new-wrap simcal-max-w-[100%] simcal-font-poppins simcal-mr-[4%] simcal-ml-[4%] simcal-text-sm">
 				<?php $this->nav_links(); ?>
 				<?php $this->sc_intro_section(); ?>
-				<div class="simcal-grid simcal-gap-x-10 simcal-grid-cols-3 simcal-mt-[170px] simcal-font-poppins">
+				<div class="simcal-grid simcal-gap-x-10 lg:simcal-gap-x-7 simcal-grid-cols-3 simcal-mt-[170px] simcal-font-poppins">
 					<div
 						class="simcal-h-[436px] simcal-bg-sc_cream-100 simcal-text-white simcal-pt-[52px] simcal-rounded-[15px] ">
 						<div class="simcal-pl-[5%] simcal-pr-[5%] simcal-leading-[31px]">
@@ -261,7 +261,7 @@ class Welcome
 							</span>
 						</div>
 						<div
-							class="simcal-ml-[20px] simcal-mr-[20px] simcal-mt-[40px] max-2xl:simcal-mt-[88px] max-3xl:simcal-mt-[106px]">
+							class="simcal-ml-[20px] simcal-mr-[20px] simcal-mt-[40px] lg:simcal-mt-[109px] max-2xl:simcal-mt-[88px] max-3xl:simcal-mt-[106px]">
 							<img src="<?php echo esc_url($welcome_image_about_path) . '/cal-meeting.png'; ?>" />
 						</div>
 					</div>
@@ -275,7 +275,7 @@ class Welcome
 								<?php _e('widget ready.', 'google-calendar-events'); ?>
 							</span>
 						</div>
-						<img class="simcal-absolute simcal-bottom-0"
+						<img class="simcal-absolute simcal-bottom-0 lg:simcal-w-[80%]"
 							src="<?php echo esc_url($welcome_image_about_path) . '/jan-cal.png'; ?>" />
 						<img class="simcal-absolute simcal-inset-y-20 simcal-right-0"
 							src="<?php echo esc_url($welcome_image_about_path) . '/cof-house.png'; ?>" />
@@ -290,7 +290,7 @@ class Welcome
 							</span>
 						</div>
 						<div
-							class="simcal-ml-[20px] simcal-mr-[20px] simcal-mt-[41px] max-2xl:simcal-mt-[84px] max-3xl:simcal-mt-[107px]">
+							class="simcal-ml-[20px] simcal-mr-[20px] simcal-mt-[41px] max-2xl:simcal-mt-[84px] max-3xl:simcal-mt-[107px] lg:simcal-mt-[109px]">
 							<img src="<?php echo esc_url($welcome_image_about_path) . '/mar-cal.png'; ?>" />
 						</div>
 					</div>
@@ -496,7 +496,7 @@ class Welcome
 			return '';
 		}
 
-		$contributor_list = '<div class="simcal-flex simcal-flex-wrap simcal-gap-[1%]">';
+		$contributor_list = '<div class="simcal-flex simcal-flex-wrap simcal-gap-[1%] lg:simcal-gap-[15%]">';
 
 		foreach ($contributors as $contributor) {
 			// Skip contributor bots
@@ -506,7 +506,7 @@ class Welcome
 			}
 
 			$contributor_list .=
-				'<div class="wp-person !simcal-w-[23%] max-3xl:!simcal-w-[28%] simcal-mt-[25px] simcal-rounded-[15px] simcal-pt-[10px] simcal-pl-[8px] simcal-font-medium hover:simcal-bg-sc_green-200">';
+				'<div class="wp-person !simcal-w-[23%] lg:!simcal-w-[34%] max-3xl:!simcal-w-[28%] simcal-mt-[25px] simcal-rounded-[15px] simcal-pt-[10px] simcal-pl-[8px] simcal-font-medium hover:simcal-bg-sc_green-200">';
 			$contributor_list .= sprintf(
 				'<a href="%s" title="%s" target="_blank">%s</a>',
 				esc_url('https://github.com/' . $contributor->login),
