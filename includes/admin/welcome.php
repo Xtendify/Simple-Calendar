@@ -467,15 +467,14 @@ class Welcome
 					</span>
 				</div>
 				<div class="simcal-mt-[42px]">
-					<a href="https://translate.wordpress.org/projects/wp-plugins/google-calendar-events">
+					<a href="https://translate.wordpress.org/projects/wp-plugins/google-calendar-events" target="_blank">
 						<button type="button"
 							class="simcal-items-center simcal-w-[257px] simcal-h-[40px] simcal-bg-sc_green-200 simcal-text-white simcal-text-base simcal-rounded-[7px] simcal-font-poppins">
 							<?php _e('Click here to help translate', 'google-calendar-events'); ?>
 						</button>
 					</a>
 				</div>
-				<?php // @TODO switch to WordPress language packs and try to pull list of translators from there
-		?>
+				<?php  ?>
 			</div>
 		</div>
 		<?php

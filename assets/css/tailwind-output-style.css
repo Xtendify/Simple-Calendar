@@ -1359,20 +1359,6 @@ video {
   }
 }
 
-@media not all and (min-width: 1024px) {
-  .max-lg\:simcal-mt-\[109px\] {
-    margin-top: 109px;
-  }
-
-  .max-lg\:\!simcal-w-\[34\%\] {
-    width: 34% !important;
-  }
-
-  .max-lg\:simcal-gap-\[15\%\] {
-    gap: 15%;
-  }
-}
-
 @media (min-width: 1024px) {
   .lg\:simcal-right-\[-27px\] {
     right: -27px;
@@ -1382,20 +1368,12 @@ video {
     top: 73px;
   }
 
-  .lg\:simcal-mt-\[109px\] {
-    margin-top: 109px;
-  }
-
   .lg\:simcal-w-\[60\%\] {
     width: 60%;
   }
 
   .lg\:simcal-w-\[80\%\] {
     width: 80%;
-  }
-
-  .lg\:simcal-gap-\[15\%\] {
-    gap: 15%;
   }
 
   .lg\:simcal-gap-x-7 {
