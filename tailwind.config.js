@@ -8,6 +8,7 @@ module.exports = {
 				sc_green: {
 					100: '#E9F3F4',
 					200: '#60BC4E',
+					300: '#f7fcf6',
 				},
 				sc_blue: {
 					100: '#F2F7FB',

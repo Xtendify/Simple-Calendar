@@ -36,12 +36,12 @@ class Settings implements Meta_Box
 	{
 		// @see Meta_Boxes::save_meta_boxes()
 		wp_nonce_field('simcal_save_data', 'simcal_meta_nonce'); ?>
-		<div class="simcal-panels-wrap">
+		<div class="simcal-panels-wrap simcal-text-base simcal-font-poppins">
 
 			<span class="simcal-box-handle">
 				<?php self::settings_handle($post); ?>
 			</span>
-			<ul class="simcal-tabs">
+			<ul class="simcal-tabs simcal-font-medium simcal-text-sc_grey-100 simcal-bg-sc_green-300 simcal-pt-[33px]">
 				<?php self::settings_tabs($post); ?>
 				<?php do_action('simcal_settings_meta_tabs'); ?>
 			</ul>
@@ -204,7 +204,15 @@ class Settings implements Meta_Box
 				$icon = $tab['icon'] ? $tab['icon'] : 'simcal-icon-panel';
 				$class = $tab['class'] ? $tab['class'] : [];
 
-				echo '<li class="' . $key . '-settings ' . $key . '-tab ' . implode(' ', $class) . '" data-tab="' . $key . '">';
+				echo '<li class="simcal-h-[43px] ' .
+					$key .
+					'-settings ' .
+					$key .
+					'-tab ' .
+					implode(' ', $class) .
+					'" data-tab="' .
+					$key .
+					'">';
 				echo '<a href="#' .
 					$tab['target'] .
 					'"><i class="' .
@@ -231,7 +239,10 @@ class Settings implements Meta_Box
 		<table>
 			<thead>
 				<tr>
-					<th colspan="2"><?php _e('Event Settings', 'google-calendar-events'); ?></th>
+					<th colspan="2" class="simcal-text-sc_black-100 simcal-text-lg simcal-block simcal-w-[100%]"><?php _e(
+     	'Event Settings',
+     	'google-calendar-events'
+     ); ?></th>
 				</tr>
 			</thead>
 			<tbody class="simcal-panel-section simcal-panel-section-events-range">
@@ -523,10 +534,10 @@ class Settings implements Meta_Box
 			</thead>
 			<tbody class="simcal-panel-section">
 				<tr class="simcal-panel-field">
-					<th>
+					<th class="!simcal-w-[30%]" >
 						<label for="_calendar_is_static"><?php _e('Static Calendar', 'google-calendar-events'); ?></label>
 					</th>
-					<td>
+					<td class="!simcal-text-center">
 						<?php
       $fixed = get_post_meta($post->ID, '_calendar_is_static', true);
 
@@ -653,7 +664,7 @@ class Settings implements Meta_Box
       ?>
 						<select name="_feed_timezone_setting"
 								id="_feed_timezone_setting"
-								class="simcal-field simcal-field-select simcal-field-inline simcal-field-show-other"
+								class="simcal-field simcal-field-select simcal-field-inline simcal-field-show-other simcal-w-[90%]"
 								data-show-field-on-choice="true">
 							<option value="use_site" <?php selected(
        	'use_site',
@@ -711,7 +722,7 @@ class Settings implements Meta_Box
       ?>
 						<select name="_calendar_date_format_setting"
 								id="_calendar_date_format_setting"
-								class="simcal-field simcal-field-select simcal-field-show-other">
+								class="simcal-field simcal-field-select simcal-field-show-other simcal-w-[90%]">
 							<option value="use_site"
 									data-show-field="_calendar_date_format_default" <?php selected(
          	'use_site',
@@ -830,7 +841,7 @@ class Settings implements Meta_Box
       ?>
 						<select name="_calendar_time_format_setting"
 								id="_calendar_time_format_setting"
-								class="simcal-field simcal-field-select simcal-field-show-other">
+								class="simcal-field simcal-field-select simcal-field-show-other simcal-w-[90%]">
 							<option value="use_site"
 									data-show-field="_calendar_time_format_default" <?php selected(
          	'use_site',
@@ -903,7 +914,7 @@ class Settings implements Meta_Box
 						<select
 								name="_calendar_week_starts_on_setting"
 								id="_calendar_week_starts_on_setting"
-								class="simcal-field simcal-field-select simcal-field-inline simcal-field-show-next"
+								class="simcal-field simcal-field-select simcal-field-inline simcal-field-show-next simcal-w-[90%]"
 								data-show-next-if-value="use_custom">
 							<option value="use_site" <?php selected(
        	'use_site',
@@ -966,7 +977,7 @@ class Settings implements Meta_Box
 							   min="0"/>
 						<select name="_feed_cache_user_unit"
 								id="_feed_cache_user_unit"
-								class="simcal-field simcalfield-select simcal-field-inline">
+								class="simcal-field simcalfield-select simcal-field-inline simcal-w-[61%]">
 							<option value="60" <?php selected(
        	'60',
        	$cache_unit,

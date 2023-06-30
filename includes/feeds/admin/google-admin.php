@@ -205,6 +205,7 @@ class Google_Admin
 						'Visit your Google Calendar account, copy your public calendar ID, then paste it here.',
 						'google-calendar-events'
 					),
+					'class' => ['!simcal-max-w-[90%] simcal-w-[80%]'],
 					'placeholder' => __('Enter a valid Google Calendar ID from a public calendar', 'google-calendar-events'),
 					'escaping' => [$this->feed, 'esc_google_calendar_id'],
 					'validation' => [$this, 'test_api_key_connection'],
@@ -219,6 +220,7 @@ class Google_Admin
 						'Type in keywords if you only want display events that match these terms. You can use basic boolean search operators too.',
 						'google-calendar-events'
 					),
+					'class' => ['!simcal-max-w-[90%] simcal-w-[80%]'],
 					'placeholder' => __('Filter events to display by search terms...', 'google-calendar-events'),
 				],
 				'_google_events_recurring' => [
@@ -227,6 +229,7 @@ class Google_Admin
 					'id' => '_google_events_recurring',
 					'title' => __('Recurring Events', 'google-calendar-events'),
 					'tooltip' => __('Events that are programmed to repeat themselves periodically.', 'google-calendar-events'),
+					'class' => ['!simcal-max-w-[90%] simcal-w-[90%]'],
 					'options' => [
 						'show' => __('Show all', 'google-calendar-events'),
 						'first-only' => __('Only show first occurrence', 'google-calendar-events'),
@@ -242,7 +245,7 @@ class Google_Admin
 						'Google Calendar only allows to query for a maximum amount of 2500 events from a calendar each time.',
 						'google-calendar-events'
 					),
-					'class' => ['simcal-field-small'],
+					'class' => ['simcal-field-small !simcal-max-w-[90%] simcal-w-[90%]'],
 					'default' => '2500',
 					'attributes' => [
 						'min' => '0',
@@ -286,15 +289,15 @@ class Google_Admin
 		$has_errors = false;
 
 		$message .=
-			'<p class="description">' .
+			'<p class="description !simcal-mt-[9px] !simcal-text-sc_blue-200">' .
 			sprintf(
 				__(
-					'Step 1: Set the Google Calendar you want to use as <strong>"public."</strong> <a href="%1s" target="_blank">Detailed instructions</a>',
+					'Step 1: Set the Google Calendar you want to use as public. <a class="simcal-underline" href="%1s" target="_blank">Detailed instructions</a>',
 					'google-calendar-events'
 				) .
 					'<br />' .
 					__(
-						'Step 2: Copy and paste your Google Calendar ID here. <a href="%2s" target="_blank">Detailed instructions</a>',
+						'Step 2: Copy and paste your Google Calendar ID here. <a class="simcal-underline" href="%2s" target="_blank">Detailed instructions</a>',
 						'google-calendar-events'
 					),
 				simcal_ga_campaign_url(
