@@ -46,7 +46,7 @@ class Settings implements Meta_Box
 				<?php do_action('simcal_settings_meta_tabs'); ?>
 			</ul>
 			<div class="simcal-panels">
-				<div id="events-settings-panel" class="simcal-panel simcal-ml-[23%]">
+				<div id="events-settings-panel" class="simcal-panel">
 					<?php self::events_settings_panel($post); ?>
 					<?php do_action('simcal_settings_meta_events_panel', $post->ID); ?>
 				</div>
@@ -534,10 +534,10 @@ class Settings implements Meta_Box
 			</thead>
 			<tbody class="simcal-panel-section">
 				<tr class="simcal-panel-field">
-					<th>
+					<th class="!simcal-w-[30%]" >
 						<label for="_calendar_is_static"><?php _e('Static Calendar', 'google-calendar-events'); ?></label>
 					</th>
-					<td>
+					<td class="!simcal-text-center">
 						<?php
       $fixed = get_post_meta($post->ID, '_calendar_is_static', true);
 
@@ -664,7 +664,7 @@ class Settings implements Meta_Box
       ?>
 						<select name="_feed_timezone_setting"
 								id="_feed_timezone_setting"
-								class="simcal-field simcal-field-select simcal-field-inline simcal-field-show-other"
+								class="simcal-field simcal-field-select simcal-field-inline simcal-field-show-other simcal-w-[90%]"
 								data-show-field-on-choice="true">
 							<option value="use_site" <?php selected(
        	'use_site',
@@ -722,7 +722,7 @@ class Settings implements Meta_Box
       ?>
 						<select name="_calendar_date_format_setting"
 								id="_calendar_date_format_setting"
-								class="simcal-field simcal-field-select simcal-field-show-other">
+								class="simcal-field simcal-field-select simcal-field-show-other simcal-w-[90%]">
 							<option value="use_site"
 									data-show-field="_calendar_date_format_default" <?php selected(
          	'use_site',
@@ -841,7 +841,7 @@ class Settings implements Meta_Box
       ?>
 						<select name="_calendar_time_format_setting"
 								id="_calendar_time_format_setting"
-								class="simcal-field simcal-field-select simcal-field-show-other">
+								class="simcal-field simcal-field-select simcal-field-show-other simcal-w-[90%]">
 							<option value="use_site"
 									data-show-field="_calendar_time_format_default" <?php selected(
          	'use_site',
@@ -914,7 +914,7 @@ class Settings implements Meta_Box
 						<select
 								name="_calendar_week_starts_on_setting"
 								id="_calendar_week_starts_on_setting"
-								class="simcal-field simcal-field-select simcal-field-inline simcal-field-show-next"
+								class="simcal-field simcal-field-select simcal-field-inline simcal-field-show-next simcal-w-[90%]"
 								data-show-next-if-value="use_custom">
 							<option value="use_site" <?php selected(
        	'use_site',
@@ -977,7 +977,7 @@ class Settings implements Meta_Box
 							   min="0"/>
 						<select name="_feed_cache_user_unit"
 								id="_feed_cache_user_unit"
-								class="simcal-field simcalfield-select simcal-field-inline">
+								class="simcal-field simcalfield-select simcal-field-inline simcal-w-[61%]">
 							<option value="60" <?php selected(
        	'60',
        	$cache_unit,

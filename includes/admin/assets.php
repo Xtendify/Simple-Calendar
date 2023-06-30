@@ -140,7 +140,11 @@ class Assets
 		if ('calendar_page_simple-calendar_settings' == $sc_screen->id) {
 			wp_enqueue_style('sc-admin-style', $css_path . 'admin-sett-style.css', [], SIMPLE_CALENDAR_VERSION);
 		}
-		wp_enqueue_style('sc-tail-style', $css_path . 'tailwind-output-style.css', [], SIMPLE_CALENDAR_VERSION);
+
 		wp_enqueue_style('sc-admin-custom-style', $css_path . 'sc-admin-custom-setting.css', [], SIMPLE_CALENDAR_VERSION);
+
+		if ($sc_screen->post_type == 'calendar') {
+			wp_enqueue_style('sc-tail-style', $css_path . 'tailwind-output-style.css', [], SIMPLE_CALENDAR_VERSION);
+		}
 	}
 }

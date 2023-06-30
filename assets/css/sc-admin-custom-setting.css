@@ -1,7 +1,12 @@
 #wpcontent {
 	background-color: #f2f7fb;
 }
-#simcal-calendar-settings .simcal-panel-field th {
+#events-settings-panel .simcal-panel-field th,
+#events-settings-panel .simcal-panel-field td,
+#google-settings-panel .simcal-panel-field th,
+#google-settings-panel .simcal-panel-field td,
+#advanced-settings-panel .simcal-panel-field th,
+#advanced-settings-panel .simcal-panel-field td {
 	width: 100%;
 	display: block;
 }
@@ -11,11 +16,6 @@
 	background-color: #60bc4e;
 	color: white;
 	border: unset;
-}
-
-#simcal-calendar-settings .simcal-panel-field td {
-	max-width: 100%;
-	display: block;
 }
 
 body .simcal-field-tiny,
