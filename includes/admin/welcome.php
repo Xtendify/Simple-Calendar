@@ -105,30 +105,22 @@ class Welcome
 	{
 		?>
 		<div class="simcal-font-poppins simcal-font-medium">
-			<a href="<?php echo admin_url(
-				'edit.php?post_type=calendar'
-			); ?>"
+			<a href="<?php echo admin_url('edit.php?post_type=calendar'); ?>"
 				class="button button-primary !simcal-bg-sc_purple !simcal-rounded-[100px] !simcal-m-[6px] !simcal-border-solid !simcal-border-white !simcal-border-b hover:!simcal-bg-white hover:!simcal-text-sc_green-200"><?php _e(
-					'Calendars',
-					'google-calendar-events'
-				); ?></a>
+    	'Calendars',
+    	'google-calendar-events'
+    ); ?></a>
 			<a href="<?php echo esc_url(add_query_arg('page', 'simple-calendar_settings', admin_url('admin.php'))); ?>"
 				class="button button-primary !simcal-bg-sc_purple !simcal-rounded-[100px] !simcal-m-[6px] !simcal-border-solid !simcal-border-white !simcal-border-b hover:!simcal-bg-white hover:!simcal-text-sc_green-200 "><?php _e(
-					'Settings',
-					'google-calendar-events'
-				); ?></a>
+    	'Settings',
+    	'google-calendar-events'
+    ); ?></a>
 			<a href="<?php echo simcal_ga_campaign_url(simcal_get_url('addons'), 'core-plugin', 'welcome-page'); ?>"
 				class="docs button button-primary !simcal-bg-sc_purple !simcal-rounded-[100px] !simcal-m-[6px] !simcal-border-solid !simcal-border-white !simcal-border-b hover:!simcal-bg-white hover:!simcal-text-sc_green-200"
-				target="_blank"><?php _e(
-					'Add-ons',
-					'google-calendar-events'
-				); ?></a>
+				target="_blank"><?php _e('Add-ons', 'google-calendar-events'); ?></a>
 			<a href="<?php echo simcal_ga_campaign_url(simcal_get_url('docs'), 'core-plugin', 'welcome-page'); ?>"
 				class="docs button button-primary !simcal-bg-sc_purple !simcal-rounded-[100px] !simcal-m-[6px] !simcal-border-solid !simcal-border-white !simcal-border-b hover:!simcal-bg-white hover:!simcal-text-sc_green-200"
-				target="_blank"><?php _e(
-					'Documentation',
-					'google-calendar-events'
-				); ?></a>
+				target="_blank"><?php _e('Documentation', 'google-calendar-events'); ?></a>
 		</div>
 		<?php
 	}
@@ -142,30 +134,30 @@ class Welcome
 		?>
 		<h2 class="simcal-nav-tab-wrapper simcal-font-poppins">
 			<a class="nav-tab simcal-border-0 simcal-bg-transparent simcal-font-medium simcal-text-sc_grey-100 hover:simcal-bg-transparent focus:simcal-bg-transparent <?php if (
-				$_GET['page'] == 'simple-calendar_about'
-			) {
-				echo 'nav-tab-active !simcal-text-sc_black-100 simcal-border-b-[3px] simcal-border-sc_green-200 focus:simcal-border-b-[3px] hover:simcal-border-b-[3px] active:simcal-border-b-[3px] focus:simcal-border-sc_green-200 hover:simcal-border-sc_green-200 active:simcal-border-sc_green-200 focus:simcal-shadow-none';
-			} ?>"
+   	$_GET['page'] == 'simple-calendar_about'
+   ) {
+   	echo 'nav-tab-active !simcal-text-sc_black-100 simcal-border-b-[3px] simcal-border-sc_green-200 focus:simcal-border-b-[3px] hover:simcal-border-b-[3px] active:simcal-border-b-[3px] focus:simcal-border-sc_green-200 hover:simcal-border-sc_green-200 active:simcal-border-sc_green-200 focus:simcal-shadow-none';
+   } ?>"
 				href="<?php echo esc_url(admin_url(add_query_arg(['page' => 'simple-calendar_about'], 'index.php'))); ?>"><?php _e(
-					  	"What's New",
-					  	'google-calendar-events'
-					  ); ?></a>
+	"What's New",
+	'google-calendar-events'
+); ?></a>
 			<a class="nav-tab simcal-border-0 simcal-bg-transparent simcal-font-medium simcal-text-sc_grey-100 hover:simcal-bg-transparent focus:simcal-bg-transparent <?php if (
-				$_GET['page'] == 'simple-calendar_credits'
-			) {
-				echo 'nav-tab-active !simcal-text-sc_black-100 simcal-border-b-[3px] simcal-border-sc_green-200 focus:simcal-border-b-[3px] hover:simcal-border-b-[3px] active:simcal-border-b-[3px] focus:simcal-border-sc_green-200 hover:simcal-border-sc_green-200 active:simcal-border-sc_green-200 focus:simcal-shadow-none';
-			} ?>"
+   	$_GET['page'] == 'simple-calendar_credits'
+   ) {
+   	echo 'nav-tab-active !simcal-text-sc_black-100 simcal-border-b-[3px] simcal-border-sc_green-200 focus:simcal-border-b-[3px] hover:simcal-border-b-[3px] active:simcal-border-b-[3px] focus:simcal-border-sc_green-200 hover:simcal-border-sc_green-200 active:simcal-border-sc_green-200 focus:simcal-shadow-none';
+   } ?>"
 				href="<?php echo esc_url(admin_url(add_query_arg(['page' => 'simple-calendar_credits'], 'index.php'))); ?>"><?php _e(
-					  	'Credits',
-					  	'google-calendar-events'
-					  ); ?></a>
+	'Credits',
+	'google-calendar-events'
+); ?></a>
 			<a class="nav-tab simcal-border-0 simcal-bg-transparent simcal-font-medium simcal-text-sc_grey-100 hover:simcal-bg-transparent focus:simcal-bg-transparent <?php if (
-				$_GET['page'] == 'simple-calendar_translators'
-			) {
-				echo 'nav-tab-active !simcal-text-sc_black-100 simcal-border-b-[3px] simcal-border-sc_green-200 focus:simcal-border-b-[3px] hover:simcal-border-b-[3px] active:simcal-border-b-[3px] focus:simcal-border-sc_green-200 hover:simcal-border-sc_green-200 active:simcal-border-sc_green-200 focus:simcal-shadow-none';
-			} ?>" href="<?php echo esc_url(
-			 	admin_url(add_query_arg(['page' => 'simple-calendar_translators'], 'index.php'))
-			 ); ?>"><?php _e('Translators', 'google-calendar-events'); ?></a>
+   	$_GET['page'] == 'simple-calendar_translators'
+   ) {
+   	echo 'nav-tab-active !simcal-text-sc_black-100 simcal-border-b-[3px] simcal-border-sc_green-200 focus:simcal-border-b-[3px] hover:simcal-border-b-[3px] active:simcal-border-b-[3px] focus:simcal-border-sc_green-200 hover:simcal-border-sc_green-200 active:simcal-border-sc_green-200 focus:simcal-shadow-none';
+   } ?>" href="<?php echo esc_url(
+	admin_url(add_query_arg(['page' => 'simple-calendar_translators'], 'index.php'))
+); ?>"><?php _e('Translators', 'google-calendar-events'); ?></a>
 		</h2>
 		<?php
 	}
@@ -208,21 +200,21 @@ class Welcome
 		<div
 			class="about-text !simcal-m-[0px] !simcal-mt-[19px] !simcal-text-white simcal-font-poppins !simcal-text-lg 2xl:!simcal-text-base">
 			<?php
-			// Difference message if updating vs fresh install.
-			if ('update' == $this->install) {
-				$message = __('Thanks for updating to the latest version!', 'google-calendar-events');
-			} else {
-				$message = __('Thanks for installing!', 'google-calendar-events');
-			}
+   // Difference message if updating vs fresh install.
+   if ('update' == $this->install) {
+   	$message = __('Thanks for updating to the latest version!', 'google-calendar-events');
+   } else {
+   	$message = __('Thanks for installing!', 'google-calendar-events');
+   }
 
-			echo $message;
+   echo $message;
 
-			/* translators: %s prints the current version of the plugin. */
-			printf(
-				' ' . __('Simple Calendar %s has a few display options to configure. ', 'google-calendar-events'),
-				SIMPLE_CALENDAR_VERSION
-			);
-			?>
+   /* translators: %s prints the current version of the plugin. */
+   printf(
+   	' ' . __('Simple Calendar %s has a few display options to configure. ', 'google-calendar-events'),
+   	SIMPLE_CALENDAR_VERSION
+   );
+   ?>
 			<a href="<?php echo simcal_ga_campaign_url(simcal_get_url('docs'), 'core-plugin', 'welcome-page'); ?>"
 				target="_blank"><br>
 				<?php _e('Check out our documentation', 'google-calendar-events'); ?>
@@ -317,15 +309,12 @@ class Welcome
 						<div class="simcal-pt-[19px] simcal-text-sc_grey-100 simcal-text-base">
 							<span>
 								<?php _e(
-									'Calendars configured to use the',
-									'google-calendar-events'
-								); ?><b class="simcal-text-sc_black-100 hover:simcal-text-sc_green-200">
+        	'Calendars configured to use the',
+        	'google-calendar-events'
+        ); ?><b class="simcal-text-sc_black-100 hover:simcal-text-sc_green-200">
 									<?php _e(' Google Calendar Pro add-on', 'google-calendar-events'); ?>
 								</b>
-								<?php _e(
-									'use a different method of authorization.',
-									'google-calendar-events'
-								); ?>
+								<?php _e('use a different method of authorization.', 'google-calendar-events'); ?>
 							</span>
 						</div>
 						<div class="simcal-pt-[29px]">
@@ -361,10 +350,7 @@ class Welcome
 								</div>
 								<div class="simcal-ml-[9px] simcal-text-base simcal-text-sc_grey-100 simcal-font-normal ">
 									<span>
-										<?php _e(
-											'Display a list of attachments with links to their original source.',
-											'google-calendar-events'
-										); ?>
+										<?php _e('Display a list of attachments with links to their original source.', 'google-calendar-events'); ?>
 									</span>
 								</div>
 							</div>
@@ -408,9 +394,9 @@ class Welcome
 					</div>
 					<div class="simcal-text-xl simcal-text-sc_black-200">
 						<?php _e(
-							"like to contribute please visit our <a href='%s' class='simcal-text-sc_green-200' target='_blank'>GitHub repo. </a>",
-							'google-calendar-events'
-						); ?>
+      	"like to contribute please visit our <a href='%s' class='simcal-text-sc_green-200' target='_blank'>GitHub repo. </a>",
+      	'google-calendar-events'
+      ); ?>
 					</div>
 					<div class="simcal-flex simcal-pt-[20px]">
 						<div class="simcal-w-[60%]">
@@ -436,8 +422,8 @@ class Welcome
 								</div>
 								<div class="simcal-mt-[44px]">
 									<?php // Rating function is used here
-									
-											sc_rating(); ?>
+
+		sc_rating(); ?>
 								</div>
 								<a
 									href="https://wordpress.org/support/plugin/google-calendar-events/reviews/?filter=5#new-post">
