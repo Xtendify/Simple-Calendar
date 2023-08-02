@@ -244,7 +244,7 @@ class Event_Builder
 
 		// Removes extra consecutive <br> tags.
 		// TODO: Doesn't seem to work but going to remove it to allow multiple <br> tags in the editor
-		/*return preg_replace( '#(<br */ /*?>\s*)+#i', '<br />', trim( $result ) );*/ return do_shortcode(trim($result));
+		return do_shortcode(trim($result));
 	}
 
 	/**
@@ -480,8 +480,8 @@ class Event_Builder
 				case 'if-today':
 				case 'if-not-today':
 					$start_dt = $event->start_dt->setTimezone($calendar->timezone);
-					$startOfDay = $start_dt->startOfDay()->getTimestamp();
-					$endOfDay = $start_dt->endOfDay()->getTimestamp();
+					$startOfDay = $start_dt->copy()->startOfDay()->getTimestamp();
+					$endOfDay = $start_dt->copy()->endOfDay()->getTimestamp();
 
 					$today = $startOfDay <= $calendar->now && $calendar->now <= $endOfDay;
 
@@ -629,8 +629,10 @@ class Event_Builder
 
 		$attr = array_merge(
 			[
-				'html' => '', // Parse HTML
-				'limit' => 0, // Trim length to amount of words
+				'html' => '',
+				// Parse HTML
+				'limit' => 0,
+				// Trim length to amount of words
 			],
 			(array) shortcode_parse_atts($attr)
 		);
@@ -665,10 +667,14 @@ class Event_Builder
 
 		$attr = array_merge(
 			[
-				'limit' => 0, // Trim length to number of words
-				'html' => 'no', // Parse HTML content
-				'markdown' => 'no', // Parse Markdown content
-				'autolink' => 'no', // Automatically convert plaintext URIs to anchors
+				'limit' => 0,
+				// Trim length to number of words
+				'html' => 'no',
+				// Parse HTML content
+				'markdown' => 'no',
+				// Parse Markdown content
+				'autolink' => 'no',
+				// Automatically convert plaintext URIs to anchors
 			],
 			(array) shortcode_parse_atts($attr)
 		);
@@ -928,8 +934,10 @@ class Event_Builder
 
 		$attr = array_merge(
 			[
-				'autolink' => false, // Convert url to link anchor
-				'newwindow' => false, // If autolink attribute is true, open link in new window
+				'autolink' => false,
+				// Convert url to link anchor
+				'newwindow' => false,
+				// If autolink attribute is true, open link in new window
 			],
 			(array) shortcode_parse_atts($attr)
 		);
@@ -951,14 +959,14 @@ class Event_Builder
 
 		return false !== $anchor
 			? ' <a href="' .
-					esc_url($url) .
-					'" ' .
-					wp_kses_post($target) .
-					' ' .
-					wp_kses_post($additional_link_atts) .
-					'>' .
-					$text .
-					'</a>'
+			esc_url($url) .
+			'" ' .
+			wp_kses_post($target) .
+			' ' .
+			wp_kses_post($additional_link_atts) .
+			'>' .
+			$text .
+			'</a>'
 			: ' ' . $text;
 	}
 
@@ -1005,10 +1013,14 @@ class Event_Builder
 	{
 		$attr = array_merge(
 			[
-				'photo' => 'show', // show/hide attendee photo
-				'email' => 'hide', // show/hide attendee email address
-				'rsvp' => 'hide', // show/hide rsvp response status
-				'response' => '', // filter attendees by rsvp response (yes/no/maybe)
+				'photo' => 'show',
+				// show/hide attendee photo
+				'email' => 'hide',
+				// show/hide attendee email address
+				'rsvp' => 'hide',
+				// show/hide rsvp response status
+				'response' => '',
+				// filter attendees by rsvp response (yes/no/maybe)
 			],
 			(array) shortcode_parse_atts($attr)
 		);
@@ -1030,8 +1042,8 @@ class Event_Builder
 			if (!empty($attendee['name'])) {
 				$photo =
 					'hide' != $attr['photo']
-						? '<img class="avatar avatar-128 photo" src="' . $attendee['photo'] . '" itemprop="image" />'
-						: '';
+					? '<img class="avatar avatar-128 photo" src="' . $attendee['photo'] . '" itemprop="image" />'
+					: '';
 				$response = 'hide' != $attr['rsvp'] ? $this->get_rsvp_response($attendee['response']) : '';
 				$guest = $photo . '<span itemprop="name">' . $attendee['name'] . $response . '</span>';
 
@@ -1121,16 +1133,18 @@ class Event_Builder
 	{
 		$attr = array_merge(
 			[
-				'photo' => 'show', // show/hide attendee photo
-				'email' => 'hide', // show/hide attendee email address
+				'photo' => 'show',
+				// show/hide attendee photo
+				'email' => 'hide',
+				// show/hide attendee email address
 			],
 			(array) shortcode_parse_atts($attr)
 		);
 
 		$photo =
 			'hide' != $attr['photo']
-				? '<img class="avatar avatar-128 photo" src="' . $organizer['photo'] . '" itemprop="image"  />'
-				: '';
+			? '<img class="avatar avatar-128 photo" src="' . $organizer['photo'] . '" itemprop="image"  />'
+			: '';
 		$organizer_html = $photo . '<span itemprop="name">' . $organizer['name'] . '</span>';
 
 		if (!empty($organizer['email']) && 'show' == $attr['email']) {
