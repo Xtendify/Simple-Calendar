@@ -241,7 +241,6 @@ class Event_Builder
 	{
 		// Process tags.
 		$result = preg_replace_callback($this->get_regex(), [$this, 'process_event_content'], $template_tags);
-
 		// Removes extra consecutive <br> tags.
 		// TODO: Doesn't seem to work but going to remove it to allow multiple <br> tags in the editor
 		return do_shortcode(trim($result));
