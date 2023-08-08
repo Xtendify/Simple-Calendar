@@ -8,8 +8,8 @@ namespace SimpleCalendar\Admin\Fields;
 
 use SimpleCalendar\Abstracts\Field;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+	exit();
 }
 
 /**
@@ -17,8 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * A special field to choose a format for date and time.
  */
-class Datetime_Format extends Field {
-
+class Datetime_Format extends Field
+{
 	/**
 	 * Datetime controls.
 	 *
@@ -42,19 +42,19 @@ class Datetime_Format extends Field {
 	 *
 	 * @param array $field
 	 */
-	public function __construct( $field ) {
+	public function __construct($field)
+	{
+		$this->subtype = isset($field['subtype']) ? $field['subtype'] : '';
+		$this->type_class = 'simcal-field-datetime-format simcal-field-' . $this->subtype . '-format-field';
+		$this->timestamp = mktime(13, 10, 00, 1, 1, intval(date('Y', time())) + 1);
 
-		$this->subtype     = isset( $field['subtype'] ) ? $field['subtype'] : '';
-		$this->type_class  = 'simcal-field-datetime-format simcal-field-' . $this->subtype . '-format-field';
-		$this->timestamp   = mktime( 13, 10, 00, 1, 1, intval( date( 'Y', time() ) ) + 1 );
+		parent::__construct($field);
 
-		parent::__construct( $field );
-
-		if ( empty( $this->value ) ) {
-			if ( 'date' == $this->subtype ) {
+		if (empty($this->value)) {
+			if ('date' == $this->subtype) {
 				$this->value = 'l, d F Y';
 			}
-			if ( 'time' == $this->subtype ) {
+			if ('time' == $this->subtype) {
 				$this->value = 'G:i a';
 			}
 		}
@@ -65,42 +65,38 @@ class Datetime_Format extends Field {
 	 *
 	 * @since 3.0.0
 	 */
-	public function html() {
-
-		$id     = $this->id     ? ' id="' . $this->id . '" ' : '';
-		$class  = $this->class  ? ' class="' . $this->class . '" ' : '';
-		$style  = $this->style  ? ' style="' . $this->style . '" ' : '';
-		$attr   = $this->attributes;
-
+	public function html()
+	{
+		$id = $this->id ? ' id="' . $this->id . '" ' : '';
+		$class = $this->class ? ' class="' . $this->class . '" ' : '';
+		$style = $this->style ? ' style="' . $this->style . '" ' : '';
+		$attr = $this->attributes;
 		?>
 		<div <?php echo $id . $class . $style . $attr; ?>>
 			<?php
+   if (!empty($this->description)) {
+   	echo '<p class="description">' . $this->description . '</p>';
+   }
 
-			if ( ! empty( $this->description ) ) {
-				echo '<p class="description">' . $this->description . '</p>';
-			}
+   $matches = array_unique(str_split($this->value));
 
-			$matches = array_unique( str_split( $this->value ) );
+   if ('date' == $this->subtype) {
+   	$this->print_date($matches);
+   }
 
-			if ( 'date' == $this->subtype ) {
-				$this->print_date( $matches );
-			}
-
-			if ( 'time' == $this->subtype ) {
-				$this->print_time( $matches );
-			}
-
-			?>
+   if ('time' == $this->subtype) {
+   	$this->print_time($matches);
+   }
+   ?>
 			<input type="hidden"
 			       name="<?php echo $this->name; ?>"
-			       value="<?php echo trim( $this->value ); ?>" />
+			       value="<?php echo trim($this->value); ?>" />
 			<span>
-				<em><?php _e( 'Preview', 'google-calendar-events' ); ?>:</em>&nbsp;&nbsp;
-				<code><?php echo date_i18n( $this->value, $this->timestamp ); ?></code>
+				<em><?php _e('Preview', 'google-calendar-events'); ?>:</em>&nbsp;&nbsp;
+				<code><?php echo date_i18n($this->value, $this->timestamp); ?></code>
 			</span>
 		</div>
 		<?php
-
 	}
 
 	/**
@@ -111,30 +107,30 @@ class Datetime_Format extends Field {
 	 *
 	 * @param  array $matches
 	 */
-	private function print_date( $matches ) {
+	private function print_date($matches)
+	{
+		$date = ['weekday' => '', 'divider' => '', 'day' => '', 'month' => '', 'year' => ''];
 
-		$date = array( 'weekday' => '', 'divider' => '', 'day' => '', 'month' => '', 'year' => '' );
-
-		foreach ( $matches as $match ) {
-			if ( in_array( $match, array( 'D', 'l' ) ) ) {
+		foreach ($matches as $match) {
+			if (in_array($match, ['D', 'l'])) {
 				$this->weekday();
-				unset( $date['weekday'] );
-			} elseif ( in_array( $match, array( 'd', 'j' ) ) ) {
+				unset($date['weekday']);
+			} elseif (in_array($match, ['d', 'j'])) {
 				$this->day();
-				unset( $date['day'] );
-			} elseif ( in_array( $match, array( 'F', 'M', 'm', 'n' ) ) ) {
+				unset($date['day']);
+			} elseif (in_array($match, ['F', 'M', 'm', 'n'])) {
 				$this->month();
-				unset( $date['month'] );
-			} elseif ( in_array( $match, array( 'y', 'Y' ) ) ) {
+				unset($date['month']);
+			} elseif (in_array($match, ['y', 'Y'])) {
 				$this->year();
-				unset( $date['year'] );
-			} elseif ( in_array( $match, array( '.', ',', ':', '/', '-' ) ) ) {
+				unset($date['year']);
+			} elseif (in_array($match, ['.', ',', ':', '/', '-'])) {
 				$this->divider();
-				unset( $date['divider'] );
+				unset($date['divider']);
 			}
 		}
 
-		$this->print_fields( $date );
+		$this->print_fields($date);
 	}
 
 	/**
@@ -145,27 +141,27 @@ class Datetime_Format extends Field {
 	 *
 	 * @param  array $matches
 	 */
-	private function print_time( $matches ) {
+	private function print_time($matches)
+	{
+		$time = ['hours' => '', 'divider' => '', 'minutes' => '', 'meridiem' => ''];
 
-		$time = array( 'hours' => '', 'divider' => '', 'minutes' => '', 'meridiem' => '' );
-
-		foreach ( $matches as $match  ) {
-			if ( in_array( $match, array( 'h', 'H', 'g', 'G' ) ) ) {
+		foreach ($matches as $match) {
+			if (in_array($match, ['h', 'H', 'g', 'G'])) {
 				$this->hours();
-				unset( $time['hours'] );
-			} elseif ( in_array( $match, array( 'i' ) )  ) {
+				unset($time['hours']);
+			} elseif (in_array($match, ['i'])) {
 				$this->minutes();
-				unset( $time['minutes'] );
-			} elseif ( in_array( $match, array( 'A', 'a' ) ) ) {
+				unset($time['minutes']);
+			} elseif (in_array($match, ['A', 'a'])) {
 				$this->meridiem();
-				unset( $time['meridiem'] );
-			} elseif ( in_array( $match, array( '.', ',', ':', '/', '-' ) ) ) {
+				unset($time['meridiem']);
+			} elseif (in_array($match, ['.', ',', ':', '/', '-'])) {
 				$this->divider();
-				unset( $time['divider'] );
+				unset($time['divider']);
 			}
 		}
 
-		$this->print_fields( $time );
+		$this->print_fields($time);
 	}
 
 	/**
@@ -176,12 +172,13 @@ class Datetime_Format extends Field {
 	 *
 	 * @param  $fields
 	 */
-	private function print_fields( $fields ) {
-		if ( ! empty( $fields ) && is_array( $fields ) ) {
-			foreach ( $fields as $func => $v ) {
-				if ( method_exists( $this, $func ) ) {
+	private function print_fields($fields)
+	{
+		if (!empty($fields) && is_array($fields)) {
+			foreach ($fields as $func => $v) {
+				if (method_exists($this, $func)) {
 					$this->$func();
-				};
+				}
 			}
 		}
 	}
@@ -192,21 +189,26 @@ class Datetime_Format extends Field {
 	 * @since  3.0.0
 	 * @access private
 	 */
-	private function weekday() {
-
+	private function weekday()
+	{
 		?>
 		<div>
 			<label for="<?php echo $this->id; ?>-weekday">
-				<?php _e( 'Weekday', 'google-calendar-events' ); ?>
+				<?php _e('Weekday', 'google-calendar-events'); ?>
 				<select name="" id="<?php echo $this->id; ?>-weekday">
 					<option value="" data-preview=""></option>
-					<option value="D" <?php selected( 'D', strpbrk( 'D', $this->value ) ) ?> data-preview="<?php echo date_i18n( 'D', $this->timestamp ); ?>"><?php echo date_i18n( 'D', $this->timestamp ); ?></option>
-					<option value="l" <?php selected( 'l', strpbrk( 'l', $this->value ) ) ?> data-preview="<?php echo date_i18n( 'l', $this->timestamp ); ?>"><?php echo date_i18n( 'l', $this->timestamp ); ?></option>
+					<option value="D" <?php selected('D', strpbrk('D', $this->value)); ?> data-preview="<?php echo date_i18n(
+ 	'D',
+ 	$this->timestamp
+ ); ?>"><?php echo date_i18n('D', $this->timestamp); ?></option>
+					<option value="l" <?php selected('l', strpbrk('l', $this->value)); ?> data-preview="<?php echo date_i18n(
+ 	'l',
+ 	$this->timestamp
+ ); ?>"><?php echo date_i18n('l', $this->timestamp); ?></option>
 				</select>
 			</label>
 		</div>
 		<?php
-
 	}
 
 	/**
@@ -215,21 +217,26 @@ class Datetime_Format extends Field {
 	 * @since  3.0.0
 	 * @access private
 	 */
-	private function day() {
-
+	private function day()
+	{
 		?>
 		<div>
 			<label for="<?php echo $this->id; ?>-day">
-				<?php _e( 'Day', 'google-calendar-events' ); ?>
+				<?php _e('Day', 'google-calendar-events'); ?>
 				<select name="" id="<?php echo $this->id; ?>-day">
 					<option value="" data-preview=""></option>
-					<option value="j" <?php selected( 'j', strpbrk( 'j', $this->value ) ) ?> data-preview="<?php echo date( 'j', $this->timestamp ); ?>"><?php echo date( 'j', $this->timestamp ); ?></option>
-					<option value="d" <?php selected( 'd', strpbrk( 'd', $this->value ) ) ?> data-preview="<?php echo date( 'd', $this->timestamp ); ?>"><?php echo date( 'd', $this->timestamp ); ?></option>
+					<option value="j" <?php selected('j', strpbrk('j', $this->value)); ?> data-preview="<?php echo date(
+ 	'j',
+ 	$this->timestamp
+ ); ?>"><?php echo date('j', $this->timestamp); ?></option>
+					<option value="d" <?php selected('d', strpbrk('d', $this->value)); ?> data-preview="<?php echo date(
+ 	'd',
+ 	$this->timestamp
+ ); ?>"><?php echo date('d', $this->timestamp); ?></option>
 				</select>
 			</label>
 		</div>
 		<?php
-
 	}
 
 	/**
@@ -238,23 +245,34 @@ class Datetime_Format extends Field {
 	 * @since  3.0.0
 	 * @access private
 	 */
-	private function month() {
-
+	private function month()
+	{
 		?>
 		<div>
 			<label for="<?php echo $this->id; ?>-month">
-				<?php _e( 'Month', 'google-calendar-events' ); ?>
+				<?php _e('Month', 'google-calendar-events'); ?>
 				<select name="" id="<?php echo $this->id; ?>-month">
 					<option value="" data-preview=""></option>
-					<option value="F" <?php selected( 'F', strpbrk( 'F', $this->value ) ) ?> data-preview="<?php echo date_i18n( 'F', $this->timestamp ); ?>"><?php echo date_i18n( 'F', $this->timestamp ); ?></option>
-					<option value="M" <?php selected( 'M', strpbrk( 'M', $this->value ) ) ?> data-preview="<?php echo date_i18n( 'M', $this->timestamp ); ?>"><?php echo date_i18n( 'M', $this->timestamp ); ?></option>
-					<option value="m" <?php selected( 'm', strpbrk( 'm', $this->value ) ) ?> data-preview="<?php echo date( 'm', $this->timestamp ); ?>"><?php echo date( 'm', $this->timestamp ); ?></option>
-					<option value="n" <?php selected( 'n', strpbrk( 'n', $this->value ) ) ?> data-preview="<?php echo date( 'n', $this->timestamp ); ?>"><?php echo date( 'n', $this->timestamp ); ?></option>
+					<option value="F" <?php selected('F', strpbrk('F', $this->value)); ?> data-preview="<?php echo date_i18n(
+ 	'F',
+ 	$this->timestamp
+ ); ?>"><?php echo date_i18n('F', $this->timestamp); ?></option>
+					<option value="M" <?php selected('M', strpbrk('M', $this->value)); ?> data-preview="<?php echo date_i18n(
+ 	'M',
+ 	$this->timestamp
+ ); ?>"><?php echo date_i18n('M', $this->timestamp); ?></option>
+					<option value="m" <?php selected('m', strpbrk('m', $this->value)); ?> data-preview="<?php echo date(
+ 	'm',
+ 	$this->timestamp
+ ); ?>"><?php echo date('m', $this->timestamp); ?></option>
+					<option value="n" <?php selected('n', strpbrk('n', $this->value)); ?> data-preview="<?php echo date(
+ 	'n',
+ 	$this->timestamp
+ ); ?>"><?php echo date('n', $this->timestamp); ?></option>
 				</select>
 			</label>
 		</div>
 		<?php
-
 	}
 
 	/**
@@ -263,21 +281,26 @@ class Datetime_Format extends Field {
 	 * @since  3.0.0
 	 * @access private
 	 */
-	private function year() {
-
+	private function year()
+	{
 		?>
 		<div>
 			<label for="<?php echo $this->id; ?>-year">
-				<?php _e( 'Year', 'google-calendar-events' ); ?>
+				<?php _e('Year', 'google-calendar-events'); ?>
 				<select name="" id="<?php echo $this->id; ?>-year">
 					<option value="" data-preview=""></option>
-					<option value="Y" <?php selected( 'Y', strpbrk( 'Y', $this->value ) ) ?> data-preview="<?php echo date( 'Y', $this->timestamp ); ?>"><?php echo date( 'Y', $this->timestamp ); ?></option>
-					<option value="y" <?php selected( 'y', strpbrk( 'y', $this->value ) ) ?> data-preview="<?php echo date( 'y', $this->timestamp ); ?>"><?php echo date( 'y', $this->timestamp ); ?></option>
+					<option value="Y" <?php selected('Y', strpbrk('Y', $this->value)); ?> data-preview="<?php echo date(
+ 	'Y',
+ 	$this->timestamp
+ ); ?>"><?php echo date('Y', $this->timestamp); ?></option>
+					<option value="y" <?php selected('y', strpbrk('y', $this->value)); ?> data-preview="<?php echo date(
+ 	'y',
+ 	$this->timestamp
+ ); ?>"><?php echo date('y', $this->timestamp); ?></option>
 				</select>
 			</label>
 		</div>
 		<?php
-
 	}
 
 	/**
@@ -286,23 +309,34 @@ class Datetime_Format extends Field {
 	 * @since  3.0.0
 	 * @access private
 	 */
-	private function hours() {
-
+	private function hours()
+	{
 		?>
 		<div>
 			<label for="<?php echo $this->id; ?>-hours">
-				<?php _e( 'Hours', 'google-calendar-events' ) ?>
+				<?php _e('Hours', 'google-calendar-events'); ?>
 				<select name="" id="<?php echo $this->id; ?>-hours">
 					<option value="" data-preview=""></option>
-					<option value="g" <?php selected( 'g', strpbrk( 'g', $this->value ) ); ?> data-preview="<?php echo date( 'g', $this->timestamp ); ?>"><?php echo date( 'g', $this->timestamp ) . ' (12h)'; ?></option>
-					<option value="G" <?php selected( 'G', strpbrk( 'G', $this->value ) ); ?> data-preview="<?php echo date( 'G', $this->timestamp - 43200 ); ?>"><?php echo date( 'G', $this->timestamp - 43200 ) . ' (24h)'; ?></option>
-					<option value="h" <?php selected( 'h', strpbrk( 'h', $this->value ) ); ?> data-preview="<?php echo date( 'h', $this->timestamp ); ?>"><?php echo date( 'h', $this->timestamp ) . ' (12h)'; ?></option>
-					<option value="H" <?php selected( 'H', strpbrk( 'H', $this->value ) ); ?> data-preview="<?php echo date( 'H', $this->timestamp - 43200 ); ?>"><?php echo date( 'H', $this->timestamp - 43200 ) . ' (24h)'; ?></option>
+					<option value="g" <?php selected('g', strpbrk('g', $this->value)); ?> data-preview="<?php echo date(
+ 	'g',
+ 	$this->timestamp
+ ); ?>"><?php echo date('g', $this->timestamp) . ' (12h)'; ?></option>
+					<option value="G" <?php selected('G', strpbrk('G', $this->value)); ?> data-preview="<?php echo date(
+ 	'G',
+ 	$this->timestamp - 43200
+ ); ?>"><?php echo date('G', $this->timestamp - 43200) . ' (24h)'; ?></option>
+					<option value="h" <?php selected('h', strpbrk('h', $this->value)); ?> data-preview="<?php echo date(
+ 	'h',
+ 	$this->timestamp
+ ); ?>"><?php echo date('h', $this->timestamp) . ' (12h)'; ?></option>
+					<option value="H" <?php selected('H', strpbrk('H', $this->value)); ?> data-preview="<?php echo date(
+ 	'H',
+ 	$this->timestamp - 43200
+ ); ?>"><?php echo date('H', $this->timestamp - 43200) . ' (24h)'; ?></option>
 				</select>
 			</label>
 		</div>
 		<?php
-
 	}
 
 	/**
@@ -311,20 +345,22 @@ class Datetime_Format extends Field {
 	 * @since  3.0.0
 	 * @access private
 	 */
-	private function minutes() {
-
+	private function minutes()
+	{
 		?>
 		<div>
 			<label for="<?php echo $this->id; ?>-minutes">
-				<?php _e( 'Minutes', 'google-calendar-events' ); ?>
+				<?php _e('Minutes', 'google-calendar-events'); ?>
 				<select name="" id="<?php echo $this->id; ?>-minutes">
 					<option value="" data-preview=""></option>
-					<option value="i" <?php selected( 'i', strpbrk( 'i', $this->value ) ); ?> data-preview="<?php echo date( 'i', $this->timestamp ); ?>"><?php echo date( 'i', $this->timestamp ); ?></option>
+					<option value="i" <?php selected('i', strpbrk('i', $this->value)); ?> data-preview="<?php echo date(
+ 	'i',
+ 	$this->timestamp
+ ); ?>"><?php echo date('i', $this->timestamp); ?></option>
 				</select>
 			</label>
 		</div>
 		<?php
-
 	}
 
 	/**
@@ -333,21 +369,26 @@ class Datetime_Format extends Field {
 	 * @since  3.0.0
 	 * @access private
 	 */
-	private function meridiem() {
-
-	    ?>
+	private function meridiem()
+	{
+		?>
 		<div>
 			<label for="<?php echo $this->id; ?>-meridiem">
-				<?php _e( 'Meridiem', 'google-calendar-events' ); ?>
+				<?php _e('Meridiem', 'google-calendar-events'); ?>
 				<select name="" id="<?php echo $this->id; ?>-meridiem">
 					<option value="" data-preview=""></option>
-					<option value="a" <?php selected( 'a', strpbrk( 'a', $this->value ) ); ?> data-preview="<?php echo date( 'a', $this->timestamp ); ?>"><?php echo date( 'a', $this->timestamp ); ?></option>
-					<option value="A" <?php selected( 'A', strpbrk( 'A', $this->value ) ); ?> data-preview="<?php echo date( 'A', $this->timestamp ); ?>"><?php echo date( 'A', $this->timestamp ); ?></option>
+					<option value="a" <?php selected('a', strpbrk('a', $this->value)); ?> data-preview="<?php echo date(
+ 	'a',
+ 	$this->timestamp
+ ); ?>"><?php echo date('a', $this->timestamp); ?></option>
+					<option value="A" <?php selected('A', strpbrk('A', $this->value)); ?> data-preview="<?php echo date(
+ 	'A',
+ 	$this->timestamp
+ ); ?>"><?php echo date('A', $this->timestamp); ?></option>
 				</select>
 			</label>
 		</div>
 		<?php
-
 	}
 
 	/**
@@ -356,24 +397,22 @@ class Datetime_Format extends Field {
 	 * @since  3.0.0
 	 * @access private
 	 */
-	private function divider() {
-
+	private function divider()
+	{
 		?>
 		<div>
 			<label for="<?php echo $this->id; ?>-divider">
-				<?php _ex( 'Divider', 'A character to separate two elements', 'google-calendar-events' ); ?>
+				<?php _ex('Divider', 'A character to separate two elements', 'google-calendar-events'); ?>
 				<select name="" id="<?php echo $this->id; ?>-divider">
 					<option value="" data-preview=""></option>
-					<option value="."  <?php selected( '.', strpbrk( '.', $this->value ) ); ?> data-preview="."  data-trim="true">.</option>
-					<option value=", " <?php selected( ',', strpbrk( ',', $this->value ) ); ?> data-preview=", " data-trim="true">,</option>
-					<option value=":"  <?php selected( ':', strpbrk( ':', $this->value ) ); ?> data-preview=":"  data-trim="true">:</option>
-					<option value="-"  <?php selected( '-', strpbrk( '-', $this->value ) ); ?> data-preview="-"  data-trim="true">-</option>
-					<option value="/"  <?php selected( '/', strpbrk( '/', $this->value ) ); ?> data-preview="/"  data-trim="true">/</option>
+					<option value="."  <?php selected('.', strpbrk('.', $this->value)); ?> data-preview="."  data-trim="true">.</option>
+					<option value=", " <?php selected(',', strpbrk(',', $this->value)); ?> data-preview=", " data-trim="true">,</option>
+					<option value=":"  <?php selected(':', strpbrk(':', $this->value)); ?> data-preview=":"  data-trim="true">:</option>
+					<option value="-"  <?php selected('-', strpbrk('-', $this->value)); ?> data-preview="-"  data-trim="true">-</option>
+					<option value="/"  <?php selected('/', strpbrk('/', $this->value)); ?> data-preview="/"  data-trim="true">/</option>
 				</select>
 			</label>
 		</div>
 		<?php
-
 	}
-
 }

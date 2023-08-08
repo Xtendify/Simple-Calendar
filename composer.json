@@ -30,13 +30,15 @@
     "ext-iconv": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
-    "composer/installers": "2.2.0",
-    "google/apiclient": "2.13.1",
-    "nesbot/carbon": "2.66.0",
-    "erusev/parsedown": "1.7.4",
-    "mexitek/phpcolors": "1.0.4",
-    "guzzlehttp/guzzle": "7.5.0",
-    "instituteweb/composer-scripts": "1.1.0"
+    "composer/installers": "2.x",
+    "google/apiclient": "2.12.1",
+    "nesbot/carbon": "2.67.0",
+    "erusev/parsedown": "1.x",
+    "mexitek/phpcolors": "dev-master",
+    "guzzlehttp/guzzle": "7.5.1",
+    "instituteweb/composer-scripts": "^1.0",
+    "google/apiclient-services": "0.13",
+    "symfony/polyfill-mbstring": "1.27.0"
   },
   "autoload": {
     "files": [

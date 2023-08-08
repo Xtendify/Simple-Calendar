@@ -9,8 +9,8 @@ namespace SimpleCalendar\Widgets;
 use SimpleCalendar\Abstracts\Calendar_View;
 use SimpleCalendar\Abstracts\Widget;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+if (!defined('ABSPATH')) {
+	exit();
 }
 
 /**
@@ -20,15 +20,15 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 3.0.0
  */
-class Calendar extends \WP_Widget implements Widget {
-
+class Calendar extends \WP_Widget implements Widget
+{
 	/**
 	 * Calendar feeds.
 	 *
 	 * @access public
 	 * @var array
 	 */
-	public $calendars = array();
+	public $calendars = [];
 
 	/**
 	 * Calendar view.
@@ -43,21 +43,21 @@ class Calendar extends \WP_Widget implements Widget {
 	 *
 	 * @since 3.0.0
 	 */
-	public function __construct() {
+	public function __construct()
+	{
+		$id_base = 'gce_widget'; // old id kept for legacy reasons
+		$name = __('Simple Calendar', 'google-calendar-events');
+		$widget_options = [
+			'description' => __('Display a calendar of events from one of your calendar feeds.', 'google-calendar-events'),
+		];
 
-		$id_base        = 'gce_widget'; // old id kept for legacy reasons
-		$name           = __( 'Simple Calendar', 'google-calendar-events' );
-		$widget_options = array(
-			'description' => __( 'Display a calendar of events from one of your calendar feeds.', 'google-calendar-events' )
-		);
+		parent::__construct($id_base, $name, $widget_options);
 
-		parent::__construct( $id_base, $name, $widget_options );
-
-		if ( is_admin() ) {
-			if ( ! defined( 'DOING_AJAX' ) ) {
+		if (is_admin()) {
+			if (!defined('DOING_AJAX')) {
 				$this->calendars = simcal_get_calendars();
 			} else {
-				$this->calendars = get_transient( '_simple-calendar_feed_ids' );
+				$this->calendars = get_transient('_simple-calendar_feed_ids');
 			}
 		}
 	}
@@ -70,18 +70,17 @@ class Calendar extends \WP_Widget implements Widget {
 	 * @param array $args     Display arguments.
 	 * @param array $instance The settings for the particular instance of the widget.
 	 */
-	public function widget( $args, $instance ) {
-
+	public function widget($args, $instance)
+	{
 		echo $args['before_widget'];
 
-		if ( ! empty( $instance['title'] ) ) {
-
-			echo $args['before_title']  . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
+		if (!empty($instance['title'])) {
+			echo $args['before_title'] . apply_filters('widget_title', $instance['title']) . $args['after_title'];
 		}
 
-		$id = isset( $instance['calendar_id'] ) ? absint( $instance['calendar_id'] ) : 0;
-		if ( $id > 0 ) {
-			simcal_print_calendar( $id );
+		$id = isset($instance['calendar_id']) ? absint($instance['calendar_id']) : 0;
+		if ($id > 0) {
+			simcal_print_calendar($id);
 		}
 
 		echo $args['after_widget'];
@@ -101,12 +100,12 @@ class Calendar extends \WP_Widget implements Widget {
 	 *
 	 * @return array Settings to save or bool false to cancel saving.
 	 */
-	public function update( $new_instance, $old_instance ) {
+	public function update($new_instance, $old_instance)
+	{
+		$instance = [];
 
-		$instance = array();
-
-		$instance['title']          = ( ! empty( $new_instance['title'] ) )        ? sanitize_text_field( $new_instance['title'] ) : '';
-		$instance['calendar_id']    = ( ! empty( $new_instance['calendar_id'] ) )  ? absint( $new_instance['calendar_id'] ) : '';
+		$instance['title'] = !empty($new_instance['title']) ? sanitize_text_field($new_instance['title']) : '';
+		$instance['calendar_id'] = !empty($new_instance['calendar_id']) ? absint($new_instance['calendar_id']) : '';
 
 		return $instance;
 	}
@@ -120,41 +119,44 @@ class Calendar extends \WP_Widget implements Widget {
 	 *
 	 * @return string
 	 */
-	public function form( $instance ) {
+	public function form($instance)
+	{
+		$title = isset($instance['title']) ? esc_attr($instance['title']) : __('Calendar', 'google-calendar-events');
+		$calendar_id = isset($instance['calendar_id']) ? esc_attr($instance['calendar_id']) : '';
 
-		$title          = isset( $instance['title'] )       ? esc_attr( $instance['title'] ) : __( 'Calendar', 'google-calendar-events' );
-		$calendar_id    = isset( $instance['calendar_id'] ) ? esc_attr( $instance['calendar_id'] ) : '';
-
+		if (empty($this->calendars) && defined('REST_REQUEST') && REST_REQUEST) {
+			$this->calendars = simcal_get_calendars();
+		}
 		?>
 		<div class="simcal-calendar-widget-settings">
 
 			<p>
-				<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'google-calendar-events' ); ?></label>
+				<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:', 'google-calendar-events'); ?></label>
 				<br>
 				<input type="text"
-				       name="<?php echo $this->get_field_name( 'title' ); ?>"
-				       id="<?php echo $this->get_field_id( 'title' ); ?>"
+				       name="<?php echo $this->get_field_name('title'); ?>"
+				       id="<?php echo $this->get_field_id('title'); ?>"
 				       class="widefat simcal-field simcal-field-standard simcal-field-text"
 				       value="<?php echo $title; ?>">
 			</p>
 
 			<p>
-				<label for="<?php echo $this->get_field_id( 'calendar_id' ); ?>"><?php _e( 'Calendar:', 'google-calendar-events' ); ?></label>
+				<label for="<?php echo $this->get_field_id(
+    	'calendar_id'
+    ); ?>"><?php _e('Calendar:', 'google-calendar-events'); ?></label>
 				<br>
-				<?php $multiselect = count( $this->calendars ) > 15 ? ' simcal-field-select-enhanced' : ''; ?>
-				<select name="<?php echo $this->get_field_name( 'calendar_id' ) ?>"
-				        id="<?php echo $this->get_field_id( 'calendar_id' ) ?>"
+				<?php $multiselect = count($this->calendars) > 15 ? ' simcal-field-select-enhanced' : ''; ?>
+				<select name="<?php echo $this->get_field_name('calendar_id'); ?>"
+				        id="<?php echo $this->get_field_id('calendar_id'); ?>"
 						class="simcal-field simcal-field-select<?php echo $multiselect; ?>"
-						data-noresults="<?php __( 'No calendars found.', 'google-calendar-events' ); ?>">
-						<?php foreach ( $this->calendars as $id => $name ) : ?>
-							<option value="<?php echo $id; ?>" <?php selected( $id, $calendar_id, true ); ?>><?php echo $name; ?></option>
+						data-noresults="<?php __('No calendars found.', 'google-calendar-events'); ?>">
+						<?php foreach ($this->calendars as $id => $name): ?>
+							<option value="<?php echo $id; ?>" <?php selected($id, $calendar_id, true); ?>><?php echo $name; ?></option>
 						<?php endforeach; ?>
 				</select>
 			</p>
 
 		</div>
 		<?php
-
 	}
-
 }

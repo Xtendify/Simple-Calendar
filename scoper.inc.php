@@ -20,32 +20,20 @@ $google_services = implode(
 		function ($service) {
 			return preg_quote($service, '#');
 		},
-		array(
-			'Calendar',
-			'Drive',
-		)
+		['Calendar', 'Drive']
 	)
 );
 
 return array(
-	'prefix' 					 => 'SimpleCalendar\plugin_deps',
-	'finders'                    => array(
+	'prefix' => 'SimpleCalendar\plugin_deps',
+	'finders' => array(
 
 		// General dependencies, except Google API services.
 		Finder::create()
 			->files()
 			->ignoreVCS(true)
 			->notName('/LICENSE|.*\\.md|.*\\.dist|Makefile|composer\\.json|composer\\.lock/')
-			->exclude(
-				array(
-					'doc',
-					'test',
-					'test_old',
-					'tests',
-					'Tests',
-					'vendor-bin',
-				)
-			)
+			->exclude(['doc', 'test', 'test_old', 'tests', 'Tests', 'vendor-bin'])
 			->path('#^firebase/#')
 			->path('#^google/apiclient/#')
 			->path('#^google/auth/#')
@@ -85,11 +73,11 @@ return array(
 			->name("#($google_services)\.php#")
 			->in('vendor/google/apiclient-services/src'),
 	),
-	'exclude-files'            => array(
+	'exclude-files' => array(
 		// This dependency is a global function which should remain global.
 		'vendor\\ralouphie\\getallheaders\\src\\getallheaders.php',
 	),
 	'exclude-classes' => [
-        'Isolated\Symfony\Component\Finder\Finder',
-    ],
+		'Isolated\Symfony\Component\Finder\Finder',
+	],
 );
