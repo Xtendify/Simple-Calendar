@@ -480,8 +480,14 @@ class Event_Builder
 				case 'if-today':
 				case 'if-not-today':
 					$start_dt = $event->start_dt->setTimezone($calendar->timezone);
-					$startOfDay = $start_dt->copy()->startOfDay()->getTimestamp();
-					$endOfDay = $start_dt->copy()->endOfDay()->getTimestamp();
+					$startOfDay = $start_dt
+						->copy()
+						->startOfDay()
+						->getTimestamp();
+					$endOfDay = $start_dt
+						->copy()
+						->endOfDay()
+						->getTimestamp();
 
 					$today = $startOfDay <= $calendar->now && $calendar->now <= $endOfDay;
 
@@ -959,14 +965,14 @@ class Event_Builder
 
 		return false !== $anchor
 			? ' <a href="' .
-			esc_url($url) .
-			'" ' .
-			wp_kses_post($target) .
-			' ' .
-			wp_kses_post($additional_link_atts) .
-			'>' .
-			$text .
-			'</a>'
+					esc_url($url) .
+					'" ' .
+					wp_kses_post($target) .
+					' ' .
+					wp_kses_post($additional_link_atts) .
+					'>' .
+					$text .
+					'</a>'
 			: ' ' . $text;
 	}
 
@@ -1042,8 +1048,8 @@ class Event_Builder
 			if (!empty($attendee['name'])) {
 				$photo =
 					'hide' != $attr['photo']
-					? '<img class="avatar avatar-128 photo" src="' . $attendee['photo'] . '" itemprop="image" />'
-					: '';
+						? '<img class="avatar avatar-128 photo" src="' . $attendee['photo'] . '" itemprop="image" />'
+						: '';
 				$response = 'hide' != $attr['rsvp'] ? $this->get_rsvp_response($attendee['response']) : '';
 				$guest = $photo . '<span itemprop="name">' . $attendee['name'] . $response . '</span>';
 
@@ -1143,8 +1149,8 @@ class Event_Builder
 
 		$photo =
 			'hide' != $attr['photo']
-			? '<img class="avatar avatar-128 photo" src="' . $organizer['photo'] . '" itemprop="image"  />'
-			: '';
+				? '<img class="avatar avatar-128 photo" src="' . $organizer['photo'] . '" itemprop="image"  />'
+				: '';
 		$organizer_html = $photo . '<span itemprop="name">' . $organizer['name'] . '</span>';
 
 		if (!empty($organizer['email']) && 'show' == $attr['email']) {
