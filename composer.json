@@ -30,20 +30,17 @@
     "ext-iconv": "*",
     "ext-json": "*",
     "ext-mbstring": "*",
-    "composer/installers": "2.x",
-    "google/apiclient": "2.9.2",
+    "composer/installers": "2.2.0",
+    "google/apiclient": "2.13.1",
     "nesbot/carbon": "2.67.0",
-    "erusev/parsedown": "1.x",
-    "mexitek/phpcolors": "dev-master",
+    "erusev/parsedown": "1.7.4",
+    "mexitek/phpcolors": "1.0.4",
     "guzzlehttp/guzzle": "7.5.1",
-    "instituteweb/composer-scripts": "^1.0",
-    "google/apiclient-services": "0.13",
-    "symfony/polyfill-mbstring": "1.27.0"
+    "instituteweb/composer-scripts": "1.1.0"
   },
   "autoload": {
     "files": [
       "vendor/guzzlehttp/guzzle/src/functions_include.php",
-      "vendor/guzzlehttp/psr7/src/functions_include.php",
       "vendor/guzzlehttp/promises/src/functions_include.php"
     ]
   },
@@ -72,7 +69,7 @@
     ],
     "prefix-dependencies": [
       "rm -rf php-scoper && mkdir php-scoper",
-      "cd php-scoper && composer init -q --name \"calendar/php_scoper\" && composer require humbug/php-scoper:0.17.7",
+      "cd php-scoper && composer init -q --name \"calendar/php_scoper\" && composer require humbug/php-scoper",
       "\\InstituteWeb\\ComposerScripts\\ImprovedScriptExecution::apply",
       "./php-scoper/vendor/bin/php-scoper add --output-dir=./third-party --force",
       "cp composer.include.dump-autoload includes/composer.json && cd includes && composer dump-autoload --no-plugins -vvv --classmap-authoritative --no-interaction && rm composer.json",

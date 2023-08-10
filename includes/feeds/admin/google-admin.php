@@ -6,7 +6,7 @@
  */
 namespace SimpleCalendar\Feeds\Admin;
 
-use SimpleCalendar\plugin_deps\Google_Service_Exception;
+use SimpleCalendar\plugin_deps\Google\Service\Exception as Google_Service_Exception;
 
 use SimpleCalendar\Admin\Metaboxes\Settings;
 use SimpleCalendar\Admin\Notice;
