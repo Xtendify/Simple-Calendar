@@ -262,7 +262,7 @@ class Pages
 										</button>
 									</a>
 									<div class="simcal-mt-[25px] simcal-text-center simcal-text-base simcal-underline ">
-										<a class="hover:simcal-text-sc_green-200" href="https://simplecalendar.io/go/ratings--theme"><?php _e(
+										<a class="hover:simcal-text-sc_green-200" href="https://simplecalendar.io/go/reviews--theme"><?php _e(
           	'See All Customers Reviews',
           	'google-calendar-events'
           ); ?></a>

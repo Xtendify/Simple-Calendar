@@ -434,7 +434,7 @@ class Welcome
 								</a>
 								<div class="simcal-mt-[25px] simcal-text-center simcal-text-base simcal-text-sc_blue-200">
 									<a class="hover:simcal-text-sc_green-200"
-										href="https://simplecalendar.io/go/ratings--theme">
+										href="https://simplecalendar.io/go/reviews--theme">
 										<?php _e('See All Customers Reviews', 'google-calendar-events'); ?>
 									</a>
 								</div>
