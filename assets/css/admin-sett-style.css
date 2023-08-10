@@ -105,7 +105,7 @@ a:focus .plugin-icon {
 
 #simcal-settings-page-form div#setting-error-settings_updated {
 	max-width: 100%;
-	margin: 1% 0 0 5%;
+	margin: 1% 5% 0 5%;
 }
 
 #simcal-settings-page-form .notice-error {
