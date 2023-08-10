@@ -426,7 +426,7 @@ class Welcome
 		sc_rating(); ?>
 								</div>
 								<a
-									href="https://wordpress.org/support/plugin/google-calendar-events/reviews/?filter=5#new-post">
+									href="https://simplecalendar.io/go/leave-a-review--theme">
 									<button type="button"
 										class="simcal-mt-[20px] simcal-m-auto simcal-flex simcal-justify-center simcal-items-center simcal-w-[80%] simcal-h-[40px] simcal-bg-sc_green-200 simcal-text-white simcal-text-xl simcal-font-medium simcal-rounded-md">
 										<?php _e('Rate Now', 'google-calendar-events'); ?>
@@ -434,7 +434,7 @@ class Welcome
 								</a>
 								<div class="simcal-mt-[25px] simcal-text-center simcal-text-base simcal-text-sc_blue-200">
 									<a class="hover:simcal-text-sc_green-200"
-										href="https://wordpress.org/support/plugin/google-calendar-events/reviews/?filter=5">
+										href="https://simplecalendar.io/go/ratings--theme">
 										<?php _e('See All Customers Reviews', 'google-calendar-events'); ?>
 									</a>
 								</div>
