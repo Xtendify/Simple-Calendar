@@ -98,7 +98,7 @@ We'd love your help! Here's a few things you can do:
 == Changelog ==
 
 = 3.2.2 =
-*  Dev: Update google api client library to 2.x.
+*  Dev: Update Google API client library to 2.13.1.
 *  Fix: 'if-not-today' shortcode with all day event display issue.
 *  Dev: Revamp admin setting page banner design.
 
