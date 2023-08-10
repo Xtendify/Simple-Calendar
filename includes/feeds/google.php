@@ -10,7 +10,7 @@ use SimpleCalendar\plugin_deps\Google\Service\Calendar as Google_Service_Calenda
 use SimpleCalendar\plugin_deps\Google\Client as Google_Client;
 use SimpleCalendar\plugin_deps\Google\Service\Calendar\Event as Google_Service_Calendar_Event;
 use SimpleCalendar\plugin_deps\Google\Service\Calendar\Events as Google_Service_Calendar_Events;
-use SimpleCalendar\plugin_deps\Google_Service_Exception;
+use SimpleCalendar\plugin_deps\Google\Service\Exception as Google_Service_Exception;
 
 use SimpleCalendar\plugin_deps\Carbon\Carbon;
 use SimpleCalendar\Abstracts\Calendar;
