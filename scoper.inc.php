@@ -13,26 +13,6 @@ declare(strict_types=1);
 
 use Isolated\Symfony\Component\Finder\Finder;
 
-$patch1 = '';
-$patch2 = '';
-$patch3 = '';
-
-if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-	global $patch1;
-	global $patch2;
-	global $patch3;
-	$patch1 = 'vendor\\google\\apiclient\\';
-	$patch2 = 'vendor\\google\\auth\\';
-	$patch3 = 'vendor\\google\\apiclient-services\\';
-} else {
-	global $patch1;
-	global $patch2;
-	global $patch3;
-	$patch1 = 'vendor/google/apiclient/';
-	$patch2 = 'vendor/google/auth/';
-	$patch3 = 'vendor/google/apiclient-services/';
-}
-
 // Google API services to include classes for.
 $google_services = implode(
 	'|',
@@ -41,28 +21,6 @@ $google_services = implode(
 			return preg_quote($service, '#');
 		},
 		['Calendar', 'Drive']
-	)
-);
-
-$polyfillsBootstraps = array_map(
-	static fn(SplFileInfo $fileInfo) => $fileInfo->getPathname(),
-	iterator_to_array(
-		Finder::create()
-			->files()
-			->in(__DIR__ . '/vendor/symfony/polyfill-*')
-			->name('bootstrap*.php'),
-		false
-	)
-);
-
-$polyfillsStubs = array_map(
-	static fn(SplFileInfo $fileInfo) => $fileInfo->getPathname(),
-	iterator_to_array(
-		Finder::create()
-			->files()
-			->in(__DIR__ . '/vendor/symfony/polyfill-*/Resources/stubs')
-			->name('*.php'),
-		false
 	)
 );
 
@@ -95,7 +53,7 @@ return [
 			->ignoreVCS(true)
 			->notName('/LICENSE|.*\\.md|.*\\.dist|Makefile|composer\\.json|composer\\.lock/')
 			->exclude(['doc', 'test', 'test_old', 'tests', 'Tests', 'vendor-bin'])
-			->path("#^google/apiclient-services/src/Google/Service/($google_services)/#")
+			->path("#^google/apiclient-services/src/($google_services)/#")
 			->in('vendor'),
 
 		// Google API service entry classes.
@@ -103,59 +61,11 @@ return [
 			->files()
 			->ignoreVCS(true)
 			->name("#($google_services)\.php#")
-			->in('vendor/google/apiclient-services/src/Google/Service'),
-	],
-	'exclude-namespaces' => ['Symfony\Polyfill'],
-	'exclude-constants' => [
-		// Symfony global constants
-		'/^SYMFONY\_[\p{L}_]+$/',
+			->in('vendor/google/apiclient-services/src'),
 	],
 	'exclude-files' => [
 		// This dependency is a global function which should remain global.
 		'vendor\\ralouphie\\getallheaders\\src\\getallheaders.php',
-		...$polyfillsBootstraps,
-		...$polyfillsStubs,
 	],
 	'exclude-classes' => ['Isolated\Symfony\Component\Finder\Finder'],
-	'patchers' => [
-		function ($file_path, $prefix, $contents) {
-			global $patch1;
-			global $patch2;
-			global $patch3;
-
-			if (false !== strpos($file_path, $patch1) || false !== strpos($file_path, $patch2)) {
-				$prefix = str_replace('\\', '\\\\', $prefix);
-				$contents = str_replace(
-					"'\\\\GuzzleHttp\\\\ClientInterface",
-					"'\\\\" . $prefix . '\\\\GuzzleHttp\\\\ClientInterface',
-					$contents
-				);
-				$contents = str_replace(
-					'"\\\\GuzzleHttp\\\\ClientInterface',
-					'"\\\\' . $prefix . '\\\\GuzzleHttp\\\\ClientInterface',
-					$contents
-				);
-				$contents = str_replace(
-					"'GuzzleHttp\\\\ClientInterface",
-					"'" . $prefix . '\\\\GuzzleHttp\\\\ClientInterface',
-					$contents
-				);
-				$contents = str_replace(
-					'"GuzzleHttp\\\\ClientInterface',
-					'"' . $prefix . '\\\\GuzzleHttp\\\\ClientInterface',
-					$contents
-				);
-			}
-			if (false !== strpos($file_path, $patch1)) {
-				$contents = str_replace("'Google_", "'" . $prefix . '\Google_', $contents);
-				$contents = str_replace('\"Google_', '\"' . $prefix . '\Google_', $contents);
-			}
-			if (false !== strpos($file_path, $patch3)) {
-				$contents = str_replace("'Google_Service_", "'" . $prefix . '\Google_Service_', $contents);
-				$contents = str_replace('"Google_Service_', '"' . $prefix . '\Google_Service_', $contents);
-			}
-
-			return $contents;
-		},
-	],
 ];
