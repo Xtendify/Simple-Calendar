@@ -256,13 +256,13 @@ class Pages
 
     			sc_rating(); ?>
 									</div>
-									<a href="https://simplecalendar.io/go/leave-a-review--theme">
+									<a href="https://simplecalendar.io/go/leave-a-review--theme?utm_source=inside-plugin&utm_medium=link&utm_campaign=core-plugin&utm_content=settings-link">
 										<button type="button" class="simcal-mt-[20px] simcal-m-auto simcal-flex simcal-justify-center simcal-items-center simcal-w-[85%] simcal-h-[40px] simcal-bg-sc_green-200 simcal-text-white simcal-text-xl simcal-font-medium simcal-rounded-md">
 										<?php _e('Rate Now', 'google-calendar-events'); ?>
 										</button>
 									</a>
 									<div class="simcal-mt-[25px] simcal-text-center simcal-text-base simcal-underline ">
-										<a class="hover:simcal-text-sc_green-200" href="https://simplecalendar.io/go/reviews--theme"><?php _e(
+										<a class="hover:simcal-text-sc_green-200" href="https://simplecalendar.io/go/reviews--theme?utm_source=inside-plugin&utm_medium=link&utm_campaign=core-plugin&utm_content=settings-link"><?php _e(
           	'See All Customers Reviews',
           	'google-calendar-events'
           ); ?></a>
