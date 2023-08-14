@@ -34,7 +34,7 @@
     "google/apiclient": "2.13.1",
     "nesbot/carbon": "2.67.0",
     "erusev/parsedown": "1.7.4",
-    "mexitek/phpcolors": "1.0.4",
+    "mexitek/phpcolors": "dev-master",
     "guzzlehttp/guzzle": "7.5.1",
     "instituteweb/composer-scripts": "1.1.0"
   },

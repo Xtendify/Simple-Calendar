@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bb9b297ef8a451a3ccbedebf287e1cc5",
+    "content-hash": "dc503d730957f5db5e881d226f8c3d81",
     "packages": [
         {
             "name": "composer/installers",
@@ -802,16 +802,16 @@
         },
         {
             "name": "mexitek/phpcolors",
-            "version": "v1.0.4",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mexitek/phpColors.git",
-                "reference": "4043974240ca7dc3c2bec3c158588148b605b206"
+                "reference": "e10e44f67632096072237ff0822674a442d4bb50"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mexitek/phpColors/zipball/4043974240ca7dc3c2bec3c158588148b605b206",
-                "reference": "4043974240ca7dc3c2bec3c158588148b605b206",
+                "url": "https://api.github.com/repos/mexitek/phpColors/zipball/e10e44f67632096072237ff0822674a442d4bb50",
+                "reference": "e10e44f67632096072237ff0822674a442d4bb50",
                 "shasum": ""
             },
             "require": {
@@ -821,6 +821,7 @@
                 "nette/tester": "^2.3",
                 "squizlabs/php_codesniffer": "^3.5"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "classmap": [
@@ -839,7 +840,7 @@
                 }
             ],
             "description": "A series of methods that let you manipulate colors. Just incase you ever need different shades of one color on the fly.",
-            "homepage": "http://mexitek.github.com/phpColors/",
+            "homepage": "https://github.com/mexitek/phpColors",
             "keywords": [
                 "color",
                 "css",
@@ -851,7 +852,7 @@
                 "issues": "https://github.com/mexitek/phpColors/issues",
                 "source": "https://github.com/mexitek/phpColors"
             },
-            "time": "2021-11-26T13:19:08+00:00"
+            "time": "2022-07-29T10:53:35+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -1999,7 +2000,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "mexitek/phpcolors": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
