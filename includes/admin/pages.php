@@ -256,13 +256,13 @@ class Pages
 
     			sc_rating(); ?>
 									</div>
-									<a href="https://wordpress.org/support/plugin/google-calendar-events/reviews/?filter=5#new-post">
+									<a href="https://simplecalendar.io/go/leave-a-review--theme?utm_source=inside-plugin&utm_medium=link&utm_campaign=core-plugin&utm_content=settings-link">
 										<button type="button" class="simcal-mt-[20px] simcal-m-auto simcal-flex simcal-justify-center simcal-items-center simcal-w-[85%] simcal-h-[40px] simcal-bg-sc_green-200 simcal-text-white simcal-text-xl simcal-font-medium simcal-rounded-md">
 										<?php _e('Rate Now', 'google-calendar-events'); ?>
 										</button>
 									</a>
 									<div class="simcal-mt-[25px] simcal-text-center simcal-text-base simcal-underline ">
-										<a class="hover:simcal-text-sc_green-200" href="https://wordpress.org/support/plugin/google-calendar-events/reviews/?filter=5"><?php _e(
+										<a class="hover:simcal-text-sc_green-200" href="https://simplecalendar.io/go/reviews--theme?utm_source=inside-plugin&utm_medium=link&utm_campaign=core-plugin&utm_content=settings-link"><?php _e(
           	'See All Customers Reviews',
           	'google-calendar-events'
           ); ?></a>
@@ -277,18 +277,18 @@ class Pages
     		!is_plugin_active('Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php')
     	) { ?>
 								<div class="simcal-mr-[5%] simcal-mt-[50px] simcal-p-[3%] simcal-max-w-[100%] simcal-flex simcal-bg-sc_green-100 simcal-font-poppins simcal-rounded">
-					<div class="simcal-w-[36%]"> 
+					<div class="simcal-w-[36%]">
 						<div class="simcal-flex">
 							<div>
 								<img src="<?php echo esc_url($admin_image_about_path) . '/black-tick.png'; ?>" />
-							</div>							
+							</div>
 							<div class="simcal-text-sc_green-200 simcal-m-auto simcal-ml-2.5 simcal-font-semibold simcal-text-xl">
 								<span>
 									<?php _e('Pro Version', 'google-calendar-events'); ?>
 								</span>
-							</div>							
-						</div>						
-						<div class="simcal-pt-[19px] simcal-text-sc_grey-100 simcal-text-base">						
+							</div>
+						</div>
+						<div class="simcal-pt-[19px] simcal-text-sc_grey-100 simcal-text-base">
 							<span>
 								<?php _e(
         	'Calendars configured to use the',
@@ -298,7 +298,7 @@ class Pages
 	'use a different method of authorization.',
 	'google-calendar-events'
 ); ?>
-							</span>			
+							</span>
 						</div>
 						<div class="simcal-pt-[29px]">
 							<a href="https://simplecalendar.io/addons/?utm_source=inside-plugin&utm_medium=link&utm_campaign=core-plugin&utm_content=settings-link">
@@ -308,11 +308,11 @@ class Pages
 									<?php _e('Get Pro Version', 'google-calendar-events'); ?>
 								</button>
 							</a>
-						</div>						
+						</div>
 					</div>
 					<div class="simcal-mx-auto simcal-mt-[4%]">
 						<img src="<?php echo esc_url($admin_image_about_path) . '/arrow.png'; ?>" />
-					</div>		
+					</div>
 					<div class="simcal-bg-sc_green-100 simcal-rounded-r-[5px] simcal-pr-[1%] simcal-pt-[5px] ">
 						<div>
 							<div class="simcal-flex simcal-text-gray-400 simcal-mt-[21px]">
@@ -341,10 +341,10 @@ class Pages
 								<div class="simcal-ml-[9px] simcal-text-base simcal-text-sc_grey-100 simcal-font-normal">
 									<span><?php _e('Many More...', 'google-calendar-events'); ?></span>
 								</div>
-							</div>							
+							</div>
 						</div>
-					</div>								
-				</div>	
+					</div>
+				</div>
 			<?php }
     	echo '</div>';
     	echo '</div>';
