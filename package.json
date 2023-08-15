@@ -27,7 +27,7 @@
     "grunt-sass": "3.1.0",
     "load-grunt-tasks": "5.1.0",
     "postcss-cli": "10.1.0",
-    "prettier": "2.8.8",
+    "prettier": "3.0.1",
     "tailwindcss": "3.3.3"
   },
   "scripts": {
