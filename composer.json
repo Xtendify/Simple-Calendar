@@ -35,7 +35,7 @@
     "nesbot/carbon": "2.68.1",
     "erusev/parsedown": "1.7.4",
     "mexitek/phpcolors": "dev-master",
-    "guzzlehttp/guzzle": "7.5.1",
+    "guzzlehttp/guzzle": "7.7.0",
     "instituteweb/composer-scripts": "1.1.0"
   },
   "autoload": {
