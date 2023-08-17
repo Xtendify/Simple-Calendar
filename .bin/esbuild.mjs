@@ -1,27 +1,34 @@
 import * as esbuild from 'esbuild';
 import pkg from '../package.json' assert { type: 'json' };
 
-const defaultCalendarConfig = {
-	entryPoints: ['assets/js/default-calendar.js'],
+const banner =
+	`/*! ${pkg.title} - ${pkg.version}\n` +
+	` * ${pkg.homepage}\n` +
+	` * Copyright (c) Xtendify Technologies ${new Date().getFullYear()}\n` +
+	` * Licensed GPLv2+` +
+	` */\n`;
+
+const defaultConfig = {
 	bundle: true,
-	outfile: 'assets/js/default-calendar-bundled.js',
 	sourcemap: true,
 	banner: {
-		js:
-			`/*! ${pkg.title} - ${pkg.version}\n` +
-			` * ${pkg.homepage}\n` +
-			` * Copyright (c) Xtendify Technologies ${new Date().getFullYear()}\n` +
-			` * Licensed GPLv2+` +
-			` */\n`,
+		js: banner,
+		css: banner,
 	},
-};
-
-const defaultCalendarMinifiedConfig = {
-	...defaultCalendarConfig,
-	outfile: defaultCalendarConfig.outfile.replace('.js', '.min.js'),
 	minify: true,
-	sourcemap: true,
 };
 
-await esbuild.build(defaultCalendarConfig);
-await esbuild.build(defaultCalendarMinifiedConfig);
+const config = {
+	...defaultConfig,
+	entryPoints: [
+		{
+			in: 'assets/js/admin-add-calendar.js',
+			out: 'js/admin-add-calendar.min',
+		},
+		{ in: 'assets/js/admin.js', out: 'js/admin.min' },
+		{ in: 'assets/js/default-calendar.js', out: 'js/default-calendar.min' },
+	],
+	outdir: 'assets',
+};
+
+await esbuild.build(config);

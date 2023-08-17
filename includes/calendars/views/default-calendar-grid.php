@@ -127,7 +127,7 @@ class Default_Calendar_Grid implements Calendar_View
 				'in_footer' => true,
 			],
 			'simcal-default-calendar' => [
-				'src' => SIMPLE_CALENDAR_ASSETS . 'js/default-calendar-bundled' . $min . '.js',
+				'src' => SIMPLE_CALENDAR_ASSETS . 'js/default-calendar.min.js',
 				'deps' => ['jquery', 'simcal-qtip'],
 				'in_footer' => true,
 				'localize' => [

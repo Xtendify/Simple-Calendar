@@ -23,7 +23,6 @@ module.exports = function (grunt) {
 		// Set folder variables.
 		dirs: {
 			css: 'assets/css',
-			js: 'assets/js',
 		},
 
 		// Create comment banner to add to the top of minified .js and .css files.
@@ -89,24 +88,6 @@ module.exports = function (grunt) {
 				src: ['select2/dist/css/select2.css', 'select2/dist/css/select2.min.css'],
 				dest: '<%= dirs.css %>/vendor/',
 			},
-			js: {
-				expand: true,
-				cwd: 'bower_components/',
-				flatten: true,
-				src: [
-					'imagesloaded/imagesloaded.pkgd.js', // Using "packaged" version
-					'imagesloaded/imagesloaded.pkgd.min.js',
-					'jquery-tiptip/jquery.tipTip.js',
-					'jquery-tiptip/jquery.tipTip.minified.js',
-					'select2/dist/js/select2.js', // Using "non-full" version
-					'select2/dist/js/select2.min.js',
-					'moment/moment.js',
-					'moment/min/moment.min.js',
-					'moment-timezone/builds/moment-timezone-with-data.js',
-					'moment-timezone/builds/moment-timezone-with-data.min.js',
-				],
-				dest: '<%= dirs.js %>/vendor/',
-			},
 			main: {
 				expand: true,
 				src: distFiles,
@@ -129,14 +110,6 @@ module.exports = function (grunt) {
 			},
 		},
 
-		// JavaScript linting with JSHint.
-		jshint: {
-			options: {
-				ignores: ['**/*.min.js', 'assets/js/default-calendar*'],
-			},
-			all: ['<%= dirs.js %>/*.js', 'gruntfile.js'],
-		},
-
 		// Compile all .scss files.
 		sass: {
 			options: {
@@ -156,34 +129,12 @@ module.exports = function (grunt) {
 			},
 		},
 
-		// Minify .js files.
-		uglify: {
-			all: {
-				files: {
-					'<%= dirs.js %>/admin.min.js': ['<%= dirs.js %>/admin.js'],
-					'<%= dirs.js %>/admin-add-calendar.min.js': ['<%= dirs.js %>/admin-add-calendar.js'],
-				},
-				options: {
-					mangle: {
-						reserved: ['jQuery'],
-					},
-					sourceMap: false,
-					preserveComments: false,
-				},
-			},
-		},
-
 		// Add comment banner to each minified .js and .css file.
 		usebanner: {
 			options: {
 				position: 'top',
 				banner: '<%= banner %>',
 				linebreak: true,
-			},
-			js: {
-				files: {
-					src: ['<%= dirs.js %>/*.min.js'],
-				},
 			},
 			css: {
 				files: {
@@ -204,7 +155,7 @@ module.exports = function (grunt) {
 	require('load-grunt-tasks')(grunt);
 
 	grunt.registerTask('css', ['copy:css', 'cssmin', 'usebanner:css']);
-	grunt.registerTask('js', ['jshint', 'copy:js', 'uglify', 'usebanner:js']);
+	grunt.registerTask('js', []);
 	grunt.registerTask('default', ['css', 'js']);
 	grunt.registerTask('build', ['default', 'checktextdomain', 'clean:build', 'copy:main', 'compress']);
 
