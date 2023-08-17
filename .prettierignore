@@ -1,6 +1,6 @@
 assets/css/vendor
 assets/css/*.min.css
-assets/css/tailwind-output-style.css
+assets/css/tailwind-output.css
 assets/js/vendor
 assets/js/*.min.js
 node_modules
