@@ -49,10 +49,9 @@ const config = {
 	outdir: 'assets',
 };
 
-
 if (watch) {
 	const ctx = await esbuild.context(config);
-	console.log('watching...')
+	console.log('watching...');
 	await ctx.watch();
 } else {
 	await esbuild.build(config);
