@@ -1,6 +1,0 @@
-/*! Simple Calendar - 3.2.0
- * https://simplecalendar.io
- * Copyright (c) Xtendify Technologies 2023
- * Licensed GPLv2+ */
-
-@tailwind base;@tailwind components;@tailwind utilities;@layer base{@font-face{font-family:Poppins;font-weight:400;src:url('../fonts/Poppins-Regular.ttf')}@font-face{font-family:Poppins;font-weight:500;src:url('../fonts/Poppins-Medium.ttf')}@font-face{font-family:Poppins;font-weight:600;src:url('../fonts/Poppins-SemiBold.ttf')}@font-face{font-family:Poppins;font-weight:700;src:url('../fonts/Poppins-Bold.ttf')}}

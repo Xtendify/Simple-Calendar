@@ -20,19 +20,6 @@ module.exports = function (grunt) {
 	grunt.initConfig({
 		pkg: pkg,
 
-		// Set folder variables.
-		dirs: {
-			css: 'assets/css',
-		},
-
-		// Create comment banner to add to the top of minified .js and .css files.
-		banner:
-			'/*! <%= pkg.title %> - <%= pkg.version %>\n' +
-			' * <%=pkg.homepage %>\n' +
-			' * Copyright (c) Xtendify Technologies <%= grunt.template.today("yyyy") %>\n' +
-			' * Licensed GPLv2+' +
-			' */\n',
-
 		// Validate i18n text domain slug throughout.
 		checktextdomain: {
 			options: {
@@ -78,89 +65,19 @@ module.exports = function (grunt) {
 			},
 		},
 
-		// 'css' & 'js' tasks need to copy vendor-minified assets from bower folder to assets folder (select2, etc).
 		// 'main' task is for distributing build files.
 		copy: {
-			css: {
-				expand: true,
-				cwd: 'bower_components/',
-				flatten: true,
-				src: ['select2/dist/css/select2.css', 'select2/dist/css/select2.min.css'],
-				dest: '<%= dirs.css %>/vendor/',
-			},
 			main: {
 				expand: true,
 				src: distFiles,
 				dest: 'build/google-calendar-events',
 			},
 		},
-
-		// Minify .css files.
-		cssmin: {
-			options: {
-				processImport: false,
-				keepSpecialComments: 0,
-			},
-			minify: {
-				expand: true,
-				cwd: '<%= dirs.css %>',
-				src: ['*.css', '!*.min.css'],
-				dest: '<%= dirs.css %>',
-				ext: '.min.css',
-			},
-		},
-
-		// Compile all .scss files.
-		sass: {
-			options: {
-				precision: 2,
-				sourceMap: false,
-			},
-			all: {
-				files: [
-					{
-						expand: true,
-						cwd: '<%= dirs.css %>/sass/',
-						src: ['*.scss'],
-						dest: '<%= dirs.css %>/',
-						ext: '.css',
-					},
-				],
-			},
-		},
-
-		// Add comment banner to each minified .js and .css file.
-		usebanner: {
-			options: {
-				position: 'top',
-				banner: '<%= banner %>',
-				linebreak: true,
-			},
-			css: {
-				files: {
-					src: ['<%= dirs.css %>/*.min.css'],
-				},
-			},
-		},
-
-		// .scss to .css file watcher. Run when project is loaded in PhpStorm or other IDE.
-		watch: {
-			css: {
-				files: '**/*.scss',
-				tasks: ['sass'],
-			},
-		},
 	});
 
 	require('load-grunt-tasks')(grunt);
 
-	grunt.registerTask('css', ['copy:css', 'cssmin', 'usebanner:css']);
-	grunt.registerTask('js', []);
-	grunt.registerTask('default', ['css', 'js']);
-	grunt.registerTask('build', ['default', 'checktextdomain', 'clean:build', 'copy:main', 'compress']);
-
-	// TODO Add deploy task
-	//grunt.registerTask( 'deploy',	['build'] );
+	grunt.registerTask('build', ['checktextdomain', 'clean:build', 'copy:main', 'compress']);
 
 	grunt.util.linefeed = '\n';
 };
