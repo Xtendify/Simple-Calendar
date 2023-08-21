@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.3.2 | MIT License | https://tailwindcss.com
+! tailwindcss v3.3.3 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -191,6 +191,10 @@ select,
 textarea {
   font-family: inherit;
   /* 1 */
+  font-feature-settings: inherit;
+  /* 1 */
+  font-variation-settings: inherit;
+  /* 1 */
   font-size: 100%;
   /* 1 */
   font-weight: inherit;
@@ -338,6 +342,14 @@ ul,
 menu {
   list-style: none;
   margin: 0;
+  padding: 0;
+}
+
+/*
+Reset default styling for dialogs.
+*/
+
+dialog {
   padding: 0;
 }
 
@@ -554,6 +566,43 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+.simcal-absolute {
+  position: absolute;
+}
+
+.simcal-relative {
+  position: relative;
+}
+
+.simcal-inset-y-20 {
+  top: 5rem;
+  bottom: 5rem;
+}
+
+.simcal-bottom-0 {
+  bottom: 0px;
+}
+
+.simcal-right-0 {
+  right: 0px;
+}
+
+.simcal-right-\[-45px\] {
+  right: -45px;
+}
+
+.simcal-top-\[-30px\] {
+  top: -30px;
+}
+
+.\!simcal-m-\[0px\] {
+  margin: 0px !important;
+}
+
+.\!simcal-m-\[6px\] {
+  margin: 6px !important;
+}
+
 .simcal-m-auto {
   margin: auto;
 }
@@ -561,6 +610,10 @@ video {
 .simcal-mx-auto {
   margin-left: auto;
   margin-right: auto;
+}
+
+.\!simcal-mt-\[19px\] {
+  margin-top: 19px !important;
 }
 
 .simcal-mb-\[13px\] {
@@ -599,6 +652,14 @@ video {
   margin-left: 9px;
 }
 
+.simcal-mr-\[20px\] {
+  margin-right: 20px;
+}
+
+.simcal-mr-\[4\%\] {
+  margin-right: 4%;
+}
+
 .simcal-mr-\[5\%\] {
   margin-right: 5%;
 }
@@ -635,16 +696,28 @@ video {
   margin-top: 25px;
 }
 
+.simcal-mt-\[2px\] {
+  margin-top: 2px;
+}
+
 .simcal-mt-\[4\%\] {
   margin-top: 4%;
 }
 
-.simcal-mt-\[44px\] {
-  margin-top: 44px;
+.simcal-mt-\[40px\] {
+  margin-top: 40px;
 }
 
-.simcal-mt-\[50px\] {
-  margin-top: 50px;
+.simcal-mt-\[41px\] {
+  margin-top: 41px;
+}
+
+.simcal-mt-\[42px\] {
+  margin-top: 42px;
+}
+
+.simcal-mt-\[44px\] {
+  margin-top: 44px;
 }
 
 .simcal-mt-\[50px\] {
@@ -659,10 +732,6 @@ video {
   margin-top: 75px;
 }
 
-.simcal-mt-\[2px\] {
-  margin-top: 2px;
-}
-
 .simcal-flex {
   display: flex;
 }
@@ -675,8 +744,12 @@ video {
   height: 1.5rem;
 }
 
-.simcal-h-\[247px\] {
-  height: 247px;
+.simcal-h-\[366px\] {
+  height: 366px;
+}
+
+.simcal-h-\[408px\] {
+  height: 408px;
 }
 
 .simcal-h-\[40px\] {
@@ -691,13 +764,6 @@ video {
   height: 452px;
 }
 
-.simcal-w-\[100\%\] {
-  width: 100%;
-}
-
-.simcal-w-\[36\%\] {
-  width: 36%;
-}
 .simcal-h-\[auto\] {
   height: auto;
 }
@@ -718,20 +784,12 @@ video {
   width: 36%;
 }
 
-.simcal-w-\[38\%\] {
-  width: 38%;
+.simcal-w-\[39\%\] {
+  width: 39%;
 }
 
 .simcal-w-\[40\%\] {
   width: 40%;
-}
-
-.simcal-w-\[46\%\] {
-  width: 46%;
-}
-
-.simcal-w-\[39\%\] {
-  width: 39%;
 }
 
 .simcal-w-\[51\%\] {
@@ -805,8 +863,20 @@ video {
   margin-left: calc(102px * calc(1 - var(--tw-space-x-reverse)));
 }
 
+.\!simcal-rounded-\[100px\] {
+  border-radius: 100px !important;
+}
+
 .simcal-rounded {
   border-radius: 0.25rem;
+}
+
+.simcal-rounded-\[15px\] {
+  border-radius: 15px;
+}
+
+.simcal-rounded-\[20px\] {
+  border-radius: 20px;
 }
 
 .simcal-rounded-\[5px\] {
@@ -911,16 +981,12 @@ video {
   padding: 2%;
 }
 
-.simcal-p-\[5\%\] {
-  padding: 5%;
+.simcal-p-\[3\%\] {
+  padding: 3%;
 }
 
 .simcal-p-\[8px\] {
   padding: 8px;
-}
-
-.simcal-p-\[3\%\] {
-  padding: 3%;
 }
 
 .simcal-pb-\[7px\] {
@@ -929,10 +995,6 @@ video {
 
 .simcal-pl-\[20px\] {
   padding-left: 20px;
-}
-
-.simcal-pl-\[37px\] {
-  padding-left: 37px;
 }
 
 .simcal-pl-\[4\%\] {
@@ -967,10 +1029,6 @@ video {
   padding-right: 7px;
 }
 
-.simcal-pt-\[19px\] {
-  padding-top: 19px;
-}
-
 .simcal-pt-\[10px\] {
   padding-top: 10px;
 }
@@ -985,10 +1043,6 @@ video {
 
 .simcal-pt-\[29px\] {
   padding-top: 29px;
-}
-
-.simcal-pt-\[41px\] {
-  padding-top: 41px;
 }
 
 .simcal-pt-\[52px\] {
@@ -1284,12 +1338,6 @@ video {
   .lg\:simcal-gap-x-7 {
     -moz-column-gap: 1.75rem;
          column-gap: 1.75rem;
-  }
-}
-
-@media (min-width: 1280px) {
-  .xl\:simcal-h-\[450px\] {
-    height: 450px;
   }
 }
 
