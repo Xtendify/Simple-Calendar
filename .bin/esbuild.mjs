@@ -13,17 +13,17 @@ const banner =
 const files = [
 	{
 		in: 'assets/js/admin-add-calendar.js',
-		out: 'js/admin-add-calendar.min',
+		out: 'admin-add-calendar.min',
 	},
-	{ in: 'assets/js/admin.js', out: 'js/admin.min' },
-	{ in: 'assets/js/default-calendar.js', out: 'js/default-calendar.min' },
-	{ in: 'assets/css/admin-add-calendar.css', out: 'css/admin-add-calendar.min' },
-	{ in: 'assets/css/admin-sett-style.css', out: 'css/admin-sett-style.min' },
-	{ in: 'assets/css/admin.css', out: 'css/admin.min' },
-	{ in: 'assets/css/default-calendar-grid.css', out: 'css/default-calendar-grid.min' },
-	{ in: 'assets/css/default-calendar-list.css', out: 'css/default-calendar-list.min' },
-	{ in: 'assets/css/sc-welcome-pg-style.css', out: 'css/sc-welcome-pg-style.min' },
-	{ in: 'assets/css/tailwind-output.css', out: 'css/tailwind.min' },
+	{ in: 'assets/js/admin.js', out: 'admin.min' },
+	{ in: 'assets/js/default-calendar.js', out: 'default-calendar.min' },
+	{ in: 'assets/css/admin-add-calendar.css', out: 'admin-add-calendar.min' },
+	{ in: 'assets/css/admin-sett-style.css', out: 'admin-sett-style.min' },
+	{ in: 'assets/css/admin.css', out: 'admin.min' },
+	{ in: 'assets/css/default-calendar-grid.css', out: 'default-calendar-grid.min' },
+	{ in: 'assets/css/default-calendar-list.css', out: 'default-calendar-list.min' },
+	{ in: 'assets/css/sc-welcome-pg-style.css', out: 'sc-welcome-pg-style.min' },
+	{ in: 'assets/generated/tailwind-output.css', out: 'tailwind.min' },
 ];
 
 const defaultConfig = {
@@ -46,7 +46,7 @@ const config = {
 		'.eot': 'dataurl',
 		'.svg': 'text',
 	},
-	outdir: 'assets',
+	outdir: 'assets/generated',
 };
 
 if (watch) {

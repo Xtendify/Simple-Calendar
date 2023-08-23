@@ -21,13 +21,6 @@ if (!defined('ABSPATH')) {
  */
 class Assets
 {
-	/**
-	 * Load minified assets.
-	 *
-	 * @access private
-	 * @var string
-	 */
-	private $min = '.min';
 
 	/**
 	 * Scripts.
@@ -60,8 +53,6 @@ class Assets
 	 */
 	public function __construct()
 	{
-		$this->min = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG == true ? '' : '.min';
-
 		$settings = get_option('simple-calendar_settings_advanced');
 
 		if (isset($settings['assets']['disable_css'])) {
@@ -79,7 +70,7 @@ class Assets
 	 */
 	public function register()
 	{
-		do_action('simcal_register_assets', $this->min);
+		do_action('simcal_register_assets');
 	}
 
 	/**
@@ -91,17 +82,16 @@ class Assets
 	{
 		add_action('wp_enqueue_scripts', [$this, 'load'], 10);
 
-		do_action('simcal_enqueue_assets', $this->min);
+		do_action('simcal_enqueue_assets');
 
-		$min = $this->min;
 		// Improves compatibility with themes and plugins using Isotope and Masonry.
 		add_action(
 			'wp_enqueue_scripts',
-			function () use ($min) {
+			function () {
 				if (wp_script_is('simcal-qtip', 'enqueued')) {
 					wp_enqueue_script(
 						'simplecalendar-imagesloaded',
-						SIMPLE_CALENDAR_ASSETS . 'js/vendor/imagesloaded.pkgd' . $min . '.js',
+						SIMPLE_CALENDAR_ASSETS . 'generated/vendor/imagesloaded.pkgd.min.js',
 						['simcal-qtip'],
 						SIMPLE_CALENDAR_VERSION,
 						true
@@ -125,8 +115,8 @@ class Assets
 			foreach ($views as $key => $view) {
 				$view = simcal_get_calendar_view(0, $calendar . '-' . $view);
 
-				$scripts[] = $view->scripts($this->min);
-				$styles[] = $view->styles($this->min);
+				$scripts[] = $view->scripts();
+				$styles[] = $view->styles();
 			}
 		}
 
@@ -136,7 +126,7 @@ class Assets
 		}
 
 		$this->get_widgets_assets();
-		$this->scripts = apply_filters('simcal_front_end_scripts', $scripts, $this->min);
+		$this->scripts = apply_filters('simcal_front_end_scripts', $scripts);
 		// First check if there is a multi-dimensional array of scripts
 		if (isset($this->scripts[0])) {
 			foreach ($this->scripts as $script) {
@@ -145,7 +135,7 @@ class Assets
 		} else {
 			$this->load_scripts($this->scripts);
 		}
-		$this->styles = apply_filters('simcal_front_end_styles', $styles, $this->min);
+		$this->styles = apply_filters('simcal_front_end_styles', $styles);
 		// First check if there is a multi-dimensional array of styles
 		if (isset($this->styles[0])) {
 			foreach ($this->styles as $style) {
@@ -174,11 +164,11 @@ class Assets
 						if ($view instanceof Calendar_View) {
 							add_filter(
 								'simcal_front_end_scripts',
-								function ($scripts, $min) use ($view) {
+								function ($scripts) use ($view) {
 									if (is_array($scripts)) {
-										return array_merge($scripts, $view->scripts($min));
+										return array_merge($scripts, $view->scripts());
 									} else {
-										return $view->scripts($min);
+										return $view->scripts();
 									}
 								},
 								100,
@@ -186,11 +176,11 @@ class Assets
 							);
 							add_filter(
 								'simcal_front_end_styles',
-								function ($styles, $min) use ($view) {
+								function ($styles) use ($view) {
 									if (is_array($styles)) {
-										return array_merge($styles, $view->styles($min));
+										return array_merge($styles, $view->styles());
 									} else {
-										return $view->styles($min);
+										return $view->styles();
 									}
 								},
 								100,

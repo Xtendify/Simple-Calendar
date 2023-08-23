@@ -71,11 +71,9 @@ interface Calendar_View
 	 *
 	 * @since  3.0.0
 	 *
-	 * @param  string $min
-	 *
 	 * @return array
 	 */
-	public function scripts($min = '');
+	public function scripts();
 
 	/**
 	 * Styles.
@@ -84,11 +82,9 @@ interface Calendar_View
 	 *
 	 * @since  3.0.0
 	 *
-	 * @param  string $min
-	 *
 	 * @return array
 	 */
-	public function styles($min = '');
+	public function styles();
 
 	/**
 	 * Print HTML.

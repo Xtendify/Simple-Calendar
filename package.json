@@ -34,7 +34,7 @@
     "dev:esbuild": "npm run build:esbuild -- --watch",
     "prebuild": "npm run setup",
     "build": "npm run build:tailwind && npm run build:esbuild && npm run build:grunt",
-    "build:tailwind": "tailwindcss -i ./assets/css/tailwind.css -o ./assets/css/tailwind-output.css",
+    "build:tailwind": "tailwindcss -i ./assets/css/tailwind.css -o ./assets/generated/tailwind-output.css",
     "build:esbuild": "node .bin/esbuild.mjs",
     "build:grunt": "grunt build",
     "lint": "prettier --check .",

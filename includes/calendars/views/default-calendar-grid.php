@@ -114,20 +114,18 @@ class Default_Calendar_Grid implements Calendar_View
 	 *
 	 * @since  3.0.0
 	 *
-	 * @param  string $min
-	 *
 	 * @return array
 	 */
-	public function scripts($min = '')
+	public function scripts()
 	{
 		return [
 			'simcal-qtip' => [
-				'src' => SIMPLE_CALENDAR_ASSETS . 'js/vendor/jquery.qtip' . $min . '.js',
+				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/vendor/jquery.qtip.min.js',
 				'deps' => ['jquery'],
 				'in_footer' => true,
 			],
 			'simcal-default-calendar' => [
-				'src' => SIMPLE_CALENDAR_ASSETS . 'js/default-calendar.min.js',
+				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/default-calendar.min.js',
 				'deps' => ['jquery', 'simcal-qtip'],
 				'in_footer' => true,
 				'localize' => [
@@ -144,24 +142,22 @@ class Default_Calendar_Grid implements Calendar_View
 	 *
 	 * @since  3.0.0
 	 *
-	 * @param  string $min = ''
-	 *
 	 * @return array
 	 */
-	public function styles($min = '')
+	public function styles()
 	{
 		return [
 			'simcal-qtip' => [
-				'src' => SIMPLE_CALENDAR_ASSETS . 'css/vendor/jquery.qtip' . $min . '.css',
+				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/vendor/jquery.qtip.min.css',
 				'media' => 'all',
 			],
 			'simcal-default-calendar-grid' => [
-				'src' => SIMPLE_CALENDAR_ASSETS . 'css/default-calendar-grid' . $min . '.css',
+				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/default-calendar-grid.min.css',
 				'deps' => ['simcal-qtip'],
 				'media' => 'all',
 			],
 			'simcal-default-calendar-list' => [
-				'src' => SIMPLE_CALENDAR_ASSETS . 'css/default-calendar-list' . $min . '.css',
+				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/default-calendar-list.min.css',
 				'deps' => ['simcal-qtip'],
 				'media' => 'all',
 			],
