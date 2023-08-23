@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../css/sc-welcome-pg-style.css"],
-  "sourcesContent": ["#wpwrap {\n\tbackground-color: #f2f7fb;\n}\n\n#simcal-welcome .wp-person a:focus .gravatar,\n#simcal-welcome a:focus,\n#simcal-welcome a:focus .media-icon img {\n\tbox-shadow: unset;\n}\n\n#simcal-welcome .whats-new-wrap img {\n\tborder: unset;\n\tmargin: unset;\n}\n\n#simcal-welcome .about-wrap img {\n\twidth: unset;\n}\n\n#simcal-welcome .about-wrap .wp-person .gravatar {\n\tborder-radius: 50%;\n\theight: 50px;\n\tpadding: 0px;\n}\n\n#simcal-welcome .wp-person:hover .web {\n\tcolor: #fff;\n}\n\n#simcal-welcome .wp-person:hover img {\n\tborder: 2px solid white;\n}\n"],
-  "mappings": ";;;;;AAAA,CAAC,OACA,iBAAkB,OACnB,CAEA,CAAC,eAAe,CAAC,UAAU,CAAC,OAAO,CAAC,SACpC,CADC,eACe,CAAC,OACjB,CAFC,eAEe,CAAC,OAAO,CAAC,WAAW,IACnC,WAAY,KACb,CAEA,CANC,eAMe,CAAC,eAAe,IAC/B,OAAQ,MACR,OAAQ,KACT,CAEA,CAXC,eAWe,CAAC,WAAW,IAC3B,MAAO,KACR,CAEA,CAfC,eAee,CAJC,WAIW,CAfX,UAesB,CAfH,SAJpC,cAoBgB,IACf,OAAQ,KArBT,QAsBU,CACV,CAEA,CArBC,eAqBe,CArBC,SAqBS,OAAO,CAAC,IACjC,MAAO,IACR,CAEA,CAzBC,eAyBe,CAzBC,SAyBS,OAAO,IAChC,OAAQ,IAAI,MAAM,KACnB",
-  "names": []
-}

@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../css/admin-add-calendar.css"],
-  "sourcesContent": ["body #_simcal_attach_calendar_id,\nbody .simcal-calendar-widget-settings select {\n\twidth: 100%;\n}\n\nbody .select2-container--default .select2-selection--single {\n\tborder-color: #ccc;\n\tborder-radius: 0;\n}\n\nbody .select2-container {\n\tz-index: 1000000;\n}\n\nbody.post-type-gce_feed #gce-insert-shortcode-button {\n\tdisplay: none;\n}\n\n.wp-media-buttons a.add_calendar span.wp-media-buttons-icon {\n\tbackground: none;\n}\n\n.gce-insert-shortcode-panel {\n\tmax-width: 90%;\n\tposition: relative;\n}\n.gce-insert-shortcode-panel select {\n\tdisplay: block;\n\tmax-width: 470px;\n\twidth: 100%;\n}\n\nbody .gce-insert-shortcode-modal {\n\theight: 220px !important;\n\tmargin-left: -250px !important;\n\twidth: 500px !important;\n}\n\nbody .gce-insert-shortcode-modal-title {\n\tbackground: #fff !important;\n\tborder-bottom: none !important;\n\theight: 0 !important;\n}\n"],
-  "mappings": ";;;;;AAAA,KAAK,CAAC,2BACN,KAAK,CAAC,gCAAgC,OACrC,MAAO,IACR,CAEA,KAAK,CAAC,2BAA2B,CAAC,0BACjC,aAAc,KANf,cAOgB,CAChB,CAEA,KAAK,CAAC,kBACL,QAAS,OACV,CAEA,IAAI,CAAC,mBAAmB,CAAC,4BACxB,QAAS,IACV,CAEA,CAAC,iBAAiB,CAAC,CAAC,aAAa,IAAI,CAAC,sBACrC,WAAY,IACb,CAEA,CAAC,2BACA,UAAW,IACX,SAAU,QACX,CACA,CAJC,2BAI2B,OAC3B,QAAS,MACT,UAAW,MACX,MAAO,IACR,CAEA,KAAK,CAAC,2BACL,OAAQ,gBACR,YAAa,iBACb,MAAO,eACR,CAEA,KAAK,CAAC,iCACL,WAAY,eACZ,cAAe,eACf,OAAQ,WACT",
-  "names": []
-}

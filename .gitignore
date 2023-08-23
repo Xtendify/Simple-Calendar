@@ -39,3 +39,6 @@ phpunit.xml
 # Windows crap
 ehthumbs.db
 Thumbs.db
+
+# Generated code
+generated

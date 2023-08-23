@@ -40,11 +40,11 @@ const config = {
 	...defaultConfig,
 	entryPoints: files,
 	loader: {
-		'.png': 'dataurl',
-		'.ttf': 'dataurl',
-		'.woff': 'dataurl',
-		'.eot': 'dataurl',
-		'.svg': 'text',
+		'.png': 'file',
+		'.ttf': 'file',
+		'.woff': 'file',
+		'.eot': 'file',
+		'.svg': 'file',
 	},
 	outdir: 'assets/generated',
 };

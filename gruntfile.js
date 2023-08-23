@@ -5,8 +5,8 @@ module.exports = function (grunt) {
 
 	// Files to include/exclude in a release.
 	var distFiles = [
-		'assets/**',
-		'!assets/css/sass/**',
+		'assets/generated/**',
+		'assets/images/**',
 		'!assets/images/wp/**',
 		'google-calendar-events.php',
 		'i18n/**',
