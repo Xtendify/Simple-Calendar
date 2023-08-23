@@ -21,7 +21,6 @@ if (!defined('ABSPATH')) {
  */
 class Assets
 {
-
 	/**
 	 * Scripts.
 	 *

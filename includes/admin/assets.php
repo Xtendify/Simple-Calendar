@@ -54,13 +54,7 @@ class Assets
 			SIMPLE_CALENDAR_VERSION,
 			true
 		);
-		wp_register_script(
-			'simcal-select2',
-			$js_path_vendor . 'select2.min.js',
-			[],
-			SIMPLE_CALENDAR_VERSION,
-			true
-		);
+		wp_register_script('simcal-select2', $js_path_vendor . 'select2.min.js', [], SIMPLE_CALENDAR_VERSION, true);
 		wp_register_script(
 			'simcal-admin',
 			$js_path . 'admin.min.js',
@@ -80,12 +74,7 @@ class Assets
 		 * Register Admin Styles *
 		 * ===================== */
 
-		wp_register_style(
-			'simcal-select2',
-			$css_path_vendor . 'select2.min.css',
-			[],
-			SIMPLE_CALENDAR_VERSION
-		);
+		wp_register_style('simcal-select2', $css_path_vendor . 'select2.min.css', [], SIMPLE_CALENDAR_VERSION);
 		wp_register_style(
 			'simcal-admin',
 			$css_path . 'admin.min.css',
