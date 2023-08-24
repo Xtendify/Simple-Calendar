@@ -1,7 +1,8 @@
 @font-face {
 	font-family: 'simple-calendar';
 	src: url('../fonts/simple-calendar.eot?43976014');
-	src: url('../fonts/simple-calendar.eot?43976014#iefix') format('embedded-opentype'),
+	src:
+		url('../fonts/simple-calendar.eot?43976014#iefix') format('embedded-opentype'),
 		url('../fonts/simple-calendar.woff?43976014') format('woff'),
 		url('../fonts/simple-calendar.ttf?43976014') format('truetype'),
 		url('../fonts/simple-calendar.svg?43976014#simple-calendar') format('svg');
@@ -16,7 +17,6 @@
 	font-style: normal;
 	font-weight: normal;
 	margin-right: 0.2em;
-	speak: none;
 	text-decoration: inherit;
 	text-align: center;
 	width: 1em;
