@@ -176,7 +176,7 @@ class Pages
 	public function html()
 	{
 		global $current_tab;
-		$admin_image_about_path = SIMPLE_CALENDAR_ASSETS . '/images';
+		$admin_image_about_path = SIMPLE_CALENDAR_ASSETS . '/images/pages/settings';
 
 		// Get current tab/section
 		$current_tab = empty($_GET['tab']) ? $this->tab : sanitize_title($_GET['tab']);

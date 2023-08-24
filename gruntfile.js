@@ -5,8 +5,8 @@ module.exports = function (grunt) {
 
 	// Files to include/exclude in a release.
 	var distFiles = [
-		'assets/**',
-		'!assets/css/sass/**',
+		'assets/generated/**',
+		'assets/images/**',
 		'!assets/images/wp/**',
 		'google-calendar-events.php',
 		'i18n/**',
@@ -19,20 +19,6 @@ module.exports = function (grunt) {
 
 	grunt.initConfig({
 		pkg: pkg,
-
-		// Set folder variables.
-		dirs: {
-			css: 'assets/css',
-			js: 'assets/js',
-		},
-
-		// Create comment banner to add to the top of minified .js and .css files.
-		banner:
-			'/*! <%= pkg.title %> - <%= pkg.version %>\n' +
-			' * <%=pkg.homepage %>\n' +
-			' * Copyright (c) Xtendify Technologies <%= grunt.template.today("yyyy") %>\n' +
-			' * Licensed GPLv2+' +
-			' */\n',
 
 		// Validate i18n text domain slug throughout.
 		checktextdomain: {
@@ -79,137 +65,19 @@ module.exports = function (grunt) {
 			},
 		},
 
-		// 'css' & 'js' tasks need to copy vendor-minified assets from bower folder to assets folder (select2, etc).
 		// 'main' task is for distributing build files.
 		copy: {
-			css: {
-				expand: true,
-				cwd: 'bower_components/',
-				flatten: true,
-				src: ['select2/dist/css/select2.css', 'select2/dist/css/select2.min.css'],
-				dest: '<%= dirs.css %>/vendor/',
-			},
-			js: {
-				expand: true,
-				cwd: 'bower_components/',
-				flatten: true,
-				src: [
-					'imagesloaded/imagesloaded.pkgd.js', // Using "packaged" version
-					'imagesloaded/imagesloaded.pkgd.min.js',
-					'jquery-tiptip/jquery.tipTip.js',
-					'jquery-tiptip/jquery.tipTip.minified.js',
-					'select2/dist/js/select2.js', // Using "non-full" version
-					'select2/dist/js/select2.min.js',
-					'moment/moment.js',
-					'moment/min/moment.min.js',
-					'moment-timezone/builds/moment-timezone-with-data.js',
-					'moment-timezone/builds/moment-timezone-with-data.min.js',
-				],
-				dest: '<%= dirs.js %>/vendor/',
-			},
 			main: {
 				expand: true,
 				src: distFiles,
 				dest: 'build/google-calendar-events',
 			},
 		},
-
-		// Minify .css files.
-		cssmin: {
-			options: {
-				processImport: false,
-				keepSpecialComments: 0,
-			},
-			minify: {
-				expand: true,
-				cwd: '<%= dirs.css %>',
-				src: ['*.css', '!*.min.css'],
-				dest: '<%= dirs.css %>',
-				ext: '.min.css',
-			},
-		},
-
-		// JavaScript linting with JSHint.
-		jshint: {
-			options: {
-				ignores: ['**/*.min.js', 'assets/js/default-calendar*'],
-			},
-			all: ['<%= dirs.js %>/*.js', 'gruntfile.js'],
-		},
-
-		// Compile all .scss files.
-		sass: {
-			options: {
-				precision: 2,
-				sourceMap: false,
-			},
-			all: {
-				files: [
-					{
-						expand: true,
-						cwd: '<%= dirs.css %>/sass/',
-						src: ['*.scss'],
-						dest: '<%= dirs.css %>/',
-						ext: '.css',
-					},
-				],
-			},
-		},
-
-		// Minify .js files.
-		uglify: {
-			all: {
-				files: {
-					'<%= dirs.js %>/admin.min.js': ['<%= dirs.js %>/admin.js'],
-					'<%= dirs.js %>/admin-add-calendar.min.js': ['<%= dirs.js %>/admin-add-calendar.js'],
-				},
-				options: {
-					mangle: {
-						reserved: ['jQuery'],
-					},
-					sourceMap: false,
-					preserveComments: false,
-				},
-			},
-		},
-
-		// Add comment banner to each minified .js and .css file.
-		usebanner: {
-			options: {
-				position: 'top',
-				banner: '<%= banner %>',
-				linebreak: true,
-			},
-			js: {
-				files: {
-					src: ['<%= dirs.js %>/*.min.js'],
-				},
-			},
-			css: {
-				files: {
-					src: ['<%= dirs.css %>/*.min.css'],
-				},
-			},
-		},
-
-		// .scss to .css file watcher. Run when project is loaded in PhpStorm or other IDE.
-		watch: {
-			css: {
-				files: '**/*.scss',
-				tasks: ['sass'],
-			},
-		},
 	});
 
 	require('load-grunt-tasks')(grunt);
 
-	grunt.registerTask('css', ['copy:css', 'cssmin', 'usebanner:css']);
-	grunt.registerTask('js', ['jshint', 'copy:js', 'uglify', 'usebanner:js']);
-	grunt.registerTask('default', ['css', 'js']);
-	grunt.registerTask('build', ['default', 'checktextdomain', 'clean:build', 'copy:main', 'compress']);
-
-	// TODO Add deploy task
-	//grunt.registerTask( 'deploy',	['build'] );
+	grunt.registerTask('build', ['checktextdomain', 'clean:build', 'copy:main', 'compress']);
 
 	grunt.util.linefeed = '\n';
 };

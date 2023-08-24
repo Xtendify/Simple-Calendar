@@ -4,7 +4,7 @@
 
 Add Google Calendar events to your WordPress site in minutes. Beautiful calendar displays. Mobile responsive.
 
-[![Download from WordPress.org](https://raw.githubusercontent.com/Xtendify/Simple-Calendar/main/assets/images/welcome/fullcalendar-google-calendar-pro-grid-view.png)](https://wordpress.org/plugins/google-calendar-events/)
+[![Download from WordPress.org](https://raw.githubusercontent.com/Xtendify/Simple-Calendar/main/assets/images/wp/fullcalendar-google-calendar-pro-grid-view.png)](https://wordpress.org/plugins/google-calendar-events/)
 
 [Download](https://wordpress.org/plugins/google-calendar-events/) | [Docs](https://docs.simplecalendar.io) | [Demo](https://demo.simplecalendar.io) | [Changelog](https://wordpress.org/plugins/google-calendar-events/changelog/)
 
