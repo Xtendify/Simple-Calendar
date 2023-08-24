@@ -168,10 +168,10 @@ class Welcome
 	 */
 	public function sc_intro_section()
 	{
-		$welcome_image_about_path = SIMPLE_CALENDAR_ASSETS . '/images/welcome'; ?>
+		$welcome_image_about_path = SIMPLE_CALENDAR_ASSETS . '/images/pages/welcome'; ?>
 		<div class="simcal-max-w-[100%]">
 			<div
-				class="simcal-mt-[100px] simcal-h-[408px] simcal-border-2 simcal-relative simcal-bg-[url('../images/welcome/bg-banner-img.png')] simcal-rounded-[20px]">
+				class="simcal-mt-[100px] simcal-h-[408px] simcal-border-2 simcal-relative simcal-bg-[url('../images/pages/welcome/bg-banner-img.png')] simcal-rounded-[20px]">
 				<div class="simcal-pl-[4%] simcal-pt-[61px] simcal-w-[51%] lg:simcal-w-[60%] simcal-text-white ">
 					<?php $this->intro(); ?>
 				</div>
@@ -236,8 +236,8 @@ class Welcome
 	 */
 	public function about_screen()
 	{
-		$welcome_image_about_path = SIMPLE_CALENDAR_ASSETS . '/images/welcome';
-		$image_about_path = SIMPLE_CALENDAR_ASSETS . '/images';
+		$welcome_image_about_path = SIMPLE_CALENDAR_ASSETS . '/images/pages/welcome';
+		$image_about_path = SIMPLE_CALENDAR_ASSETS . '/images/pages/settings';
 		?>
 		<div id="simcal-welcome">
 			<div

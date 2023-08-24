@@ -1,8 +1,4 @@
-assets/css/vendor
-assets/css/*.min.css
-assets/css/tailwind-output-style.css
-assets/js/vendor
-assets/js/*.min.js
+assets/generated
 node_modules
 third-party
 vendor

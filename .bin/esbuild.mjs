@@ -1,27 +1,58 @@
 import * as esbuild from 'esbuild';
 import pkg from '../package.json' assert { type: 'json' };
 
-const defaultCalendarConfig = {
-	entryPoints: ['assets/js/default-calendar.js'],
+const watch = process.argv.includes('--watch');
+
+const banner =
+	`/*! ${pkg.title} - ${pkg.version}\n` +
+	` * ${pkg.homepage}\n` +
+	` * Copyright (c) Xtendify Technologies ${new Date().getFullYear()}\n` +
+	` * Licensed GPLv2+` +
+	` */\n`;
+
+const files = [
+	{
+		in: 'assets/js/admin-add-calendar.js',
+		out: 'admin-add-calendar.min',
+	},
+	{ in: 'assets/js/admin.js', out: 'admin.min' },
+	{ in: 'assets/js/default-calendar.js', out: 'default-calendar.min' },
+	{ in: 'assets/css/admin-add-calendar.css', out: 'admin-add-calendar.min' },
+	{ in: 'assets/css/admin-sett-style.css', out: 'admin-sett-style.min' },
+	{ in: 'assets/css/admin.css', out: 'admin.min' },
+	{ in: 'assets/css/default-calendar-grid.css', out: 'default-calendar-grid.min' },
+	{ in: 'assets/css/default-calendar-list.css', out: 'default-calendar-list.min' },
+	{ in: 'assets/css/sc-welcome-pg-style.css', out: 'sc-welcome-pg-style.min' },
+	{ in: 'assets/generated/tailwind-output.css', out: 'tailwind.min' },
+];
+
+const defaultConfig = {
 	bundle: true,
-	outfile: 'assets/js/default-calendar-bundled.js',
 	sourcemap: true,
 	banner: {
-		js:
-			`/*! ${pkg.title} - ${pkg.version}\n` +
-			` * ${pkg.homepage}\n` +
-			` * Copyright (c) Xtendify Technologies ${new Date().getFullYear()}\n` +
-			` * Licensed GPLv2+` +
-			` */\n`,
+		js: banner,
+		css: banner,
 	},
-};
-
-const defaultCalendarMinifiedConfig = {
-	...defaultCalendarConfig,
-	outfile: defaultCalendarConfig.outfile.replace('.js', '.min.js'),
 	minify: true,
-	sourcemap: true,
 };
 
-await esbuild.build(defaultCalendarConfig);
-await esbuild.build(defaultCalendarMinifiedConfig);
+const config = {
+	...defaultConfig,
+	entryPoints: files,
+	loader: {
+		'.png': 'file',
+		'.ttf': 'file',
+		'.woff': 'file',
+		'.eot': 'file',
+		'.svg': 'file',
+	},
+	outdir: 'assets/generated',
+};
+
+if (watch) {
+	const ctx = await esbuild.context(config);
+	console.log('watching...');
+	await ctx.watch();
+} else {
+	await esbuild.build(config);
+}
