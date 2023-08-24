@@ -20,20 +20,19 @@
     "grunt-contrib-clean": "2.0.1",
     "grunt-contrib-compress": "2.0.0",
     "grunt-contrib-copy": "1.0.0",
-    "grunt-sass": "3.1.0",
     "load-grunt-tasks": "5.1.0",
     "postcss-cli": "10.1.0",
     "prettier": "3.0.2",
     "tailwindcss": "3.3.3"
   },
   "scripts": {
-    "setup": "npm install --include=dev && composer install && composer dump-autoload -o",
-    "postsetup": "npm run build:tailwind && npm run build:esbuild",
-    "dev": "concurrently --kill-others \"npm run dev:tailwind\" \"npm run dev:esbuild\"",
-    "dev:tailwind": "npm run build:tailwind -- --watch",
-    "dev:esbuild": "npm run build:esbuild -- --watch",
-    "prebuild": "npm run setup",
-    "build": "npm run build:tailwind && npm run build:esbuild && npm run build:grunt",
+    "setup": "yarn && composer install && composer dump-autoload -o",
+    "postsetup": "yarn build:tailwind && yarn build:esbuild",
+    "dev": "concurrently --kill-others \"yarn dev:tailwind\" \"yarn dev:esbuild\"",
+    "dev:tailwind": "yarn build:tailwind -- --watch",
+    "dev:esbuild": "yarn build:esbuild -- --watch",
+    "prebuild": "yarn setup",
+    "build": "yarn build:grunt",
     "build:tailwind": "tailwindcss -i ./assets/css/tailwind.css -o ./assets/generated/tailwind-output.css",
     "build:esbuild": "node .bin/esbuild.mjs",
     "build:grunt": "grunt build",
@@ -41,7 +40,6 @@
     "lint:fix": "prettier --write . --plugin=@prettier/plugin-php"
   },
   "engines": {
-    "npm": ">=9.5.0",
     "node": ">=18.15.0"
   },
   "dependencies": {

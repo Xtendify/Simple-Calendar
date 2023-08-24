@@ -34,13 +34,13 @@ First, fork this repository on GiHub or clone to your machine:
 
     $ git clone https://github.com/Xtendify/Simple-Calendar
 
-This project uses [Composer](https://getcomposer.org/) and NPM to grab dependencies not stored in source control. To setup run:
+This project uses [Composer](https://getcomposer.org/) and Yarn to grab dependencies not stored in source control. To setup run:
 
-    $ npm run setup
+    $ yarn setup
 
 If you plan to work with CSS or JavaScript you may want to use Grunt as well:
 
-    $ npm run dev
+    $ yarn dev
 
 First make your changes locally, then push them to your forked repository.
 
