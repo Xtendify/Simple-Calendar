@@ -1,7 +1,5 @@
 #!/bin/bash
 
-OLD_VERSION=$(node -p -e "require('./package.json').version")
-
 options=("major" "minor" "patch" "premajor" "preminor" "prepatch" "prerelease")
 select opt in "${options[@]}"
 do

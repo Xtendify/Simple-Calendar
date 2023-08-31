@@ -60,9 +60,9 @@ module.exports = function (grunt) {
 					archive: './build/simple-calendar-<%= pkg.version %>.zip',
 				},
 				expand: true,
-				cwd: 'build/google-calendar-events/',
+				cwd: 'build/google-calendar-events',
 				src: '**',
-				dest: 'google-calendar-events',
+				dest: '/google-calendar-events',
 			},
 		},
 
