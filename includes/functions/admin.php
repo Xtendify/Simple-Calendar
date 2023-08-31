@@ -449,7 +449,7 @@ function simcal_notice_to_update_pro_addon()
 			))
 	) {
 		$update_pro_notice = new Notice([
-			'id' => ['check_pro_updated' => 'update_pro_notice'],
+			'id' => ['check_pro_updated--google_calendar_pro--' . SIMPLE_CALENDAR_GOOGLE_CALENDAR_PRO_VERSION . '--fullcalendar--' . SIMPLE_CALENDAR_FULLCALENDAR_VERSION => 'update_pro_notice'],
 			'type' => 'error',
 			'dismissable' => false,
 			'content' =>
