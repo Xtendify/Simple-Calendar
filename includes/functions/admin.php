@@ -412,11 +412,11 @@ function simcal_upgrade_to_premium()
 function sc_rating()
 {
 	?>
-		<div class='simcal-flex simcal-flex-row simcal-justify-center simcal-gap-3'>	
+		<div class='simcal-flex simcal-flex-row simcal-justify-center simcal-gap-3'>
 			<?php for ($i = 0; $i < 5; $i++) {
    	svgfillstar();
    } ?>
-		</div>	
+		</div>
 	<?php
 }
 
@@ -433,13 +433,20 @@ function simcal_notice_to_update_pro_addon()
 	$notices = get_option('simple-calendar_admin_notices', []);
 
 	if (
-		array_key_exists('Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php', $all_plugins) &&
-		!empty($all_plugins['Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php']['Version']) &&
-		version_compare(
-			$all_plugins['Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php']['Version'],
-			'1.1.2',
-			'<'
-		)
+		(array_key_exists('Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php', $all_plugins) &&
+			!empty($all_plugins['Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php']['Version']) &&
+			version_compare(
+				$all_plugins['Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php']['Version'],
+				SIMPLE_CALENDAR_GOOGLE_CALENDAR_PRO_VERSION,
+				'<'
+			)) ||
+		(array_key_exists('Simple-Calendar-FullCalendar/simple-calendar-fullcalendar.php', $all_plugins) &&
+			!empty($all_plugins['Simple-Calendar-FullCalendar/simple-calendar-fullcalendar.php']['Version']) &&
+			version_compare(
+				$all_plugins['Simple-Calendar-FullCalendar/simple-calendar-fullcalendar.php']['Version'],
+				SIMPLE_CALENDAR_FULLCALENDAR_VERSION,
+				'<'
+			))
 	) {
 		$update_pro_notice = new Notice([
 			'id' => ['check_pro_updated' => 'update_pro_notice'],
@@ -448,13 +455,14 @@ function simcal_notice_to_update_pro_addon()
 			'content' =>
 				'<p>' .
 				'<i class="simcal-icon-calendar-logo"></i> ' .
-				sprintf(
-					__(
-						'Attention! Please take immediate action to update the <strong>Simple Calendar - Google Calendar Pro Add-On</strong> plugin and avoid potential errors. Thank you for your cooperation.  <a href="%s">Click Here</a>.',
-						'google-calendar-events'
-					),
-					admin_url('plugins.php')
+				__(
+					'Attention! Please take immediate action to update the <strong>Simple Calendar Add-ons</strong> to avoid potential errors. Thank you for your cooperation.',
+					'google-calendar-events'
 				) .
+				'<br />'.
+				'<a href="https://simplecalendar.io/my-account?utm_source=inside-plugin&utm_medium=link&utm_campaign=core-plugin&utm_content=outdated-plugins-link" class="button button-primary" target="_blank">' .
+				__('Check your purchase history', 'google-calendar-events') .
+				'</a>' .
 				'</p>',
 		]);
 
