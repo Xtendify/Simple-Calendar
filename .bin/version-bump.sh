@@ -35,10 +35,3 @@ do
 done
 
 yarn version $opt --no-git-tag-version --preid=beta
-
-NEW_VERSION=$(node -p -e "require('./package.json').version")
-
-sed -i "" "s/$OLD_VERSION/$NEW_VERSION/g" google-calendar-events.php
-sed -i "" "s/Stable tag: $OLD_VERSION/Stable tag: $NEW_VERSION/g" readme.txt
-
-yarn build
