@@ -7,10 +7,10 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.15.0'
-          cache: 'npm'
-      - run: npm install --include=dev
-      - run: npm run lint
+          node-version: 18
+          cache: 'yarn'
+      - run: yarn
+      - run: yarn lint
 
   build:
     runs-on: ubuntu-latest
@@ -18,9 +18,9 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
         with:
-          node-version: '18.15.0'
-          cache: 'npm'
-      - run: npm run build
+          node-version: 18
+          cache: 'yarn'
+      - run: yarn build
       - uses: actions/upload-artifact@v3
         with:
           path: |
