@@ -449,7 +449,12 @@ function simcal_notice_to_update_pro_addon()
 			))
 	) {
 		$update_pro_notice = new Notice([
-			'id' => ['check_pro_updated--google_calendar_pro--' . SIMPLE_CALENDAR_GOOGLE_CALENDAR_PRO_VERSION . '--fullcalendar--' . SIMPLE_CALENDAR_FULLCALENDAR_VERSION => 'update_pro_notice'],
+			'id' => [
+				'check_pro_updated--google_calendar_pro--' .
+				SIMPLE_CALENDAR_GOOGLE_CALENDAR_PRO_VERSION .
+				'--fullcalendar--' .
+				SIMPLE_CALENDAR_FULLCALENDAR_VERSION => 'update_pro_notice',
+			],
 			'type' => 'error',
 			'dismissable' => false,
 			'content' =>
@@ -459,7 +464,7 @@ function simcal_notice_to_update_pro_addon()
 					'Attention! Please take immediate action to update the <strong>Simple Calendar Add-ons</strong> to avoid potential errors. Thank you for your cooperation.',
 					'google-calendar-events'
 				) .
-				'<br />'.
+				'<br />' .
 				'<a href="https://simplecalendar.io/my-account?utm_source=inside-plugin&utm_medium=link&utm_campaign=core-plugin&utm_content=outdated-plugins-link" class="button button-primary" target="_blank">' .
 				__('Check your purchase history', 'google-calendar-events') .
 				'</a>' .
