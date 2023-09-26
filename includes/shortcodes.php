@@ -39,6 +39,8 @@ class Shortcodes
 	 */
 	public function register()
 	{
+		// `calendar` shortcode is conflict with other plugin so added new one.
+		add_shortcode('simple_calendar', [$this, 'print_calendar']);
 		add_shortcode('calendar', [$this, 'print_calendar']);
 		// @deprecated legacy shortcode
 		add_shortcode('gcal', [$this, 'print_calendar']);
@@ -56,7 +58,7 @@ class Shortcodes
 	 * @return string
 	 */
 	public function print_calendar($attributes)
-	{
+	{ //echo "faff";
 		$args = shortcode_atts(
 			[
 				'id' => null,
@@ -68,7 +70,7 @@ class Shortcodes
 
 		if ($id > 0) {
 			$calendar = simcal_get_calendar($id);
-
+//print_r($calendar);
 			if ($calendar instanceof Calendar) {
 				ob_start();
 				$calendar->html();
