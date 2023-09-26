@@ -58,7 +58,7 @@ class Shortcodes
 	 * @return string
 	 */
 	public function print_calendar($attributes)
-	{ //echo "faff";
+	{
 		$args = shortcode_atts(
 			[
 				'id' => null,
@@ -70,7 +70,7 @@ class Shortcodes
 
 		if ($id > 0) {
 			$calendar = simcal_get_calendar($id);
-//print_r($calendar);
+
 			if ($calendar instanceof Calendar) {
 				ob_start();
 				$calendar->html();
