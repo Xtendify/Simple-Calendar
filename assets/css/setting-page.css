@@ -1,0 +1,58 @@
+            #events-settings-panel .simcal-panel-section .simcal-panel-field {
+                display: flex;
+                flex-wrap: wrap;
+                width: 100%;
+            }
+            
+            #events-settings-panel .simcal-panel-section .simcal-panel-field td #events-settings-panel .simcal-panel-section .simcal-panel-field th {
+                width: 100%;
+            }
+            /* #events-settings-panel .simcal-panel-section .simcal-panel-field select {
+    width: 80%;
+} */
+            
+            #post-body-content #titlediv #title-prompt-text {
+                padding: 0 0 0 15px;
+            }
+            
+            .simcal-panel-field>td,
+            .simcal-panel-field>th {
+                padding: 2px 3% 8px 10px;
+            }
+            
+            .simcal-panel>table>tbody tr:first-child td,
+            .simcal-panel>table>tbody tr:first-child th {
+                padding-top: 0%;
+            }
+            
+            .meta-box-sortables select {
+                max-width: 84%;
+            }
+            
+            body .simcal-field-textarea,
+            body .simcal-field-select-enhanced {
+                width: 92%;
+            }
+            
+            input[type=checkbox]:checked::before {
+                margin: -0.4rem 0 0 -0.25rem;
+            }
+            
+            input[type=checkbox],
+            input[type=radio] {
+                border: 1px solid #D4D4D8;
+            }
+            /* .simcal-panel>table>tbody tr:first-child td,
+            .simcal-panel>table>tbody tr:first-child th {
+                padding-top: 5%;
+            } */
+            
+            .wp-core-ui select {
+                color: #71717A;
+                border-color: #D4D4D8;
+            }
+            /* #events-settings-panel .simcal-panel-section .simcal-panel-field {
+                display: flex;
+                flex-wrap: wrap;
+                width: 100%;
+            } */
