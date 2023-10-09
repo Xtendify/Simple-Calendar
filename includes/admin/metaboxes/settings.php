@@ -231,13 +231,19 @@ class Settings implements Meta_Box
 		<table>
 			<thead>
 				<tr>
-					<th class="!simcal-border-b-0 !simcal-pt-[25px] !simcal-text-lg !simcal-text-sc_black-100 !simcal-font-semibold " colspan="2"><?php _e('Event Settings', 'google-calendar-events'); ?></th>
+					<th class="!simcal-border-b-0 !simcal-pt-[25px] !simcal-text-lg !simcal-text-sc_black-100 !simcal-font-semibold " colspan="2"><?php _e(
+     	'Event Settings',
+     	'google-calendar-events'
+     ); ?></th>
 				</tr>
 			</thead>
 			<tbody class="simcal-panel-section simcal-panel-section-events-range">
 				<tr class="simcal-panel-field ">
 					<th class="!simcal-w-[100%]">
-						<label class="simcal-font-normal simcal-text-sc_black-100" for="_calendar_begins"><?php _e('Calendar Start', 'google-calendar-events'); ?></label>
+						<label class="simcal-font-normal simcal-text-sc_black-100" for="_calendar_begins"><?php _e(
+      	'Calendar Start',
+      	'google-calendar-events'
+      ); ?></label>
 					</th>
 					<td class="">
 						<?php
@@ -263,7 +269,7 @@ class Settings implements Meta_Box
       	'attributes' => [
       		'min' => '1',
       	],
-      	'class' => ['simcal-field-inline', 'simcal-field-tiny' , '!simcal-text-sc_grey-300 !simcal-border-sc_grey-200 '],
+      	'class' => ['simcal-field-inline', 'simcal-field-tiny', '!simcal-text-sc_grey-300 !simcal-border-sc_grey-200 '],
       	'style' => !$calendar_begins_nth_show ? ['display' => 'none'] : '',
       ]);
       ?>
@@ -391,7 +397,7 @@ class Settings implements Meta_Box
       	'attributes' => [
       		'min' => '1',
       	],
-      	'class' => ['simcal-field-inline', 'simcal-field-tiny' , '!simcal-text-sc_grey-300 !simcal-border-sc_grey-200'],
+      	'class' => ['simcal-field-inline', 'simcal-field-tiny', '!simcal-text-sc_grey-300 !simcal-border-sc_grey-200'],
       	'style' => 'now' != $earliest_event && 'today' != $earliest_event ? ['display' => 'none'] : '',
       ]);
       ?>
@@ -454,7 +460,7 @@ class Settings implements Meta_Box
       	'attributes' => [
       		'min' => '1',
       	],
-      	'class' => ['simcal-field-inline', 'simcal-field-tiny' , '!simcal-text-sc_grey-300 !simcal-border-sc_grey-200'],
+      	'class' => ['simcal-field-inline', 'simcal-field-tiny', '!simcal-text-sc_grey-300 !simcal-border-sc_grey-200'],
       	'style' => 'indefinite' != $latest_event ? ['display' => 'none'] : '',
       ]);
       ?>

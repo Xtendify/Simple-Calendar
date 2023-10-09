@@ -82,7 +82,10 @@ class Default_Calendar_Admin
 		?>
 		<table id="default-calendar-settings" class="simcal-ml-[6%] simcal-font-poppins">
 			<thead>
-			<tr><th class="!simcal-border-b-0 !simcal-pt-7 simcal-text-base" colspan="2"><?php _e('Default Calendar', 'google-calendar-events'); ?></th></tr>
+			<tr><th class="!simcal-border-b-0 !simcal-pt-7 simcal-text-base" colspan="2"><?php _e(
+   	'Default Calendar',
+   	'google-calendar-events'
+   ); ?></th></tr>
 			</thead>
 			<tbody class="simcal-panel-section">
 
