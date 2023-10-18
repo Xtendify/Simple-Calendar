@@ -51,7 +51,7 @@ class Post_Types
 
 		// Add media button to post editor for adding a shortcode.
 		add_action('media_buttons', [$this, 'add_shortcode_button'], 100);
-		add_action('edit_form_after_editor', [$this, 'add_shortcode_panel'], 100);
+		add_action('edit_form_after_editor', [$this, 'add_shortcode_panel'], 100);	
 	}
 
 	/**
@@ -140,15 +140,18 @@ class Post_Types
 	{
 		// Add a clear feed cache action link.
 		if ($post->post_type == 'calendar' && current_user_can('edit_posts')) {
+			
+			$nonce_feed_actions = wp_create_nonce( 'nonce_feed_actions' );
+
 			$actions['duplicate_feed'] =
 				'<a href="' .
-				esc_url(add_query_arg(['duplicate_feed' => $post->ID])) .
+				esc_url(add_query_arg(['duplicate_feed' => $post->ID, 'nonce_feed_actions' => $nonce_feed_actions])) .
 				'">' .
 				__('Clone', 'google-calendar-events') .
 				'</a>';
 			$actions['clear_cache'] =
 				'<a href="' .
-				esc_url(add_query_arg(['clear_cache' => $post->ID])) .
+				esc_url(add_query_arg(['clear_cache' => $post->ID, 'nonce_feed_actions' => $nonce_feed_actions])) .
 				'">' .
 				__('Clear Cache', 'google-calendar-events') .
 				'</a>';
@@ -165,7 +168,7 @@ class Post_Types
 	public function bulk_actions()
 	{
 		// Check user has permission to edit
-		if (!current_user_can('edit_posts')) {
+		if ((! empty( $_POST ) && ! wp_verify_nonce( $_POST['_wpnonce'], '_wpnonce' )) || !current_user_can('edit_posts')) {
 			return;
 		}
 		// Clear an individual feed cache.
@@ -233,7 +236,7 @@ class Post_Types
 	 */
 	private function duplicate_feed($post_id)
 	{
-		if (!current_user_can('edit_posts')) {
+		if ( !wp_verify_nonce( $_REQUEST['nonce_feed_actions'], 'nonce_feed_actions' ) || !current_user_can('edit_posts') ) {
 			return;
 		}
 
