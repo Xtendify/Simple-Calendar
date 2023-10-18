@@ -249,7 +249,7 @@ class Pages
 										<Span><?php _e('Please Rate Us !', 'google-calendar-events'); ?></Span>
 									</div>
 									<div class="simcal-mt-[5px] simcal-text-center simcal-font-normal simcal-text-base simcal-text-gray-500">
-										<Span><?php _e('If you like Simple Calendar please Rate Us', 'google-calendar-events'); ?> </Span>
+										<Span> <?php _e('If you like Simple Calendar please Rate Us', 'google-calendar-events'); ?> </Span>
 									</div>
 									<div class="simcal-mt-[44px]">
 										<?php // Rating function is used here

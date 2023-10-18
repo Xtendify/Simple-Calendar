@@ -179,7 +179,7 @@ class Google_Admin
 				'label' => $this->feed->name,
 				'target' => 'google-settings-panel',
 				'class' => ['simcal-feed-type', 'simcal-feed-type-google'],
-				'icon' => 'simcal-icon-google',
+				'icon' => 'simcal-icon-calendar-g',
 			],
 		]);
 	}
@@ -198,6 +198,7 @@ class Google_Admin
 				'_google_calendar_id' => [
 					'type' => 'standard',
 					'subtype' => 'text',
+					'class' => ['!simcal-w-[94%]', '!simcal-border-sc_grey-200'],
 					'name' => '_google_calendar_id',
 					'id' => '_google_calendar_id',
 					'title' => __('Calendar ID', 'google-calendar-events'),
@@ -212,6 +213,7 @@ class Google_Admin
 				'_google_events_search_query' => [
 					'type' => 'standard',
 					'subtype' => 'text',
+					'class' => ['!simcal-w-[94%]', '!simcal-border-sc_grey-200'],
 					'name' => '_google_events_search_query',
 					'id' => '_google_events_search_query',
 					'title' => __('Search Query', 'google-calendar-events'),
@@ -223,6 +225,7 @@ class Google_Admin
 				],
 				'_google_events_recurring' => [
 					'type' => 'select',
+					'class' => ['!simcal-w-[100%] !simcal-max-w-[94%] !simcal-border-sc_grey-200'],
 					'name' => '_google_events_recurring',
 					'id' => '_google_events_recurring',
 					'title' => __('Recurring Events', 'google-calendar-events'),
@@ -242,7 +245,7 @@ class Google_Admin
 						'Google Calendar only allows to query for a maximum amount of 2500 events from a calendar each time.',
 						'google-calendar-events'
 					),
-					'class' => ['simcal-field-small'],
+					'class' => ['simcal-field-small', '!simcal-w-[100%]', ' !simcal-max-w-[94%]', '!simcal-border-sc_grey-200'],
 					'default' => '2500',
 					'attributes' => [
 						'min' => '0',
@@ -252,9 +255,12 @@ class Google_Admin
 			],
 		]; ?>
 		<div id="google-settings-panel" class="simcal-panel">
-			<table>
+			<table class="simcal-ml-[6%] simcal-font-poppins">
 				<thead>
-					<tr><th colspan="2"><?php _e('Google Calendar Settings', 'google-calendar-events'); ?></th></tr>
+					<tr class="simcal-flex simcal-flex-wrap simcal-w-[100%] "><th class="!simcal-border-b-0 !simcal-pt-7 !simcal-text-lg colspan="2" ><?php _e(
+     	'Google Calendar Settings',
+     	'google-calendar-events'
+     ); ?></th></tr>
 				</thead>
 				<?php Settings::print_panel_fields($inputs, $post_id); ?>
 			</table>
@@ -286,7 +292,7 @@ class Google_Admin
 		$has_errors = false;
 
 		$message .=
-			'<p class="description">' .
+			'<p class="description !simcal-text-sc_blue-200">' .
 			sprintf(
 				__(
 					'Step 1: Set the Google Calendar you want to use as <strong>"public."</strong> <a href="%1s" target="_blank">Detailed instructions</a>',

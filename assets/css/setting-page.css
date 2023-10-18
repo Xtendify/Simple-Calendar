@@ -14,25 +14,12 @@
 	th {
 	width: 100%;
 }
-/* #events-settings-panel .simcal-panel-section .simcal-panel-field select {
-    width: 80%;
-} */
 
 #post-body-content #titlediv #title-prompt-text {
 	padding: 0 0 0 15px;
 }
 
-.simcal-panel-field > td,
-.simcal-panel-field > th {
-	padding: 2px 3% 8px 10px;
-}
-
-.simcal-panel > table > tbody tr:first-child td,
-.simcal-panel > table > tbody tr:first-child th {
-	padding-top: 0%;
-}
-
-.meta-box-sortables select {
+#default-calendar-settings .meta-box-sortables select {
 	max-width: 84%;
 }
 
@@ -49,17 +36,70 @@ input[type='checkbox'],
 input[type='radio'] {
 	border: 1px solid #d4d4d8;
 }
-/* .simcal-panel>table>tbody tr:first-child td,
-            .simcal-panel>table>tbody tr:first-child th {
-                padding-top: 5%;
-            } */
 
 .wp-core-ui select {
 	color: #71717a;
 	border-color: #d4d4d8;
 }
-/* #events-settings-panel .simcal-panel-section .simcal-panel-field {
-                display: flex;
-                flex-wrap: wrap;
-                width: 100%;
-            } */
+
+.simcal-panel-section-google tr.simcal-panel-field {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+}
+
+.simcal-panel-field > th {
+	font-weight: 400;
+	min-width: 100px;
+	width: 27%;
+}
+
+.simcal-panel-datetime-formatting tr.simcal-panel-field {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+}
+
+.simcal-panel-field .simcal-field-text {
+	width: 95%;
+	max-width: 100%;
+}
+
+.simcal-tabs:after {
+	border-right: 0px;
+	background-color: #f7fcf6;
+}
+
+.simcal-tabs a {
+	border-bottom: 0px;
+}
+
+.simcal-tabs li.active a {
+	background-color: #ffff;
+}
+
+.simcal-help-tip,
+a:hover,
+a:active {
+	color: #60bc4e;
+}
+
+.wp-core-ui select:hover {
+	color: #60bc4e;
+}
+
+.wp-core-ui select:active,
+.wp-core-ui select:focus {
+	border-color: #60bc4e;
+}
+/* .wp-core-ui select#_event_formatting {
+                                        margin-left: -81px;
+                                    } */
+
+.simcal-panel-field > td {
+	width: 89%;
+}
+
+.postbox-header .hndle {
+	flex: unset;
+}

@@ -82,7 +82,7 @@ class Default_Calendar_Admin
 		?>
 		<table id="default-calendar-settings" class="simcal-ml-[6%] simcal-font-poppins">
 			<thead>
-			<tr><th class="!simcal-border-b-0 !simcal-pt-7 simcal-text-base" colspan="2"><?php _e(
+			<tr><th class="!simcal-border-b-0 !simcal-pt-7 !simcal-text-lg" colspan="2"><?php _e(
    	'Default Calendar',
    	'google-calendar-events'
    ); ?></th></tr>
@@ -273,7 +273,7 @@ class Default_Calendar_Admin
     	'Expand Multi-day Events',
     	'google-calendar-events'
     ); ?></label></th>
-				<td>
+				<td class="!simcal-pl-[82px]">
 					<?php
      $post_meta = get_post_meta($post_id);
 
@@ -285,6 +285,7 @@ class Default_Calendar_Admin
 
      simcal_print_field([
      	'type' => 'select',
+     	'class' => ['!simcal-max-w-[84%]'],
      	'name' => '_default_calendar_expand_multi_day_events',
      	'id' => '_default_calendar_expand_multi_day_events',
      	'tooltip' => __(
@@ -319,10 +320,10 @@ class Default_Calendar_Admin
    	? $settings['default-calendar']['days_events_color']
    	: '#000000';
    ?>
-			<tbody class="simcal-panel-section !simcal-pt-10">
+			<tbody class="simcal-panel-sectio !simcal-pt-100">
 			<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list" style="display: none;">
 				<th><label for="_default_calendar_style_theme"><?php _e('Theme', 'google-calendar-events'); ?></label></th>
-				<td class="!simcal-pl-[48%]">
+				<td class="!simcal-pl-[44%]">
 					<?php
      $saved = get_post_meta($post_id, '_default_calendar_style_theme', true);
      $value = !$saved ? $default_theme : $saved;
@@ -343,7 +344,7 @@ class Default_Calendar_Admin
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list" style="display: none;">
 				<th><label for="_default_calendar_style_today"><?php _e('Today', 'google-calendar-events'); ?></label></th>
-				<td class="!simcal-pl-[41%]">
+				<td class="!simcal-pl-[40%]">
 					<?php
      $saved = get_post_meta($post_id, '_default_calendar_style_today', true);
      $value = !$saved ? $default_today_color : $saved;
@@ -367,7 +368,7 @@ class Default_Calendar_Admin
     	'Days with Events',
     	'google-calendar-events'
     ); ?></label></th>
-				<td class="!simcal-pl-[41%]">
+				<td class="!simcal-pl-[40%]">
 					<?php
      $saved = get_post_meta($post_id, '_default_calendar_style_days_events', true);
      $value = !$saved ? $default_days_events_color : $saved;
