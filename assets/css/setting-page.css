@@ -80,7 +80,7 @@ input[type='radio'] {
 
 .simcal-help-tip,
 a:hover,
-a:active {
+.simcal-tabs li.active a {
 	color: #60bc4e;
 }
 
@@ -92,9 +92,6 @@ a:active {
 .wp-core-ui select:focus {
 	border-color: #60bc4e;
 }
-/* .wp-core-ui select#_event_formatting {
-                                        margin-left: -81px;
-                                    } */
 
 .simcal-panel-field > td {
 	width: 89%;

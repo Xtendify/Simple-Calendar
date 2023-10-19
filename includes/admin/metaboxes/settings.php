@@ -544,7 +544,7 @@ class Settings implements Meta_Box
 					<th class="!simcal-w-[100%]">
 						<label for="_calendar_is_static"><?php _e('Static Calendar', 'google-calendar-events'); ?></label>
 					</th>
-					<td class="simcal-text-grey_">
+					<td class="!simcal-text-grey-100">
 						<?php
       $fixed = get_post_meta($post->ID, '_calendar_is_static', true);
 
@@ -986,7 +986,7 @@ class Settings implements Meta_Box
 						<input type="number"
 							   name="_feed_cache_user_amount"
 							   id="_feed_cache_user_amount"
-							   class="simcal-field simcal-field-number simcal-field-tiny simcal-field-inline "
+							   class="simcal-field simcal-field-number simcal-field-tiny simcal-field-inline !simcal-border-grey-100 "
 							   value="<?php echo $cache_freq; ?>"
 							   min="0"/>
 						<select name="_feed_cache_user_unit"
