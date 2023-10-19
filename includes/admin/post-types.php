@@ -238,7 +238,7 @@ class Post_Types
 		if (!wp_verify_nonce($_REQUEST['nonce_feed_actions'], 'nonce_feed_actions') || !current_user_can('edit_posts')) {
 			return;
 		}
-		
+
 		if ($duplicate = get_post(intval($post_id), 'ARRAY_A')) {
 			if ('calendar' == $duplicate['post_type']) {
 				$duplicate['post_title'] = $duplicate['post_title'] . ' (' . __('Copy', 'google-calendar-events') . ')';
