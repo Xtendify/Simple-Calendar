@@ -36,6 +36,7 @@ class Assets
 	 */
 	public function load()
 	{
+		$css_ungen = SIMPLE_CALENDAR_ASSETS . 'css/';
 		$css_path = SIMPLE_CALENDAR_ASSETS . 'generated/';
 		$css_path_vendor = $css_path . 'vendor/';
 		$js_path = SIMPLE_CALENDAR_ASSETS . 'generated/';
@@ -129,5 +130,7 @@ class Assets
 			wp_enqueue_style('sc-welcome-style', $css_path . 'sc-welcome-pg-style.min.css', [], SIMPLE_CALENDAR_VERSION);
 			wp_enqueue_style('sc-tail-style', $css_path . 'tailwind.min.css', [], SIMPLE_CALENDAR_VERSION);
 		}
+		wp_enqueue_style('sc-tail-style', $css_path . 'tailwind-output.css', [], SIMPLE_CALENDAR_VERSION);
+		wp_enqueue_style('sc-set-style', $css_ungen . 'setting-page.css', [], SIMPLE_CALENDAR_VERSION);
 	}
 }

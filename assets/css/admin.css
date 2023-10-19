@@ -110,6 +110,22 @@
 	}
 }
 
+.simcal-icon-calendar-Group:before {
+	content: '\e901';
+}
+
+.simcal-icon-calendar-setting:before {
+	content: '\e902';
+}
+
+.simcal-icon-calendar-g:before {
+	content: '\e903';
+}
+
+.simcal-icon-Group:before {
+	content: '\e900';
+}
+
 .simcal-icon-animate:before {
 	transition: all 0.2s ease-in-out;
 }
@@ -297,9 +313,11 @@
 	margin-top: 9px;
 	text-decoration: none;
 }
+
 .simcal-dismiss-notice:hover {
 	color: #aaa;
 }
+
 .simcal-dismiss-notice:focus,
 .simcal-dismiss-notice:active {
 	outline: 0;
@@ -346,10 +364,12 @@ body .simcal-field-textarea {
 	display: inline-block;
 	margin: 0;
 }
+
 .simcal-field-radios-inline > li {
 	display: inline-block;
 	margin-right: 10px;
 }
+
 .simcal-field-radios-inline > li:last-child {
 	margin-right: 0;
 }
@@ -367,31 +387,39 @@ body .simcal-field-textarea {
 	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 	padding: 8px 10px;
 }
+
 #ui-datepicker-div.simcal-date-picker .ui-datepicker-header > a {
 	display: inline-block;
 	cursor: pointer;
 	margin-top: 7px;
 }
+
 #ui-datepicker-div.simcal-date-picker .ui-datepicker-header > a:first-of-type {
 	float: left;
 }
+
 #ui-datepicker-div.simcal-date-picker .ui-datepicker-header > a:last-of-type {
 	float: right;
 }
+
 #ui-datepicker-div.simcal-date-picker .ui-datepicker-header .ui-datepicker-title {
 	margin: 0 10% 4px;
 }
+
 #ui-datepicker-div.simcal-date-picker .ui-datepicker-header .ui-datepicker-title > select {
 	width: 48.5%;
 }
+
 #ui-datepicker-div.simcal-date-picker .ui-datepicker-today {
 	background-color: #eee;
 }
+
 #ui-datepicker-div.simcal-date-picker > table tr td,
 #ui-datepicker-div.simcal-date-picker > table tr th {
 	padding: 2px 4px;
 	text-align: center;
 }
+
 #ui-datepicker-div.simcal-date-picker > table tr td a,
 #ui-datepicker-div.simcal-date-picker > table tr th a {
 	text-decoration: none;
@@ -400,6 +428,7 @@ body .simcal-field-textarea {
 .simcal-field-datetime-format {
 	padding: 10px 0 5px;
 }
+
 .simcal-field-datetime-format > div {
 	background-color: rgba(0, 0, 0, 0.03);
 	border: 1px dashed rgba(0, 0, 0, 0.18);
@@ -410,13 +439,16 @@ body .simcal-field-textarea {
 	margin: 0 10px 15px 0;
 	padding: 10px;
 }
+
 .simcal-field-datetime-format select {
 	display: block;
 }
+
 .simcal-field-datetime-format > span {
 	clear: both;
 	display: block;
 }
+
 .simcal-field-datetime-format .ui-sortable-helper {
 	box-shadow: -2px 4px 8px rgba(0, 0, 0, 0.12);
 	transform: rotate(2deg);
@@ -435,6 +467,7 @@ body .simcal-field-textarea {
 	box-shadow: none !important;
 	margin: 0;
 }
+
 #simcal-settings-page .select2-search__field:focus {
 	border: 0 !important;
 	box-shadow: none !important;
@@ -474,43 +507,54 @@ body .simcal-field-textarea {
 .simcal-system-status-report-panel {
 	margin: 20px 0;
 }
+
 .simcal-system-status-report-panel thead th {
 	font-weight: bold;
 }
+
 .simcal-system-status-report-panel tbody td,
 .simcal-system-status-report-panel thead th {
 	font-size: 14px;
 	vertical-align: top;
 }
+
 .simcal-system-status-report-panel tbody .tooltip {
 	text-align: center;
 	width: 20px;
 }
+
 .simcal-system-status-report-panel tbody .label {
 	width: 30%;
 }
+
 .simcal-system-status-report-panel tbody tr:nth-child(odd) td {
 	background-color: rgba(0, 0, 0, 0.02);
 }
+
 .simcal-system-status-report-panel dl {
 	margin: 0;
 	padding: 0;
 }
+
 .simcal-system-status-report-panel dt {
 	float: left;
 	font-style: italic;
 	margin: 0 4px 0 0;
 }
+
 .simcal-system-status-report-panel dd {
 	margin: 0;
 }
+
 .simcal-system-status-report-panel mark {
 	background-color: transparent;
 	font-weight: bold;
 }
+
 .simcal-system-status-report-panel mark.ok {
 	color: green;
 }
+
 .simcal-system-status-report-panel mark.error {
 	color: red;
 }
@@ -542,6 +586,7 @@ body .simcal-field-textarea {
 #simcal-newsletter {
 	background-color: #fcf8e3;
 }
+
 #simcal-upgrade input,
 #simcal-newsletter input {
 	width: 100%;
@@ -564,38 +609,47 @@ body .simcal-field-textarea {
 #simcal-calendar-settings {
 	display: none;
 }
+
 #simcal-calendar-settings .hndle {
 	line-height: 2;
 	padding: 10px;
 }
+
 #simcal-calendar-settings .inside {
 	margin: 0;
 	padding: 0;
 }
+
 #simcal-calendar-settings .select2-container {
 	border-radius: 0;
 	max-width: 500px;
 }
+
 #simcal-calendar-settings .select2-search__field {
 	border: 0 !important;
 	box-shadow: none !important;
 	margin: 0;
 }
+
 #simcal-calendar-settings .select2-search__field:focus {
 	border: 0 !important;
 	box-shadow: none !important;
 }
+
 #simcal-calendar-settings .select2-selection {
 	border: 1px solid #ddd;
 	border-radius: 0;
 }
+
 #simcal-calendar-settings .select2-container--open .select2-selection {
 	border-color: #5b9dd9;
 	box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
 }
+
 #simcal-calendar-settings .select2-selection__choice {
 	margin-bottom: 0;
 }
+
 #simcal-calendar-settings .wp-picker-container {
 	vertical-align: inherit;
 }
@@ -605,17 +659,20 @@ body .simcal-field-textarea {
 	line-height: 1;
 	margin-left: 8px;
 }
+
 .simcal-box-handle:before {
 	content: '\2014';
 	display: inline-block;
 	font-weight: normal;
 }
+
 .simcal-box-handle label {
 	font-size: 12px;
 	font-weight: normal;
 	margin-right: 10px;
 	vertical-align: baseline;
 }
+
 .simcal-box-handle select {
 	font-weight: bold;
 	margin: -3px 0 0 0.5em;
@@ -633,6 +690,7 @@ body .simcal-field-textarea {
 	position: relative;
 	width: 20%;
 }
+
 .simcal-tabs a {
 	border-bottom: 1px solid #eee;
 	display: block;
@@ -641,19 +699,23 @@ body .simcal-field-textarea {
 	padding: 10px;
 	text-decoration: none;
 }
+
 .simcal-tabs a:focus {
 	box-shadow: none;
 }
+
 .simcal-tabs li {
 	display: block;
 	margin: 0;
 	padding: 0;
 }
+
 .simcal-tabs li.active a {
 	background-color: #eee;
 	color: #555;
 	position: relative;
 }
+
 .simcal-tabs:after {
 	background-color: #fafafa;
 	border-right: 1px solid #eee;
@@ -675,10 +737,12 @@ body .simcal-field-textarea {
 	margin-left: 20%;
 	max-width: 80%;
 }
+
 .simcal-panel > table {
 	padding-bottom: 11px;
 	width: 100%;
 }
+
 .simcal-panel > table thead th {
 	border-bottom: 1px solid #eee;
 	font-size: 14px;
@@ -686,15 +750,18 @@ body .simcal-field-textarea {
 	padding: 12px 0 15px 10px;
 	text-align: left;
 }
+
 .simcal-panel > table > tbody tr:first-child td,
 .simcal-panel > table > tbody tr:first-child th {
 	padding-top: 14px;
 }
+
 .simcal-panel > table > tbody tr:last-child td,
 .simcal-panel > table > tbody tr:last-child th {
 	border-bottom: 1px solid #eee;
 	padding-bottom: 14px;
 }
+
 .simcal-panel > table > tbody:last-of-type tr:last-child td,
 .simcal-panel > table > tbody:last-of-type tr:last-child th {
 	border-bottom: 0;
@@ -781,4 +848,40 @@ input.simcal-shortcode {
 	font-family: monospace;
 	font-weight: bold;
 	text-align: center;
+}
+
+@font-face {
+	font-family: 'icomoon';
+	src: url('../fonts/icomoon.eot?zdp11o');
+	src:
+		url('../fonts/icomoon.eot?zdp11o#iefix') format('embedded-opentype'),
+		url('../fonts/icomoon.ttf?zdp11o') format('truetype'),
+		url('../fonts/icomoon.woff?zdp11o') format('woff'),
+		url('../fonts/icomoon.svg?zdp11o#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+	font-display: block;
+}
+
+[class^='simple-'],
+[class*=' simple-'] {
+	/* use !important to prevent issues with browser extensions that change fonts */
+	font-family: 'icomoon' !important;
+	speak: never;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.simple-calendar:before {
+	content: '\e900';
+}
+
+.simple-wikipedia:before {
+	content: '\eac8';
 }

@@ -1,0 +1,100 @@
+#events-settings-panel .simcal-panel-section .simcal-panel-field {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+}
+
+#events-settings-panel
+	.simcal-panel-section
+	.simcal-panel-field
+	td
+	#events-settings-panel
+	.simcal-panel-section
+	.simcal-panel-field
+	th {
+	width: 100%;
+}
+
+#post-body-content #titlediv #title-prompt-text {
+	padding: 0 0 0 15px;
+}
+
+#default-calendar-settings .meta-box-sortables select {
+	max-width: 84%;
+}
+
+body .simcal-field-textarea,
+body .simcal-field-select-enhanced {
+	width: 92%;
+}
+
+#calendar-settings-panel input[type='checkbox']:checked::before,
+.simcal-field-bool input[type='checkbox']:checked::before {
+	margin: -0.4rem 0 0 -0.25rem;
+}
+
+.wp-core-ui select {
+	color: #71717a;
+	border-color: #d4d4d8;
+}
+
+.simcal-panel-section-google tr.simcal-panel-field {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+}
+
+.simcal-panel-field > th {
+	font-weight: 400;
+	min-width: 100px;
+	width: 27%;
+}
+
+.simcal-panel-datetime-formatting tr.simcal-panel-field {
+	display: flex;
+	flex-wrap: wrap;
+	width: 100%;
+}
+
+.simcal-panel-field .simcal-field-text {
+	width: 95%;
+	max-width: 100%;
+}
+
+.simcal-tabs:after {
+	border-right: 0px;
+	background-color: #f7fcf6;
+}
+
+.simcal-tabs a {
+	border-bottom: 0px;
+}
+
+.simcal-tabs li.active a {
+	background-color: #ffff;
+}
+
+.simcal-help-tip,
+a:hover,
+.simcal-tabs li.active a {
+	color: #60bc4e;
+}
+
+.wp-core-ui select:hover {
+	color: #60bc4e;
+}
+
+.wp-core-ui select:active,
+.wp-core-ui select:focus {
+	border-color: #60bc4e;
+	box-shadow: 0 0 0 1px #60bc4e;
+	color: #60bc4e;
+}
+
+.simcal-panel-field > td {
+	width: 89%;
+}
+
+.postbox-header .hndle {
+	flex: unset;
+}
