@@ -39,6 +39,8 @@ class Shortcodes
 	 */
 	public function register()
 	{
+		// `calendar` shortcode is conflict with other plugin so added new one.
+		add_shortcode('simple_calendar', [$this, 'print_calendar']);
 		add_shortcode('calendar', [$this, 'print_calendar']);
 		// @deprecated legacy shortcode
 		add_shortcode('gcal', [$this, 'print_calendar']);
