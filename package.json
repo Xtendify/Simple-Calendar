@@ -35,7 +35,7 @@
     "build": "yarn build:grunt",
     "build:tailwind": "tailwindcss -i ./assets/css/tailwind.css -o ./assets/generated/tailwind-output.css",
     "build:esbuild": "node .bin/esbuild.mjs",
-    "build:grunt": "grunt build",
+    "build:grunt": "grunt build && bash .bin/update-version.sh && grunt compress:main",
     "lint": "prettier --check . --plugin=@prettier/plugin-php",
     "lint:fix": "prettier --write . --plugin=@prettier/plugin-php"
   },

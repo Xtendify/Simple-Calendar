@@ -60,7 +60,8 @@ module.exports = function (grunt) {
 					archive: './build/simple-calendar-<%= pkg.version %>.zip',
 				},
 				expand: true,
-				src: distFiles,
+				cwd: 'build/google-calendar-events',
+				src: '**',
 				dest: '/google-calendar-events',
 			},
 		},
@@ -77,7 +78,7 @@ module.exports = function (grunt) {
 
 	require('load-grunt-tasks')(grunt);
 
-	grunt.registerTask('build', ['checktextdomain', 'clean:build', 'copy:main', 'compress']);
+	grunt.registerTask('build', ['checktextdomain', 'clean:build', 'copy:main']);
 
 	grunt.util.linefeed = '\n';
 };
