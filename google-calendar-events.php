@@ -5,7 +5,7 @@
  * Description: Add Google Calendar events to your WordPress site in minutes. Beautiful calendar displays. Fully responsive.
  * Author:      Simple Calendar
  * Author URI:  https://simplecalendar.io
- * Version:     3.2.4
+ * Version:     PACKAGE_VERSION
  * Text Domain: google-calendar-events
  * Domain Path: /i18n
  *
@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 $this_plugin_path = trailingslashit(dirname(__FILE__));
 $this_plugin_dir = plugin_dir_url(__FILE__);
 $this_plugin_constants = [
-	'SIMPLE_CALENDAR_VERSION' => '3.2.4',
+	'SIMPLE_CALENDAR_VERSION' => 'PACKAGE_VERSION',
 	'SIMPLE_CALENDAR_FULLCALENDAR_VERSION' => '1.2.2',
 	'SIMPLE_CALENDAR_GOOGLE_CALENDAR_PRO_VERSION' => '1.1.3',
 	'SIMPLE_CALENDAR_MAIN_FILE' => __FILE__,
