@@ -541,7 +541,7 @@ class Settings implements Meta_Box
 			</thead>
 			<tbody class="simcal-panel-section">
 				<tr class="simcal-panel-field">
-					<th class="!simcal-w-[100%]">
+					<th class="!simcal-w-[67%]">
 						<label for="_calendar_is_static"><?php _e('Static Calendar', 'google-calendar-events'); ?></label>
 					</th>
 					<td class="!simcal-text-grey-100">
@@ -571,7 +571,7 @@ class Settings implements Meta_Box
 						<?php simcal_print_field([
       	'type' => 'textarea',
       	'name' => '_no_events_message',
-      	'class' => ['simcal-border-sc_grey-200', 'simcal-ml-[-105px]'],
+      	'class' => ['simcal-border-sc_grey-200', 'simcal-ml-[-182px]'],
       	'id' => '_no_events_message',
       	'tooltip' => __(
       		'Some calendars may display a message when no events are found. You can change the default message here.',
@@ -592,7 +592,7 @@ class Settings implements Meta_Box
 
       simcal_print_field([
       	'type' => 'select',
-      	'class' => ['!simcal-max-w-[85%] !simcal-ml-[-88px]'],
+      	'class' => ['!simcal-max-w-[85%] !simcal-ml-[-160px]'],
       	'name' => '_event_formatting',
       	'id' => '_event_formatting',
       	'tooltip' => __(

@@ -38,7 +38,7 @@ input[type='radio'] {
 }
 
 .wp-core-ui select {
-	color: #71717a;
+	color: #3a414c;
 	border-color: #d4d4d8;
 }
 
@@ -84,13 +84,10 @@ a:hover,
 	color: #60bc4e;
 }
 
-.wp-core-ui select:hover {
-	color: #60bc4e;
-}
-
 .wp-core-ui select:active,
 .wp-core-ui select:focus {
 	border-color: #60bc4e;
+	box-shadow: unset;
 }
 
 .simcal-panel-field > td {
