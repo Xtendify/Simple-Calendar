@@ -166,7 +166,7 @@ class Post_Types
 	 *
 	 * @since 3.2.6
 	 */
-	public function single_post_action_from_list_view() {
+	public function single_post_action_from_list_view() {	
 		// Check user has permission to edit
 		if (!current_user_can('edit_posts')) {
 			return;
