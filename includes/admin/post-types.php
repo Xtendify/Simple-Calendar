@@ -167,7 +167,10 @@ class Post_Types
 	public function bulk_actions()
 	{
 		// Check user has permission to edit
-		if ((!empty($_POST) && !wp_verify_nonce($_POST['_wpnonce'], '_wpnonce')) || !current_user_can('edit_posts')) {
+		if (!empty($_POST) && !wp_verify_nonce($_POST['_wpnonce'], '_wpnonce')) {
+			return;
+		}
+		if (!current_user_can('edit_posts')) {
 			return;
 		}
 		// Clear an individual feed cache.
@@ -235,7 +238,10 @@ class Post_Types
 	 */
 	private function duplicate_feed($post_id)
 	{
-		if (!wp_verify_nonce($_REQUEST['nonce_feed_actions'], 'nonce_feed_actions') || !current_user_can('edit_posts')) {
+		if (!empty($_POST) && !wp_verify_nonce($_POST['_wpnonce'], '_wpnonce')) {
+			return;
+		}
+		if (!current_user_can('edit_posts')) {
 			return;
 		}
 

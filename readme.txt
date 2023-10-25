@@ -97,6 +97,10 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.2.6 =
+* Fix: Retested possible CSRF vulnerability.
+* Dev: Update dependencies Carbon, Dayjs and TailwindCSS.
+
 = 3.2.5 =
 * Fix: Possible CSRF vulnerability.
 * Dev: Make compatible with Unyson plugin.
