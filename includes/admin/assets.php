@@ -130,7 +130,6 @@ class Assets
 			wp_enqueue_style('sc-welcome-style', $css_path . 'sc-welcome-pg-style.min.css', [], SIMPLE_CALENDAR_VERSION);
 			wp_enqueue_style('sc-tail-style', $css_path . 'tailwind.min.css', [], SIMPLE_CALENDAR_VERSION);
 		}
-		wp_enqueue_style('sc-tail-style', $css_path . 'tailwind-output.css', [], SIMPLE_CALENDAR_VERSION);
 		wp_enqueue_style('sc-set-style', $css_ungen . 'setting-page.css', [], SIMPLE_CALENDAR_VERSION);
 	}
 }
