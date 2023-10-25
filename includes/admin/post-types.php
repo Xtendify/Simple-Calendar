@@ -167,12 +167,17 @@ class Post_Types
 	public function bulk_actions()
 	{
 		// Check user has permission to edit
-		if (!empty($_POST) && !wp_verify_nonce($_POST['_wpnonce'], '_wpnonce')) {
-			return;
-		}
 		if (!current_user_can('edit_posts')) {
 			return;
 		}
+
+		if (isset($_REQUEST['clear_cache']) || isset($_REQUEST['duplicate_feed'])) {
+			$nonce_feed_actions = isset($_REQUEST['nonce_feed_actions']) ? esc_attr($_REQUEST['nonce_feed_actions']) : '';
+			if (!wp_verify_nonce($nonce_feed_actions, 'nonce_feed_actions')) {
+				return;
+			}
+		}
+
 		// Clear an individual feed cache.
 		// @todo Convert the clear cache request to ajax.
 		if (isset($_REQUEST['clear_cache'])) {
@@ -206,6 +211,10 @@ class Post_Types
 			'menu_text' => __('Clear cache', 'google-calendar-events'),
 			'action_name' => 'clear_calendars_cache',
 			'callback' => function ($post_ids) {
+				$wpnonce = isset($_REQUEST['_wpnonce']) ? esc_attr($_REQUEST['_wpnonce']) : '';
+				if (!wp_verify_nonce($wpnonce, '_wpnonce')) {
+					return;
+				}
 				simcal_delete_feed_transients($post_ids);
 			},
 			'admin_notice' => __('Cache cleared.', 'google-calendar-events'),
@@ -238,10 +247,7 @@ class Post_Types
 	 */
 	private function duplicate_feed($post_id)
 	{
-		if (!empty($_POST) && !wp_verify_nonce($_POST['_wpnonce'], '_wpnonce')) {
-			return;
-		}
-		if (!current_user_can('edit_posts')) {
+		if (!wp_verify_nonce($_REQUEST['nonce_feed_actions'], 'nonce_feed_actions') || !current_user_can('edit_posts')) {
 			return;
 		}
 
