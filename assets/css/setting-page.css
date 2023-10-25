@@ -28,12 +28,12 @@ body .simcal-field-select-enhanced {
 	width: 92%;
 }
 
-input[type='checkbox']:checked::before {
+#default-calendar-settings input[type='checkbox']:checked::before {
 	margin: -0.4rem 0 0 -0.25rem;
 }
 
-input[type='checkbox'],
-input[type='radio'] {
+#advanced-settings-panel input[type='checkbox'],
+#advanced-settings-panel input[type='radio'] {
 	border: 1px solid #d4d4d8;
 }
 
@@ -74,12 +74,15 @@ input[type='radio'] {
 	border-bottom: 0px;
 }
 
+.simcal-tabs a:hover {
+	color: #60bc4e;
+}
+
 .simcal-tabs li.active a {
 	background-color: #ffff;
 }
 
-.simcal-help-tip,
-a:hover,
+.simcal-help-tip a:hover,
 .simcal-tabs li.active a {
 	color: #60bc4e;
 }
