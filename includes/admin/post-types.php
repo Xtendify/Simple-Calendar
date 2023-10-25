@@ -40,6 +40,8 @@ class Post_Types
 		add_filter('post_row_actions', [$this, 'row_actions'], 10, 2);
 		// Add bulk actions.
 		add_action('admin_init', [$this, 'bulk_actions']);
+		// Add single post actions from list view page.
+		add_action('admin_init', [$this, 'single_post_action_from_list_view']);
 		// Add content to edit calendars page.
 		add_action('load-edit.php', [$this, 'edit_table_hooks']);
 
@@ -160,12 +162,11 @@ class Post_Types
 	}
 
 	/**
-	 * Bulk actions.
+	 * Check for clear cache or duplicate feed action for single post from list view
 	 *
-	 * @since 3.0.0
+	 * @since 3.2.6
 	 */
-	public function bulk_actions()
-	{
+	public function single_post_action_from_list_view() {
 		// Check user has permission to edit
 		if (!current_user_can('edit_posts')) {
 			return;
@@ -203,6 +204,19 @@ class Post_Types
 			}
 
 			wp_redirect(remove_query_arg('duplicate_feed'));
+		}
+	}
+
+	/**
+	 * Bulk actions.
+	 *
+	 * @since 3.0.0
+	 */
+	public function bulk_actions()
+	{
+		// Check user has permission to edit
+		if (!current_user_can('edit_posts')) {
+			return;
 		}
 
 		$bulk_actions = new Bulk_Actions('calendar');
