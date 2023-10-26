@@ -257,7 +257,7 @@ class Google_Admin
 		<div id="google-settings-panel" class="simcal-panel">
 			<table class="simcal-ml-[6%] simcal-font-poppins">
 				<thead>
-					<tr class="simcal-flex simcal-flex-wrap simcal-w-[100%] "><th class="!simcal-border-b-0 !simcal-pt-7 !simcal-text-lg colspan="2" ><?php _e(
+					<tr class="simcal-flex simcal-flex-wrap simcal-w-[100%] "><th class="!simcal-border-b-0 !simcal-pt-7 !simcal-font-semibold !simcal-text-lg colspan="2" ><?php _e(
      	'Google Calendar Settings',
      	'google-calendar-events'
      ); ?></th></tr>

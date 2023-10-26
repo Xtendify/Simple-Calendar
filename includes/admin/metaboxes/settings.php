@@ -647,7 +647,7 @@ class Settings implements Meta_Box
 		<table class="simcal-ml-[6%] simcal-font-poppins">
 			<thead>
 				<tr>
-					<th class="!simcal-border-b-0 !simcal-pt-7 !simcal-text-lg" colspan="2"><?php _e(
+					<th class="!simcal-border-b-0 !simcal-pt-7 !simcal-text-lg !simcal-font-semibold" colspan="2"><?php _e(
      	'Date and Time',
      	'google-calendar-events'
      ); ?></th>
