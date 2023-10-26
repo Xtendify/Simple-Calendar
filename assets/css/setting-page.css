@@ -82,7 +82,7 @@ body .simcal-field-select-enhanced {
 	background-color: #ffff;
 }
 
-.simcal-help-tip a:hover,
+.simcal-help-tip,
 .simcal-tabs li.active a {
 	color: #60bc4e;
 }
