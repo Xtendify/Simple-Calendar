@@ -782,3 +782,39 @@ input.simcal-shortcode {
 	font-weight: bold;
 	text-align: center;
 }
+/*Tab css*/
+.simcal-auth-tabs {
+	width: 600px;
+	border-radius: 5px 5px 5px 5px;
+}
+ul#simcal-auth-tabs-nav {
+	list-style: none;
+	margin: 0;
+	padding: 5px;
+	overflow: auto;
+}
+ul#simcal-auth-tabs-nav li {
+	float: left;
+	font-weight: bold;
+	margin-right: 2px;
+	padding: 8px 10px;
+	border-radius: 5px 5px 5px 5px;
+	/*border: 1px solid #d5d5de;
+	border-bottom: none;*/
+	cursor: pointer;
+	background-color: #d9d9d9;
+}
+ul#simcal-auth-tabs-nav li:hover,
+ul#simcal-auth-tabs-nav li.active {
+	background-color: #60bc4e;
+}
+#simcal-auth-tabs-nav li a {
+	text-decoration: none;
+	color: #fff;
+}
+.simcal-auth-tab-content {
+	padding: 10px;
+}
+.hide {
+	display: none;
+}

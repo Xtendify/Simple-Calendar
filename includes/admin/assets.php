@@ -47,6 +47,7 @@ class Assets
 		 * ====================== */
 
 		// TipTip uses ".minified.js" filename ending.
+		wp_register_script('simcal-admin-jquery-js', includes_url('/js/jquery/jquery.js'), false, null, true);
 		wp_register_script(
 			'simcal-tiptip',
 			$js_path_vendor . 'jquery.tipTip.minified.js',
@@ -59,6 +60,13 @@ class Assets
 			'simcal-admin',
 			$js_path . 'admin.min.js',
 			['jquery', 'jquery-ui-sortable', 'jquery-ui-datepicker', 'wp-color-picker', 'simcal-tiptip', 'simcal-select2'],
+			SIMPLE_CALENDAR_VERSION,
+			true
+		);
+		wp_register_script(
+			'simcal-oauth-admin',
+			SIMPLE_CALENDAR_ASSETS  . 'js/oauth-admin.js',
+			['jquery'],
 			SIMPLE_CALENDAR_VERSION,
 			true
 		);
@@ -89,10 +97,14 @@ class Assets
 		);
 
 		if (simcal_is_admin_screen() !== false) {
+			wp_enqueue_script('simcal-admin-jquery-js');
 			wp_enqueue_script('simcal-admin');
+			wp_enqueue_script('simcal-oauth-admin');
 			wp_localize_script('simcal-admin', 'simcal_admin', simcal_common_scripts_variables());
-
+			wp_localize_script('simcal-oauth-admin', 'simcal_admin', simcal_common_scripts_variables());
+			
 			wp_enqueue_style('simcal-admin');
+			
 		} else {
 			global $post_type;
 			$screen = get_current_screen();

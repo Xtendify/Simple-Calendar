@@ -167,7 +167,9 @@ final class Plugin
 
 		// Back end only functions.
 		include_once 'functions/admin.php';
-
+		
+		// Oauth ajax action		
+		include_once 'admin/auth-service-actions.php';
 		// Display admin notices.
 		new Admin\Notices();
 
@@ -179,10 +181,12 @@ final class Plugin
 
 		// Init menus and settings.
 		new Admin\Menus();
+		
 
 		if (defined('DOING_AJAX')) {
 			// Admin ajax callbacks.
 			new Admin\Ajax();
+			new Admin\Oauth_Ajax();
 		}
 	}
 

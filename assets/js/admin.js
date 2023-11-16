@@ -526,5 +526,23 @@
 				},
 			});
 		});
+		/* ========================= *
+		 * Auth Via xtendify Tab*
+		 * ========================= */
+
+		$('#simcal-auth-tabs-nav li:first-child').addClass('active');
+		$('.simcal-auth-tab-content').hide();
+		$('.simcal-auth-tab-content:first').show();
+
+		// Click function
+		$('#simcal-auth-tabs-nav li').click(function () {
+			$('#simcal-auth-tabs-nav li').removeClass('active');
+			$(this).addClass('active');
+			$('.simcal-auth-tab-content').hide();
+
+			var activeTab = $(this).find('a').attr('href');
+			$(activeTab).fadeIn();
+			return false;
+		});
 	});
 })(this);
