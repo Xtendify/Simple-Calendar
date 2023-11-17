@@ -29,6 +29,7 @@ $this_plugin_constants = [
 	'SIMPLE_CALENDAR_ASSETS' => $this_plugin_dir . 'assets/',
 	'SIMPLE_CALENDAR_PATH' => $this_plugin_path,
 	'SIMPLE_CALENDAR_INC' => $this_plugin_path . 'includes/',
+	'SIMPLE_CALENDAR_AUTH_DOMAIN' => 'https://simple-calendar-demo.xtendify.dev/',
 ];
 foreach ($this_plugin_constants as $constant => $value) {
 	if (!defined($constant)) {

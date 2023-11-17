@@ -21,10 +21,10 @@ if (!defined('ABSPATH')) {
 class Oauth_Ajax
 {
 
-	/* 
-	*Auth site URL 
+	/*
+	*Auth site URL
 	*/
-	public static  $url = 'https://simple-calendar-demo.xtendify.dev/wp-json/api-test/v1/'; 
+	public static  $url = SIMPLE_CALENDAR_AUTH_DOMAIN . 'wp-json/api-test/v1/';
 
 	/**
 	 * My site URL
@@ -46,7 +46,7 @@ class Oauth_Ajax
 		if($post_type = 'calendar'){
 			add_action('admin_init', [$this, 'oauth_check_iftoken_expired']);
 		}
-		
+
 		self::$my_site_url = site_url();
 	}
 
@@ -68,11 +68,11 @@ class Oauth_Ajax
 			'body' => $send_data,
 			'cookies' => array()
 		   ));
-		   
+
     if ( is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) != 200 ) {
         error_log( print_r( $request, true ) );
     }
-	
+
     $response = wp_remote_retrieve_body( $request );
 
 		$error_msg = array();
@@ -96,7 +96,7 @@ class Oauth_Ajax
     }
 
 	/*
-	* Check if token expire 
+	* Check if token expire
 	*/
 	public function oauth_check_iftoken_expired(){
 		$send_data = array(
@@ -107,18 +107,18 @@ class Oauth_Ajax
 			'body' => $send_data,
 			'cookies' => array()
 		   ));
-		  
+
 		$response = wp_remote_retrieve_body( $request );
 
 		if($response  == true || $response >= 1){
 
 			return 'valid';
-			
+
 		}else{
 			delete_option('auth_service_status');
 			return 'invalid';
 		}
-	   
+
 	}
 }//class End
 
