@@ -225,22 +225,22 @@ class Pages
     	$query_arg = [
     		'request_from' => $site_url,
     	];
-    	$authredirect = add_query_arg($query_arg, 'https://simple-calendar-demo.xtendify.dev/auth/');
+    	$authredirect = add_query_arg($query_arg, SIMPLE_CALENDAR_AUTH_DOMAIN . 'auth/');
 
     	foreach ($settings_pages as $tab_id => $contents) {
-    		if ($tab_id === $current_tab) {			
+    		if ($tab_id === $current_tab) {
 
     			echo '<div class="simcal-bg-white simcal-p-[2%] simcal-w-[54%] simcal-rounded-[5px] ">';
     			if ($current_tab == 'feeds') {
-				
+
     				echo '<div class="simcal-auth-tabs"><ul id="simcal-auth-tabs-nav"><li><a href="#selfcredentials">' .
     					__('Authenticate with google', 'google-calendar-events') .
     					'</a></li><li><a href="#authViaXtendify">' .
     					__('Auth Via Xtendify', 'google-calendar-events') .
     					'</a></li></ul>';
-					
+
     				echo '<div id="simcal-auth-tabs-content"><div id="selfcredentials" class="simcal-auth-tab-content">';
-					
+
 				}
     			echo isset($contents['description']) ? '<p>' . $contents['description'] . '</p>' : '';
 
@@ -258,7 +258,7 @@ class Pages
 				if(!empty($_GET['status']) && $_GET['status'] == '1') {
 					$status = sanitize_text_field($_GET['status']);
 						add_option('auth_service_status', $status, '', true);
-				
+
 
 				}
     			if ($current_tab == 'feeds') {
@@ -270,7 +270,7 @@ class Pages
 						$display_auth_via_xtendiyf_cta = '';
 						$afterauth_via_xtendiyf_cta = '';
 						if(isset($auth_service_status) && $auth_service_status == 1){
-							
+
 							$display_auth_via_xtendiyf_cta = 'hide';
 						}else{
 							$afterauth_via_xtendiyf_cta = 'hide';
@@ -299,12 +299,12 @@ class Pages
 							echo '</div>';
 							echo '</div>';
 							echo '</div>';
-						
+
 					echo '</div>';
     			}
     			echo '</div>';
 
-				
+
     			?>
 								<div class="simcal-w-[39%] simcal-h-[452px] simcal-ml-[2%] simcal-rounded-[5px] simcal-bg-white">
 									<div class="simcal-mt-[75px]">
