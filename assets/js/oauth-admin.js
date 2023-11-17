@@ -26,9 +26,8 @@
 					beforeSend: function () {
 						spinner.toggle();
 					},
-					success: function (response_data) {
-						var response = JSON.parse(response_data);
-						if ('success' == response.data) {
+					success: function (response) {
+						if (response.data) {
 							var curUrl = window.location.href;
 							var newURL = curUrl.replace('status=1', 'status=0');
 							window.location.href = newURL;
@@ -37,8 +36,7 @@
 							spinner.fadeToggle();
 						}
 					},
-					error: function (response_data) {
-						var response = JSON.parse(response_data);
+					error: function (response) {
 						console.log(response);
 						spinner.fadeToggle();
 					},

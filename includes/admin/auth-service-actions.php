@@ -74,14 +74,14 @@ class Oauth_Ajax
     }
 	
     $response = wp_remote_retrieve_body( $request );
-	$error_msg = array();
-	if($response >= 1){
+
+		$error_msg = array();
+	if($response  == true || $response >= 1){
 		delete_option('auth_service_status');
 		$message = __('DeAuthenticate Successfully.', 'google-calendar-events');
 		$send_msg = array('message' => $message);
 		wp_send_json_success($send_msg);
 	   }else{
-		//delete_option('auth_service_status');
 		if(isset($message['message']) && !empty($message['message'])){
 			$message = $message['message'];
 		}else{
@@ -107,12 +107,14 @@ class Oauth_Ajax
 			'body' => $send_data,
 			'cookies' => array()
 		   ));
+		  
 		$response = wp_remote_retrieve_body( $request );
 
-		if( $response >= 1){	   
+		if($response  == true || $response >= 1){
+
 			return 'valid';
+			
 		}else{
-			die("inal");
 			delete_option('auth_service_status');
 			return 'invalid';
 		}
