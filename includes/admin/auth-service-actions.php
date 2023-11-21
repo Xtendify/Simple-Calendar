@@ -118,7 +118,7 @@ class Oauth_Ajax
 			return 'valid';
 
 		}else{
-			delete_option('auth_service_status');
+			delete_option('simple_calendar_auth_site_token');
 			return 'invalid';
 		}
 
