@@ -255,22 +255,19 @@ class Pages
     			if (true === $submit) {
     				submit_button();
     			}
-				if(!empty($_GET['status']) && $_GET['status'] == '1') {
-					$status = sanitize_text_field($_GET['status']);
-						add_option('auth_service_status', $status, '', true);
-
-
+				if(!empty($_GET['auth_token'])) {
+					$auth_token = sanitize_text_field($_GET['auth_token']);
+					add_option('simple_calendar_auth_site_token', $auth_token, '', true);
 				}
     			if ($current_tab == 'feeds') {
-					$auth_service_status = get_option('auth_service_status');
-					echo "auth_service_statusssss ".$auth_service_status;
+					$simple_calendar_auth_site_token = get_option('simple_calendar_auth_site_token');
 					wp_nonce_field('oauth_action_deauthentication', 'oauth_action_deauthentication');
 						echo '</div><div id="authViaXtendify" class="simcal-auth-tab-content">';
 
 						$display_auth_via_xtendiyf_cta = '';
 						$afterauth_via_xtendiyf_cta = '';
-						if(isset($auth_service_status) && $auth_service_status == 1){
 
+						if(isset($simple_calendar_auth_site_token) && $simple_calendar_auth_site_token){
 							$display_auth_via_xtendiyf_cta = 'hide';
 						}else{
 							$afterauth_via_xtendiyf_cta = 'hide';
