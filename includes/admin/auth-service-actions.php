@@ -43,7 +43,7 @@ class Oauth_Ajax
 		//add_action('wp_ajax_nopriv_oauth_deauthenticate_site', [$this, 'oauth_deauthenticate_site']);
 		// Do toke check here.
 		$post_type = get_post_type();
-		if($post_type = 'calendar'){
+		if($post_type == 'calendar'){
 			add_action('admin_init', [$this, 'oauth_check_iftoken_expired']);
 			add_action('admin_init', [$this, 'auth_get_calendarlist']);
 		}
@@ -63,7 +63,9 @@ class Oauth_Ajax
 		}
 		$send_data = array(
 			'site_url' => self::$my_site_url,
+			'auth_token' => get_option('simple_calendar_auth_site_token'),
 		);
+
 		$request = wp_remote_post(self::$url.'de_authenticate_site', array(
 			'method' => 'POST',
 			'body' => $send_data,
@@ -78,7 +80,7 @@ class Oauth_Ajax
 
 		$error_msg = array();
 	if($response  == true || $response >= 1){
-		delete_option('auth_service_status');
+		delete_option('simple_calendar_auth_site_token');
 		$message = __('DeAuthenticate Successfully.', 'google-calendar-events');
 		$send_msg = array('message' => $message);
 		wp_send_json_success($send_msg);
@@ -102,12 +104,13 @@ class Oauth_Ajax
 	public function oauth_check_iftoken_expired(){
 		$send_data = array(
 			'site_url' => self::$my_site_url,
+			'auth_token' => get_option('simple_calendar_auth_site_token'),
 		);
 		$request = wp_remote_post(self::$url.'check_iftoken_expired', array(
 			'method' => 'POST',
 			'body' => $send_data,
 			'cookies' => array()
-		   ));
+		));
 
 		$response = wp_remote_retrieve_body( $request );
 
@@ -116,7 +119,7 @@ class Oauth_Ajax
 			return 'valid';
 
 		}else{
-			delete_option('auth_service_status');
+			delete_option('simple_calendar_auth_site_token');
 			return 'invalid';
 		}
 
