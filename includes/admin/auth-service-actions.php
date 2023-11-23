@@ -10,9 +10,6 @@ if (!defined('ABSPATH')) {
 	exit();
 }
 
-
-
-
 /**
  * Oauth Ajax.
  *
@@ -20,16 +17,15 @@ if (!defined('ABSPATH')) {
  */
 class Oauth_Ajax
 {
-
 	/*
-	*Auth site URL
-	*/
-	public static  $url = SIMPLE_CALENDAR_AUTH_DOMAIN . 'wp-json/api-test/v1/';
+	 *Auth site URL
+	 */
+	public static $url = SIMPLE_CALENDAR_AUTH_DOMAIN . 'wp-json/api-test/v1/';
 
 	/**
 	 * My site URL
 	 */
-	public static  $my_site_url = '';
+	public static $my_site_url = '';
 
 	/**
 	 * Set up ajax hooks.
@@ -40,12 +36,17 @@ class Oauth_Ajax
 	{
 		// Set an option if the user rated the plugin.
 		add_action('wp_ajax_oauth_deauthenticate_site', [$this, 'oauth_deauthenticate_site']);
-		//add_action('wp_ajax_nopriv_oauth_deauthenticate_site', [$this, 'oauth_deauthenticate_site']);
-		// Do toke check here.
-		$post_type = get_post_type();
-		if($post_type == 'calendar'){
+
+		$post_type = '';
+
+		if (isset($_GET['post_type']) && 'calendar' === $_GET['post_type']) {
+			$post_type = esc_attr($_GET['post_type']);
+		} elseif (isset($_GET['post']) && !empty($_GET['post'])) {
+			$post_id = tesc_attr($_GET['post']);
+			$post_type = get_post_type($post_id);
+		}
+		if (isset($post_type) && !empty($post_type) && 'calendar' === $post_type) {
 			add_action('admin_init', [$this, 'oauth_check_iftoken_expired']);
-			add_action('admin_init', [$this, 'auth_get_calendarlist']);
 		}
 
 		self::$my_site_url = site_url();
@@ -61,91 +62,88 @@ class Oauth_Ajax
 		if (!wp_verify_nonce($nonce, 'oauth_action_deauthentication') && !current_user_can('edit_posts')) {
 			return;
 		}
-		$send_data = array(
+		$send_data = [
 			'site_url' => self::$my_site_url,
 			'auth_token' => get_option('simple_calendar_auth_site_token'),
-		);
+		];
 
-		$request = wp_remote_post(self::$url.'de_authenticate_site', array(
+		$request = wp_remote_post(self::$url . 'de_authenticate_site', [
 			'method' => 'POST',
 			'body' => $send_data,
-			'cookies' => array()
-		   ));
+			'cookies' => [],
+		]);
 
-    if ( is_wp_error( $request ) || wp_remote_retrieve_response_code( $request ) != 200 ) {
-        error_log( print_r( $request, true ) );
-    }
-
-    $response = wp_remote_retrieve_body( $request );
-
-		$error_msg = array();
-	if($response  == true || $response >= 1){
-		delete_option('simple_calendar_auth_site_token');
-		$message = __('DeAuthenticate Successfully.', 'google-calendar-events');
-		$send_msg = array('message' => $message);
-		wp_send_json_success($send_msg);
-	   }else{
-		if(isset($message['message']) && !empty($message['message'])){
-			$message = $message['message'];
-		}else{
-			$message = __('DeAuthentication Faild.', 'google-calendar-events');
+		if (is_wp_error($request) || wp_remote_retrieve_response_code($request) != 200) {
+			error_log(print_r($request, true));
 		}
 
-		$error_msg = array('message' => $message);
-		wp_send_json_error($error_msg);
-	   }
-		die();
+		$response = wp_remote_retrieve_body($request);
 
-    }
+		$error_msg = [];
+		if ($response == true || $response >= 1) {
+			delete_option('simple_calendar_auth_site_token');
+			$message = __('DeAuthenticate Successfully.', 'google-calendar-events');
+			$send_msg = ['message' => $message];
+			wp_send_json_success($send_msg);
+		} else {
+			if (isset($message['message']) && !empty($message['message'])) {
+				$message = $message['message'];
+			} else {
+				$message = __('DeAuthentication Faild.', 'google-calendar-events');
+			}
+
+			$error_msg = ['message' => $message];
+			wp_send_json_error($error_msg);
+		}
+		die();
+	}
 
 	/*
-	* Check if token expire
-	*/
-	public function oauth_check_iftoken_expired(){
-		$send_data = array(
+	 * Check if token expire
+	 */
+	public function oauth_check_iftoken_expired()
+	{
+		$send_data = [
 			'site_url' => self::$my_site_url,
 			'auth_token' => get_option('simple_calendar_auth_site_token'),
-		);
-		$request = wp_remote_post(self::$url.'check_iftoken_expired', array(
+		];
+		$request = wp_remote_post(self::$url . 'check_iftoken_expired', [
 			'method' => 'POST',
 			'body' => $send_data,
-			'cookies' => array()
-		));
+			'cookies' => [],
+		]);
 
-		$response = wp_remote_retrieve_body( $request );
+		$response = wp_remote_retrieve_body($request);
 
-		if($response  == true || $response >= 1){
-
+		if ($response == true || $response >= 1) {
 			return 'valid';
-
-		}else{
+		} else {
 			delete_option('simple_calendar_auth_site_token');
 			return 'invalid';
 		}
-
 	}
 
 	/*
-	* Get calendar list
-	*/
-	public function auth_get_calendarlist(){
-		$send_data = array(
+	 * Get calendar list
+	 */
+	public function auth_get_calendarlist()
+	{
+		$send_data = [
 			'site_url' => self::$my_site_url,
 			'auth_code' => '',
-		);
-		$request = wp_remote_post(self::$url.'auth_get_calendarlist', array(
+		];
+		$request = wp_remote_post(self::$url . 'auth_get_calendarlist', [
 			'method' => 'POST',
 			'body' => $send_data,
-			'cookies' => array()
-		   ));
-		
-		$response = wp_remote_retrieve_body( $request );
-		
+			'cookies' => [],
+		]);
+
+		$response = wp_remote_retrieve_body($request);
+
 		$response_decoded = json_decode($response, true);
-			
+
 		return $response_decoded;
-		
 	}
-}//class End
+} //class End
 
 new Oauth_Ajax();
