@@ -65,7 +65,7 @@ class Assets
 		);
 		wp_register_script(
 			'simcal-oauth-admin',
-			SIMPLE_CALENDAR_ASSETS  . 'js/oauth-admin.js',
+			SIMPLE_CALENDAR_ASSETS . 'js/oauth-admin.js',
 			['jquery'],
 			SIMPLE_CALENDAR_VERSION,
 			true
@@ -102,9 +102,8 @@ class Assets
 			wp_enqueue_script('simcal-oauth-admin');
 			wp_localize_script('simcal-admin', 'simcal_admin', simcal_common_scripts_variables());
 			wp_localize_script('simcal-oauth-admin', 'simcal_admin', simcal_common_scripts_variables());
-			
+
 			wp_enqueue_style('simcal-admin');
-			
 		} else {
 			global $post_type;
 			$screen = get_current_screen();

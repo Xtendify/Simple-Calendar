@@ -232,7 +232,6 @@ class Pages
 
     			echo '<div class="simcal-bg-white simcal-p-[2%] simcal-w-[54%] simcal-rounded-[5px] ">';
     			if ($current_tab == 'feeds') {
-
     				echo '<div class="simcal-auth-tabs"><ul id="simcal-auth-tabs-nav"><li><a href="#selfcredentials">' .
     					__('Authenticate with google', 'google-calendar-events') .
     					'</a></li><li><a href="#authViaXtendify">' .
@@ -240,8 +239,7 @@ class Pages
     					'</a></li></ul>';
 
     				echo '<div id="simcal-auth-tabs-content"><div id="selfcredentials" class="simcal-auth-tab-content">';
-
-				}
+    			}
     			echo isset($contents['description']) ? '<p>' . $contents['description'] . '</p>' : '';
 
     			do_action('simcal_admin_page_' . $this->page . '_' . $current_tab . '_start');
@@ -255,53 +253,51 @@ class Pages
     			if (true === $submit) {
     				submit_button();
     			}
-				if(!empty($_GET['auth_token'])) {
-					$auth_token = sanitize_text_field($_GET['auth_token']);
-					add_option('simple_calendar_auth_site_token', $auth_token, '', true);
-				}
+    			if (!empty($_GET['auth_token'])) {
+    				$auth_token = sanitize_text_field($_GET['auth_token']);
+    				add_option('simple_calendar_auth_site_token', $auth_token, '', true);
+    			}
     			if ($current_tab == 'feeds') {
-					$simple_calendar_auth_site_token = get_option('simple_calendar_auth_site_token');
-					wp_nonce_field('oauth_action_deauthentication', 'oauth_action_deauthentication');
-						echo '</div><div id="authViaXtendify" class="simcal-auth-tab-content">';
+    				$simple_calendar_auth_site_token = get_option('simple_calendar_auth_site_token');
+    				wp_nonce_field('oauth_action_deauthentication', 'oauth_action_deauthentication');
+    				echo '</div><div id="authViaXtendify" class="simcal-auth-tab-content">';
 
-						$display_auth_via_xtendiyf_cta = '';
-						$afterauth_via_xtendiyf_cta = '';
+    				$display_auth_via_xtendiyf_cta = '';
+    				$afterauth_via_xtendiyf_cta = '';
 
-						if(isset($simple_calendar_auth_site_token) && $simple_calendar_auth_site_token){
-							$display_auth_via_xtendiyf_cta = 'hide';
-						}else{
-							$afterauth_via_xtendiyf_cta = 'hide';
-						}
-							echo '<div class="afterauth-via-xtendify-cta '.$afterauth_via_xtendiyf_cta.'">';
-							echo '<img class="simcal-m-auto" src="'.esc_url($admin_image_about_path) . '/auth_success.png" />';
-							echo '<h2>' . __('Successfully Aunthenticate Via Xtendify', 'google-calendar-events') . '</h2>';
-							echo '<p>' .
-								__('Integrate with Google via Xtendify (no pain of credetials needed)', 'google-calendar-events') .
-								'</p>';
-							echo '<a href="javascript:void(0);" id="oauth_deauthentication" class="action_deauthentication simcal-mt-[50px] simcal-m-auto simcal-flex simcal-justify-center simcal-items-center simcal-w-[40%] simcal-h-[40px] simcal-bg-sc_green-200 hover:simcal-text-white simcal-text-white simcal-text-xl simcal-font-medium simcal-rounded-md" data-dialog="Are you sure you want to DeAuthenticate.">';
-							_e('Deauthenticate', 'google-calendar-events');
-							echo '<i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i>';
-							echo '</a>';
-							echo '</div>';
-							echo '<div class="auth-via-xtendify-cta '.$display_auth_via_xtendiyf_cta.'">';
-							echo '<h2>' . __('Authenticate With Google Via Xtendify', 'google-calendar-events') . '</h2>';
-							echo '<p>' .
-								__('Integrate with Google via Xtendify (no pain of credetials needed)', 'google-calendar-events') .
-								'</p>';
-							echo '<a href="' .
-								$authredirect .
-								'" class="action_auth_via_xtendify simcal-mt-[50px] simcal-m-auto simcal-flex simcal-justify-center simcal-items-center simcal-w-[40%] simcal-h-[40px] simcal-bg-sc_green-200 hover:simcal-text-white simcal-text-white simcal-text-xl simcal-font-medium simcal-rounded-md">';
-							_e('Authenticate', 'google-calendar-events');
-							echo '</a>';
-							echo '</div>';
-							echo '</div>';
-							echo '</div>';
+    				if (isset($simple_calendar_auth_site_token) && $simple_calendar_auth_site_token) {
+    					$display_auth_via_xtendiyf_cta = 'hide';
+    				} else {
+    					$afterauth_via_xtendiyf_cta = 'hide';
+    				}
+    				echo '<div class="afterauth-via-xtendify-cta ' . $afterauth_via_xtendiyf_cta . '">';
+    				echo '<img class="simcal-m-auto" src="' . esc_url($admin_image_about_path) . '/auth_success.png" />';
+    				echo '<h2>' . __('Successfully Aunthenticate Via Xtendify', 'google-calendar-events') . '</h2>';
+    				echo '<p>' .
+    					__('Integrate with Google via Xtendify (no pain of credetials needed)', 'google-calendar-events') .
+    					'</p>';
+    				echo '<a href="javascript:void(0);" id="oauth_deauthentication" class="action_deauthentication simcal-mt-[50px] simcal-m-auto simcal-flex simcal-justify-center simcal-items-center simcal-w-[40%] simcal-h-[40px] simcal-bg-sc_green-200 hover:simcal-text-white simcal-text-white simcal-text-xl simcal-font-medium simcal-rounded-md" data-dialog="Are you sure you want to DeAuthenticate.">';
+    				_e('Deauthenticate', 'google-calendar-events');
+    				echo '<i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i>';
+    				echo '</a>';
+    				echo '</div>';
+    				echo '<div class="auth-via-xtendify-cta ' . $display_auth_via_xtendiyf_cta . '">';
+    				echo '<h2>' . __('Authenticate With Google Via Xtendify', 'google-calendar-events') . '</h2>';
+    				echo '<p>' .
+    					__('Integrate with Google via Xtendify (no pain of credetials needed)', 'google-calendar-events') .
+    					'</p>';
+    				echo '<a href="' .
+    					$authredirect .
+    					'" class="action_auth_via_xtendify simcal-mt-[50px] simcal-m-auto simcal-flex simcal-justify-center simcal-items-center simcal-w-[40%] simcal-h-[40px] simcal-bg-sc_green-200 hover:simcal-text-white simcal-text-white simcal-text-xl simcal-font-medium simcal-rounded-md">';
+    				_e('Authenticate', 'google-calendar-events');
+    				echo '</a>';
+    				echo '</div>';
+    				echo '</div>';
+    				echo '</div>';
 
-					echo '</div>';
+    				echo '</div>';
     			}
     			echo '</div>';
-
-
     			?>
 								<div class="simcal-w-[39%] simcal-h-[452px] simcal-ml-[2%] simcal-rounded-[5px] simcal-bg-white">
 									<div class="simcal-mt-[75px]">
