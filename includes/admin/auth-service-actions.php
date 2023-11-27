@@ -45,7 +45,7 @@ class Oauth_Ajax
 			$post_id = esc_attr($_GET['post']);
 			$post_type = get_post_type($post_id);
 		}
-		if (isset($post_type) && !empty($post_type) && 'calendar' === $post_type) {
+		if ('calendar' === $post_type) {
 			add_action('admin_init', [$this, 'oauth_check_iftoken_expired']);
 		}
 
@@ -117,14 +117,14 @@ class Oauth_Ajax
 		$response = wp_remote_retrieve_body($request);
 		$response_arr = json_decode($response, true);
 
-		if(isset($response_arr['response']) && !empty($response_arr['response'])){
+		if (isset($response_arr['response']) && !empty($response_arr['response'])) {
 			if ($response_arr['response']) {
 				return 'valid';
 			} else {
 				delete_option('simple_calendar_auth_site_token');
 				return 'invalid';
 			}
-		}else{
+		} else {
 			return 'Network issue';
 		}
 	}
@@ -136,7 +136,7 @@ class Oauth_Ajax
 	{
 		$send_data = [
 			'site_url' => self::$my_site_url,
-			'auth_code' => '',
+			'auth_code' => get_option('simple_calendar_auth_site_token'),
 		];
 		$request = wp_remote_post(self::$url . 'auth_get_calendarlist', [
 			'method' => 'POST',
