@@ -146,8 +146,23 @@ class Oauth_Ajax
 
 		$response = wp_remote_retrieve_body($request);
 
-		$response_decoded = json_decode($response, true);
-		return $response_decoded['data'];
+		$response_arr = json_decode($response, true);
+
+		if (isset($response_arr['response']) && !empty($response_arr['response'])) {
+			if ($response_arr['response']) {
+				return $response_arr['data'];
+			} else {
+				$response = [
+					'Error' => __('There is somthing wrong. please re-try.', 'google-calendar-events'),
+				];
+				return $response;
+			}
+		} else {
+			$response = [
+				'Error' => __('Network issue.', 'google-calendar-events'),
+			];
+			return $response;
+		}
 	}
 } //class End
 
