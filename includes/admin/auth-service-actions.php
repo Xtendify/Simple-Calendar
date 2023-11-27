@@ -42,7 +42,7 @@ class Oauth_Ajax
 		if (isset($_GET['post_type']) && 'calendar' === $_GET['post_type']) {
 			$post_type = esc_attr($_GET['post_type']);
 		} elseif (isset($_GET['post']) && !empty($_GET['post'])) {
-			$post_id = tesc_attr($_GET['post']);
+			$post_id = esc_attr($_GET['post']);
 			$post_type = get_post_type($post_id);
 		}
 		if (isset($post_type) && !empty($post_type) && 'calendar' === $post_type) {
@@ -78,9 +78,10 @@ class Oauth_Ajax
 		}
 
 		$response = wp_remote_retrieve_body($request);
+		$response_arr = json_decode($response, true);
 
 		$error_msg = [];
-		if ($response == true || $response >= 1) {
+		if ($response_arr['response']) {
 			delete_option('simple_calendar_auth_site_token');
 			$message = __('DeAuthenticate Successfully.', 'google-calendar-events');
 			$send_msg = ['message' => $message];
@@ -114,12 +115,17 @@ class Oauth_Ajax
 		]);
 
 		$response = wp_remote_retrieve_body($request);
+		$response_arr = json_decode($response, true);
 
-		if ($response == true || $response >= 1) {
-			return 'valid';
-		} else {
-			delete_option('simple_calendar_auth_site_token');
-			return 'invalid';
+		if(isset($response_arr['response']) && !empty($response_arr['response'])){
+			if ($response_arr['response']) {
+				return 'valid';
+			} else {
+				delete_option('simple_calendar_auth_site_token');
+				return 'invalid';
+			}
+		}else{
+			return 'Network issue';
 		}
 	}
 
@@ -141,8 +147,7 @@ class Oauth_Ajax
 		$response = wp_remote_retrieve_body($request);
 
 		$response_decoded = json_decode($response, true);
-
-		return $response_decoded;
+		return $response_decoded['data'];
 	}
 } //class End
 
