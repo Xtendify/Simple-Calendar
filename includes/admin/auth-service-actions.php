@@ -153,7 +153,7 @@ class Oauth_Ajax
 				return $response_arr['data'];
 			} else {
 				$response = [
-					'Error' => __('There is somthing wrong. please re-try.', 'google-calendar-events'),
+					'Error' => __('There is something wrong. please re-try.', 'google-calendar-events'),
 				];
 				return $response;
 			}
