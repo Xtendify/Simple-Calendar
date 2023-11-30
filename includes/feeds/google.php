@@ -17,6 +17,7 @@ use SimpleCalendar\Abstracts\Calendar;
 use SimpleCalendar\Abstracts\Feed;
 use SimpleCalendar\Feeds\Admin\Google_Admin as Admin;
 use SimpleCalendar\plugin_deps\GuzzleHttp\Client;
+use SimpleCalendar\Admin\Oauth_Ajax;
 
 if (!defined('ABSPATH')) {
 	exit();
@@ -556,7 +557,14 @@ class Google extends Feed
 			}
 
 			// Query events in calendar.
-			$response = $google->events->listEvents($id, $args);
+			$simple_calendar_auth_site_token = get_option('simple_calendar_auth_site_token');
+			$response = '';
+			if (isset($simple_calendar_auth_site_token)) {
+				$Oauth_Ajax = new Oauth_Ajax();
+				$response = $Oauth_Ajax->auth_get_calendarsevents($id, $args);
+			} else {
+				$response = $google->events->listEvents($id, $args);
+			}
 
 			if ($response instanceof Google_Service_Calendar_Events) {
 				$calendar = [

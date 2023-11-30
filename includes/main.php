@@ -131,6 +131,8 @@ final class Plugin
 		// Functions shared in both back end and front end.
 		include_once 'functions/shared.php';
 
+		// Oauth ajax action
+		include_once 'admin/auth-service-actions.php';
 		// Init custom post types and taxonomies.
 		new Post_Types();
 
@@ -168,8 +170,6 @@ final class Plugin
 		// Back end only functions.
 		include_once 'functions/admin.php';
 
-		// Oauth ajax action
-		include_once 'admin/auth-service-actions.php';
 		// Display admin notices.
 		new Admin\Notices();
 

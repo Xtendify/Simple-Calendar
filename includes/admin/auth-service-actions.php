@@ -116,6 +116,46 @@ class Oauth_Ajax
 			return 'invalid';
 		}
 	}
+
+	/*
+	 * Get calendar Events
+	 */
+	public function auth_get_calendarsevents($id, $args)
+	{
+		$send_data = [
+			'site_url' => self::$my_site_url,
+			'auth_token' => get_option('simple_calendar_auth_site_token'),
+			'id' => $id,
+			'arguments' => $args,
+		];
+		$request = wp_remote_post(self::$url . 'get_calendar_events', [
+			'method' => 'POST',
+			'body' => $send_data,
+			'timeout' => 30,
+			'cookies' => [],
+		]);
+
+		$response = wp_remote_retrieve_body($request);
+		$response_arr = json_decode($response, true);
+
+		if (isset($response_arr['response']) && !empty($response_arr['response'])) {
+			if ($response_arr['response']) {
+				$response_data = $response_arr['data'];
+				$unserialize_obj = unserialize($response_data);
+				return $unserialize_obj;
+			} else {
+				$response = [
+					'Error' => __('There is something wrong. please re-try.', 'google-calendar-events'),
+				];
+				return $response;
+			}
+		} else {
+			$response = [
+				'Error' => __('Network issue1.', 'google-calendar-events'),
+			];
+			return $response;
+		}
+	}
 } //class End
 
 new Oauth_Ajax();
