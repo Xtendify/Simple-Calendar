@@ -565,7 +565,9 @@ class Google extends Feed
 			} else {
 				$response = $google->events->listEvents($id, $args);
 			}
-
+			if (isset($response['Error']) && !empty($response['Error'])) {
+				echo __($response['Error'], 'google-calendar-events');
+			}
 			if ($response instanceof Google_Service_Calendar_Events) {
 				$calendar = [
 					'id' => $id,

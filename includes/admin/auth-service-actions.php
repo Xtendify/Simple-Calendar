@@ -141,8 +141,8 @@ class Oauth_Ajax
 		if (isset($response_arr['response']) && !empty($response_arr['response'])) {
 			if ($response_arr['response']) {
 				$response_data = $response_arr['data'];
-				$unserialize_obj = unserialize($response_data);
-				return $unserialize_obj;
+
+				return unserialize($response_data);
 			} else {
 				$response = [
 					'Error' => __('There is something wrong. please re-try.', 'google-calendar-events'),
@@ -151,7 +151,7 @@ class Oauth_Ajax
 			}
 		} else {
 			$response = [
-				'Error' => __('Network issue1.', 'google-calendar-events'),
+				'Error' => __('Network issue.', 'google-calendar-events'),
 			];
 			return $response;
 		}
