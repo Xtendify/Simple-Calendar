@@ -2,7 +2,7 @@
   "name": "google-calendar-events",
   "title": "Simple Calendar",
   "description": "Add Google Calendar events to your WordPress site.",
-  "version": "3.2.5",
+  "version": "3.2.6",
   "license": "GPLv2+",
   "homepage": "https://simplecalendar.io",
   "repository": {
@@ -10,11 +10,11 @@
     "url": "https://github.com/Xtendify/Simple-Calendar"
   },
   "devDependencies": {
-    "@prettier/plugin-php": "0.20.1",
-    "autoprefixer": "10.4.15",
+    "@prettier/plugin-php": "0.21.0",
+    "autoprefixer": "10.4.16",
     "bower": "1.8.14",
-    "concurrently": "8.2.1",
-    "esbuild": "0.19.2",
+    "concurrently": "8.2.2",
+    "esbuild": "0.19.8",
     "grunt": "1.6.1",
     "grunt-checktextdomain": "1.0.1",
     "grunt-contrib-clean": "2.0.1",
@@ -23,7 +23,7 @@
     "load-grunt-tasks": "5.1.0",
     "postcss-cli": "10.1.0",
     "prettier": "3.0.3",
-    "tailwindcss": "3.3.3"
+    "tailwindcss": "3.3.4"
   },
   "scripts": {
     "setup": "yarn && composer install && composer dump-autoload -o",
@@ -43,6 +43,6 @@
     "node": ">=18.15.0"
   },
   "dependencies": {
-    "dayjs": "1.11.9"
+    "dayjs": "1.11.10"
   }
 }
