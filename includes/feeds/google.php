@@ -562,12 +562,13 @@ class Google extends Feed
 			if (isset($simple_calendar_auth_site_token)) {
 				$Oauth_Ajax = new Oauth_Ajax();
 				$response = $Oauth_Ajax->auth_get_calendarsevents($id, $args);
+				if (isset($response['Error']) && !empty($response['Error'])) {
+					throw new Google_Service_Exception($response['Error'], 1);
+				}
 			} else {
 				$response = $google->events->listEvents($id, $args);
 			}
-			if (isset($response['Error']) && !empty($response['Error'])) {
-				echo __($response['Error'], 'google-calendar-events');
-			}
+
 			if ($response instanceof Google_Service_Calendar_Events) {
 				$calendar = [
 					'id' => $id,
