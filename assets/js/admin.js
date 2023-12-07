@@ -528,3 +528,18 @@
 		});
 	});
 })(this);
+
+//* The below is run after the DOM has fully loaded */
+(function (window, undefined) {
+	'use strict';
+
+	function onLoadHandler() {
+		var currentUrl = window.location.href;
+		if (currentUrl.includes('code=')) {
+			/* Remove all parameters after 'code' */
+			var newUrl = currentUrl.replace(/([?&])code=[^&]+(.*)$/, '$1');
+			window.history.replaceState({}, document.title, newUrl);
+		}
+	}
+	window.onload = onLoadHandler;
+})(window);
