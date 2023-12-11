@@ -397,7 +397,7 @@ class Google_Admin
 		$max_results_sanitize = isset($_POST['_google_events_max_results'])
 			? sanitize_text_field($_POST['_google_events_max_results'])
 			: '2500';
-		$max_results = $max_results_sanitize;
+		$max_results = absint($max_results_sanitize);
 		update_post_meta($post_id, '_google_events_max_results', $max_results);
 
 		$this->test_api_key_connection($calendar_id);
