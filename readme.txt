@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.2.7 =
+* Fix: Cross Site Scripting (XSS) vulnerability.
+
 = 3.2.6 =
 * Fix: CSRF vulnerability for bulk actions.
 * Dev: Update dependencies Carbon, Dayjs and TailwindCSS.
