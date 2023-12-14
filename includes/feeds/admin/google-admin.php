@@ -381,7 +381,9 @@ class Google_Admin
 	 */
 	public function process_meta($post_id)
 	{
-		$calendar_id = isset($_POST['_google_calendar_id']) ? base64_encode(trim($_POST['_google_calendar_id'])) : '';
+		$calendar_id = isset($_POST['_google_calendar_id'])
+			? base64_encode(sanitize_text_field($_POST['_google_calendar_id']))
+			: '';
 		update_post_meta($post_id, '_google_calendar_id', $calendar_id);
 
 		$search_query = isset($_POST['_google_events_search_query'])
@@ -392,7 +394,10 @@ class Google_Admin
 		$recurring = isset($_POST['_google_events_recurring']) ? sanitize_key($_POST['_google_events_recurring']) : 'show';
 		update_post_meta($post_id, '_google_events_recurring', $recurring);
 
-		$max_results = isset($_POST['_google_events_max_results']) ? absint($_POST['_google_events_max_results']) : '2500';
+		$max_results_sanitize = isset($_POST['_google_events_max_results'])
+			? sanitize_text_field($_POST['_google_events_max_results'])
+			: '2500';
+		$max_results = absint($max_results_sanitize);
 		update_post_meta($post_id, '_google_events_max_results', $max_results);
 
 		$this->test_api_key_connection($calendar_id);
