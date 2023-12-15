@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.2.8 =
+* Fix: Cross Site Scripting (XSS) vulnerability.
+
 = 3.2.7 =
 * Fix: Cross Site Scripting (XSS) vulnerability.
 
