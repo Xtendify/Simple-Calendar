@@ -177,12 +177,12 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@prettier/plugin-php@0.21.0":
-  version "0.21.0"
-  resolved "https://registry.yarnpkg.com/@prettier/plugin-php/-/plugin-php-0.21.0.tgz#16bf79ee601ee60481088168a1e540a37071a6e3"
-  integrity sha512-vWC6HIUUfhvl/7F5IxVQ0ItGB/7ZY+jDlX7KsTqvfKMODW/zvzj8r1Ab4harS22+O3xxHykVVd5jvylmxMMctg==
+"@prettier/plugin-php@0.22.1":
+  version "0.22.1"
+  resolved "https://registry.yarnpkg.com/@prettier/plugin-php/-/plugin-php-0.22.1.tgz#352b30cf994e00ad0220d3db41ff93e16f018a6e"
+  integrity sha512-TN7tzC2/jCM1/H/mlUjqPos8lIV+vm8Qwp83KofuZclGlG9PoUWHU7m0yqskjAoCy+R4ZCV0hxdBLPBkU69S2Q==
   dependencies:
-    linguist-languages "^7.21.0"
+    linguist-languages "^7.27.0"
     mem "^9.0.2"
     php-parser "^3.1.5"
 
@@ -1206,10 +1206,10 @@ lines-and-columns@^1.1.6:
   resolved "https://registry.yarnpkg.com/lines-and-columns/-/lines-and-columns-1.2.4.tgz#eca284f75d2965079309dc0ad9255abb2ebc1632"
   integrity sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==
 
-linguist-languages@^7.21.0:
-  version "7.26.1"
-  resolved "https://registry.yarnpkg.com/linguist-languages/-/linguist-languages-7.26.1.tgz#908a66f5247d8b2df952f1ea69d17bbfd1e4e017"
-  integrity sha512-B9O5pDocOkfswmA0qKrqdfeua1TxeQ5PPWdsuo5QRXFv2N0tB3plY+DVWvSWiGkjdqKNU3KBjJYHs/jRXG0adw==
+linguist-languages@^7.27.0:
+  version "7.27.0"
+  resolved "https://registry.yarnpkg.com/linguist-languages/-/linguist-languages-7.27.0.tgz#bf42d6c62bd04655c8f60ed2f77a84eaeae4023a"
+  integrity sha512-Wzx/22c5Jsv2ag+uKy+ITanGA5hzvBZngrNGDXLTC7ZjGM6FLCYGgomauTkxNJeP9of353OM0pWqngYA180xgw==
 
 load-grunt-tasks@5.1.0:
   version "5.1.0"
