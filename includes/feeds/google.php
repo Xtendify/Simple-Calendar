@@ -559,7 +559,7 @@ class Google extends Feed
 			$simple_calendar_auth_site_token = get_option('simple_calendar_auth_site_token');
 			$response = '';
 			if (isset($simple_calendar_auth_site_token)) {
-				$response = apply_filters('simcal_add_oauth_helper_event_display', '', $id, $args);
+				$response = apply_filters('simple_calendar_oauth_helper_event_display', '', $id, $args);
 
 				if (isset($response['Error']) && !empty($response['Error'])) {
 					throw new Google_Service_Exception($response['Error'], 1);

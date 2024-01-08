@@ -226,7 +226,7 @@ class Pages
 
     			echo '<div class="simcal-bg-white simcal-p-[2%] simcal-w-[54%] simcal-rounded-[5px] ">';
     			if ($current_tab == 'feeds') {
-    				do_action('simcal_add_auth_via_google_button');
+    				do_action('simple_calendar_auth_via_google_button');
     			}
     			echo isset($contents['description']) ? '<p>' . $contents['description'] . '</p>' : '';
 
@@ -241,9 +241,9 @@ class Pages
     			if (true === $submit) {
     				submit_button();
     			}
-
-    			do_action('simcal_add_auth_via_xtendify_button');
-
+				if ($current_tab == 'feeds') {
+    			do_action('simple_calendar_auth_via_xtendify_button');
+				}
     			echo '</div>';
     			?>
 								<div class="simcal-w-[39%] simcal-h-[452px] simcal-ml-[2%] simcal-rounded-[5px] simcal-bg-white">
