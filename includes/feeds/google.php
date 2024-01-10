@@ -558,7 +558,7 @@ class Google extends Feed
 			// Query events in calendar.
 			$simple_calendar_auth_site_token = get_option('simple_calendar_auth_site_token');
 			$response = '';
-			if (isset($simple_calendar_auth_site_token)) {
+			if (isset($simple_calendar_auth_site_token) && !empty($simple_calendar_auth_site_token)) {
 				$response = apply_filters('simple_calendar_oauth_list_events', '', $id, $args);
 
 				if (isset($response['Error']) && !empty($response['Error'])) {
