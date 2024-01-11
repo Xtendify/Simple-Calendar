@@ -554,11 +554,12 @@ class Google extends Feed
 			if (isset($args['singleEvents']) && true === $args['singleEvents']) {
 				$args['orderBy'] = 'startTime';
 			}
-
+			
+			$is_authhelper = simcal_check_helper_addon();
 			// Query events in calendar.
 			$simple_calendar_auth_site_token = get_option('simple_calendar_auth_site_token');
 			$response = '';
-			if (isset($simple_calendar_auth_site_token) && !empty($simple_calendar_auth_site_token)) {
+			if (isset($simple_calendar_auth_site_token) && !empty($simple_calendar_auth_site_token && $is_authhelper)) {
 				$response = apply_filters('simple_calendar_oauth_list_events', '', $id, $args);
 
 				if (isset($response['Error']) && !empty($response['Error'])) {
