@@ -10,20 +10,20 @@
     "url": "https://github.com/Xtendify/Simple-Calendar"
   },
   "devDependencies": {
-    "@prettier/plugin-php": "0.21.0",
+    "@prettier/plugin-php": "0.22.1",
     "autoprefixer": "10.4.16",
     "bower": "1.8.14",
     "concurrently": "8.2.2",
-    "esbuild": "0.19.8",
+    "esbuild": "0.19.11",
     "grunt": "1.6.1",
     "grunt-checktextdomain": "1.0.1",
     "grunt-contrib-clean": "2.0.1",
     "grunt-contrib-compress": "2.0.0",
     "grunt-contrib-copy": "1.0.0",
     "load-grunt-tasks": "5.1.0",
-    "postcss-cli": "10.1.0",
-    "prettier": "3.0.3",
-    "tailwindcss": "3.3.4"
+    "postcss-cli": "11.0.0",
+    "prettier": "3.1.1",
+    "tailwindcss": "3.4.1"
   },
   "scripts": {
     "setup": "yarn && composer install && composer dump-autoload -o",
