@@ -432,16 +432,36 @@ class Default_Calendar_List implements Calendar_View
 			$large = $small = date_i18n($calendar->date_format, $st);
 			if ($date_order['d'] !== false && $date_order['m'] !== false) {
 				if ($date_order['m'] > $date_order['d']) {
-					if ($date_order['y'] !== false && $date_order['y'] > $date_order['m']) {
-						$small = date_i18n('Y, d M', $st);
+					if (
+						$date_order['y'] !== false &&
+						$date_order['y'] > $date_order['m'] &&
+						$date_order['m'] > $date_order['d']
+					) {
+						if ($date_order['y'] > $date_order['m'] && $date_order['m'] > $date_order['d']) {
+							$small = date_i18n('d/m/Y', $st);
+						} else {
+							$small = date_i18n('Y, d M', $st);
+						}
+					} elseif ($date_order['m'] > $date_order['y'] && $date_order['m'] > $date_order['d']) {
+						$small = date_i18n('Y, m d', $st);
+					} elseif ($date_order['y'] > $date_order['m'] && $date_order['d'] > $date_order['m']) {
+						$small = date_i18n('d m Y', $st);
 					} else {
 						$small = date_i18n('d M Y', $st);
 					}
 				} else {
 					if ($date_order['y'] !== false && $date_order['y'] > $date_order['m']) {
-						$small = date_i18n('Y, M d', $st);
+						if ($date_order['d'] > $date_order['m']) {
+							$small = date_i18n('M d Y', $st);
+						} else {
+							$small = date_i18n('Y, M d', $st);
+						}
 					} else {
-						$small = date_i18n('M d Y', $st);
+						if ($date_order['d'] > $date_order['m']) {
+							$small = date_i18n('Y-m-d', $st);
+						} else {
+							$small = date_i18n('M d Y', $st);
+						}
 					}
 				}
 			}
