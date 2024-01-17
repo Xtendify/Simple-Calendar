@@ -225,7 +225,9 @@ class Pages
     		if ($tab_id === $current_tab) {
 
     			echo '<div class="simcal-bg-white simcal-p-[2%] simcal-w-[54%] simcal-rounded-[5px] ">';
-
+    			if ($current_tab == 'feeds') {
+    				do_action('simple_calendar_auth_via_google_button');
+    			}
     			echo isset($contents['description']) ? '<p>' . $contents['description'] . '</p>' : '';
 
     			do_action('simcal_admin_page_' . $this->page . '_' . $current_tab . '_start');
@@ -238,6 +240,9 @@ class Pages
     			$submit = apply_filters('simcal_admin_page_' . $this->page . '_' . $current_tab . '_submit', true);
     			if (true === $submit) {
     				submit_button();
+    			}
+    			if ($current_tab == 'feeds') {
+    				do_action('simple_calendar_auth_via_xtendify_button');
     			}
     			echo '</div>';
     			?>

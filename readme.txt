@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.3.0 =
+* Dev:  Compatibility with the OAuth Helper plugin.
+
 = 3.2.8 =
 * Fix: Cross Site Scripting (XSS) vulnerability.
 

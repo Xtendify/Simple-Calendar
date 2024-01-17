@@ -483,3 +483,14 @@ function simcal_delete_feed_transients($id = '')
 
 	return delete_transient('_simple-calendar_feed_ids');
 }
+
+/**
+ * Check if helper plugin install and activate
+ * @since  3.2.9
+ *
+ * @return bool
+ */
+function simcal_check_helper_addon()
+{
+	return defined('OAUTH_HELPER_AUTH_DOMAIN') ? OAUTH_HELPER_AUTH_DOMAIN : false;
+}
