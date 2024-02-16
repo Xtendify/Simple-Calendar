@@ -98,7 +98,7 @@ We'd love your help! Here's a few things you can do:
 == Changelog ==
 
 = 3.3.1 =
-* Fix:  Persistent update notification appearing even for add-on after updating the plugin.
+* Fix: Persistent update notification appearing for add-ons even after updating the plugin.
 
 = 3.3.0 =
 * Dev:  Compatibility with the OAuth Helper plugin.
