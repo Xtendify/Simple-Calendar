@@ -431,35 +431,29 @@ function simcal_notice_to_update_pro_addon()
 {
 	$all_plugins = get_plugins();
 	$notices = get_option('simple-calendar_admin_notices', []);
-	$fullcalendar_version = get_option('simple_calendar_fullcalendar_version')
-		? get_option('simple_calendar_fullcalendar_version')
-		: '1.2.2';
-	$google_pro_version = get_option('simple_calendar_google_pro_version')
-		? get_option('simple_calendar_google_pro_version')
-		: '1.3.0';
 
 	if (
 		(array_key_exists('Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php', $all_plugins) &&
 			!empty($all_plugins['Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php']['Version']) &&
 			version_compare(
 				$all_plugins['Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php']['Version'],
-				$google_pro_version,
+				SIMPLE_CALENDAR_GOOGLE_CALENDAR_PRO_LATEST_VERSION,
 				'<'
 			)) ||
 		(array_key_exists('Simple-Calendar-FullCalendar/simple-calendar-fullcalendar.php', $all_plugins) &&
 			!empty($all_plugins['Simple-Calendar-FullCalendar/simple-calendar-fullcalendar.php']['Version']) &&
 			version_compare(
 				$all_plugins['Simple-Calendar-FullCalendar/simple-calendar-fullcalendar.php']['Version'],
-				$fullcalendar_version,
+				SIMPLE_CALENDAR_FULLCALENDAR_LATEST_VERSION,
 				'<'
 			))
 	) {
 		$update_pro_notice = new Notice([
 			'id' => [
 				'check_pro_updated--google_calendar_pro--' .
-				$google_pro_version .
+				SIMPLE_CALENDAR_GOOGLE_CALENDAR_PRO_LATEST_VERSION .
 				'--fullcalendar--' .
-				$fullcalendar_version => 'update_pro_notice',
+				SIMPLE_CALENDAR_FULLCALENDAR_LATEST_VERSION => 'update_pro_notice',
 			],
 			'type' => 'error',
 			'dismissable' => false,
