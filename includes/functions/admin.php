@@ -437,23 +437,23 @@ function simcal_notice_to_update_pro_addon()
 			!empty($all_plugins['Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php']['Version']) &&
 			version_compare(
 				$all_plugins['Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php']['Version'],
-				SIMPLE_CALENDAR_GOOGLE_CALENDAR_PRO_VERSION,
+				SIMPLE_CALENDAR_GOOGLE_CALENDAR_PRO_LATEST_VERSION,
 				'<'
 			)) ||
 		(array_key_exists('Simple-Calendar-FullCalendar/simple-calendar-fullcalendar.php', $all_plugins) &&
 			!empty($all_plugins['Simple-Calendar-FullCalendar/simple-calendar-fullcalendar.php']['Version']) &&
 			version_compare(
 				$all_plugins['Simple-Calendar-FullCalendar/simple-calendar-fullcalendar.php']['Version'],
-				SIMPLE_CALENDAR_FULLCALENDAR_VERSION,
+				SIMPLE_CALENDAR_FULLCALENDAR_LATEST_VERSION,
 				'<'
 			))
 	) {
 		$update_pro_notice = new Notice([
 			'id' => [
 				'check_pro_updated--google_calendar_pro--' .
-				SIMPLE_CALENDAR_GOOGLE_CALENDAR_PRO_VERSION .
+				SIMPLE_CALENDAR_GOOGLE_CALENDAR_PRO_LATEST_VERSION .
 				'--fullcalendar--' .
-				SIMPLE_CALENDAR_FULLCALENDAR_VERSION => 'update_pro_notice',
+				SIMPLE_CALENDAR_FULLCALENDAR_LATEST_VERSION => 'update_pro_notice',
 			],
 			'type' => 'error',
 			'dismissable' => false,
