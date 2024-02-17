@@ -16,6 +16,9 @@ module.exports = {
 				},
 				sc_grey: {
 					100: '#7F8490',
+					200: '#D4D4D8',
+					300: '#71717A',
+					400: '#f7fcf6',
 				},
 				sc_cream: {
 					100: '#E7BE9E',

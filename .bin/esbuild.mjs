@@ -23,6 +23,7 @@ const files = [
 	{ in: 'assets/css/default-calendar-grid.css', out: 'default-calendar-grid.min' },
 	{ in: 'assets/css/default-calendar-list.css', out: 'default-calendar-list.min' },
 	{ in: 'assets/css/sc-welcome-pg-style.css', out: 'sc-welcome-pg-style.min' },
+	{ in: 'assets/css/sc-post-setting-style.css', out: 'sc-post-setting-style.min' },
 	{ in: 'assets/generated/tailwind-output.css', out: 'tailwind.min' },
 ];
 
