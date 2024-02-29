@@ -124,7 +124,7 @@ class Updater
 					$_transient_data->response[$this->name] = $version_info;
 				}
 
-				update_option($this->slug . "_latest_version", $version_info->new_version);
+				update_option($this->slug . '_latest_version', $version_info->new_version);
 
 				$_transient_data->last_checked = time();
 				$_transient_data->checked[$this->name] = $this->version;
