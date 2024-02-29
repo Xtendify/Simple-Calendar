@@ -431,29 +431,35 @@ function simcal_notice_to_update_pro_addon()
 {
 	$all_plugins = get_plugins();
 	$notices = get_option('simple-calendar_admin_notices', []);
+	$pro_plugin_path = 'simple-calendar-google-calendar-pro/simple-calendar-google-calendar-pro.php';
+	$fullcalendar_plugin_path = 'simple-calendar-fullcalendar/simple-calendar-fullcalendar.php';
+	$pro_plugin_latest_version = get_option('simple-calendar-google-calendar-pro_latest_version', '');
+	$fullcalendar_plugin_latest_version = get_option('simple-calendar-fullcalendar_latest_version', '');
 
 	if (
-		(array_key_exists('Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php', $all_plugins) &&
-			!empty($all_plugins['Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php']['Version']) &&
+		(array_key_exists($pro_plugin_path, $all_plugins) &&
+			!empty($all_plugins[$pro_plugin_path]['Version']) &&
+			$pro_plugin_latest_version &&
 			version_compare(
-				$all_plugins['Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php']['Version'],
-				SIMPLE_CALENDAR_GOOGLE_CALENDAR_PRO_LATEST_VERSION,
+				$all_plugins[$pro_plugin_path]['Version'],
+				$pro_plugin_latest_version,
 				'<'
 			)) ||
-		(array_key_exists('Simple-Calendar-FullCalendar/simple-calendar-fullcalendar.php', $all_plugins) &&
-			!empty($all_plugins['Simple-Calendar-FullCalendar/simple-calendar-fullcalendar.php']['Version']) &&
+		(array_key_exists($fullcalendar_plugin_path, $all_plugins) &&
+			!empty($all_plugins[$fullcalendar_plugin_path]['Version']) &&
+			$fullcalendar_plugin_latest_version &&
 			version_compare(
-				$all_plugins['Simple-Calendar-FullCalendar/simple-calendar-fullcalendar.php']['Version'],
-				SIMPLE_CALENDAR_FULLCALENDAR_LATEST_VERSION,
+				$all_plugins[$fullcalendar_plugin_path]['Version'],
+				$fullcalendar_plugin_latest_version,
 				'<'
 			))
 	) {
 		$update_pro_notice = new Notice([
 			'id' => [
 				'check_pro_updated--google_calendar_pro--' .
-				SIMPLE_CALENDAR_GOOGLE_CALENDAR_PRO_LATEST_VERSION .
+				$pro_plugin_latest_version .
 				'--fullcalendar--' .
-				SIMPLE_CALENDAR_FULLCALENDAR_LATEST_VERSION => 'update_pro_notice',
+				$fullcalendar_plugin_latest_version => 'update_pro_notice',
 			],
 			'type' => 'error',
 			'dismissable' => false,
