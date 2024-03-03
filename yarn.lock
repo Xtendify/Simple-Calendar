@@ -182,13 +182,12 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@prettier/plugin-php@0.22.1":
-  version "0.22.1"
-  resolved "https://registry.yarnpkg.com/@prettier/plugin-php/-/plugin-php-0.22.1.tgz#352b30cf994e00ad0220d3db41ff93e16f018a6e"
-  integrity sha512-TN7tzC2/jCM1/H/mlUjqPos8lIV+vm8Qwp83KofuZclGlG9PoUWHU7m0yqskjAoCy+R4ZCV0hxdBLPBkU69S2Q==
+"@prettier/plugin-php@0.22.2":
+  version "0.22.2"
+  resolved "https://registry.yarnpkg.com/@prettier/plugin-php/-/plugin-php-0.22.2.tgz#9a575f7f53ce102d72bb17fa0bd6580f1618bbd9"
+  integrity sha512-md0+7tNbsP0oy+wIP3KZZc6fzx1k1jtWaMjOy/gM8yU9f2BDYEi+iHOc/UNPihYvPI28zFTbjvlhH4QXQjQwNg==
   dependencies:
     linguist-languages "^7.27.0"
-    mem "^9.0.2"
     php-parser "^3.1.5"
 
 "@sindresorhus/merge-streams@^1.0.0":
@@ -1282,25 +1281,10 @@ make-iterator@^1.0.0:
   dependencies:
     kind-of "^6.0.2"
 
-map-age-cleaner@^0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/map-age-cleaner/-/map-age-cleaner-0.1.3.tgz#7d583a7306434c055fe474b0f45078e6e1b4b92a"
-  integrity sha512-bJzx6nMoP6PDLPBFmg7+xRKeFZvFboMrGlxmNj9ClvX53KrmvM5bXFXEWjbz4cz1AFn+jWJ9z/DJSz7hrs0w3w==
-  dependencies:
-    p-defer "^1.0.0"
-
 map-cache@^0.2.0:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/map-cache/-/map-cache-0.2.2.tgz#c32abd0bd6525d9b051645bb4f26ac5dc98a0dbf"
   integrity sha512-8y/eV9QQZCiyn1SprXSrCmqJN0yNRATe+PO8ztwqrvrbdRLA3eYJF0yaR0YayLWkMbsQSKWS9N2gPcGEc4UsZg==
-
-mem@^9.0.2:
-  version "9.0.2"
-  resolved "https://registry.yarnpkg.com/mem/-/mem-9.0.2.tgz#bbc2d40be045afe30749681e8f5d554cee0c0354"
-  integrity sha512-F2t4YIv9XQUBHt6AOJ0y7lSmP1+cY7Fm1DRh9GClTGzKST7UWLMx6ly9WZdLH/G/ppM5RL4MlQfRT71ri9t19A==
-  dependencies:
-    map-age-cleaner "^0.1.3"
-    mimic-fn "^4.0.0"
 
 merge2@^1.3.0:
   version "1.4.1"
@@ -1314,11 +1298,6 @@ micromatch@^4.0.2, micromatch@^4.0.4, micromatch@^4.0.5:
   dependencies:
     braces "^3.0.2"
     picomatch "^2.3.1"
-
-mimic-fn@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-4.0.0.tgz#60a90550d5cb0b239cca65d893b1a53b29871ecc"
-  integrity sha512-vqiC06CuhBTUdZH+RYl8sFrL096vA45Ok5ISO6sE/Mr1jRbGH4Csnhi8f3wKVl7x8mO4Au7Ir9D3Oyv1VYMFJw==
 
 minimatch@^3.0.4, minimatch@^3.1.1:
   version "3.1.2"
@@ -1455,11 +1434,6 @@ osenv@^0.1.4:
   dependencies:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
-
-p-defer@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/p-defer/-/p-defer-1.0.0.tgz#9f6eb182f6c9aa8cd743004a7d4f96b196b0fb0c"
-  integrity sha512-wB3wfAxZpk2AzOfUMJNL+d36xothRSyj8EXOa4f6GMqYDN9BJaaSISbsk+wS9abmnebVw95C2Kb5t85UmpCxuw==
 
 p-limit@^2.0.0:
   version "2.3.0"
