@@ -480,14 +480,8 @@ class Event_Builder
 				case 'if-today':
 				case 'if-not-today':
 					$start_dt = $event->start_dt->setTimezone($calendar->timezone);
-					$startOfDay = $start_dt
-						->copy()
-						->startOfDay()
-						->getTimestamp();
-					$endOfDay = $start_dt
-						->copy()
-						->endOfDay()
-						->getTimestamp();
+					$startOfDay = $start_dt->copy()->startOfDay()->getTimestamp();
+					$endOfDay = $start_dt->copy()->endOfDay()->getTimestamp();
 
 					$today = $startOfDay <= $calendar->now && $calendar->now <= $endOfDay;
 
