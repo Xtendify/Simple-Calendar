@@ -25,7 +25,7 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "require": {
-    "php": ">=7.4",
+    "php": ">=7.3",
     "ext-curl": "*",
     "ext-iconv": "*",
     "ext-json": "*",
