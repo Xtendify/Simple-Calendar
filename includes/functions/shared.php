@@ -311,7 +311,7 @@ function simcal_default_event_template()
  */
 function simcal_get_date_format_order($date_format)
 {
-	$d = strpbrk($date_format, 'Dj');
+	$d = strpbrk($date_format, 'Djd');
 	$m = strpbrk($date_format, 'FMmn');
 	$y = strpbrk($date_format, 'Yy');
 
