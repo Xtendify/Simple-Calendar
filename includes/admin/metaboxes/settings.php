@@ -524,24 +524,46 @@ class Settings implements Meta_Box
 			<tbody class="simcal-panel-section">
 				<tr class="simcal-panel-field">
 					<th>
+						<label for="_display_print_calendar"><?php _e('Print Calendar', 'google-calendar-events'); ?></label>
+					</th>
+					<td>
+						<?php
+							$fixed = get_post_meta($post->ID, '_display_print_calendar', true);
+
+							simcal_print_field([
+								'type' => 'checkbox',
+								'name' => '_display_print_calendar',
+								'id' => '_display_print_calendar',
+								'tooltip' => __(
+									'Check this to display print calendar button on frontend.',
+									'google-calendar-events'
+								),
+								'value' => 'yes' == $fixed ? 'yes' : 'no',
+								'text' => __('Yes (Display Print Calendar Button)', 'google-calendar-events'),
+							]);
+      					?>
+					</td>
+				</tr>
+				<tr class="simcal-panel-field">
+					<th>
 						<label for="_calendar_is_static"><?php _e('Static Calendar', 'google-calendar-events'); ?></label>
 					</th>
 					<td>
 						<?php
-      $fixed = get_post_meta($post->ID, '_calendar_is_static', true);
+							$fixed = get_post_meta($post->ID, '_calendar_is_static', true);
 
-      simcal_print_field([
-      	'type' => 'checkbox',
-      	'name' => '_calendar_is_static',
-      	'id' => '_calendar_is_static',
-      	'tooltip' => __(
-      		'Remove the navigation arrows and fix the calendar view to its initial state.',
-      		'google-calendar-events'
-      	),
-      	'value' => 'yes' == $fixed ? 'yes' : 'no',
-      	'text' => __('Yes (hide navigation arrows)', 'google-calendar-events'),
-      ]);
-      ?>
+							simcal_print_field([
+								'type' => 'checkbox',
+								'name' => '_calendar_is_static',
+								'id' => '_calendar_is_static',
+								'tooltip' => __(
+									'Remove the navigation arrows and fix the calendar view to its initial state.',
+									'google-calendar-events'
+								),
+								'value' => 'yes' == $fixed ? 'yes' : 'no',
+								'text' => __('Yes (hide navigation arrows)', 'google-calendar-events'),
+							]);
+      					?>
 					</td>
 				</tr>
 				<tr class="simcal-panel-field">
@@ -1108,6 +1130,10 @@ class Settings implements Meta_Box
 		/* ======================= *
 		 * Calendar settings panel *
 		 * ======================= */
+
+		// Print calendar.
+		$static = isset($_POST['_display_print_calendar']) ? 'yes' : 'no';
+		update_post_meta($post_id, '_display_print_calendar', $static);
 
 		// Static calendar.
 		$static = isset($_POST['_calendar_is_static']) ? 'yes' : 'no';

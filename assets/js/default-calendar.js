@@ -393,6 +393,30 @@ jQuery(function ($) {
 			calendarBubbles(calendar);
 		});
 	};
+	/*
+	 * Print calendar option code
+	 */
+	$('#print-calendar-button').on('click', function () {
+		var $divToPrint = $('.simcal-calendar').clone(true);
+		$('body').children().hide();
+
+		$('main').css({ display: 'none' });
+		$('.site-content').css({ display: 'none' });
+		$('header').css({ display: 'none' });
+		$('footer').css({ display: 'none' });
+		$('body').append($divToPrint);
+		$('.print-calendar-button').css({ display: 'none' });
+
+		window.print();
+
+		$('body > .simcal-calendar').remove();
+		$('body').children().show();
+		$('main').css({ display: '' });
+		$('.site-content').css({ display: '' });
+		$('header').css({ display: '' });
+		$('footer').css({ display: '' });
+		$('.print-calendar-button').css({ display: '' });
+	});
 
 	/**
 	 * Toggle to expand events.
