@@ -40,6 +40,8 @@ class Post_Types
 		add_filter('post_row_actions', [$this, 'row_actions'], 10, 2);
 		// Add bulk actions.
 		add_action('admin_init', [$this, 'bulk_actions']);
+		// Add single post actions from list view page.
+		add_action('admin_init', [$this, 'single_post_action_from_list_view']);
 		// Add content to edit calendars page.
 		add_action('load-edit.php', [$this, 'edit_table_hooks']);
 
@@ -160,16 +162,24 @@ class Post_Types
 	}
 
 	/**
-	 * Bulk actions.
+	 * Check for clear cache or duplicate feed action for single post from list view
 	 *
-	 * @since 3.0.0
+	 * @since 3.2.6
 	 */
-	public function bulk_actions()
+	public function single_post_action_from_list_view()
 	{
 		// Check user has permission to edit
-		if ((!empty($_POST) && !wp_verify_nonce($_POST['_wpnonce'], '_wpnonce')) || !current_user_can('edit_posts')) {
+		if (!current_user_can('edit_posts')) {
 			return;
 		}
+
+		if (isset($_REQUEST['clear_cache']) || isset($_REQUEST['duplicate_feed'])) {
+			$nonce_feed_actions = isset($_REQUEST['nonce_feed_actions']) ? esc_attr($_REQUEST['nonce_feed_actions']) : '';
+			if (!wp_verify_nonce($nonce_feed_actions, 'nonce_feed_actions')) {
+				return;
+			}
+		}
+
 		// Clear an individual feed cache.
 		// @todo Convert the clear cache request to ajax.
 		if (isset($_REQUEST['clear_cache'])) {
@@ -196,6 +206,19 @@ class Post_Types
 
 			wp_redirect(remove_query_arg('duplicate_feed'));
 		}
+	}
+
+	/**
+	 * Bulk actions.
+	 *
+	 * @since 3.0.0
+	 */
+	public function bulk_actions()
+	{
+		// Check user has permission to edit
+		if (!current_user_can('edit_posts')) {
+			return;
+		}
 
 		$bulk_actions = new Bulk_Actions('calendar');
 
@@ -203,6 +226,10 @@ class Post_Types
 			'menu_text' => __('Clear cache', 'google-calendar-events'),
 			'action_name' => 'clear_calendars_cache',
 			'callback' => function ($post_ids) {
+				$wpnonce = isset($_REQUEST['_wpnonce']) ? esc_attr($_REQUEST['_wpnonce']) : '';
+				if (!wp_verify_nonce($wpnonce, '_wpnonce')) {
+					return;
+				}
 				simcal_delete_feed_transients($post_ids);
 			},
 			'admin_notice' => __('Cache cleared.', 'google-calendar-events'),

@@ -555,8 +555,19 @@ class Google extends Feed
 				$args['orderBy'] = 'startTime';
 			}
 
+			$is_authhelper = simcal_check_helper_addon();
 			// Query events in calendar.
-			$response = $google->events->listEvents($id, $args);
+			$simple_calendar_auth_site_token = get_option('simple_calendar_auth_site_token');
+			$response = '';
+			if (isset($simple_calendar_auth_site_token) && !empty($simple_calendar_auth_site_token && $is_authhelper)) {
+				$response = apply_filters('simple_calendar_oauth_list_events', '', $id, $args);
+
+				if (isset($response['Error']) && !empty($response['Error'])) {
+					throw new Google_Service_Exception($response['Error'], 1);
+				}
+			} else {
+				$response = $google->events->listEvents($id, $args);
+			}
 
 			if ($response instanceof Google_Service_Calendar_Events) {
 				$calendar = [
