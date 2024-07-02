@@ -28,10 +28,6 @@ body .simcal-field-select-enhanced {
 	width: 92%;
 }
 
-#default-calendar-settings input[type='checkbox']:checked::before {
-	margin: -0.4rem 0 0 -0.25rem;
-}
-
 #advanced-settings-panel input[type='checkbox'],
 #advanced-settings-panel input[type='radio'] {
 	border: 1px solid #d4d4d8;
@@ -99,4 +95,131 @@ body .simcal-field-select-enhanced {
 
 .postbox-header .hndle {
 	flex: unset;
+}
+#simcal-calendar-settings select:hover {
+	color: #3a414c;
+}
+#simcal-calendar-settings input[type='checkbox']:focus,
+#simcal-calendar-settings input[type='month']:focus,
+#simcal-calendar-settings input[type='number']:focus,
+#simcal-calendar-settings input[type='radio']:focus,
+#simcal-calendar-settings input[type='text']:focus,
+#simcal-calendar-settings select:focus,
+#simcal-calendar-settings textarea:focus {
+	border-color: #60bc4e;
+	box-shadow: 0 0 0 1px #60bc4e;
+	outline: 2px solid transparent;
+}
+#simcal-calendar-settings input[type='radio']:checked::before {
+	content: '';
+	border-radius: 50%;
+	width: 0.5rem;
+	height: 0.5rem;
+	margin: 0.1875rem;
+	background-color: #60bc4e;
+	line-height: 1.14285714;
+}
+#simcal-calendar-settings .select2-container--open .select2-selection {
+	border-color: #60bc4e;
+	box-shadow: 0 0 2px #60bc4e;
+}
+#simcal-calendar-settings input[type='checkbox']:checked::before {
+	content: url('../images/pages/settings/green-tick-check.png');
+	height: 1.3125rem;
+	width: 1.3125rem;
+}
+#simcal-calendar-settings select option:hover {
+	background-color: #f7fcf6 !important;
+}
+
+.simcal-panel-section-cache tr.simcal-panel-field {
+	display: flex;
+	width: 100%;
+	flex-wrap: wrap;
+}
+tr.simcal-panel-field td,
+tr.simcal-panel-field th {
+	padding-left: 25px;
+}
+#simcal-calendar-settings label {
+	cursor: pointer;
+	font-size: 16px;
+	font-weight: 400;
+}
+.simcal-panels p {
+	margin: 10px 0px;
+}
+#simcal-calendar-settings .select2-container .select2-selection--single {
+	height: 34px;
+}
+#simcal-calendar-settings .select2-container--default .select2-selection--single .select2-selection__rendered {
+	line-height: 35px;
+}
+#simcal-calendar-settings .select2-container--default .select2-selection--single .select2-selection__arrow {
+	height: 33px;
+}
+#simcal-calendar-settings input[type='text'],
+#simcal-calendar-settings input[type='number'],
+#simcal-calendar-settings select {
+	min-height: 35px;
+}
+#simcal-calendar-settings input[type='text'],
+select,
+textarea {
+	border: 1px solid #d4d4d8;
+}
+#simcal-calendar-settings .simcal-panel-field.calendar_datetime_separator_spacing {
+	display: flex;
+	width: 100%;
+	flex-wrap: nowrap;
+}
+.simcal-panel-section span.select2.select2-container.select2-container--default {
+	width: 95% !important; /* To ovveride the inline the width add important*/
+}
+.simcal-panel-field.calendar_datetime_separator_spacing > th {
+	width: 50%;
+}
+
+body .simcal-panel-field.calendar_datetime_separator .simcal-field-tiny {
+	max-width: 55%;
+}
+.simcal-miscellaneous-panel-section .simcal-panel-section tr td select,
+.simcal-miscellaneous-panel-section .simcal-panel-section tr td .simcal-field-textarea,
+body .simcal-panel-field .simcal-panel-field.calendar_datetime_separator .simcal-field-tiny,
+#google-settings-panel select#_google_events_recurring,
+#simcal-calendar-settings select#_google_pro_events_recurring {
+	width: 95%;
+}
+
+.simcal-panel-section select,
+.simcal-panels select {
+	width: 75%;
+}
+.simcal-panel-section > select,
+.simcal-panels > select {
+	width: 100%;
+}
+@media screen and (max-width: 998px) {
+	#simcal-calendar-settings label {
+		font-size: 14px;
+	}
+}
+@media screen and (min-width: 768px) {
+	#events-settings-panel > select {
+		min-width: 76.5%;
+	}
+
+	select#_feed_cache_user_unit {
+		width: 65%;
+	}
+	.fullcalendar-settings select,
+	#_google_pro_events_recurring select {
+		width: 85%;
+	}
+	.simcal-panel-section > select,
+	.simcal-panels > select,
+	.simcal-panel-section > select,
+	.simcal-panels > select {
+		width: 95%;
+	}
 }

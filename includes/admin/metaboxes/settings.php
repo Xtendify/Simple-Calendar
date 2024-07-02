@@ -530,7 +530,7 @@ class Settings implements Meta_Box
 	private static function calendar_settings_panel($post)
 	{
 		?>
-		<table class="simcal-ml-[6%] " >
+		<table class="simcal-ml-[6%] simcal-miscellaneous-panel-section " >
 			<thead>
 				<tr>
 					<th class="!simcal-border-b-[0] !simcal-pt-7 !simcal-text-lg" colspan="2"><?php _e(
@@ -792,7 +792,7 @@ class Settings implements Meta_Box
 						</div>
 					</td>
 				</tr>
-				<tr class="simcal-panel-field">
+				<tr class="simcal-panel-field calendar_datetime_separator">
 					<th>
 						<label for="_calendar_datetime_separator"><?php _e('Separator', 'google-calendar-events'); ?></label>
 					</th>
@@ -813,7 +813,7 @@ class Settings implements Meta_Box
       ?>
 					</td>
 				</tr>
-				<tr class="simcal-panel-field">
+				<tr class="simcal-panel-field calendar_datetime_separator_spacing">
 					<th>
 						<label for="_calendar_datetime_separator_spacing"><?php _e(
       	'Preserve Separator Spacing',
