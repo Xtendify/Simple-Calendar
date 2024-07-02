@@ -188,20 +188,11 @@ abstract class Feed
 			if ('days_before' == $earliest_date) {
 				$earliest = $start->subDays($earliest_range)->getTimestamp();
 			} elseif ('weeks_before' == $earliest_date) {
-				$earliest = $start
-					->subWeeks($earliest_range)
-					->addDay()
-					->getTimestamp();
+				$earliest = $start->subWeeks($earliest_range)->addDay()->getTimestamp();
 			} elseif ('months_before' == $earliest_date) {
-				$earliest = $start
-					->subMonths($earliest_range)
-					->addDay()
-					->getTimestamp();
+				$earliest = $start->subMonths($earliest_range)->addDay()->getTimestamp();
 			} elseif ('years_before' == $earliest_date) {
-				$earliest = $start
-					->subYears($earliest_range)
-					->addDay()
-					->getTimestamp();
+				$earliest = $start->subYears($earliest_range)->addDay()->getTimestamp();
 			} else {
 				$earliest = $start->getTimestamp();
 			}
@@ -230,20 +221,11 @@ abstract class Feed
 			if ('days_after' == $latest_date) {
 				$latest = $start->addDays($latest_range)->getTimestamp();
 			} elseif ('weeks_after' == $latest_date) {
-				$latest = $start
-					->addWeeks($latest_range)
-					->subDay()
-					->getTimestamp();
+				$latest = $start->addWeeks($latest_range)->subDay()->getTimestamp();
 			} elseif ('months_after' == $latest_date) {
-				$latest = $start
-					->addMonths($latest_range)
-					->subDay()
-					->getTimestamp();
+				$latest = $start->addMonths($latest_range)->subDay()->getTimestamp();
 			} elseif ('years_after' == $latest_date) {
-				$latest = $start
-					->addYears($latest_range)
-					->subDay()
-					->getTimestamp();
+				$latest = $start->addYears($latest_range)->subDay()->getTimestamp();
 			} else {
 				$latest = $start->getTimestamp();
 			}

@@ -272,7 +272,6 @@ class Default_Calendar_Grid implements Calendar_View
    if ($is_print_calendar[0] === 'yes') {
    	echo '<button id="print-calendar-button" class="print-calendar-button">Print Calendar</button>';
    }
-   echo '<div class="simcal-ajax-loader simcal-spinner-top" style="display: none;"><i class="simcal-icon-spinner simcal-icon-spin"></i></div>';
    }
 	}
 

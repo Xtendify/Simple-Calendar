@@ -547,3 +547,6 @@
 .print-calendar-button {
 	margin-top: 20px;
 }
+.simcal-hide {
+	display: none;
+}
