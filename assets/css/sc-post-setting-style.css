@@ -71,7 +71,7 @@ body .simcal-field-select-enhanced {
 }
 
 .simcal-tabs a:hover {
-	color: #60bc4e;
+	color: #60bc4e !important;
 }
 
 .simcal-tabs li.active a {
@@ -79,8 +79,9 @@ body .simcal-field-select-enhanced {
 }
 
 .simcal-help-tip,
-.simcal-tabs li.active a {
-	color: #60bc4e;
+.simcal-tabs li.active a,
+.metabox-holder #simcal-calendar-settings .simcal-panels-wrap .simcal-tabs li.active a {
+	color: #60bc4e !important;
 }
 
 .wp-core-ui select:active,
@@ -181,25 +182,55 @@ textarea {
 }
 
 body .simcal-panel-field.calendar_datetime_separator .simcal-field-tiny {
-	max-width: 55%;
+	max-width: 95%;
+}
+#simcal-calendar-settings
+	.simcal-panels-wrap
+	#appointment-calendar-settings-panel
+	.apnt-row
+	.right-area
+	.form-group
+	.wrap-event-title
+	input[type='text'] {
+	border: 1px solid #d4d4d8;
+}
+.simcal-panel-section select,
+.simcal-panels select {
+	width: 75%;
 }
 .simcal-miscellaneous-panel-section .simcal-panel-section tr td select,
 .simcal-miscellaneous-panel-section .simcal-panel-section tr td .simcal-field-textarea,
 body .simcal-panel-field .simcal-panel-field.calendar_datetime_separator .simcal-field-tiny,
 #google-settings-panel select#_google_events_recurring,
-#simcal-calendar-settings select#_google_pro_events_recurring {
+#simcal-calendar-settings select#_google_pro_events_recurring,
+.simcal-panel-section select:first-child,
+.simcal-panels select:first-child {
 	width: 95%;
 }
 
-.simcal-panel-section select,
-.simcal-panels select {
-	width: 75%;
+#simcal-calendar-settings .simcal-panels-wrap .simcal-panel input[type='number'] {
+	border-radius: 3px;
 }
 .simcal-panel-section > select,
 .simcal-panels > select {
 	width: 100%;
 }
-@media screen and (max-width: 998px) {
+#advanced-settings-panel > table > tbody tr:first-child td,
+#events-settings-panel > table > tbody tr:first-child td {
+	padding-top: 0px;
+}
+#simcal-calendar-settings
+	.simcal-panels-wrap
+	#appointment-calendar-settings-panel
+	.apnt-row
+	.right-area
+	.form-group
+	.wrap-event-title
+	input[type='text'] {
+	max-width: 100%;
+	width: 75%;
+}
+@media screen and (max-width: 1366px) {
 	#simcal-calendar-settings label {
 		font-size: 14px;
 	}
@@ -210,7 +241,7 @@ body .simcal-panel-field .simcal-panel-field.calendar_datetime_separator .simcal
 	}
 
 	select#_feed_cache_user_unit {
-		width: 65%;
+		width: 75%;
 	}
 	.fullcalendar-settings select,
 	#_google_pro_events_recurring select {
