@@ -77,14 +77,20 @@ class Grouped_Calendars_Admin
 	{
 		?>
 		<div id="grouped-calendars-settings-panel" class="simcal-panel">
-			<table>
+			<table class="simcal-ml-[6%] simcal-font-poppins">
 				<thead>
-				<tr><th colspan="2"><?php _e('Grouped Calendar Settings', 'google-calendar-events'); ?></th></tr>
+				<tr><th class="!simcal-text-lg" colspan="2"><?php _e(
+    	'Grouped Calendar Settings',
+    	'google-calendar-events'
+    ); ?></th></tr>
 				</thead>
 				<tbody class="simcal-panel-section">
 				<tr class="simcal-panel-field">
-					<th><label for="_grouped_calendars_source"><?php _e('Get Calendars From', 'google-calendar-events'); ?></label></th>
-					<td>
+					<th class="!simcal-block !simcal-w-[100%]"><label for="_grouped_calendars_source"><?php _e(
+     	'Get Calendars From',
+     	'google-calendar-events'
+     ); ?></label></th>
+					<td class="!simcal-block !simcal-w-[100%]" >
 						<?php
       $source = esc_attr(get_post_meta($post_id, '_grouped_calendars_source', true));
       $source = empty($source) ? 'ids' : $source;
