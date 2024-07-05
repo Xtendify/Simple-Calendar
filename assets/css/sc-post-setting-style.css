@@ -70,12 +70,12 @@ body .simcal-field-select-enhanced {
 	border-bottom: 0px;
 }
 
-.simcal-tabs a:hover {
+#simcal-calendar-settings .simcal-panels-wrap .simcal-tabs li a:hover {
 	color: #60bc4e !important;
 }
 
 .simcal-tabs li.active a {
-	background-color: #ffff;
+	background-color: #fff;
 }
 
 .simcal-help-tip,
@@ -138,17 +138,25 @@ body .simcal-field-select-enhanced {
 	width: 100%;
 	flex-wrap: wrap;
 }
-tr.simcal-panel-field td,
-tr.simcal-panel-field th {
-	padding-left: 25px;
-}
+
 #simcal-calendar-settings label {
 	cursor: pointer;
 	font-size: 16px;
 	font-weight: 400;
 }
+select#_grouped_calendars_source {
+	width: 90%;
+}
+select#_feed_earliest_event_date,
+select#_feed_latest_event_date,
+select#_calendar_begins {
+	max-width: 80%;
+}
+select#_default_calendar_style_theme {
+	width: 85%;
+}
 .simcal-panels p {
-	margin: 10px 0px;
+	margin: 10px 0;
 }
 #simcal-calendar-settings .select2-container .select2-selection--single {
 	height: 34px;
@@ -180,7 +188,6 @@ textarea {
 .simcal-panel-field.calendar_datetime_separator_spacing > th {
 	width: 50%;
 }
-
 body .simcal-panel-field.calendar_datetime_separator .simcal-field-tiny {
 	max-width: 95%;
 }
@@ -207,7 +214,6 @@ body .simcal-panel-field .simcal-panel-field.calendar_datetime_separator .simcal
 .simcal-panels select:first-child {
 	width: 95%;
 }
-
 #simcal-calendar-settings .simcal-panels-wrap .simcal-panel input[type='number'] {
 	border-radius: 3px;
 }
@@ -230,6 +236,21 @@ body .simcal-panel-field .simcal-panel-field.calendar_datetime_separator .simcal
 	max-width: 100%;
 	width: 75%;
 }
+#simcal-calendar-settings .simcal-panels-wrap .simcal-tabs li a {
+	color: rgb(127 132 144) !important;
+	--tw-text-opacity: 1;
+	font-size: 13px;
+}
+#fullcalendar-settings td select#_fullcalendar_display_min_time,
+#fullcalendar-settings td select#_fullcalendar_display_max_time {
+	width: 37.5%;
+}
+table#fullcalendar-settings {
+	margin-left: 6%;
+}
+#fullcalendar-settings td select {
+	width: 80%;
+}
 @media screen and (max-width: 1366px) {
 	#simcal-calendar-settings label {
 		font-size: 14px;
@@ -239,7 +260,6 @@ body .simcal-panel-field .simcal-panel-field.calendar_datetime_separator .simcal
 	#events-settings-panel > select {
 		min-width: 76.5%;
 	}
-
 	select#_feed_cache_user_unit {
 		width: 75%;
 	}
@@ -247,8 +267,6 @@ body .simcal-panel-field .simcal-panel-field.calendar_datetime_separator .simcal
 	#_google_pro_events_recurring select {
 		width: 85%;
 	}
-	.simcal-panel-section > select,
-	.simcal-panels > select,
 	.simcal-panel-section > select,
 	.simcal-panels > select {
 		width: 95%;

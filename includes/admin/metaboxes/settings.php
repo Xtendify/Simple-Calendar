@@ -412,7 +412,7 @@ class Settings implements Meta_Box
       ?>
 						<select name="_feed_earliest_event_date"
 								id="_feed_earliest_event_date"
-								class="simcal-field simcal-field-select simcal-field-inline simcal-field-switch-other !simcal-text-sc_grey-300 !simcal-border-sc_grey-200 !simcal-w-[88%]">
+								class="simcal-field simcal-field-select simcal-field-inline simcal-field-switch-other !simcal-text-sc_grey-300 !simcal-border-sc_grey-200 ">
 							<option value="calendar_start"
 									data-hide-field="_feed_earliest_event_date_range" <?php selected(
          	'calendar_start',
@@ -475,7 +475,7 @@ class Settings implements Meta_Box
       ?>
 						<select name="_feed_latest_event_date"
 								id="_feed_latest_event_date"
-								class="simcal-field simcal-field-select simcal-field-inline simcal-field-switch-other !simcal-text-sc_grey-300 !simcal-border-sc_grey-200 !simcal-w-[88%]">
+								class="simcal-field simcal-field-select simcal-field-inline simcal-field-switch-other !simcal-text-sc_grey-300 !simcal-border-sc_grey-200">
 							<option value="calendar_start"
 									data-hide-field="_feed_latest_event_date_range" <?php selected(
          	'calendar_start',
@@ -541,7 +541,7 @@ class Settings implements Meta_Box
 			</thead>
 			<tbody class="simcal-panel-section">
 				<tr class="simcal-panel-field">
-					<th class="!simcal-w-[67%]">
+					<th class="!simcal-w-[49%]">
 						<label for="_calendar_is_static"><?php _e('Static Calendar', 'google-calendar-events'); ?></label>
 					</th>
 					<td class="!simcal-text-grey-100">
@@ -571,7 +571,7 @@ class Settings implements Meta_Box
 						<?php simcal_print_field([
       	'type' => 'textarea',
       	'name' => '_no_events_message',
-      	'class' => ['simcal-border-sc_grey-200', 'simcal-ml-[-182px]'],
+      	'class' => ['simcal-border-sc_grey-200', 'simcal-ml-[-134px]'],
       	'id' => '_no_events_message',
       	'tooltip' => __(
       		'Some calendars may display a message when no events are found. You can change the default message here.',
@@ -592,7 +592,7 @@ class Settings implements Meta_Box
 
       simcal_print_field([
       	'type' => 'select',
-      	'class' => ['!simcal-max-w-[85%] !simcal-ml-[-160px]'],
+      	'class' => ['!simcal-ml-[-135px]'],
       	'name' => '_event_formatting',
       	'id' => '_event_formatting',
       	'tooltip' => __(
@@ -620,7 +620,7 @@ class Settings implements Meta_Box
 
       simcal_print_field([
       	'type' => 'checkbox',
-      	'class' => ['!simcal-ml-[72px]'],
+      	'class' => ['!simcal-ml-[-130px]'],
       	'name' => '_poweredby',
       	'id' => '_poweredby',
       	'value' => 'yes' == $poweredby ? 'yes' : 'no',
