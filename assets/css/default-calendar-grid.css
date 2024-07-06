@@ -547,6 +547,18 @@
 .print-calendar-button {
 	margin-top: 20px;
 }
-.simcal-hide {
-	display: none;
+
+@media print {
+	main,
+	#header,
+	#footer,
+	#nav,
+	header,
+	footer,
+	.site-content,
+	.print-calendar-button,
+	.simcal-nav .simcal-prev,
+	.simcal-nav .simcal-next {
+		display: none !important;
+	}
 }

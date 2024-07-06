@@ -398,29 +398,10 @@ jQuery(function ($) {
 	 */
 	$('#print-calendar-button').on('click', function () {
 		var $divToPrint = $('.simcal-calendar').clone(true);
-		$('body').children().hide();
 
-		$('main').toggleClass('simcal-hide');
-
-		$('.site-content').toggleClass('simcal-hide');
-		$('header').toggleClass('simcal-hide');
-		$('footer').toggleClass('simcal-hide');
 		$('body').append($divToPrint);
-		$('.print-calendar-button').toggleClass('simcal-hide');
-		$('.simcal-nav .simcal-prev ').toggleClass('simcal-hide');
-		$('.simcal-nav .simcal-next ').toggleClass('simcal-hide');
-
 		window.print();
-
 		$('body > .simcal-calendar').remove();
-		$('body').children().show();
-		$('main').toggleClass('simcal-hide');
-		$('.site-content').toggleClass('simcal-hide');
-		$('header').toggleClass('simcal-hide');
-		$('footer').toggleClass('simcal-hide');
-		$('.print-calendar-button').toggleClass('simcal-hide');
-		$('.simcal-nav .simcal-prev ').toggleClass('simcal-hide');
-		$('.simcal-nav .simcal-next ').toggleClass('simcal-hide');
 	});
 
 	/**
