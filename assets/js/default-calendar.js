@@ -398,10 +398,11 @@ jQuery(function ($) {
 	 */
 	$('#print-calendar-button').on('click', function () {
 		var $divToPrint = $('.simcal-calendar').clone(true);
-
+		$('body').addClass('simcal-print-calendar');
 		$('body').append($divToPrint);
 		window.print();
 		$('body > .simcal-calendar').remove();
+		$('body').removeClass('simcal-print-calendar');
 	});
 
 	/**

@@ -549,16 +549,16 @@
 }
 
 @media print {
-	main,
-	#header,
-	#footer,
-	#nav,
-	header,
-	footer,
-	.site-content,
-	.print-calendar-button,
-	.simcal-nav .simcal-prev,
-	.simcal-nav .simcal-next {
+	.simcal-print-calendar main,
+	.simcal-print-calendar #header,
+	.simcal-print-calendar #footer,
+	.simcal-print-calendar #nav,
+	.simcal-print-calendar header,
+	.simcal-print-calendar footer,
+	.simcal-print-calendar .site-content,
+	.simcal-print-calendar .print-calendar-button,
+	.simcal-print-calendar .simcal-nav .simcal-prev,
+	.simcal-print-calendar .simcal-nav .simcal-next {
 		display: none !important;
 	}
 }
