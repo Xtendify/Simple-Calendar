@@ -393,6 +393,21 @@ jQuery(function ($) {
 			calendarBubbles(calendar);
 		});
 	};
+	/*
+	 * Print calendar option code
+	 */
+	$('#print-calendar-button').on('click', function () {
+		var $divToPrint = $('.simcal-calendar').clone(true);
+		$('body').children().hide();
+		$('body').append($divToPrint);
+		$('body').addClass('simcal-print-calendar');
+
+		window.print();
+
+		$('body > .simcal-calendar').remove();
+		$('body').children().show();
+		$('body').removeClass('simcal-print-calendar');
+	});
 
 	/**
 	 * Toggle to expand events.
