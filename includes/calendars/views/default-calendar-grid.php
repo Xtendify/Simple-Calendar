@@ -270,7 +270,7 @@ class Default_Calendar_Grid implements Calendar_View
 			<?php
    $is_print_calendar = get_post_meta($calendar->id, '_display_print_calendar');
    if ($is_print_calendar[0] === 'yes') {
-   	echo '<button id="print-calendar-button" class="print-calendar-button">Print Calendar</button>';
+   	echo '<button id="print-calendar-button" class="print-calendar-button demo_sc_primary_btn">Print Calendar</button>';
    }
    }
 	}

@@ -557,6 +557,7 @@
 	.simcal-print-calendar footer,
 	.simcal-print-calendar .site-content,
 	.simcal-print-calendar .print-calendar-button,
+	.print-calendar-button,
 	.simcal-print-calendar .simcal-nav .simcal-prev,
 	.simcal-print-calendar .simcal-nav .simcal-next {
 		display: none !important;
