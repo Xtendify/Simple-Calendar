@@ -69,7 +69,19 @@ class Assets
 			SIMPLE_CALENDAR_VERSION,
 			true
 		);
-
+		wp_register_script(
+			'simcal-sc-oauth-helper-admin',
+			$js_path . 'sc-oauth-helper-admin.min.js',
+			['jquery'],
+			SIMPLE_CALENDAR_VERSION,
+			true
+		);
+		$run_oauth_helper = get_option('simple_calendar_run_oauth_helper');
+		if($run_oauth_helper){
+			wp_enqueue_script('simcal-sc-oauth-helper-admin');
+			wp_localize_script('simcal-sc-oauth-helper-admin', 'oauth_admin', simcal_common_scripts_variables());
+			
+		}
 		/* ===================== *
 		 * Register Admin Styles *
 		 * ===================== */
@@ -128,6 +140,11 @@ class Assets
 		) {
 			wp_enqueue_style('sc-welcome-style', $css_path . 'sc-welcome-pg-style.min.css', [], SIMPLE_CALENDAR_VERSION);
 			wp_enqueue_style('sc-tail-style', $css_path . 'tailwind.min.css', [], SIMPLE_CALENDAR_VERSION);
+		}
+		$run_oauth_helper = get_option('simple_calendar_run_oauth_helper');
+		if($run_oauth_helper){
+			wp_enqueue_style('sc-oauth-helper-style', $css_path . 'oauth-helper-admin.min.css', [], SIMPLE_CALENDAR_VERSION);
+			
 		}
 	}
 }

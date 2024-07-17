@@ -184,6 +184,11 @@ final class Plugin
 			// Admin ajax callbacks.
 			new Admin\Ajax();
 		}
+		$run_oauth_helper = get_option('simple_calendar_run_oauth_helper');
+		if($run_oauth_helper){
+			require plugin_dir_path( __FILE__ ) . 'oauthhelper/oauth-service-actions.php';
+			require plugin_dir_path( __FILE__ ) . 'oauthhelper/class-oauth-service.php';
+		}
 	}
 
 	/**
