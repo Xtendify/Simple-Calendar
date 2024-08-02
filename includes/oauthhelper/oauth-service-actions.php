@@ -20,7 +20,7 @@ class Oauth_Ajax
 	/*
 	 *Auth site URL
 	 */
-	public static $url = SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN . 'wp-json/api-test/v1/';
+	public static $url = SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN . 'wp-json/api-oauth-helper/v1/';
 
 	/**
 	 * My site URL

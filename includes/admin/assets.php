@@ -20,6 +20,14 @@ if (!defined('ABSPATH')) {
 class Assets
 {
 	/**
+	 * Check for SC setting page.
+	 *
+	 * @since 3.4.1
+	 */
+
+	protected $current_page = '';
+
+	/**
 	 * Hook in tabs.
 	 *
 	 * @since 3.0.0
@@ -27,6 +35,8 @@ class Assets
 	public function __construct()
 	{
 		add_action('admin_enqueue_scripts', [$this, 'load']);
+
+		$this->current_page = sanitize_text_field( wp_unslash( $_GET['page'] ?? '' ) );
 	}
 
 	/**
@@ -70,16 +80,18 @@ class Assets
 			true
 		);
 		wp_register_script(
-			'simcal-sc-oauth-helper-admin',
-			$js_path . 'sc-oauth-helper-admin.min.js',
+			'simcal-oauth-helper-admin',
+			$js_path . 'oauth-helper-admin.min.js',
 			['jquery'],
 			SIMPLE_CALENDAR_VERSION,
 			true
 		);
 		$run_oauth_helper = get_option('simple_calendar_run_oauth_helper');
-		if($run_oauth_helper){
-			wp_enqueue_script('simcal-sc-oauth-helper-admin');
-			wp_localize_script('simcal-sc-oauth-helper-admin', 'oauth_admin', simcal_common_scripts_variables());
+
+		
+		if($run_oauth_helper && $this->current_page ==='simple-calendar_settings' ){
+			wp_enqueue_script('simcal-oauth-helper-admin');
+			wp_localize_script('simcal-oauth-helper-admin', 'oauth_admin', simcal_common_scripts_variables());
 			
 		}
 		/* ===================== *
@@ -142,7 +154,7 @@ class Assets
 			wp_enqueue_style('sc-tail-style', $css_path . 'tailwind.min.css', [], SIMPLE_CALENDAR_VERSION);
 		}
 		$run_oauth_helper = get_option('simple_calendar_run_oauth_helper');
-		if($run_oauth_helper){
+		if($run_oauth_helper  && $this->current_page ==='simple-calendar_settings' ){
 			wp_enqueue_style('sc-oauth-helper-style', $css_path . 'oauth-helper-admin.min.css', [], SIMPLE_CALENDAR_VERSION);
 			
 		}

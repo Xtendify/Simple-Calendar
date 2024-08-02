@@ -117,6 +117,9 @@ final class Plugin
 		add_action('init', [$this, 'init'], 5);
 		add_action('admin_init', [$this, 'register_settings'], 5);
 
+		//Oauth Helper init
+		add_action('admin_init', [$this, 'oauth_helper_init'], 5);
+		
 		// Upon plugin loaded action hook.
 		do_action('simcal_loaded');
 	}
@@ -183,12 +186,8 @@ final class Plugin
 		if (defined('DOING_AJAX')) {
 			// Admin ajax callbacks.
 			new Admin\Ajax();
-		}
-		$run_oauth_helper = get_option('simple_calendar_run_oauth_helper');
-		if($run_oauth_helper){
-			require plugin_dir_path( __FILE__ ) . 'oauthhelper/oauth-service-actions.php';
-			require plugin_dir_path( __FILE__ ) . 'oauthhelper/class-oauth-service.php';
-		}
+		} 
+		
 	}
 
 	/**
@@ -239,8 +238,40 @@ final class Plugin
 			$settings = new Admin\Pages();
 			$settings->register_settings($settings->get_settings());
 		}
+
 	}
 
+	/**
+	 * Register plugin settings.
+	 *
+	 * @since 3.4.1
+	 */
+	public function oauth_helper_init()
+	{
+		if(defined('SIMPLE_CALENDAR_GOOGLE_PRO_VERSION') || defined('SIMPLE_CALENDAR_APPOINTMENT_VERSION')){
+			if(defined('SC_OAUTH_HELPER_VERSION')){
+
+				add_action('admin_notices', function () {
+					echo '<div class="error"><p>' .
+						sprintf(
+							__(
+								'The Simple Calendar plugin now includes the features previously provided by the Google Calendar OAuth Helper add-on. Please deactivate and remove the OAuth Helper add-on to avoid redundancy.',
+								'google-calendar-events'
+							),
+							simcal_ga_campaign_url(
+								simcal_get_url('addons'),
+								'core-plugin',
+								'admin-notice',
+							)
+						) .
+						'</p></div>';
+				});
+			}else{
+				require plugin_dir_path( __FILE__ ) . 'oauthhelper/oauth-service-actions.php';
+				require plugin_dir_path( __FILE__ ) . 'oauthhelper/class-oauth-service.php';
+			}
+		}
+	}
 	/**
 	 * Get Ajax URL.
 	 *
