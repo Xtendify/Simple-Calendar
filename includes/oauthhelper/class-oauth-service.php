@@ -26,6 +26,9 @@ class Auth_Service_Helpers{
 			add_filter('simple_calendar_oauth_list_events', [$this, 'oauth_helper_event_display'], 10, 3);
 
 			add_filter('simple_calendar_oauth_get_calendars', [$this, 'oauth_helper_get_calendar'], 10, 3);
+
+			add_filter('simple_calendar_oauth_schedule_events', [$this, 'oauth_helper_schedule_events'], 10, 2);
+
 	}
 
 /**
@@ -141,6 +144,22 @@ class Auth_Service_Helpers{
 			$get_calendars = $Oauth_Ajax->auth_get_calendarlist();
 			return $get_calendars;
 	}
+
+	/**
+	 * Schedule event.
+	 *
+	 * @since 3.4.1
+	 *
+	 * @param int $post_id
+	 */
+	public function oauth_helper_schedule_events($calendarId, $event_data)
+	{
+
+			$Oauth_Ajax = new Oauth_Ajax();							
+			$get_calendars = $Oauth_Ajax->oauth_helper_schedule_event_action($calendarId, $event_data);
+			return $get_calendars;
+	}
+
 
 }
 
