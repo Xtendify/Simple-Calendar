@@ -555,7 +555,7 @@ class Google extends Feed
 				$args['orderBy'] = 'startTime';
 			}
 
-			$is_authhelper = simcal_check_helper_addon();
+			$is_authhelper = get_option('simple_calendar_run_oauth_helper');
 			// Query events in calendar.
 			$simple_calendar_auth_site_token = get_option('simple_calendar_auth_site_token');
 			$response = '';

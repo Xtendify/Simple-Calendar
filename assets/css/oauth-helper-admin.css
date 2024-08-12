@@ -1,0 +1,52 @@
+.simcal-auth-tabs {
+	width: 600px;
+	border-radius: 5px 5px 5px 5px;
+}
+ul#simcal-auth-tabs-nav {
+	list-style: none;
+	margin: 0;
+	padding: 5px;
+	overflow: auto;
+}
+ul#simcal-auth-tabs-nav li {
+	float: left;
+	font-weight: bold;
+	margin-right: 2px;
+	padding: 8px 10px;
+	border-radius: 5px 5px 5px 5px;
+	cursor: pointer;
+	background-color: #d9d9d9;
+}
+ul#simcal-auth-tabs-nav li:hover,
+ul#simcal-auth-tabs-nav li.active {
+	background-color: #60bc4e;
+}
+#simcal-auth-tabs-nav li a {
+	text-decoration: none;
+	color: #fff;
+}
+.simcal-auth-tab-content {
+	padding: 10px;
+}
+.hide {
+	display: none;
+}
+.afterauth-via-xtendify-cta,
+.auth-via-xtendify-cta {
+	text-align: center;
+}
+
+.simcal-auth-tabs-content a#oauth_deauthentication:hover,
+.simcal-auth-tabs-content .auth-via-xtendify-cta .action_auth_via_xtendify:hover {
+	color: rgb(96 188 78 1);
+	background: rgb(255 255 255 1);
+	border: 1px solid rgb(96 188 78 1);
+}
+#simcal-settings-page-form .auth-via-xtendify-cta a:active,
+#simcal-settings-page-form .auth-via-xtendify-cta a:hover,
+#simcal-settings-page-form .afterauth-via-xtendify-cta a:active,
+#simcal-settings-page-form .afterauth-via-xtendify-cta a:hover,
+#simcal-settings-page-form .afterauth-via-xtendify-cta a:focus,
+#simcal-settings-page-form .afterauth-via-xtendify-cta a:focus {
+	color: #fff;
+}
