@@ -203,51 +203,47 @@ class Oauth_Ajax
 		return $response;
 	}
 
-
 	/*
 	 * Oauth helper schedule events
 	 */
-	public function oauth_helper_schedule_event_action($calendarId, $event_data){
-		
-	      $send_data = [
+	public function oauth_helper_schedule_event_action($calendarId, $event_data)
+	{
+		$send_data = [
 			'site_url' => self::$my_site_url,
 			'auth_token' => get_option('simple_calendar_auth_site_token'),
 			'calendarid' => $calendarId,
 			'event_data' => $event_data,
-			];
-			
-			$request = wp_remote_post(self::$url . 'appointment_schedule_event', [
-				'method' => 'POST',
-				'body' => $send_data,
-				'timeout' => 30,
-				'cookies' => [],
-			]);
-				
-			$response = wp_remote_retrieve_body($request);
-			$response_arr = json_decode($response, true);
+		];
 
-			if (isset($response_arr['response']) && !empty($response_arr['response'])) {
-				if ($response_arr['response']) {
-					$response_message = $response_arr['message'];
-					if(isset($response_message) && !empty($response_message)){
-						$response_data = $response_arr['data'];
-						return unserialize($response_data);
-					}else{
-						$response = [
-							'Error' =>$response_arr['message'],
-						];
-						return $response;
-					}
-					
+		$request = wp_remote_post(self::$url . 'appointment_schedule_event', [
+			'method' => 'POST',
+			'body' => $send_data,
+			'timeout' => 30,
+			'cookies' => [],
+		]);
+
+		$response = wp_remote_retrieve_body($request);
+		$response_arr = json_decode($response, true);
+
+		if (isset($response_arr['response']) && !empty($response_arr['response'])) {
+			if ($response_arr['response']) {
+				$response_message = $response_arr['message'];
+				if (isset($response_message) && !empty($response_message)) {
+					$response_data = $response_arr['data'];
+					return unserialize($response_data);
+				} else {
+					$response = [
+						'Error' => $response_arr['message'],
+					];
+					return $response;
 				}
-			} else {
-				$response = [
-					'Error' => $response_arr['message'],
-				];
-				return $response;
 			}
-
-		
+		} else {
+			$response = [
+				'Error' => $response_arr['message'],
+			];
+			return $response;
+		}
 	}
 } //class End
 

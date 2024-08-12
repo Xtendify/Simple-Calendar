@@ -97,6 +97,11 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.4.1 =
+* Dev: Add OAuth helper functionality.
+* Dev: Make OAuth helper option compatibble with Appointment add-on.
+* Update: Update dependency prettier to v3.3.3.
+
 = 3.4.0 =
 * Dev: Added Print calendar feature.
 * Dev: Make compatible with WordPress v6.5.5.

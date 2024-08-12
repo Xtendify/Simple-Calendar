@@ -481,15 +481,14 @@ function simcal_notice_to_update_pro_addon()
 	}
 
 	/*
-	* Check if Pro/Appointment is actiated, run oauth functionality.
-	* Update option if pro/appointment plugin is activated. 
-	*/
+	 * Check if Pro/Appointment is actiated, run oauth functionality.
+	 * Update option if pro/appointment plugin is activated.
+	 */
 
-	if (class_exists('SimpleCalendar\Add_On_Google_Pro') || class_exists('SimpleCalendar\Simple_Calendar_Appointment')){
-			update_option('simple_calendar_run_oauth_helper', true);
-		}else{
-			update_option('simple_calendar_run_oauth_helper', false);
-		}
-
+	if (class_exists('SimpleCalendar\Add_On_Google_Pro') || class_exists('SimpleCalendar\Simple_Calendar_Appointment')) {
+		update_option('simple_calendar_run_oauth_helper', true);
+	} else {
+		update_option('simple_calendar_run_oauth_helper', false);
+	}
 }
 add_action('admin_init', 'simcal_notice_to_update_pro_addon');
