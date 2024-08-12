@@ -11,7 +11,7 @@
   },
   "devDependencies": {
     "@prettier/plugin-php": "0.22.2",
-    "autoprefixer": "10.4.19",
+    "autoprefixer": "10.4.20",
     "bower": "1.8.14",
     "concurrently": "8.2.2",
     "esbuild": "0.23.0",
