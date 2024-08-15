@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.4.2 =
+* Fix: Event rendering issue.
+
 = 3.4.1 =
 * Dev: Add OAuth helper functionality.
 * Dev: Make OAuth helper option compatibble with Appointment add-on.
