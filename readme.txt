@@ -98,7 +98,7 @@ We'd love your help! Here's a few things you can do:
 == Changelog ==
 
 = 3.4.2 =
-* Fix: Event rendering issue.
+* Fix: Event rendering issue for public calendar while using Auth via Xtendify.
 
 = 3.4.1 =
 * Dev: Add OAuth helper functionality.
