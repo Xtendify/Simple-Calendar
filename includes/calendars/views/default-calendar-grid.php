@@ -12,6 +12,8 @@ use SimpleCalendar\Abstracts\Calendar;
 use SimpleCalendar\Abstracts\Calendar_View;
 use SimpleCalendar\Events\Event;
 use SimpleCalendar\Calendars\Default_Calendar;
+use \DateTime;
+use \DateTimeZone;
 
 if (!defined('ABSPATH')) {
 	exit();
@@ -165,6 +167,20 @@ class Default_Calendar_Grid implements Calendar_View
 	}
 
 	/**
+	 * Format the timestamp with timeZone to display exact month as per the diffrent timezone.
+	 *
+	 * @since  3.4.1
+	 */
+	public function format_timestamp($dateformat = 'F', $timestamp)
+	{
+		$datetime = new \DateTime();
+		$datetime->setTimezone(new \DateTimeZone($this->calendar->timezone));
+		$datetime->setTimestamp($timestamp);
+		$formatted_date = $datetime->format($dateformat);
+
+		return $formatted_date;
+	}
+	/**
 	 * Default calendar grid markup.
 	 *
 	 * @since  3.0.0
@@ -215,7 +231,7 @@ class Default_Calendar_Grid implements Calendar_View
       }
 
       foreach ($current as $k => $v) {
-      	echo ' <span class="simcal-current-' . $k, '">' . date_i18n($v, $calendar->start) . '</span> ';
+      	echo ' <span class="simcal-current-' . $k, '">' . $this->format_timestamp($v, $calendar->start) . '</span> ';
       }
 
       echo '</h3>';
@@ -264,7 +280,10 @@ class Default_Calendar_Grid implements Calendar_View
                 </tr>
                 </thead>
 
-				<?php echo $this->draw_month(date('n', $calendar->start), date('Y', $calendar->start)); ?>	 			
+				<?php echo $this->draw_month(
+    	date($this->format_timestamp('n', $calendar->start)),
+    	date($this->format_timestamp('Y', $calendar->start))
+    ); ?>	 			
             </table>
 
 			<?php

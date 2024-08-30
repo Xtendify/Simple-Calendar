@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.4.3 =
+* Fix: Calendar Start Date Issue in Grid View.
+
 = 3.4.2 =
 * Fix: Event rendering issue for public calendar while using Auth via Xtendify.
 
