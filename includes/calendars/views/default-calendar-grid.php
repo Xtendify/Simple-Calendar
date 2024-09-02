@@ -169,14 +169,14 @@ class Default_Calendar_Grid implements Calendar_View
 	/**
 	 * Format the timestamp with timeZone to display exact month as per the diffrent timezone.
 	 *
-	 * @since  3.4.1
+	 * @since  3.4.3
 	 */
-	public function format_timestamp($dateformat = 'F', $timestamp)
+	public function format_timestamp($format = 'F', $timestamp)
 	{
 		$datetime = new \DateTime();
 		$datetime->setTimezone(new \DateTimeZone($this->calendar->timezone));
 		$datetime->setTimestamp($timestamp);
-		$formatted_date = $datetime->format($dateformat);
+		$formatted_date = $datetime->format($format);
 
 		return $formatted_date;
 	}
