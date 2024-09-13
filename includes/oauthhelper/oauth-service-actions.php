@@ -149,7 +149,12 @@ class Oauth_Ajax
 
 		if (isset($response_arr['response']) && !empty($response_arr['response'])) {
 			if ($response_arr['response']) {
-				return $response_arr;
+				$get_calendars_defaultcolors = $response_arr['defaultColors'];
+
+				if (isset($get_calendars_defaultcolors) && is_array($get_calendars_defaultcolors)) {
+					update_option('simple-calendar_defaultcolors', $get_calendars_defaultcolors);
+				}
+				return $response_arr['data'];
 			} else {
 				$response = [
 					'Error' => __('There is something wrong. please re-try.', 'google-calendar-events'),
