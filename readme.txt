@@ -97,6 +97,14 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.4.3 =
+* Fix: Event color not showing in Calendar when using OAuth via Xtendify.
+* Fix: Date format inconsistencies when using shortcodes in certain conditions.
+* Fix: Calendar start date issue in Grid View causing incorrect date display.
+
+= 3.4.2 =
+* Fix: Event rendering issue for public calendar while using Auth via Xtendify.
+
 = 3.4.1 =
 * Dev: Add OAuth helper functionality.
 * Dev: Make OAuth helper option compatibble with Appointment add-on.
