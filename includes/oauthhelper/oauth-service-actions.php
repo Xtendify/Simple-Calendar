@@ -149,11 +149,7 @@ class Oauth_Ajax
 
 		if (isset($response_arr['response']) && !empty($response_arr['response'])) {
 			if ($response_arr['response']) {
-				$get_calendars_defaultcolors = $response_arr['defaultColors'];
 
-				if (isset($get_calendars_defaultcolors) && is_array($get_calendars_defaultcolors)) {
-					update_option('simple-calendar_defaultcolors', $get_calendars_defaultcolors);
-				}
 				return $response_arr['data'];
 			} else {
 				$response = [
@@ -192,11 +188,11 @@ class Oauth_Ajax
 
 		if (isset($response_arr['response']) && !empty($response_arr['response'])) {
 			if ($response_arr['response']) {
-				$response_data = $response_arr['data'];
 
-				return unserialize($response_data);
+				return $response_arr;
+
 			}
-		} elseif ($response_arr['message']) {
+		} elseif (isset($response_arr['message']) && !empty($response_arr['message'])) {
 			$response = [
 				'Error' => $response_arr['message'],
 			];
