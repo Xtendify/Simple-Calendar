@@ -277,14 +277,18 @@ function simcal_print_shortcode_tip($post_id)
  */
 function simcal_ga_campaign_url($base_url, $campaign, $content, $raw = false)
 {
-	$url = add_query_arg(
-		[
-			'utm_source' => 'inside-plugin',
-			'utm_medium' => 'link',
-			'utm_campaign' => $campaign, // i.e. 'core-plugin', 'gcal-pro'
-			'utm_content' => $content, // i.e. 'sidebar-link', 'settings-link'
-		],
-		$base_url
+	$campaign = sanitize_text_field($campaign);
+	$content = sanitize_text_field($content);
+	$url = esc_url(
+		add_query_arg(
+			[
+				'utm_source' => 'inside-plugin',
+				'utm_medium' => 'link',
+				'utm_campaign' => $campaign, // i.e. 'core-plugin', 'gcal-pro'
+				'utm_content' => $content, // i.e. 'sidebar-link', 'settings-link'
+			],
+			$base_url
+		)
 	);
 
 	if ($raw) {

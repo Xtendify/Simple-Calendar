@@ -812,7 +812,9 @@ abstract class Calendar
 			$params['ctz'] = urlencode($event->timezone);
 		}
 
-		$url = add_query_arg($params, $base_url);
+		$params = array_map('sanitize_text_field', $params);
+
+		$url = esc_url(add_query_arg($params, sanitize_url($base_url)));
 
 		return $url;
 	}
