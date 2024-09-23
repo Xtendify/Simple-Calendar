@@ -97,7 +97,7 @@ class Notices
 				'admin_notices',
 				$print_notice = function () use ($notice) {
 					$name = is_array($notice->id) ? key($notice->id) : $notice->id;
-					$url = add_query_arg(['dismiss_simcal_notice' => $name]);
+					$url = esc_url(add_query_arg(['dismiss_simcal_notice' => $name]));
 					$dismiss_link =
 						$notice->dismissible === true
 							? sprintf('<a class="dashicons-before dashicons-dismiss simcal-dismiss-notice" href="%1$s"></a>', $url)
