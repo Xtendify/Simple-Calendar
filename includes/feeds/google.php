@@ -570,12 +570,12 @@ class Google extends Feed
 			) {
 				$backgroundcolor = '';
 				$response_arr = apply_filters('simple_calendar_oauth_list_events', '', $id, $args);
-				
-				$response = unserialize($response_arr['data']);	
-				if(isset($response_arr['backgroundcolor']) && !empty($response_arr['backgroundcolor'])){			
+
+				$response = unserialize($response_arr['data']);
+				if (isset($response_arr['backgroundcolor']) && !empty($response_arr['backgroundcolor'])) {
 					$backgroundcolor = $response_arr['backgroundcolor'];
 				}
-				
+
 				if (isset($response['Error']) && !empty($response['Error'])) {
 					throw new Google_Service_Exception($response['Error'], 1);
 				}

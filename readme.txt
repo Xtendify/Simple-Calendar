@@ -101,6 +101,8 @@ We'd love your help! Here's a few things you can do:
 * Fix: Event color not showing in Calendar when using OAuth via Xtendify.
 * Fix: Date format inconsistencies when using shortcodes in certain conditions.
 * Fix: Calendar start date issue in Grid View causing incorrect date display.
+* Fix: Print calendar index not found issue.
+* Fix: Cross-Site Scripting(XSS) vulnerability.
 
 = 3.4.2 =
 * Fix: Event rendering issue for public calendar while using Auth via Xtendify.

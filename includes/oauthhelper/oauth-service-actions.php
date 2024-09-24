@@ -149,7 +149,6 @@ class Oauth_Ajax
 
 		if (isset($response_arr['response']) && !empty($response_arr['response'])) {
 			if ($response_arr['response']) {
-
 				return $response_arr['data'];
 			} else {
 				$response = [
@@ -188,9 +187,7 @@ class Oauth_Ajax
 
 		if (isset($response_arr['response']) && !empty($response_arr['response'])) {
 			if ($response_arr['response']) {
-
 				return $response_arr;
-
 			}
 		} elseif (isset($response_arr['message']) && !empty($response_arr['message'])) {
 			$response = [
