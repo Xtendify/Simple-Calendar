@@ -500,6 +500,7 @@ class Google extends Feed
 	 */
 	public function make_request($id = '', $time_min = 0, $time_max = 0)
 	{
+		$post_id = get_the_ID();
 		$calendar = [];
 		$google = $this->get_service();
 
@@ -556,11 +557,24 @@ class Google extends Feed
 			}
 
 			$is_authhelper = get_option('simple_calendar_run_oauth_helper');
+			$feed_type = wp_get_object_terms($post_id, 'calendar_feed');
+
 			// Query events in calendar.
 			$simple_calendar_auth_site_token = get_option('simple_calendar_auth_site_token');
 			$response = '';
-			if (isset($simple_calendar_auth_site_token) && !empty($simple_calendar_auth_site_token && $is_authhelper)) {
-				$response = apply_filters('simple_calendar_oauth_list_events', '', $id, $args);
+			if (
+				isset($simple_calendar_auth_site_token) &&
+				!empty($simple_calendar_auth_site_token && $is_authhelper) &&
+				isset($feed_type[0]->slug) &&
+				$feed_type[0]->slug != 'google'
+			) {
+				$backgroundcolor = '';
+				$response_arr = apply_filters('simple_calendar_oauth_list_events', '', $id, $args);
+
+				$response = unserialize($response_arr['data']);
+				if (isset($response_arr['backgroundcolor']) && !empty($response_arr['backgroundcolor'])) {
+					$backgroundcolor = $response_arr['backgroundcolor'];
+				}
 
 				if (isset($response['Error']) && !empty($response['Error'])) {
 					throw new Google_Service_Exception($response['Error'], 1);
@@ -577,6 +591,7 @@ class Google extends Feed
 					'timezone' => $response->getTimeZone(),
 					'url' => esc_url('//www.google.com/calendar/embed?src=' . $id),
 					'events' => $response->getItems(),
+					'backgroundcolor' => $backgroundcolor,
 				];
 			}
 		}
