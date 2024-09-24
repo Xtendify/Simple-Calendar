@@ -389,7 +389,7 @@ class Google extends Feed
 
 							// Event link.
 							if ('use_calendar' == $this->timezone_setting) {
-								$link = add_query_arg(['ctz' => $this->timezone], $event->getHtmlLink());
+								$link = esc_url(add_query_arg(['ctz' => $this->timezone], $event->getHtmlLink()));
 							} else {
 								$link = $event->getHtmlLink();
 							}

@@ -146,7 +146,9 @@ class Update
 			return;
 		}
 
-		$url = add_query_arg('simcal_install', esc_attr($transient), admin_url('index.php?page=simple-calendar_about'));
+		$url = esc_url(
+			add_query_arg('simcal_install', esc_attr($transient), admin_url('index.php?page=simple-calendar_about'))
+		);
 		wp_safe_redirect($url);
 		exit();
 	}
