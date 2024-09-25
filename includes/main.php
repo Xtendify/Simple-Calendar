@@ -118,7 +118,7 @@ final class Plugin
 		add_action('admin_init', [$this, 'register_settings'], 5);
 
 		//Oauth Helper init
-		add_action('admin_init', [$this, 'oauth_helper_init'], 5);
+		add_action('init', [$this, 'oauth_helper_init'], 5);
 
 		// Upon plugin loaded action hook.
 		do_action('simcal_loaded');

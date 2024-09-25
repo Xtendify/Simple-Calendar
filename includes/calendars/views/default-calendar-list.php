@@ -439,9 +439,13 @@ class Default_Calendar_List implements Calendar_View
 					}
 				} else {
 					if ($date_order['y'] !== false && $date_order['y'] > $date_order['m']) {
-						$small = date_i18n('Y, M d', $st);
+						if ($date_order['d'] > $date_order['m']) {
+							$small = date_i18n('M d, Y', $st);
+						} else {
+							$small = date_i18n('d M Y', $st);
+						}
 					} else {
-						$small = date_i18n('M d Y', $st);
+						$small = date_i18n('Y, M d', $st);
 					}
 				}
 			}

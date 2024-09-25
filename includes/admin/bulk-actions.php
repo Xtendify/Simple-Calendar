@@ -153,7 +153,7 @@ class Bulk_Actions
 			}
 
 			$pagenum = $wp_list_table->get_pagenum();
-			$sendback = add_query_arg('paged', $pagenum, $sendback);
+			$sendback = esc_url(add_query_arg('paged', absint($pagenum), sanitize_url($sendback)));
 
 			// Check that we have anonymous function as a callback.
 			$anon_fns = array_filter($this->actions[$action], function ($el) {
@@ -166,7 +166,7 @@ class Bulk_Actions
 				call_user_func($this->actions[$action]['callback'], $post_ids);
 			}
 
-			$sendback = add_query_arg(['success_action' => $action, 'ids' => join(',', $post_ids)], $sendback);
+			$sendback = esc_url(add_query_arg(['success_action' => $action, 'ids' => join(',', $post_ids)], $sendback));
 			$sendback = remove_query_arg(
 				[
 					'action',
