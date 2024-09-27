@@ -4,29 +4,9 @@
 	width: 100%;
 }
 
-/* #events-settings-panel
-	.simcal-panel-section
-	.simcal-panel-field
-	td
-	#events-settings-panel
-	.simcal-panel-section
-	.simcal-panel-field
-	th {
-	width: 100%;
-} */
-
 #post-body-content #titlediv #title-prompt-text {
 	padding: 0 0 0 15px;
 }
-
-/* #default-calendar-settings .meta-box-sortables select {
-	max-width: 84%;
-} */
-
-/* body .simcal-field-textarea,
-body .simcal-field-select-enhanced {
-	width: 92%;
-} */
 
 #advanced-settings-panel input[type='checkbox'],
 #advanced-settings-panel input[type='radio'] {
@@ -38,29 +18,16 @@ body .simcal-field-select-enhanced {
 	border-color: #d4d4d8;
 }
 
-/* .simcal-panel-section-google tr.simcal-panel-field {
-	display: flex;
-	flex-wrap: wrap;
-	width: 100%;
-} */
+.simcal-panels-wrap .select2-container--default .select2-selection--multiple .select2-selection__choice {
+	background-color: #f7fcf6;
+	padding: 3px;
+}
 
 .simcal-panel-field > th {
 	font-weight: 400;
 	min-width: 100px;
 	width: 27%;
 }
-
-/* .simcal-panel-datetime-formatting tr.simcal-panel-field {
-	display: flex;
-	flex-wrap: wrap;
-	width: 100%;
-} */
-
-/* .simcal-panel-field .simcal-field-text {
-	width: 95%;
-	max-width: 100%;
-} */
-
 .simcal-tabs:after {
 	border-right: 0px;
 	background-color: #f7fcf6;
@@ -90,10 +57,6 @@ body .simcal-field-select-enhanced {
 	box-shadow: unset;
 }
 
-/* .simcal-panel-field > td {
-	width: 89%;
-} */
-
 .postbox-header .hndle {
 	flex: unset;
 }
@@ -112,54 +75,6 @@ body .simcal-field-select-enhanced {
 	outline: 2px solid transparent;
 }
 
-/* #simcal-calendar-settings {
-	display: none;
-}
-
-#simcal-calendar-settings .hndle {
-	line-height: 2;
-	padding: 10px;
-}
-
-#simcal-calendar-settings .inside {
-	margin: 0;
-	padding: 0;
-}
-
-#simcal-calendar-settings .select2-container {
-	border-radius: 0;
-	max-width: 500px;
-}
-
-#simcal-calendar-settings .select2-search__field {
-	border: 0 !important;
-	box-shadow: none !important;
-	margin: 0;
-}
-
-#simcal-calendar-settings .select2-search__field:focus {
-	border: 0 !important;
-	box-shadow: none !important;
-}
-
-#simcal-calendar-settings .select2-selection {
-	border: 1px solid #ddd;
-	border-radius: 0;
-}
-
-#simcal-calendar-settings .select2-container--open .select2-selection {
-	border-color: #5b9dd9;
-	box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
-}
-
-#simcal-calendar-settings .select2-selection__choice {
-	margin-bottom: 0;
-}
-
-#simcal-calendar-settings .wp-picker-container {
-	vertical-align: inherit;
-} */
-
 #simcal-calendar-settings input[type='radio']:checked::before {
 	content: '';
 	border-radius: 50%;
@@ -175,35 +90,57 @@ body .simcal-field-select-enhanced {
 }
 #simcal-calendar-settings input[type='checkbox']:checked::before {
 	content: url('../images/pages/settings/green-tick-check.png');
-	height: 1.3125rem;
-	width: 1.3125rem;
+	height: 1rem;
+	width: 1rem;
+	margin: -0.1875rem 0 0 -0.1rem;
+}
+#simcal-calendar-settings input[type='checkbox'] {
+	width: 20px;
+	height: 20px;
 }
 #simcal-calendar-settings select option:hover {
 	background-color: #f7fcf6 !important;
 }
-
-/* .simcal-panel-section-cache tr.simcal-panel-field {
-	display: flex;
-	width: 100%;
-	flex-wrap: wrap;
-} */
+p.description {
+	color: #3eafef;
+}
+#simcal-calendar-settings
+	.simcal-panels-wrap
+	#appointment-calendar-settings-panel
+	.apnt-row
+	.right-area
+	.form-group
+	.wrap-event-title
+	input[type='text'] {
+	width: 75%;
+	max-width: 100%;
+	color: #3a414c;
+	border-color: #d4d4d8;
+}
+#simcal-calendar-settings
+	.simcal-panels-wrap
+	#appointment-calendar-settings-panel
+	.apnt-row
+	.right-area
+	.form-group
+	.wrap-event-title
+	input[type='text']:focus {
+	border-color: #60bc4e;
+	box-shadow: 0 0 0 1px #60bc4e;
+	outline: 2px solid transparent;
+}
+#simcal-calendar-settings .simcal-panels-wrap #appointment-calendar-settings-panel .apnt-row .right-area label {
+	min-width: 120px;
+	display: inline-block;
+	width: 19%;
+}
 
 #simcal-calendar-settings label {
 	cursor: pointer;
 	font-size: 16px;
 	font-weight: 400;
 }
-/* select#_grouped_calendars_source {
-	width: 90%;
-} */
-/* select#_feed_earliest_event_date,
-select#_feed_latest_event_date,
-select#_calendar_begins {
-	max-width: 80%;
-} */
-/* select#_default_calendar_style_theme {
-	width: 85%;
-} */
+
 .simcal-panels p {
 	margin: 10px 0;
 }
@@ -226,20 +163,7 @@ select,
 textarea {
 	border: 1px solid #d4d4d8;
 }
-/* #simcal-calendar-settings .simcal-panel-field.calendar_datetime_separator_spacing {
-	display: flex;
-	width: 100%;
-	flex-wrap: nowrap;
-} */
-/* .simcal-panel-section span.select2.select2-container.select2-container--default {
-	width: 95% !important;
-} */
-/* .simcal-panel-field.calendar_datetime_separator_spacing > th {
-	width: 50%;
-} */
-/* body .simcal-panel-field.calendar_datetime_separator .simcal-field-tiny {
-	max-width: 95%;
-} */
+
 #simcal-calendar-settings
 	.simcal-panels-wrap
 	#appointment-calendar-settings-panel
@@ -254,15 +178,6 @@ textarea {
 .simcal-panels select {
 	width: 75%;
 }
-/* .simcal-miscellaneous-panel-section .simcal-panel-section tr td select,
-.simcal-miscellaneous-panel-section .simcal-panel-section tr td .simcal-field-textarea,
-body .simcal-panel-field .simcal-panel-field.calendar_datetime_separator .simcal-field-tiny,
-#google-settings-panel select#_google_events_recurring,
-#simcal-calendar-settings select#_google_pro_events_recurring,
-.simcal-panel-section select:first-child,
-.simcal-panels select:first-child {
-	width: 95%;
-} */
 #simcal-calendar-settings .simcal-panels-wrap .simcal-panel input[type='number'] {
 	border-radius: 3px;
 }
@@ -274,40 +189,15 @@ body .simcal-panel-field .simcal-panel-field.calendar_datetime_separator .simcal
 #events-settings-panel > table > tbody tr:first-child td {
 	padding-top: 0px;
 }
-/* #simcal-calendar-settings
-	.simcal-panels-wrap
-	#appointment-calendar-settings-panel
-	.apnt-row
-	.right-area
-	.form-group
-	.wrap-event-title
-	input[type='text'] {
-	max-width: 100%;
-	width: 75%;
-} */
+
 #simcal-calendar-settings .simcal-panels-wrap .simcal-tabs li a {
 	color: rgb(127 132 144) !important;
 	--tw-text-opacity: 1;
 	font-size: 16px;
 	font-weight: 400;
 }
-/* #fullcalendar-settings td select#_fullcalendar_display_min_time,
-#fullcalendar-settings td select#_fullcalendar_display_max_time {
-	width: 37.5%;
-} */
-/* table#fullcalendar-settings {
-	margin-left: 6%;
-} */
-/* #fullcalendar-settings td select {
-	width: 80%;
-} */
 
 .simcal-panel > table > tbody tr.simcal-panel-field td,
 .simcal-panel > table > tbody tr.simcal-panel-field th {
 	padding: 10px;
 }
-/* 
-.simcal-panel > table > tbody tr:hover td,
-.simcal-panel > table > tbody tr:hover th {
-	background-color: #fafafa;
-} */

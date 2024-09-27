@@ -602,7 +602,7 @@ body .simcal-field-textarea {
 
 .simcal-box-handle {
 	display: inline-block;
-	line-height: 1;
+	line-height: 2.5;
 	margin-left: 8px;
 }
 .simcal-box-handle:before {

@@ -151,6 +151,15 @@ class Assets
 			wp_enqueue_style('sc-welcome-style', $css_path . 'sc-welcome-pg-style.min.css', [], SIMPLE_CALENDAR_VERSION);
 			wp_enqueue_style('sc-tail-style', $css_path . 'tailwind.min.css', [], SIMPLE_CALENDAR_VERSION);
 		}
+
+		if ($sc_screen->id == 'calendar') {
+			wp_enqueue_style(
+				'sc-setting-style',
+				SIMPLE_CALENDAR_ASSETS . 'css/admin-post-setting-style.css',
+				[],
+				SIMPLE_CALENDAR_VERSION
+			);
+		}
 		$run_oauth_helper = get_option('simple_calendar_run_oauth_helper');
 		if ($run_oauth_helper && $this->current_page === 'simple-calendar_settings') {
 			wp_enqueue_style('sc-oauth-helper-style', $css_path . 'oauth-helper-admin.min.css', [], SIMPLE_CALENDAR_VERSION);
