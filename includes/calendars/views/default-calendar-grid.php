@@ -363,20 +363,51 @@ class Default_Calendar_Grid implements Calendar_View
 			$timestamps = array_keys($events);
 			$lower_bound = array_filter($timestamps, [$this, 'filter_events_before']);
 			$higher_bound = array_filter($lower_bound, [$this, 'filter_events_after']);
-			$filtered =
-				is_array($events) && is_array($higher_bound) && !empty($events) && !empty($higher_bound)
-					? array_intersect_key($events, array_combine($higher_bound, $higher_bound))
-					: [];
 
-			// Put resulting events in an associative array, with day of the month as key for easy retrieval in calendar days loop.
+			$current_month = Carbon::createFromTimestamp($this->start, $calendar->timezone)->month;
+			$current_year = Carbon::createFromTimestamp($this->start, $calendar->timezone)->year;
+
+			$filtered = array_filter($events, function ($events_in_day) {
+				foreach ($events_in_day as $event) {
+					if ($event instanceof Event) {
+						if (
+							($event->start >= $this->start && $event->start < $this->end + 86400) ||
+							($event->end >= $this->start && $event->end < $this->end + 86400)
+						) {
+							return true;
+						}
+					}
+				}
+				return false;
+			});
+
 			$day_events = [];
 			foreach ($filtered as $timestamp => $events_in_day) {
 				foreach ($events_in_day as $event) {
 					if ($event instanceof Event) {
-						$day = intval(Carbon::createFromTimestamp($timestamp, $calendar->timezone)->endOfDay()->day);
-						$day_events[$day][] = $event;
+						$event_start = Carbon::createFromTimestamp($event->start, $calendar->timezone);
+						$event_end = Carbon::createFromTimestamp($event->end, $calendar->timezone);
+
+						for ($day = $event_start->copy(); $day->lte($event_end); $day->addDay()) {
+							if ($day->month == $current_month && $day->year == $current_year) {
+								$day_key = intval($day->format('j'));
+								$event_id = $event->uid;
+
+								if ($day->isSameDay($event_end) && $event_end->hour == 0 && $event_end->minute == 0) {
+									continue;
+								}
+
+								if (!isset($day_events[$day_key][$event_id])) {
+									$day_events[$day_key][$event_id] = $event;
+								}
+							}
+						}
 					}
 				}
+			}
+
+			foreach ($day_events as $day_key => $events) {
+				$day_events[$day_key] = array_values($events);
 			}
 
 			ksort($day_events, SORT_NUMERIC);
