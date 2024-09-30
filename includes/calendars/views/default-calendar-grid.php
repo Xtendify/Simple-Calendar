@@ -171,7 +171,7 @@ class Default_Calendar_Grid implements Calendar_View
 	 *
 	 * @since  3.4.3
 	 */
-	public function format_timestamp($format = 'F', $timestamp)
+	public function format_timestamp($timestamp, $format = 'F')
 	{
 		$datetime = new \DateTime();
 		$datetime->setTimezone(new \DateTimeZone($this->calendar->timezone));
@@ -231,7 +231,7 @@ class Default_Calendar_Grid implements Calendar_View
       }
 
       foreach ($current as $k => $v) {
-      	echo ' <span class="simcal-current-' . $k, '">' . $this->format_timestamp($v, $calendar->start) . '</span> ';
+      	echo ' <span class="simcal-current-' . $k, '">' . $this->format_timestamp($calendar->start, $v) . '</span> ';
       }
 
       echo '</h3>';
@@ -281,8 +281,8 @@ class Default_Calendar_Grid implements Calendar_View
                 </thead>
 
 				<?php echo $this->draw_month(
-    	date($this->format_timestamp('n', $calendar->start)),
-    	date($this->format_timestamp('Y', $calendar->start))
+    	date($this->format_timestamp($calendar->start, 'n')),
+    	date($this->format_timestamp($calendar->start, 'Y'))
     ); ?>	 			
             </table>
 
