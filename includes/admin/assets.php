@@ -155,7 +155,7 @@ class Assets
 		if ($sc_screen->id == 'calendar') {
 			wp_enqueue_style(
 				'sc-setting-style',
-				SIMPLE_CALENDAR_ASSETS . 'css/admin-post-setting-style.css',
+				$css_path . 'admin-post-setting-style.min.css',
 				[],
 				SIMPLE_CALENDAR_VERSION
 			);
