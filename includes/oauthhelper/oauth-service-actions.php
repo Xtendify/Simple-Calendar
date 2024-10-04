@@ -87,6 +87,7 @@ class Oauth_Ajax
 			$send_msg = ['message' => $message];
 			wp_send_json_success($send_msg);
 		} else {
+			delete_option('simple_calendar_auth_site_token');
 			if (isset($message['message']) && !empty($message['message'])) {
 				$message = $message['message'];
 			} else {
