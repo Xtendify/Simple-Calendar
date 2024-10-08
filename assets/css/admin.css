@@ -329,7 +329,7 @@ body .simcal-field-select-enhanced {
 }
 
 .select2-container {
-	z-index: 999999;
+	z-index: 99999;
 }
 
 body .simcal-field-textarea {
@@ -623,8 +623,7 @@ body .simcal-field-textarea {
 }
 
 .simcal-tabs {
-	background: #fafafa;
-	border-right: 1px solid #eee;
+	background: #f7fcf6;
 	box-sizing: border-box;
 	float: left;
 	line-height: 1em;
@@ -636,7 +635,7 @@ body .simcal-field-textarea {
 .simcal-tabs a {
 	border-bottom: 1px solid #eee;
 	display: block;
-	line-height: 20px !important;
+	line-height: 30px;
 	margin: 0;
 	padding: 10px;
 	text-decoration: none;
@@ -686,12 +685,12 @@ body .simcal-field-textarea {
 	padding: 12px 0 15px 10px;
 	text-align: left;
 }
-.simcal-panel > table > tbody tr:first-child td,
-.simcal-panel > table > tbody tr:first-child th {
-	padding-top: 14px;
+.simcal-panels .simcal-panel > table > tbody tr:first-child td,
+.simcal-panels .simcal-panel > table > tbody tr:first-child th {
+	padding-top: 20px;
 }
-.simcal-panel > table > tbody tr:last-child td,
-.simcal-panel > table > tbody tr:last-child th {
+.simcal-panels .simcal-panel > table > tbody tr:last-child td,
+.simcal-panels .simcal-panel > table > tbody tr:last-child th {
 	border-bottom: 1px solid #eee;
 	padding-bottom: 14px;
 }

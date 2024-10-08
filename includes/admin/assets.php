@@ -153,12 +153,7 @@ class Assets
 		}
 
 		if ($sc_screen->id == 'calendar') {
-			wp_enqueue_style(
-				'sc-setting-style',
-				$css_path . 'admin-post-setting-style.min.css',
-				[],
-				SIMPLE_CALENDAR_VERSION
-			);
+			wp_enqueue_style('sc-setting-style', $css_path . 'admin-post-setting-style.min.css', [], SIMPLE_CALENDAR_VERSION);
 		}
 		$run_oauth_helper = get_option('simple_calendar_run_oauth_helper');
 		if ($run_oauth_helper && $this->current_page === 'simple-calendar_settings') {
