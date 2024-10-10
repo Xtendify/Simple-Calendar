@@ -367,19 +367,10 @@ class Default_Calendar_Grid implements Calendar_View
 			$current_month = Carbon::createFromTimestamp($this->start, $calendar->timezone)->month;
 			$current_year = Carbon::createFromTimestamp($this->start, $calendar->timezone)->year;
 
-			$filtered = array_filter($events, function ($events_in_day) {
-				foreach ($events_in_day as $event) {
-					if ($event instanceof Event) {
-						if (
-							($event->start >= $this->start && $event->start < $this->end + 86400) ||
-							($event->end >= $this->start && $event->end < $this->end + 86400)
-						) {
-							return true;
-						}
-					}
-				}
-				return false;
-			});
+			$filtered =
+				is_array($events) && is_array($higher_bound) && !empty($events) && !empty($higher_bound)
+					? array_intersect_key($events, array_combine($higher_bound, $higher_bound))
+					: [];
 
 			$day_events = [];
 			foreach ($filtered as $timestamp => $events_in_day) {
