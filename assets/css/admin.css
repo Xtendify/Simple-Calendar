@@ -687,7 +687,9 @@ body .simcal-field-textarea {
 	text-align: left;
 }
 .simcal-panels .simcal-panel > table > tbody tr:first-child td,
-.simcal-panels .simcal-panel > table > tbody tr:first-child th {
+.simcal-panels .simcal-panel > table > tbody tr:first-child th,
+.simcal-panels-wrap .simcal-panel > table > tbody tr:first-child td,
+.simcal-panels-wrap .simcal-panel > table > tbody tr:first-child th {
 	padding-top: 20px;
 }
 .simcal-panels .simcal-panel > table > tbody tr:last-child td,

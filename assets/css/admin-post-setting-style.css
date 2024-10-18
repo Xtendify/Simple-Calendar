@@ -237,3 +237,6 @@ textarea {
 	.appointment-availability-title {
 	padding: 14px 0 15px 0;
 }
+.post-type-calendar #wpfooter {
+	bottom: auto;
+}
