@@ -1,9 +1,3 @@
-#events-settings-panel .simcal-panel-section .simcal-panel-field {
-	display: flex;
-	flex-wrap: wrap;
-	width: 100%;
-}
-
 #post-body-content #titlediv #title-prompt-text {
 	padding: 0 0 0 15px;
 }
@@ -18,7 +12,9 @@
 	color: #3a414c;
 	border-color: #d4d4d8;
 }
-
+.simcal-panel-field ul li {
+	margin-bottom: 0px;
+}
 .simcal-panels-wrap .select2-container--default .select2-selection--multiple .select2-selection__choice {
 	background-color: #f7fcf6;
 	padding: 3px;
@@ -27,7 +23,7 @@
 .simcal-panel-field > th {
 	font-weight: 400;
 	min-width: 100px;
-	width: 27%;
+	width: 21%;
 }
 .simcal-tabs:after {
 	border-right: 0px;
@@ -116,7 +112,7 @@ p.description {
 	.form-group
 	.wrap-event-title
 	input[type='text'] {
-	width: 75%;
+	width: 75% !important;
 	max-width: 100%;
 	color: #3a414c;
 	border-color: #d4d4d8;
@@ -176,27 +172,23 @@ textarea {
 	.form-group
 	.wrap-event-title
 	input[type='text'] {
-	border: 1px solid #d4d4d8;
+	border: 1px solid #d4d4d8 !important;
 }
-.simcal-panel-section select,
-.simcal-panels select,
-.simcal-panels textarea,
-.simcal-panels input[type='text'] {
-	width: 75%;
-}
+
 .simcal-panel-field .select2-container {
-	width: 75% !important;
+	width: 95% !important;
 }
 #simcal-calendar-settings .simcal-panels-wrap .simcal-panel input[type='number'] {
 	border-radius: 3px;
 }
-.simcal-panel-section > select,
-.simcal-panels > select {
-	width: 100%;
+.simcal-panel-section tr td > select:first-child,
+.simcal-panels textarea,
+.simcal-panels input[type='text'],
+.simcal-panel-section .simcal-panel-field .simcal-field-select-enhanced {
+	width: 95%;
 }
-#advanced-settings-panel > table > tbody tr:first-child td,
-#events-settings-panel > table > tbody tr:first-child td {
-	padding-top: 0px;
+.simcal-panel-section tr td > input[type='number'] + select {
+	width: 80%;
 }
 
 #simcal-calendar-settings .simcal-panels-wrap .simcal-tabs li a {
@@ -206,13 +198,10 @@ textarea {
 	font-weight: 400;
 }
 
-.simcal-panel > table > tbody tr.simcal-panel-field td,
-.simcal-panel > table > tbody tr.simcal-panel-field th {
-	padding: 10px;
-}
 .simcal-fullcalendar-grid .simcal-field-checkboxes-inline {
 	display: flex;
 	gap: 20px;
+	margin: 0px;
 }
 #simcal-calendar-settings .simcal-field-checkboxes-inline li label {
 	font-size: inherit;
@@ -221,5 +210,30 @@ textarea {
 }
 .simcal-panels .simcal-panel-field #_fullcalendar_display_min_time,
 .simcal-panels .simcal-panel-field #_fullcalendar_display_max_time {
-	width: 35.5%;
+	width: 45.5%;
+}
+.simcal-panel-section .wp-picker-container .wp-color-result.button {
+	margin: 0px;
+}
+.simcal-panel-field p {
+	margin-bottom: 0px;
+}
+#simcal-calendar-settings
+	.simcal-panels-wrap
+	#appointment-calendar-settings-panel
+	.apnt-row
+	.right-area
+	.form-group
+	.wrap-event-title
+	input[type='text'] {
+	border: 1px solid #d4d4d8;
+}
+#simcal-calendar-settings
+	.simcal-panels-wrap
+	#appointment-calendar-settings-panel
+	.apnt-row
+	.left-area
+	.appointment-availability-table
+	.appointment-availability-title {
+	padding: 14px 0 15px 0;
 }

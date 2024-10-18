@@ -349,6 +349,7 @@ body .simcal-field-textarea {
 .simcal-field-radios-inline > li {
 	display: inline-block;
 	margin-right: 10px;
+	margin-bottom: 0px;
 }
 .simcal-field-radios-inline > li:last-child {
 	margin-right: 0;
@@ -718,7 +719,7 @@ body .simcal-field-textarea {
 
 .simcal-panel-field .simcal-field-text {
 	max-width: 500px;
-	width: 90%;
+	width: 95%;
 }
 
 @media screen and (max-width: 1023px) {
