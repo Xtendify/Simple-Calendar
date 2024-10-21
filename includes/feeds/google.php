@@ -562,13 +562,13 @@ class Google extends Feed
 			// Query events in calendar.
 			$simple_calendar_auth_site_token = get_option('simple_calendar_auth_site_token');
 			$response = '';
+			$backgroundcolor = '';
 			if (
 				isset($simple_calendar_auth_site_token) &&
 				!empty($simple_calendar_auth_site_token && $is_authhelper) &&
 				isset($feed_type[0]->slug) &&
 				$feed_type[0]->slug != 'google'
 			) {
-				$backgroundcolor = '';
 				$response_arr = apply_filters('simple_calendar_oauth_list_events', '', $id, $args);
 
 				$response = unserialize($response_arr['data']);
