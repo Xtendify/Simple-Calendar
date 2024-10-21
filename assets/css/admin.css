@@ -314,7 +314,7 @@
 
 body .simcal-field-tiny,
 body .simcal-panel-field .simcal-field-tiny {
-	max-width: 60px;
+	width: 14%;
 }
 
 body .simcal-field-small,
