@@ -240,3 +240,8 @@ textarea {
 .post-type-calendar #wpfooter {
 	bottom: auto;
 }
+body .simcal-panels .simcal-field-textarea,
+body .simcal-panels .simcal-field-select-enhanced,
+body .simcal-panel-field .simcal-field-text {
+	max-width: 600px;
+}
