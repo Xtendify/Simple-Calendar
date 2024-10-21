@@ -383,7 +383,9 @@ class Default_Calendar_Grid implements Calendar_View
 							if ($day->month == $current_month && $day->year == $current_year) {
 								$day_key = intval($day->format('j'));
 								$event_id = $event->uid;
-
+								/*
+								 * The purpose of this condition is to determine if an event ends at the very start of the day.
+								 */
 								if ($day->isSameDay($event_end) && $event_end->hour == 0 && $event_end->minute == 0) {
 									continue;
 								}
