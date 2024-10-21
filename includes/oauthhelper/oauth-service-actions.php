@@ -82,12 +82,12 @@ class Oauth_Ajax
 
 		$error_msg = [];
 		delete_option('simple_calendar_auth_site_token');
-		
+
 		if ($response_arr['response']) {
 			$message = __('DeAuthenticate Successfully.', 'google-calendar-events');
 			$send_msg = ['message' => $message];
 			wp_send_json_success($send_msg);
-		} else {		
+		} else {
 			if (isset($message['message']) && !empty($message['message'])) {
 				$message = $message['message'];
 			} else {
