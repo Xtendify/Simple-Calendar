@@ -242,6 +242,46 @@ textarea {
 }
 body .simcal-panels .simcal-field-textarea,
 body .simcal-panels .simcal-field-select-enhanced,
-body .simcal-panel-field .simcal-field-text {
-	max-width: 600px;
+body .simcal-panel-field .simcal-field-text,
+.simcal-panel-datetime-formatting .simcal-panel-field .simcal-field-select {
+	max-width: 100%;
+	width: 95%;
+}
+.simcal-panel .simcal-panel-field > td {
+	display: flex;
+	width: 95%;
+	align-items: center;
+	flex-wrap: wrap;
+}
+.simcal-panel-section .simcal-panel-field .simcal-field-select-enhanced {
+	width: calc(100% - 25px);
+	max-width: 100%;
+}
+i.simcal-icon-help.simcal-help-tip {
+	width: 20px;
+	max-width: 20px;
+}
+.simcal-panel-section .simcal-panel-field select#_feed_timezone,
+.simcal-panel-section .simcal-panel-field select#_calendar_week_starts_on,
+#grouped-calendars-settings-panel .simcal-panel-field .select2-container {
+	margin-top: 17px;
+}
+#simcal-calendar-settings .simcal-panel .simcal-panel-field .select2-container {
+	max-width: 900px;
+}
+#_fullcalendar_height_wrap label {
+	display: inline-flex;
+}
+#_fullcalendar_height_wrap label input[type='text'] {
+	margin-right: 10px;
+}
+.simcal-panels .simcal-panel-field #_fullcalendar_display_min_time {
+	margin-right: 5px;
+}
+.simcal-panels .simcal-panel-field #_fullcalendar_display_max_time {
+	margin-left: 5px;
+}
+.simcal-panel .simcal-panel-field .simcal-field-datetime-format-php,
+.simcal-panel .simcal-panel-field .simcal-field-datetime-format-php {
+	width: 100%;
 }
