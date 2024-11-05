@@ -174,7 +174,20 @@ textarea {
 	input[type='text'] {
 	border: 1px solid #d4d4d8 !important;
 }
-
+#appointment-calendar-settings-panel .apnt-row .right-area .form-group {
+	display: flex;
+	max-width: 100%;
+	flex-wrap: wrap;
+}
+#simcal-calendar-settings
+	.simcal-panels-wrap
+	#appointment-calendar-settings-panel
+	.apnt-row
+	.right-area
+	.form-group
+	select {
+	width: 75%;
+}
 .simcal-panel-field .select2-container {
 	width: 95% !important;
 }
@@ -185,12 +198,30 @@ textarea {
 .simcal-panels textarea,
 .simcal-panels input[type='text'],
 .simcal-panel-section .simcal-panel-field .simcal-field-select-enhanced {
-	width: 95%;
+	flex: 1;
 }
 .simcal-panel-section tr td > input[type='number'] + select {
-	width: 80%;
+	flex: 1;
+}
+#_calendar_date_format_default,
+#_calendar_time_format_setting,
+#_calendar_time_format,
+#_fullcalendar_height_wrap,
+#_calendar_time_format_default,
+.simcal-panel-section .description {
+	display: block;
+	width: 100%;
+	clear: left;
 }
 
+#_calendar_time_format_php,
+#_calendar_week_starts_on,
+#_feed_timezone,
+#_calendar_date_format_php,
+.simcal-field-show-other {
+	width: 96%;
+	flex: none;
+}
 #simcal-calendar-settings .simcal-panels-wrap .simcal-tabs li a {
 	color: rgb(127 132 144) !important;
 	--tw-text-opacity: 1;
@@ -245,7 +276,7 @@ body .simcal-panels .simcal-field-select-enhanced,
 body .simcal-panel-field .simcal-field-text,
 .simcal-panel-datetime-formatting .simcal-panel-field .simcal-field-select {
 	max-width: 100%;
-	width: 95%;
+	flex: 1;
 }
 .simcal-panel .simcal-panel-field > td {
 	display: flex;
