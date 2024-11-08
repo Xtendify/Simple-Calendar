@@ -51,7 +51,7 @@ const config = {
 		'.svg': 'file',
 	},
 	outdir: 'assets/generated',
-	plugins: [sassPlugin()]
+	plugins: [sassPlugin()],
 };
 
 if (watch) {
