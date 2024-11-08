@@ -21,7 +21,7 @@ const files = [
 	{ in: 'assets/js/oauth-helper-admin.js', out: 'oauth-helper-admin.min' },
 	{ in: 'assets/css/admin-add-calendar.css', out: 'admin-add-calendar.min' },
 	{ in: 'assets/css/oauth-helper-admin.css', out: 'oauth-helper-admin.min' },
-	{ in: 'assets/css/admin-post-setting-style.scss', out: 'admin-post-setting-style.min' },
+	{ in: 'assets/css/admin-post-settings.scss', out: 'admin-post-settings.min' },
 	{ in: 'assets/css/admin-sett-style.css', out: 'admin-sett-style.min' },
 	{ in: 'assets/css/admin.css', out: 'admin.min' },
 	{ in: 'assets/css/default-calendar-grid.css', out: 'default-calendar-grid.min' },
