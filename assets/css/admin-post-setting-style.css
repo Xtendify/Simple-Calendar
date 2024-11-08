@@ -15,6 +15,22 @@
 .simcal-panel-field ul li {
 	margin-bottom: 0px;
 }
+#default-calendar-settings > tbody:nth-of-type(1) tr:last-child,
+#fullcalendar-settings > tbody:nth-of-type(1) tr:last-child,
+#fullcalendar-settings > tbody:nth-of-type(2) tr:last-child {
+	border-bottom: 1px solid #eee;
+}
+
+#default-calendar-settings > tbody:nth-of-type(1) tr:last-child td,
+#default-calendar-settings > tbody:nth-of-type(1) tr:last-child th,
+#fullcalendar-settings > tbody tr:last-child th,
+#fullcalendar-settings > tbody tr:last-child td {
+	border: none;
+}
+#fullcalendar-settings,
+#default-calendar-settings {
+	border-collapse: collapse;
+}
 .simcal-panels-wrap .select2-container--default .select2-selection--multiple .select2-selection__choice {
 	background-color: #f7fcf6;
 	padding: 3px;
