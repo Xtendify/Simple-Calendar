@@ -1,0 +1,331 @@
+.post-type-calendar {
+	#post-body-content #titlediv #title-prompt-text {
+		padding: 0 0 0 15px;
+	}
+
+	#advanced-settings-panel input[type='checkbox'],
+	#advanced-settings-panel input[type='radio'] {
+		border: 1px solid #d4d4d8;
+	}
+
+	.wp-core-ui select,
+	.simcal-panel-field select {
+		color: #3a414c;
+		border-color: #d4d4d8;
+	}
+	.simcal-panel-field ul li {
+		margin-bottom: 0px;
+	}
+	#default-calendar-settings > tbody:nth-of-type(1) tr:last-child,
+	#fullcalendar-settings > tbody:nth-of-type(1) tr:last-child,
+	#fullcalendar-settings > tbody:nth-of-type(2) tr:last-child {
+		border-bottom: 1px solid #eee;
+	}
+
+	#default-calendar-settings > tbody:nth-of-type(1) tr:last-child td,
+	#default-calendar-settings > tbody:nth-of-type(1) tr:last-child th,
+	#fullcalendar-settings > tbody tr:last-child th,
+	#fullcalendar-settings > tbody tr:last-child td {
+		border: none;
+	}
+	#fullcalendar-settings,
+	#default-calendar-settings {
+		border-collapse: collapse;
+	}
+	.simcal-panels-wrap .select2-container--default .select2-selection--multiple .select2-selection__choice {
+		background-color: #f7fcf6;
+		padding: 3px;
+	}
+
+	.simcal-panel-field > th {
+		font-weight: 400;
+		min-width: 100px;
+		width: 21%;
+	}
+	.simcal-tabs:after {
+		border-right: 0px;
+		background-color: #f7fcf6;
+	}
+
+	.simcal-tabs a {
+		border-bottom: 0px;
+	}
+
+	#simcal-calendar-settings .simcal-panels-wrap .simcal-tabs li a:hover {
+		color: #60bc4e !important;
+	}
+
+	.simcal-tabs li.active a {
+		background-color: #fff;
+	}
+
+	.simcal-help-tip,
+	.simcal-tabs li.active a,
+	.metabox-holder #simcal-calendar-settings .simcal-panels-wrap .simcal-tabs li.active a {
+		color: #60bc4e !important;
+	}
+
+	.wp-core-ui select:active,
+	.wp-core-ui select:focus {
+		border-color: #60bc4e;
+		box-shadow: unset;
+	}
+
+	.postbox-header .hndle {
+		flex: unset;
+	}
+	#simcal-calendar-settings select:hover {
+		color: #3a414c;
+	}
+	#simcal-calendar-settings input[type='checkbox']:focus,
+	#simcal-calendar-settings input[type='month']:focus,
+	#simcal-calendar-settings input[type='number']:focus,
+	#simcal-calendar-settings input[type='radio']:focus,
+	#simcal-calendar-settings input[type='text']:focus,
+	#simcal-calendar-settings select:focus,
+	#simcal-calendar-settings textarea:focus {
+		border-color: #60bc4e;
+		box-shadow: 0 0 0 1px #60bc4e;
+		outline: 2px solid transparent;
+	}
+
+	#simcal-calendar-settings input[type='radio']:checked::before {
+		content: '';
+		border-radius: 50%;
+		width: 0.5rem;
+		height: 0.5rem;
+		margin: 0.1875rem;
+		background-color: #60bc4e;
+		line-height: 1.14285714;
+	}
+	#simcal-calendar-settings .select2-container--open .select2-selection {
+		border-color: #60bc4e;
+		box-shadow: 0 0 2px #60bc4e;
+	}
+	#simcal-calendar-settings input[type='checkbox']:checked::before {
+		content: url('../images/pages/settings/green-tick-check.png');
+		height: 1rem;
+		width: 1rem;
+		margin: -0.1875rem 0 0 -0.1rem;
+	}
+	#simcal-calendar-settings .appointment-availability-table input[type='checkbox']:checked::before {
+		margin: -0.1rem 0 0 -0.05rem;
+	}
+	#simcal-calendar-settings input[type='checkbox'] {
+		width: 20px;
+		height: 20px;
+	}
+	#simcal-calendar-settings select option:hover {
+		background-color: #f7fcf6 !important;
+	}
+	p.description {
+		color: #3eafef;
+	}
+	#simcal-calendar-settings
+		.simcal-panels-wrap
+		#appointment-calendar-settings-panel
+		.apnt-row
+		.right-area
+		.form-group
+		.wrap-event-title
+		input[type='text'] {
+		width: 75% !important;
+		max-width: 100%;
+		color: #3a414c;
+		border-color: #d4d4d8;
+	}
+	#simcal-calendar-settings
+		.simcal-panels-wrap
+		#appointment-calendar-settings-panel
+		.apnt-row
+		.right-area
+		.form-group
+		.wrap-event-title
+		input[type='text']:focus {
+		border-color: #60bc4e;
+		box-shadow: 0 0 0 1px #60bc4e;
+		outline: 2px solid transparent;
+	}
+	#simcal-calendar-settings .simcal-panels-wrap #appointment-calendar-settings-panel .apnt-row .right-area label {
+		min-width: 120px;
+		display: inline-block;
+		width: 19%;
+	}
+
+	#simcal-calendar-settings label {
+		cursor: pointer;
+		font-size: 16px;
+		font-weight: 400;
+	}
+
+	.simcal-panels p {
+		margin: 10px 0;
+	}
+	#simcal-calendar-settings .select2-container .select2-selection--single {
+		height: 34px;
+	}
+	#simcal-calendar-settings .select2-container--default .select2-selection--single .select2-selection__rendered {
+		line-height: 35px;
+	}
+	#simcal-calendar-settings .select2-container--default .select2-selection--single .select2-selection__arrow {
+		height: 33px;
+	}
+	#simcal-calendar-settings input[type='text'],
+	#simcal-calendar-settings input[type='number'],
+	#simcal-calendar-settings select {
+		min-height: 35px;
+	}
+	#simcal-calendar-settings input[type='text'],
+	select,
+	textarea {
+		border: 1px solid #d4d4d8;
+	}
+
+	#simcal-calendar-settings
+		.simcal-panels-wrap
+		#appointment-calendar-settings-panel
+		.apnt-row
+		.right-area
+		.form-group
+		.wrap-event-title
+		input[type='text'] {
+		border: 1px solid #d4d4d8 !important;
+	}
+	#simcal-calendar-settings
+		.simcal-panels-wrap
+		#appointment-calendar-settings-panel
+		.apnt-row
+		.right-area
+		.form-group
+		select {
+		width: 75%;
+	}
+	.simcal-panel-field .select2-container {
+		width: 95% !important;
+	}
+	#simcal-calendar-settings .simcal-panels-wrap .simcal-panel input[type='number'] {
+		border-radius: 3px;
+	}
+	.simcal-panel-section tr td > select:first-child,
+	.simcal-panels textarea,
+	.simcal-panels input[type='text'],
+	.simcal-panel-section .simcal-panel-field .simcal-field-select-enhanced {
+		flex: 1;
+	}
+	.simcal-panel-section tr td > input[type='number'] + select {
+		flex: 1;
+	}
+	#_calendar_date_format_default,
+	#_calendar_time_format_setting,
+	#_calendar_time_format,
+	#_fullcalendar_height_wrap,
+	#_calendar_time_format_default,
+	.simcal-panel-section .description {
+		display: block;
+		width: 100%;
+		clear: left;
+	}
+
+	#_calendar_time_format_php,
+	#_calendar_week_starts_on,
+	#_feed_timezone,
+	#_calendar_date_format_php,
+	.simcal-field-show-other {
+		width: 96%;
+		flex: none;
+	}
+	#simcal-calendar-settings .simcal-panels-wrap .simcal-tabs li a {
+		color: rgb(127 132 144) !important;
+		--tw-text-opacity: 1;
+		font-size: 16px;
+		font-weight: 400;
+	}
+
+	.simcal-fullcalendar-grid .simcal-field-checkboxes-inline {
+		display: flex;
+		gap: 20px;
+		margin: 0px;
+	}
+	#simcal-calendar-settings .simcal-field-checkboxes-inline li label {
+		font-size: inherit;
+		font-weight: inherit;
+		line-height: inherit;
+	}
+	.simcal-panels .simcal-panel-field #_fullcalendar_display_min_time,
+	.simcal-panels .simcal-panel-field #_fullcalendar_display_max_time {
+		width: 45.5%;
+	}
+	.simcal-panel-section .wp-picker-container .wp-color-result.button {
+		margin: 0px;
+	}
+	.simcal-panel-field p {
+		margin-bottom: 0px;
+	}
+	#simcal-calendar-settings
+		.simcal-panels-wrap
+		#appointment-calendar-settings-panel
+		.apnt-row
+		.right-area
+		.form-group
+		.wrap-event-title
+		input[type='text'] {
+		border: 1px solid #d4d4d8;
+	}
+	#simcal-calendar-settings
+		.simcal-panels-wrap
+		#appointment-calendar-settings-panel
+		.apnt-row
+		.left-area
+		.appointment-availability-table
+		.appointment-availability-title {
+		padding: 14px 0 15px 0;
+	}
+	.post-type-calendar #wpfooter {
+		bottom: auto;
+	}
+	.simcal-panels .simcal-field-textarea,
+	.simcal-panels .simcal-field-select-enhanced,
+	.simcal-panel-field .simcal-field-text,
+	.simcal-panel-datetime-formatting .simcal-panel-field .simcal-field-select {
+		max-width: 100%;
+		flex: 1;
+	}
+	.simcal-panel .simcal-panel-field > td {
+		display: flex;
+		width: 95%;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+	.simcal-panel-section .simcal-panel-field .simcal-field-select-enhanced {
+		width: calc(100% - 25px);
+		max-width: 100%;
+	}
+	i.simcal-icon-help.simcal-help-tip {
+		width: 20px;
+		max-width: 20px;
+	}
+	.simcal-panel-section .simcal-panel-field select#_feed_timezone,
+	.simcal-panel-section .simcal-panel-field select#_calendar_week_starts_on,
+	#grouped-calendars-settings-panel .simcal-panel-field .select2-container {
+		margin-top: 17px;
+	}
+	#simcal-calendar-settings .simcal-panel .simcal-panel-field .select2-container {
+		max-width: 900px;
+	}
+	#_fullcalendar_height_wrap label {
+		display: inline-flex;
+	}
+	#_fullcalendar_height_wrap label input[type='text'] {
+		margin-right: 10px;
+	}
+	.simcal-panels .simcal-panel-field #_fullcalendar_display_min_time {
+		margin-right: 5px;
+	}
+	.simcal-panels .simcal-panel-field #_fullcalendar_display_max_time {
+		margin-left: 5px;
+	}
+	.simcal-panel .simcal-panel-field .simcal-field-datetime-format-php,
+	.simcal-panel .simcal-panel-field .simcal-field-datetime-format-php {
+		width: 100%;
+	}
+}
