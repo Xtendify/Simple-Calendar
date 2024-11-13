@@ -97,6 +97,10 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+
+= 3.4.5 =
+* Update: Fix UI gaps in the calendar CPT. 
+
 = 3.4.4 =
 * Fix: Fixed deprecation notices and warnings to ensure compatibility with the latest WordPress updates.
 * Fix: Resolved an issue where multi-day events were being rendered as double events on the same day.
