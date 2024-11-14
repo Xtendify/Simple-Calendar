@@ -31,8 +31,8 @@
     "ext-json": "*",
     "ext-mbstring": "*",
     "composer/installers": "2.3.0",
-    "google/apiclient": "2.15.3",
-    "nesbot/carbon": "3.0.2",
+    "google/apiclient": "2.18.0",
+    "nesbot/carbon": "3.8.2",
     "erusev/parsedown": "1.7.4",
     "mexitek/phpcolors": "dev-master",
     "guzzlehttp/guzzle": "7.8.1",
@@ -52,7 +52,7 @@
   },
   "config": {
     "platform": {
-      "php": "7.3"
+      "php": "8.1"
     },
     "allow-plugins": {
       "composer/installers": true
