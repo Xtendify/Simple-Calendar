@@ -97,14 +97,16 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.4.6 =
+* Fix: Compatibility warnings with PHP 8.
 
 = 3.4.5 =
-* Update: Fix UI gaps in the calendar CPT. 
+* Fix: UI gaps in the calendar CPT.
 
 = 3.4.4 =
 * Fix: Fixed deprecation notices and warnings to ensure compatibility with the latest WordPress updates.
 * Fix: Resolved an issue where multi-day events were being rendered as double events on the same day.
-* Fix: De Authentication issue fix. 
+* Fix: De Authentication issue fix.
 
 = 3.4.3 =
 * Fix: Event color not showing in Calendar when using OAuth via Xtendify.
