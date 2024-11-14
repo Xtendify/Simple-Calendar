@@ -1,4 +1,5 @@
 import * as esbuild from 'esbuild';
+import { sassPlugin } from 'esbuild-sass-plugin';
 import pkg from '../package.json' assert { type: 'json' };
 
 const watch = process.argv.includes('--watch');
@@ -17,7 +18,10 @@ const files = [
 	},
 	{ in: 'assets/js/admin.js', out: 'admin.min' },
 	{ in: 'assets/js/default-calendar.js', out: 'default-calendar.min' },
+	{ in: 'assets/js/oauth-helper-admin.js', out: 'oauth-helper-admin.min' },
 	{ in: 'assets/css/admin-add-calendar.css', out: 'admin-add-calendar.min' },
+	{ in: 'assets/css/oauth-helper-admin.css', out: 'oauth-helper-admin.min' },
+	{ in: 'assets/css/admin-post-settings.scss', out: 'admin-post-settings.min' },
 	{ in: 'assets/css/admin-sett-style.css', out: 'admin-sett-style.min' },
 	{ in: 'assets/css/admin.css', out: 'admin.min' },
 	{ in: 'assets/css/default-calendar-grid.css', out: 'default-calendar-grid.min' },
@@ -47,6 +51,7 @@ const config = {
 		'.svg': 'file',
 	},
 	outdir: 'assets/generated',
+	plugins: [sassPlugin()],
 };
 
 if (watch) {

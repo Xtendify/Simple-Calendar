@@ -373,7 +373,7 @@ function simcal_get_timezone_from_gmt_offset($offset)
 			$offset = floatval($offset) * 3600;
 		}
 
-		$timezone = timezone_name_from_abbr(null, $offset, false);
+		$timezone = timezone_name_from_abbr('', $offset, false);
 		// This is buggy and might return false:
 		// @see http://php.net/manual/en/function.timezone-name-from-abbr.php#86928
 		// Therefore:
@@ -482,15 +482,4 @@ function simcal_delete_feed_transients($id = '')
 	}
 
 	return delete_transient('_simple-calendar_feed_ids');
-}
-
-/**
- * Check if helper plugin install and activate
- * @since  3.2.9
- *
- * @return bool
- */
-function simcal_check_helper_addon()
-{
-	return defined('OAUTH_HELPER_AUTH_DOMAIN') ? OAUTH_HELPER_AUTH_DOMAIN : false;
 }

@@ -12,7 +12,8 @@ if (!defined('ABSPATH')) {
 }
 
 use SimpleCalendar\Admin\Notice;
-
+use SimpleCalendar\Add_On_Google_Pro;
+use SimpleCalendar\Simple_Calendar_Appointment;
 /**
  * Get settings pages and tabs.
  *
@@ -276,14 +277,18 @@ function simcal_print_shortcode_tip($post_id)
  */
 function simcal_ga_campaign_url($base_url, $campaign, $content, $raw = false)
 {
-	$url = add_query_arg(
-		[
-			'utm_source' => 'inside-plugin',
-			'utm_medium' => 'link',
-			'utm_campaign' => $campaign, // i.e. 'core-plugin', 'gcal-pro'
-			'utm_content' => $content, // i.e. 'sidebar-link', 'settings-link'
-		],
-		$base_url
+	$campaign = sanitize_text_field($campaign);
+	$content = sanitize_text_field($content);
+	$url = esc_url(
+		add_query_arg(
+			[
+				'utm_source' => 'inside-plugin',
+				'utm_medium' => 'link',
+				'utm_campaign' => $campaign, // i.e. 'core-plugin', 'gcal-pro'
+				'utm_content' => $content, // i.e. 'sidebar-link', 'settings-link'
+			],
+			$base_url
+		)
 	);
 
 	if ($raw) {
@@ -432,6 +437,7 @@ function simcal_notice_to_update_pro_addon()
 	$all_plugins = get_plugins();
 	$notices = get_option('simple-calendar_admin_notices', []);
 	$pro_plugin_path = 'simple-calendar-google-calendar-pro/simple-calendar-google-calendar-pro.php';
+	$appointment_plugin_path = 'simple-calendar-appointment/simple-calendar-appointment.php';
 	$fullcalendar_plugin_path = 'simple-calendar-fullcalendar/simple-calendar-fullcalendar.php';
 	$pro_plugin_latest_version = get_option('simple-calendar-google-calendar-pro_latest_version', '');
 	$fullcalendar_plugin_latest_version = get_option('simple-calendar-fullcalendar_latest_version', '');
@@ -476,6 +482,17 @@ function simcal_notice_to_update_pro_addon()
 	} elseif (is_array($notices)) {
 		unset($notices[$notice_id]);
 		update_option('simple-calendar_admin_notices', $notices);
+	}
+
+	/*
+	 * Check if Pro/Appointment is actiated, run oauth functionality.
+	 * Update option if pro/appointment plugin is activated.
+	 */
+
+	if (class_exists('SimpleCalendar\Add_On_Google_Pro') || class_exists('SimpleCalendar\Simple_Calendar_Appointment')) {
+		update_option('simple_calendar_run_oauth_helper', true);
+	} else {
+		update_option('simple_calendar_run_oauth_helper', false);
 	}
 }
 add_action('admin_init', 'simcal_notice_to_update_pro_addon');

@@ -3,7 +3,7 @@ Contributors: simplecalendar, rosinghal, pderksen, nickyoung87, nekojira, rossha
 Tags: google calendar, calendar, calendars, google, event calendar, custom calendar, custom calendars, event, events
 Requires at least: 4.2
 Requires PHP: 7.3
-Tested up to: 6.3.1
+Tested up to: 6.5.5
 Stable tag: PACKAGE_VERSION
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -96,6 +96,36 @@ We'd love your help! Here's a few things you can do:
 8. Attach a calendar to a post or page
 
 == Changelog ==
+
+= 3.4.6 =
+* Fix: Compatibility warnings with PHP 8.
+
+= 3.4.5 =
+* Fix: UI gaps in the calendar CPT.
+
+= 3.4.4 =
+* Fix: Fixed deprecation notices and warnings to ensure compatibility with the latest WordPress updates.
+* Fix: Resolved an issue where multi-day events were being rendered as double events on the same day.
+* Fix: De Authentication issue fix.
+
+= 3.4.3 =
+* Fix: Event color not showing in Calendar when using OAuth via Xtendify.
+* Fix: Date format inconsistencies when using shortcodes in certain conditions.
+* Fix: Calendar start date issue in Grid View causing incorrect date display.
+* Fix: Print calendar index not found issue.
+* Fix: Cross-Site Scripting(XSS) vulnerability.
+
+= 3.4.2 =
+* Fix: Event rendering issue for public calendar while using Auth via Xtendify.
+
+= 3.4.1 =
+* Dev: Add OAuth helper functionality.
+* Dev: Make OAuth helper option compatibble with Appointment add-on.
+* Update: Update dependency prettier to v3.3.3.
+
+= 3.4.0 =
+* Dev: Added Print calendar feature.
+* Dev: Make compatible with WordPress v6.5.5.
 
 = 3.3.1 =
 * Fix: Persistent update notification appearing for add-ons even after updating the plugin.

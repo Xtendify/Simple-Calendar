@@ -191,14 +191,11 @@ class Google extends Feed
 							}
 
 							// Event title & description.
-							$title = strip_tags($event->getSummary());
+							$title = strip_tags($event->getSummary() || '');
 							$title = sanitize_text_field(iconv(mb_detect_encoding($title, mb_detect_order(), true), 'UTF-8', $title));
+							$description = $event->getDescription() || '';
 							$description = wp_kses_post(
-								iconv(
-									mb_detect_encoding($event->getDescription(), mb_detect_order(), true),
-									'UTF-8',
-									$event->getDescription()
-								)
+								iconv(mb_detect_encoding($description, mb_detect_order(), true), 'UTF-8', $description)
 							);
 
 							$whole_day = false;
@@ -389,7 +386,7 @@ class Google extends Feed
 
 							// Event link.
 							if ('use_calendar' == $this->timezone_setting) {
-								$link = add_query_arg(['ctz' => $this->timezone], $event->getHtmlLink());
+								$link = esc_url(add_query_arg(['ctz' => $this->timezone], $event->getHtmlLink()));
 							} else {
 								$link = $event->getHtmlLink();
 							}
@@ -500,6 +497,7 @@ class Google extends Feed
 	 */
 	public function make_request($id = '', $time_min = 0, $time_max = 0)
 	{
+		$post_id = get_the_ID();
 		$calendar = [];
 		$google = $this->get_service();
 
@@ -555,12 +553,25 @@ class Google extends Feed
 				$args['orderBy'] = 'startTime';
 			}
 
-			$is_authhelper = simcal_check_helper_addon();
+			$is_authhelper = get_option('simple_calendar_run_oauth_helper');
+			$feed_type = wp_get_object_terms($post_id, 'calendar_feed');
+
 			// Query events in calendar.
 			$simple_calendar_auth_site_token = get_option('simple_calendar_auth_site_token');
 			$response = '';
-			if (isset($simple_calendar_auth_site_token) && !empty($simple_calendar_auth_site_token && $is_authhelper)) {
-				$response = apply_filters('simple_calendar_oauth_list_events', '', $id, $args);
+			$backgroundcolor = '';
+			if (
+				isset($simple_calendar_auth_site_token) &&
+				!empty($simple_calendar_auth_site_token && $is_authhelper) &&
+				isset($feed_type[0]->slug) &&
+				$feed_type[0]->slug != 'google'
+			) {
+				$response_arr = apply_filters('simple_calendar_oauth_list_events', '', $id, $args);
+
+				$response = unserialize($response_arr['data']);
+				if (isset($response_arr['backgroundcolor']) && !empty($response_arr['backgroundcolor'])) {
+					$backgroundcolor = $response_arr['backgroundcolor'];
+				}
 
 				if (isset($response['Error']) && !empty($response['Error'])) {
 					throw new Google_Service_Exception($response['Error'], 1);
@@ -577,6 +588,7 @@ class Google extends Feed
 					'timezone' => $response->getTimeZone(),
 					'url' => esc_url('//www.google.com/calendar/embed?src=' . $id),
 					'events' => $response->getItems(),
+					'backgroundcolor' => $backgroundcolor,
 				];
 			}
 		}
