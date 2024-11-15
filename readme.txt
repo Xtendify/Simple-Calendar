@@ -97,7 +97,7 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.4.6 =
+= 3.4.7 =
 * Fix: Compatibility warnings with PHP 8.
 
 = 3.4.5 =
