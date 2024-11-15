@@ -191,12 +191,16 @@ class Google extends Feed
 							}
 
 							// Event title & description.
-							$title = strip_tags($event->getSummary() || '');
-							$title = sanitize_text_field(iconv(mb_detect_encoding($title, mb_detect_order(), true), 'UTF-8', $title));
-							$description = $event->getDescription() || '';
-							$description = wp_kses_post(
-								iconv(mb_detect_encoding($description, mb_detect_order(), true), 'UTF-8', $description)
-							);
+							$title = $event->getSummary() ?? '';
+							$title = strip_tags($title);
+							$title = !empty($title)
+								? sanitize_text_field(iconv(mb_detect_encoding($title, mb_detect_order(), true), 'UTF-8', $title))
+								: '';
+
+							$description = $event->getDescription() ?? '';
+							$description = !empty($description)
+								? wp_kses_post(iconv(mb_detect_encoding($description, mb_detect_order(), true), 'UTF-8', $description))
+								: '';
 
 							$whole_day = false;
 
