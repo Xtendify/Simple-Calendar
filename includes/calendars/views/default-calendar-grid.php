@@ -231,7 +231,7 @@ class Default_Calendar_Grid implements Calendar_View
       }
 
       foreach ($current as $k => $v) {
-      	echo ' <span class="simcal-current-' . $k, '">' . $this->format_timestamp($calendar->start, $v) . '</span> ';
+      	echo ' <span class="simcal-current-' . $k, '">' . wp_date($v, $calendar->start) . '</span> ';
       }
 
       echo '</h3>';
