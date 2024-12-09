@@ -98,7 +98,7 @@ We'd love your help! Here's a few things you can do:
 == Changelog ==
 
 = 3.4.8 =
-* Dev: Added print color option on list view.
+* Dev: Added print calendar option on list view.
 * Fox: Translation month name on first load.
 
 = 3.4.7 =
