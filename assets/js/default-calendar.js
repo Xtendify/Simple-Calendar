@@ -405,7 +405,7 @@ jQuery(function ($) {
 		window.print();
 
 		$('body > .simcal-calendar').remove();
-		$('body').children().show();
+		$('body').children().not('script').show();
 		$('body').removeClass('simcal-print-calendar');
 	});
 

@@ -559,7 +559,12 @@
 	.simcal-print-calendar .print-calendar-button,
 	.print-calendar-button,
 	.simcal-print-calendar .simcal-nav .simcal-prev,
-	.simcal-print-calendar .simcal-nav .simcal-next {
+	.simcal-print-calendar .simcal-nav .simcal-next,
+	.simcal-print-calendar .fc-button-group,
+	.simcal-print-calendar .fc-toolbar-chunk .fc-today-button,
+	.simcal-print-calendar .fc-dayGridMonth-button,
+	.simcal-print-calendar .fc-timeGridWeek-button,
+	.simcal-print-calendar .fc-timeGridDay-button {
 		display: none !important;
 	}
 }
