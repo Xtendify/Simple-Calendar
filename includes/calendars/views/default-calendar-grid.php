@@ -379,7 +379,7 @@ class Default_Calendar_Grid implements Calendar_View
 						$event_start = Carbon::createFromTimestamp($event->start, $calendar->timezone);
 						$event_end = Carbon::createFromTimestamp($event->end, $calendar->timezone);
 
-						for ($day = $event_start->copy(); $day->lte($event_end); $day->addDay()) {
+						for ($day = $event_start->copy(); $day->lte($event_end->endOfDay()); $day->addDay()) {
 							if ($day->month == $current_month && $day->year == $current_year) {
 								$day_key = intval($day->format('j'));
 								$event_id = $event->uid;
