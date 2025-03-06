@@ -29,6 +29,8 @@ class Auth_Service_Helpers
 		add_filter('simple_calendar_oauth_get_calendars', [$this, 'oauth_helper_get_calendar'], 10, 3);
 
 		add_filter('simple_calendar_oauth_schedule_events', [$this, 'oauth_helper_schedule_events'], 10, 2);
+
+		add_filter('simple_calendar_oauth_get_events_attachments', [$this, 'oauth_helper_get_event_attachments'], 10, 1);
 	}
 
 	/**
@@ -113,6 +115,20 @@ class Auth_Service_Helpers
 		echo '</div>';
 
 		echo '</div>';
+	}
+
+	/**
+	 * Get event attachments.
+	 *
+	 * @since 3.4.10
+	 *
+	 * @param int $post_id
+	 */
+	public function oauth_helper_get_event_attachments($args)
+	{
+		$Oauth_Ajax = new Oauth_Ajax();
+		$response = $Oauth_Ajax->auth_get_event_attachments($args);
+		return $response;
 	}
 
 	/**

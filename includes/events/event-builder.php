@@ -987,8 +987,18 @@ class Event_Builder
 		foreach ($attachments as $attachment) {
 			$html .= '<li class="simcal-attachment">';
 			$html .= '<a href="' . $attachment['url'] . '" target="_blank">';
-			$html .= !empty($attachment['icon']) ? '<img src="' . $attachment['icon'] . '" />' : '';
-			$html .= '<span>' . $attachment['name'] . '</span>';
+			if (isset($attachment['mime']) && strpos($attachment['mime'], 'image') !== false && $attachment['hasimage'] !== false) {
+				$html .= !empty($attachment['icon'])
+					? '<img src="' .
+						$attachment['icon'] .
+						'" style="max-height: 240px;
+				max-width: 240px;" />'
+					: '';
+			} else {
+				$html .= !empty($attachment['icon']) ? '<img src="' . $attachment['icon'] . '" />' : '';
+				$html .= '<span>' . $attachment['name'] . '</span>';
+			}
+
 			$html .= '</a>';
 			$html .= '</li>' . "\n";
 		}
