@@ -156,6 +156,8 @@ class Event_Builder
 
 				'attachments',
 				// List of attachments.
+				'cover-image',
+				// Attahcment's first image as cover image
 				'attendees',
 				// List of attendees.
 				'organizer',
@@ -387,6 +389,12 @@ class Event_Builder
 					$attachments = $event->get_attachments();
 					if (!empty($attachments)) {
 						return $this->get_attachments($attachments);
+					}
+					break;
+				case 'cover-image':
+					$attachments = $event->get_cover_image();
+					if (!empty($attachments)) {
+						return $attachments;
 					}
 					break;
 
@@ -987,16 +995,43 @@ class Event_Builder
 		foreach ($attachments as $attachment) {
 			$html .= '<li class="simcal-attachment">';
 			$html .= '<a href="' . $attachment['url'] . '" target="_blank">';
-			if (isset($attachment['mime']) && strpos($attachment['mime'], 'image') !== false && $attachment['hasimage'] !== false) {
-				$html .= !empty($attachment['icon'])
-					? '<img src="' .
-						$attachment['icon'] .
-						'" style="max-height: 240px;
-				max-width: 240px;" />'
-					: '';
-			} else {
-				$html .= !empty($attachment['icon']) ? '<img src="' . $attachment['icon'] . '" />' : '';
-				$html .= '<span>' . $attachment['name'] . '</span>';
+			$html .= !empty($attachment['icon']) ? '<img src="' . $attachment['icon'] . '" />' : '';
+			$html .= '<span>' . $attachment['name'] . '</span>';
+
+
+			$html .= '</a>';
+			$html .= '</li>' . "\n";
+		}
+
+		$html .= '</ul>' . "\n";
+
+		return $html;
+	}
+	/**
+	 * Get event cover image.
+	 *
+	 * @since  3.4.10
+	 * @access private
+	 *
+	 * @param  array $attachments
+	 *
+	 * @return string
+	 */
+	private function get_cover_image($attachments)
+	{
+		$html = '<ul class="simcal-cover-image">' . "\n\t";
+
+		foreach ($attachments as $attachment) {
+			$html .= '<li class="simcal-cover">';
+			$html .= '<a href="' . $attachment['url'] . '" target="_blank">';
+			if (
+				isset($attachment['mime']) &&
+				!empty($attachment['icon']) &&
+				strpos($attachment['mime'], 'image') !== false &&
+				$attachment['hasimage'] !== false
+			) {
+				$html .= '<img src="' . $attachment['icon'] . '"';
+				break;
 			}
 
 			$html .= '</a>';
