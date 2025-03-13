@@ -146,6 +146,7 @@ class Oauth_Ajax
 		]);
 
 		$response = wp_remote_retrieve_body($request);
+
 		$response_arr = json_decode($response, true);
 
 		if (isset($response_arr['response']) && !empty($response_arr['response'])) {
@@ -165,6 +166,39 @@ class Oauth_Ajax
 		}
 	}
 
+	/*
+	 * Get calendar Events Attachments
+	 */
+	public function auth_get_cover_image($fileId)
+	{
+		$send_data = [
+			'site_url' => self::$my_site_url,
+			'auth_token' => get_option('simple_calendar_auth_site_token'),
+			'fileId' => $fileId,
+		];
+		$request = wp_remote_post(self::$url . 'get_calendar_event_cover_image', [
+			'method' => 'POST',
+			'body' => $send_data,
+			'timeout' => 30,
+			'cookies' => [],
+		]);
+
+		$response = wp_remote_retrieve_body($request);
+		$response_arr = json_decode($response, true);
+		if ($response_arr['response']) {
+			return $response_arr;
+		} elseif (isset($response_arr['message']) && !empty($response_arr['message'])) {
+			$response = [
+				'Error' => $response_arr['message'],
+			];
+			return $response;
+		} else {
+			$response = [
+				'Error' => __('Network issue.', 'google-calendar-events'),
+			];
+			return $response;
+		}
+	}
 	/*
 	 * Get calendar Events
 	 */
@@ -201,10 +235,6 @@ class Oauth_Ajax
 			];
 			return $response;
 		}
-		$response = [
-			'Error' => __('There is something wrong. please re-try.', 'google-calendar-events'),
-		];
-		return $response;
 	}
 
 	/*

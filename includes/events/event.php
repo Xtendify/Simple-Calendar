@@ -603,6 +603,18 @@ class Event
 	}
 
 	/**
+	 * Get Cover Image.
+	 *
+	 * @since  3.4.10
+	 *
+	 * @return array
+	 */
+	public function get_cover_image()
+	{
+		return isset($this->meta['cover_image']) ? $this->meta['cover_image'] : [];
+	}
+
+	/**
 	 * Get attendees.
 	 *
 	 * @since  3.0.0
