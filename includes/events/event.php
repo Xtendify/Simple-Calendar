@@ -605,13 +605,15 @@ class Event
 	/**
 	 * Get Cover Image.
 	 *
-	 * @since  3.4.10
+	 * @since  3.5.0
 	 *
 	 * @return array
 	 */
 	public function get_cover_image()
 	{
-		return isset($this->meta['cover_image']) ? $this->meta['cover_image'] : [];
+		return isset($this->meta['cover_image'])
+			? $this->meta['cover_image']
+			: __('Cover image can only be used with OAuth connections.', 'google-calendar-events');
 	}
 
 	/**

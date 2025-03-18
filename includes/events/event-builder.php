@@ -392,9 +392,9 @@ class Event_Builder
 					}
 					break;
 				case 'cover-image':
-					$attachments = $event->get_cover_image();
-					if (!empty($attachments)) {
-						return $attachments;
+					$coverImageHtml = $event->get_cover_image();
+					if (!empty($coverImageHtml)) {
+						return $coverImageHtml;
 					}
 					break;
 
@@ -997,42 +997,6 @@ class Event_Builder
 			$html .= '<a href="' . $attachment['url'] . '" target="_blank">';
 			$html .= !empty($attachment['icon']) ? '<img src="' . $attachment['icon'] . '" />' : '';
 			$html .= '<span>' . $attachment['name'] . '</span>';
-
-
-			$html .= '</a>';
-			$html .= '</li>' . "\n";
-		}
-
-		$html .= '</ul>' . "\n";
-
-		return $html;
-	}
-	/**
-	 * Get event cover image.
-	 *
-	 * @since  3.4.10
-	 * @access private
-	 *
-	 * @param  array $attachments
-	 *
-	 * @return string
-	 */
-	private function get_cover_image($attachments)
-	{
-		$html = '<ul class="simcal-cover-image">' . "\n\t";
-
-		foreach ($attachments as $attachment) {
-			$html .= '<li class="simcal-cover">';
-			$html .= '<a href="' . $attachment['url'] . '" target="_blank">';
-			if (
-				isset($attachment['mime']) &&
-				!empty($attachment['icon']) &&
-				strpos($attachment['mime'], 'image') !== false &&
-				$attachment['hasimage'] !== false
-			) {
-				$html .= '<img src="' . $attachment['icon'] . '"';
-				break;
-			}
 
 			$html .= '</a>';
 			$html .= '</li>' . "\n";

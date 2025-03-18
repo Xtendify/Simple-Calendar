@@ -120,7 +120,7 @@ class Auth_Service_Helpers
 	/**
 	 * Get event cover image.
 	 *
-	 * @since 3.4.10
+	 * @since 3.5.0
 	 *
 	 * @param string $fileId
 	 */
