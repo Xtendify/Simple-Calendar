@@ -611,9 +611,14 @@ class Event
 	 */
 	public function get_cover_image()
 	{
-		return isset($this->meta['cover_image'])
-			? $this->meta['cover_image']
-			: __('Cover image can only be used with OAuth connections.', 'google-calendar-events');
+		$feed_type = wp_get_object_terms($this->calendar, 'calendar_feed');
+		$caltype = $feed_type[0]->name;
+
+		if ($caltype != 'google') {
+			return isset($this->meta['cover_image']) ? $this->meta['cover_image'] : [];
+		} else {
+			return __('Cover image can only be used with OAuth connections.', 'google-calendar-events');
+		}
 	}
 
 	/**
