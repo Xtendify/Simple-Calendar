@@ -29,8 +29,6 @@ class Auth_Service_Helpers
 		add_filter('simple_calendar_oauth_get_calendars', [$this, 'oauth_helper_get_calendar'], 10, 3);
 
 		add_filter('simple_calendar_oauth_schedule_events', [$this, 'oauth_helper_schedule_events'], 10, 2);
-
-		add_filter('simple_calendar_oauth_get_cover_image', [$this, 'oauth_helper_get_cover_image'], 10, 1);
 	}
 
 	/**
@@ -115,20 +113,6 @@ class Auth_Service_Helpers
 		echo '</div>';
 
 		echo '</div>';
-	}
-
-	/**
-	 * Get event cover image.
-	 *
-	 * @since 3.5.0
-	 *
-	 * @param string $fileId
-	 */
-	public function oauth_helper_get_cover_image($fileId)
-	{
-		$Oauth_Ajax = new Oauth_Ajax();
-		$response = $Oauth_Ajax->auth_get_cover_image($fileId);
-		return $response;
 	}
 
 	/**
