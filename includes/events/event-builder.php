@@ -156,6 +156,8 @@ class Event_Builder
 
 				'attachments',
 				// List of attachments.
+				'cover-image',
+				// Attahcment's first image as cover image
 				'attendees',
 				// List of attendees.
 				'organizer',
@@ -387,6 +389,12 @@ class Event_Builder
 					$attachments = $event->get_attachments();
 					if (!empty($attachments)) {
 						return $this->get_attachments($attachments);
+					}
+					break;
+				case 'cover-image':
+					$coverImageHtml = $event->get_cover_image();
+					if (!empty($coverImageHtml)) {
+						return $coverImageHtml;
 					}
 					break;
 
@@ -989,6 +997,7 @@ class Event_Builder
 			$html .= '<a href="' . $attachment['url'] . '" target="_blank">';
 			$html .= !empty($attachment['icon']) ? '<img src="' . $attachment['icon'] . '" />' : '';
 			$html .= '<span>' . $attachment['name'] . '</span>';
+
 			$html .= '</a>';
 			$html .= '</li>' . "\n";
 		}

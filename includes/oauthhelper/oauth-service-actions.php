@@ -146,6 +146,7 @@ class Oauth_Ajax
 		]);
 
 		$response = wp_remote_retrieve_body($request);
+
 		$response_arr = json_decode($response, true);
 
 		if (isset($response_arr['response']) && !empty($response_arr['response'])) {
@@ -201,10 +202,6 @@ class Oauth_Ajax
 			];
 			return $response;
 		}
-		$response = [
-			'Error' => __('There is something wrong. please re-try.', 'google-calendar-events'),
-		];
-		return $response;
 	}
 
 	/*
