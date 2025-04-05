@@ -47,7 +47,8 @@
   "extra": {
     "google/apiclient-services": [
       "Calendar",
-      "Drive"
+      "Drive",
+      "Directory"
     ]
   },
   "config": {
