@@ -81,9 +81,9 @@ class Oauth_Ajax
 		$response_arr = json_decode($response, true);
 
 		$error_msg = [];
-		$message ='';
+		$message = '';
 		delete_option('simple_calendar_auth_site_token');
-		
+
 		if ($response_arr['response']) {
 			$message = __('DeAuthenticate Successfully.', 'google-calendar-events');
 			$send_msg = ['message' => $message];

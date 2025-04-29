@@ -153,12 +153,12 @@ class Google extends Feed
 	 * @return string|array
 	 */
 	public function get_events()
-	{ 		
+	{
 		$calendar = get_transient('_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type);
 
 		if (empty($calendar) && !empty($this->google_calendar_id)) {
 			$error = '';
-			
+
 			try {
 				$response = $this->make_request($this->google_calendar_id);
 			} catch (Google_Service_Exception $e) {
@@ -500,7 +500,7 @@ class Google extends Feed
 	 * @throws Exception On request failure will throw an exception from Google.
 	 */
 	public function make_request($id = '', $time_min = 0, $time_max = 0)
-	{ 
+	{
 		$calendar = [];
 		$google = $this->get_service();
 
@@ -561,14 +561,14 @@ class Google extends Feed
 
 			// Query events in calendar.
 			$simple_calendar_auth_site_token = get_option('simple_calendar_auth_site_token');
-			$response = ''; 
+			$response = '';
 			$backgroundcolor = '';
 			if (
 				isset($simple_calendar_auth_site_token) &&
 				!empty($simple_calendar_auth_site_token && $is_authhelper) &&
 				isset($feed_type[0]->slug) &&
 				$feed_type[0]->slug != 'google'
-			) { 
+			) {
 				$response_arr = apply_filters('simple_calendar_oauth_list_events', '', $id, $args);
 
 				$response = unserialize($response_arr['data']);
@@ -579,7 +579,7 @@ class Google extends Feed
 				if (isset($response['Error']) && !empty($response['Error'])) {
 					throw new Google_Service_Exception($response['Error'], 1);
 				}
-			} else { 
+			} else {
 				$response = $google->events->listEvents($id, $args);
 			}
 
