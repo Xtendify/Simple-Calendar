@@ -501,7 +501,6 @@ class Google extends Feed
 	 */
 	public function make_request($id = '', $time_min = 0, $time_max = 0)
 	{
-		$post_id = get_the_ID();
 		$calendar = [];
 		$google = $this->get_service();
 
@@ -558,7 +557,7 @@ class Google extends Feed
 			}
 
 			$is_authhelper = get_option('simple_calendar_run_oauth_helper');
-			$feed_type = wp_get_object_terms($post_id, 'calendar_feed');
+			$feed_type = wp_get_object_terms($this->post_id, 'calendar_feed');
 
 			// Query events in calendar.
 			$simple_calendar_auth_site_token = get_option('simple_calendar_auth_site_token');

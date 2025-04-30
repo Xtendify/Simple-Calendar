@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.5.1 =
+* Fix: Event were not showing on page with shortcode when using OAuth via Xtendify.
+
 = 3.5.0 =
 * Dev: To make the first attachment appear as the cover, add a new shortcode [cover-image] for GCal-Pro Addon.
 
