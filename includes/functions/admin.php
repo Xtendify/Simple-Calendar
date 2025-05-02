@@ -437,7 +437,7 @@ function simcal_notice_to_update_php_version()
 	$notices = get_option('simple-calendar_admin_notices', []);
 
 	$notice_id = 'simcal_check_site_php_version';
-	$requirements = 8.1;
+	$requirements = 8.0;
 
 	if (version_compare(PHP_VERSION, $requirements === -1)) {
 		$update_pro_notice = new Notice([
