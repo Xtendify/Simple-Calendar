@@ -426,55 +426,35 @@ function sc_rating()
 }
 
 /**
- * Notice to update the Pro addon if version is less then 1.1.2.
- * This function can be remove after June 1 2024.
- * @since  3.1.43
+ * Notice to uprade the PHP version if version is less then 8.1.
+ * This function can be remove after update the minimum PHP version to 8.1.
+ * @since  3.5.1
  *
  * @return void
  */
-function simcal_notice_to_update_pro_addon()
+function simcal_notice_to_update_php_version()
 {
-	$all_plugins = get_plugins();
 	$notices = get_option('simple-calendar_admin_notices', []);
-	$pro_plugin_path = 'simple-calendar-google-calendar-pro/simple-calendar-google-calendar-pro.php';
-	$appointment_plugin_path = 'simple-calendar-appointment/simple-calendar-appointment.php';
-	$fullcalendar_plugin_path = 'simple-calendar-fullcalendar/simple-calendar-fullcalendar.php';
-	$pro_plugin_latest_version = get_option('simple-calendar-google-calendar-pro_latest_version', '');
-	$fullcalendar_plugin_latest_version = get_option('simple-calendar-fullcalendar_latest_version', '');
 
-	$notice_id =
-		'check_pro_updated--google_calendar_pro--' .
-		$pro_plugin_latest_version .
-		'--fullcalendar--' .
-		$fullcalendar_plugin_latest_version;
+	$notice_id = 'simcal_check_site_php_version';
+	$requirements = 8.0;
 
-	if (
-		(array_key_exists($pro_plugin_path, $all_plugins) &&
-			!empty($all_plugins[$pro_plugin_path]['Version']) &&
-			$pro_plugin_latest_version &&
-			version_compare($all_plugins[$pro_plugin_path]['Version'], $pro_plugin_latest_version, '<')) ||
-		(array_key_exists($fullcalendar_plugin_path, $all_plugins) &&
-			!empty($all_plugins[$fullcalendar_plugin_path]['Version']) &&
-			$fullcalendar_plugin_latest_version &&
-			version_compare($all_plugins[$fullcalendar_plugin_path]['Version'], $fullcalendar_plugin_latest_version, '<'))
-	) {
+	if (version_compare(PHP_VERSION, $requirements === -1)) {
 		$update_pro_notice = new Notice([
 			'id' => [
-				$notice_id => 'update_pro_notice',
+				$notice_id => 'check_site_php_version',
 			],
 			'type' => 'error',
-			'dismissable' => false,
+			'dismissable' => true,
 			'content' =>
 				'<p>' .
 				'<i class="simcal-icon-calendar-logo"></i> ' .
 				__(
-					'Attention! Please take immediate action to update the <strong>Simple Calendar Add-ons</strong> to avoid potential errors. Thank you for your cooperation.',
+					'Attention! A critical update is coming to the Simple Calendar Events plugin that will bring enhanced features powered by the latest Google API. This update necessitates PHP version <strong>8.0 or higher</strong>. Your current PHP version is <strong>' .
+						PHP_VERSION .
+						'</strong>. To ensure uninterrupted access to all plugin functionalities, please upgrade your PHP version to 8.0+ as soon as possible.',
 					'google-calendar-events'
 				) .
-				'<br />' .
-				'<a href="https://simplecalendar.io/my-account?utm_source=inside-plugin&utm_medium=link&utm_campaign=core-plugin&utm_content=outdated-plugins-link" class="button button-primary" target="_blank">' .
-				__('Check your purchase history', 'google-calendar-events') .
-				'</a>' .
 				'</p>',
 		]);
 
@@ -483,16 +463,5 @@ function simcal_notice_to_update_pro_addon()
 		unset($notices[$notice_id]);
 		update_option('simple-calendar_admin_notices', $notices);
 	}
-
-	/*
-	 * Check if Pro/Appointment is actiated, run oauth functionality.
-	 * Update option if pro/appointment plugin is activated.
-	 */
-
-	if (class_exists('SimpleCalendar\Add_On_Google_Pro') || class_exists('SimpleCalendar\Simple_Calendar_Appointment')) {
-		update_option('simple_calendar_run_oauth_helper', true);
-	} else {
-		update_option('simple_calendar_run_oauth_helper', false);
-	}
 }
-add_action('admin_init', 'simcal_notice_to_update_pro_addon');
+add_action('admin_init', 'simcal_notice_to_update_php_version');

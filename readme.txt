@@ -3,7 +3,7 @@ Contributors: simplecalendar, rosinghal, pderksen, nickyoung87, nekojira, rossha
 Tags: google calendar, calendar, calendars, google, event calendar, custom calendar, custom calendars, event, events
 Requires at least: 4.2
 Requires PHP: 7.3
-Tested up to: 6.5.5
+Tested up to: 6.8.1
 Stable tag: PACKAGE_VERSION
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -96,6 +96,10 @@ We'd love your help! Here's a few things you can do:
 8. Attach a calendar to a post or page
 
 == Changelog ==
+
+= 3.5.2 =
+* Dev: Make compatible with WordPress v6.8.1.
+* Dev: Added notice to update PHP version if version is less then 8.1.
 
 = 3.5.1 =
 * Fix: Event were not showing on page with shortcode when using OAuth via Xtendify.
