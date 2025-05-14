@@ -439,7 +439,7 @@ function simcal_notice_to_update_php_version()
 	$notice_id = 'simcal_check_site_php_version';
 	$requirements = 8.0;
 
-	if (version_compare(PHP_VERSION, $requirements === -1)) {
+	if (version_compare(PHP_VERSION, $requirements, '<')) {
 		$update_pro_notice = new Notice([
 			'id' => [
 				$notice_id => 'check_site_php_version',
