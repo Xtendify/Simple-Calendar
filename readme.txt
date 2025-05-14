@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.5.3 =
+* Fix: Even after upgrading to PHP 8.x, an admin notice still appears to upgrade to PHP8.
+
 = 3.5.2 =
 * Dev: Make compatible with WordPress v6.8.1.
 * Dev: Added notice to update PHP version if version is less then 8.1.
