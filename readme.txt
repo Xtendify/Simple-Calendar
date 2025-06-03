@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.5.4 =
+* Fix: The calendar start "Now" option in list view now correctly displays events that have started but not yet ended.
+
 = 3.5.3 =
 * Fix: Even after upgrading to PHP 8.x, an admin notice still appears to upgrade to PHP8.
 
