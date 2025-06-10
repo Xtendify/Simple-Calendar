@@ -244,7 +244,7 @@ class Default_Calendar_List implements Calendar_View
 				echo '</nav>' . "\n";
 			}
 
-			echo $this->draw_list($calendar->start);
+			echo $this->draw_list($calendar->start, $calendar->id);
 
 			echo '<div class="simcal-ajax-loader simcal-spinner-top" style="display: none;"><i class="simcal-icon-spinner simcal-icon-spin"></i></div>';
 
@@ -267,7 +267,7 @@ class Default_Calendar_List implements Calendar_View
 	 *
 	 * @return array
 	 */
-	private function get_events($timestamp)
+	private function get_events($timestamp, $id)
 	{
 		$calendar = $this->calendar;
 
@@ -305,14 +305,41 @@ class Default_Calendar_List implements Calendar_View
 		if ('events' != $calendar->group_type) {
 			$this->end = $this->next - 1;
 
-			$timestamps = array_keys($events);
-			$lower_bound = array_filter($timestamps, [$this, 'filter_events_before']);
-			$higher_bound = array_filter($lower_bound, [$this, 'filter_events_after']);
+			$calendar_begins = get_post_meta($id, '_calendar_begins', true);
+			if ($calendar_begins === 'now') {
+				$current_time = Carbon::now($calendar->timezone);
+				$start_of_today = $current_time->copy()->startOfDay()->getTimestamp();
+				$current_timestamp = $current_time->getTimestamp();
 
-			if (is_array($higher_bound) && !empty($higher_bound)) {
-				$filtered = array_intersect_key($events, array_combine($higher_bound, $higher_bound));
-				foreach ($filtered as $timestamp => $events) {
-					$paged_events[intval($timestamp)] = $events;
+				foreach ($events as $timestamp => $event_list) {
+					foreach ($event_list as $event) {
+						if (
+							($event->start >= $start_of_today &&
+								$event->start <= $current_timestamp &&
+								$event->end > $current_timestamp) ||
+							($event->start < $start_of_today && $event->end > $current_timestamp && $timestamp >= $start_of_today) ||
+							$event->start > $current_timestamp
+						) {
+							if ($event->start < $start_of_today && $event->end > $current_timestamp) {
+								if ($timestamp == $start_of_today || $timestamp > $current_timestamp) {
+									$paged_events[intval($timestamp)][] = $event;
+								}
+							} else {
+								$paged_events[intval($timestamp)][] = $event;
+							}
+						}
+					}
+				}
+			} else {
+				$timestamps = array_keys($events);
+				$lower_bound = array_filter($timestamps, [$this, 'filter_events_before']);
+				$higher_bound = array_filter($lower_bound, [$this, 'filter_events_after']);
+
+				if (is_array($higher_bound) && !empty($higher_bound)) {
+					$filtered = array_intersect_key($events, array_combine($higher_bound, $higher_bound));
+					foreach ($filtered as $timestamp => $events) {
+						$paged_events[intval($timestamp)] = $events;
+					}
 				}
 			}
 		} else {
@@ -547,7 +574,9 @@ class Default_Calendar_List implements Calendar_View
 		}
 
 		$now = $calendar->now;
-		$current_events = $this->get_events($timestamp);
+
+		$current_events = $this->get_events($timestamp, $id);
+
 		$format = $calendar->date_format;
 
 		ob_start();
