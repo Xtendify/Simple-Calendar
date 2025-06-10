@@ -97,9 +97,6 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 3.5.5 =
-* Fix: "No, display only on first day of event" option in Appearance settings now works as expected.
-
 = 3.5.4 =
 * Fix: The calendar start "Now" option in list view now correctly displays events that have started but not yet ended.
 
