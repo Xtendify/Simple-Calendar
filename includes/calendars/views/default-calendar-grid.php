@@ -373,13 +373,15 @@ class Default_Calendar_Grid implements Calendar_View
 					: [];
 
 			$day_events = [];
-			if ('yes' == get_post_meta($calendar->id, '_default_calendar_expand_multi_day_events', true)) {
-				foreach ($filtered as $timestamp => $events_in_day) {
-					foreach ($events_in_day as $event) {
-						if ($event instanceof Event) {
-							$event_start = Carbon::createFromTimestamp($event->start, $calendar->timezone);
-							$event_end = Carbon::createFromTimestamp($event->end, $calendar->timezone);
 
+			foreach ($filtered as $timestamp => $events_in_day) {
+				foreach ($events_in_day as $event) {
+					if ($event instanceof Event) {
+						$event_start = Carbon::createFromTimestamp($event->start, $calendar->timezone);
+						$event_end = Carbon::createFromTimestamp($event->end, $calendar->timezone);
+						$first_day = intval(Carbon::createFromTimestamp($timestamp, $calendar->timezone)->endOfDay()->day);
+
+						if ('yes' == get_post_meta($calendar->id, '_default_calendar_expand_multi_day_events', true)) {
 							for ($day = $event_start->copy(); $day->lte($event_end->endOfDay()); $day->addDay()) {
 								if ($day->month == $current_month && $day->year == $current_year) {
 									$day_key = intval($day->format('j'));
@@ -396,22 +398,15 @@ class Default_Calendar_Grid implements Calendar_View
 									}
 								}
 							}
+						} else {
+							$day_events[$first_day][] = $event;
 						}
 					}
 				}
+			}
 
-				foreach ($day_events as $day_key => $events) {
-					$day_events[$day_key] = array_values($events);
-				}
-			} else {
-				foreach ($filtered as $timestamp => $events_in_day) {
-					foreach ($events_in_day as $event) {
-						if ($event instanceof Event) {
-							$day = intval(Carbon::createFromTimestamp($timestamp, $calendar->timezone)->endOfDay()->day);
-							$day_events[$day][] = $event;
-						}
-					}
-				}
+			foreach ($day_events as $day_key => $events) {
+				$day_events[$day_key] = array_values($events);
 			}
 
 			ksort($day_events, SORT_NUMERIC);
