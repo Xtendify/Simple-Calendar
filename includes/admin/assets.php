@@ -87,12 +87,7 @@ class Assets
 			true
 		);
 
-		if (
-			(is_plugin_active('Simple-Calendar-Google-Calendar-Pro-main/simple-calendar-google-calendar-pro.php') ||
-				is_plugin_active('Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php') ||
-				is_plugin_active('simple-calendar-google-calendar-pro/simple-calendar-google-calendar-pro.php')) &&
-			$this->current_page === 'simple-calendar_settings'
-		) {
+		if (class_exists('SimpleCalendar\Feeds\Google_Pro') && $this->current_page === 'simple-calendar_settings') {
 			wp_enqueue_script('simcal-oauth-helper-admin');
 			wp_localize_script('simcal-oauth-helper-admin', 'oauth_admin', simcal_common_scripts_variables());
 		}
@@ -160,12 +155,7 @@ class Assets
 			wp_enqueue_style('sc-setting-style', $css_path . 'admin-post-settings.min.css', [], SIMPLE_CALENDAR_VERSION);
 		}
 
-		if (
-			(is_plugin_active('Simple-Calendar-Google-Calendar-Pro-main/simple-calendar-google-calendar-pro.php') ||
-				is_plugin_active('Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php') ||
-				is_plugin_active('simple-calendar-google-calendar-pro/simple-calendar-google-calendar-pro.php')) &&
-			$this->current_page === 'simple-calendar_settings'
-		) {
+		if (class_exists('SimpleCalendar\Feeds\Google_Pro') && $this->current_page === 'simple-calendar_settings') {
 			wp_enqueue_style('sc-oauth-helper-style', $css_path . 'oauth-helper-admin.min.css', [], SIMPLE_CALENDAR_VERSION);
 		}
 	}
