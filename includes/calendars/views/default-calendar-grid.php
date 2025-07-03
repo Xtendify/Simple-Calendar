@@ -373,27 +373,33 @@ class Default_Calendar_Grid implements Calendar_View
 					: [];
 
 			$day_events = [];
+
 			foreach ($filtered as $timestamp => $events_in_day) {
 				foreach ($events_in_day as $event) {
 					if ($event instanceof Event) {
 						$event_start = Carbon::createFromTimestamp($event->start, $calendar->timezone);
 						$event_end = Carbon::createFromTimestamp($event->end, $calendar->timezone);
+						$first_day = intval(Carbon::createFromTimestamp($timestamp, $calendar->timezone)->endOfDay()->day);
 
-						for ($day = $event_start->copy(); $day->lte($event_end->endOfDay()); $day->addDay()) {
-							if ($day->month == $current_month && $day->year == $current_year) {
-								$day_key = intval($day->format('j'));
-								$event_id = $event->uid;
-								/*
-								 * The purpose of this condition is to determine if an event ends at the very start of the day.
-								 */
-								if ($day->isSameDay($event_end) && $event_end->hour == 0 && $event_end->minute == 0) {
-									continue;
-								}
+						if ('yes' == get_post_meta($calendar->id, '_default_calendar_expand_multi_day_events', true)) {
+							for ($day = $event_start->copy(); $day->lte($event_end->endOfDay()); $day->addDay()) {
+								if ($day->month == $current_month && $day->year == $current_year) {
+									$day_key = intval($day->format('j'));
+									$event_id = $event->uid;
+									/*
+									 * The purpose of this condition is to determine if an event ends at the very start of the day.
+									 */
+									if ($day->isSameDay($event_end) && $event_end->hour == 0 && $event_end->minute == 0) {
+										continue;
+									}
 
-								if (!isset($day_events[$day_key][$event_id])) {
-									$day_events[$day_key][$event_id] = $event;
+									if (!isset($day_events[$day_key][$event_id])) {
+										$day_events[$day_key][$event_id] = $event;
+									}
 								}
 							}
+						} else {
+							$day_events[$first_day][] = $event;
 						}
 					}
 				}
