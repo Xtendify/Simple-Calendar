@@ -338,54 +338,54 @@ jQuery(function ($) {
 			eventBubbles.each(function (e, i) {
 				$(i).qtip({
 					content: {
-					  text: function () {
-						const isMobile = width < 60;
-						const content = isMobile
-						  ? $(cell).find('ul.simcal-events').html()
-						  : $(i).find('> .simcal-tooltip-content').html();
-						return content || 'No event info available';
-					  }
+						text: function () {
+							const isMobile = width < 60;
+							const content = isMobile
+								? $(cell).find('ul.simcal-events').html()
+								: $(i).find('> .simcal-tooltip-content').html();
+							return content || 'No event info available';
+						},
 					},
 					position: {
-					  my: 'top center',
-					  at: 'bottom center',
-					  target: $(i),
-					  viewport: width < 60 ? $(window) : true,
-					  adjust: {
-						method: 'shift',
-						scroll: false,
-					  },
+						my: 'top center',
+						at: 'bottom center',
+						target: $(i),
+						viewport: width < 60 ? $(window) : true,
+						adjust: {
+							method: 'shift',
+							scroll: false,
+						},
 					},
 					style: {
-					  def: false,
-					  classes: 'simcal-default-calendar simcal-event-bubble',
+						def: false,
+						classes: 'simcal-default-calendar simcal-event-bubble',
 					},
 					show: {
-					  solo: true,
-					  effect: false,
-					  event: bubbleTrigger == 'hover' ? 'mouseenter' : 'click',
+						solo: true,
+						effect: false,
+						event: bubbleTrigger == 'hover' ? 'mouseenter' : 'click',
 					},
 					hide: {
-					  fixed: true,
-					  effect: false,
-					  event: bubbleTrigger == 'click' ? 'unfocus' : 'mouseleave',
-					  delay: 100,
+						fixed: true,
+						effect: false,
+						event: bubbleTrigger == 'click' ? 'unfocus' : 'mouseleave',
+						delay: 100,
 					},
 					events: {
-					  render: function (event, api) {
-						setTimeout(() => {
-						  api.reposition();
-						}, 10); // ensures top/left are recalculated after DOM draw
-					  },
-					  show: function (event, current) {
-						if (last && last.id && last.id !== current.id) {
-						  last.hide();
-						}
-						last = current;
-					  }
+						render: function (event, api) {
+							setTimeout(() => {
+								api.reposition();
+							}, 10); // ensures top/left are recalculated after DOM draw
+						},
+						show: function (event, current) {
+							if (last && last.id && last.id !== current.id) {
+								last.hide();
+							}
+							last = current;
+						},
 					},
 					overwrite: false,
-				  });
+				});
 			});
 		});
 	}
