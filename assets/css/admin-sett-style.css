@@ -234,7 +234,7 @@ a:focus .plugin-icon {
 	background-color: #fff;
 	color: #71717a;
 	height: 40px;
-	width: 99%;
+	width: 90%;
 }
 
 #simcal-settings-page-form .select2-container .select2-selection--multiple .select2-selection__rendered {
@@ -261,6 +261,15 @@ a:focus .plugin-icon {
 
 #simcal-settings-page-form a.button.button-secondary.sc-btn-suth {
 	margin-bottom: 5px;
+}
+
+.simcal-auth-tab-content .simcal-text-sm.simcal-font-poppins,
+#simcal-auth-tabs-content .simcal-auth-tab-content input[type='text'] {
+	width: 90%;
+}
+#simcal-auth-tabs-content .simcal-auth-tab-content em {
+	width: 90%;
+	display: inline-block;
 }
 
 /* media query */

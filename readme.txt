@@ -97,6 +97,11 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.5.4 =
+* Fix: Fixed multi-day events incorrectly displaying on all days when the "No, display only on first day of event" option is enabled.
+* Fix: Resolved issue where event details (qTip) were not showing in mobile portrait view.
+* Fix: Fixed layout issues on the admin settings page for fresh installations.
+
 = 3.5.3 =
 * Fix: Even after upgrading to PHP 8.x, an admin notice still appears to upgrade to PHP8.
 
