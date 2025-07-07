@@ -341,8 +341,8 @@ jQuery(function ($) {
 						text: function () {
 							const isMobile = width < 60;
 							const content = isMobile
-								? $(cell).find('ul.simcal-events').html()
-								: $(i).find('> .simcal-tooltip-content').html();
+								? $(cell).find('ul.simcal-events').clone(true, true).css({ display: 'block' })[0]
+								: $(i).find('> .simcal-tooltip-content').clone(true, true).css({ display: 'block' })[0];
 							return content || 'No event info available';
 						},
 					},
