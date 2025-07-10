@@ -97,6 +97,10 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.5.5 =
+* Fix: Network error when fetching calendars after authentication with Oauth via Simple Calendar on fresh installs.
+* Fix: JS issue preventing custom CSS from applying to qTip tooltips in version 3.5.4.
+
 = 3.5.4 =
 * Fix: Fixed multi-day events incorrectly displaying on all days when the "No, display only on first day of event" option is enabled.
 * Fix: Resolved issue where event details (qTip) were not showing in mobile portrait view.

@@ -556,7 +556,6 @@ class Google extends Feed
 				$args['orderBy'] = 'startTime';
 			}
 
-			$is_authhelper = get_option('simple_calendar_run_oauth_helper');
 			$feed_type = wp_get_object_terms($this->post_id, 'calendar_feed');
 
 			// Query events in calendar.
@@ -565,7 +564,7 @@ class Google extends Feed
 			$backgroundcolor = '';
 			if (
 				isset($simple_calendar_auth_site_token) &&
-				!empty($simple_calendar_auth_site_token && $is_authhelper) &&
+				!empty($simple_calendar_auth_site_token) &&
 				isset($feed_type[0]->slug) &&
 				$feed_type[0]->slug != 'google'
 			) {
