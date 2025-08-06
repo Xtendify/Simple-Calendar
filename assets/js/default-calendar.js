@@ -362,46 +362,46 @@ jQuery(function ($) {
 								return content || 'No event info available';
 							},
 						},
-					position: {
-						my: 'top center',
-						at: 'bottom center',
-						target: $(i),
-						viewport: width < 60 ? $(window) : true,
-						adjust: {
-							method: 'shift',
-							scroll: false,
+						position: {
+							my: 'top center',
+							at: 'bottom center',
+							target: $(i),
+							viewport: width < 60 ? $(window) : true,
+							adjust: {
+								method: 'shift',
+								scroll: false,
+							},
 						},
-					},
-					style: {
-						def: false,
-						classes: 'simcal-default-calendar simcal-event-bubble',
-					},
-					show: {
-						solo: true,
-						effect: false,
-						event: bubbleTrigger == 'hover' ? 'mouseenter' : 'click',
-					},
-					hide: {
-						fixed: true,
-						effect: false,
-						event: bubbleTrigger == 'click' ? 'unfocus' : 'mouseleave',
-						delay: 100,
-					},
-					events: {
-						render: function (event, api) {
-							setTimeout(() => {
-								api.reposition();
-							}, 10); // ensures top/left are recalculated after DOM draw
+						style: {
+							def: false,
+							classes: 'simcal-default-calendar simcal-event-bubble',
 						},
-						show: function (event, current) {
-							if (last && last.id && last.id !== current.id) {
-								last.hide();
-							}
-							last = current;
+						show: {
+							solo: true,
+							effect: false,
+							event: bubbleTrigger == 'hover' ? 'mouseenter' : 'click',
 						},
-					},
-					overwrite: false,
-				});
+						hide: {
+							fixed: true,
+							effect: false,
+							event: bubbleTrigger == 'click' ? 'unfocus' : 'mouseleave',
+							delay: 100,
+						},
+						events: {
+							render: function (event, api) {
+								setTimeout(() => {
+									api.reposition();
+								}, 10); // ensures top/left are recalculated after DOM draw
+							},
+							show: function (event, current) {
+								if (last && last.id && last.id !== current.id) {
+									last.hide();
+								}
+								last = current;
+							},
+						},
+						overwrite: false,
+					});
 				} catch (error) {
 					// WPML compatibility: Log error and continue if qTip2 fails
 					console.warn('Simple Calendar: qTip2 initialization failed:', error);

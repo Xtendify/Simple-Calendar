@@ -16,12 +16,12 @@ Simple Calendar is a free WordPress plugin that makes it easy to display Google 
 ✅ **Shortcode Support** - Embed calendars anywhere with `[calendar]`  
 ✅ **Widget Ready** - Add calendars to sidebars and widget areas  
 ✅ **Customizable Styling** - Match your website's design  
-✅ **Event Details** - Display event descriptions, times, and locations  
+✅ **Event Details** - Display event descriptions, times, and locations
 
 ## Getting Started
 
 1. **Install** the plugin from WordPress.org
-2. **Connect** your Google Calendar 
+2. **Connect** your Google Calendar
 3. **Display** events using shortcodes or widgets
 4. **Customize** the appearance to match your site
 
