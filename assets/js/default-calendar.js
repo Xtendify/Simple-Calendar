@@ -62,17 +62,24 @@ jQuery(function ($) {
 				month = newDate.getMonth();
 				year = newDate.getFullYear();
 
+				var ajaxData = {
+					action: action,
+					month: month + 1, // month count in PHP goes 1-12 vs 0-11 in JavaScript
+					year: year,
+					id: id,
+				};
+
+				// WPML compatibility: Include language parameter if available
+				if (simcal_default_calendar.wpml_language) {
+					ajaxData.lang = simcal_default_calendar.wpml_language;
+				}
+
 				$.ajax({
 					url: simcal_default_calendar.ajax_url,
 					type: 'POST',
 					dataType: 'json',
 					cache: false,
-					data: {
-						action: action,
-						month: month + 1, // month count in PHP goes 1-12 vs 0-11 in JavaScript
-						year: year,
-						id: id,
-					},
+					data: ajaxData,
 					beforeSend: function () {
 						spinner.fadeToggle();
 					},
@@ -104,16 +111,23 @@ jQuery(function ($) {
 					next = list.data('next'),
 					timestamp = direction == 'prev' ? prev : next;
 
+				var ajaxData = {
+					action: action,
+					ts: timestamp,
+					id: id,
+				};
+
+				// WPML compatibility: Include language parameter if available
+				if (simcal_default_calendar.wpml_language) {
+					ajaxData.lang = simcal_default_calendar.wpml_language;
+				}
+
 				$.ajax({
 					url: simcal_default_calendar.ajax_url,
 					type: 'POST',
 					dataType: 'json',
 					cache: false,
-					data: {
-						action: action,
-						ts: timestamp,
-						id: id,
-					},
+					data: ajaxData,
 					beforeSend: function () {
 						spinner.fadeToggle();
 					},
@@ -336,56 +350,62 @@ jQuery(function ($) {
 			}
 
 			eventBubbles.each(function (e, i) {
-				$(i).qtip({
-					content: {
-						text: function () {
-							const isMobile = width < 60;
-							const content = isMobile
-								? $(cell).find('ul.simcal-events').clone(true, true).css({ display: 'block' })[0]
-								: $(i).find('> .simcal-tooltip-content').clone(true, true).css({ display: 'block' })[0];
-							return content || 'No event info available';
+				// WPML compatibility: Add error handling for qTip2 initialization
+				try {
+					$(i).qtip({
+						content: {
+							text: function () {
+								const isMobile = width < 60;
+								const content = isMobile
+									? $(cell).find('ul.simcal-events').clone(true, true).css({ display: 'block' })[0]
+									: $(i).find('> .simcal-tooltip-content').clone(true, true).css({ display: 'block' })[0];
+								return content || 'No event info available';
+							},
 						},
-					},
-					position: {
-						my: 'top center',
-						at: 'bottom center',
-						target: $(i),
-						viewport: width < 60 ? $(window) : true,
-						adjust: {
-							method: 'shift',
-							scroll: false,
+						position: {
+							my: 'top center',
+							at: 'bottom center',
+							target: $(i),
+							viewport: width < 60 ? $(window) : true,
+							adjust: {
+								method: 'shift',
+								scroll: false,
+							},
 						},
-					},
-					style: {
-						def: false,
-						classes: 'simcal-default-calendar simcal-event-bubble',
-					},
-					show: {
-						solo: true,
-						effect: false,
-						event: bubbleTrigger == 'hover' ? 'mouseenter' : 'click',
-					},
-					hide: {
-						fixed: true,
-						effect: false,
-						event: bubbleTrigger == 'click' ? 'unfocus' : 'mouseleave',
-						delay: 100,
-					},
-					events: {
-						render: function (event, api) {
-							setTimeout(() => {
-								api.reposition();
-							}, 10); // ensures top/left are recalculated after DOM draw
+						style: {
+							def: false,
+							classes: 'simcal-default-calendar simcal-event-bubble',
 						},
-						show: function (event, current) {
-							if (last && last.id && last.id !== current.id) {
-								last.hide();
-							}
-							last = current;
+						show: {
+							solo: true,
+							effect: false,
+							event: bubbleTrigger == 'hover' ? 'mouseenter' : 'click',
 						},
-					},
-					overwrite: false,
-				});
+						hide: {
+							fixed: true,
+							effect: false,
+							event: bubbleTrigger == 'click' ? 'unfocus' : 'mouseleave',
+							delay: 100,
+						},
+						events: {
+							render: function (event, api) {
+								setTimeout(() => {
+									api.reposition();
+								}, 10); // ensures top/left are recalculated after DOM draw
+							},
+							show: function (event, current) {
+								if (last && last.id && last.id !== current.id) {
+									last.hide();
+								}
+								last = current;
+							},
+						},
+						overwrite: false,
+					});
+				} catch (error) {
+					// WPML compatibility: Log error and continue if qTip2 fails
+					console.warn('Simple Calendar: qTip2 initialization failed:', error);
+				}
 			});
 		});
 	}
