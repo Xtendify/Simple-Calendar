@@ -34,7 +34,7 @@ jobs:
           stale-pr-label: 'stale'
           exempt-issue-labels: 'pinned,security,blocked,good first issue,help wanted,do-not-close,wip'
           exempt-pr-labels: 'blocked,wip,do-not-close'
-          exempt-draft-prs: true
+          exempt-draft-pr: true
           remove-stale-when-updated: true
           operations-per-run: 200
           enable-statistics: true
