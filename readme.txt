@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.5.6 =
+* Dev: Load CSS and JS only on calendar posts and pages containing the calendar shortcode for better performance.
+
 = 3.5.5 =
 * Fix: Network error when fetching calendars after authentication with Oauth via Simple Calendar on fresh installs.
 * Fix: JS issue preventing custom CSS from applying to qTip tooltips in version 3.5.4.
