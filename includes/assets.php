@@ -96,14 +96,14 @@ class Assets
 			$load_assets = true;
 		}
 
-		if (is_front_page() || is_home() || is_singular()) {
-			global $post;
-			if (isset($post)) {
-				if (has_shortcode($post->post_content, 'calendar')) {
-					$load_assets = true;
-				}
-			}
-		}
+		// if (is_front_page() || is_home() || is_singular()) {
+		// 	global $post;
+		// 	if (isset($post)) {
+		// 		if (has_shortcode($post->post_content, 'calendar')) {
+		// 			$load_assets = true;
+		// 		}
+		// 	}
+		// }
 
 		if ($load_assets) {
 			add_action('wp_enqueue_scripts', [$this, 'load'], 10);
