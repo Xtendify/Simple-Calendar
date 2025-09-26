@@ -274,14 +274,7 @@ final class Plugin
 	 */
 	public function ajax_url()
 	{
-		$ajax_url = admin_url('admin-ajax.php', 'relative');
-
-		// WPML compatibility: Add language parameter to AJAX URL if WPML is active
-		if (defined('ICL_LANGUAGE_CODE') && function_exists('icl_object_id')) {
-			$ajax_url = add_query_arg('lang', ICL_LANGUAGE_CODE, $ajax_url);
-		}
-
-		return $ajax_url;
+		return admin_url('admin-ajax.php', 'relative');
 	}
 
 	/**
