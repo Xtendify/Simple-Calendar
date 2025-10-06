@@ -211,9 +211,9 @@ class Default_Calendar_Grid implements Calendar_View
                             	'Previous Month',
                             	'google-calendar-events'
                             ); ?>" aria-label="<?php _e(
-                            	'Previous Month',
-                            	'google-calendar-events'
-                            ); ?>"><i class="simcal-icon-left"></i></button>
+	'Previous Month',
+	'google-calendar-events'
+); ?>"><i class="simcal-icon-left"></i></button>
                         </th>
 					<?php } ?>
                     <th colspan="<?php echo apply_filters('simcal_current_cols', $calendar->static ? '7' : '5'); ?>"
@@ -249,9 +249,9 @@ class Default_Calendar_Grid implements Calendar_View
                             	'Next Month',
                             	'google-calendar-events'
                             ); ?>" aria-label="<?php _e(
-                            	'Next Month',
-                            	'google-calendar-events'
-                            ); ?>"><i class="simcal-icon-right"></i></button>
+	'Next Month',
+	'google-calendar-events'
+); ?>"><i class="simcal-icon-right"></i></button>
                         </th>
 					<?php } ?>
                 </tr>
