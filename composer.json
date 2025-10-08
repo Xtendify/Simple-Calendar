@@ -32,7 +32,7 @@
     "ext-mbstring": "*",
     "composer/installers": "2.3.0",
     "google/apiclient": "2.13.1",
-    "nesbot/carbon": "2.72.5",
+    "nesbot/carbon": "2.72.6",
     "erusev/parsedown": "1.7.4",
     "mexitek/phpcolors": "dev-master",
     "guzzlehttp/guzzle": "7.9.2",
