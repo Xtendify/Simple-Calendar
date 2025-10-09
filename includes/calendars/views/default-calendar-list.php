@@ -210,7 +210,9 @@ class Default_Calendar_List implements Calendar_View
 					__('Previous', 'google-calendar-events') .
 					'"' .
 					$disabled .
-					'>' .
+					' aria-label="' .
+					__('Previous', 'google-calendar-events') .
+					'">' .
 					"\n";
 				echo "\t\t\t" . '<i class="simcal-icon-left"></i>' . "\n";
 				echo "\t\t" . '</button>' . "\n";
@@ -236,7 +238,9 @@ class Default_Calendar_List implements Calendar_View
 					__('Next', 'google-calendar-events') .
 					'"' .
 					$disabled .
-					'>';
+					' aria-label="' .
+					__('Next', 'google-calendar-events') .
+					'">';
 				echo "\t\t\t" . '<i class="simcal-icon-right"></i>' . "\n";
 				echo "\t\t" . '</button>' . "\n";
 				echo "\t" . '</div>' . "\n";
