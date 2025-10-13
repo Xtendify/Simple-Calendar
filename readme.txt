@@ -97,6 +97,11 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.5.6 =
+* Fix: accessibility issue by adding descriptive text to calendar navigation buttons.
+* Dev: admin notice to inform users about end of PHP 7 support after November.
+* Dev: Optimized assets: JS and CSS now load only on calendar post type and pages with calendar shortcode.
+
 = 3.5.5 =
 * Fix: Network error when fetching calendars after authentication with Oauth via Simple Calendar on fresh installs.
 * Fix: JS issue preventing custom CSS from applying to qTip tooltips in version 3.5.4.
