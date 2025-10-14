@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.5.7 =
+* Fix: Assets (JS/CSS) now correctly load when a calendar widget is present.
+
 = 3.5.6 =
 * Fix: accessibility issue by adding descriptive text to calendar navigation buttons.
 * Dev: admin notice to inform users about end of PHP 7 support after November.

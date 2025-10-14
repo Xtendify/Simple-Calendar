@@ -89,7 +89,7 @@ class Assets
 	 */
 	public function check_load_assets()
 	{
-		// Only load assets if it's a calendar post type or if we detect calendar shortcode
+		// Only load assets if it's a calendar post type, if we detect calendar shortcode, or if gce_widget is active
 		$load_assets = false;
 
 		if (is_singular('calendar')) {
@@ -101,6 +101,10 @@ class Assets
 			if (isset($post->post_content) && has_shortcode($post->post_content, 'calendar')) {
 				$load_assets = true;
 			}
+		}
+
+		if (!$load_assets && is_active_widget(false, false, 'gce_widget', true)) {
+			$load_assets = true;
 		}
 
 		if ($load_assets) {
