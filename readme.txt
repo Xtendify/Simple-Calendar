@@ -1,6 +1,6 @@
 === Simple Calendar - Google Calendar Plugin ===
 Contributors: simplecalendar, rosinghal, pderksen, nickyoung87, nekojira, rosshanney
-Tags: google calendar, calendar, calendars, google, event calendar, custom calendar, custom calendars, event, events
+Tags: google calendar, events, website calendar, wp calendar, wp calendar widget
 Requires at least: 4.2
 Requires PHP: 7.3
 Tested up to: 6.8.1
