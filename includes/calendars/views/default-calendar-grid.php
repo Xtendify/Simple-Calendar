@@ -427,16 +427,14 @@ class Default_Calendar_Grid implements Calendar_View
 		// Week may start on an arbitrary day (sun, 0 - sat, 6).
 		$week_day = $week_starts;
 
-		// This fixes a possible bug when a month starts by Sunday (0).
-		if (0 !== $week_starts) {
-			$b = $month_starts === 0 ? 7 : $month_starts;
-		} else {
-			$b = $month_starts;
-		}
+		// Calculate the number of void days needed before the first day of the month
+		// We need to account for the difference between the actual day the month starts
+		// and where it should appear based on the week start setting
+		$void_days_needed = ($month_starts - $week_starts + 7) % 7;
 
 		// Void days in first week.
-		for ($a = $week_starts; $a < $b; $a++):
-			$last_void_day_class = $a === $b - 1 ? 'simcal-day-void-last' : '';
+		for ($a = 0; $a < $void_days_needed; $a++):
+			$last_void_day_class = $a === $void_days_needed - 1 ? 'simcal-day-void-last' : '';
 
 			echo '<td class="simcal-day simcal-day-void ' . $last_void_day_class . '"></td>' . "\n";
 
@@ -448,6 +446,9 @@ class Default_Calendar_Grid implements Calendar_View
 
 			$days_in_row++;
 		endfor;
+
+		// After void days, $week_day should be equal to $month_starts
+		$week_day = $month_starts;
 
 		// Actual days of the month.
 		for ($day = 1; $day <= $days_in_month; $day++):
