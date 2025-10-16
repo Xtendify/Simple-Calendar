@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.5.8 =
+* Fix: Fixed issue where the calendar incorrectly calculated weekday offsets when the week start day was changed in advanced settings.
+
 = 3.5.7 =
 * Fix: Assets (JS/CSS) now correctly load when a calendar widget is present.
 
