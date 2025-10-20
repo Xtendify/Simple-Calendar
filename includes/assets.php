@@ -89,7 +89,7 @@ class Assets
 	 */
 	public function check_load_assets()
 	{
-		// Only load assets if it's a calendar post type, if we detect calendar shortcode, or if gce_widget is active
+		// Only load assets if it's a calendar post type or if we detect calendar shortcode
 		$load_assets = false;
 
 		if (is_singular('calendar')) {
@@ -101,10 +101,11 @@ class Assets
 			if (isset($post->post_content) && has_shortcode($post->post_content, 'calendar')) {
 				$load_assets = true;
 			}
-		}
 
-		if (!$load_assets && is_active_widget(false, false, 'gce_widget', true)) {
-			$load_assets = true;
+			// Check for shortcodes in Avada builder content and other meta fields
+			if (!$load_assets && isset($post->ID)) {
+				$load_assets = $this->check_builder_content($post->ID);
+			}
 		}
 
 		if ($load_assets) {
@@ -129,6 +130,72 @@ class Assets
 				1000
 			);
 		}
+	}
+
+	/**
+	 * Check for shortcodes in Avada builder content and other meta fields.
+	 *
+	 * @since 3.5.6
+	 *
+	 * @param int $post_id Post ID to check
+	 * @return bool True if shortcode found, false otherwise
+	 */
+	private function check_builder_content($post_id)
+	{
+		// Check Avada builder content
+		$avada_content = get_post_meta($post_id, '_fusion_builder_content', true);
+		if (!empty($avada_content) && has_shortcode($avada_content, 'calendar')) {
+			return true;
+		}
+
+		// Check for other common page builder meta fields
+		$builder_fields = [
+			'_elementor_data', // Elementor
+			'_wpb_shortcodes_content', // Visual Composer
+			'_et_pb_old_content', // Divi Builder
+			'panels_data', // Page Builder by SiteOrigin
+			'_beaver_builder_data', // Beaver Builder
+			'_fl_builder_data', // Beaver Builder Lite
+		];
+
+		foreach ($builder_fields as $field) {
+			$content = get_post_meta($post_id, $field, true);
+			if (!empty($content)) {
+				// For JSON data, decode and search
+				if (is_string($content) && (strpos($content, '{') === 0 || strpos($content, '[') === 0)) {
+					$decoded = json_decode($content, true);
+					if (is_array($decoded) && $this->search_shortcode_in_array($decoded)) {
+						return true;
+					}
+				}
+				// For regular content, use has_shortcode
+				elseif (has_shortcode($content, 'calendar')) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Recursively search for shortcode in array data.
+	 *
+	 * @since 3.5.6
+	 *
+	 * @param array $data Array to search
+	 * @return bool True if shortcode found, false otherwise
+	 */
+	private function search_shortcode_in_array($data)
+	{
+		foreach ($data as $key => $value) {
+			if (is_string($value) && has_shortcode($value, 'calendar')) {
+				return true;
+			} elseif (is_array($value) && $this->search_shortcode_in_array($value)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
