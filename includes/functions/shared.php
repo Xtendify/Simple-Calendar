@@ -298,8 +298,49 @@ function simcal_default_event_template()
 	$content .= "\n";
 	$content .= '<div>' . '[description]' . '</div>';
 	$content .= "\n" . '[link newwindow="yes"]' . __('See more details', 'google-calendar-events') . '[/link]';
+	$content .= "\n" . '[schema-meta]';
 
 	return apply_filters('simcal_default_event_template', $content);
+}
+
+/**
+ * Update existing calendar templates to include schema-meta tag.
+ *
+ * This function can be called to update existing calendars that don't have
+ * the schema-meta tag in their event templates.
+ *
+ * @since 3.0.0
+ *
+ * @return int Number of calendars updated
+ */
+function simcal_update_calendar_templates_for_schema()
+{
+	$calendars = get_posts([
+		'post_type' => 'calendar',
+		'posts_per_page' => -1,
+		'post_status' => 'any'
+	]);
+
+	$updated_count = 0;
+
+	foreach ($calendars as $calendar) {
+		$content = $calendar->post_content;
+		
+		// Only update if the template doesn't already contain schema-meta
+		if (!empty($content) && strpos($content, '[schema-meta]') === false) {
+			// Add schema-meta tag at the end of the template
+			$updated_content = $content . "\n" . '[schema-meta]';
+			
+			wp_update_post([
+				'ID' => $calendar->ID,
+				'post_content' => $updated_content
+			]);
+			
+			$updated_count++;
+		}
+	}
+
+	return $updated_count;
 }
 
 /**

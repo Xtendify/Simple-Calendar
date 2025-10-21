@@ -162,6 +162,8 @@ class Event_Builder
 				// List of attendees.
 				'organizer',
 				// Creator info.
+				'schema-meta',
+				// Hidden schema.org meta properties for SEO.
 
 				/* ================ *
 				 * Conditional Tags *
@@ -411,6 +413,9 @@ class Event_Builder
 						return $this->get_organizer($organizer, $attr);
 					}
 					break;
+
+				case 'schema-meta':
+					return $this->get_missing_schema_properties($event);
 
 				/* ================ *
 				 * Conditional Tags *
@@ -1166,6 +1171,120 @@ class Event_Builder
 		return '<div class="simcal-organizer" itemprop="organizer" itemscope itemtype="https://schema.org/Person">' .
 			$organizer_html .
 			'</div>';
+	}
+
+	/**
+	 * Get missing schema.org Event properties as hidden meta tags.
+	 *
+	 * @since 3.0.0
+	 * @access private
+	 *
+	 * @param Event $event
+	 *
+	 * @return string
+	 */
+	private function get_missing_schema_properties(Event $event)
+	{
+		$schema_meta = '';
+
+		// Ensure endDate is always present (required by Google)
+		if (empty($event->end) || !$event->end) {
+			// If no end date, use start date + 1 hour as fallback
+			$start = Carbon::createFromTimestamp($event->start, $event->timezone);
+			$end_date = $start->copy()->addHour();
+			$end_iso = $end_date->toIso8601String();
+			$schema_meta .= '<meta itemprop="endDate" content="' . $end_iso . '" />';
+		}
+
+		// Add eventAttendanceMode (default to OfflineEventAttendanceMode for physical events)
+		$attendance_mode = !empty($event->start_location['address']) ? 'OfflineEventAttendanceMode' : 'OnlineEventAttendanceMode';
+		$schema_meta .= '<meta itemprop="eventAttendanceMode" content="https://schema.org/' . $attendance_mode . '" />';
+
+		// Add eventStatus (default to EventScheduled)
+		$schema_meta .= '<meta itemprop="eventStatus" content="https://schema.org/EventScheduled" />';
+
+		// Add offers (default to free event)
+		$schema_meta .= '<div itemprop="offers" itemscope itemtype="https://schema.org/Offer">';
+		$schema_meta .= '<meta itemprop="price" content="0" />';
+		$schema_meta .= '<meta itemprop="priceCurrency" content="USD" />';
+		$schema_meta .= '<meta itemprop="availability" content="https://schema.org/InStock" />';
+		$schema_meta .= '</div>';
+
+		// Add image (fallback to site logo or default image)
+		$image_url = $this->get_event_image_url($event);
+		if ($image_url) {
+			$schema_meta .= '<meta itemprop="image" content="' . esc_url($image_url) . '" />';
+		}
+
+		// Add performer (use organizer data if available, otherwise use site name)
+		$performer_name = $this->get_event_performer($event);
+		if ($performer_name) {
+			$schema_meta .= '<div itemprop="performer" itemscope itemtype="https://schema.org/Person">';
+			$schema_meta .= '<meta itemprop="name" content="' . esc_attr($performer_name) . '" />';
+			$schema_meta .= '</div>';
+		}
+
+		// Ensure organizer is present if not already added
+		if (empty($event->organizer)) {
+			$schema_meta .= '<div itemprop="organizer" itemscope itemtype="https://schema.org/Organization">';
+			$schema_meta .= '<meta itemprop="name" content="' . esc_attr(get_bloginfo('name')) . '" />';
+			$schema_meta .= '<meta itemprop="url" content="' . esc_url(home_url()) . '" />';
+			$schema_meta .= '</div>';
+		}
+
+		return $schema_meta;
+	}
+
+	/**
+	 * Get event image URL with fallbacks.
+	 *
+	 * @since 3.0.0
+	 * @access private
+	 *
+	 * @param Event $event
+	 *
+	 * @return string|false
+	 */
+	private function get_event_image_url(Event $event)
+	{
+		// Try to get custom logo first
+		$custom_logo_id = get_theme_mod('custom_logo');
+		if ($custom_logo_id) {
+			$logo_url = wp_get_attachment_image_url($custom_logo_id, 'full');
+			if ($logo_url) {
+				return $logo_url;
+			}
+		}
+
+		// Fallback to site icon
+		$site_icon_url = get_site_icon_url();
+		if ($site_icon_url) {
+			return $site_icon_url;
+		}
+
+		// Fallback to a default image URL (you can customize this)
+		return false;
+	}
+
+	/**
+	 * Get event performer name.
+	 *
+	 * @since 3.0.0
+	 * @access private
+	 *
+	 * @param Event $event
+	 *
+	 * @return string
+	 */
+	private function get_event_performer(Event $event)
+	{
+		// Use organizer name if available
+		if (!empty($event->organizer) && !empty($event->organizer['name'])) {
+			return $event->organizer['name'];
+		}
+
+		// Fallback to site name
+		return get_bloginfo('name');
 	}
 
 	/**
