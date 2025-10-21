@@ -1,6 +1,6 @@
 === Simple Calendar - Google Calendar Plugin ===
 Contributors: simplecalendar, rosinghal, pderksen, nickyoung87, nekojira, rosshanney
-Tags: google calendar, calendar, calendars, google, event calendar, custom calendar, custom calendars, event, events
+Tags: google calendar, events, website calendar, wp calendar, wp calendar widget
 Requires at least: 4.2
 Requires PHP: 7.3
 Tested up to: 6.8.1
@@ -97,8 +97,13 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.5.7 =
+* Fix: Assets (JS/CSS) now correctly load when a calendar widget is present.
+
 = 3.5.6 =
-* Dev: Load CSS and JS only on calendar posts and pages containing the calendar shortcode for better performance.
+* Fix: accessibility issue by adding descriptive text to calendar navigation buttons.
+* Dev: admin notice to inform users about end of PHP 7 support after November.
+* Dev: Optimized assets: JS and CSS now load only on calendar post type and pages with calendar shortcode.
 
 = 3.5.5 =
 * Fix: Network error when fetching calendars after authentication with Oauth via Simple Calendar on fresh installs.

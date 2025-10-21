@@ -177,11 +177,6 @@ function simcal_common_scripts_variables()
 		'meridiem' => simcal_get_calendar_names_i18n('meridiem'),
 	];
 
-	// WPML compatibility: Add current language code to JavaScript variables
-	if (defined('ICL_LANGUAGE_CODE')) {
-		$vars['wpml_language'] = ICL_LANGUAGE_CODE;
-	}
-
 	return array_merge($vars, apply_filters('simcal_common_scripts_variables', []));
 }
 
