@@ -46,6 +46,14 @@ class Assets
 	public $disable_styles = false;
 
 	/**
+	 * Flag to track if assets have been scheduled for loading.
+	 *
+	 * @access private
+	 * @var bool
+	 */
+	private static $assets_scheduled = false;
+
+	/**
 	 * Hook in tabs.
 	 *
 	 * @since 3.0.0
@@ -80,16 +88,27 @@ class Assets
 	public function enqueue()
 	{
 		add_action('wp', [$this, 'check_load_assets']);
+
+		// Additional hook for page builders that might process content later
+		add_action('template_redirect', [$this, 'check_load_assets'], 5);
 	}
 
 	/**
 	 * Check if we should load assets.
 	 *
+	 * Enhanced to support all registered shortcodes (calendar, simple_calendar, gcal)
+	 * and detect shortcodes in page builder content including Avada's Fusion Builder.
+	 *
 	 * @since 3.5.6
 	 */
 	public function check_load_assets()
 	{
-		// Only load assets if it's a calendar post type, if we detect calendar shortcode, or if gce_widget is active
+		// Prevent duplicate scheduling
+		if (self::$assets_scheduled) {
+			return;
+		}
+
+		// Only load assets if it's a calendar post type or if we detect calendar shortcode
 		$load_assets = false;
 
 		if (is_singular('calendar')) {
@@ -98,16 +117,28 @@ class Assets
 
 		if (is_singular() && !$load_assets) {
 			global $post;
-			if (isset($post->post_content) && has_shortcode($post->post_content, 'calendar')) {
-				$load_assets = true;
+			// Check for all registered shortcodes in post content
+			$shortcodes = ['calendar', 'simple_calendar', 'gcal'];
+			foreach ($shortcodes as $shortcode) {
+				if (isset($post->post_content) && has_shortcode($post->post_content, $shortcode)) {
+					$load_assets = true;
+					break;
+				}
+			}
+
+			// Check for shortcodes in Avada builder content and other meta fields
+			if (!$load_assets && isset($post->ID)) {
+				$load_assets = $this->check_builder_content($post->ID);
 			}
 		}
 
-		if (!$load_assets && is_active_widget(false, false, 'gce_widget', true)) {
-			$load_assets = true;
+		// Also check for shortcodes in widgets and other content areas
+		if (!$load_assets) {
+			$load_assets = $this->check_widgets_and_other_content();
 		}
 
 		if ($load_assets) {
+			self::$assets_scheduled = true;
 			add_action('wp_enqueue_scripts', [$this, 'load'], 10);
 
 			do_action('simcal_enqueue_assets');
@@ -129,6 +160,146 @@ class Assets
 				1000
 			);
 		}
+	}
+
+	/**
+	 * Check for shortcodes in Avada builder content and other meta fields.
+	 *
+	 * @since 3.5.6
+	 *
+	 * @param int $post_id Post ID to check
+	 * @return bool True if shortcode found, false otherwise
+	 */
+	private function check_builder_content($post_id)
+	{
+		$shortcodes = ['calendar', 'simple_calendar', 'gcal'];
+
+		// Check Avada builder content
+		// Note: _fusion_builder_content is the standard meta key for Avada's Fusion Builder
+		// Additional Avada meta keys for different versions/builders
+		$avada_meta_keys = [
+			'_fusion_builder_content', // Standard Fusion Builder
+			'_avada_page_options', // Avada page options
+			'_fusion_page_options', // Fusion page options
+		];
+
+		foreach ($avada_meta_keys as $meta_key) {
+			$avada_content = get_post_meta($post_id, $meta_key, true);
+			if (!empty($avada_content)) {
+				foreach ($shortcodes as $shortcode) {
+					if (has_shortcode($avada_content, $shortcode)) {
+						return true;
+					}
+				}
+			}
+		}
+
+		// Check for other common page builder meta fields
+		$builder_fields = [
+			'_elementor_data', // Elementor
+			'_wpb_shortcodes_content', // Visual Composer
+			'_et_pb_old_content', // Divi Builder
+			'panels_data', // Page Builder by SiteOrigin
+			'_beaver_builder_data', // Beaver Builder
+			'_fl_builder_data', // Beaver Builder Lite
+		];
+
+		foreach ($builder_fields as $field) {
+			$content = get_post_meta($post_id, $field, true);
+			if (!empty($content)) {
+				// For JSON data, decode and search
+				if (is_string($content) && (strpos($content, '{') === 0 || strpos($content, '[') === 0)) {
+					$decoded = json_decode($content, true);
+					// Check for JSON decode errors
+					if (
+						json_last_error() === JSON_ERROR_NONE &&
+						is_array($decoded) &&
+						$this->search_shortcode_in_array($decoded, $shortcodes)
+					) {
+						return true;
+					}
+				}
+				// For regular content, check all shortcodes
+				else {
+					foreach ($shortcodes as $shortcode) {
+						if (has_shortcode($content, $shortcode)) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Check for shortcodes in widgets and other content areas.
+	 *
+	 * @since 3.5.6
+	 *
+	 * @return bool True if shortcode found, false otherwise
+	 */
+	private function check_widgets_and_other_content()
+	{
+		$shortcodes = ['calendar', 'simple_calendar', 'gcal'];
+
+		// Check if any widgets contain shortcodes
+		$widgets = get_option('widget_gce_widget');
+		if (!empty($widgets) && is_array($widgets)) {
+			foreach ($widgets as $settings) {
+				if (!empty($settings) && is_array($settings) && isset($settings['calendar_id'])) {
+					return true; // Widget found, assets needed
+				}
+			}
+		}
+
+		// Check theme customizer content
+		$customizer_content = get_theme_mod('custom_css', '');
+		if (!empty($customizer_content)) {
+			foreach ($shortcodes as $shortcode) {
+				if (has_shortcode($customizer_content, $shortcode)) {
+					return true;
+				}
+			}
+		}
+
+		// Check for shortcodes in footer/header content
+		$footer_content = get_theme_mod('footer_text', '');
+		if (!empty($footer_content)) {
+			foreach ($shortcodes as $shortcode) {
+				if (has_shortcode($footer_content, $shortcode)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Recursively search for shortcode in array data.
+	 *
+	 * @since 3.5.6
+	 *
+	 * @param array $data Array to search
+	 * @param array $shortcodes Array of shortcodes to search for
+	 * @return bool True if shortcode found, false otherwise
+	 */
+	private function search_shortcode_in_array($data, $shortcodes)
+	{
+		foreach ($data as $key => $value) {
+			if (is_string($value)) {
+				foreach ($shortcodes as $shortcode) {
+					if (has_shortcode($value, $shortcode)) {
+						return true;
+					}
+				}
+			} elseif (is_array($value) && $this->search_shortcode_in_array($value, $shortcodes)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

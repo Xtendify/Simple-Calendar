@@ -22,6 +22,14 @@ if (!defined('ABSPATH')) {
 class Shortcodes
 {
 	/**
+	 * Flag to track if assets have been loaded for shortcodes.
+	 *
+	 * @since 3.5.6
+	 * @var bool
+	 */
+	private static $assets_loaded = false;
+
+	/**
 	 * Hook in tabs.
 	 *
 	 * @since 3.0.0
@@ -69,6 +77,9 @@ class Shortcodes
 		$id = absint($args['id']);
 
 		if ($id > 0) {
+			// Ensure assets are loaded when shortcode is rendered
+			$this->ensure_assets_loaded();
+
 			$calendar = simcal_get_calendar($id);
 
 			if ($calendar instanceof Calendar) {
@@ -79,5 +90,52 @@ class Shortcodes
 		}
 
 		return '';
+	}
+
+	/**
+	 * Ensure assets are loaded when shortcode is rendered.
+	 *
+	 * This is a fallback mechanism for cases where the early detection in
+	 * Assets::check_load_assets() might have missed shortcodes in page builders.
+	 * Only schedules assets if wp_enqueue_scripts hasn't fired yet.
+	 *
+	 * @since 3.5.6
+	 */
+	private function ensure_assets_loaded()
+	{
+		// Prevent duplicate loading
+		if (self::$assets_loaded) {
+			return;
+		}
+
+		// Only schedule early if wp_enqueue_scripts hasn't fired yet
+		if (!did_action('wp_enqueue_scripts')) {
+			add_action('wp_enqueue_scripts', [$this, 'load_shortcode_assets'], 5);
+		}
+		// If wp_enqueue_scripts has already fired, rely on the early detection
+		// mechanism in Assets::check_load_assets() which should have caught this
+	}
+
+	/**
+	 * Load assets for shortcode usage.
+	 *
+	 * @since 3.5.6
+	 */
+	public function load_shortcode_assets()
+	{
+		// Prevent duplicate loading
+		if (self::$assets_loaded) {
+			return;
+		}
+
+		// Get the Assets instance and load the assets
+		$assets = new \SimpleCalendar\Assets();
+		$assets->load();
+
+		// Mark as loaded
+		self::$assets_loaded = true;
+
+		// Trigger action for other plugins/themes to hook into
+		do_action('simcal_shortcode_assets_loaded');
 	}
 }
