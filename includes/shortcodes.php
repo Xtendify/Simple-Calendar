@@ -94,7 +94,10 @@ class Shortcodes
 
 	/**
 	 * Ensure assets are loaded when shortcode is rendered.
-	 * This handles cases where shortcodes are used in page builders like Avada.
+	 *
+	 * This is a fallback mechanism for cases where the early detection in
+	 * Assets::check_load_assets() might have missed shortcodes in page builders.
+	 * Only schedules assets if wp_enqueue_scripts hasn't fired yet.
 	 *
 	 * @since 3.5.6
 	 */
@@ -105,14 +108,12 @@ class Shortcodes
 			return;
 		}
 
-		// Check if assets are already being loaded
+		// Only schedule early if wp_enqueue_scripts hasn't fired yet
 		if (!did_action('wp_enqueue_scripts')) {
-			// Assets haven't been enqueued yet, so we need to trigger them
 			add_action('wp_enqueue_scripts', [$this, 'load_shortcode_assets'], 5);
-		} else {
-			// Assets have already been enqueued, but we need to ensure they're loaded
-			$this->load_shortcode_assets();
 		}
+		// If wp_enqueue_scripts has already fired, rely on the early detection
+		// mechanism in Assets::check_load_assets() which should have caught this
 	}
 
 	/**
