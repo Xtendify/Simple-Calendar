@@ -246,6 +246,11 @@ class Event_Builder
 		// Process tags.
 		$result = preg_replace_callback($this->get_regex(), [$this, 'process_event_content'], $template_tags);
 
+		// Add schema properties if not already present in template
+		if (strpos($template_tags, '[schema-meta]') === false) {
+			$result .= $this->get_missing_schema_properties($this->event);
+		}
+
 		// Removes extra consecutive <br> tags.
 		// TODO: Doesn't seem to work but going to remove it to allow multiple <br> tags in the editor
 		return do_shortcode(trim($result));
@@ -1193,12 +1198,12 @@ class Event_Builder
 			$start = Carbon::createFromTimestamp($event->start, $event->timezone);
 			$end_date = $start->copy()->addHour();
 			$end_iso = $end_date->toIso8601String();
-			$schema_meta .= '<meta itemprop="endDate" content="' . $end_iso . '" />';
+			$schema_meta .= '<meta itemprop="endDate" content="' . esc_attr($end_iso) . '" />';
 		}
 
 		// Add eventAttendanceMode (default to OfflineEventAttendanceMode for physical events)
 		$attendance_mode = !empty($event->start_location['address']) ? 'OfflineEventAttendanceMode' : 'OnlineEventAttendanceMode';
-		$schema_meta .= '<meta itemprop="eventAttendanceMode" content="https://schema.org/' . $attendance_mode . '" />';
+		$schema_meta .= '<meta itemprop="eventAttendanceMode" content="https://schema.org/' . esc_attr($attendance_mode) . '" />';
 
 		// Add eventStatus (default to EventScheduled)
 		$schema_meta .= '<meta itemprop="eventStatus" content="https://schema.org/EventScheduled" />';
@@ -1230,6 +1235,11 @@ class Event_Builder
 			$schema_meta .= '<meta itemprop="name" content="' . esc_attr(get_bloginfo('name')) . '" />';
 			$schema_meta .= '<meta itemprop="url" content="' . esc_url(home_url()) . '" />';
 			$schema_meta .= '</div>';
+		}
+
+		// Add description if missing (use event title as fallback)
+		if (empty($event->description)) {
+			$schema_meta .= '<meta itemprop="description" content="' . esc_attr($event->title) . '" />';
 		}
 
 		return $schema_meta;
