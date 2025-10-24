@@ -87,12 +87,27 @@ class Assets
 	 */
 	public function enqueue()
 	{
-		add_action('wp', [$this, 'check_load_assets']);
+		add_action('wp_enqueue_scripts', [$this, 'load'], 10);
 
-		// Additional hook for page builders that might process content later
-		add_action('template_redirect', [$this, 'check_load_assets'], 5);
+		do_action('simcal_enqueue_assets');
+
+		// Improves compatibility with themes and plugins using Isotope and Masonry.
+		add_action(
+			'wp_enqueue_scripts',
+			function () {
+				if (wp_script_is('simcal-qtip', 'enqueued')) {
+					wp_enqueue_script(
+						'simplecalendar-imagesloaded',
+						SIMPLE_CALENDAR_ASSETS . 'generated/vendor/imagesloaded.pkgd.min.js',
+						['simcal-qtip'],
+						SIMPLE_CALENDAR_VERSION,
+						true
+					);
+				}
+			},
+			1000
+		);
 	}
-
 	/**
 	 * Check if we should load assets.
 	 *

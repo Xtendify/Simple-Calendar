@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.5.9 =
+* Fix: Patch applied to correct site-breaking errors introduced in the most recent update.
+
 = 3.5.8 =
 * Fix: Fixed issue where the calendar incorrectly calculated weekday offsets when the week start day was changed in advanced settings.
 * Fix: Fixed asset loading for all registered shortcodes in page builders like Avada Live Builder.
