@@ -87,6 +87,11 @@ class Assets
 	 */
 	public function enqueue()
 	{
+		if (self::$assets_scheduled) {
+			return;
+		}
+		self::$assets_scheduled = true;
+
 		add_action('wp_enqueue_scripts', [$this, 'load'], 10);
 
 		do_action('simcal_enqueue_assets');
