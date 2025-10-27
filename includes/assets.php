@@ -54,7 +54,7 @@ class Assets
 	private static $assets_scheduled = false;
 
 	/**
-	 * Enable lazy loading of scripts.
+	 *  Disable lazy loading of scripts.
 	 *
 	 * @access private
 	 * @var bool
@@ -99,14 +99,15 @@ class Assets
 	 */
 	public function enqueue()
 	{
-		// If lazy loading is enabled, use the new conditional loading
+		// If lazy loading is disabled, load scripts on all pages
 		if ($this->disable_lazy_loading) {
-			// Old behavior: load scripts on all pages
+			// Load scripts unconditionally on all pages
 			$this->schedule_assets();
 		} else {
+			// Lazy loading enabled: conditionally load only when needed
 			add_action('wp', [$this, 'check_load_assets']);
 
-			// Additional hook for page builders that might process content later
+			// Additional hook for page builders that process content later
 			add_action('template_redirect', [$this, 'check_load_assets'], 5);
 		}
 	}
