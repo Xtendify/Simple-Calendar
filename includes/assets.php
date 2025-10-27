@@ -59,7 +59,7 @@ class Assets
 	 * @access private
 	 * @var bool
 	 */
-	private $enable_lazy_loading = false;
+	private $disable_lazy_loading = false;
 
 	/**
 	 * Hook in tabs.
@@ -74,8 +74,8 @@ class Assets
 			$this->disable_styles = 'yes' == $settings['assets']['disable_css'] ? true : false;
 		}
 
-		if (isset($settings['assets']['enable_lazy_loading'])) {
-			$this->enable_lazy_loading = 'yes' == $settings['assets']['enable_lazy_loading'] ? true : false;
+		if (isset($settings['assets']['disable_lazy_loading'])) {
+			$this->disable_lazy_loading = 'yes' == $settings['assets']['disable_lazy_loading'] ? true : false;
 		}
 
 		add_action('init', [$this, 'register'], 20);
@@ -100,35 +100,14 @@ class Assets
 	public function enqueue()
 	{
 		// If lazy loading is enabled, use the new conditional loading
-		if ($this->enable_lazy_loading) {
+		if ($this->disable_lazy_loading) {
+			// Old behavior: load scripts on all pages
+			$this->schedule_assets();
+		} else {
 			add_action('wp', [$this, 'check_load_assets']);
 
 			// Additional hook for page builders that might process content later
 			add_action('template_redirect', [$this, 'check_load_assets'], 5);
-		} else {
-			// Old behavior: load scripts on all pages
-			self::$assets_scheduled = true;
-
-			add_action('wp_enqueue_scripts', [$this, 'load'], 10);
-
-			do_action('simcal_enqueue_assets');
-
-			// Improves compatibility with themes and plugins using Isotope and Masonry.
-			add_action(
-				'wp_enqueue_scripts',
-				function () {
-					if (wp_script_is('simcal-qtip', 'enqueued')) {
-						wp_enqueue_script(
-							'simplecalendar-imagesloaded',
-							SIMPLE_CALENDAR_ASSETS . 'generated/vendor/imagesloaded.pkgd.min.js',
-							['simcal-qtip'],
-							SIMPLE_CALENDAR_VERSION,
-							true
-						);
-					}
-				},
-				1000
-			);
 		}
 	}
 
@@ -178,28 +157,39 @@ class Assets
 		}
 
 		if ($load_assets) {
-			self::$assets_scheduled = true;
-			add_action('wp_enqueue_scripts', [$this, 'load'], 10);
-
-			do_action('simcal_enqueue_assets');
-
-			// Improves compatibility with themes and plugins using Isotope and Masonry.
-			add_action(
-				'wp_enqueue_scripts',
-				function () {
-					if (wp_script_is('simcal-qtip', 'enqueued')) {
-						wp_enqueue_script(
-							'simplecalendar-imagesloaded',
-							SIMPLE_CALENDAR_ASSETS . 'generated/vendor/imagesloaded.pkgd.min.js',
-							['simcal-qtip'],
-							SIMPLE_CALENDAR_VERSION,
-							true
-						);
-					}
-				},
-				1000
-			);
+			$this->schedule_assets();
 		}
+	}
+
+	/**
+	 * Schedule assets to be loaded on wp_enqueue_scripts hook.
+	 *
+	 * @since 3.5.7
+	 */
+	private function schedule_assets()
+	{
+		self::$assets_scheduled = true;
+
+		add_action('wp_enqueue_scripts', [$this, 'load'], 10);
+
+		do_action('simcal_enqueue_assets');
+
+		// Improves compatibility with themes and plugins using Isotope and Masonry.
+		add_action(
+			'wp_enqueue_scripts',
+			function () {
+				if (wp_script_is('simcal-qtip', 'enqueued')) {
+					wp_enqueue_script(
+						'simplecalendar-imagesloaded',
+						SIMPLE_CALENDAR_ASSETS . 'generated/vendor/imagesloaded.pkgd.min.js',
+						['simcal-qtip'],
+						SIMPLE_CALENDAR_VERSION,
+						true
+					);
+				}
+			},
+			1000
+		);
 	}
 
 	/**
