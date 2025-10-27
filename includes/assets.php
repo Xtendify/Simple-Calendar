@@ -70,12 +70,12 @@ class Assets
 	{
 		$settings = get_option('simple-calendar_settings_advanced');
 
-		if (isset($settings['styles_scripts']['disable_css'])) {
-			$this->disable_styles = 'yes' == $settings['styles_scripts']['disable_css'] ? true : false;
+		if (isset($settings['optimisation']['disable_css'])) {
+			$this->disable_styles = 'yes' == $settings['optimisation']['disable_css'] ? true : false;
 		}
 
-		if (isset($settings['styles_scripts']['disable_lazy_loading'])) {
-			$this->disable_lazy_loading = 'yes' == $settings['styles_scripts']['disable_lazy_loading'] ? true : false;
+		if (isset($settings['optimisation']['disable_lazy_loading'])) {
+			$this->disable_lazy_loading = 'yes' == $settings['optimisation']['disable_lazy_loading'] ? true : false;
 		}
 
 		add_action('init', [$this, 'register'], 20);
