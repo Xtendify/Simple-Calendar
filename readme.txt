@@ -99,6 +99,7 @@ We'd love your help! Here's a few things you can do:
 
 = 3.5.9 =
 * Fix: Patch applied to correct site-breaking errors introduced in the most recent update.
+* Dev: New Feature: Users can now control Lazy Loading functionality via a dedicated toggle in the Advanced settings.
 
 = 3.5.8 =
 * Fix: Fixed issue where the calendar incorrectly calculated weekday offsets when the week start day was changed in advanced settings.
