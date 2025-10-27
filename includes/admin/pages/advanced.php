@@ -89,6 +89,19 @@ class Advanced extends Admin_Page
 						'id' => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-' . $section . '-disable-css',
 						'value' => $this->get_option_value($section, 'disable_css'),
 					],
+					'enable_lazy_loading' => [
+						'title' => __('Enable Lazy Loading', 'google-calendar-events'),
+						'tooltip' => __(
+							'If enabled, calendar scripts will only load on pages that contain calendars or calendar shortcodes. This improves page load performance. When disabled, scripts load on all pages (old behavior).',
+							'google-calendar-events'
+						),
+						'type' => 'checkbox',
+						'name' =>
+							'simple-calendar_' . $this->option_group . '_' . $this->id . '[' . $section . '][enable_lazy_loading]',
+						'id' =>
+							'simple-calendar-' . $this->option_group . '-' . $this->id . '-' . $section . '-enable-lazy-loading',
+						'value' => $this->get_option_value($section, 'enable_lazy_loading'),
+					],
 				];
 			} elseif ('installation' == $section) {
 				$fields[$section] = [

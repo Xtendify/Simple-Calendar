@@ -54,6 +54,14 @@ class Assets
 	private static $assets_scheduled = false;
 
 	/**
+	 * Enable lazy loading of scripts.
+	 *
+	 * @access private
+	 * @var bool
+	 */
+	private $enable_lazy_loading = false;
+
+	/**
 	 * Hook in tabs.
 	 *
 	 * @since 3.0.0
@@ -64,6 +72,10 @@ class Assets
 
 		if (isset($settings['assets']['disable_css'])) {
 			$this->disable_styles = 'yes' == $settings['assets']['disable_css'] ? true : false;
+		}
+
+		if (isset($settings['assets']['enable_lazy_loading'])) {
+			$this->enable_lazy_loading = 'yes' == $settings['assets']['enable_lazy_loading'] ? true : false;
 		}
 
 		add_action('init', [$this, 'register'], 20);
@@ -87,10 +99,37 @@ class Assets
 	 */
 	public function enqueue()
 	{
-		add_action('wp', [$this, 'check_load_assets']);
+		// If lazy loading is enabled, use the new conditional loading
+		if ($this->enable_lazy_loading) {
+			add_action('wp', [$this, 'check_load_assets']);
 
-		// Additional hook for page builders that might process content later
-		add_action('template_redirect', [$this, 'check_load_assets'], 5);
+			// Additional hook for page builders that might process content later
+			add_action('template_redirect', [$this, 'check_load_assets'], 5);
+		} else {
+			// Old behavior: load scripts on all pages
+			self::$assets_scheduled = true;
+
+			add_action('wp_enqueue_scripts', [$this, 'load'], 10);
+
+			do_action('simcal_enqueue_assets');
+
+			// Improves compatibility with themes and plugins using Isotope and Masonry.
+			add_action(
+				'wp_enqueue_scripts',
+				function () {
+					if (wp_script_is('simcal-qtip', 'enqueued')) {
+						wp_enqueue_script(
+							'simplecalendar-imagesloaded',
+							SIMPLE_CALENDAR_ASSETS . 'generated/vendor/imagesloaded.pkgd.min.js',
+							['simcal-qtip'],
+							SIMPLE_CALENDAR_VERSION,
+							true
+						);
+					}
+				},
+				1000
+			);
+		}
 	}
 
 	/**
@@ -122,6 +161,7 @@ class Assets
 			foreach ($shortcodes as $shortcode) {
 				if (isset($post->post_content) && has_shortcode($post->post_content, $shortcode)) {
 					$load_assets = true;
+
 					break;
 				}
 			}
