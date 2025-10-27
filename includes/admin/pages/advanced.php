@@ -92,7 +92,7 @@ class Advanced extends Admin_Page
 					'disable_lazy_loading' => [
 						'title' => __('Disable Lazy Loading', 'google-calendar-events'),
 						'tooltip' => __(
-							'If enabled, calendar scripts and styles will only load on pages that contain calendars or calendar shortcodes. This improves page load performance. When disabled, scripts and styles load on all pages (old behavior).',
+							'By default, calendar scripts and styles only load on pages that contain calendars or calendar shortcodes for improved performance. When this option is checked (disabled), scripts and styles will load on all pages (old behavior).',
 							'google-calendar-events'
 						),
 						'type' => 'checkbox',
