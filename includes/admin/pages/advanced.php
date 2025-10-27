@@ -53,6 +53,13 @@ class Advanced extends Admin_Page
 					__('Manage front end assets that handle the calendars appearance.', 'google-calendar-events') .
 					'</div>',
 			],
+			'styles_scripts' => [
+				'title' => __('Styles & Scripts', 'google-calendar-events'),
+				'description' =>
+					'<div class="simcal-text-sm simcal-font-poppins simcal-font-normal simcal-text-sc_grey-100 simcal-mt-[5px] ">' .
+					__('Manage front end styles & scripts loading behavior.', 'google-calendar-events') .
+					'</div>',
+			],
 			'installation' => [
 				'title' => __('Installation', 'google-calendar-events'),
 				'description' =>
@@ -89,6 +96,9 @@ class Advanced extends Admin_Page
 						'id' => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-' . $section . '-disable-css',
 						'value' => $this->get_option_value($section, 'disable_css'),
 					],
+				];
+			} elseif ('styles_scripts' == $section) {
+				$fields[$section] = [
 					'disable_lazy_loading' => [
 						'title' => __('Disable Lazy Loading', 'google-calendar-events'),
 						'tooltip' => __(
