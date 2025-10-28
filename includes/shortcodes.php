@@ -97,7 +97,7 @@ class Shortcodes
 	 *
 	 * This is a fallback mechanism for cases where the early detection in
 	 * Assets::check_load_assets() might have missed shortcodes in page builders.
-	 * Only schedules assets if wp_enqueue_scripts hasn't fired yet.
+	 * Works even if wp_enqueue_scripts has already fired.
 	 *
 	 * @since 3.5.6
 	 */
@@ -108,12 +108,14 @@ class Shortcodes
 			return;
 		}
 
-		// Only schedule early if wp_enqueue_scripts hasn't fired yet
+		// Try to schedule assets if wp_enqueue_scripts hasn't fired yet
 		if (!did_action('wp_enqueue_scripts')) {
 			add_action('wp_enqueue_scripts', [$this, 'load_shortcode_assets'], 5);
+		} else {
+			// wp_enqueue_scripts already fired - load assets immediately
+			// This handles cases where page builders load content after wp_enqueue_scripts
+			$this->load_shortcode_assets();
 		}
-		// If wp_enqueue_scripts has already fired, rely on the early detection
-		// mechanism in Assets::check_load_assets() which should have caught this
 	}
 
 	/**

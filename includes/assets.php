@@ -54,6 +54,14 @@ class Assets
 	private static $assets_scheduled = false;
 
 	/**
+	 *  Disable lazy loading of scripts.
+	 *
+	 * @access private
+	 * @var bool
+	 */
+	private $disable_lazy_loading = false;
+
+	/**
 	 * Hook in tabs.
 	 *
 	 * @since 3.0.0
@@ -62,8 +70,12 @@ class Assets
 	{
 		$settings = get_option('simple-calendar_settings_advanced');
 
-		if (isset($settings['assets']['disable_css'])) {
-			$this->disable_styles = 'yes' == $settings['assets']['disable_css'] ? true : false;
+		if (isset($settings['optimisation']['disable_css'])) {
+			$this->disable_styles = 'yes' == $settings['optimisation']['disable_css'] ? true : false;
+		}
+
+		if (isset($settings['optimisation']['disable_lazy_loading'])) {
+			$this->disable_lazy_loading = 'yes' == $settings['optimisation']['disable_lazy_loading'] ? true : false;
 		}
 
 		add_action('init', [$this, 'register'], 20);
@@ -87,10 +99,17 @@ class Assets
 	 */
 	public function enqueue()
 	{
-		add_action('wp', [$this, 'check_load_assets']);
+		// If lazy loading is disabled, load scripts on all pages
+		if ($this->disable_lazy_loading) {
+			// Load scripts unconditionally on all pages
+			$this->schedule_assets();
+		} else {
+			// Lazy loading enabled: conditionally load only when needed
+			add_action('wp', [$this, 'check_load_assets']);
 
-		// Additional hook for page builders that might process content later
-		add_action('template_redirect', [$this, 'check_load_assets'], 5);
+			// Additional hook for page builders that process content later
+			add_action('template_redirect', [$this, 'check_load_assets'], 5);
+		}
 	}
 
 	/**
@@ -122,6 +141,7 @@ class Assets
 			foreach ($shortcodes as $shortcode) {
 				if (isset($post->post_content) && has_shortcode($post->post_content, $shortcode)) {
 					$load_assets = true;
+
 					break;
 				}
 			}
@@ -138,28 +158,39 @@ class Assets
 		}
 
 		if ($load_assets) {
-			self::$assets_scheduled = true;
-			add_action('wp_enqueue_scripts', [$this, 'load'], 10);
-
-			do_action('simcal_enqueue_assets');
-
-			// Improves compatibility with themes and plugins using Isotope and Masonry.
-			add_action(
-				'wp_enqueue_scripts',
-				function () {
-					if (wp_script_is('simcal-qtip', 'enqueued')) {
-						wp_enqueue_script(
-							'simplecalendar-imagesloaded',
-							SIMPLE_CALENDAR_ASSETS . 'generated/vendor/imagesloaded.pkgd.min.js',
-							['simcal-qtip'],
-							SIMPLE_CALENDAR_VERSION,
-							true
-						);
-					}
-				},
-				1000
-			);
+			$this->schedule_assets();
 		}
+	}
+
+	/**
+	 * Schedule assets to be loaded on wp_enqueue_scripts hook.
+	 *
+	 * @since 3.5.7
+	 */
+	private function schedule_assets()
+	{
+		self::$assets_scheduled = true;
+
+		add_action('wp_enqueue_scripts', [$this, 'load'], 10);
+
+		do_action('simcal_enqueue_assets');
+
+		// Improves compatibility with themes and plugins using Isotope and Masonry.
+		add_action(
+			'wp_enqueue_scripts',
+			function () {
+				if (wp_script_is('simcal-qtip', 'enqueued')) {
+					wp_enqueue_script(
+						'simplecalendar-imagesloaded',
+						SIMPLE_CALENDAR_ASSETS . 'generated/vendor/imagesloaded.pkgd.min.js',
+						['simcal-qtip'],
+						SIMPLE_CALENDAR_VERSION,
+						true
+					);
+				}
+			},
+			1000
+		);
 	}
 
 	/**
@@ -175,20 +206,44 @@ class Assets
 		$shortcodes = ['calendar', 'simple_calendar', 'gcal'];
 
 		// Check Avada builder content
-		// Note: _fusion_builder_content is the standard meta key for Avada's Fusion Builder
+		// Note: Avada uses various meta keys for storing builder content
 		// Additional Avada meta keys for different versions/builders
 		$avada_meta_keys = [
 			'_fusion_builder_content', // Standard Fusion Builder
+			'_fusion_builder_content_backup', // Fusion Builder backup
 			'_avada_page_options', // Avada page options
 			'_fusion_page_options', // Fusion page options
+			'_fusion', // Fusion Builder
+			'_page_bg_color', // Page background
+			'_content_bg_color', // Content background
+			'fusion_builder_custom_css', // Custom CSS
 		];
 
 		foreach ($avada_meta_keys as $meta_key) {
 			$avada_content = get_post_meta($post_id, $meta_key, true);
+
+			// Handle both string and array content
 			if (!empty($avada_content)) {
-				foreach ($shortcodes as $shortcode) {
-					if (has_shortcode($avada_content, $shortcode)) {
+				if (is_string($avada_content)) {
+					foreach ($shortcodes as $shortcode) {
+						if (has_shortcode($avada_content, $shortcode)) {
+							return true;
+						}
+					}
+				} elseif (is_array($avada_content)) {
+					// Recursively search through array data
+					if ($this->search_shortcode_in_array($avada_content, $shortcodes)) {
 						return true;
+					}
+				} elseif (is_object($avada_content)) {
+					// Convert object to string representation for search
+					$content_string = print_r($avada_content, true);
+					if (!empty($content_string)) {
+						foreach ($shortcodes as $shortcode) {
+							if (strpos($content_string, '[' . $shortcode) !== false) {
+								return true;
+							}
+						}
 					}
 				}
 			}
@@ -221,8 +276,34 @@ class Assets
 				}
 				// For regular content, check all shortcodes
 				else {
+					// Ensure $content is a string before calling has_shortcode()
+					if (is_string($content)) {
+						foreach ($shortcodes as $shortcode) {
+							if (has_shortcode($content, $shortcode)) {
+								return true;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// Additional check: search all meta fields for the post
+		// This catches any custom Avada builder implementation
+		$all_meta = get_post_meta($post_id);
+		if (!empty($all_meta) && is_array($all_meta)) {
+			foreach ($all_meta as $meta_key => $meta_value) {
+				// Skip if it's a fusion or avada key (already checked above)
+				if (strpos($meta_key, 'fusion') !== false || strpos($meta_key, 'avada') !== false) {
+					continue;
+				}
+
+				// Convert to string for searching
+				$value_string = is_array($meta_value) ? json_encode($meta_value) : (string) $meta_value;
+
+				if (!empty($value_string) && strlen($value_string) > 10) {
 					foreach ($shortcodes as $shortcode) {
-						if (has_shortcode($content, $shortcode)) {
+						if (strpos($value_string, '[' . $shortcode) !== false || has_shortcode($value_string, $shortcode)) {
 							return true;
 						}
 					}
@@ -256,7 +337,7 @@ class Assets
 
 		// Check theme customizer content
 		$customizer_content = get_theme_mod('custom_css', '');
-		if (!empty($customizer_content)) {
+		if (!empty($customizer_content) && is_string($customizer_content)) {
 			foreach ($shortcodes as $shortcode) {
 				if (has_shortcode($customizer_content, $shortcode)) {
 					return true;
@@ -266,7 +347,7 @@ class Assets
 
 		// Check for shortcodes in footer/header content
 		$footer_content = get_theme_mod('footer_text', '');
-		if (!empty($footer_content)) {
+		if (!empty($footer_content) && is_string($footer_content)) {
 			foreach ($shortcodes as $shortcode) {
 				if (has_shortcode($footer_content, $shortcode)) {
 					return true;
