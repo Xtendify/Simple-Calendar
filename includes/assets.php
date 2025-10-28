@@ -206,20 +206,44 @@ class Assets
 		$shortcodes = ['calendar', 'simple_calendar', 'gcal'];
 
 		// Check Avada builder content
-		// Note: _fusion_builder_content is the standard meta key for Avada's Fusion Builder
+		// Note: Avada uses various meta keys for storing builder content
 		// Additional Avada meta keys for different versions/builders
 		$avada_meta_keys = [
 			'_fusion_builder_content', // Standard Fusion Builder
+			'_fusion_builder_content_backup', // Fusion Builder backup
 			'_avada_page_options', // Avada page options
 			'_fusion_page_options', // Fusion page options
+			'_fusion', // Fusion Builder
+			'_page_bg_color', // Page background
+			'_content_bg_color', // Content background
+			'fusion_builder_custom_css', // Custom CSS
 		];
 
 		foreach ($avada_meta_keys as $meta_key) {
 			$avada_content = get_post_meta($post_id, $meta_key, true);
-			if (!empty($avada_content) && is_string($avada_content)) {
-				foreach ($shortcodes as $shortcode) {
-					if (has_shortcode($avada_content, $shortcode)) {
+
+			// Handle both string and array content
+			if (!empty($avada_content)) {
+				if (is_string($avada_content)) {
+					foreach ($shortcodes as $shortcode) {
+						if (has_shortcode($avada_content, $shortcode)) {
+							return true;
+						}
+					}
+				} elseif (is_array($avada_content)) {
+					// Recursively search through array data
+					if ($this->search_shortcode_in_array($avada_content, $shortcodes)) {
 						return true;
+					}
+				} elseif (is_object($avada_content)) {
+					// Convert object to string representation for search
+					$content_string = print_r($avada_content, true);
+					if (!empty($content_string)) {
+						foreach ($shortcodes as $shortcode) {
+							if (strpos($content_string, '[' . $shortcode) !== false) {
+								return true;
+							}
+						}
 					}
 				}
 			}
@@ -258,6 +282,29 @@ class Assets
 							if (has_shortcode($content, $shortcode)) {
 								return true;
 							}
+						}
+					}
+				}
+			}
+		}
+
+		// Additional check: search all meta fields for the post
+		// This catches any custom Avada builder implementation
+		$all_meta = get_post_meta($post_id);
+		if (!empty($all_meta) && is_array($all_meta)) {
+			foreach ($all_meta as $meta_key => $meta_value) {
+				// Skip if it's a fusion or avada key (already checked above)
+				if (strpos($meta_key, 'fusion') !== false || strpos($meta_key, 'avada') !== false) {
+					continue;
+				}
+
+				// Convert to string for searching
+				$value_string = is_array($meta_value) ? json_encode($meta_value) : (string) $meta_value;
+
+				if (!empty($value_string) && strlen($value_string) > 10) {
+					foreach ($shortcodes as $shortcode) {
+						if (strpos($value_string, '[' . $shortcode) !== false || has_shortcode($value_string, $shortcode)) {
+							return true;
 						}
 					}
 				}
