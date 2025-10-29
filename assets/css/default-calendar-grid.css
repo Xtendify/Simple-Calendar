@@ -326,6 +326,11 @@
 	padding: 5px;
 }
 
+/* Ensure tooltips appear above Avada containers */
+.qtip.simcal-event-bubble {
+	z-index: 999999 !important;
+}
+
 .simcal-default-calendar .simcal-ajax-loader {
 	height: 100%;
 	left: 0;

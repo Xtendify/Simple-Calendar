@@ -336,20 +336,41 @@ jQuery(function ($) {
 			}
 
 			eventBubbles.each(function (e, i) {
-				$(i).qtip({
+				var $element = $(i);
+
+				// Skip if element is invalid or already has qtip initialized
+				if (!$element.length || !$element[0] || ($element.data('hasQtip') && !$element.qtip('api'))) {
+					return;
+				}
+
+			$element.qtip({
 					content: {
 						text: function () {
 							const isMobile = width < 60;
-							const content = isMobile
-								? $(cell).find('ul.simcal-events').clone(true, true).css({ display: 'block' })[0]
-								: $(i).find('> .simcal-tooltip-content').clone(true, true).css({ display: 'block' })[0];
+							var content;
+
+							if (isMobile) {
+								var clonedContent = $(cell).find('ul.simcal-events').clone(true, true);
+								if (clonedContent.length) {
+									clonedContent.css({ display: 'block' });
+									content = clonedContent[0];
+								}
+							} else {
+								var clonedContent = $element.find('> .simcal-tooltip-content').clone(true, true);
+								if (clonedContent.length) {
+									clonedContent.css({ display: 'block' });
+									content = clonedContent[0];
+								}
+							}
+
 							return content || 'No event info available';
 						},
 					},
-					position: {
+				position: {
 						my: 'top center',
 						at: 'bottom center',
-						target: $(i),
+					target: $element,
+					container: $('body'),
 						viewport: width < 60 ? $(window) : true,
 						adjust: {
 							method: 'shift',
@@ -374,35 +395,68 @@ jQuery(function ($) {
 					events: {
 						render: function (event, api) {
 							setTimeout(() => {
-								api.reposition();
+								// Only call reposition if API is still valid
+								if (api && api.elements && api.elements.target && api.elements.target.length) {
+									api.reposition();
+								}
 							}, 10); // ensures top/left are recalculated after DOM draw
 						},
-						show: function (event, current) {
-							if (last && last.id && last.id !== current.id) {
+						show: function (event, api) {
+							if (last && last.id && api.target[0] && last.id !== api.target[0]) {
 								last.hide();
 							}
-							last = current;
+							last = api;
 						},
 					},
 					overwrite: false,
 				});
+
+				// Mark as initialized
+				$element.data('hasQtip', true);
 			});
 		});
 	}
 
 	// Event bubbles and calendar UI triggers.
-	gridCalendars.each(function (e, calendar) {
-		calendarBubbles(calendar);
-		$(calendar).on('change', function () {
-			calendarBubbles(this);
-		});
-	});
-	// Viewport changes might require triggering calendar mobile mode.
-	window.onresize = function () {
+	function initCalendars() {
+		gridCalendars = $('.simcal-default-calendar-grid');
 		gridCalendars.each(function (e, calendar) {
 			calendarBubbles(calendar);
+			$(calendar).off('change.simcal').on('change.simcal', function () {
+				calendarBubbles(this);
+			});
 		});
-	};
+	}
+
+	// Initial run
+	initCalendars();
+
+	// Viewport changes might require triggering calendar mobile mode.
+	window.addEventListener('resize', function () {
+		initCalendars();
+	});
+
+	// Avada/Fusion Builder events
+	$(document).on('fusion-element-rendered fusion-dynamic-content-rendered fusion-dynamic-updated', function () {
+		initCalendars();
+	});
+
+	// In case content is injected without events, observe DOM changes
+	try {
+		var observer = new MutationObserver(function (mutations) {
+			for (var i = 0; i < mutations.length; i++) {
+				var added = mutations[i].addedNodes || [];
+				for (var j = 0; j < added.length; j++) {
+					if (added[j].nodeType === 1 && $(added[j]).find('.simcal-default-calendar-grid').length) {
+						initCalendars();
+						return;
+					}
+				}
+			}
+		});
+		observer.observe(document.body, { childList: true, subtree: true });
+	} catch (e) {}
+
 	/*
 	 * Print calendar option code
 	 */
