@@ -1202,8 +1202,11 @@ class Event_Builder
 		}
 
 		// Add eventAttendanceMode (default to OfflineEventAttendanceMode for physical events)
-		$attendance_mode = !empty($event->start_location['address']) ? 'OfflineEventAttendanceMode' : 'OnlineEventAttendanceMode';
-		$schema_meta .= '<meta itemprop="eventAttendanceMode" content="https://schema.org/' . esc_attr($attendance_mode) . '" />';
+		$attendance_mode = !empty($event->start_location['address'])
+			? 'OfflineEventAttendanceMode'
+			: 'OnlineEventAttendanceMode';
+		$schema_meta .=
+			'<meta itemprop="eventAttendanceMode" content="https://schema.org/' . esc_attr($attendance_mode) . '" />';
 
 		// Add eventStatus (default to EventScheduled)
 		$schema_meta .= '<meta itemprop="eventStatus" content="https://schema.org/EventScheduled" />';
@@ -1213,7 +1216,28 @@ class Event_Builder
 		$schema_meta .= '<meta itemprop="price" content="0" />';
 		$schema_meta .= '<meta itemprop="priceCurrency" content="USD" />';
 		$schema_meta .= '<meta itemprop="availability" content="https://schema.org/InStock" />';
+		// Add validFrom (when the offer becomes valid - use current date as offer is available now)
+		$valid_from = Carbon::now($event->timezone)->toIso8601String();
+		$schema_meta .= '<meta itemprop="validFrom" content="' . esc_attr($valid_from) . '" />';
 		$schema_meta .= '</div>';
+
+		// Add event URL
+		if (!empty($event->link)) {
+			$schema_meta .= '<meta itemprop="url" content="' . esc_url($event->link) . '" />';
+		} else {
+			// Fallback to calendar/page URL or current page URL
+			$fallback_url = '';
+			if (!empty($event->calendar) && is_numeric($event->calendar)) {
+				$fallback_url = get_permalink($event->calendar);
+			}
+			if (empty($fallback_url)) {
+				global $wp;
+				$fallback_url = home_url($wp->request);
+			}
+			if (!empty($fallback_url)) {
+				$schema_meta .= '<meta itemprop="url" content="' . esc_url($fallback_url) . '" />';
+			}
+		}
 
 		// Add image (fallback to site logo or default image)
 		$image_url = $this->get_event_image_url($event);

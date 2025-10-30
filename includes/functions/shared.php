@@ -313,24 +313,24 @@ function simcal_update_calendar_templates_for_schema()
 	$calendars = get_posts([
 		'post_type' => 'calendar',
 		'posts_per_page' => -1,
-		'post_status' => 'any'
+		'post_status' => 'any',
 	]);
 
 	$updated_count = 0;
 
 	foreach ($calendars as $calendar) {
 		$content = $calendar->post_content;
-		
+
 		// Only update if the template doesn't already contain schema-meta
 		if (!empty($content) && strpos($content, '[schema-meta]') === false) {
 			// Add schema-meta tag at the end of the template
 			$updated_content = $content . "\n" . '[schema-meta]';
-			
+
 			wp_update_post([
 				'ID' => $calendar->ID,
-				'post_content' => $updated_content
+				'post_content' => $updated_content,
 			]);
-			
+
 			$updated_count++;
 		}
 	}
