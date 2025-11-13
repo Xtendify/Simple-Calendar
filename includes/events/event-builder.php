@@ -339,7 +339,7 @@ class Event_Builder
 
 					return ' <span class="simcal-event-address simcal-event-' .
 						$location_class .
-						'-location" itemprop="location" itemscope itemtype="http://schema.org/Place">' .
+						'-location" itemprop="location" itemscope itemtype="https://schema.org/Place">' .
 						'<meta itemprop="name" content="' .
 						$meta_location_name_and_address .
 						'" />' .
@@ -1080,7 +1080,7 @@ class Event_Builder
 				}
 
 				$html .=
-					'<li class="simcal-attendee" itemprop="attendee" itemscope itemtype="http://schema.org/Person">' .
+					'<li class="simcal-attendee" itemprop="attendee" itemscope itemtype="https://schema.org/Person">' .
 					$guest .
 					'</li>' .
 					"\n";
@@ -1252,21 +1252,24 @@ class Event_Builder
 			$schema_meta .= '<link itemprop="url" href="' . esc_url($event_url) . '" />';
 		}
 
-		// Add offers (default to free event)
-		$schema_meta .= '<div itemprop="offers" itemscope itemtype="https://schema.org/Offer">';
-		$schema_meta .= '<meta itemprop="price" content="0" />';
-		if (!empty($event_url)) {
-			$schema_meta .= '<meta itemprop="url" content="' . esc_url($event_url) . '" />';
-		} else {
-			$schema_meta .= '<meta itemprop="url" content="' . esc_url(home_url()) . '" />';
+		// Offers: make optional and filterable to avoid incorrect pricing/currency.
+		// Only emit default offers if explicitly enabled via filter to prevent incorrect structured data
+		if (apply_filters('simcal_emit_default_offers', false, $event)) {
+			$schema_meta .= '<div itemprop="offers" itemscope itemtype="https://schema.org/Offer">';
+			$schema_meta .= '<meta itemprop="price" content="0" />';
+			if (!empty($event_url)) {
+				$schema_meta .= '<meta itemprop="url" content="' . esc_url($event_url) . '" />';
+			} else {
+				$schema_meta .= '<meta itemprop="url" content="' . esc_url(home_url()) . '" />';
+			}
+			$schema_meta .= '<meta itemprop="priceCurrency" content="USD" />';
+			$schema_meta .= '<meta itemprop="availability" content="https://schema.org/InStock" />';
+			// Add validFrom (when the offer becomes valid - use a past date to ensure offer is always valid)
+			$valid_from_date = Carbon::now($event->timezone)->subDay(); // Use yesterday to ensure it's always valid
+			$valid_from = $valid_from_date->toIso8601String();
+			$schema_meta .= '<meta itemprop="validFrom" content="' . esc_attr($valid_from) . '" />';
+			$schema_meta .= '</div>';
 		}
-		$schema_meta .= '<meta itemprop="priceCurrency" content="USD" />';
-		$schema_meta .= '<meta itemprop="availability" content="https://schema.org/InStock" />';
-		// Add validFrom (when the offer becomes valid - use a past date to ensure offer is always valid)
-		$valid_from_date = Carbon::now($event->timezone)->subDay(); // Use yesterday to ensure it's always valid
-		$valid_from = $valid_from_date->toIso8601String();
-		$schema_meta .= '<meta itemprop="validFrom" content="' . esc_attr($valid_from) . '" />';
-		$schema_meta .= '</div>';
 
 		// Add image (fallback to site logo or default image)
 		$image_url = $this->get_event_image_url($event);
@@ -1283,7 +1286,8 @@ class Event_Builder
 		}
 
 		// Ensure organizer is present if not already added
-		if (empty($event->organizer)) {
+		$organizer_data = method_exists($event, 'get_organizer') ? $event->get_organizer() : [];
+		if (empty($organizer_data)) {
 			$schema_meta .= '<div itemprop="organizer" itemscope itemtype="https://schema.org/Organization">';
 			$schema_meta .= '<meta itemprop="name" content="' . esc_attr(get_bloginfo('name')) . '" />';
 			$schema_meta .= '<meta itemprop="url" content="' . esc_url(home_url()) . '" />';
@@ -1342,8 +1346,11 @@ class Event_Builder
 	private function get_event_performer(Event $event)
 	{
 		// Use organizer name if available
-		if (!empty($event->organizer) && !empty($event->organizer['name'])) {
-			return $event->organizer['name'];
+		if (method_exists($event, 'get_organizer')) {
+			$org = $event->get_organizer();
+			if (!empty($org) && !empty($org['name'])) {
+				return $org['name'];
+			}
 		}
 
 		// Fallback to site name

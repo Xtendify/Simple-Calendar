@@ -319,6 +319,11 @@ function simcal_update_calendar_templates_for_schema()
 	$updated_count = 0;
 
 	foreach ($calendars as $calendar) {
+		// Skip if user doesn't have permission to edit this calendar
+		if (!current_user_can('edit_post', $calendar->ID)) {
+			continue;
+		}
+
 		$content = $calendar->post_content;
 
 		// Only update if the template doesn't already contain schema-meta
@@ -326,12 +331,30 @@ function simcal_update_calendar_templates_for_schema()
 			// Add schema-meta tag at the end of the template
 			$updated_content = $content . "\n" . '[schema-meta]';
 
-			wp_update_post([
+			$update_result = wp_update_post([
 				'ID' => $calendar->ID,
 				'post_content' => $updated_content,
 			]);
 
-			$updated_count++;
+			// Handle wp_update_post errors (returns WP_Error or 0 on failure)
+			if (is_wp_error($update_result)) {
+				$error_message = sprintf(
+					'Failed to update calendar template for calendar ID %d: %s',
+					$calendar->ID,
+					$update_result->get_error_message()
+				);
+				simcal_log_error($error_message);
+			} elseif (empty($update_result) || $update_result === 0) {
+				$error_message = sprintf(
+					'Failed to update calendar template for calendar ID %d: wp_update_post returned 0 or empty',
+					$calendar->ID
+				);
+				simcal_log_error($error_message);
+			} else {
+				// Success: increment counter and clear related caches
+				$updated_count++;
+				simcal_delete_feed_transients($calendar->ID);
+			}
 		}
 	}
 
