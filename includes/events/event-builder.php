@@ -966,7 +966,7 @@ class Event_Builder
 
 		$anchor = $tag != 'url' ? 'yes' : $attr['autolink'];
 		$target = false !== $attr['newwindow'] ? 'target="_blank"' : '';
-		
+
 		// Add itemprop="url" for event's main link to help Google recognize it
 		$itemprop = $is_event_url ? 'itemprop="url" ' : '';
 
@@ -1201,7 +1201,12 @@ class Event_Builder
 		$schema_meta = '';
 
 		// Ensure endDate is always present (required by Google)
-		if (empty($event->end) || !$event->end) {
+		// Always add endDate to schema meta to ensure Google recognizes it consistently
+		if ($event->end_dt instanceof Carbon) {
+			// Use the actual end date if available
+			$end_iso = $event->end_dt->toIso8601String();
+			$schema_meta .= '<meta itemprop="endDate" content="' . esc_attr($end_iso) . '" />';
+		} else {
 			// If no end date, use start date + 1 hour as fallback
 			$start = Carbon::createFromTimestamp($event->start, $event->timezone);
 			$end_date = $start->copy()->addHour();
@@ -1251,7 +1256,7 @@ class Event_Builder
 		$schema_meta .= '<meta itemprop="price" content="0" />';
 		if (!empty($event_url)) {
 			$schema_meta .= '<meta itemprop="url" content="' . esc_url($event_url) . '" />';
-		}else{
+		} else {
 			$schema_meta .= '<meta itemprop="url" content="' . esc_url(home_url()) . '" />';
 		}
 		$schema_meta .= '<meta itemprop="priceCurrency" content="USD" />';
