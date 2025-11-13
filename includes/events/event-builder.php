@@ -246,14 +246,17 @@ class Event_Builder
 		// Process tags.
 		$result = preg_replace_callback($this->get_regex(), [$this, 'process_event_content'], $template_tags);
 
+		// Process shortcodes first
+		$result = do_shortcode(trim($result));
+
 		// Add schema properties if not already present in template
+		// Add after shortcode processing to ensure proper placement at the end
 		if (strpos($template_tags, '[schema-meta]') === false) {
-			$result .= $this->get_missing_schema_properties($this->event);
+			// Add schema meta at the end with a newline to ensure it's properly separated
+			$result .= "\n" . $this->get_missing_schema_properties($this->event);
 		}
 
-		// Removes extra consecutive <br> tags.
-		// TODO: Doesn't seem to work but going to remove it to allow multiple <br> tags in the editor
-		return do_shortcode(trim($result));
+		return $result;
 	}
 
 	/**
@@ -360,7 +363,7 @@ class Event_Builder
 				case 'url':
 					$content = 'link' == $tag ? $calendar->get_event_html($event, $partial) : '';
 
-					return $this->make_link($tag, $event->link, $content, $attr);
+					return $this->make_link($tag, $event->link, $content, $attr, true);
 
 				case 'add-to-gcal-link':
 					$content = 'add-to-gcal-link' == $tag ? $calendar->get_event_html($event, $partial) : '';
@@ -939,10 +942,11 @@ class Event_Builder
 	 * @param  string $url
 	 * @param  string $content
 	 * @param  string $attr
+	 * @param  bool   $is_event_url Whether this is the event's main URL (for schema.org)
 	 *
 	 * @return string
 	 */
-	private function make_link($tag, $url, $content, $attr)
+	private function make_link($tag, $url, $content, $attr, $is_event_url = false)
 	{
 		if (empty($url)) {
 			return '';
@@ -962,6 +966,9 @@ class Event_Builder
 
 		$anchor = $tag != 'url' ? 'yes' : $attr['autolink'];
 		$target = false !== $attr['newwindow'] ? 'target="_blank"' : '';
+		
+		// Add itemprop="url" for event's main link to help Google recognize it
+		$itemprop = $is_event_url ? 'itemprop="url" ' : '';
 
 		/**
 		 * Add additional event link attributes.
@@ -979,6 +986,7 @@ class Event_Builder
 			? ' <a href="' .
 					esc_url($url) .
 					'" ' .
+					$itemprop .
 					wp_kses_post($target) .
 					' ' .
 					wp_kses_post($additional_link_atts) .
@@ -1211,33 +1219,48 @@ class Event_Builder
 		// Add eventStatus (default to EventScheduled)
 		$schema_meta .= '<meta itemprop="eventStatus" content="https://schema.org/EventScheduled" />';
 
+		// Add event URL (always include for Google - use link element for better compatibility)
+		// Note: If [link] tag is used in template, it will also have itemprop="url" on the <a> tag
+		$event_url = '';
+		if (!empty($event->link)) {
+			$event_url = $event->link;
+		} else {
+			// Fallback to calendar/page URL
+			if (!empty($event->calendar) && is_numeric($event->calendar)) {
+				$event_url = get_permalink($event->calendar);
+			}
+			// Fallback to current page URL
+			if (empty($event_url)) {
+				global $wp;
+				$current_url = home_url($wp->request);
+				if (empty($current_url) || $current_url == home_url()) {
+					$event_url = home_url('/');
+				} else {
+					$event_url = $current_url;
+				}
+			}
+		}
+		// Always add URL as link element - Google prefers this format
+		// Even if [link] tag exists with itemprop, this ensures URL is always present
+		if (!empty($event_url)) {
+			$schema_meta .= '<link itemprop="url" href="' . esc_url($event_url) . '" />';
+		}
+
 		// Add offers (default to free event)
 		$schema_meta .= '<div itemprop="offers" itemscope itemtype="https://schema.org/Offer">';
 		$schema_meta .= '<meta itemprop="price" content="0" />';
+		if (!empty($event_url)) {
+			$schema_meta .= '<meta itemprop="url" content="' . esc_url($event_url) . '" />';
+		}else{
+			$schema_meta .= '<meta itemprop="url" content="' . esc_url(home_url()) . '" />';
+		}
 		$schema_meta .= '<meta itemprop="priceCurrency" content="USD" />';
 		$schema_meta .= '<meta itemprop="availability" content="https://schema.org/InStock" />';
-		// Add validFrom (when the offer becomes valid - use current date as offer is available now)
-		$valid_from = Carbon::now($event->timezone)->toIso8601String();
+		// Add validFrom (when the offer becomes valid - use a past date to ensure offer is always valid)
+		$valid_from_date = Carbon::now($event->timezone)->subDay(); // Use yesterday to ensure it's always valid
+		$valid_from = $valid_from_date->toIso8601String();
 		$schema_meta .= '<meta itemprop="validFrom" content="' . esc_attr($valid_from) . '" />';
 		$schema_meta .= '</div>';
-
-		// Add event URL
-		if (!empty($event->link)) {
-			$schema_meta .= '<meta itemprop="url" content="' . esc_url($event->link) . '" />';
-		} else {
-			// Fallback to calendar/page URL or current page URL
-			$fallback_url = '';
-			if (!empty($event->calendar) && is_numeric($event->calendar)) {
-				$fallback_url = get_permalink($event->calendar);
-			}
-			if (empty($fallback_url)) {
-				global $wp;
-				$fallback_url = home_url($wp->request);
-			}
-			if (!empty($fallback_url)) {
-				$schema_meta .= '<meta itemprop="url" content="' . esc_url($fallback_url) . '" />';
-			}
-		}
 
 		// Add image (fallback to site logo or default image)
 		$image_url = $this->get_event_image_url($event);
