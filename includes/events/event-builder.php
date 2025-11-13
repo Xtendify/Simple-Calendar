@@ -249,9 +249,10 @@ class Event_Builder
 		// Process shortcodes first
 		$result = do_shortcode(trim($result));
 
-		// Add schema properties if not already present in template
-		// Add after shortcode processing to ensure proper placement at the end
-		if (strpos($template_tags, '[schema-meta]') === false) {
+		// Add schema properties if not already present in processed output
+		// Check the processed result instead of template_tags to handle conditional tags correctly
+		// Look for actual schema output marker (itemprop="endDate") rather than the tag itself
+		if (strpos($result, 'itemprop="endDate"') === false) {
 			// Add schema meta at the end with a newline to ensure it's properly separated
 			$result .= "\n" . $this->get_missing_schema_properties($this->event);
 		}
