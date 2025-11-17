@@ -337,7 +337,15 @@ jQuery(function ($) {
 
 			eventBubbles.each(function (e, i) {
 				$(i).qtip({
-					content: width < 60 ? $(cell).find('ul.simcal-events') : $(i).find('> .simcal-tooltip-content'),
+					content: {
+						text: function () {
+							const isMobile = width < 60;
+							const content = isMobile
+								? $(cell).find('ul.simcal-events').clone(true, true).css({ display: 'block' })[0]
+								: $(i).find('> .simcal-tooltip-content').clone(true, true).css({ display: 'block' })[0];
+							return content || 'No event info available';
+						},
+					},
 					position: {
 						my: 'top center',
 						at: 'bottom center',
@@ -364,12 +372,14 @@ jQuery(function ($) {
 						delay: 100,
 					},
 					events: {
+						render: function (event, api) {
+							setTimeout(() => {
+								api.reposition();
+							}, 10); // ensures top/left are recalculated after DOM draw
+						},
 						show: function (event, current) {
-							// Hide when another tooltip opens:
-							if (last && last.id) {
-								if (last.id != current.id) {
-									last.hide();
-								}
+							if (last && last.id && last.id !== current.id) {
+								last.hide();
 							}
 							last = current;
 						},

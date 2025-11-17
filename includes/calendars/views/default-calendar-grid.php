@@ -210,7 +210,10 @@ class Default_Calendar_Grid implements Calendar_View
                             <button class="simcal-nav-button simcal-month-nav simcal-prev" title="<?php _e(
                             	'Previous Month',
                             	'google-calendar-events'
-                            ); ?>"><i class="simcal-icon-left"></i></button>
+                            ); ?>" aria-label="<?php _e(
+	'Previous Month',
+	'google-calendar-events'
+); ?>"><i class="simcal-icon-left"></i></button>
                         </th>
 					<?php } ?>
                     <th colspan="<?php echo apply_filters('simcal_current_cols', $calendar->static ? '7' : '5'); ?>"
@@ -245,7 +248,10 @@ class Default_Calendar_Grid implements Calendar_View
                             <button class="simcal-nav-button simcal-month-nav simcal-next" title="<?php _e(
                             	'Next Month',
                             	'google-calendar-events'
-                            ); ?>"><i class="simcal-icon-right"></i></button>
+                            ); ?>" aria-label="<?php _e(
+	'Next Month',
+	'google-calendar-events'
+); ?>"><i class="simcal-icon-right"></i></button>
                         </th>
 					<?php } ?>
                 </tr>
@@ -373,27 +379,33 @@ class Default_Calendar_Grid implements Calendar_View
 					: [];
 
 			$day_events = [];
+
 			foreach ($filtered as $timestamp => $events_in_day) {
 				foreach ($events_in_day as $event) {
 					if ($event instanceof Event) {
 						$event_start = Carbon::createFromTimestamp($event->start, $calendar->timezone);
 						$event_end = Carbon::createFromTimestamp($event->end, $calendar->timezone);
+						$first_day = intval(Carbon::createFromTimestamp($timestamp, $calendar->timezone)->endOfDay()->day);
 
-						for ($day = $event_start->copy(); $day->lte($event_end->endOfDay()); $day->addDay()) {
-							if ($day->month == $current_month && $day->year == $current_year) {
-								$day_key = intval($day->format('j'));
-								$event_id = $event->uid;
-								/*
-								 * The purpose of this condition is to determine if an event ends at the very start of the day.
-								 */
-								if ($day->isSameDay($event_end) && $event_end->hour == 0 && $event_end->minute == 0) {
-									continue;
-								}
+						if ('yes' == get_post_meta($calendar->id, '_default_calendar_expand_multi_day_events', true)) {
+							for ($day = $event_start->copy(); $day->lte($event_end->endOfDay()); $day->addDay()) {
+								if ($day->month == $current_month && $day->year == $current_year) {
+									$day_key = intval($day->format('j'));
+									$event_id = $event->uid;
+									/*
+									 * The purpose of this condition is to determine if an event ends at the very start of the day.
+									 */
+									if ($day->isSameDay($event_end) && $event_end->hour == 0 && $event_end->minute == 0) {
+										continue;
+									}
 
-								if (!isset($day_events[$day_key][$event_id])) {
-									$day_events[$day_key][$event_id] = $event;
+									if (!isset($day_events[$day_key][$event_id])) {
+										$day_events[$day_key][$event_id] = $event;
+									}
 								}
 							}
+						} else {
+							$day_events[$first_day][] = $event;
 						}
 					}
 				}
@@ -415,16 +427,14 @@ class Default_Calendar_Grid implements Calendar_View
 		// Week may start on an arbitrary day (sun, 0 - sat, 6).
 		$week_day = $week_starts;
 
-		// This fixes a possible bug when a month starts by Sunday (0).
-		if (0 !== $week_starts) {
-			$b = $month_starts === 0 ? 7 : $month_starts;
-		} else {
-			$b = $month_starts;
-		}
+		// Calculate the number of void days needed before the first day of the month
+		// We need to account for the difference between the actual day the month starts
+		// and where it should appear based on the week start setting
+		$void_days_needed = ($month_starts - $week_starts + 7) % 7;
 
 		// Void days in first week.
-		for ($a = $week_starts; $a < $b; $a++):
-			$last_void_day_class = $a === $b - 1 ? 'simcal-day-void-last' : '';
+		for ($a = 0; $a < $void_days_needed; $a++):
+			$last_void_day_class = $a === $void_days_needed - 1 ? 'simcal-day-void-last' : '';
 
 			echo '<td class="simcal-day simcal-day-void ' . $last_void_day_class . '"></td>' . "\n";
 
@@ -436,6 +446,9 @@ class Default_Calendar_Grid implements Calendar_View
 
 			$days_in_row++;
 		endfor;
+
+		// After void days, $week_day should be equal to $month_starts
+		$week_day = $month_starts;
 
 		// Actual days of the month.
 		for ($day = 1; $day <= $days_in_month; $day++):

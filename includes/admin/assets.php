@@ -86,9 +86,8 @@ class Assets
 			SIMPLE_CALENDAR_VERSION,
 			true
 		);
-		$run_oauth_helper = get_option('simple_calendar_run_oauth_helper');
 
-		if ($run_oauth_helper && $this->current_page === 'simple-calendar_settings') {
+		if (class_exists('SimpleCalendar\Feeds\Google_Pro') && $this->current_page === 'simple-calendar_settings') {
 			wp_enqueue_script('simcal-oauth-helper-admin');
 			wp_localize_script('simcal-oauth-helper-admin', 'oauth_admin', simcal_common_scripts_variables());
 		}
@@ -156,8 +155,7 @@ class Assets
 			wp_enqueue_style('sc-setting-style', $css_path . 'admin-post-settings.min.css', [], SIMPLE_CALENDAR_VERSION);
 		}
 
-		$run_oauth_helper = get_option('simple_calendar_run_oauth_helper');
-		if ($run_oauth_helper && $this->current_page === 'simple-calendar_settings') {
+		if (class_exists('SimpleCalendar\Feeds\Google_Pro') && $this->current_page === 'simple-calendar_settings') {
 			wp_enqueue_style('sc-oauth-helper-style', $css_path . 'oauth-helper-admin.min.css', [], SIMPLE_CALENDAR_VERSION);
 		}
 	}

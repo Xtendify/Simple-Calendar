@@ -1,9 +1,9 @@
 === Simple Calendar - Google Calendar Plugin ===
 Contributors: simplecalendar, rosinghal, pderksen, nickyoung87, nekojira, rosshanney
-Tags: google calendar, calendar, calendars, google, event calendar, custom calendar, custom calendars, event, events
+Tags: google calendar, events, website calendar, wp calendar, wp calendar widget
 Requires at least: 4.2
 Requires PHP: 7.3
-Tested up to: 6.5.5
+Tested up to: 6.8.1
 Stable tag: PACKAGE_VERSION
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -96,6 +96,41 @@ We'd love your help! Here's a few things you can do:
 8. Attach a calendar to a post or page
 
 == Changelog ==
+
+= 3.5.9 =
+* Fix: Resolved a critical issue where the recent update caused site breakage for users who are using various page builders.
+* Dev: Users can now control Lazy Loading functionality via a dedicated toggle in the Advanced settings.
+
+= 3.5.8 =
+* Fix: Fixed issue where the calendar incorrectly calculated weekday offsets when the week start day was changed in advanced settings.
+* Fix: Fixed asset loading for all registered shortcodes in page builders like Avada Live Builder.
+
+= 3.5.7 =
+* Fix: Assets (JS/CSS) now correctly load when a calendar widget is present.
+
+= 3.5.6 =
+* Fix: accessibility issue by adding descriptive text to calendar navigation buttons.
+* Dev: admin notice to inform users about end of PHP 7 support after November.
+* Dev: Optimized assets: JS and CSS now load only on calendar post type and pages with calendar shortcode.
+
+= 3.5.5 =
+* Fix: Network error when fetching calendars after authentication with Oauth via Simple Calendar on fresh installs.
+* Fix: JS issue preventing custom CSS from applying to qTip tooltips in version 3.5.4.
+
+= 3.5.4 =
+* Fix: Fixed multi-day events incorrectly displaying on all days when the "No, display only on first day of event" option is enabled.
+* Fix: Resolved issue where event details (qTip) were not showing in mobile portrait view.
+* Fix: Fixed layout issues on the admin settings page for fresh installations.
+
+= 3.5.3 =
+* Fix: Even after upgrading to PHP 8.x, an admin notice still appears to upgrade to PHP8.
+
+= 3.5.2 =
+* Dev: Make compatible with WordPress v6.8.1.
+* Dev: Added notice to update PHP version if version is less then 8.1.
+
+= 3.5.1 =
+* Fix: Event were not showing on page with shortcode when using OAuth via Xtendify.
 
 = 3.5.0 =
 * Dev: To make the first attachment appear as the cover, add a new shortcode [cover-image] for GCal-Pro Addon.
