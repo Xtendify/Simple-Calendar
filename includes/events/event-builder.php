@@ -162,6 +162,8 @@ class Event_Builder
 				// List of attendees.
 				'organizer',
 				// Creator info.
+				'schema-meta',
+				// Hidden schema.org meta properties for SEO.
 
 				/* ================ *
 				 * Conditional Tags *
@@ -244,9 +246,18 @@ class Event_Builder
 		// Process tags.
 		$result = preg_replace_callback($this->get_regex(), [$this, 'process_event_content'], $template_tags);
 
-		// Removes extra consecutive <br> tags.
-		// TODO: Doesn't seem to work but going to remove it to allow multiple <br> tags in the editor
-		return do_shortcode(trim($result));
+		// Process shortcodes first
+		$result = do_shortcode(trim($result));
+
+		// Add schema properties if not already present in processed output
+		// Check the processed result instead of template_tags to handle conditional tags correctly
+		// Look for actual schema output marker (itemprop="endDate") rather than the tag itself
+		if (strpos($result, 'itemprop="endDate"') === false) {
+			// Add schema meta at the end with a newline to ensure it's properly separated
+			$result .= "\n" . $this->get_missing_schema_properties($this->event);
+		}
+
+		return $result;
 	}
 
 	/**
@@ -328,7 +339,7 @@ class Event_Builder
 
 					return ' <span class="simcal-event-address simcal-event-' .
 						$location_class .
-						'-location" itemprop="location" itemscope itemtype="http://schema.org/Place">' .
+						'-location" itemprop="location" itemscope itemtype="https://schema.org/Place">' .
 						'<meta itemprop="name" content="' .
 						$meta_location_name_and_address .
 						'" />' .
@@ -353,7 +364,7 @@ class Event_Builder
 				case 'url':
 					$content = 'link' == $tag ? $calendar->get_event_html($event, $partial) : '';
 
-					return $this->make_link($tag, $event->link, $content, $attr);
+					return $this->make_link($tag, $event->link, $content, $attr, true);
 
 				case 'add-to-gcal-link':
 					$content = 'add-to-gcal-link' == $tag ? $calendar->get_event_html($event, $partial) : '';
@@ -411,6 +422,9 @@ class Event_Builder
 						return $this->get_organizer($organizer, $attr);
 					}
 					break;
+
+				case 'schema-meta':
+					return $this->get_missing_schema_properties($event);
 
 				/* ================ *
 				 * Conditional Tags *
@@ -929,10 +943,11 @@ class Event_Builder
 	 * @param  string $url
 	 * @param  string $content
 	 * @param  string $attr
+	 * @param  bool   $is_event_url Whether this is the event's main URL (for schema.org)
 	 *
 	 * @return string
 	 */
-	private function make_link($tag, $url, $content, $attr)
+	private function make_link($tag, $url, $content, $attr, $is_event_url = false)
 	{
 		if (empty($url)) {
 			return '';
@@ -953,6 +968,9 @@ class Event_Builder
 		$anchor = $tag != 'url' ? 'yes' : $attr['autolink'];
 		$target = false !== $attr['newwindow'] ? 'target="_blank"' : '';
 
+		// Add itemprop="url" for event's main link to help Google recognize it
+		$itemprop = $is_event_url ? 'itemprop="url" ' : '';
+
 		/**
 		 * Add additional event link attributes.
 		 *
@@ -969,6 +987,7 @@ class Event_Builder
 			? ' <a href="' .
 					esc_url($url) .
 					'" ' .
+					$itemprop .
 					wp_kses_post($target) .
 					' ' .
 					wp_kses_post($additional_link_atts) .
@@ -1061,7 +1080,7 @@ class Event_Builder
 				}
 
 				$html .=
-					'<li class="simcal-attendee" itemprop="attendee" itemscope itemtype="http://schema.org/Person">' .
+					'<li class="simcal-attendee" itemprop="attendee" itemscope itemtype="https://schema.org/Person">' .
 					$guest .
 					'</li>' .
 					"\n";
@@ -1166,6 +1185,176 @@ class Event_Builder
 		return '<div class="simcal-organizer" itemprop="organizer" itemscope itemtype="https://schema.org/Person">' .
 			$organizer_html .
 			'</div>';
+	}
+
+	/**
+	 * Get missing schema.org Event properties as hidden meta tags.
+	 *
+	 * @since 3.0.0
+	 * @access private
+	 *
+	 * @param Event $event
+	 *
+	 * @return string
+	 */
+	private function get_missing_schema_properties(Event $event)
+	{
+		$schema_meta = '';
+
+		// Ensure endDate is always present (required by Google)
+		// Always add endDate to schema meta to ensure Google recognizes it consistently
+		if ($event->end_dt instanceof Carbon) {
+			// Use the actual end date if available
+			$end_iso = $event->end_dt->toIso8601String();
+			$schema_meta .= '<meta itemprop="endDate" content="' . esc_attr($end_iso) . '" />';
+		} else {
+			// If no end date, use start date + 1 hour as fallback
+			$start = Carbon::createFromTimestamp($event->start, $event->timezone);
+			$end_date = $start->copy()->addHour();
+			$end_iso = $end_date->toIso8601String();
+			$schema_meta .= '<meta itemprop="endDate" content="' . esc_attr($end_iso) . '" />';
+		}
+
+		// Add eventAttendanceMode (default to OfflineEventAttendanceMode for physical events)
+		$attendance_mode = !empty($event->start_location['address'])
+			? 'OfflineEventAttendanceMode'
+			: 'OnlineEventAttendanceMode';
+		$schema_meta .=
+			'<meta itemprop="eventAttendanceMode" content="https://schema.org/' . esc_attr($attendance_mode) . '" />';
+
+		// Add eventStatus (default to EventScheduled)
+		$schema_meta .= '<meta itemprop="eventStatus" content="https://schema.org/EventScheduled" />';
+
+		// Add event URL (always include for Google - use link element for better compatibility)
+		// Note: If [link] tag is used in template, it will also have itemprop="url" on the <a> tag
+		$event_url = '';
+		if (!empty($event->link)) {
+			$event_url = $event->link;
+		} else {
+			// Fallback to calendar/page URL
+			if (!empty($event->calendar) && is_numeric($event->calendar)) {
+				$event_url = get_permalink($event->calendar);
+			}
+			// Fallback to current page URL
+			if (empty($event_url)) {
+				global $wp;
+				$current_url = home_url($wp->request);
+				if (empty($current_url) || $current_url == home_url()) {
+					$event_url = home_url('/');
+				} else {
+					$event_url = $current_url;
+				}
+			}
+		}
+		// Always add URL as link element - Google prefers this format
+		// Even if [link] tag exists with itemprop, this ensures URL is always present
+		if (!empty($event_url)) {
+			$schema_meta .= '<link itemprop="url" href="' . esc_url($event_url) . '" />';
+		}
+
+		// Offers: make optional and filterable to avoid incorrect pricing/currency.
+		// Only emit default offers if explicitly enabled via filter to prevent incorrect structured data
+		if (apply_filters('simcal_emit_default_offers', false, $event)) {
+			$schema_meta .= '<div itemprop="offers" itemscope itemtype="https://schema.org/Offer">';
+			$schema_meta .= '<meta itemprop="price" content="0" />';
+			if (!empty($event_url)) {
+				$schema_meta .= '<meta itemprop="url" content="' . esc_url($event_url) . '" />';
+			} else {
+				$schema_meta .= '<meta itemprop="url" content="' . esc_url(home_url()) . '" />';
+			}
+			$schema_meta .= '<meta itemprop="priceCurrency" content="USD" />';
+			$schema_meta .= '<meta itemprop="availability" content="https://schema.org/InStock" />';
+			// Add validFrom (when the offer becomes valid - use a past date to ensure offer is always valid)
+			$valid_from_date = Carbon::now($event->timezone)->subDay(); // Use yesterday to ensure it's always valid
+			$valid_from = $valid_from_date->toIso8601String();
+			$schema_meta .= '<meta itemprop="validFrom" content="' . esc_attr($valid_from) . '" />';
+			$schema_meta .= '</div>';
+		}
+
+		// Add image (fallback to site logo or default image)
+		$image_url = $this->get_event_image_url($event);
+		if ($image_url) {
+			$schema_meta .= '<meta itemprop="image" content="' . esc_url($image_url) . '" />';
+		}
+
+		// Add performer (use organizer data if available, otherwise use site name)
+		$performer_name = $this->get_event_performer($event);
+		if ($performer_name) {
+			$schema_meta .= '<div itemprop="performer" itemscope itemtype="https://schema.org/Person">';
+			$schema_meta .= '<meta itemprop="name" content="' . esc_attr($performer_name) . '" />';
+			$schema_meta .= '</div>';
+		}
+
+		// Ensure organizer is present if not already added
+		$organizer_data = method_exists($event, 'get_organizer') ? $event->get_organizer() : [];
+		if (empty($organizer_data)) {
+			$schema_meta .= '<div itemprop="organizer" itemscope itemtype="https://schema.org/Organization">';
+			$schema_meta .= '<meta itemprop="name" content="' . esc_attr(get_bloginfo('name')) . '" />';
+			$schema_meta .= '<meta itemprop="url" content="' . esc_url(home_url()) . '" />';
+			$schema_meta .= '</div>';
+		}
+
+		// Add description if missing (use event title as fallback)
+		if (empty($event->description)) {
+			$schema_meta .= '<meta itemprop="description" content="' . esc_attr($event->title) . '" />';
+		}
+
+		return $schema_meta;
+	}
+
+	/**
+	 * Get event image URL with fallbacks.
+	 *
+	 * @since 3.0.0
+	 * @access private
+	 *
+	 * @param Event $event
+	 *
+	 * @return string|false
+	 */
+	private function get_event_image_url(Event $event)
+	{
+		// Try to get custom logo first
+		$custom_logo_id = get_theme_mod('custom_logo');
+		if ($custom_logo_id) {
+			$logo_url = wp_get_attachment_image_url($custom_logo_id, 'full');
+			if ($logo_url) {
+				return $logo_url;
+			}
+		}
+
+		// Fallback to site icon
+		$site_icon_url = get_site_icon_url();
+		if ($site_icon_url) {
+			return $site_icon_url;
+		}
+
+		// Fallback to a default image URL (you can customize this)
+		return false;
+	}
+
+	/**
+	 * Get event performer name.
+	 *
+	 * @since 3.0.0
+	 * @access private
+	 *
+	 * @param Event $event
+	 *
+	 * @return string
+	 */
+	private function get_event_performer(Event $event)
+	{
+		// Use organizer name if available
+		if (method_exists($event, 'get_organizer')) {
+			$org = $event->get_organizer();
+			if (!empty($org) && !empty($org['name'])) {
+				return $org['name'];
+			}
+		}
+
+		// Fallback to site name
+		return get_bloginfo('name');
 	}
 
 	/**
