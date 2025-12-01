@@ -778,7 +778,7 @@ class Default_Calendar_List implements Calendar_View
 
 			// Security check: Verify the calendar exists and user has permission to view it
 			$post = get_post($id);
-			
+
 			// Check if post exists and is a calendar post type
 			if (!$post || $post->post_type !== 'calendar') {
 				wp_send_json_error('Calendar not found.');

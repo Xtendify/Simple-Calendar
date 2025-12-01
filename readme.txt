@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.5.10 =
+* Fix: An Insecure Direct Object Reference (IDOR) vulnerability.
+
 = 3.5.9 =
 * Fix: Resolved a critical issue where the recent update caused site breakage for users who are using various page builders.
 * Dev: Users can now control Lazy Loading functionality via a dedicated toggle in the Advanced settings.
