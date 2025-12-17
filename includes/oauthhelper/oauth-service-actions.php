@@ -247,6 +247,45 @@ class Oauth_Ajax
 			return $response;
 		}
 	}
+
+	/*
+	 * Get calendar Cover Image Base64
+	 */
+	public function auth_get_events_cover_base64image($fileid, $args)
+	{
+		$send_data = [
+			'site_url' => self::$my_site_url,
+			'auth_token' => get_option('simple_calendar_auth_site_token'),
+			'fileid' => $fileid,
+			'arguments' => $args,
+		];
+		$request = wp_remote_post(self::$url . 'auth_get_events_cover_base64image', [
+			'method' => 'POST',
+			'body' => $send_data,
+			'timeout' => 30,
+			'cookies' => [],
+		]);
+
+		$response = wp_remote_retrieve_body($request);
+		$response_arr = json_decode($response, true);
+
+		if (isset($response_arr['response']) && !empty($response_arr['response'])) {
+			if ($response_arr['response']) {
+				return $response_arr;
+			}
+		} elseif (isset($response_arr['message']) && !empty($response_arr['message'])) {
+			$response = [
+				'Error' => $response_arr['message'],
+			];
+			return $response;
+		} else {
+			$response = [
+				'response' => false,
+				'message' => __('Network issue.', 'google-calendar-events'),
+			];
+			return $response;
+		}
+	}
 } //class End
 
 new Oauth_Ajax();
