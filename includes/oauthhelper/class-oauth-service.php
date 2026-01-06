@@ -29,6 +29,13 @@ class Auth_Service_Helpers
 		add_filter('simple_calendar_oauth_get_calendars', [$this, 'oauth_helper_get_calendar'], 10, 3);
 
 		add_filter('simple_calendar_oauth_schedule_events', [$this, 'oauth_helper_schedule_events'], 10, 2);
+
+		add_filter(
+			'simple_calendar_oauth_get_events_cover_base64image',
+			[$this, 'auth_get_events_cover_base64image'],
+			10,
+			2
+		);
 	}
 
 	/**
@@ -154,6 +161,21 @@ class Auth_Service_Helpers
 		$Oauth_Ajax = new Oauth_Ajax();
 		$get_calendars = $Oauth_Ajax->oauth_helper_schedule_event_action($calendarId, $event_data);
 		return $get_calendars;
+	}
+	/**
+	 * Get events cover base64 image.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $fileid
+	 * @param array $args
+	 * @return array
+	 */
+	public function auth_get_events_cover_base64image($fileid, $args)
+	{
+		$Oauth_Ajax = new Oauth_Ajax();
+		$get_events_cover_image = $Oauth_Ajax->auth_get_events_cover_base64image($fileid, $args);
+		return $get_events_cover_image;
 	}
 }
 
