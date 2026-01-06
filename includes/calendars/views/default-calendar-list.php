@@ -790,7 +790,7 @@ class Default_Calendar_List implements Calendar_View
 				// Public calendar - allow access
 			} elseif ($post->post_status === 'private') {
 				// Private calendar - check if user has permission
-				if (!is_user_logged_in() || !current_user_can('read_post', $id)) {
+				if (!current_user_can('read_post', $id)) {
 					wp_send_json_error('You do not have permission to view this calendar.');
 					return;
 				}
