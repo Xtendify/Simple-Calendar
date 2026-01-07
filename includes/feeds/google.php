@@ -608,6 +608,19 @@ class Google extends Feed
 	 */
 	private function get_client()
 	{
+		// Ensure GetUniverseDomainInterface is loaded before Client constructor uses it
+		$interface_name = 'SimpleCalendar\plugin_deps\Google\Auth\GetUniverseDomainInterface';
+		if (!interface_exists($interface_name, false)) {
+			interface_exists($interface_name);
+
+			if (!interface_exists($interface_name, false)) {
+				$interface_file = SIMPLE_CALENDAR_PATH . 'third-party/google/auth/src/GetUniverseDomainInterface.php';
+				if (file_exists($interface_file)) {
+					require_once $interface_file;
+				}
+			}
+		}
+
 		$client = new Google_Client();
 		$client->setApplicationName('Simple Calendar');
 		$client->setScopes($this->google_client_scopes);
