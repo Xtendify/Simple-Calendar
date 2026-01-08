@@ -661,14 +661,8 @@ class Default_Calendar_Grid implements Calendar_View
 			// Check if post is published (public) or user has permission to read it
 			if ($post->post_status === 'publish') {
 				// Public calendar - allow access
-			} elseif ($post->post_status === 'private') {
-				// Private calendar - check if user has permission
-				if (!current_user_can('read_post', $id)) {
-					wp_send_json_error('You do not have permission to view this calendar.');
-					return;
-				}
 			} else {
-				// Draft, pending, or other status - check if user has permission
+				// Private calendar - check if user has permission
 				if (!current_user_can('read_post', $id)) {
 					wp_send_json_error('You do not have permission to view this calendar.');
 					return;
