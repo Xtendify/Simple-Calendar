@@ -14,7 +14,7 @@
     "autoprefixer": "10.4.20",
     "bower": "1.8.14",
     "concurrently": "9.1.0",
-    "esbuild": "0.24.0",
+    "esbuild": "0.25.0",
     "esbuild-sass-plugin": "^3.3.1",
     "grunt": "1.6.1",
     "grunt-checktextdomain": "1.0.1",
