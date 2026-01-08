@@ -10,7 +10,7 @@
     "url": "https://github.com/Xtendify/Simple-Calendar"
   },
   "devDependencies": {
-    "@prettier/plugin-php": "0.22.2",
+    "@prettier/plugin-php": "0.24.0",
     "autoprefixer": "10.4.20",
     "bower": "1.8.14",
     "concurrently": "9.1.0",
