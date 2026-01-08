@@ -2,7 +2,7 @@
 Contributors: simplecalendar, rosinghal, pderksen, nickyoung87, nekojira, rosshanney
 Tags: google calendar, events, website calendar, wp calendar, wp calendar widget
 Requires at least: 4.2
-Requires PHP: 7.3
+Requires PHP: 8.1
 Tested up to: 6.8.1
 Stable tag: PACKAGE_VERSION
 License: GPLv2 or later
@@ -96,6 +96,12 @@ We'd love your help! Here's a few things you can do:
 8. Attach a calendar to a post or page
 
 == Changelog ==
+
+= 3.6.0 =
+* Dev: Breaking change: Support for PHP versions below 8.0 has been discontinued.
+* Fix: An issue where the cover image was not displayed for Google Calendar events when using the OAuth Via Simple Calendar.
+* Fix: An Insecure Direct Object Reference (IDOR) vulnerability.
+* Dev: Added cache clearing on first plugin activation and during manual plugin updates.
 
 = 3.5.9 =
 * Fix: Resolved a critical issue where the recent update caused site breakage for users who are using various page builders.
