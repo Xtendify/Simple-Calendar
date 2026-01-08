@@ -24,7 +24,7 @@
     "load-grunt-tasks": "5.1.0",
     "postcss-cli": "11.0.0",
     "prettier": "3.3.3",
-    "tailwindcss": "3.4.15"
+    "tailwindcss": "4.1.18"
   },
   "scripts": {
     "setup": "yarn && composer install && composer dump-autoload -o",
