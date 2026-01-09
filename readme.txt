@@ -97,6 +97,10 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+
+= 3.6.1 =
+* Fix: Resolved a "Class not found" error for GetUniverseDomainInterface.
+
 = 3.6.0 =
 * Dev: Breaking change: Support for PHP versions below 8.0 has been discontinued.
 * Fix: An issue where the cover image was not displayed for Google Calendar events when using the OAuth Via Simple Calendar.
