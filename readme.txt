@@ -99,7 +99,7 @@ We'd love your help! Here's a few things you can do:
 
 
 = 3.6.1 =
-* Fix: Resolved a "Class not found" error for GetUniverseDomainInterface.
+* Fix: Make a new release to fix a "Class not found" error for GetUniverseDomainInterface.
 
 = 3.6.0 =
 * Dev: Breaking change: Support for PHP versions below 8.0 has been discontinued.
