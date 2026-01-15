@@ -433,27 +433,8 @@ class Default_Calendar_List implements Calendar_View
 
 		if ($start->day == $end->day && $start->month == $end->month && $start->year == $end->year) {
 			// Start and end on the same day.
-			// e.g. 1 February 2020
+			// Use the calendar's configured date format consistently.
 			$large = $small = date_i18n($calendar->date_format, $st);
-			if ($date_order['d'] !== false && $date_order['m'] !== false) {
-				if ($date_order['m'] > $date_order['d']) {
-					if ($date_order['y'] !== false && $date_order['y'] > $date_order['m']) {
-						$small = date_i18n('Y, d M', $st);
-					} else {
-						$small = date_i18n('d M Y', $st);
-					}
-				} else {
-					if ($date_order['y'] !== false && $date_order['y'] > $date_order['m']) {
-						if ($date_order['d'] > $date_order['m']) {
-							$small = date_i18n('M d, Y', $st);
-						} else {
-							$small = date_i18n('d M Y', $st);
-						}
-					} else {
-						$small = date_i18n('Y, M d', $st);
-					}
-				}
-			}
 		} elseif ($start->month == $end->month && $start->year == $end->year) {
 			// Start and end days on the same month.
 			// e.g. August 2020
