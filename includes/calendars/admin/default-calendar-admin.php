@@ -152,7 +152,7 @@ class Default_Calendar_Admin
      ?>
 				</td>
 			</tr>
-			<tr class="simcal-panel-field simcal-default-calendar-list" style="display: none;">
+			<tr class="simcal-panel-field simcal-default-calendar-list test-class" style="display: none;">
 				<th><label for="_default_calendar_list_grouped_span"><?php _e('Span', 'google-calendar-events'); ?></label></th>
 				<td>
 					<?php
