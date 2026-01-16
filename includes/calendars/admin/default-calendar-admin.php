@@ -224,6 +224,25 @@ class Default_Calendar_Admin
      ?>
 				</td>
 			</tr>
+			<tr class="simcal-panel-field simcal-default-calendar-list" style="display: none;">
+				<th><label for="_default_calendar_reverse_chronological_order"><?php _e('Reverse Chronological Order', 'google-calendar-events'); ?></label></th>
+				<td>
+					<?php
+     $reverse_order = get_post_meta($post_id, '_default_calendar_reverse_chronological_order', true);
+
+     simcal_print_field([
+     	'type' => 'checkbox',
+     	'name' => '_default_calendar_reverse_chronological_order',
+     	'id' => '_default_calendar_reverse_chronological_order',
+     	'tooltip' => __(
+     		'Display events in reverse chronological order (newest first) instead of chronological order (oldest first).',
+     		'google-calendar-events'
+     	),
+     	'value' => 'yes' == $reverse_order ? 'yes' : 'no',
+     ]);
+     ?>
+				</td>
+			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list"  style="display: none;">
 				<th><label for="_default_calendar_limit_visible_events"><?php _e(
     	'Limit Visible Events',
