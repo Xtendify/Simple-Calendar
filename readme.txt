@@ -1,8 +1,8 @@
 === Simple Calendar - Google Calendar Plugin ===
 Contributors: simplecalendar, rosinghal, pderksen, nickyoung87, nekojira, rosshanney
-Tags: google calendar, calendar, calendars, google, event calendar, custom calendar, custom calendars, event, events
+Tags: google calendar, events, website calendar, wp calendar, wp calendar widget
 Requires at least: 4.2
-Requires PHP: 7.3
+Requires PHP: 8.1
 Tested up to: 6.8.1
 Stable tag: PACKAGE_VERSION
 License: GPLv2 or later
@@ -96,6 +96,32 @@ We'd love your help! Here's a few things you can do:
 8. Attach a calendar to a post or page
 
 == Changelog ==
+
+
+= 3.6.1 =
+* Fix: Make a new release to fix a "Class not found" error for GetUniverseDomainInterface.
+
+= 3.6.0 =
+* Dev: Breaking change: Support for PHP versions below 8.0 has been discontinued.
+* Fix: An issue where the cover image was not displayed for Google Calendar events when using the OAuth Via Simple Calendar.
+* Fix: An Insecure Direct Object Reference (IDOR) vulnerability.
+* Dev: Added cache clearing on first plugin activation and during manual plugin updates.
+
+= 3.5.9 =
+* Fix: Resolved a critical issue where the recent update caused site breakage for users who are using various page builders.
+* Dev: Users can now control Lazy Loading functionality via a dedicated toggle in the Advanced settings.
+
+= 3.5.8 =
+* Fix: Fixed issue where the calendar incorrectly calculated weekday offsets when the week start day was changed in advanced settings.
+* Fix: Fixed asset loading for all registered shortcodes in page builders like Avada Live Builder.
+
+= 3.5.7 =
+* Fix: Assets (JS/CSS) now correctly load when a calendar widget is present.
+
+= 3.5.6 =
+* Fix: accessibility issue by adding descriptive text to calendar navigation buttons.
+* Dev: admin notice to inform users about end of PHP 7 support after November.
+* Dev: Optimized assets: JS and CSS now load only on calendar post type and pages with calendar shortcode.
 
 = 3.5.5 =
 * Fix: Network error when fetching calendars after authentication with Oauth via Simple Calendar on fresh installs.

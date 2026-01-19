@@ -440,9 +440,12 @@ function simcal_notice_to_update_php_version()
 	$requirements = 8.0;
 
 	if (version_compare(PHP_VERSION, $requirements, '<')) {
+		/*
+		 * Notice for not providing support for PHP7
+		 */
 		$update_pro_notice = new Notice([
 			'id' => [
-				$notice_id => 'check_site_php_version',
+				$notice_id => 'discontinuing_support_for_php7',
 			],
 			'type' => 'error',
 			'dismissable' => true,
@@ -450,9 +453,8 @@ function simcal_notice_to_update_php_version()
 				'<p>' .
 				'<i class="simcal-icon-calendar-logo"></i> ' .
 				__(
-					'Attention! A critical update is coming to the Simple Calendar Events plugin that will bring enhanced features powered by the latest Google API. This update necessitates PHP version <strong>8.0 or higher</strong>. Your current PHP version is <strong>' .
-						PHP_VERSION .
-						'</strong>. To ensure uninterrupted access to all plugin functionalities, please upgrade your PHP version to 8.0+ as soon as possible.',
+					'<strong>Attention!</strong><br /> On <strong>November 15, 2025</strong>, we will be updating our plugin to the latest Google libraries and discontinuing support for PHP 7.x.
+					To ensure your calendar plugin continues to work without interruption, please upgrade your PHP version to 8.0 or higher. If you\'ve already upgraded, you\'re all set!',
 					'google-calendar-events'
 				) .
 				'</p>',

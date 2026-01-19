@@ -210,7 +210,9 @@ class Default_Calendar_List implements Calendar_View
 					__('Previous', 'google-calendar-events') .
 					'"' .
 					$disabled .
-					'>' .
+					' aria-label="' .
+					__('Previous', 'google-calendar-events') .
+					'">' .
 					"\n";
 				echo "\t\t\t" . '<i class="simcal-icon-left"></i>' . "\n";
 				echo "\t\t" . '</button>' . "\n";
@@ -236,7 +238,9 @@ class Default_Calendar_List implements Calendar_View
 					__('Next', 'google-calendar-events') .
 					'"' .
 					$disabled .
-					'>';
+					' aria-label="' .
+					__('Next', 'google-calendar-events') .
+					'">';
 				echo "\t\t\t" . '<i class="simcal-icon-right"></i>' . "\n";
 				echo "\t\t" . '</button>' . "\n";
 				echo "\t" . '</div>' . "\n";
@@ -752,6 +756,26 @@ class Default_Calendar_List implements Calendar_View
 		if (isset($_POST['ts']) && isset($_POST['id'])) {
 			$ts = absint($_POST['ts']);
 			$id = absint($_POST['id']);
+
+			// Security check: Verify the calendar exists and user has permission to view it
+			$post = get_post($id);
+
+			// Check if post exists and is a calendar post type
+			if (!$post || $post->post_type !== 'calendar') {
+				wp_send_json_error('Calendar not found.');
+				return;
+			}
+
+			// Check if post is published (public) or user has permission to read it
+			if ($post->post_status === 'publish') {
+				// Public calendar - allow access
+			} else {
+				// Draft, pending, or other status - check if user has permission
+				if (!current_user_can('read_post', $id)) {
+					wp_send_json_error('You do not have permission to view this calendar.');
+					return;
+				}
+			}
 
 			wp_send_json_success($this->draw_list($ts, $id));
 		} else {

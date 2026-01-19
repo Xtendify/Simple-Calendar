@@ -34,6 +34,9 @@ class Installation
 		self::create_terms();
 		self::create_options();
 
+		// Clear cache on activation.
+		simcal_delete_feed_transients();
+
 		do_action('simcal_activated');
 	}
 

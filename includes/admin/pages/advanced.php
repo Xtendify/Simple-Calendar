@@ -53,6 +53,13 @@ class Advanced extends Admin_Page
 					__('Manage front end assets that handle the calendars appearance.', 'google-calendar-events') .
 					'</div>',
 			],
+			'optimisation' => [
+				'title' => __('Optimisation', 'google-calendar-events'),
+				'description' =>
+					'<div class="simcal-text-sm simcal-font-poppins simcal-font-normal simcal-text-sc_grey-100 simcal-mt-[5px] ">' .
+					__('Manage front end styles & scripts loading behavior.', 'google-calendar-events') .
+					'</div>',
+			],
 			'installation' => [
 				'title' => __('Installation', 'google-calendar-events'),
 				'description' =>
@@ -88,6 +95,22 @@ class Advanced extends Admin_Page
 						'name' => 'simple-calendar_' . $this->option_group . '_' . $this->id . '[' . $section . '][disable_css]',
 						'id' => 'simple-calendar-' . $this->option_group . '-' . $this->id . '-' . $section . '-disable-css',
 						'value' => $this->get_option_value($section, 'disable_css'),
+					],
+				];
+			} elseif ('optimisation' == $section) {
+				$fields[$section] = [
+					'disable_lazy_loading' => [
+						'title' => __('Disable Lazy Loading', 'google-calendar-events'),
+						'tooltip' => __(
+							'By default, calendar scripts and styles only load on pages that contain calendars or calendar shortcodes for improved performance. When this option is checked (disabled), scripts and styles will load on all pages (old behavior).',
+							'google-calendar-events'
+						),
+						'type' => 'checkbox',
+						'name' =>
+							'simple-calendar_' . $this->option_group . '_' . $this->id . '[' . $section . '][disable_lazy_loading]',
+						'id' =>
+							'simple-calendar-' . $this->option_group . '-' . $this->id . '-' . $section . '-disable-lazy-loading',
+						'value' => $this->get_option_value($section, 'disable_lazy_loading'),
 					],
 				];
 			} elseif ('installation' == $section) {
