@@ -97,6 +97,8 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 3.6.2 =
+* Fix: Date format inconsistency in List View navigation bar now uses the calendar's configured date format consistently.
 
 = 3.6.1 =
 * Fix: Make a new release to fix a "Class not found" error for GetUniverseDomainInterface.
