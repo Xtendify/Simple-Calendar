@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design System - Simple Calendar</title>
+    <link rel="stylesheet" href="css/design-system.css">
+</head>
+<body class="sc_root">
+    <main class="sc_main sc_ds_page">
+
+        <h1 class="sc_h1 sc_ds_hero_title">Design System</h1>
+        <p class="sc_text_body_large sc_text_medium_gray sc_ds_subtitle">Simple Calendar design language</p>
+
+        <!-- Typography -->
+        <section class="sc_ds_section">
+            <h2 class="sc_h3 sc_ds_section_title">Typography</h2>
+
+            <div class="sc_ds_subsection">
+                <h3 class="sc_h6 sc_text_medium_gray">Headings</h3>
+                <div class="sc_ds_item">
+                    <span class="sc_ds_label">.sc_h1</span>
+                    <h1 class="sc_h1">Google Calendar plugin</h1>
+                </div>
+                <div class="sc_ds_item">
+                    <span class="sc_ds_label">.sc_h2</span>
+                    <h2 class="sc_h2">Google Calendar plugin</h2>
+                </div>
+                <div class="sc_ds_item">
+                    <span class="sc_ds_label">.sc_h3</span>
+                    <h3 class="sc_h3">Google Calendar plugin</h3>
+                </div>
+                <div class="sc_ds_item">
+                    <span class="sc_ds_label">.sc_h4</span>
+                    <h4 class="sc_h4">Google Calendar plugin</h4>
+                </div>
+                <div class="sc_ds_item">
+                    <span class="sc_ds_label">.sc_h5</span>
+                    <h5 class="sc_h5">Google Calendar plugin</h5>
+                </div>
+                <div class="sc_ds_item">
+                    <span class="sc_ds_label">.sc_h6</span>
+                    <h6 class="sc_h6">Google Calendar plugin</h6>
+                </div>
+            </div>
+
+            <div class="sc_ds_subsection">
+                <div class="sc_ds_typo_row">
+                    <div class="sc_ds_typo_row_label">
+                        <p class="sc_ds_typo_label">Poppins Heading Fonts</p>
+                    </div>
+                    <div class="sc_ds_typo_row_content">
+                        <p class="sc_ds_font_sample_heading">ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
+                        <p class="sc_ds_font_sample_heading">abcdefghijklmnopqrstuvwxyz</p>
+                        <p class="sc_ds_font_sample_heading">1234567890</p>
+                        <p class="sc_ds_font_sample_heading">!@#$%^&*()_+?":{}&lt;&gt;</p>
+                    </div>
+                </div>
+                <div class="sc_ds_typo_row">
+                    <div class="sc_ds_typo_row_label">
+                        <p class="sc_ds_typo_label">Inter Body Fonts</p>
+                    </div>
+                    <div class="sc_ds_typo_row_content">
+                        <p class="sc_ds_font_sample_body">ABCDEFGHIJKLMNOPQRSTUVWXYZ</p>
+                        <p class="sc_ds_font_sample_body">abcdefghijklmnopqrstuvwxyz</p>
+                        <p class="sc_ds_font_sample_body">1234567890</p>
+                        <p class="sc_ds_font_sample_body">!@#$%^&*()_+?":{}&lt;&gt;</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sc_ds_subsection">
+                <div class="sc_ds_typo_row">
+                    <div class="sc_ds_typo_row_label">
+                        <p class="sc_ds_typo_label_body">Body Font</p>
+                    </div>
+                    <div class="sc_ds_typo_row_content">
+                        <p class="sc_text_body_b1 sc_ds_typo_body_block"><strong>B1_Talent</strong> Talent is a top priority for all startup founders and executives. Jobify offers a way to completely optimize your entire recruiting process. Find better candidates</p>
+                        <p class="sc_text_body_b2 sc_ds_typo_body_block"><strong>B2_Lorem</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sit amet accumsan tellus. In pulvinar elit arcu consectetur adipiscing elit Aliquam sit</p>
+                        <p class="sc_text_body_b3 sc_ds_typo_body_block"><strong>B3_Lorem</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam sit amet accumsan tellus. In pulvinar elit arcu consectetur adipiscing elit</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Logo -->
+        <section class="sc_ds_section">
+            <h2 class="sc_h3 sc_ds_section_title">Logo</h2>
+            <div class="sc_ds_item">
+                <span class="sc_ds_label">.sc_logo</span>
+                <a href="#" class="sc_logo">
+					<a href="/" class="sc_logo_link">
+						<img src="images/pages/connect/logo.png" alt="logo"/>
+					 </a>
+                    <!-- <span class="sc_logo_icon">31</span>
+                    <span>SIMPLE CALENDAR</span> -->
+                </a>
+            </div>
+        </section>
+
+        <!-- Buttons -->
+        <section class="sc_ds_section">
+            <h2 class="sc_h3 sc_ds_section_title">Buttons</h2>
+
+ 
+
+            <div class="sc_ds_grid">
+                <div>
+                    <span class="sc_ds_label">Blue (.sc_btn--blue)</span>
+                    <a href="#" class="sc_btn sc_btn--blue">Validate &amp; Save</a>
+                </div>
+                <div>
+                    <span class="sc_ds_label">White (.sc_btn--white)</span>
+                    <a href="#" class="sc_btn sc_btn--white">Add New Calendar</a>
+                </div>
+                <div>
+                    <span class="sc_ds_label">Light blue (.sc_btn--light-blue)</span>
+                    <a href="#" class="sc_btn sc_btn--light-blue">Rate on Wordpress.org</a>
+                </div>
+                <div>
+                    <span class="sc_ds_label">Loading (.sc_btn--blue-loading)</span>
+                    <button type="button" class="sc_btn sc_btn--blue-loading" data-sc-loading-btn>
+                        <span class="sc_btn_submit">Validate &amp; Save</span>
+                        <span class="sc_btn_loading" aria-hidden="true"><span class="sc_material_icons">autorenew</span></span>
+                        <span class="sc_btn_check" aria-hidden="true"><span class="sc_material_icons">check</span></span>
+                    </button>
+                </div>
+                <div>
+                    <span class="sc_ds_label">Success (.sc_btn--green)</span>
+                    <button type="button" class="sc_btn sc_btn--green">Success</button>
+                </div>
+                <div>
+                    <span class="sc_ds_label">Disabled (.sc_btn--off_white)</span>
+                    <button type="button" class="sc_btn sc_btn--off_white" disabled>Validate &amp; Save</button>
+                </div>
+                <div>
+                    <span class="sc_ds_label">Success icon (.sc_btn_icon--success)</span>
+                    <button type="button" class="sc_btn_icon sc_btn_icon--success" aria-label="Success"><span class="sc_material_icons">check</span></button>
+                </div>
+                <div>
+                    <span class="sc_ds_label">Cancel icon (.sc_btn_icon--error)</span>
+                    <button type="button" class="sc_btn_icon sc_btn_icon--error" aria-label="Cancel"><span class="sc_material_icons">close</span></button>
+                </div>
+                <div>
+                    <span class="sc_ds_label">Learn More (.sc_btn--blue.sc_btn--sm)</span>
+                    <a href="#" class="sc_btn sc_btn--blue sc_btn--sm">Learn More</a>
+                </div>
+                <div>
+                    <span class="sc_ds_label">Buy Addon (.sc_btn--white.sc_btn--sm)</span>
+                    <a href="#" class="sc_btn sc_btn--white sc_btn--sm">Buy Addon</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Colors -->
+        <section class="sc_ds_section">
+            <h2 class="sc_h3 sc_ds_section_title">Colors</h2>
+
+            <div class="sc_ds_color_grid">
+                <div>
+                    <div class="sc_ds_color_swatch sc_ds_color_swatch--blue"></div>
+                    <p class="sc_text_body_small">Blue<br><span class="sc_text_medium_gray">#1D73BE</span></p>
+                </div>
+                <div>
+                    <div class="sc_ds_color_swatch sc_ds_color_swatch--dark-blue"></div>
+                    <p class="sc_text_body_small">Dark Blue<br><span class="sc_text_medium_gray">#27659C</span></p>
+                </div>
+                <div>
+                    <div class="sc_ds_color_swatch sc_ds_color_swatch--light-blue"></div>
+                    <p class="sc_text_body_small">Light Blue<br><span class="sc_text_medium_gray">#4097E3</span></p>
+                </div>
+                <div>
+                    <div class="sc_ds_color_swatch sc_ds_color_swatch--black"></div>
+                    <p class="sc_text_body_small">Black<br><span class="sc_text_medium_gray">#000000</span></p>
+                </div>
+                <div>
+                    <div class="sc_ds_color_swatch sc_ds_color_swatch--dark-gray"></div>
+                    <p class="sc_text_body_small">Dark Gray<br><span class="sc_text_medium_gray">#353535</span></p>
+                </div>
+                <div>
+                    <div class="sc_ds_color_swatch sc_ds_color_swatch--medium-gray"></div>
+                    <p class="sc_text_body_small">Medium Gray<br><span class="sc_text_medium_gray">#797979</span></p>
+                </div>
+                <div>
+                    <div class="sc_ds_color_swatch sc_ds_color_swatch--warm-gray"></div>
+                    <p class="sc_text_body_small">Warm Gray<br><span class="sc_text_warm_gray">#A39E98</span></p>
+                </div>
+                <div>
+                    <div class="sc_ds_color_swatch sc_ds_color_swatch--extra-light-gray"></div>
+                    <p class="sc_text_body_small">Extra Light Gray<br><span class="sc_text_medium_gray">#DBDBDB</span></p>
+                </div>
+                <div>
+                    <div class="sc_ds_color_swatch sc_ds_color_swatch--off-white"></div>
+                    <p class="sc_text_body_small">Off White<br><span class="sc_text_medium_gray">#F6F5F4</span></p>
+                </div>
+                <div>
+                    <div class="sc_ds_color_swatch sc_ds_color_swatch--white"></div>
+                    <p class="sc_text_body_small">White<br><span class="sc_text_medium_gray">#FFFFFF</span></p>
+                </div>
+                <div>
+                    <div class="sc_ds_color_swatch sc_ds_color_swatch--green"></div>
+                    <p class="sc_text_body_small">Green<br><span class="sc_text_medium_gray">#50BE1D</span></p>
+                </div>
+                <div>
+                    <div class="sc_ds_color_swatch sc_ds_color_swatch--red"></div>
+                    <p class="sc_text_body_small">Red<br><span class="sc_text_medium_gray">#BE1D1D</span></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Input Fields -->
+        <section class="sc_ds_section">
+            <h2 class="sc_h3 sc_ds_section_title">Input Fields</h2>
+
+            <div class="sc_ds_subsection">
+                <!-- 1. Default / Placeholder (Figma: 1px #353535, 10px radius, 63px height) -->
+                <div class="sc_ds_item sc_ds_item_spaced">
+                    <label class="sc_h6">Input Field</label>
+                    <input type="text" class="sc_input sc_input_muted sc_ds_input_full" placeholder="Type here">
+                </div>
+
+                <!-- 2. Google API Key - Eye icon outside field (click to show/hide value) -->
+                <div class="sc_ds_item sc_ds_item_spaced">
+                    <label class="sc_h6">Google API Key</label>
+                    <div class="sc_input_wrapper sc_input_wrapper--icons-outside sc_input_wrapper--eye">
+                        <input type="password" class="sc_input sc_input_password_toggle" placeholder="" value="" aria-label="Google API Key" autocomplete="off">
+                        <button type="button" class="sc_input_helper_icon" aria-label="Show API key" title="Show API key">
+                            <img src="images/pages/connect/eye.svg" alt="" class="sc_input_eye_show">
+                            <img src="images/pages/connect/eye-white.svg" alt="" class="sc_input_eye_show_white">
+                            <img src="images/pages/connect/eye-hide.svg" alt="" class="sc_input_eye_hide" hidden>
+                            <img src="images/pages/connect/eye-hide-white.svg" alt="" class="sc_input_eye_hide_white">
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. Google API Key - Success (Figma: 1px #50BE1D) -->
+                <div class="sc_ds_item sc_ds_item_spaced">
+                    <label class="sc_h6">Google API Key</label>
+                    <div class="sc_input_wrapper sc_input--success sc_ds_input_full">
+                        <input type="text" class="sc_input" value="AlzaSyATUheCtuV5_loVqJ6C-wSXzrgastrzK" readonly>
+                    </div>
+                </div>
+
+                <!-- 4. Google API Key - Error (Figma: 1px #BE1D1D) -->
+                <div class="sc_ds_item sc_ds_item_spaced">
+                    <label class="sc_h6">Google API Key</label>
+                    <div class="sc_input_wrapper sc_input--error sc_ds_input_full">
+                        <input type="text" class="sc_input" value="AlzaSyATUheCtuV5_loVqJ6C-wSXzrgastrzK" readonly>
+                    </div>
+                    <span class="sc_icon_warning_wrap">
+                        <img src="images/pages/connect/warning.svg" alt="Warning">
+                        <span class="sc_icon_warning_label">API Key Not Found</span>
+                    </span>
+                   
+                </div>
+
+                <!-- 5. Google API Key - Masked (Figma: 1px #DBDBDB, eye box outside) -->
+                <div class="sc_ds_item">
+                    <label class="sc_h6">Google API Key</label>
+                    <div class="sc_input_wrapper sc_input_wrapper--icons-outside sc_input_wrapper--eye sc_input--muted">
+                        <input type="password" class="sc_input sc_input_password_toggle" value="AlzaSyATUheCtuV5_loVqJ6C-wSXzrgastrzK" readonly aria-label="Google API Key">
+                        <button type="button" class="sc_input_helper_icon" aria-label="Show API key" title="Show API key">
+                            <img src="images/pages/connect/eye.svg" alt="" class="sc_input_eye_show">
+                            <img src="images/pages/connect/eye-white.svg" alt="" class="sc_input_eye_show_white">
+                            <img src="images/pages/connect/eye-hide.svg" alt="" class="sc_input_eye_hide" hidden>
+                            <img src="images/pages/connect/eye-hide-white.svg" alt="" class="sc_input_eye_hide_white">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Icons -->
+        <section class="sc_ds_section">
+            <h2 class="sc_h3 sc_ds_section_title">Icons</h2>
+            <div class="sc_ds_grid">
+                <div class="sc_icon_circle"><img src="images/pages/connect/document.svg" alt="Document"></div>
+                <div class="sc_icon_circle"><img src="images/pages/connect/clapperboard.svg" alt="Video"></div>
+                <div class="sc_icon_circle"><img src="images/pages/connect/question.svg" alt="Help"></div>
+                <div class="sc_icon_circle"><img src="images/pages/connect/headphone.svg" alt="Support"></div>
+                <button type="button" class="sc_input_helper_icon" aria-label="Copy">
+                    <img src="images/pages/connect/copy.svg" alt="Copy" class="sc_input_eye_hide">
+                    <img src="images/pages/connect/copy-white.svg" alt="Copy" class="sc_input_eye_hide_white">
+                </button>
+                <button type="button" class="sc_input_helper_icon" aria-label="Hidden">
+                    <img src="images/pages/connect/eye-hide.svg" alt="" class="sc_input_eye_hide">
+                    <img src="images/pages/connect/eye-hide-white.svg" alt="" class="sc_input_eye_hide_white">
+                </button>
+                <button type="button" class="sc_input_helper_icon" aria-label="Visible">
+                    <img src="images/pages/connect/eye.svg" alt="" class="sc_input_eye_show">
+                    <img src="images/pages/connect/eye-white.svg" alt="" class="sc_input_eye_show_white">
+                </button>
+                <div class="sc_icon_check_small"><img src="images/pages/connect/question.svg" alt="Question"></div>
+                <div class="sc_icon_check_small"><img src="images/pages/connect/checked.svg" alt="Checked"></div>
+                <div class="sc_icon_check_small"><img src="images/pages/connect/crown.svg" alt="Crown" ></div>
+                <div class="sc_icon_warning_wrap">
+                    <span class="sc_icon_check_small"><img src="images/pages/connect/warning.svg" alt="Warning"></span>
+                    <span class="sc_icon_warning_label">Error</span>
+                </div>
+                <div class="sc_icon_status_wrap">
+                    <span class="sc_icon_status_dot sc_icon_status_dot--connected" aria-hidden="true"></span>
+                    <span class="sc_icon_status_label sc_icon_status_label--connected">Connected</span>
+                </div>
+                <div class="sc_tooltip">
+                    <button type="button" class="sc_tooltip_icon" aria-label="More information" aria-describedby="sc_ds_tooltip_hosting">
+                        <img src="images/pages/connect/question.svg" alt="" class="sc_tooltip_icon_img">
+                        <img src="images/pages/connect/question-white.svg" alt="" class="sc_tooltip_icon_img sc_tooltip_icon_img--hover">
+                    </button>
+                    <div id="sc_ds_tooltip_hosting" class="sc_tooltip_bubble">
+                        You need to purchase your own hosting and domain
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Link -->
+        <section class="sc_ds_section">
+            <h2 class="sc_h3 sc_ds_section_title">Link</h2>
+            <div class="sc_ds_item">
+                <div class="sc_link_line">
+                    <a href="#" class="sc_link">Step-by-step instructions</a>
+                    <span class="sc_link_separator" aria-hidden="true">|</span>
+                    <a href="#" class="sc_link">Google Developers Console</a>
+                </div>
+                <div class="sc_link_line">
+                    <a href="#" class="sc_link">Pro Version Available Here</a>
+                </div>
+                <div class="sc_link_line">
+                    <a href="#" class="sc_link sc_link_muted">Or, I wanted to connect with own credentials</a>
+                </div>
+                <div class="sc_link_line">
+                    <span class="sc_text_dark">Get one from</span>
+                    <a href="#" class="sc_link sc_text_dark">Google Cloud Console.</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Progress Circles -->
+        <section class="sc_ds_section">
+            <h2 class="sc_h3 sc_ds_section_title">Progress Circles</h2>
+            <div class="sc_ds_row sc_ds_row_align_start">
+                <div class="sc_ds_item">
+                    <div class="sc_progress_circle sc_progress_circle--33">
+                        <div class="sc_progress_circle_ring"></div>
+                        <div class="sc_progress_circle_fill"></div>
+                        <div class="sc_progress_circle_inner"></div>
+                        <span class="sc_progress_circle_text">32%<br>Ready</span>
+                    </div>
+                    <ul class="sc_checklist sc_ds_checklist">
+                        <li class="sc_checklist_item is_completed">
+                            <span class="sc_checklist_checkbox"><span class="sc_material_icons">check</span></span>
+                            <span class="sc_checklist_text">Watch Tutorial</span>
+                        </li>
+                        <li class="sc_checklist_item">
+                            <span class="sc_checklist_checkbox"></span>
+                            <span class="sc_checklist_text">Add API Key</span>
+                        </li>
+                        <li class="sc_checklist_item">
+                            <span class="sc_checklist_checkbox"></span>
+                            <span class="sc_checklist_text">Add New Calendar</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sc_ds_item">
+                    <div class="sc_progress_circle sc_progress_circle--66">
+                        <div class="sc_progress_circle_ring"></div>
+                        <div class="sc_progress_circle_fill"></div>
+                        <div class="sc_progress_circle_inner"></div>
+                        <span class="sc_progress_circle_text">66%<br>Ready</span>
+                    </div>
+                    <ul class="sc_checklist sc_ds_checklist">
+                        <li class="sc_checklist_item is_completed">
+                            <span class="sc_checklist_checkbox"><span class="sc_material_icons">check</span></span>
+                            <span class="sc_checklist_text">Watch Tutorial</span>
+                        </li>
+                        <li class="sc_checklist_item is_completed">
+                            <span class="sc_checklist_checkbox"><span class="sc_material_icons">check</span></span>
+                            <span class="sc_checklist_text">Add API Key</span>
+                        </li>
+                        <li class="sc_checklist_item">
+                            <span class="sc_checklist_checkbox"></span>
+                            <span class="sc_checklist_text">Add New Calendar</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="sc_ds_item">
+                    <div class="sc_progress_circle sc_progress_circle--100">
+                        <div class="sc_progress_circle_ring"></div>
+                        <div class="sc_progress_circle_fill"></div>
+                        <div class="sc_progress_circle_inner"></div>
+                        <span class="sc_progress_circle_text">100%<br>Ready</span>
+                    </div>
+                    <ul class="sc_checklist sc_ds_checklist">
+                        <li class="sc_checklist_item is_completed sc_checklist--green">
+                            <span class="sc_checklist_checkbox"><span class="sc_material_icons">check</span></span>
+                            <span class="sc_checklist_text">Watch Tutorial</span>
+                        </li>
+                        <li class="sc_checklist_item is_completed sc_checklist--green">
+                            <span class="sc_checklist_checkbox"><span class="sc_material_icons">check</span></span>
+                            <span class="sc_checklist_text">Add API Key</span>
+                        </li>
+                        <li class="sc_checklist_item is_completed sc_checklist--green">
+                            <span class="sc_checklist_checkbox"><span class="sc_material_icons">check</span></span>
+                            <span class="sc_checklist_text">Add New Calendar</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Helpful links -->
+        <section class="sc_ds_section">
+            <h2 class="sc_h3 sc_ds_section_title">Helpful links</h2>
+            <div class="sc_ds_helpful_links_cards_wrapper">
+                <a href="#" class="sc_ds_helpful_link_card">
+                    <span class="sc_ds_helpful_link_card_icon">
+                        <img src="images/pages/connect/document.svg" alt="">
+                    </span>
+                    <span class="sc_ds_helpful_link_card_label">Documentation</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- Google Calendar Setup UI -->
+        <section class="sc_ds_section sc_ds_section_last">
+            <h2 class="sc_h3 sc_ds_section_title">Google Calendar Plugin Setup</h2>
+            <div class="sc_ds_setup_card">
+                Talent is a top priority for all startup founders and executives. Jobify offers a way to completely optimize your entire recruiting process. Find better candidates
+            </div>
+        </section>
+
+    </main>
+
+    <script>
+    (function() {
+        function initEyeToggle() {
+            document.querySelectorAll('.sc_input_helper_icon').forEach(function(btn) {
+                if (btn.dataset.eyeInit) return;
+                btn.dataset.eyeInit = '1';
+
+                var wrapper = btn.closest('.sc_input_wrapper');
+                var input = wrapper ? wrapper.querySelector('.sc_input_password_toggle') : btn.previousElementSibling;
+                var imgShow = btn.querySelector('.sc_input_eye_show');
+                var imgHide = btn.querySelector('.sc_input_eye_hide');
+
+                if (!input || !imgShow || !imgHide) return;
+
+                function updateIcon() {
+                    var isPassword = input.type === 'password';
+                    if (isPassword) {
+                        imgShow.removeAttribute('hidden');
+                        imgHide.setAttribute('hidden', '');
+                        btn.setAttribute('aria-label', 'Show API key');
+                        btn.setAttribute('title', 'Show API key');
+                    } else {
+                        imgShow.setAttribute('hidden', '');
+                        imgHide.removeAttribute('hidden');
+                        btn.setAttribute('aria-label', 'Hide API key');
+                        btn.setAttribute('title', 'Hide API key');
+                    }
+                }
+
+                updateIcon();
+
+                btn.addEventListener('click', function() {
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                    } else {
+                        input.type = 'password';
+                    }
+                    updateIcon();
+                });
+            });
+        }
+
+        function initLoadingButtons() {
+            var baseDuration = 500;
+            var progressDuration = 3000;
+            var finishHold = 900;
+
+            document.querySelectorAll('[data-sc-loading-btn]').forEach(function(btn) {
+                if (btn.dataset.loadingInit) return;
+                btn.dataset.loadingInit = '1';
+
+                btn.addEventListener('click', function() {
+                    if (btn.classList.contains('sc_is_active') || btn.classList.contains('sc_is_finished')) return;
+
+                    btn.classList.add('sc_is_active');
+
+                    window.setTimeout(function() {
+                        btn.classList.remove('sc_is_active');
+                        btn.classList.add('sc_is_finished');
+
+                        window.setTimeout(function() {
+                            btn.classList.remove('sc_is_finished');
+                        }, finishHold);
+                    }, progressDuration);
+                });
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                initEyeToggle();
+                initLoadingButtons();
+            });
+        } else {
+            initEyeToggle();
+            initLoadingButtons();
+        }
+    })();
+    </script>
+</body>
+</html>
