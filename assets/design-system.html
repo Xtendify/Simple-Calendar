@@ -4,7 +4,7 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Design System - Simple Calendar</title>
-		<link rel="stylesheet" href="css/design-system.css" />
+		<link rel="stylesheet" href="generated/design-system.css" />
 	</head>
 	<body class="sc_root">
 		<main class="sc_main sc_ds_page">
@@ -96,13 +96,13 @@
 				<h2 class="sc_h3 sc_ds_section_title">Logo</h2>
 				<div class="sc_ds_item">
 					<span class="sc_ds_label">.sc_logo</span>
-					<span  class="sc_logo">
+					<span class="sc_logo">
 						<a href="/" class="sc_logo_link">
 							<img src="images/pages/connect/logo.png" alt="logo" />
 						</a>
-						<!-- <span class="sc_logo_icon">31</span>
+					</span>
+					<!-- <span class="sc_logo_icon">31</span>
                     <span>SIMPLE CALENDAR</span> -->
-					</a>
 				</div>
 			</section>
 
@@ -127,8 +127,12 @@
 						<span class="sc_ds_label">Loading (.sc_btn--blue-loading)</span>
 						<button type="button" class="sc_btn sc_btn--blue-loading" data-sc-loading-btn>
 							<span class="sc_btn_submit">Validate &amp; Save</span>
-							<span class="sc_btn_loading" aria-hidden="true"><span class="sc_btn--icons sc_btn--loading-icon">autorenew</span></span>
-							<span class="sc_btn_check" aria-hidden="true"><span class="sc_btn--icons sc_btn--check-icon">check</span></span>
+							<span class="sc_btn_loading" aria-hidden="true"
+								><span class="sc_btn--icons sc_btn--loading-icon">autorenew</span></span
+							>
+							<span class="sc_btn_check" aria-hidden="true"
+								><span class="sc_btn--icons sc_btn--check-icon">check</span></span
+							>
 						</button>
 					</div>
 					<div>
@@ -225,15 +229,21 @@
 				<div class="sc_ds_subsection">
 					<!-- 1. Default / Placeholder (Figma: 1px #353535, 10px radius, 63px height) -->
 					<div class="sc_ds_item sc_ds_item_spaced">
-						<label class="sc_h6">Input Field</label>
-						<input type="text" class="sc_input sc_input_muted sc_ds_input_full" placeholder="Type here" />
+						<label class="sc_h6" for="sc_ds_input_field">Input Field</label>
+						<input
+							id="sc_ds_input_field"
+							type="text"
+							class="sc_input sc_input_muted sc_ds_input_full"
+							placeholder="Type here"
+						/>
 					</div>
 
 					<!-- 2. Google API Key - Eye icon outside field (click to show/hide value) -->
 					<div class="sc_ds_item sc_ds_item_spaced">
-						<label class="sc_h6">Google API Key</label>
+						<label class="sc_h6" for="sc_ds_google_api_key_empty">Google API Key</label>
 						<div class="sc_input_wrapper sc_input_wrapper--icons-outside sc_input_wrapper--square">
 							<input
+								id="sc_ds_google_api_key_empty"
 								type="password"
 								class="sc_input sc_input_password_toggle"
 								placeholder=""
@@ -241,7 +251,13 @@
 								aria-label="Google API Key"
 								autocomplete="off"
 							/>
-							<button type="button" class="sc_icon--square" aria-label="Show API key" title="Show API key">
+							<button
+								type="button"
+								class="sc_icon--square"
+								aria-label="Show API key"
+								aria-controls="sc_ds_google_api_key_empty"
+								title="Show API key"
+							>
 								<img src="images/pages/connect/eye.svg" alt="" class="sc_input_square_show" />
 								<img src="images/pages/connect/eye-white.svg" alt="" class="sc_input_square_show_white" />
 								<img src="images/pages/connect/eye-hide.svg" alt="" class="sc_input_square_hide" hidden />
@@ -252,17 +268,29 @@
 
 					<!-- 3. Google API Key - Success (Figma: 1px #50BE1D) -->
 					<div class="sc_ds_item sc_ds_item_spaced">
-						<label class="sc_h6">Google API Key</label>
+						<label class="sc_h6" for="sc_ds_google_api_key_success">Google API Key</label>
 						<div class="sc_input_wrapper sc_input--success sc_ds_input_full">
-							<input type="text" class="sc_input" value="AlzaSyATUheCtuV5_loVqJ6C-wSXzrgastrzK" readonly />
+							<input
+								id="sc_ds_google_api_key_success"
+								type="text"
+								class="sc_input"
+								value="AlzaSyATUheCtuV5_loVqJ6C-wSXzrgastrzK"
+								readonly
+							/>
 						</div>
 					</div>
 
 					<!-- 4. Google API Key - Error (Figma: 1px #BE1D1D) -->
 					<div class="sc_ds_item sc_ds_item_spaced">
-						<label class="sc_h6">Google API Key</label>
+						<label class="sc_h6" for="sc_ds_google_api_key_error">Google API Key</label>
 						<div class="sc_input_wrapper sc_input--error sc_ds_input_full">
-							<input type="text" class="sc_input" value="AlzaSyATUheCtuV5_loVqJ6C-wSXzrgastrzK" readonly />
+							<input
+								id="sc_ds_google_api_key_error"
+								type="text"
+								class="sc_input"
+								value="AlzaSyATUheCtuV5_loVqJ6C-wSXzrgastrzK"
+								readonly
+							/>
 						</div>
 						<span class="sc_icon_warning_wrap">
 							<img src="images/pages/connect/warning.svg" alt="Warning" />
@@ -272,16 +300,25 @@
 
 					<!-- 5. Google API Key - Masked (Figma: 1px #DBDBDB, square icon box outside) -->
 					<div class="sc_ds_item">
-						<label class="sc_h6">Google API Key</label>
-						<div class="sc_input_wrapper sc_input_wrapper--icons-outside sc_input_wrapper--square sc_input_wrapper--readonly">
+						<label class="sc_h6" for="sc_ds_google_api_key_masked">Google API Key</label>
+						<div
+							class="sc_input_wrapper sc_input_wrapper--icons-outside sc_input_wrapper--square sc_input_wrapper--readonly"
+						>
 							<input
+								id="sc_ds_google_api_key_masked"
 								type="password"
 								class="sc_input sc_input_password_toggle"
 								value="AlzaSyATUheCtuV5_loVqJ6C-wSXzrgastrzK"
 								readonly
 								aria-label="Google API Key"
 							/>
-							<button type="button" class="sc_icon--square" aria-label="Show API key" title="Show API key">
+							<button
+								type="button"
+								class="sc_icon--square"
+								aria-label="Show API key"
+								aria-controls="sc_ds_google_api_key_masked"
+								title="Show API key"
+							>
 								<img src="images/pages/connect/eye.svg" alt="" class="sc_input_square_show" />
 								<img src="images/pages/connect/eye-white.svg" alt="" class="sc_input_square_show_white" />
 								<img src="images/pages/connect/eye-hide.svg" alt="" class="sc_input_square_hide" hidden />
@@ -378,7 +415,9 @@
 						</div>
 						<ul class="sc_checklist sc_ds_checklist">
 							<li class="sc_checklist_item is_completed">
-								<span class="sc_checklist_checkbox"><img src="images/pages/connect/check.svg" alt="" class="sc_checklist_icon" /></span>
+								<span class="sc_checklist_checkbox"
+									><img src="images/pages/connect/check.svg" alt="" class="sc_checklist_icon"
+								/></span>
 								<span class="sc_checklist_text">Watch Tutorial</span>
 							</li>
 							<li class="sc_checklist_item">
@@ -400,11 +439,15 @@
 						</div>
 						<ul class="sc_checklist sc_ds_checklist">
 							<li class="sc_checklist_item is_completed">
-								<span class="sc_checklist_checkbox"><img src="images/pages/connect/check.svg" alt="" class="sc_checklist_icon" /></span>
+								<span class="sc_checklist_checkbox"
+									><img src="images/pages/connect/check.svg" alt="" class="sc_checklist_icon"
+								/></span>
 								<span class="sc_checklist_text">Watch Tutorial</span>
 							</li>
 							<li class="sc_checklist_item is_completed">
-								<span class="sc_checklist_checkbox"><img src="images/pages/connect/check.svg" alt="" class="sc_checklist_icon" /></span>
+								<span class="sc_checklist_checkbox"
+									><img src="images/pages/connect/check.svg" alt="" class="sc_checklist_icon"
+								/></span>
 								<span class="sc_checklist_text">Add API Key</span>
 							</li>
 							<li class="sc_checklist_item">
@@ -422,15 +465,21 @@
 						</div>
 						<ul class="sc_checklist sc_ds_checklist">
 							<li class="sc_checklist_item is_completed sc_checklist--green">
-								<span class="sc_checklist_checkbox"><img src="images/pages/connect/check.svg" alt="" class="sc_checklist_icon" /></span>
+								<span class="sc_checklist_checkbox"
+									><img src="images/pages/connect/check.svg" alt="" class="sc_checklist_icon"
+								/></span>
 								<span class="sc_checklist_text">Watch Tutorial</span>
 							</li>
 							<li class="sc_checklist_item is_completed sc_checklist--green">
-								<span class="sc_checklist_checkbox"><img src="images/pages/connect/check.svg" alt="" class="sc_checklist_icon" /></span>
+								<span class="sc_checklist_checkbox"
+									><img src="images/pages/connect/check.svg" alt="" class="sc_checklist_icon"
+								/></span>
 								<span class="sc_checklist_text">Add API Key</span>
 							</li>
 							<li class="sc_checklist_item is_completed sc_checklist--green">
-								<span class="sc_checklist_checkbox"><img src="images/pages/connect/check.svg" alt="" class="sc_checklist_icon" /></span>
+								<span class="sc_checklist_checkbox"
+									><img src="images/pages/connect/check.svg" alt="" class="sc_checklist_icon"
+								/></span>
 								<span class="sc_checklist_text">Add New Calendar</span>
 							</li>
 						</ul>
