@@ -4,7 +4,6 @@
 
 /* Google Fonts Import */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 /* ========================================
    ROOT VARIABLES (scoped to Simple Calendar root)
    ======================================== */
@@ -13,7 +12,6 @@
 	/* ===== FONT FAMILIES ===== */
 	--sc-font-heading: 'Poppins', sans-serif;
 	--sc-font-body: 'Inter', sans-serif;
-	--sc-font-icons: 'Material Icons', sans-serif;
 
 	/* ===== FONT WEIGHTS ===== */
 	--sc-font-weight-thin: 100;
@@ -47,14 +45,14 @@
 	/* ===== LAYOUT TOKENS ===== */
 	--sc-icon-circle-size: 51px;
 
-	/* Input icon / eye sizes */
+	/* Input icon / square sizes */
 	--sc-input-icon-size: 29px;
-	--sc-input-eye-box-width: 79px;
-	--sc-input-eye-box-height: 62px;
+	--sc-input-square-box-width: 79px;
+	--sc-input-square-box-height: 62px;
 	--sc-link-decoration: underline;
 
 	/* ===== BUTTON LOADING (CodePen-style) ===== */
-	--sc-btn-loading-base-duration: 500ms;
+	--sc-btn-loading-base-duration: 1000ms;
 	--sc-btn-loading-progress-duration: 3000ms;
 	--sc-btn-loading-active-bg: var(--sc-color-blue);
 	--sc-btn-loading-finished-bg: var(--sc-color-green);
@@ -522,11 +520,10 @@
 	transform: translateY(-50%);
 }
 
-.sc_btn--blue-loading.sc_is_active > span:nth-of-type(2) .sc_material_icons {
+.sc_btn--blue-loading.sc_is_active > span:nth-of-type(2) .sc_btn--loading-icon {
 	transform-origin: center center;
 	animation: sc_btn_loading_spin var(--sc-btn-loading-base-duration) linear infinite;
 }
-
 .sc_btn--blue-loading.sc_is_finished {
 	background-color: var(--sc-btn-loading-finished-bg);
 }
@@ -610,11 +607,6 @@
 	transition: opacity 0.2s ease;
 }
 
-.sc_btn_icon .sc_material_icons {
-	font-size: 20px;
-	color: inherit;
-}
-
 .sc_btn_icon--blue {
 	background: var(--sc-color-blue);
 	color: var(--sc-color-white);
@@ -637,6 +629,31 @@
 	background: var(--sc-color-red);
 	color: var(--sc-color-white);
 }
+
+/* SVG icons for buttons (loading, success, close) */
+.sc_btn--icons {
+	font-size: 0;
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+	background-size: 16px 16px;
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+
+.sc_btn--check-icon {
+	background-size: 30px 30px;
+	background-image: url('../images/pages/connect/check.svg');
+}
+
+.sc_btn--close_icon {
+	background-image: url('../images/pages/connect/close.svg');
+}
+
+.sc_btn--loading-icon {
+	background-image: url('../images/pages/connect/loading.svg');
+}
+
 /* ========================================
    INPUT FIELDS (Figma: 1px border, 10px radius, 63px height)
    ======================================== */
@@ -681,6 +698,10 @@
 	padding-right: 48px;
 }
 
+.sc_input_wrapper--readonly .sc_input {
+	background: var(--sc-color-off-white);
+}
+
 /* Icons outside the field (Figma: second and last field) */
 .sc_input_wrapper.sc_input_wrapper--icons-outside {
 	display: flex;
@@ -688,31 +709,24 @@
 	gap: 0;
 }
 
-.sc_input_wrapper.sc_input_wrapper--icons-outside .sc_input {
-	padding-right: 16px;
-	border-radius: var(--sc-radius-sm) 0 0 var(--sc-radius-sm);
-	flex: 1;
-	min-width: 0;
-}
-
-/* Eye box outside: 10px gap, same total width as other inputs */
-.sc_input_wrapper.sc_input_wrapper--eye {
+/* Square icon box outside: 10px gap, same total width as other inputs */
+.sc_input_wrapper.sc_input_wrapper--square {
 	gap: 10px;
 	max-width: 100%;
 }
 
-.sc_input_wrapper.sc_input_wrapper--eye .sc_input {
+.sc_input_wrapper.sc_input_wrapper--square .sc_input {
 	border-right-width: 1px;
 	border-radius: var(--sc-radius-sm);
 }
 
-.sc_input_wrapper.sc_input_wrapper--eye .sc_input_helper_icon {
+.sc_input_wrapper.sc_input_wrapper--square .sc_icon--square {
 	border-radius: var(--sc-radius-sm);
 	flex-shrink: 0;
 }
 
-.sc_input_wrapper.sc_input_wrapper--icons-outside .sc_input_toggle,
-.sc_input_wrapper.sc_input_wrapper--icons-outside .sc_input_status {
+.sc_input_toggle,
+.sc_input_status {
 	position: static;
 	transform: none;
 	flex-shrink: 0;
@@ -729,20 +743,10 @@
 		color 0.2s ease;
 }
 
-.sc_input_wrapper.sc_input_wrapper--icons-outside .sc_input_toggle:hover,
-.sc_input_wrapper.sc_input_wrapper--icons-outside .sc_input_status:hover {
+.sc_input_toggle:hover,
+.sc_input_status:hover {
 	background: var(--sc-color-warm-gray);
 	color: var(--sc-color-warm-gray);
-}
-
-.sc_input_wrapper.sc_input_wrapper--icons-outside .sc_input_toggle:last-child,
-.sc_input_wrapper.sc_input_wrapper--icons-outside .sc_input_status:last-child {
-	border-radius: 0 var(--sc-radius-sm) var(--sc-radius-sm) 0;
-}
-
-.sc_input_wrapper.sc_input_wrapper--icons-outside.sc_input_wrapper--single-icon .sc_input_toggle,
-.sc_input_wrapper.sc_input_wrapper--icons-outside.sc_input_wrapper--single-icon .sc_input_status {
-	border-radius: 0 var(--sc-radius-sm) var(--sc-radius-sm) 0;
 }
 
 .sc_input_wrapper .sc_input_toggle,
@@ -775,27 +779,15 @@
 	color: var(--sc-color-red);
 }
 
-/* Muted/light border (Figma last field: #DBDBDB) */
-.sc_input_wrapper.sc_input--muted .sc_input,
-.sc_input.sc_input--muted {
-	border-color: var(--sc-color-extra-light-gray);
-	border-width: 1px;
-}
-
-.sc_input_wrapper.sc_input_wrapper--icons-outside.sc_input--muted .sc_input_toggle,
-.sc_input_wrapper.sc_input_wrapper--icons-outside.sc_input--muted .sc_input_status {
-	border-color: var(--sc-color-extra-light-gray);
-}
-
-/* Eye/input icon box: reusable anywhere. Use class .sc_input_helper_icon.
+/* Eye/input icon box: reusable anywhere. Use class .sc_icon--square.
    With 4 imgs (show, show_white, hide, hide_white) you get toggle + white icon on hover; with 2 imgs (e.g. show + show_white) or 1 img same look and hover. */
-.sc_input_helper_icon {
+.sc_icon--square {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: var(--sc-input-eye-box-width);
-	min-width: var(--sc-input-eye-box-width);
-	height: var(--sc-input-eye-box-height);
+	width: var(--sc-input-square-box-width);
+	min-width: var(--sc-input-square-box-width);
+	height: var(--sc-input-square-box-height);
 	border: none;
 	border-radius: var(--sc-radius-sm);
 	background: var(--sc-color-off-white);
@@ -806,46 +798,46 @@
 		opacity 0.2s ease;
 }
 
-.sc_input_helper_icon:hover {
+.sc_icon--square:hover {
 	background: var(--sc-color-warm-gray);
 }
 
-.sc_input_helper_icon img {
+.sc_icon--square img {
 	width: var(--sc-input-icon-size);
 	height: var(--sc-input-icon-size);
 	display: block;
 }
 
-/* White icons: hidden by default (override .sc_input_helper_icon img); show only on hover */
-.sc_input_helper_icon img.sc_input_eye_show_white,
-.sc_input_helper_icon img.sc_input_eye_hide_white {
+/* White icons: hidden by default (override .sc_icon--square img); show only on hover */
+.sc_icon--square img.sc_input_square_show_white,
+.sc_icon--square img.sc_input_square_hide_white {
 	display: none;
 }
 
-.sc_input_helper_icon:hover .sc_input_eye_show,
-.sc_input_helper_icon:hover .sc_input_eye_hide {
+.sc_icon--square:hover .sc_input_square_show,
+.sc_icon--square:hover .sc_input_square_hide {
 	display: none;
 }
 
-/* On hover, show only the white icon that matches the current state (eye.svg visible → eye-white.svg; eye-hide.svg visible → eye-hide-white.svg) */
-.sc_input_helper_icon:hover .sc_input_eye_show_white,
-.sc_input_helper_icon:hover .sc_input_eye_hide_white {
+/* On hover, show only the white icon that matches the current state (show visible → show-white.svg; hide visible → hide-white.svg) */
+.sc_icon--square:hover .sc_input_square_show_white,
+.sc_icon--square:hover .sc_input_square_hide_white {
 	display: none;
 }
 
-.sc_input_helper_icon:hover .sc_input_eye_show:not([hidden]) ~ .sc_input_eye_show_white {
+.sc_icon--square:hover .sc_input_square_show:not([hidden]) ~ .sc_input_square_show_white {
 	display: block;
 }
 
-.sc_input_helper_icon:hover .sc_input_eye_hide:not([hidden]) ~ .sc_input_eye_hide_white {
+.sc_icon--square:hover .sc_input_square_hide:not([hidden]) ~ .sc_input_square_hide_white {
 	display: block;
 }
 
-.sc_input_helper_icon img[hidden] {
+.sc_icon--square img[hidden] {
 	display: none !important;
 }
 
-.sc_input_helper_icon {
+.sc_icon--square {
 	background: var(--sc-color-off-white);
 }
 
@@ -1041,8 +1033,10 @@
 	color: var(--sc-color-green);
 }
 
-.sc_checklist_checkbox .sc_material_icons {
-	font-size: 12px;
+.sc_checklist_icon {
+	width: 12px;
+	height: 12px;
+	display: block;
 }
 
 .sc_checklist_text {
@@ -1089,25 +1083,6 @@
 	font-weight: 700;
 }
 
-/* ========================================
-   ICONS (Material Icons)
-   ======================================== */
-.sc_material_icons {
-	font-family: var(--sc-font-icons);
-	font-weight: normal;
-	font-style: normal;
-	font-size: var(--sc-icon-size);
-	line-height: 1;
-	letter-spacing: normal;
-	text-transform: none;
-	display: inline-block;
-	white-space: nowrap;
-	word-wrap: normal;
-	direction: ltr;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
-
 .sc_icon {
 	display: inline-flex;
 	align-items: center;
@@ -1120,12 +1095,8 @@
 	border: 1px solid var(--sc-color-extra-light-gray);
 }
 
-.sc_icon .sc_material_icons {
-	font-size: 24px;
-}
-
 /* Icon circle: blue circle with white icon (Figma: 51px, #1D73BE) */
-.sc_icon_circle {
+.sc_icon--circle {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
@@ -1139,18 +1110,18 @@
 	border: none;
 }
 
-.sc_icon_circle img {
+.sc_icon--circle img {
 	max-width: 31px;
 	object-fit: contain;
 }
 
-.sc_icon_check_small {
+.sc_icon--circle-small {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 }
 
-.sc_icon_check_small img {
+.sc_icon--circle-small img {
 	width: 24px;
 	height: 24px;
 	object-fit: contain;
@@ -1163,7 +1134,7 @@
 	padding-top: 6px;
 }
 
-.sc_icon_warning_wrap .sc_icon_check_small img {
+.sc_icon_warning_wrap .sc_icon--circle-small img {
 	width: 24px;
 	height: 24px;
 }
@@ -1204,14 +1175,14 @@
 }
 
 /* Small tooltip / helper icon (question mark) */
-.sc_tooltip_icon {
+.sc_tooltip--icon {
 	position: relative;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	width: var(--sc-icon-size);
 	height: var(--sc-icon-size);
-	border-radius: var(--sc-radius-sm);
+	border-radius: 3px;
 	background: var(--sc-color-off-white);
 	cursor: pointer;
 	padding: 0;
@@ -1219,29 +1190,29 @@
 	transition: background 0.2s ease;
 }
 
-.sc_tooltip_icon:hover,
-.sc_tooltip_icon:focus-visible {
+.sc_tooltip--icon:hover,
+.sc_tooltip--icon:focus-visible {
 	background: var(--sc-color-warm-gray);
 	outline: none;
 }
 
-.sc_tooltip_icon_img {
+.sc_tooltip--icon_img {
 	width: var(--sc-icon-xs-size);
 	height: var(--sc-icon-xs-size);
 	display: block;
 }
 
-.sc_tooltip_icon_img--hover {
+.sc_tooltip--icon_img-hover {
 	display: none;
 }
 
-.sc_tooltip_icon:hover .sc_tooltip_icon_img,
-.sc_tooltip_icon:focus-visible .sc_tooltip_icon_img {
+.sc_tooltip--icon:hover .sc_tooltip--icon_img,
+.sc_tooltip--icon:focus-visible .sc_tooltip--icon_img {
 	display: none;
 }
 
-.sc_tooltip_icon:hover .sc_tooltip_icon_img--hover,
-.sc_tooltip_icon:focus-visible .sc_tooltip_icon_img--hover {
+.sc_tooltip--icon:hover .sc_tooltip--icon_img-hover,
+.sc_tooltip--icon:focus-visible .sc_tooltip--icon_img-hover {
 	display: block;
 }
 
@@ -1251,7 +1222,7 @@
 	align-items: center;
 }
 
-.sc_tooltip_bubble {
+.sc_tooltip--bubble {
 	position: absolute;
 	left: 50%;
 	bottom: calc(100% + 12px);
@@ -1277,7 +1248,7 @@
 	z-index: 10;
 }
 
-.sc_tooltip_bubble::after {
+.sc_tooltip--bubble::after {
 	content: '';
 	position: absolute;
 	top: 100%;
@@ -1288,8 +1259,8 @@
 	border-color: var(--sc-color-extra-light-gray) transparent transparent transparent;
 }
 
-.sc_tooltip:hover .sc_tooltip_bubble,
-.sc_tooltip:focus-within .sc_tooltip_bubble {
+.sc_tooltip:hover .sc_tooltip--bubble,
+.sc_tooltip:focus-within .sc_tooltip--bubble {
 	opacity: 1;
 	visibility: visible;
 	transform: translateX(-50%) translateY(0);

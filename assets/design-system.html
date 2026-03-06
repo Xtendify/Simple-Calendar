@@ -96,7 +96,7 @@
 				<h2 class="sc_h3 sc_ds_section_title">Logo</h2>
 				<div class="sc_ds_item">
 					<span class="sc_ds_label">.sc_logo</span>
-					<a href="#" class="sc_logo">
+					<span  class="sc_logo">
 						<a href="/" class="sc_logo_link">
 							<img src="images/pages/connect/logo.png" alt="logo" />
 						</a>
@@ -127,8 +127,8 @@
 						<span class="sc_ds_label">Loading (.sc_btn--blue-loading)</span>
 						<button type="button" class="sc_btn sc_btn--blue-loading" data-sc-loading-btn>
 							<span class="sc_btn_submit">Validate &amp; Save</span>
-							<span class="sc_btn_loading" aria-hidden="true"><span class="sc_material_icons">autorenew</span></span>
-							<span class="sc_btn_check" aria-hidden="true"><span class="sc_material_icons">check</span></span>
+							<span class="sc_btn_loading" aria-hidden="true"><span class="sc_btn--icons sc_btn--loading-icon">autorenew</span></span>
+							<span class="sc_btn_check" aria-hidden="true"><span class="sc_btn--icons sc_btn--check-icon">check</span></span>
 						</button>
 					</div>
 					<div>
@@ -142,13 +142,13 @@
 					<div>
 						<span class="sc_ds_label">Success icon (.sc_btn_icon--success)</span>
 						<button type="button" class="sc_btn_icon sc_btn_icon--success" aria-label="Success">
-							<span class="sc_material_icons">check</span>
+							<span class="sc_btn--icons sc_btn--check-icon">check</span>
 						</button>
 					</div>
 					<div>
 						<span class="sc_ds_label">Cancel icon (.sc_btn_icon--error)</span>
 						<button type="button" class="sc_btn_icon sc_btn_icon--error" aria-label="Cancel">
-							<span class="sc_material_icons">close</span>
+							<span class="sc_btn--icons sc_btn--close_icon">close</span>
 						</button>
 					</div>
 					<div>
@@ -232,7 +232,7 @@
 					<!-- 2. Google API Key - Eye icon outside field (click to show/hide value) -->
 					<div class="sc_ds_item sc_ds_item_spaced">
 						<label class="sc_h6">Google API Key</label>
-						<div class="sc_input_wrapper sc_input_wrapper--icons-outside sc_input_wrapper--eye">
+						<div class="sc_input_wrapper sc_input_wrapper--icons-outside sc_input_wrapper--square">
 							<input
 								type="password"
 								class="sc_input sc_input_password_toggle"
@@ -241,11 +241,11 @@
 								aria-label="Google API Key"
 								autocomplete="off"
 							/>
-							<button type="button" class="sc_input_helper_icon" aria-label="Show API key" title="Show API key">
-								<img src="images/pages/connect/eye.svg" alt="" class="sc_input_eye_show" />
-								<img src="images/pages/connect/eye-white.svg" alt="" class="sc_input_eye_show_white" />
-								<img src="images/pages/connect/eye-hide.svg" alt="" class="sc_input_eye_hide" hidden />
-								<img src="images/pages/connect/eye-hide-white.svg" alt="" class="sc_input_eye_hide_white" />
+							<button type="button" class="sc_icon--square" aria-label="Show API key" title="Show API key">
+								<img src="images/pages/connect/eye.svg" alt="" class="sc_input_square_show" />
+								<img src="images/pages/connect/eye-white.svg" alt="" class="sc_input_square_show_white" />
+								<img src="images/pages/connect/eye-hide.svg" alt="" class="sc_input_square_hide" hidden />
+								<img src="images/pages/connect/eye-hide-white.svg" alt="" class="sc_input_square_hide_white" />
 							</button>
 						</div>
 					</div>
@@ -270,10 +270,10 @@
 						</span>
 					</div>
 
-					<!-- 5. Google API Key - Masked (Figma: 1px #DBDBDB, eye box outside) -->
+					<!-- 5. Google API Key - Masked (Figma: 1px #DBDBDB, square icon box outside) -->
 					<div class="sc_ds_item">
 						<label class="sc_h6">Google API Key</label>
-						<div class="sc_input_wrapper sc_input_wrapper--icons-outside sc_input_wrapper--eye sc_input--muted">
+						<div class="sc_input_wrapper sc_input_wrapper--icons-outside sc_input_wrapper--square sc_input_wrapper--readonly">
 							<input
 								type="password"
 								class="sc_input sc_input_password_toggle"
@@ -281,11 +281,11 @@
 								readonly
 								aria-label="Google API Key"
 							/>
-							<button type="button" class="sc_input_helper_icon" aria-label="Show API key" title="Show API key">
-								<img src="images/pages/connect/eye.svg" alt="" class="sc_input_eye_show" />
-								<img src="images/pages/connect/eye-white.svg" alt="" class="sc_input_eye_show_white" />
-								<img src="images/pages/connect/eye-hide.svg" alt="" class="sc_input_eye_hide" hidden />
-								<img src="images/pages/connect/eye-hide-white.svg" alt="" class="sc_input_eye_hide_white" />
+							<button type="button" class="sc_icon--square" aria-label="Show API key" title="Show API key">
+								<img src="images/pages/connect/eye.svg" alt="" class="sc_input_square_show" />
+								<img src="images/pages/connect/eye-white.svg" alt="" class="sc_input_square_show_white" />
+								<img src="images/pages/connect/eye-hide.svg" alt="" class="sc_input_square_hide" hidden />
+								<img src="images/pages/connect/eye-hide-white.svg" alt="" class="sc_input_square_hide_white" />
 							</button>
 						</div>
 					</div>
@@ -296,27 +296,26 @@
 			<section class="sc_ds_section">
 				<h2 class="sc_h3 sc_ds_section_title">Icons</h2>
 				<div class="sc_ds_grid">
-					<div class="sc_icon_circle"><img src="images/pages/connect/document.svg" alt="Document" /></div>
-					<div class="sc_icon_circle"><img src="images/pages/connect/clapperboard.svg" alt="Video" /></div>
-					<div class="sc_icon_circle"><img src="images/pages/connect/question.svg" alt="Help" /></div>
-					<div class="sc_icon_circle"><img src="images/pages/connect/headphone.svg" alt="Support" /></div>
-					<button type="button" class="sc_input_helper_icon" aria-label="Copy">
-						<img src="images/pages/connect/copy.svg" alt="Copy" class="sc_input_eye_hide" />
-						<img src="images/pages/connect/copy-white.svg" alt="Copy" class="sc_input_eye_hide_white" />
+					<div class="sc_icon--circle"><img src="images/pages/connect/document.svg" alt="Document" /></div>
+					<div class="sc_icon--circle"><img src="images/pages/connect/clapperboard.svg" alt="Video" /></div>
+					<div class="sc_icon--circle"><img src="images/pages/connect/question.svg" alt="Help" /></div>
+					<div class="sc_icon--circle"><img src="images/pages/connect/headphone.svg" alt="Support" /></div>
+					<button type="button" class="sc_icon--square" aria-label="Copy">
+						<img src="images/pages/connect/copy.svg" alt="Copy" class="sc_input_square_hide" />
+						<img src="images/pages/connect/copy-white.svg" alt="Copy" class="sc_input_square_hide_white" />
 					</button>
-					<button type="button" class="sc_input_helper_icon" aria-label="Hidden">
-						<img src="images/pages/connect/eye-hide.svg" alt="" class="sc_input_eye_hide" />
-						<img src="images/pages/connect/eye-hide-white.svg" alt="" class="sc_input_eye_hide_white" />
+					<button type="button" class="sc_icon--square" aria-label="Hidden">
+						<img src="images/pages/connect/eye-hide.svg" alt="" class="sc_input_square_hide" />
+						<img src="images/pages/connect/eye-hide-white.svg" alt="" class="sc_input_square_hide_white" />
 					</button>
-					<button type="button" class="sc_input_helper_icon" aria-label="Visible">
-						<img src="images/pages/connect/eye.svg" alt="" class="sc_input_eye_show" />
-						<img src="images/pages/connect/eye-white.svg" alt="" class="sc_input_eye_show_white" />
+					<button type="button" class="sc_icon--square" aria-label="Visible">
+						<img src="images/pages/connect/eye.svg" alt="" class="sc_input_square_show" />
+						<img src="images/pages/connect/eye-white.svg" alt="" class="sc_input_square_show_white" />
 					</button>
-					<div class="sc_icon_check_small"><img src="images/pages/connect/question.svg" alt="Question" /></div>
-					<div class="sc_icon_check_small"><img src="images/pages/connect/checked.svg" alt="Checked" /></div>
-					<div class="sc_icon_check_small"><img src="images/pages/connect/crown.svg" alt="Crown" /></div>
+					<div class="sc_icon--circle-small"><img src="images/pages/connect/checked.svg" alt="Checked" /></div>
+					<div class="sc_icon--circle-small"><img src="images/pages/connect/crown.svg" alt="Crown" /></div>
 					<div class="sc_icon_warning_wrap">
-						<span class="sc_icon_check_small"><img src="images/pages/connect/warning.svg" alt="Warning" /></span>
+						<span class="sc_icon--circle-small"><img src="images/pages/connect/warning.svg" alt="Warning" /></span>
 						<span class="sc_icon_warning_label">Error</span>
 					</div>
 					<div class="sc_icon_status_wrap">
@@ -326,18 +325,18 @@
 					<div class="sc_tooltip">
 						<button
 							type="button"
-							class="sc_tooltip_icon"
+							class="sc_tooltip--icon"
 							aria-label="More information"
 							aria-describedby="sc_ds_tooltip_hosting"
 						>
-							<img src="images/pages/connect/question.svg" alt="" class="sc_tooltip_icon_img" />
+							<img src="images/pages/connect/question.svg" alt="" class="sc_tooltip--icon_img" />
 							<img
 								src="images/pages/connect/question-white.svg"
 								alt=""
-								class="sc_tooltip_icon_img sc_tooltip_icon_img--hover"
+								class="sc_tooltip--icon_img sc_tooltip--icon_img-hover"
 							/>
 						</button>
-						<div id="sc_ds_tooltip_hosting" class="sc_tooltip_bubble">
+						<div id="sc_ds_tooltip_hosting" class="sc_tooltip--bubble">
 							You need to purchase your own hosting and domain
 						</div>
 					</div>
@@ -379,7 +378,7 @@
 						</div>
 						<ul class="sc_checklist sc_ds_checklist">
 							<li class="sc_checklist_item is_completed">
-								<span class="sc_checklist_checkbox"><span class="sc_material_icons">check</span></span>
+								<span class="sc_checklist_checkbox"><img src="images/pages/connect/check.svg" alt="" class="sc_checklist_icon" /></span>
 								<span class="sc_checklist_text">Watch Tutorial</span>
 							</li>
 							<li class="sc_checklist_item">
@@ -401,11 +400,11 @@
 						</div>
 						<ul class="sc_checklist sc_ds_checklist">
 							<li class="sc_checklist_item is_completed">
-								<span class="sc_checklist_checkbox"><span class="sc_material_icons">check</span></span>
+								<span class="sc_checklist_checkbox"><img src="images/pages/connect/check.svg" alt="" class="sc_checklist_icon" /></span>
 								<span class="sc_checklist_text">Watch Tutorial</span>
 							</li>
 							<li class="sc_checklist_item is_completed">
-								<span class="sc_checklist_checkbox"><span class="sc_material_icons">check</span></span>
+								<span class="sc_checklist_checkbox"><img src="images/pages/connect/check.svg" alt="" class="sc_checklist_icon" /></span>
 								<span class="sc_checklist_text">Add API Key</span>
 							</li>
 							<li class="sc_checklist_item">
@@ -423,15 +422,15 @@
 						</div>
 						<ul class="sc_checklist sc_ds_checklist">
 							<li class="sc_checklist_item is_completed sc_checklist--green">
-								<span class="sc_checklist_checkbox"><span class="sc_material_icons">check</span></span>
+								<span class="sc_checklist_checkbox"><img src="images/pages/connect/check.svg" alt="" class="sc_checklist_icon" /></span>
 								<span class="sc_checklist_text">Watch Tutorial</span>
 							</li>
 							<li class="sc_checklist_item is_completed sc_checklist--green">
-								<span class="sc_checklist_checkbox"><span class="sc_material_icons">check</span></span>
+								<span class="sc_checklist_checkbox"><img src="images/pages/connect/check.svg" alt="" class="sc_checklist_icon" /></span>
 								<span class="sc_checklist_text">Add API Key</span>
 							</li>
 							<li class="sc_checklist_item is_completed sc_checklist--green">
-								<span class="sc_checklist_checkbox"><span class="sc_material_icons">check</span></span>
+								<span class="sc_checklist_checkbox"><img src="images/pages/connect/check.svg" alt="" class="sc_checklist_icon" /></span>
 								<span class="sc_checklist_text">Add New Calendar</span>
 							</li>
 						</ul>
@@ -444,7 +443,7 @@
 				<h2 class="sc_h3 sc_ds_section_title">Helpful links</h2>
 				<div class="sc_ds_helpful_links_cards_wrapper">
 					<a href="#" class="sc_ds_helpful_link_card">
-						<span class="sc_ds_helpful_link_card_icon">
+						<span class="sc_icon--circle">
 							<img src="images/pages/connect/document.svg" alt="" />
 						</span>
 						<span class="sc_ds_helpful_link_card_label">Documentation</span>
@@ -464,15 +463,15 @@
 
 		<script>
 			(function () {
-				function initEyeToggle() {
-					document.querySelectorAll('.sc_input_helper_icon').forEach(function (btn) {
-						if (btn.dataset.eyeInit) return;
-						btn.dataset.eyeInit = '1';
+				function initSquareToggle() {
+					document.querySelectorAll('.sc_icon--square').forEach(function (btn) {
+						if (btn.dataset.squareInit) return;
+						btn.dataset.squareInit = '1';
 
 						var wrapper = btn.closest('.sc_input_wrapper');
 						var input = wrapper ? wrapper.querySelector('.sc_input_password_toggle') : btn.previousElementSibling;
-						var imgShow = btn.querySelector('.sc_input_eye_show');
-						var imgHide = btn.querySelector('.sc_input_eye_hide');
+						var imgShow = btn.querySelector('.sc_input_square_show');
+						var imgHide = btn.querySelector('.sc_input_square_hide');
 
 						if (!input || !imgShow || !imgHide) return;
 
@@ -532,11 +531,11 @@
 
 				if (document.readyState === 'loading') {
 					document.addEventListener('DOMContentLoaded', function () {
-						initEyeToggle();
+						initSquareToggle();
 						initLoadingButtons();
 					});
 				} else {
-					initEyeToggle();
+					initSquareToggle();
 					initLoadingButtons();
 				}
 			})();
@@ -746,8 +745,8 @@
 	}
 
 	.sc_ds_setup_card {
-		background: var(--sc-color-white);
-		border-radius: var(--sc-radius-lg);
+		background: #ffffff;
+		border-radius: 16px;
 		padding: 32px;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 		display: flex;
@@ -805,8 +804,8 @@
 
 	/* Helpful links cards (white bg wrapper + grey card with icon) */
 	.sc_ds_helpful_links_cards_wrapper {
-		background: var(--sc-color-white);
-		border-radius: var(--sc-radius-lg);
+		background: #ffffff;
+		border-radius: 16px;
 		padding: 24px;
 		display: flex;
 		flex-wrap: wrap;
@@ -833,27 +832,9 @@
 		opacity: 0.9;
 	}
 
-	.sc_ds_helpful_link_card_icon {
-		width: 51px;
-		height: 51px;
-		border-radius: 50%;
-		background: #1d73be;
-		opacity: 1;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		flex-shrink: 0;
-	}
-
-	.sc_ds_helpful_link_card_icon img {
-		width: 26px;
-		height: 28px;
-		object-fit: contain;
-	}
-
 	.sc_ds_helpful_link_card_label {
 		font-weight: 500;
-		font-size: var(--sc-body-size);
+		font-size: 15px;
 		line-height: 1.3;
 		text-align: center;
 	}
