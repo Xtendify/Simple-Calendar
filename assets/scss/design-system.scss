@@ -734,6 +734,15 @@
 		border-radius: var(--sc-radius-sm);
 		transition: border-color 0.2s ease;
 
+		&.sc_input--dark {
+			background: var(--sc-color-dark-gray);
+			color: var(--sc-color-white);
+		}
+
+		&.sc_input--dark::placeholder {
+			color: var(--sc-color-light-gray);
+		}
+
 		&::placeholder {
 			color: var(--sc-color-medium-gray);
 		}
