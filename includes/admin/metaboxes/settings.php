@@ -35,32 +35,49 @@ class Settings implements Meta_Box
 	public static function html($post)
 	{
 		// @see Meta_Boxes::save_meta_boxes()
-		wp_nonce_field('simcal_save_data', 'simcal_meta_nonce'); ?>
+		wp_nonce_field('simcal_save_data', 'simcal_meta_nonce');
+
+		$feeds_options = get_option('simple-calendar_settings_feeds', []);
+		$api_key = isset($feeds_options['google']['api_key']) ? trim((string) $feeds_options['google']['api_key']) : '';
+		$show_api_key_mask = empty($api_key);
+		$connect_url = admin_url('edit.php?post_type=calendar&page=simple-calendar_connect');
+		?>
 		<div class="simcal-panels-wrap">
 
 			<span class="simcal-box-handle">
 				<?php self::settings_handle($post); ?>
 			</span>
-			<ul class="simcal-tabs">
-				<?php self::settings_tabs($post); ?>
-				<?php do_action('simcal_settings_meta_tabs'); ?>
-			</ul>
-			<div class="simcal-panels">
-				<div id="events-settings-panel" class="simcal-panel">
-					<?php self::events_settings_panel($post); ?>
-					<?php do_action('simcal_settings_meta_events_panel', $post->ID); ?>
-				</div>
-				<div id="calendar-settings-panel" class="simcal-panel">
-					<?php do_action('simcal_settings_meta_calendar_panel', $post->ID); ?>
-					<?php self::calendar_settings_panel($post); ?>
-				</div>
-				<?php // Hook for additional settings panels.
-
-		do_action('simcal_settings_meta_panels', $post->ID);// Thus advanced panel is always the last one:
-		?>
-				<div id="advanced-settings-panel" class="simcal-panel">
-					<?php self::advanced_settings_panel($post); ?>
-					<?php do_action('simcal_settings_meta_advanced_panel', $post->ID); ?>
+			<div class="simcal-settings-content-wrap<?php echo $show_api_key_mask
+   	? ' simcal-settings-content-wrap--masked'
+   	: ''; ?>">
+				<?php if ($show_api_key_mask) { ?>
+					<div class="simcal-settings-mask" aria-hidden="false">
+						<p class="simcal-settings-mask__message">
+							<?php esc_html_e('Complete Your Setup, Before creating a calendar', 'google-calendar-events'); ?>
+						</p>
+						<a href="<?php echo esc_url($connect_url); ?>" class="simcal-settings-mask__btn button button-primary">
+							<?php esc_html_e('Complete Setup', 'google-calendar-events'); ?>
+						</a>
+					</div>
+				<?php } ?>
+				<ul class="simcal-tabs">
+					<?php self::settings_tabs($post); ?>
+					<?php do_action('simcal_settings_meta_tabs'); ?>
+				</ul>
+				<div class="simcal-panels">
+					<div id="events-settings-panel" class="simcal-panel">
+						<?php self::events_settings_panel($post); ?>
+						<?php do_action('simcal_settings_meta_events_panel', $post->ID); ?>
+					</div>
+					<div id="calendar-settings-panel" class="simcal-panel">
+						<?php do_action('simcal_settings_meta_calendar_panel', $post->ID); ?>
+						<?php self::calendar_settings_panel($post); ?>
+					</div>
+					<?php do_action('simcal_settings_meta_panels', $post->ID); ?>
+					<div id="advanced-settings-panel" class="simcal-panel">
+						<?php self::advanced_settings_panel($post); ?>
+						<?php do_action('simcal_settings_meta_advanced_panel', $post->ID); ?>
+					</div>
 				</div>
 			</div>
 			<div class="clear">

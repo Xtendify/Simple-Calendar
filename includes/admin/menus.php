@@ -78,6 +78,15 @@ class Menus
 
 		add_submenu_page(
 			self::$main_menu,
+			__('Connect', 'google-calendar-events'),
+			__('Connect', 'google-calendar-events'),
+			'manage_options',
+			'simple-calendar_connect',
+			[__CLASS__, 'connect_page_html']
+		);
+
+		add_submenu_page(
+			self::$main_menu,
 			__('Add-ons', 'google-calendar-events'),
 			__('Add-ons', 'google-calendar-events'),
 			'manage_options',
@@ -101,6 +110,74 @@ class Menus
 		);
 
 		do_action('simcal_admin_add_menu_items');
+	}
+
+	/**
+	 * Render the Connect page.
+	 *
+	 * @since 3.6.3
+	 */
+	public static function connect_page_html()
+	{
+		if (!current_user_can('manage_options')) {
+			return;
+		}
+
+		// Handle welcome screen "Next" action.
+		if (
+			'POST' === $_SERVER['REQUEST_METHOD'] && // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+			isset($_POST['simcal_connect_welcome_next']) // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		) {
+			check_admin_referer('simcal_connect_welcome_next_action', 'simcal_connect_welcome_nonce');
+			update_option('simple_calendar_connect_welcome_dismissed', 1);
+
+			wp_safe_redirect(admin_url('edit.php?post_type=calendar&page=simple-calendar_connect'));
+			exit();
+		}
+
+		$show_welcome = !get_option('simple_calendar_connect_welcome_dismissed');
+
+		// First-time welcome screen with video placeholder.
+		if ($show_welcome) {
+			$video_url = apply_filters(
+				'simple_calendar_connect_welcome_video_url',
+				'https://www.youtube.com/embed/VIDEO_ID'
+			); ?>
+			<div class="wrap sc_root" id="simcal-connect-page">
+				<div class="sc_connect_welcome_outer">
+					<div class="sc_connect_welcome_inner">
+						<h1 class="sc_connect_welcome_title">
+							<?php esc_html_e('Welcome to your new simple calendar', 'google-calendar-events'); ?>
+						</h1>
+						<p class="sc_connect_welcome_subtitle">
+							<?php esc_html_e(
+       	'Keep planning in Google Calendar, and display events on your site with 1-click. Simple Calendar keeps everything in sync for you.',
+       	'google-calendar-events'
+       ); ?>
+						</p>
+
+						<div class="sc_connect_welcome_video">
+							<img
+								src="<?php echo esc_url(SIMPLE_CALENDAR_ASSETS . 'images/pages/connect/welcome-video-placeholder.png'); ?>"
+								alt="<?php esc_attr_e('Getting Started with Simple Calendar', 'google-calendar-events'); ?>"
+							/>
+						</div>
+
+						<div class="sc_connect_welcome_button_wrap">
+							<form method="post">
+								<?php wp_nonce_field('simcal_connect_welcome_next_action', 'simcal_connect_welcome_nonce'); ?>
+								<button type="submit" name="simcal_connect_welcome_next" class="sc_btn sc_btn--blue">
+									<?php esc_html_e('Next', 'google-calendar-events'); ?>
+								</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<?php return;
+		}
+
+		simcal_render_connect_page();
 	}
 
 	/**

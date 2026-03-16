@@ -527,4 +527,223 @@
 			});
 		});
 	});
+
+	/* =========================================
+	 * Connect page: eye toggle + API key validation
+	 * ========================================= */
+	var _scConnectPageEl = jQuery('#simcal-connect-page');
+	if (_scConnectPageEl.length) {
+		var $ = jQuery;
+		// Use localized config or fallback so eye toggle works even when wp_localize_script fails
+		var connectCfg = window.simcal_connect || {
+			ajax_url: (window.simcal_admin && window.simcal_admin.ajax_url) || '',
+			nonce: '',
+			check_icon_url: '',
+			strings: {
+				show_api_key: 'Show API key',
+				hide_api_key: 'Hide API key',
+				please_enter_api_key: 'Please enter API key',
+				api_key_format_invalid: 'API key format looks invalid',
+				'67_ready': '67% Ready',
+			},
+		};
+
+		// Eye icon toggle: document-level delegation (works without connectCfg from PHP).
+		(function () {
+			var showLabel = connectCfg.strings.show_api_key;
+			var hideLabel = connectCfg.strings.hide_api_key;
+
+			function updateIcon(btn, input) {
+				var imgShow = btn.querySelector('.sc_input_square_show');
+				var imgHide = btn.querySelector('.sc_input_square_hide');
+				if (!imgShow || !imgHide) return;
+				if (input.type === 'password') {
+					imgShow.setAttribute('hidden', '');
+					imgHide.removeAttribute('hidden');
+					btn.setAttribute('aria-label', showLabel);
+					btn.setAttribute('title', showLabel);
+				} else {
+					imgShow.removeAttribute('hidden');
+					imgHide.setAttribute('hidden', '');
+					btn.setAttribute('aria-label', hideLabel);
+					btn.setAttribute('title', hideLabel);
+				}
+			}
+
+			document.addEventListener('click', function (e) {
+				var btn = document.getElementById('sc_connect_api_key_eye_btn');
+				var input = document.getElementById('sc_google_api_key');
+				if (!btn || !input || !btn.contains(e.target)) return;
+				e.preventDefault();
+				e.stopPropagation();
+				input.type = input.type === 'password' ? 'text' : 'password';
+				updateIcon(btn, input);
+			});
+		})();
+
+		var $form = $('#simcal-settings-page-form');
+		if ($form.length) {
+			var $input = $('#sc_google_api_key');
+			var $wrap = $('#sc_connect_api_key_wrap');
+			var $msgWrap = $('#sc_connect_api_key_msg_wrap');
+			var $msgError = $('#sc_connect_api_key_msg_error');
+			var $msgSuccess = $('#sc_connect_api_key_msg_success');
+			var $btn = $('[data-sc-connect-validate-btn]');
+			var validating = false;
+			var originalBtnHtml = $btn.length ? $btn.html() : '';
+			var originalBtnClass = $btn.length ? $btn.attr('class') : '';
+			var resetTimer = null;
+			var submitTimer = null;
+
+			function resetVisualState() {
+				if (resetTimer) {
+					clearTimeout(resetTimer);
+					resetTimer = null;
+				}
+				if (submitTimer) {
+					clearTimeout(submitTimer);
+					submitTimer = null;
+				}
+				$wrap.removeClass('sc_input--error sc_input--success');
+				$msgWrap.hide();
+				$msgError.hide();
+				$msgSuccess.hide();
+				if ($btn.length) {
+					$btn.attr('class', originalBtnClass);
+					$btn.html(originalBtnHtml);
+					$btn.prop('disabled', false);
+				}
+			}
+
+			function animateProgressToApiKeyCompleted() {
+				var $circle = $('#sc_connect_progress_circle');
+				var $text = $('#sc_connect_progress_text');
+				var $step = $('#sc_connect_step_api_key');
+				if (!$circle.length) return;
+
+				if ($step.length && !$step.hasClass('is_completed')) {
+					$step.addClass('is_completed');
+					var $box = $step.find('.sc_checklist_checkbox');
+					if ($box.length && !$box.find('img').length) {
+						$box.html('<img src="' + connectCfg.check_icon_url + '" alt="" class="sc_checklist_icon" />');
+					}
+				}
+
+				$circle.addClass('sc_connect_progress_anim');
+				$circle[0].style.setProperty('--sc-progress', '67');
+				if ($text.length) {
+					$text.text(connectCfg.strings['67_ready']);
+				}
+				setTimeout(function () {
+					$circle.removeClass('sc_connect_progress_anim');
+				}, 1200);
+			}
+
+			$input.on('input', function () {
+				$form.removeData('scValidated');
+				resetVisualState();
+			});
+
+			$form.on('submit', function (e) {
+				if ($form.data('scValidated') === true) return;
+				e.preventDefault();
+				if (validating) return;
+
+				resetVisualState();
+				var rawKey = ($input.val() || '').trim();
+
+				if (!rawKey) {
+					$wrap.removeClass('sc_input--success').addClass('sc_input--error');
+					$msgWrap.show();
+					$msgSuccess.hide();
+					$msgError.show();
+					$msgError.find('.sc_icon_warning_label').text(connectCfg.strings.please_enter_api_key);
+					if ($btn.length) {
+						$btn.removeClass('sc_is_active sc_is_finished').addClass('sc_btn--red').prop('disabled', false);
+					}
+					resetTimer = setTimeout(resetVisualState, 10000);
+					return;
+				}
+
+				var apiKeyPattern = /^AIza[0-9A-Za-z_\-]{35}$/;
+				if (!apiKeyPattern.test(rawKey)) {
+					$wrap.removeClass('sc_input--success').addClass('sc_input--error');
+					$msgWrap.show();
+					$msgSuccess.hide();
+					$msgError.show();
+					$msgError.find('.sc_icon_warning_label').text(connectCfg.strings.api_key_format_invalid);
+					if ($btn.length) {
+						$btn.removeClass('sc_is_active sc_is_finished').addClass('sc_btn--red').prop('disabled', false);
+					}
+					resetTimer = setTimeout(resetVisualState, 10000);
+					return;
+				}
+
+				validating = true;
+				$wrap.removeClass('sc_input--error sc_input--success');
+				$msgWrap.hide();
+				$msgError.hide();
+				$msgSuccess.hide();
+				if ($btn.length) {
+					$btn.removeClass('sc_is_finished sc_btn--red').addClass('sc_is_active').prop('disabled', true);
+				}
+
+				$.post(connectCfg.ajax_url, {
+					action: 'simcal_validate_google_api_key',
+					nonce: connectCfg.nonce,
+					api_key: rawKey,
+				})
+					.done(function (res) {
+						if (res && res.success) {
+							$wrap.addClass('sc_input--success');
+							$msgWrap.show();
+							$msgSuccess.show();
+							animateProgressToApiKeyCompleted();
+							$('#sc_connect_add_calendar_btn').show();
+							if ($btn.length) {
+								$btn.removeClass('sc_is_active sc_btn--red').addClass('sc_is_finished').prop('disabled', true);
+							}
+							$form.data('scValidated', true);
+							submitTimer = setTimeout(function () {
+								if ($btn.length) $btn.prop('disabled', false);
+								$form.trigger('submit');
+							}, 10000);
+						} else if (res && res.data && res.data.reason === 'api_keys_not_supported') {
+							$wrap.addClass('sc_input--success');
+							$msgWrap.show();
+							$msgSuccess.show();
+							animateProgressToApiKeyCompleted();
+							if ($btn.length) {
+								$btn.removeClass('sc_is_active sc_btn--red').addClass('sc_is_finished').prop('disabled', true);
+							}
+							$form.data('scValidated', true);
+							submitTimer = setTimeout(function () {
+								if ($btn.length) $btn.prop('disabled', false);
+								$form.trigger('submit');
+							}, 10000);
+						} else {
+							$wrap.addClass('sc_input--error');
+							$msgWrap.show();
+							$msgError.show();
+							if ($btn.length) {
+								$btn.removeClass('sc_is_active sc_is_finished').addClass('sc_btn--red').prop('disabled', false);
+							}
+							resetTimer = setTimeout(resetVisualState, 10000);
+						}
+					})
+					.fail(function () {
+						$wrap.addClass('sc_input--error');
+						$msgWrap.show();
+						$msgError.show();
+						if ($btn.length) {
+							$btn.removeClass('sc_is_active sc_is_finished').addClass('sc_btn--red').prop('disabled', false);
+						}
+						resetTimer = setTimeout(resetVisualState, 10000);
+					})
+					.always(function () {
+						validating = false;
+					});
+			});
+		}
+	}
 })(this);

@@ -515,7 +515,7 @@
 		border-radius: var(--sc-radius-sm);
 		position: relative;
 		width: 12.5rem;
-		padding: calc(var(--sc-spacing-unit) * 4) calc(var(--sc-spacing-unit) * 4.8);
+		padding: calc(var(--sc-spacing-unit) * 4.5) calc(var(--sc-spacing-unit) * 5);
 		background-color: var(--sc-color-blue);
 		color: var(--sc-color-white);
 		overflow: hidden;
@@ -750,6 +750,7 @@
 		&:focus {
 			outline: none;
 			border-color: var(--sc-color-dark-gray);
+			box-shadow: none;
 		}
 	}
 
@@ -1371,9 +1372,18 @@
 			opacity: 0.9;
 		}
 	}
+
+	.sc_ds_setup_card {
+		background: var(--sc-color-white);
+		border-radius: var(--sc-radius-lg);
+		padding: 32px;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+		display: flex;
+		gap: var(--sc-spacing-40);
+		flex-wrap: wrap;
+	}
 }
 
-/* 1440px and above */
 @media (max-width: 1440px) {
 	.sc_root {
 		--sc-container-width: 96vw;

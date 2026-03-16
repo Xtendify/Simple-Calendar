@@ -258,9 +258,9 @@
 								aria-controls="sc_ds_google_api_key_empty"
 								title="Show API key"
 							>
-								<img src="images/pages/connect/eye.svg" alt="" class="sc_input_square_show" />
+								<img src="images/pages/connect/eye.svg" alt="" class="sc_input_square_show" hidden />
 								<img src="images/pages/connect/eye-white.svg" alt="" class="sc_input_square_show_white" />
-								<img src="images/pages/connect/eye-hide.svg" alt="" class="sc_input_square_hide" hidden />
+								<img src="images/pages/connect/eye-hide.svg" alt="" class="sc_input_square_hide" />
 								<img src="images/pages/connect/eye-hide-white.svg" alt="" class="sc_input_square_hide_white" />
 							</button>
 						</div>
@@ -270,13 +270,7 @@
 					<div class="sc_ds_item sc_ds_item_spaced">
 						<label class="sc_h6" for="sc_ds_google_api_key_success">Google API Key</label>
 						<div class="sc_input_wrapper sc_input--success sc_ds_input_full">
-							<input
-								id="sc_ds_google_api_key_success"
-								type="text"
-								class="sc_input"
-								value="sdgsdgsdggsdgsd"
-								readonly
-							/>
+							<input id="sc_ds_google_api_key_success" type="text" class="sc_input" value="sdgsdgsdggsdgsd" readonly />
 						</div>
 					</div>
 
@@ -319,9 +313,9 @@
 								aria-controls="sc_ds_google_api_key_masked"
 								title="Show API key"
 							>
-								<img src="images/pages/connect/eye.svg" alt="" class="sc_input_square_show" />
+								<img src="images/pages/connect/eye.svg" alt="" class="sc_input_square_show" hidden />
 								<img src="images/pages/connect/eye-white.svg" alt="" class="sc_input_square_show_white" />
-								<img src="images/pages/connect/eye-hide.svg" alt="" class="sc_input_square_hide" hidden />
+								<img src="images/pages/connect/eye-hide.svg" alt="" class="sc_input_square_hide" />
 								<img src="images/pages/connect/eye-hide-white.svg" alt="" class="sc_input_square_hide_white" />
 							</button>
 						</div>
@@ -511,83 +505,84 @@
 		</main>
 
 		<script>
-			(function () {
-				function initSquareToggle() {
-					document.querySelectorAll('.sc_icon--square').forEach(function (btn) {
-						if (btn.dataset.squareInit) return;
-						btn.dataset.squareInit = '1';
+			// (function () {
+			// 	function initSquareToggle() {
+			// 		document.querySelectorAll('.sc_icon--square').forEach(function (btn) {
+			// 			if (btn.dataset.squareInit) return;
+			// 			btn.dataset.squareInit = '1';
 
-						var wrapper = btn.closest('.sc_input_wrapper');
-						var input = wrapper ? wrapper.querySelector('.sc_input_password_toggle') : btn.previousElementSibling;
-						var imgShow = btn.querySelector('.sc_input_square_show');
-						var imgHide = btn.querySelector('.sc_input_square_hide');
+			// 			var wrapper = btn.closest('.sc_input_wrapper');
+			// 			var input = wrapper ? wrapper.querySelector('.sc_input_password_toggle') : btn.previousElementSibling;
+			// 			var imgShow = btn.querySelector('.sc_input_square_show');
+			// 			var imgHide = btn.querySelector('.sc_input_square_hide');
 
-						if (!input || !imgShow || !imgHide) return;
+			// 			if (!input || !imgShow || !imgHide) return;
 
-						function updateIcon() {
-							var isPassword = input.type === 'password';
-							if (isPassword) {
-								imgShow.removeAttribute('hidden');
-								imgHide.setAttribute('hidden', '');
-								btn.setAttribute('aria-label', 'Show API key');
-								btn.setAttribute('title', 'Show API key');
-							} else {
-								imgShow.setAttribute('hidden', '');
-								imgHide.removeAttribute('hidden');
-								btn.setAttribute('aria-label', 'Hide API key');
-								btn.setAttribute('title', 'Hide API key');
-							}
-						}
+			// 			function updateIcon() {
+			// 				var isPassword = input.type === 'password';
+			// 				// When masked: show eye-hide (click to reveal). When visible: show eye (click to hide).
+			// 				if (isPassword) {
+			// 					imgShow.setAttribute('hidden', '');
+			// 					imgHide.removeAttribute('hidden');
+			// 					btn.setAttribute('aria-label', 'Show API key');
+			// 					btn.setAttribute('title', 'Show API key');
+			// 				} else {
+			// 					imgShow.removeAttribute('hidden');
+			// 					imgHide.setAttribute('hidden', '');
+			// 					btn.setAttribute('aria-label', 'Hide API key');
+			// 					btn.setAttribute('title', 'Hide API key');
+			// 				}
+			// 			}
 
-						updateIcon();
+			// 			updateIcon();
 
-						btn.addEventListener('click', function () {
-							if (input.type === 'password') {
-								input.type = 'text';
-							} else {
-								input.type = 'password';
-							}
-							updateIcon();
-						});
-					});
-				}
+			// 			btn.addEventListener('click', function () {
+			// 				if (input.type === 'password') {
+			// 					input.type = 'text';
+			// 				} else {
+			// 					input.type = 'password';
+			// 				}
+			// 				updateIcon();
+			// 			});
+			// 		});
+			// 	}
 
-				function initLoadingButtons() {
-					var baseDuration = 500;
-					var progressDuration = 3000;
-					var finishHold = 900;
+			// 	function initLoadingButtons() {
+			// 		var baseDuration = 500;
+			// 		var progressDuration = 3000;
+			// 		var finishHold = 900;
 
-					document.querySelectorAll('[data-sc-loading-btn]').forEach(function (btn) {
-						if (btn.dataset.loadingInit) return;
-						btn.dataset.loadingInit = '1';
+			// 		document.querySelectorAll('[data-sc-loading-btn]').forEach(function (btn) {
+			// 			if (btn.dataset.loadingInit) return;
+			// 			btn.dataset.loadingInit = '1';
 
-						btn.addEventListener('click', function () {
-							if (btn.classList.contains('sc_is_active') || btn.classList.contains('sc_is_finished')) return;
+			// 			btn.addEventListener('click', function () {
+			// 				if (btn.classList.contains('sc_is_active') || btn.classList.contains('sc_is_finished')) return;
 
-							btn.classList.add('sc_is_active');
+			// 				btn.classList.add('sc_is_active');
 
-							window.setTimeout(function () {
-								btn.classList.remove('sc_is_active');
-								btn.classList.add('sc_is_finished');
+			// 				window.setTimeout(function () {
+			// 					btn.classList.remove('sc_is_active');
+			// 					btn.classList.add('sc_is_finished');
 
-								window.setTimeout(function () {
-									btn.classList.remove('sc_is_finished');
-								}, finishHold);
-							}, progressDuration);
-						});
-					});
-				}
+			// 					window.setTimeout(function () {
+			// 						btn.classList.remove('sc_is_finished');
+			// 					}, finishHold);
+			// 				}, progressDuration);
+			// 			});
+			// 		});
+			// 	}
 
-				if (document.readyState === 'loading') {
-					document.addEventListener('DOMContentLoaded', function () {
-						initSquareToggle();
-						initLoadingButtons();
-					});
-				} else {
-					initSquareToggle();
-					initLoadingButtons();
-				}
-			})();
+			// 	if (document.readyState === 'loading') {
+			// 		document.addEventListener('DOMContentLoaded', function () {
+			// 			initSquareToggle();
+			// 			initLoadingButtons();
+			// 		});
+			// 	} else {
+			// 		initSquareToggle();
+			// 		initLoadingButtons();
+			// 	}
+			// })();
 		</script>
 	</body>
 </html>
