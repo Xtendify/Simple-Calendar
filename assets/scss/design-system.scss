@@ -224,6 +224,7 @@
 	--sc-spacing-15: calc(var(--sc-spacing-unit) * 3); /* 15px */
 	--sc-spacing-20: calc(var(--sc-spacing-unit) * 4); /* 20px */
 	--sc-spacing-25: calc(var(--sc-spacing-unit) * 5); /* 25px */
+	--sc-spacing-40: calc(var(--sc-spacing-unit) * 8); /* 40px */
 
 	/** ------------BORDER RADIUS VARIABLES-------------*/
 
@@ -703,15 +704,15 @@
 
 	.sc_btn--check-icon {
 		background-size: 30px 30px;
-		background-image: url('../images/pages/connect/check.svg');
+		background-image: url('../images/admin/check.svg');
 	}
 
 	.sc_btn--close_icon {
-		background-image: url('../images/pages/connect/close.svg');
+		background-image: url('../images/admin/close.svg');
 	}
 
 	.sc_btn--loading-icon {
-		background-image: url('../images/pages/connect/loading.svg');
+		background-image: url('../images/admin/loading.svg');
 	}
 
 	/* ========================================
@@ -965,14 +966,8 @@
 	.sc_progress_circle--33 {
 		--sc-progress: 33;
 	}
-	.sc_progress_circle--50 {
-		--sc-progress: 50;
-	}
-	.sc_progress_circle--66 {
-		--sc-progress: 66;
-	}
-	.sc_progress_circle--80 {
-		--sc-progress: 80;
+	.sc_progress_circle--67 {
+		--sc-progress: 67;
 	}
 
 	.sc_progress_circle--100 {
@@ -1004,9 +999,7 @@
 	}
 
 	.sc_progress_circle--33 .sc_progress_circle_text,
-	.sc_progress_circle--50 .sc_progress_circle_text,
-	.sc_progress_circle--66 .sc_progress_circle_text,
-	.sc_progress_circle--80 .sc_progress_circle_text {
+	.sc_progress_circle--67 .sc_progress_circle_text {
 		color: var(--sc-color-dark-gray);
 	}
 
@@ -1373,7 +1366,7 @@
 		}
 	}
 
-	.sc_ds_setup_card {
+	.sc_setup_card {
 		background: var(--sc-color-white);
 		border-radius: var(--sc-radius-lg);
 		padding: 32px;

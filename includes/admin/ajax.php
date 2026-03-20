@@ -286,7 +286,6 @@ class Ajax
 		if (401 === $code && $error_message && strpos($error_message, 'API keys are not supported by this API') !== false) {
 			wp_send_json_error([
 				'message' => $error_message,
-				'status_code' => $code,
 				'reason' => 'api_keys_not_supported',
 			]);
 		}
@@ -298,7 +297,6 @@ class Ajax
 					'Unable to validate the API key. Please check that it is correct and that the Google Calendar API is enabled in Google Cloud.',
 					'google-calendar-events'
 				),
-			'status_code' => $code,
 		]);
 	}
 }

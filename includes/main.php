@@ -113,8 +113,10 @@ final class Plugin
 		// Do update call here.
 		add_action('admin_init', [$this, 'update'], 999);
 
-		// Redirect to Connect page after activation.
-		add_action('admin_init', [$this, 'maybe_redirect_to_connect'], 1);
+		// Redirect to Connect page after activation (only hook when needed).
+		if (is_admin() && get_option('simple-calendar_redirect_to_connect')) {
+			add_action('admin_init', [$this, 'maybe_redirect_to_connect'], 1);
+		}
 
 		// Init hooks.
 		add_action('init', [$this, 'init'], 5);
@@ -340,19 +342,19 @@ final class Plugin
 		}
 
 		// Do not redirect during AJAX or if no redirect flag is set.
-		if ((defined('DOING_AJAX') && DOING_AJAX) || !get_option('simple_calendar_redirect_to_connect')) {
+		if ((defined('DOING_AJAX') && DOING_AJAX) || !get_option('simple-calendar_redirect_to_connect')) {
 			return;
 		}
 
 		// Avoid redirect on bulk activation.
 		if (isset($_GET['activate-multi'])) {
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-			delete_option('simple_calendar_redirect_to_connect');
+			delete_option('simple-calendar_redirect_to_connect');
 			return;
 		}
 
 		// Clear the flag so we only redirect once.
-		delete_option('simple_calendar_redirect_to_connect');
+		delete_option('simple-calendar_redirect_to_connect');
 
 		$redirect_url = admin_url('edit.php?post_type=calendar&page=simple-calendar_connect');
 

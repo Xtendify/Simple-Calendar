@@ -102,8 +102,8 @@ class Assets
 			['wp-color-picker', 'simcal-select2'],
 			SIMPLE_CALENDAR_VERSION
 		);
-		wp_register_style('sc-design-system', $css_path . 'design-system.css', [], SIMPLE_CALENDAR_VERSION);
-		wp_register_style('sc-connect', $css_path . 'connect.css', ['sc-design-system'], SIMPLE_CALENDAR_VERSION);
+		wp_register_style('sc-design-system', $css_path . 'design-system.min.css', [], SIMPLE_CALENDAR_VERSION);
+		wp_register_style('sc-connect', $css_path . 'connect.min.css', ['sc-design-system'], SIMPLE_CALENDAR_VERSION);
 		wp_register_style(
 			'simcal-admin-add-calendar',
 			$css_path . 'admin-add-calendar.min.css',
@@ -118,7 +118,7 @@ class Assets
 			wp_localize_script('simcal-admin', 'simcal_connect', [
 				'ajax_url' => \SimpleCalendar\plugin()->ajax_url(),
 				'nonce' => wp_create_nonce('simcal_connect_validate_google_api_key'),
-				'check_icon_url' => SIMPLE_CALENDAR_ASSETS . 'images/pages/connect/check.svg',
+				'check_icon_url' => SIMPLE_CALENDAR_ASSETS . 'images/admin/check.svg',
 				'strings' => [
 					'show_api_key' => __('Show API key', 'google-calendar-events'),
 					'hide_api_key' => __('Hide API key', 'google-calendar-events'),

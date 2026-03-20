@@ -534,24 +534,18 @@
 	var _scConnectPageEl = jQuery('#simcal-connect-page');
 	if (_scConnectPageEl.length) {
 		var $ = jQuery;
-		// Use localized config or fallback so eye toggle works even when wp_localize_script fails
+		// Use localized config only (strings come from wp_localize_script).
 		var connectCfg = window.simcal_connect || {
 			ajax_url: (window.simcal_admin && window.simcal_admin.ajax_url) || '',
 			nonce: '',
 			check_icon_url: '',
-			strings: {
-				show_api_key: 'Show API key',
-				hide_api_key: 'Hide API key',
-				please_enter_api_key: 'Please enter API key',
-				api_key_format_invalid: 'API key format looks invalid',
-				'67_ready': '67% Ready',
-			},
+			strings: {},
 		};
 
-		// Eye icon toggle: document-level delegation (works without connectCfg from PHP).
+		// Eye icon toggle: labels from localized strings only.
 		(function () {
-			var showLabel = connectCfg.strings.show_api_key;
-			var hideLabel = connectCfg.strings.hide_api_key;
+			var showLabel = (connectCfg.strings && connectCfg.strings.show_api_key) || '';
+			var hideLabel = (connectCfg.strings && connectCfg.strings.hide_api_key) || '';
 
 			function updateIcon(btn, input) {
 				var imgShow = btn.querySelector('.sc_input_square_show');
@@ -632,7 +626,7 @@
 				$circle.addClass('sc_connect_progress_anim');
 				$circle[0].style.setProperty('--sc-progress', '67');
 				if ($text.length) {
-					$text.text(connectCfg.strings['67_ready']);
+					$text.text((connectCfg.strings && connectCfg.strings['67_ready']) || '');
 				}
 				setTimeout(function () {
 					$circle.removeClass('sc_connect_progress_anim');
@@ -650,28 +644,21 @@
 				if (validating) return;
 
 				resetVisualState();
-				var rawKey = ($input.val() || '').trim();
+				var inputEl = ($input && $input.length ? $input[0] : null) || document.getElementById('sc_google_api_key');
+				var rawKey = ((inputEl && typeof inputEl.value === 'string' ? inputEl.value : '') || '').trim();
+				if ($btn.length) {
+					// Show loading state immediately on submit attempt.
+					$btn.removeClass('sc_is_finished sc_btn--red').addClass('sc_is_active').prop('disabled', true);
+				}
 
 				if (!rawKey) {
 					$wrap.removeClass('sc_input--success').addClass('sc_input--error');
 					$msgWrap.show();
 					$msgSuccess.hide();
 					$msgError.show();
-					$msgError.find('.sc_icon_warning_label').text(connectCfg.strings.please_enter_api_key);
-					if ($btn.length) {
-						$btn.removeClass('sc_is_active sc_is_finished').addClass('sc_btn--red').prop('disabled', false);
-					}
-					resetTimer = setTimeout(resetVisualState, 10000);
-					return;
-				}
-
-				var apiKeyPattern = /^AIza[0-9A-Za-z_\-]{35}$/;
-				if (!apiKeyPattern.test(rawKey)) {
-					$wrap.removeClass('sc_input--success').addClass('sc_input--error');
-					$msgWrap.show();
-					$msgSuccess.hide();
-					$msgError.show();
-					$msgError.find('.sc_icon_warning_label').text(connectCfg.strings.api_key_format_invalid);
+					$msgError
+						.find('.sc_icon_warning_label')
+						.text((connectCfg.strings && connectCfg.strings.please_enter_api_key) || '');
 					if ($btn.length) {
 						$btn.removeClass('sc_is_active sc_is_finished').addClass('sc_btn--red').prop('disabled', false);
 					}
@@ -684,13 +671,11 @@
 				$msgWrap.hide();
 				$msgError.hide();
 				$msgSuccess.hide();
-				if ($btn.length) {
-					$btn.removeClass('sc_is_finished sc_btn--red').addClass('sc_is_active').prop('disabled', true);
-				}
 
+				var ajaxNonce = (connectCfg && connectCfg.nonce) || $form.attr('data-sc-connect-validate-nonce') || '';
 				$.post(connectCfg.ajax_url, {
 					action: 'simcal_validate_google_api_key',
-					nonce: connectCfg.nonce,
+					nonce: ajaxNonce,
 					api_key: rawKey,
 				})
 					.done(function (res) {
@@ -707,12 +692,13 @@
 							submitTimer = setTimeout(function () {
 								if ($btn.length) $btn.prop('disabled', false);
 								$form.trigger('submit');
-							}, 10000);
+							}, 1000);
 						} else if (res && res.data && res.data.reason === 'api_keys_not_supported') {
 							$wrap.addClass('sc_input--success');
 							$msgWrap.show();
 							$msgSuccess.show();
 							animateProgressToApiKeyCompleted();
+							$('#sc_connect_add_calendar_btn').show();
 							if ($btn.length) {
 								$btn.removeClass('sc_is_active sc_btn--red').addClass('sc_is_finished').prop('disabled', true);
 							}
@@ -725,6 +711,9 @@
 							$wrap.addClass('sc_input--error');
 							$msgWrap.show();
 							$msgError.show();
+							if (res && res.data && res.data.message) {
+								$msgError.find('.sc_icon_warning_label').text(res.data.message);
+							}
 							if ($btn.length) {
 								$btn.removeClass('sc_is_active sc_is_finished').addClass('sc_btn--red').prop('disabled', false);
 							}
@@ -735,6 +724,9 @@
 						$wrap.addClass('sc_input--error');
 						$msgWrap.show();
 						$msgError.show();
+						$msgError
+							.find('.sc_icon_warning_label')
+							.text('Unable to validate the API key right now. Please try again.');
 						if ($btn.length) {
 							$btn.removeClass('sc_is_active sc_is_finished').addClass('sc_btn--red').prop('disabled', false);
 						}

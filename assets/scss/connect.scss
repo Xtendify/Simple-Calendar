@@ -1,134 +1,115 @@
 .sc_root {
 	/* ========================================
-	   CONNECT PAGE - LAYOUT
+	   CONNECT PAGE - WELCOME STEP
 	   ======================================== */
-	/* Outer background frame */
 	.sc_connect_welcome_outer {
+		/* Outer background frame */
 		background: var(--sc-color-off-white);
 		padding: 75px 0;
 		display: flex;
 		justify-content: center;
-	}
 
-	/* Inner white card */
-	.sc_connect_welcome_inner {
-		background: var(--sc-color-white);
-		border-radius: var(--sc-radius-16);
-		max-width: 960px;
-		width: 100%;
-		margin: 0 auto;
-		padding: 48px 64px 56px;
-		box-sizing: border-box;
-		text-align: center;
-	}
+		.sc_connect_welcome_inner {
+			/* Inner white card */
+			background: var(--sc-color-white);
+			border-radius: var(--sc-radius-16);
+			max-width: 960px;
+			width: 100%;
+			margin: 0 auto;
+			padding: 48px 64px 56px;
+			box-sizing: border-box;
+			text-align: center;
+		}
 
-	/* Main title */
-	.sc_connect_welcome_title {
-		font-family: var(--sc-font-heading);
-		font-weight: var(--sc-font-weight-semibold);
-		font-size: var(--sc-font-larger);
-		line-height: var(--sc-h3-line-height);
-		letter-spacing: 0;
-		color: var(--sc-color-black);
-		margin: 0;
-	}
+		.sc_connect_welcome_video {
+			/* Video placeholder container */
+			margin: 40px auto 0;
+			max-width: 948px;
+			width: 100%;
+			border-radius: var(--sc-radius-15);
+			background: #00000026;
+			overflow: hidden;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			aspect-ratio: 948 / 498;
 
-	/* Subtitle text */
-	.sc_connect_welcome_subtitle {
-		font-family: var(--sc-font-body);
-		font-weight: var(--sc-font-weight-regular);
-		font-size: var(--sc-font-medium-sm);
-		line-height: var(--sc-body-medium-sm-line-height);
-		letter-spacing: 0;
-		color: var(--sc-color-dark-gray);
-		margin: 12px auto 0;
-		max-width: 640px;
-	}
+			img {
+				display: block;
+				width: 100%;
+				height: auto;
+			}
+		}
 
-	/* Video placeholder container */
-	.sc_connect_welcome_video {
-		margin: 40px auto 0;
-		max-width: 948px;
-		width: 100%;
-		border-radius: var(--sc-radius-15);
-		background: #00000026;
-		overflow: hidden;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		aspect-ratio: 948 / 498;
-	}
-
-	.sc_connect_welcome_video img {
-		display: block;
-		width: 100%;
-		height: auto;
-	}
-
-	/* Next button wrapper */
-	.sc_connect_welcome_button_wrap {
-		margin-top: 40px;
-		text-align: center;
+		.sc_connect_welcome_button_wrap {
+			/* Next button wrapper */
+			margin-top: 40px;
+			text-align: center;
+		}
 	}
 
 	/* ========================================
-	   CONNECT PAGE - MAIN SETUP SCREEN
+	   CONNECT PAGE - MAIN ONBOARDING SCREEN
+	   Mirrors: connect/layout.php -> steps/* -> connect/sidebar.php
 	   ======================================== */
-
 	.sc_connect_page_outer {
 		background: var(--sc-color-off-white);
 		padding: 40px 20px 60px;
+
+		/* Header row */
+		.sc_connect_page_header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin: 0 auto 24px;
+			max-width: 1160px;
+
+			.sc_connect_page_header_left,
+			.sc_connect_page_header_right {
+				display: flex;
+				align-items: center;
+				flex: 0 0 auto;
+			}
+
+			.sc_connect_page_header_right {
+				margin-left: auto;
+			}
+
+			.sc_connect_page_header_left .sc_logo_link img {
+				display: block;
+				height: 40px;
+				width: auto;
+			}
+
+			.sc_connect_step_title {
+				font-family: var(--sc-font-body);
+				font-weight: var(--sc-font-weight-medium);
+				font-size: var(--sc-font-medium-sm);
+				line-height: var(--sc-body-medium-sm-line-height);
+				letter-spacing: 0;
+				text-align: right;
+				vertical-align: middle;
+				color: var(--sc-color-black);
+				padding: 4px 10px;
+				border-radius: var(--sc-radius-sm);
+			}
+		}
+
+		/* Two-column layout: main content + sidebar */
+		.sc_connect_page_inner {
+			max-width: 100%;
+			width: 100%;
+			margin: 0;
+			display: grid;
+			grid-template-columns: 2fr 1fr;
+			gap: var(--sc-spacing-20);
+			align-items: flex-start;
+		}
 	}
 
-	/* Top header bar: logo on left, step title on right */
-	.sc_connect_page_header {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		margin: 0 auto 24px;
-		max-width: 1160px;
-	}
-
-	.sc_connect_page_header_left,
-	.sc_connect_page_header_right {
-		display: flex;
-		align-items: center;
-		flex: 0 0 auto;
-	}
-
-	.sc_connect_page_header_right {
-		margin-left: auto;
-	}
-
-	.sc_connect_page_header_left .sc_logo_link img {
-		display: block;
-		height: 40px;
-		width: auto;
-	}
-
-	.sc_connect_step_title {
-		font-family: var(--sc-font-body);
-		font-weight: var(--sc-font-weight-medium);
-		font-size: var(--sc-font-medium-sm);
-		line-height: var(--sc-body-medium-sm-line-height);
-		letter-spacing: 0;
-		text-align: right;
-		vertical-align: middle;
-		color: var(--sc-color-black);
-		padding: 4px 10px;
-		border-radius: var(--sc-radius-sm);
-	}
-
-	.sc_connect_page_inner {
-		max-width: 100%;
-		width: 100%;
-		margin: 0;
-		display: grid;
-		grid-template-columns: 2fr 1fr;
-		gap: var(--sc-spacing-20);
-		align-items: flex-start;
-	}
-
+	/* ========================================
+	   SHARED CARD + TYPOGRAPHY (used by steps and sidebar)
+	   ======================================== */
 	.sc_connect_card {
 		background: var(--sc-color-white);
 		border-radius: var(--sc-radius-16);
@@ -163,16 +144,10 @@
 		display: block;
 		margin-bottom: 8px;
 	}
-	/* Helpful links cards (white bg wrapper + grey card with icon) */
-	.sc_ds_helpful_links_cards_wrapper {
-		background: var(--sc-color-white);
-		border-radius: var(--sc-radius-lg);
-		padding: 24px;
-		display: flex;
-		flex-wrap: wrap;
-		gap: 20px;
-	}
 
+	/* ========================================
+	   STEP: API KEY (connect/steps/api-key.php)
+	   ======================================== */
 	.sc_connect_helper_row {
 		display: flex;
 		justify-content: space-between;
@@ -211,12 +186,12 @@
 		color: var(--sc-color-dark-gray);
 		text-align: right;
 		text-decoration: underline;
-	}
 
-	.sc_connect_pro_link img {
-		width: 18px;
-		height: 18px;
-		display: block;
+		img {
+			width: 18px;
+			height: 18px;
+			display: block;
+		}
 	}
 
 	.sc_connect_form_actions {
@@ -226,38 +201,79 @@
 		gap: 16px;
 	}
 
+	/* Success message styles (green) to match warning pattern */
+	.sc_connect_success_wrap {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding-top: 6px;
+
+		/* Green circle icon for success message */
+		.sc_icon--circle-small {
+			width: var(--sc-icon-size);
+			height: var(--sc-icon-size);
+			border-radius: 50%;
+			background: var(--sc-color-green);
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+
+			img {
+				width: var(--sc-icon-xs-size);
+				height: var(--sc-icon-xs-size);
+			}
+		}
+	}
+
+	.sc_connect_success_label {
+		font-family: var(--sc-font-body);
+		font-size: var(--sc-font-small);
+		font-weight: var(--sc-font-weight-medium);
+		color: var(--sc-color-green);
+	}
+
+	/* Button icon for checked.svg (success) */
+	.sc_btn--checked-icon {
+		background-image: url('../images/admin/check.svg');
+		background-size: var(--sc-icon-size) var(--sc-icon-size);
+	}
+
+	/* ========================================
+	   STEP: HELPFUL LINKS (connect/steps/api-key.php)
+	   ======================================== */
 	.sc_connect_helpful_links {
 		margin-top: 24px;
+
+		/* Fine‑tune Helpful Links layout under heading on Connect page */
+		.sc_section_title {
+			display: block;
+			width: 100%;
+			margin-bottom: 16px;
+		}
+
+		.sc_helpful_links_cards_wrapper {
+			margin-top: 0;
+			display: flex;
+			flex-wrap: wrap;
+			gap: 20px;
+			background: var(--sc-color-white);
+			border-radius: var(--sc-radius-16);
+			padding: 24px;
+		}
 	}
 
-	.sc_connect_helpful_links_title {
-		font-family: var(--sc-font-heading);
-		font-weight: var(--sc-font-weight-semibold);
-		font-size: var(--sc-font-medium);
-		line-height: var(--sc-body-small-line-height);
-		color: var(--sc-color-black);
-		margin: 0 0 16px;
-	}
-
-	/* Fine‑tune Helpful Links layout under heading on Connect page */
-	.sc_connect_helpful_links .sc_ds_section_title {
-		display: block;
-		width: 100%;
-		margin-bottom: 16px;
-	}
-
-	.sc_connect_helpful_links .sc_ds_helpful_links_cards_wrapper {
-		margin-top: 0;
+	/* Helpful links cards (white bg wrapper + grey card with icon) */
+	.sc_helpful_links_cards_wrapper {
+		background: var(--sc-color-white);
+		border-radius: var(--sc-radius-lg);
+		padding: 24px;
 		display: flex;
 		flex-wrap: wrap;
 		gap: 20px;
-		background: var(--sc-color-white);
-		border-radius: var(--sc-radius-16);
-		padding: 24px;
 	}
 
 	/* Individual helpful link card: light grey rounded card, icon on top, label below (match design-system.html) */
-	.sc_ds_helpful_link_card {
+	.sc_helpful_link_card {
 		width: 185px;
 		min-height: 174px;
 		border-radius: var(--sc-radius-16);
@@ -272,17 +288,17 @@
 		transition: opacity 0.2s ease;
 		box-sizing: border-box;
 		padding: 24px 16px;
+
+		&:hover {
+			opacity: 0.9;
+		}
+
+		.sc_icon--circle {
+			flex-shrink: 0;
+		}
 	}
 
-	.sc_ds_helpful_link_card:hover {
-		opacity: 0.9;
-	}
-
-	.sc_ds_helpful_link_card .sc_icon--circle {
-		flex-shrink: 0;
-	}
-
-	.sc_ds_helpful_link_card_label {
+	.sc_helpful_link_card_label {
 		font-weight: var(--sc-font-weight-medium);
 		font-size: var(--sc-font-medium-sm);
 		line-height: 1.3;
@@ -290,43 +306,9 @@
 		margin: 0;
 	}
 
-	/* Success message styles (green) to match warning pattern */
-	.sc_connect_success_wrap {
-		display: inline-flex;
-		align-items: center;
-		gap: 8px;
-		padding-top: 6px;
-	}
-
-	.sc_connect_success_label {
-		font-family: var(--sc-font-body);
-		font-size: var(--sc-font-small);
-		font-weight: var(--sc-font-weight-medium);
-		color: var(--sc-color-green);
-	}
-
-	/* Green circle icon for success message */
-	.sc_connect_success_wrap .sc_icon--circle-small {
-		width: var(--sc-icon-size);
-		height: var(--sc-icon-size);
-		border-radius: 50%;
-		background: var(--sc-color-green);
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.sc_connect_success_wrap .sc_icon--circle-small img {
-		width: var(--sc-icon-xs-size);
-		height: var(--sc-icon-xs-size);
-	}
-
-	/* Button icon for checked.svg (success) */
-	.sc_btn--checked-icon {
-		background-image: url('../images/pages/connect/check.svg');
-		background-size: var(--sc-icon-size) var(--sc-icon-size);
-	}
-
+	/* ========================================
+	   SIDEBAR: PROGRESS + RATING/PRO CARDS (connect/sidebar.php)
+	   ======================================== */
 	/* Animate progress value change (33 -> 67). */
 	@property --sc-progress {
 		syntax: '<number>';
@@ -426,12 +408,12 @@
 		display: flex;
 		flex-direction: column;
 		gap: 6px;
-	}
 
-	.sc_connect_pro_list li {
-		display: flex;
-		align-items: center;
-		gap: 8px;
+		li {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
 	}
 
 	.sc_connect_pro_list_icon {
@@ -442,12 +424,12 @@
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-	}
 
-	.sc_connect_pro_list_icon img {
-		width: var(--sc-icon-xs-size);
-		height: var(--sc-icon-xs-size);
-		display: block;
+		img {
+			width: var(--sc-icon-xs-size);
+			height: var(--sc-icon-xs-size);
+			display: block;
+		}
 	}
 
 	.sc_connect_pro_list_text {
@@ -463,7 +445,7 @@
 	}
 
 	@media (max-width: 1024px) {
-		.sc_connect_page_inner {
+		.sc_connect_page_outer .sc_connect_page_inner {
 			grid-template-columns: 1fr;
 		}
 	}
