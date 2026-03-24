@@ -47,7 +47,7 @@ if (!$should_hide_progress) {
 }
 ?>
 <div class="sc_connect_sidebar_stack">
-	<div class="sc_connect_card sc_connect_rating_card">
+	<div class="sc_setup_card sc_connect_rating_card">
 		<h3 class="sc_connect_rating_title">
 			<?php esc_html_e('Loving the Plugin', 'google-calendar-events'); ?>
 		</h3>
@@ -71,7 +71,7 @@ if (!$should_hide_progress) {
 		</a>
 	</div>
 
-	<div class="sc_connect_card sc_connect_pro_card">
+	<div class="sc_setup_card sc_connect_pro_card">
 		<h3 class="sc_connect_pro_title">
 			<?php esc_html_e('Get Pro to Access', 'google-calendar-events'); ?>
 		</h3>

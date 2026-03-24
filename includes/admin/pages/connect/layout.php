@@ -25,7 +25,7 @@ if (!defined('ABSPATH')) {
 				</span>
 			</div>
 			<div class="sc_connect_page_header_right">
-				<span class="sc_connect_step_title">
+				<span class="sc_text--body_b1">
 					<?php echo esc_html($step_title); ?>
 				</span>
 			</div>

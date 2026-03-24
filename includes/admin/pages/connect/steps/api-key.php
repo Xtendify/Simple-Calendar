@@ -13,11 +13,11 @@ if (!defined('ABSPATH')) {
 
 $sc_connect_validate_nonce = wp_create_nonce('simcal_connect_validate_google_api_key');
 ?>
-<div class="sc_connect_card">
-	<h2 class="sc_connect_section_title">
+<div class="sc_setup_card">
+	<h2 class="sc_h4">
 		<?php esc_html_e('Google Calendar', 'google-calendar-events'); ?>
 	</h2>
-	<p class="sc_connect_section_subtitle">
+	<p class="sc_text--body_b2 sc_text--dark">
 		<?php esc_html_e(
   	'Simple for a reason. Zero technical setup. Easy integration steps with advanced options when you need them.',
   	'google-calendar-events'
@@ -48,6 +48,10 @@ $sc_connect_validate_nonce = wp_create_nonce('simcal_connect_validate_google_api
 				type="button"
 				id="sc_connect_api_key_eye_btn"
 				class="sc_icon--square"
+				data-sc-password-toggle
+				data-sc-label-show="<?php echo esc_attr(__('Show API key', 'google-calendar-events')); ?>"
+				data-sc-label-hide="<?php echo esc_attr(__('Hide API key', 'google-calendar-events')); ?>"
+				onclick="if (window.scPasswordToggle &amp;&amp; window.scPasswordToggle.handleButtonClick) { window.scPasswordToggle.handleButtonClick(event); }"
 				aria-label="<?php esc_attr_e('Show API key', 'google-calendar-events'); ?>"
 				aria-controls="sc_google_api_key"
 				title="<?php esc_attr_e('Show API key', 'google-calendar-events'); ?>"

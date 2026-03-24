@@ -47,93 +47,10 @@
 			text-align: center;
 		}
 	}
-
-	/* ========================================
-	   CONNECT PAGE - MAIN ONBOARDING SCREEN
-	   Mirrors: connect/layout.php -> steps/* -> connect/sidebar.php
-	   ======================================== */
-	.sc_connect_page_outer {
-		background: var(--sc-color-off-white);
-		padding: 40px 20px 60px;
-
-		/* Header row */
-		.sc_connect_page_header {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			margin: 0 auto 24px;
-			max-width: 1160px;
-
-			.sc_connect_page_header_left,
-			.sc_connect_page_header_right {
-				display: flex;
-				align-items: center;
-				flex: 0 0 auto;
-			}
-
-			.sc_connect_page_header_right {
-				margin-left: auto;
-			}
-
-			.sc_connect_page_header_left .sc_logo_link img {
-				display: block;
-				height: 40px;
-				width: auto;
-			}
-
-			.sc_connect_step_title {
-				font-family: var(--sc-font-body);
-				font-weight: var(--sc-font-weight-medium);
-				font-size: var(--sc-font-medium-sm);
-				line-height: var(--sc-body-medium-sm-line-height);
-				letter-spacing: 0;
-				text-align: right;
-				vertical-align: middle;
-				color: var(--sc-color-black);
-				padding: 4px 10px;
-				border-radius: var(--sc-radius-sm);
-			}
-		}
-
-		/* Two-column layout: main content + sidebar */
-		.sc_connect_page_inner {
-			max-width: 100%;
-			width: 100%;
-			margin: 0;
-			display: grid;
-			grid-template-columns: 2fr 1fr;
-			gap: var(--sc-spacing-20);
-			align-items: flex-start;
-		}
-	}
-
+	
 	/* ========================================
 	   SHARED CARD + TYPOGRAPHY (used by steps and sidebar)
 	   ======================================== */
-	.sc_connect_card {
-		background: var(--sc-color-white);
-		border-radius: var(--sc-radius-16);
-		padding: 32px 32px 28px;
-		box-sizing: border-box;
-	}
-
-	.sc_connect_section_title {
-		font-family: var(--sc-font-heading);
-		font-weight: var(--sc-font-weight-semibold);
-		font-size: var(--sc-font-large);
-		line-height: var(--sc-h4-line-height);
-		color: var(--sc-color-black);
-		margin: 0 0 8px;
-	}
-
-	.sc_connect_section_subtitle {
-		font-family: var(--sc-font-body);
-		font-weight: var(--sc-font-weight-regular);
-		font-size: var(--sc-font-medium-sm);
-		line-height: var(--sc-body-medium-sm-line-height);
-		color: var(--sc-color-dark-gray);
-		margin: 0 0 24px;
-	}
 
 	.sc_connect_label {
 		font-family: var(--sc-font-heading);
