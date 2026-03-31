@@ -71,7 +71,7 @@ class Shortcodes
 			[
 				'id' => null,
 			],
-			$attributes
+			$attributes,
 		);
 
 		$id = absint($args['id']);

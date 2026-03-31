@@ -73,7 +73,7 @@ class Menus
 			function () {
 				$page = new Pages('settings');
 				$page->html();
-			}
+			},
 		);
 
 		add_submenu_page(
@@ -85,7 +85,7 @@ class Menus
 			function () {
 				$page = new Pages('add-ons');
 				$page->html();
-			}
+			},
 		);
 
 		add_submenu_page(
@@ -97,7 +97,7 @@ class Menus
 			function () {
 				$page = new Pages('tools');
 				$page->html();
-			}
+			},
 		);
 
 		do_action('simcal_admin_add_menu_items');
@@ -184,12 +184,12 @@ class Menus
 				$footer_text = sprintf(
 					__(
 						'If you like <strong>Simple Calendar</strong> please leave us a %s&#9733;&#9733;&#9733;&#9733;&#9733; rating on WordPress.org%s. A huge thank you in advance!',
-						'google-calendar-events'
+						'google-calendar-events',
 					),
 					'<a href="https://wordpress.org/support/view/plugin-reviews/google-calendar-events?filter=5#postform" target="_blank" class="simcal-rating-link" data-rated="' .
 						esc_attr__('Thanks :)', 'google-calendar-events') .
 						'">',
-					'</a>'
+					'</a>',
 				);
 				// Add a nonce field used in ajax.
 				$footer_text .= wp_nonce_field('simcal_rating_nonce', 'simcal_rating_nonce');
