@@ -23,7 +23,7 @@
     "grunt-contrib-copy": "1.0.0",
     "load-grunt-tasks": "5.1.0",
     "postcss-cli": "11.0.1",
-    "prettier": "3.3.3",
+    "prettier": "3.8.1",
     "tailwindcss": "3.4.15"
   },
   "scripts": {
