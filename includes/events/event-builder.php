@@ -226,7 +226,7 @@ class Event_Builder
 				'if-not-end-location',
 				// Does the event has NOT an end location?
 			],
-			(array) $this->add_custom_event_tags()
+			(array) $this->add_custom_event_tags(),
 		);
 	}
 
@@ -642,7 +642,7 @@ class Event_Builder
 				'limit' => 0,
 				// Trim length to amount of words
 			],
-			(array) shortcode_parse_atts($attr)
+			(array) shortcode_parse_atts($attr),
 		);
 
 		if (!empty($attr['html'])) {
@@ -684,7 +684,7 @@ class Event_Builder
 				'autolink' => 'no',
 				// Automatically convert plaintext URIs to anchors
 			],
-			(array) shortcode_parse_atts($attr)
+			(array) shortcode_parse_atts($attr),
 		);
 
 		$allow_html = 'no' != $attr['html'] ? true : false;
@@ -854,7 +854,7 @@ class Event_Builder
 
 		$dt = $bound . '_dt';
 
-		if (!$event->$dt instanceof Carbon) {
+		if (!($event->$dt instanceof Carbon)) {
 			simcal_log_error('NOT CARBON');
 
 			return '';
@@ -866,7 +866,7 @@ class Event_Builder
 			[
 				'format' => '',
 			],
-			(array) shortcode_parse_atts($attr)
+			(array) shortcode_parse_atts($attr),
 		);
 
 		$format = ltrim(strstr($tag, '-'), '-');
@@ -947,7 +947,7 @@ class Event_Builder
 				'newwindow' => false,
 				// If autolink attribute is true, open link in new window
 			],
-			(array) shortcode_parse_atts($attr)
+			(array) shortcode_parse_atts($attr),
 		);
 
 		$anchor = $tag != 'url' ? 'yes' : $attr['autolink'];
@@ -1031,7 +1031,7 @@ class Event_Builder
 				'response' => '',
 				// filter attendees by rsvp response (yes/no/maybe)
 			],
-			(array) shortcode_parse_atts($attr)
+			(array) shortcode_parse_atts($attr),
 		);
 
 		$html = '<ul class="simcal-attendees" itemprop="attendees">' . "\n\t";
@@ -1080,7 +1080,7 @@ class Event_Builder
 				/* translators: One or more persons attending the event whose name is unknown. */
 				$others = sprintf(
 					_n('1 anonymous attendee', '%s anonymous attendees', $unknown, 'google-calendar-events'),
-					$unknown
+					$unknown,
 				);
 			}
 			$photo = $attr['photo'] !== 'hide' ? get_avatar('', 128) : '';
@@ -1147,7 +1147,7 @@ class Event_Builder
 				'email' => 'hide',
 				// show/hide attendee email address
 			],
-			(array) shortcode_parse_atts($attr)
+			(array) shortcode_parse_atts($attr),
 		);
 
 		$photo =
@@ -1159,7 +1159,7 @@ class Event_Builder
 		if (!empty($organizer['email']) && 'show' == $attr['email']) {
 			$organizer_html = sprintf(
 				'<a href="mailto:' . $organizer['email'] . '" itemprop="email">%s</a>',
-				$organizer_html
+				$organizer_html,
 			);
 		}
 
