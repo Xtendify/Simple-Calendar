@@ -653,6 +653,44 @@
 				},
 			});
 		});
+
+		/* =========================
+		 * Connect page: copy helper
+		 * ========================= */
+		function simcalBindCopyTargets(rootEl) {
+			var ctxEl = rootEl && rootEl.length ? rootEl : $(document);
+			ctxEl
+				.find('[data-sc-copy-target-field]')
+				.off('click.simcalCopy')
+				.on('click.simcalCopy', function (e) {
+					e.preventDefault();
+					var targetId = $(this).attr('data-sc-copy-target-field');
+					if (!targetId) return;
+					var el = document.getElementById(targetId);
+					if (!el) return;
+					var text = String(el.value || '');
+					if (!text) return;
+
+					function fallbackCopy() {
+						try {
+							el.focus();
+							el.select();
+							document.execCommand('copy');
+						} catch (err) {}
+					}
+
+					if (navigator.clipboard && navigator.clipboard.writeText) {
+						navigator.clipboard.writeText(text).catch(function () {
+							fallbackCopy();
+						});
+					} else {
+						fallbackCopy();
+					}
+				});
+		}
+
+		// Bind once for initial DOM (avoids document-level delegated click).
+		simcalBindCopyTargets($('#simcal-connect-page').length ? $('#simcal-connect-page') : $(document));
 	});
 
 	/* =========================================
@@ -669,13 +707,242 @@
 			ajax_url: (window.simcal_admin && window.simcal_admin.ajax_url) || '',
 			nonce: '',
 			check_icon_url: '',
+			warning_icon_url: '',
+			oauth_check_nonce: '',
 			strings: {},
 		};
 
+		function simcalAdminAjaxUrl() {
+			var href =
+				(typeof globalThis !== 'undefined' &&
+				globalThis.location &&
+				typeof globalThis.location.href === 'string'
+					? globalThis.location.href
+					: document && document.location && typeof document.location.href === 'string'
+						? document.location.href
+						: '') || '';
+			var wpAdminPos = href.indexOf('/wp-admin/');
+			var derived = '';
+			if (wpAdminPos > -1) {
+				derived = href.substring(0, wpAdminPos) + '/wp-admin/admin-ajax.php';
+			} else {
+				derived = '/wp-admin/admin-ajax.php';
+			}
+			var candidates = [
+				(connectCfg && connectCfg.ajax_url) || '',
+				(window.simcal_admin && window.simcal_admin.ajax_url) || '',
+				typeof window.ajaxurl === 'string' ? window.ajaxurl : '',
+				derived,
+			];
+			var urls = [];
+			for (var i = 0; i < candidates.length; i++) {
+				var c = String(candidates[i] || '').trim();
+				if (!c || $.inArray(c, urls) !== -1) {
+					continue;
+				}
+				urls.push(c);
+			}
+			return urls;
+		}
+
+		/* =========================================
+		 * Pro OAuth health check (calendar list)
+		 * ========================================= */
+		(function oauthConnectionHealthCheck() {
+			var statusWrap = $('.sc_connect_auth_status_center[data-sc-oauth-check="1"]').first();
+			var headerBadge = $('#sc_connect_oauth_status_header_badge[data-sc-oauth-check="1"]').first();
+			if (!statusWrap.length && !headerBadge.length) {
+				return;
+			}
+
+			var statusText = statusWrap.length ? statusWrap.find('.sc_connect_oauth_status').first() : $();
+			var linkIcon = statusWrap.length ? statusWrap.find('.sc_connect_auth_status_link_icon').first() : $();
+
+			var iconLinkUrl = statusWrap.length ? String(statusWrap.attr('data-sc-oauth-icon-link') || '') : '';
+			var iconUnlinkUrl = statusWrap.length ? String(statusWrap.attr('data-sc-oauth-icon-unlink') || '') : '';
+
+			function setHeaderChecking() {
+				if (!headerBadge.length) return;
+				headerBadge
+					.removeClass('sc_connect_oauth_status_header_badge--ok sc_connect_oauth_status_header_badge--error')
+					.addClass('sc_connect_oauth_status_header_badge--pending');
+				headerBadge
+					.find('.sc_connect_oauth_status_header_label')
+					.first()
+					.text((connectCfg.strings && connectCfg.strings.oauth_checking) || 'Checking…');
+			}
+
+			function setHeaderConnected() {
+				if (!headerBadge.length) return;
+				headerBadge
+					.removeClass('sc_connect_oauth_status_header_badge--pending sc_connect_oauth_status_header_badge--error')
+					.addClass('sc_connect_oauth_status_header_badge--ok');
+				headerBadge
+					.find('.sc_connect_oauth_status_header_label')
+					.first()
+					.text((connectCfg.strings && connectCfg.strings.oauth_connected) || 'Connected');
+			}
+
+			function setHeaderError(message) {
+				if (!headerBadge.length) return;
+				headerBadge
+					.removeClass('sc_connect_oauth_status_header_badge--pending sc_connect_oauth_status_header_badge--ok')
+					.addClass('sc_connect_oauth_status_header_badge--error');
+				headerBadge
+					.find('.sc_connect_oauth_status_header_label')
+					.first()
+					.text(message || (connectCfg.strings && connectCfg.strings.oauth_error) || 'Error');
+			}
+
+			function applyConnectedUi() {
+				setHeaderConnected();
+				if (linkIcon.length && iconLinkUrl) {
+					linkIcon.attr('src', iconLinkUrl);
+				}
+				if (statusText.length) {
+					statusText
+						.removeClass('sc_connect_oauth_status--error sc_connect_oauth_status--disconnected')
+						.addClass('sc_connect_oauth_status--ok');
+					statusText.text((connectCfg.strings && connectCfg.strings.oauth_connected) || 'Connected');
+				}
+
+				// Pro sidebar: when OAuth health check succeeds, mark credentials step + set progress to 75%.
+				var scProCredStep = $('#sc_connect_step_credentials');
+				var scCircle = $('#sc_connect_progress_circle');
+				var scProgressText = $('#sc_connect_progress_text');
+				if (scProCredStep.length && !scProCredStep.hasClass('is_completed')) {
+					scProCredStep.addClass('is_completed');
+					var scCheckBox = scProCredStep.find('.sc_checklist_checkbox');
+					if (scCheckBox.length && !scCheckBox.find('img').length) {
+						scCheckBox.html('<img src="' + connectCfg.check_icon_url + '" alt="" class="sc_checklist_icon" />');
+					}
+				}
+				if (scCircle.length) {
+					scCircle.addClass('sc_connect_progress_anim');
+					scCircle[0].style.setProperty('--sc-progress', '75');
+					if (scProgressText.length) {
+						scProgressText.text((connectCfg.strings && connectCfg.strings['75_ready']) || '75% Ready');
+					}
+					setTimeout(function () {
+						scCircle.removeClass('sc_connect_progress_anim');
+					}, 1200);
+				}
+			}
+
+			function applyDisconnectedUi(message) {
+				setHeaderError(message);
+				if (linkIcon.length && iconUnlinkUrl) {
+					linkIcon.attr('src', iconUnlinkUrl);
+				}
+				if (statusText.length) {
+					statusText
+						.removeClass('sc_connect_oauth_status--ok')
+						.removeClass('sc_connect_oauth_status--error')
+						.addClass('sc_connect_oauth_status--disconnected');
+					statusText.text(message || (connectCfg.strings && connectCfg.strings.oauth_not_connected) || 'Not Connected');
+				}
+			}
+
+			setHeaderChecking();
+			if (statusText.length) {
+				statusText
+					.removeClass('sc_connect_oauth_status--ok sc_connect_oauth_status--disconnected sc_connect_oauth_status--error')
+					.text((connectCfg.strings && connectCfg.strings.oauth_checking) || 'Checking…');
+			}
+			if (linkIcon.length && iconUnlinkUrl) {
+				linkIcon.attr('src', iconUnlinkUrl);
+			}
+
+			var ajaxUrls = simcalAdminAjaxUrl();
+			if (!ajaxUrls.length) {
+				applyDisconnectedUi();
+				return;
+			}
+
+			var oauthCheckAction = statusWrap.length
+				? String(statusWrap.attr('data-sc-oauth-check-action') || 'simcal_connect_oauth_via_sc_check')
+				: String(headerBadge.attr('data-sc-oauth-check-action') || 'simcal_connect_oauth_via_sc_check');
+
+			function oauthCheckAtIndex(idx) {
+				$.ajax({
+					url: ajaxUrls[idx],
+					type: 'POST',
+					dataType: 'json',
+					data: {
+						action: oauthCheckAction,
+						nonce: connectCfg.oauth_check_nonce || '',
+					},
+				})
+					.done(function (res) {
+						var isHtml =
+							res &&
+							typeof res === 'string' &&
+							res.indexOf &&
+							res.indexOf('<!DOCTYPE html>') !== -1;
+						if (isHtml && idx + 1 < ajaxUrls.length) {
+							oauthCheckAtIndex(idx + 1);
+							return;
+						}
+						var isOk = !!(res && res.success);
+						var isConnected = !!(res && res.data && res.data.connected);
+						if (isOk && isConnected) {
+							applyConnectedUi();
+							return;
+						}
+						var msg = (res && res.data && res.data.message) ? String(res.data.message) : '';
+						applyDisconnectedUi(msg || '');
+					})
+					.fail(function (xhr) {
+						var isHtml =
+							xhr &&
+							typeof xhr.responseText === 'string' &&
+							xhr.responseText.indexOf('<!DOCTYPE html>') !== -1;
+						if (isHtml && idx + 1 < ajaxUrls.length) {
+							oauthCheckAtIndex(idx + 1);
+							return;
+						}
+						applyDisconnectedUi('');
+					});
+			}
+
+			oauthCheckAtIndex(0);
+		})();
+
+		/* Pro Connect: persist "OAuth via Simple Calendar" choice before redirect (progress sidebar). */
+		$(document).on('click', 'a[data-sc-pro-mark-via-sc="1"]', function (e) {
+			var $a = $(this);
+			var targetUrl = String($a.attr('data-sc-pro-oauth-url') || $a.attr('href') || '').trim();
+			if (!targetUrl || targetUrl === '#') {
+				return;
+			}
+			e.preventDefault();
+			var nonce = (connectCfg && connectCfg.mark_pro_connection_nonce) || '';
+			var ajaxUrls = simcalAdminAjaxUrl();
+			if (!ajaxUrls.length) {
+				window.location.assign(targetUrl);
+				return;
+			}
+			function postMark(i) {
+				$.ajax({
+					url: ajaxUrls[i],
+					type: 'POST',
+					dataType: 'json',
+					data: {
+						action: 'simcal_mark_pro_connection_via_sc',
+						nonce: nonce,
+					},
+				})
+					.always(function () {
+						window.location.assign(targetUrl);
+					});
+			}
+			postMark(0);
+		});
+
 		/* API key eye toggle: handled globally via [data-sc-password-toggle] + aria-controls (see top of file). */
 
-		var scConnectForm = $('#simcal-settings-page-form');
-		if (scConnectForm.length) {
+		var scConnectForm = $('#simcal-connect-page-form');
+		if (scConnectForm.length && scConnectForm.find('[data-sc-connect-validate-btn]').length) {
 			var scInput = $('#sc_google_api_key');
 			var scConnectFieldWrap = $('#sc_connect_api_key_wrap');
 			var scConnectMsgWrap = $('#sc_connect_api_key_msg_wrap');
@@ -886,4 +1153,4 @@
 			});
 		}
 	});
-})(this);
+})(window);

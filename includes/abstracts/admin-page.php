@@ -185,6 +185,39 @@ abstract class Admin_Page
 			$sanitized = simcal_sanitize_input($settings);
 		}
 
+		// Allow partial updates for Connect page forms that only submit one section.
+		// Without this, posting a subset of keys would overwrite the whole option.
+		if (is_array($sanitized) && isset($sanitized['__sc_partial_update'])) {
+			$option_name = 'simple-calendar_' . $this->option_group . '_' . $this->id;
+			$existing = get_option($option_name, []);
+			$existing = is_array($existing) ? $existing : [];
+
+			$sections_map = isset($sanitized['__sc_partial_sections']) && is_array($sanitized['__sc_partial_sections'])
+				? $sanitized['__sc_partial_sections']
+				: [];
+			$sections = array_keys($sections_map);
+
+			unset($sanitized['__sc_partial_update'], $sanitized['__sc_partial_sections']);
+
+			if (!empty($sections)) {
+				foreach ($sections as $section) {
+					if (!is_string($section) || $section === '') {
+						continue;
+					}
+					if (!isset($sanitized[$section])) {
+						continue;
+					}
+					$existing_section = isset($existing[$section]) && is_array($existing[$section]) ? $existing[$section] : [];
+					$new_section = is_array($sanitized[$section]) ? $sanitized[$section] : [];
+					$existing[$section] = array_replace_recursive($existing_section, $new_section);
+				}
+				return $existing;
+			}
+
+			// If no sections declared, fall back to merging everything we got.
+			return array_replace_recursive($existing, $sanitized);
+		}
+
 		return $sanitized;
 	}
 }

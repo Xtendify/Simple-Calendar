@@ -113,9 +113,18 @@ final class Plugin
 		// Do update call here.
 		add_action('admin_init', [$this, 'update'], 999);
 
-		// Redirect to Connect page after activation (only hook when needed).
-		if (is_admin() && get_option('simple-calendar_redirect_to_connect')) {
+		// Redirect to Connect page after activation (core or supported add-on).
+		// Only hook when needed.
+		if (
+			is_admin() &&
+			(get_option('simple-calendar_redirect_to_connect') || get_option('simple_calendar_pro_redirect_to_connect'))
+		) {
 			add_action('admin_init', [$this, 'maybe_redirect_to_connect'], 1);
+		}
+
+		// Redirect to Connect page after supported add-on activation.
+		if (is_admin()) {
+			add_action('activated_plugin', [$this, 'maybe_flag_connect_redirect_after_addon_activation'], 10, 2);
 		}
 
 		// Init hooks.
@@ -341,8 +350,16 @@ final class Plugin
 			return;
 		}
 
-		// Do not redirect during AJAX or if no redirect flag is set.
-		if ((defined('DOING_AJAX') && DOING_AJAX) || !get_option('simple-calendar_redirect_to_connect')) {
+		// Do not redirect during AJAX.
+		if (defined('DOING_AJAX') && DOING_AJAX) {
+			return;
+		}
+
+		$core_flag = (bool) get_option('simple-calendar_redirect_to_connect');
+		$addon_flag = 1 === (int) get_option('simple_calendar_pro_redirect_to_connect', 0);
+
+		// Do not redirect if no redirect flag is set.
+		if (!$core_flag && !$addon_flag) {
 			return;
 		}
 
@@ -350,17 +367,58 @@ final class Plugin
 		if (isset($_GET['activate-multi'])) {
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			delete_option('simple-calendar_redirect_to_connect');
+			delete_option('simple_calendar_pro_redirect_to_connect');
 			return;
 		}
 
 		// Clear the flag so we only redirect once.
 		delete_option('simple-calendar_redirect_to_connect');
+		delete_option('simple_calendar_pro_redirect_to_connect');
 
-		$redirect_url = admin_url('edit.php?post_type=calendar&page=simple-calendar_connect');
+		$redirect_url = admin_url(
+			$addon_flag
+				? 'edit.php?post_type=calendar&page=simple-calendar_connect&sc_welcome=1'
+				: 'edit.php?post_type=calendar&page=simple-calendar_connect'
+		);
 
 		wp_safe_redirect($redirect_url);
 		exit();
 	}
+
+	/**
+	 * When a supported add-on is activated, flag a one-time redirect
+	 * to the Connect page and show the Welcome step for that add-on.
+	 *
+	 * @since 3.6.3
+	 *
+	 * @param string $plugin       Plugin basename just activated.
+	 * @param bool   $network_wide Whether activated network-wide.
+	 *
+	 * @return void
+	 */
+	public function maybe_flag_connect_redirect_after_addon_activation($plugin, $network_wide)
+	{
+		if (!is_admin() || !current_user_can('manage_options')) {
+			return;
+		}
+
+		$plugin = (string) $plugin;
+
+		$simcal_addon_list = [
+			// Google Calendar Pro (common plugin basenames).
+			'simple-calendar-google-calendar-pro/simple-calendar-google-calendar-pro.php',
+		];
+		$simcal_addons = apply_filters('simcal_connect_redirect_addon_plugins', $simcal_addon_list);
+		$simcal_addons = array_values(array_unique(array_filter(array_map('strval', (array) $simcal_addons))));
+
+		$is_simcal_addon = in_array($plugin, $simcal_addons, true);
+
+		if ($is_simcal_addon) {
+			update_option('simple_calendar_pro_redirect_to_connect', 1, false);
+			update_option('simple_calendar_connect_welcome_context', 'pro', false);
+		}
+	}
+
 }
 
 /**

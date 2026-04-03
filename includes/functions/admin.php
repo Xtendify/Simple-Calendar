@@ -211,6 +211,47 @@ function simcal_get_license_status($addon = null)
 }
 
 /**
+ * Get Connect page field definitions.
+ *
+ * Mirrors the classic `settings_fields()` pattern (field definitions in PHP, extensible via hooks),
+ * but intended for the Connect onboarding UI.
+ *
+ * @since 3.6.3
+ *
+ * @return array
+ */
+function simcal_connect_settings_fields()
+{
+	$fields = [
+		'google' => [
+			'name' => __('Google Calendar', 'google-calendar-events'),
+			'fields' => [
+				'api_key' => [
+					'id' => 'sc_google_api_key',
+					'name' => 'simple-calendar_settings_feeds[google][api_key]',
+					'type' => 'password',
+					'label' => __('Google API Key', 'google-calendar-events'),
+				],
+			],
+		],
+	];
+
+	return apply_filters('simcal_connect_settings_fields', $fields);
+}
+
+/**
+ * Back-compat wrapper for suggested name.
+ *
+ * @since 3.6.3
+ *
+ * @return array
+ */
+function connect_settings_fields()
+{
+	return simcal_connect_settings_fields();
+}
+
+/**
  * Get admin notices.
  *
  * @since  3.0.0

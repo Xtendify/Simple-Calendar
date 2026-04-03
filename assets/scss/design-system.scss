@@ -91,6 +91,8 @@
 	--sc-color-white: #ffffff;
 	--sc-color-green: #50be1d;
 	--sc-color-red: #be1d1d;
+	--sc-connect-auth-status-bg: #e5e5e5;
+	--sc-border-black-1: 1px solid var(--sc-color-black);
 
 	/* ===== LAYOUT TOKENS ===== */
 	--sc-icon-circle-size: 51px;
@@ -1415,6 +1417,10 @@
 		border-radius: var(--sc-radius-lg);
 		padding: 32px;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+
+		.sc_item_spaced {
+			margin-bottom: 24px;
+		}
 	}
 }
 

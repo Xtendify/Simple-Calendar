@@ -4,20 +4,28 @@
  *
  * Variables expected:
  * - string $video_url
+ * - string $welcome_context
  */
 if (!defined('ABSPATH')) {
 	exit();
-} ?>
+}
+
+$welcome_context = isset($welcome_context) ? (string) $welcome_context : 'core';
+$heading = 'pro' === $welcome_context
+	? __('Welcome to your Pro simple calendar', 'google-calendar-events')
+	: __('Welcome to your new simple calendar', 'google-calendar-events');
+$subtitle = __(
+	'Keep planning in Google Calendar, and display events on your site with 1-click. Simple Calendar keeps everything in sync for you.',
+	'google-calendar-events'
+);
+?>
 <div class="sc_connect_welcome_outer">
 	<div class="sc_connect_welcome_inner">
 		<h1 class="sc_h3">
-			<?php esc_html_e('Welcome to your new simple calendar', 'google-calendar-events'); ?>
+			<?php echo esc_html($heading); ?>
 		</h1>
 		<p class="sc_connect_welcome_subtitle">
-			<?php esc_html_e(
-   	'Keep planning in Google Calendar, and display events on your site with 1-click. Simple Calendar keeps everything in sync for you.',
-   	'google-calendar-events'
-   ); ?>
+			<?php echo esc_html($subtitle); ?>
 		</p>
 
 		<div class="sc_connect_welcome_video">
