@@ -28,6 +28,8 @@ const files = [
 	{ in: 'assets/css/default-calendar-list.css', out: 'default-calendar-list.min' },
 	{ in: 'assets/css/sc-welcome-pg-style.css', out: 'sc-welcome-pg-style.min' },
 	{ in: 'assets/generated/tailwind-output.css', out: 'tailwind.min' },
+	{ in: 'assets/scss/design-system.scss', out: 'design-system.min' },
+	{ in: 'assets/scss/connect.scss', out: 'connect.min' },
 ];
 
 const defaultConfig = {

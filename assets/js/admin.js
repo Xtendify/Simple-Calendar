@@ -1,6 +1,111 @@
 (function (window, undefined) {
 	'use strict';
 
+	/**
+	 * Password / text toggle for square icon buttons (no document-level listeners).
+	 * Wire each button with onclick calling scPasswordToggle.handleButtonClick(event).
+	 * Markup: type="button" data-sc-password-toggle aria-controls="input_id"
+	 * Optional: data-sc-label-show / data-sc-label-hide (else simcal_connect.strings when present).
+	 */
+	(function scRegisterPasswordToggleApi() {
+		if (window.__scPasswordToggleApi) {
+			return;
+		}
+		window.__scPasswordToggleApi = true;
+
+		function getToggleLabels(btn) {
+			var localized = window.simcal_connect && window.simcal_connect.strings ? window.simcal_connect.strings : {};
+			return {
+				show: btn.getAttribute('data-sc-label-show') || localized.show_api_key || '',
+				hide: btn.getAttribute('data-sc-label-hide') || localized.hide_api_key || '',
+			};
+		}
+
+		function scPasswordToggleUpdateIcons(btn, input) {
+			var imgShow = btn.querySelector('.sc_input_square_show');
+			var imgHide = btn.querySelector('.sc_input_square_hide');
+			if (!imgShow || !imgHide) {
+				return;
+			}
+			var labels = getToggleLabels(btn);
+			if (input.type === 'password') {
+				imgShow.setAttribute('hidden', '');
+				imgHide.removeAttribute('hidden');
+				if (labels.show) {
+					btn.setAttribute('aria-label', labels.show);
+					btn.setAttribute('title', labels.show);
+				}
+			} else {
+				imgShow.removeAttribute('hidden');
+				imgHide.setAttribute('hidden', '');
+				if (labels.hide) {
+					btn.setAttribute('aria-label', labels.hide);
+					btn.setAttribute('title', labels.hide);
+				}
+			}
+		}
+
+		function handleButtonClick(e) {
+			if (!e || !e.currentTarget) {
+				return;
+			}
+			var btn = e.currentTarget;
+			if (btn.disabled || !btn.hasAttribute('data-sc-password-toggle')) {
+				return;
+			}
+			var inputId = btn.getAttribute('aria-controls');
+			if (!inputId) {
+				return;
+			}
+			var input = document.getElementById(inputId);
+			if (!input || (input.tagName !== 'INPUT' && input.tagName !== 'TEXTAREA')) {
+				return;
+			}
+			if (input.type !== 'password' && input.type !== 'text') {
+				return;
+			}
+			e.preventDefault();
+			e.stopPropagation();
+			input.type = input.type === 'password' ? 'text' : 'password';
+			scPasswordToggleUpdateIcons(btn, input);
+		}
+
+		function init(root) {
+			var scRoot = root || document;
+			var scButtons = scRoot.querySelectorAll('button[data-sc-password-toggle]');
+			for (var i = 0; i < scButtons.length; i++) {
+				var scBtn = scButtons[i];
+				if (scBtn.__scPasswordToggleBound) {
+					continue;
+				}
+				scBtn.__scPasswordToggleBound = true;
+				scBtn.addEventListener('click', handleButtonClick);
+
+				var scInputId = scBtn.getAttribute('aria-controls');
+				if (scInputId) {
+					var scInput = document.getElementById(scInputId);
+					if (scInput) {
+						scPasswordToggleUpdateIcons(scBtn, scInput);
+					}
+				}
+			}
+		}
+
+		window.scPasswordToggle = {
+			handleButtonClick: handleButtonClick,
+			updateIcons: scPasswordToggleUpdateIcons,
+			init: init,
+		};
+
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', function () {
+				init(document);
+			});
+		} else {
+			init(document);
+		}
+	})();
+
 	jQuery(function ($) {
 		/* ======== *
 		 * Tooltips *
@@ -78,6 +183,28 @@
 					$(this).hide();
 				});
 				tab.show();
+
+				// Toggle the settings lock mask only for feed types requiring a Google API key.
+				var settingsContentWrap = calendarSettings.find('.simcal-settings-content-wrap'),
+					settingsMask = settingsContentWrap.find('.simcal-settings-mask'),
+					hasGoogleApiKey = String(settingsContentWrap.data('sc-has-google-api-key')) === '1',
+					requiredFeedsRaw = settingsContentWrap.attr('data-sc-api-key-required-feeds'),
+					requiredFeeds = ['google', 'grouped-calendars'];
+
+				if (requiredFeedsRaw) {
+					try {
+						requiredFeeds = JSON.parse(requiredFeedsRaw);
+					} catch (e) {
+						requiredFeeds = ['google', 'grouped-calendars'];
+					}
+				}
+
+				var requiresGoogleApiKey = $.inArray(feed, requiredFeeds) !== -1,
+					shouldShowMask = requiresGoogleApiKey && !hasGoogleApiKey;
+
+				settingsContentWrap.toggleClass('simcal-settings-content-wrap--masked', shouldShowMask);
+				settingsMask.attr('aria-hidden', shouldShowMask ? 'false' : 'true');
+				settingsMask.toggle(shouldShowMask);
 				a.trigger('click');
 			})
 			.trigger('change');
@@ -526,5 +653,237 @@
 				},
 			});
 		});
+	});
+
+	/* =========================================
+	 * Connect page: eye toggle + API key validation (DOM ready)
+	 * ========================================= */
+	jQuery(function ($) {
+		var _scConnectPageEl = $('#simcal-connect-page');
+		if (!_scConnectPageEl.length) {
+			return;
+		}
+
+		// Use localized config only (strings come from wp_localize_script).
+		var connectCfg = window.simcal_connect || {
+			ajax_url: (window.simcal_admin && window.simcal_admin.ajax_url) || '',
+			nonce: '',
+			check_icon_url: '',
+			strings: {},
+		};
+
+		/* API key eye toggle: handled globally via [data-sc-password-toggle] + aria-controls (see top of file). */
+
+		var scConnectForm = $('#simcal-settings-page-form');
+		if (scConnectForm.length) {
+			var scInput = $('#sc_google_api_key');
+			var scConnectFieldWrap = $('#sc_connect_api_key_wrap');
+			var scConnectMsgWrap = $('#sc_connect_api_key_msg_wrap');
+			var scmsgError = $('#sc_connect_api_key_msg_error');
+			var scmsgSuccess = $('#sc_connect_api_key_msg_success');
+			var scValidateBtn = $('[data-sc-connect-validate-btn]');
+			var scValidateBtnEl = scValidateBtn.get(0) || null;
+			var validating = false;
+			var originalBtnHtml = scValidateBtnEl ? scValidateBtn.html() : '';
+			var originalBtnClass = scValidateBtnEl ? scValidateBtn.attr('class') : '';
+			var resetTimer = null;
+			var submitTimer = null;
+
+			function resetVisualState() {
+				if (resetTimer) {
+					clearTimeout(resetTimer);
+					resetTimer = null;
+				}
+				if (submitTimer) {
+					clearTimeout(submitTimer);
+					submitTimer = null;
+				}
+				scConnectFieldWrap.removeClass('sc_input--error sc_input--success');
+				scConnectMsgWrap.hide();
+				scmsgError.hide();
+				scmsgSuccess.hide();
+				if (scValidateBtnEl) {
+					scValidateBtn.attr('class', originalBtnClass);
+					scValidateBtn.html(originalBtnHtml);
+					scValidateBtn.prop('disabled', false);
+				}
+			}
+
+			function animateProgressToApiKeyCompleted() {
+				var sccircle = $('#sc_connect_progress_circle');
+				var scProgressText = $('#sc_connect_progress_text');
+				var scOnBoardingStep = $('#sc_connect_step_api_key');
+				if (!sccircle.length) return;
+
+				if (scOnBoardingStep.length && !scOnBoardingStep.hasClass('is_completed')) {
+					scOnBoardingStep.addClass('is_completed');
+					var scCheckBox = scOnBoardingStep.find('.sc_checklist_checkbox');
+					if (scCheckBox.length && !scCheckBox.find('img').length) {
+						scCheckBox.html('<img src="' + connectCfg.check_icon_url + '" alt="" class="sc_checklist_icon" />');
+					}
+				}
+
+				sccircle.addClass('sc_connect_progress_anim');
+				sccircle[0].style.setProperty('--sc-progress', '67');
+				if (scProgressText.length) {
+					scProgressText.text((connectCfg.strings && connectCfg.strings['67_ready']) || '');
+				}
+				setTimeout(function () {
+					sccircle.removeClass('sc_connect_progress_anim');
+				}, 1200);
+			}
+
+			scInput.on('input', function () {
+				scConnectForm.removeData('scValidated');
+				resetVisualState();
+			});
+
+			scConnectForm.on('submit', function (e) {
+				if (scConnectForm.data('scValidated') === true) {
+					return;
+				}
+				e.preventDefault();
+				if (validating) {
+					return;
+				}
+				resetVisualState();
+				var inputEl = (scInput && scInput.length ? scInput[0] : null) || document.getElementById('sc_google_api_key');
+				var rawKey = ((inputEl && typeof inputEl.value === 'string' ? inputEl.value : '') || '').trim();
+				if (scValidateBtnEl) {
+					// Show loading state immediately on submit attempt.
+					scValidateBtn.removeClass('sc_is_finished sc_btn--red').addClass('sc_is_active').prop('disabled', true);
+				}
+				if (!rawKey) {
+					scConnectFieldWrap.removeClass('sc_input--success').addClass('sc_input--error');
+					scConnectMsgWrap.show();
+					scmsgSuccess.hide();
+					scmsgError.show();
+					scmsgError
+						.find('.sc_icon_warning_label')
+						.text((connectCfg.strings && connectCfg.strings.please_enter_api_key) || '');
+					if (scValidateBtnEl) {
+						scValidateBtn.removeClass('sc_is_active sc_is_finished').addClass('sc_btn--red').prop('disabled', false);
+					}
+					resetTimer = setTimeout(resetVisualState, 10000);
+					return;
+				}
+
+				validating = true;
+				scConnectFieldWrap.removeClass('sc_input--error sc_input--success');
+				scConnectMsgWrap.hide();
+				scmsgError.hide();
+				scmsgSuccess.hide();
+
+				var ajaxNonce = (connectCfg && connectCfg.nonce) || scConnectForm.attr('data-sc-connect-validate-nonce') || '';
+				var fallbackAjaxUrl = (function () {
+					var href =
+						(typeof globalThis !== 'undefined' &&
+						globalThis.location &&
+						typeof globalThis.location.href === 'string'
+							? globalThis.location.href
+							: document && document.location && typeof document.location.href === 'string'
+								? document.location.href
+								: '') || '';
+					var wpAdminPos = href.indexOf('/wp-admin/');
+					if (wpAdminPos > -1) {
+						return href.substring(0, wpAdminPos) + '/wp-admin/admin-ajax.php';
+					}
+					return '/wp-admin/admin-ajax.php';
+				})();
+				var ajaxCandidates = [
+					(connectCfg && connectCfg.ajax_url) || '',
+					window.ajaxurl || '',
+					(window.simcal_admin && window.simcal_admin.ajax_url) || '',
+					fallbackAjaxUrl,
+				];
+				var ajaxUrls = [];
+				for (var i = 0; i < ajaxCandidates.length; i++) {
+					var candidate = String(ajaxCandidates[i] || '').trim();
+					if (!candidate || $.inArray(candidate, ajaxUrls) !== -1) {
+						continue;
+					}
+					ajaxUrls.push(candidate);
+				}
+
+				function validateRequestAtIndex(index) {
+					$.ajax({
+						url: ajaxUrls[index],
+						type: 'POST',
+						dataType: 'json',
+						data: {
+							action: 'simcal_validate_google_api_key',
+							nonce: ajaxNonce,
+							api_key: rawKey,
+						},
+					})
+					.done(function (res) {
+						validating = false;
+						if (res && res.success) {
+							scConnectFieldWrap.addClass('sc_input--success');
+							scConnectMsgWrap.show();
+							scmsgSuccess.show();
+							animateProgressToApiKeyCompleted();
+							$('#sc_connect_add_calendar_btn').show();
+							if (scValidateBtnEl) {
+								scValidateBtn.removeClass('sc_is_active sc_btn--red').addClass('sc_is_finished').prop('disabled', true);
+							}
+							scConnectForm.data('scValidated', true);
+							submitTimer = setTimeout(function () {
+								if (scValidateBtnEl) scValidateBtn.prop('disabled', false);
+								scConnectForm.trigger('submit');
+							}, 1000);
+						} else if (res && res.data && res.data.reason === 'api_keys_not_supported') {
+							scConnectFieldWrap.addClass('sc_input--success');
+							scConnectMsgWrap.show();
+							scmsgSuccess.show();
+							animateProgressToApiKeyCompleted();
+							$('#sc_connect_add_calendar_btn').show();
+							if (scValidateBtnEl) {
+								scValidateBtn.removeClass('sc_is_active sc_btn--red').addClass('sc_is_finished').prop('disabled', true);
+							}
+							scConnectForm.data('scValidated', true);
+							submitTimer = setTimeout(function () {
+								if (scValidateBtnEl) scValidateBtn.prop('disabled', false);
+								scConnectForm.trigger('submit');
+							}, 10000);
+						} else {
+							scConnectFieldWrap.addClass('sc_input--error');
+							scConnectMsgWrap.show();
+							scmsgError.show();
+							if (res && res.data && res.data.message) {
+								scmsgError.find('.sc_icon_warning_label').text(res.data.message);
+							}
+							if (scValidateBtnEl) {
+								scValidateBtn.removeClass('sc_is_active sc_is_finished').addClass('sc_btn--red').prop('disabled', false);
+							}
+							resetTimer = setTimeout(resetVisualState, 10000);
+						}
+					})
+					.fail(function (xhr) {
+						var isHtmlResponse = xhr && typeof xhr.responseText === 'string' && xhr.responseText.indexOf('<!DOCTYPE html>') !== -1;
+						if (isHtmlResponse && index + 1 < ajaxUrls.length) {
+							validateRequestAtIndex(index + 1);
+							return;
+						}
+
+						validating = false;
+						scConnectFieldWrap.addClass('sc_input--error');
+						scConnectMsgWrap.show();
+						scmsgError.show();
+						var errorText = 'Unable to validate the API key right now. Please try again.';
+						if (isHtmlResponse) {
+							errorText = 'Validation endpoint returned HTML instead of JSON. Please check WP debug notices and admin-ajax routing.';
+						}
+						scmsgError.find('.sc_icon_warning_label').text(errorText);
+						if (scValidateBtnEl) {
+							scValidateBtn.removeClass('sc_is_active sc_is_finished').addClass('sc_btn--red').prop('disabled', false);
+						}
+						resetTimer = setTimeout(resetVisualState, 10000);
+					});
+				}
+
+				validateRequestAtIndex(0);
+			});
+		}
 	});
 })(this);

@@ -1,0 +1,369 @@
+.sc_root {
+	/* ========================================
+	   CONNECT PAGE - WELCOME STEP
+	   ======================================== */
+	.sc_connect_welcome_outer {
+		/* Outer background frame */
+		background: var(--sc-color-off-white);
+		padding: 75px 0;
+		display: flex;
+		justify-content: center;
+
+		.sc_connect_welcome_inner {
+			/* Inner white card */
+			background: var(--sc-color-white);
+			border-radius: var(--sc-radius-16);
+			max-width: 960px;
+			width: 100%;
+			margin: 0 auto;
+			padding: 48px 64px 56px;
+			box-sizing: border-box;
+			text-align: center;
+		}
+
+		.sc_connect_welcome_video {
+			/* Video placeholder container */
+			margin: 40px auto 0;
+			max-width: 948px;
+			width: 100%;
+			border-radius: var(--sc-radius-15);
+			background: #00000026;
+			overflow: hidden;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			aspect-ratio: 948 / 498;
+
+			img {
+				display: block;
+				width: 100%;
+				height: auto;
+			}
+		}
+
+		.sc_connect_welcome_button_wrap {
+			/* Next button wrapper */
+			margin-top: 40px;
+			text-align: center;
+		}
+	}
+	
+	/* ========================================
+	   SHARED CARD + TYPOGRAPHY (used by steps and sidebar)
+	   ======================================== */
+
+	.sc_connect_label {
+		font-family: var(--sc-font-heading);
+		font-weight: var(--sc-font-weight-medium);
+		font-size: var(--sc-font-small);
+		line-height: var(--sc-body-small-line-height);
+		color: var(--sc-color-black);
+		display: block;
+		margin-bottom: 8px;
+	}
+
+	/* ========================================
+	   STEP: API KEY (connect/steps/api-key.php)
+	   ======================================== */
+	.sc_connect_helper_row {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-top: 8px;
+		font-family: var(--sc-font-body);
+		font-size: var(--sc-font-base);
+		line-height: var(--sc-body-small-line-height);
+		color: var(--sc-color-dark-gray);
+		gap: 12px;
+	}
+
+	.sc_connect_helper_text {
+		margin: 0;
+	}
+
+	.sc_connect_helper_link {
+		font-family: var(--sc-font-body);
+		font-weight: var(--sc-font-weight-regular);
+		font-size: var(--sc-font-base);
+		line-height: var(--sc-body-small-line-height);
+		letter-spacing: 0;
+		color: var(--sc-color-blue);
+		text-decoration: underline;
+	}
+
+	.sc_connect_pro_link {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		font-family: var(--sc-font-body);
+		font-weight: var(--sc-font-weight-regular);
+		font-size: var(--sc-font-base);
+		line-height: var(--sc-body-small-line-height);
+		letter-spacing: 0;
+		color: var(--sc-color-dark-gray);
+		text-align: right;
+		text-decoration: underline;
+
+		img {
+			width: 18px;
+			height: 18px;
+			display: block;
+		}
+	}
+
+	.sc_connect_form_actions {
+		margin-top: 20px;
+		display: flex;
+		align-items: center;
+		gap: 16px;
+	}
+
+	/* Success message styles (green) to match warning pattern */
+	.sc_connect_success_wrap {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding-top: 6px;
+
+		/* Green circle icon for success message */
+		.sc_icon--circle-small {
+			width: var(--sc-icon-size);
+			height: var(--sc-icon-size);
+			border-radius: 50%;
+			background: var(--sc-color-green);
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+
+			img {
+				width: var(--sc-icon-xs-size);
+				height: var(--sc-icon-xs-size);
+			}
+		}
+	}
+
+	.sc_connect_success_label {
+		font-family: var(--sc-font-body);
+		font-size: var(--sc-font-small);
+		font-weight: var(--sc-font-weight-medium);
+		color: var(--sc-color-green);
+	}
+
+	/* Button icon for checked.svg (success) */
+	.sc_btn--checked-icon {
+		background-image: url('../images/admin/check.svg');
+		background-size: var(--sc-icon-size) var(--sc-icon-size);
+	}
+
+	/* ========================================
+	   STEP: HELPFUL LINKS (connect/steps/api-key.php)
+	   ======================================== */
+	.sc_connect_helpful_links {
+		margin-top: 24px;
+
+		/* Fine‑tune Helpful Links layout under heading on Connect page */
+		.sc_section_title {
+			display: block;
+			width: 100%;
+			margin-bottom: 16px;
+		}
+
+		.sc_helpful_links_cards_wrapper {
+			margin-top: 0;
+			display: flex;
+			flex-wrap: wrap;
+			gap: 20px;
+			background: var(--sc-color-white);
+			border-radius: var(--sc-radius-16);
+			padding: 24px;
+		}
+	}
+
+	/* Helpful links cards (white bg wrapper + grey card with icon) */
+	.sc_helpful_links_cards_wrapper {
+		background: var(--sc-color-white);
+		border-radius: var(--sc-radius-lg);
+		padding: 24px;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 20px;
+	}
+
+	/* Individual helpful link card: light grey rounded card, icon on top, label below (match design-system.html) */
+	.sc_helpful_link_card {
+		width: 185px;
+		min-height: 174px;
+		border-radius: var(--sc-radius-16);
+		background: var(--sc-color-off-white);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 16px;
+		text-decoration: none;
+		color: var(--sc-color-black);
+		transition: opacity 0.2s ease;
+		box-sizing: border-box;
+		padding: 24px 16px;
+
+		&:hover {
+			opacity: 0.9;
+		}
+
+		.sc_icon--circle {
+			flex-shrink: 0;
+		}
+	}
+
+	.sc_helpful_link_card_label {
+		font-weight: var(--sc-font-weight-medium);
+		font-size: var(--sc-font-medium-sm);
+		line-height: 1.3;
+		text-align: center;
+		margin: 0;
+	}
+
+	/* ========================================
+	   SIDEBAR: PROGRESS + RATING/PRO CARDS (connect/sidebar.php)
+	   ======================================== */
+	/* Animate progress value change (33 -> 67). */
+	@property --sc-progress {
+		syntax: '<number>';
+		inherits: true;
+		initial-value: 33;
+	}
+
+	.sc_progress_circle.sc_connect_progress_anim {
+		transition: --sc-progress 1.1s ease;
+	}
+
+	/* When setup is fully complete, force checklist connectors and icons to green */
+	.sc_connect_progress_is_complete {
+		.sc_checklist_item::before {
+			background-color: var(--sc-color-green);
+		}
+
+		.sc_checklist_checkbox {
+			border-color: var(--sc-color-green);
+		}
+	}
+
+	/* Sidebar stack for rating + pro cards (shown after progress stays 100% for a day) */
+	.sc_connect_sidebar_stack {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.sc_connect_rating_card {
+		background: var(--sc-color-blue);
+		color: var(--sc-color-white);
+	}
+
+	.sc_connect_rating_title {
+		font-family: var(--sc-font-heading);
+		font-weight: var(--sc-font-weight-semibold);
+		font-size: 30px;
+		line-height: var(--sc-h4-line-height);
+		letter-spacing: 0;
+		color: var(--sc-color-white);
+		margin: 0 0 8px;
+	}
+
+	.sc_connect_rating_subtitle {
+		font-family: var(--sc-font-body);
+		font-weight: var(--sc-font-weight-regular);
+		font-size: var(--sc-font-medium-sm);
+		line-height: var(--sc-body-medium-sm-line-height);
+		letter-spacing: 0;
+		color: var(--sc-color-white);
+		margin: 0 0 16px;
+	}
+
+	.sc_connect_rating_stars {
+		display: flex;
+		gap: 4px;
+		margin-bottom: 16px;
+	}
+
+	.sc_connect_rating_star {
+		width: 18px;
+		height: 18px;
+		display: block;
+	}
+
+	.sc_connect_rating_btn {
+		margin-top: 4px;
+	}
+
+	.sc_connect_pro_card {
+		background: var(--sc-color-white);
+	}
+
+	.sc_connect_pro_title {
+		font-family: var(--sc-font-heading);
+		font-weight: var(--sc-font-weight-semibold);
+		font-size: var(--sc-font-large);
+		line-height: 1.23;
+		color: var(--sc-color-black);
+		margin: 0 0 8px;
+	}
+
+	.sc_connect_pro_subtitle {
+		font-family: var(--sc-font-body);
+		font-weight: var(--sc-font-weight-regular);
+		font-size: var(--sc-font-medium-sm);
+		line-height: var(--sc-body-medium-sm-line-height);
+		color: var(--sc-color-dark-gray);
+		margin: 0 0 16px;
+	}
+
+	.sc_connect_pro_list {
+		list-style: none;
+		margin: 0 0 16px;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+
+		li {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+	}
+
+	.sc_connect_pro_list_icon {
+		width: 20px;
+		height: 20px;
+		border-radius: 50%;
+		background: #1d73be;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+
+		img {
+			width: var(--sc-icon-xs-size);
+			height: var(--sc-icon-xs-size);
+			display: block;
+		}
+	}
+
+	.sc_connect_pro_list_text {
+		font-family: var(--sc-font-body);
+		font-weight: var(--sc-font-weight-medium);
+		font-size: var(--sc-font-medium-sm);
+		line-height: var(--sc-body-medium-sm-line-height);
+		color: var(--sc-color-dark-gray);
+	}
+
+	.sc_connect_pro_btn {
+		margin-top: 4px;
+	}
+
+	@media (max-width: 1024px) {
+		.sc_connect_page_outer .sc_connect_page_inner {
+			grid-template-columns: 1fr;
+		}
+	}
+}

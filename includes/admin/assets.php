@@ -102,6 +102,8 @@ class Assets
 			['wp-color-picker', 'simcal-select2'],
 			SIMPLE_CALENDAR_VERSION
 		);
+		wp_register_style('sc-design-system', $css_path . 'design-system.min.css', [], SIMPLE_CALENDAR_VERSION);
+		wp_register_style('sc-connect', $css_path . 'connect.min.css', ['sc-design-system'], SIMPLE_CALENDAR_VERSION);
 		wp_register_style(
 			'simcal-admin-add-calendar',
 			$css_path . 'admin-add-calendar.min.css',
@@ -112,8 +114,30 @@ class Assets
 		if (simcal_is_admin_screen() !== false) {
 			wp_enqueue_script('simcal-admin');
 			wp_localize_script('simcal-admin', 'simcal_admin', simcal_common_scripts_variables());
+			// Always expose simcal_connect when admin script loads (JS only uses it when #simcal-connect-page exists).
+			wp_localize_script('simcal-admin', 'simcal_connect', [
+				'ajax_url' => \SimpleCalendar\plugin()->ajax_url(),
+				'nonce' => wp_create_nonce('simcal_connect_validate_google_api_key'),
+				'check_icon_url' => SIMPLE_CALENDAR_ASSETS . 'images/admin/check.svg',
+				'strings' => [
+					'show_api_key' => __('Show API key', 'google-calendar-events'),
+					'hide_api_key' => __('Hide API key', 'google-calendar-events'),
+					'please_enter_api_key' => __('Please enter API key', 'google-calendar-events'),
+					'api_key_format_invalid' => __('API key format looks invalid', 'google-calendar-events'),
+					'67_ready' => __('67% Ready', 'google-calendar-events'),
+				],
+			]);
 
 			wp_enqueue_style('simcal-admin');
+			wp_enqueue_style('sc-design-system');
+
+			// Connect page specific styles.
+			$is_connect_page =
+				($sc_screen && $sc_screen->id === 'calendar_page_simple-calendar_connect') ||
+				$this->current_page === 'simple-calendar_connect';
+			if ($is_connect_page) {
+				wp_enqueue_style('sc-connect');
+			}
 		} else {
 			global $post_type;
 			$screen = get_current_screen();
