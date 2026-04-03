@@ -10,6 +10,9 @@ if (!defined('ABSPATH')) {
 	exit();
 }
 
+// Connect submenu callback is extracted for readability.
+require_once __DIR__ . '/connect-menu.php';
+
 /**
  * Admin Menus.
  *
@@ -74,6 +77,15 @@ class Menus
 				$page = new Pages('settings');
 				$page->html();
 			},
+		);
+
+		add_submenu_page(
+			self::$main_menu,
+			__('Connect', 'google-calendar-events'),
+			__('Connect', 'google-calendar-events'),
+			'manage_options',
+			'simple-calendar_connect',
+			[Connect_Menu::class, 'html']
 		);
 
 		add_submenu_page(

@@ -38,6 +38,9 @@ class Ajax
 
 		// Reset add-ons licenses.
 		add_action('wp_ajax_simcal_reset_add_ons_licenses', [$this, 'reset_licenses']);
+
+		// Validate Google API key (Connect page).
+		add_action('wp_ajax_simcal_validate_google_api_key', [$this, 'validate_google_api_key']);
 	}
 
 	/**
@@ -204,5 +207,96 @@ class Ajax
 		delete_option('simple-calendar_licenses_status');
 
 		wp_send_json_success('success');
+	}
+
+	/**
+	 * Validate a Google Calendar API key.
+	 *
+	 * Checks whether the provided API key can successfully access
+	 * a known public Google Calendar resource.
+	 *
+	 * @since 3.6.3
+	 *
+	 * @return void
+	 */
+	public function validate_google_api_key()
+	{
+		$nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+		if (empty($nonce) || !wp_verify_nonce($nonce, 'simcal_connect_validate_google_api_key')) {
+			wp_send_json_error([
+				'message' => __('Nonce verification failed.', 'google-calendar-events'),
+			]);
+		}
+
+		if (!current_user_can('manage_options')) {
+			wp_send_json_error([
+				'message' => __('You do not have permission to do that.', 'google-calendar-events'),
+			]);
+		}
+
+		$api_key = isset($_POST['api_key']) ? sanitize_text_field(wp_unslash($_POST['api_key'])) : '';
+		if (empty($api_key)) {
+			wp_send_json_error([
+				'message' => __('Please enter an API key.', 'google-calendar-events'),
+			]);
+		}
+
+		// A known public calendar id we can query without OAuth.
+		$public_calendar_id = apply_filters(
+			'simcal_validate_api_key_public_calendar_id',
+			'en.usa%23holiday%40group.v.calendar.google.com'
+		);
+
+		$url = add_query_arg(
+			[
+				'key' => rawurlencode($api_key),
+			],
+			'https://www.googleapis.com/calendar/v3/calendars/' . $public_calendar_id
+		);
+
+		$response = wp_remote_get($url, [
+			'timeout' => 15,
+		]);
+
+		if (is_wp_error($response)) {
+			wp_send_json_error([
+				'message' => $response->get_error_message(),
+			]);
+		}
+
+		$code = (int) wp_remote_retrieve_response_code($response);
+
+		if (200 === $code) {
+			wp_send_json_success([
+				'message' => __('API key looks valid and Google Calendar API is reachable.', 'google-calendar-events'),
+			]);
+		}
+
+		$body = wp_remote_retrieve_body($response);
+		$decoded = json_decode($body, true);
+		$error_message = '';
+		if (is_array($decoded) && isset($decoded['error']['message'])) {
+			$error_message = (string) $decoded['error']['message'];
+		}
+
+		// Some Google Calendar endpoints have started rejecting API keys entirely and
+		// require OAuth tokens instead. In that case, we can't reliably know whether
+		// the key is valid or not, so we return a special "reason" and let the UI
+		// treat this as "cannot be validated here" instead of hard failure.
+		if (401 === $code && $error_message && strpos($error_message, 'API keys are not supported by this API') !== false) {
+			wp_send_json_error([
+				'message' => $error_message,
+				'reason' => 'api_keys_not_supported',
+			]);
+		}
+
+		wp_send_json_error([
+			'message' => $error_message
+				? $error_message
+				: __(
+					'Unable to validate the API key. Please check that it is correct and that the Google Calendar API is enabled in Google Cloud.',
+					'google-calendar-events'
+				),
+		]);
 	}
 }
