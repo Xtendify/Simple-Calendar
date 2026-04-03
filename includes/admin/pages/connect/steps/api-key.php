@@ -24,47 +24,52 @@ $sc_connect_validate_nonce = wp_create_nonce('simcal_connect_validate_google_api
   ); ?>
 	</p>
 
-	<form
-		id="simcal-settings-page-form"
-		method="post"
-		action="options.php"
-		data-sc-connect-validate-nonce="<?php echo esc_attr($sc_connect_validate_nonce); ?>"
-	>
-		<?php settings_fields('simple-calendar_settings_feeds'); ?>
-		<label for="sc_google_api_key" class="sc_connect_label">
-			<?php esc_html_e('Google API Key', 'google-calendar-events'); ?>
-		</label>
+	<?php
+	$form_id = 'simcal-connect-page-form';
+	$form_action = 'options.php';
+	$settings_group = 'simple-calendar_settings_feeds';
+	$form_attrs = [
+		'data-sc-connect-validate-nonce' => $sc_connect_validate_nonce,
+	];
+	include SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/partials/settings-form.php';
+	?>
+		<input type="hidden" name="simple-calendar_settings_feeds[__sc_partial_update]" value="1" />
+		<input type="hidden" name="simple-calendar_settings_feeds[__sc_partial_sections][google]" value="1" />
+		<div class="sc_item_spaced">
+			<label for="sc_google_api_key" class="sc_h6">
+				<?php esc_html_e('Google API Key', 'google-calendar-events'); ?>
+			</label>
 
-		<div id="sc_connect_api_key_wrap" class="sc_input_wrapper sc_input_wrapper--icons-outside sc_input_wrapper--square sc_input_full">
-			<input
-				id="sc_google_api_key"
-				type="password"
-				name="simple-calendar_settings_feeds[google][api_key]"
-				class="sc_input"
-				value="<?php echo esc_attr($api_key); ?>"
-				autocomplete="off"
-			/>
-			<button
-				type="button"
-				id="sc_connect_api_key_eye_btn"
-				class="sc_icon--square"
-				data-sc-password-toggle
-				data-sc-label-show="<?php echo esc_attr(__('Show API key', 'google-calendar-events')); ?>"
-				data-sc-label-hide="<?php echo esc_attr(__('Hide API key', 'google-calendar-events')); ?>"
-				onclick="if (window.scPasswordToggle &amp;&amp; window.scPasswordToggle.handleButtonClick) { window.scPasswordToggle.handleButtonClick(event); }"
-				aria-label="<?php esc_attr_e('Show API key', 'google-calendar-events'); ?>"
-				aria-controls="sc_google_api_key"
-				title="<?php esc_attr_e('Show API key', 'google-calendar-events'); ?>"
-			>
-				<img src="<?php echo esc_url($assets_base . 'eye.svg'); ?>" alt="" class="sc_input_square_show" hidden />
-				<img src="<?php echo esc_url($assets_base . 'eye-white.svg'); ?>" alt="" class="sc_input_square_show_white" />
-				<img src="<?php echo esc_url($assets_base . 'eye-hide.svg'); ?>" alt="" class="sc_input_square_hide" />
-				<img src="<?php echo esc_url($assets_base . 'eye-hide-white.svg'); ?>" alt="" class="sc_input_square_hide_white" />
-			</button>
-		</div>
+			<div id="sc_connect_api_key_wrap" class="sc_input_wrapper sc_input_wrapper--icons-outside sc_input_wrapper--square sc_input_full">
+				<input
+					id="sc_google_api_key"
+					type="password"
+					name="simple-calendar_settings_feeds[google][api_key]"
+					class="sc_input"
+					value="<?php echo esc_attr($api_key); ?>"
+					autocomplete="off"
+				/>
+				<button
+					type="button"
+					id="sc_connect_api_key_eye_btn"
+					class="sc_icon--square"
+					data-sc-password-toggle
+					data-sc-label-show="<?php echo esc_attr(__('Show API key', 'google-calendar-events')); ?>"
+					data-sc-label-hide="<?php echo esc_attr(__('Hide API key', 'google-calendar-events')); ?>"
+					onclick="if (window.scPasswordToggle &amp;&amp; window.scPasswordToggle.handleButtonClick) { window.scPasswordToggle.handleButtonClick(event); }"
+					aria-label="<?php esc_attr_e('Show API key', 'google-calendar-events'); ?>"
+					aria-controls="sc_google_api_key"
+					title="<?php esc_attr_e('Show API key', 'google-calendar-events'); ?>"
+				>
+					<img src="<?php echo esc_url($assets_base . 'eye.svg'); ?>" alt="" class="sc_input_square_show" />
+					<img src="<?php echo esc_url($assets_base . 'eye-white.svg'); ?>" alt="" class="sc_input_square_show_white" />
+					<img src="<?php echo esc_url($assets_base . 'eye-hide.svg'); ?>" alt="" class="sc_input_square_hide" />
+					<img src="<?php echo esc_url($assets_base . 'eye-hide-white.svg'); ?>" alt="" class="sc_input_square_hide_white" />
+				</button>
+			</div>
 
-		<div id="sc_connect_api_key_msg_wrap" style="display:none; margin-top: 8px;">
-			<span id="sc_connect_api_key_msg_error" class="sc_icon_warning_wrap" style="display:none;">
+			<div id="sc_connect_api_key_msg_wrap" class="sc_connect_api_key_msg_wrap is_hidden">
+			<span id="sc_connect_api_key_msg_error" class="sc_icon_warning_wrap is_hidden">
 				<span class="sc_icon--circle-small">
 					<img src="<?php echo esc_url($assets_base . 'warning.svg'); ?>" alt="" />
 				</span>
@@ -72,7 +77,7 @@ $sc_connect_validate_nonce = wp_create_nonce('simcal_connect_validate_google_api
 					<?php esc_html_e('API key is not valid', 'google-calendar-events'); ?>
 				</span>
 			</span>
-			<span id="sc_connect_api_key_msg_success" class="sc_connect_success_wrap" style="display:none;">
+			<span id="sc_connect_api_key_msg_success" class="sc_connect_success_wrap is_hidden">
 				<span class="sc_icon--circle-small">
 					<img src="<?php echo esc_url($assets_base . 'check.svg'); ?>" alt="" />
 				</span>
@@ -80,6 +85,7 @@ $sc_connect_validate_nonce = wp_create_nonce('simcal_connect_validate_google_api
 					<?php esc_html_e('API key is valid', 'google-calendar-events'); ?>
 				</span>
 			</span>
+			</div>
 		</div>
 
 		<div class="sc_connect_helper_row">
@@ -92,7 +98,7 @@ $sc_connect_validate_nonce = wp_create_nonce('simcal_connect_validate_google_api
     ); ?>
 			</p>
 
-			<a href="https://simplecalendar.io/addons/google-calendar-pro/" target="_blank" class="sc_connect_pro_link">
+			<a href="<?php echo simcal_ga_campaign_url('https://simplecalendar.io/addons/google-calendar-pro/', 'core-plugin', 'connect-api-key-pro-addon'); ?>" target="_blank" class="sc_connect_pro_link">
 				<img src="<?php echo esc_url($assets_base . 'crown.svg'); ?>" alt="" />
 				<span class="sc_link"><?php esc_html_e('Pro Version Available Here', 'google-calendar-events'); ?></span>
 			</a>
@@ -110,9 +116,8 @@ $sc_connect_validate_nonce = wp_create_nonce('simcal_connect_validate_google_api
 			</button>
 			<a
 				href="<?php echo esc_url(admin_url('post-new.php?post_type=calendar')); ?>"
-				class="sc_btn sc_btn--white"
+				class="sc_btn sc_btn--white<?php echo $has_api_key ? '' : ' is_hidden'; ?>"
 				id="sc_connect_add_calendar_btn"
-				<?php echo $has_api_key ? '' : 'style="display:none;"'; ?>
 			>
 				<?php esc_html_e('Add New Calendar', 'google-calendar-events'); ?>
 			</a>
@@ -126,25 +131,25 @@ $sc_connect_validate_nonce = wp_create_nonce('simcal_connect_validate_google_api
 			<?php esc_html_e('Helpful Link', 'google-calendar-events'); ?>
 		</h3>
 		<div class="sc_helpful_links_cards_wrapper">
-			<a href="https://docs.simplecalendar.io/" target="_blank" class="sc_helpful_link_card">
+			<a href="<?php echo simcal_ga_campaign_url('https://docs.simplecalendar.io/', 'core-plugin', 'connect-api-key-documentation'); ?>" target="_blank" class="sc_helpful_link_card">
 				<span class="sc_icon--circle">
 					<img src="<?php echo esc_url($assets_base . 'document.svg'); ?>" alt="" />
 				</span>
 				<span class="sc_helpful_link_card_label"><?php esc_html_e('Documentation', 'google-calendar-events'); ?></span>
 			</a>
-			<a href="https://simplecalendar.io/go/setup-video" target="_blank" class="sc_helpful_link_card">
+			<a href="<?php echo simcal_ga_campaign_url('https://simplecalendar.io/go/setup-video', 'core-plugin', 'connect-api-key-setup-video'); ?>" target="_blank" class="sc_helpful_link_card">
 				<span class="sc_icon--circle">
 					<img src="<?php echo esc_url($assets_base . 'clapperboard.svg'); ?>" alt="" />
 				</span>
 				<span class="sc_helpful_link_card_label"><?php esc_html_e('Setup Video', 'google-calendar-events'); ?></span>
 			</a>
-			<a href="https://simplecalendar.io/go/faq" target="_blank" class="sc_helpful_link_card">
+			<a href="<?php echo simcal_ga_campaign_url('https://simplecalendar.io/go/faq', 'core-plugin', 'connect-api-key-faq'); ?>" target="_blank" class="sc_helpful_link_card">
 				<span class="sc_icon--circle">
 					<img src="<?php echo esc_url($assets_base . 'question-white.svg'); ?>" alt="" />
 				</span>
 				<span class="sc_helpful_link_card_label"><?php esc_html_e('FAQ', 'google-calendar-events'); ?></span>
 			</a>
-			<a href="https://simplecalendar.io/go/support" target="_blank" class="sc_helpful_link_card">
+			<a href="<?php echo simcal_ga_campaign_url('https://simplecalendar.io/go/support', 'core-plugin', 'connect-api-key-support'); ?>" target="_blank" class="sc_helpful_link_card">
 				<span class="sc_icon--circle">
 					<img src="<?php echo esc_url($assets_base . 'headphone.svg'); ?>" alt="" />
 				</span>

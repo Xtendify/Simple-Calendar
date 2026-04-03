@@ -31,7 +31,8 @@ if (!defined('ABSPATH')) {
 			</div>
 		</div>
 
-		<div class="sc_connect_page_inner">
+		<?php $hide_sidebar = !empty($context['hide_sidebar']); ?>
+		<div class="sc_connect_page_inner<?php echo $hide_sidebar ? ' sc_connect_page_inner--no-sidebar' : ''; ?>">
 			<div>
 				<?php
     // Step content.
@@ -42,12 +43,14 @@ if (!defined('ABSPATH')) {
     ?>
 			</div>
 
-			<div>
-				<?php // Sidebar content.
-    if (!empty($context['sidebar_template_path']) && is_string($context['sidebar_template_path'])) {
-    	include $context['sidebar_template_path'];
-    } ?>
-			</div>
+			<?php if (!$hide_sidebar) { ?>
+				<div>
+					<?php // Sidebar content.
+     if (!empty($context['sidebar_template_path']) && is_string($context['sidebar_template_path'])) {
+     	include $context['sidebar_template_path'];
+     } ?>
+				</div>
+			<?php } ?>
 		</div>
 	</div>
 </div>

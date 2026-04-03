@@ -41,6 +41,103 @@ class Ajax
 
 		// Validate Google API key (Connect page).
 		add_action('wp_ajax_simcal_validate_google_api_key', [$this, 'validate_google_api_key']);
+
+		// Check OAuth connection health (Connect page).
+		add_action('wp_ajax_simcal_connect_oauth_via_sc_check', [$this, 'connect_oauth_via_sc_check']);
+		add_action('wp_ajax_simcal_connect_own_oauth_check', [$this, 'connect_own_oauth_check']);
+
+		// Pro Connect: remember "OAuth via Simple Calendar" choice for progress (before redirect).
+		add_action('wp_ajax_simcal_mark_pro_connection_via_sc', [$this, 'mark_pro_connection_via_sc']);
+	}
+
+	/**
+	 * Store Pro Connect choice: OAuth via Simple Calendar (helper).
+	 *
+	 * @since 3.6.3
+	 */
+	public function mark_pro_connection_via_sc()
+	{
+		$nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+		if (!wp_verify_nonce($nonce, 'simcal_mark_pro_connection')) {
+			wp_send_json_error(['message' => __('Nonce verification failed.', 'google-calendar-events')], 403);
+		}
+		if (!current_user_can('manage_options')) {
+			wp_send_json_error(['message' => __('You do not have permission to do this.', 'google-calendar-events')], 403);
+		}
+		// Site-wide admin setting: store for all users.
+		update_option('simple_calendar_connect_pro_connection_type', 'via_sc', false);
+		wp_send_json_success();
+	}
+
+	/**
+	 * Check if OAuth connection is actually working by fetching calendar list.
+	 *
+	 * @since 3.6.3
+	 */
+	public function connect_oauth_via_sc_check()
+	{
+		$nonce = isset($_POST['nonce']) ? esc_attr($_POST['nonce']) : '';
+		if (!wp_verify_nonce($nonce, 'simcal_connect_oauth_via_sc_check')) {
+			wp_send_json_error(['message' => __('Nonce verification failed.', 'google-calendar-events')], 403);
+		}
+		if (!current_user_can('manage_options')) {
+			wp_send_json_error(['message' => __('You do not have permission to do this.', 'google-calendar-events')], 403);
+		}
+		if (!class_exists('\SimpleCalendar\Admin\Oauth_Ajax')) {
+			wp_send_json_error(['message' => __('OAuth service is unavailable.', 'google-calendar-events')], 500);
+		}
+
+		$oauth = new \SimpleCalendar\Admin\Oauth_Ajax();
+		$list = $oauth->auth_get_calendarlist();
+
+		// `auth_get_calendarlist()` returns ['Error' => '...'] on failures.
+		if (is_array($list) && isset($list['Error'])) {
+			delete_option('simple_calendar_connect_pro_oauth_health_ok');
+			wp_send_json_error(['message' => (string) $list['Error']], 200);
+		}
+
+		// Treat any non-empty list as connected.
+		if (is_array($list) && !empty($list)) {
+			update_option('simple_calendar_connect_pro_oauth_health_ok', '1', false);
+			wp_send_json_success(['connected' => true]);
+		}
+
+		delete_option('simple_calendar_connect_pro_oauth_health_ok');
+		wp_send_json_error(['message' => __('Unable to verify connection.', 'google-calendar-events')], 200);
+	}
+
+	/**
+	 * Check if Own OAuth connection is working (Connect page).
+	 *
+	 * The Pro add-on should provide the calendar list via filter.
+	 *
+	 * @since 3.6.3
+	 */
+	public function connect_own_oauth_check()
+	{
+		$nonce = isset($_POST['nonce']) ? esc_attr($_POST['nonce']) : '';
+		if (!wp_verify_nonce($nonce, 'simcal_connect_oauth_via_sc_check')) {
+			wp_send_json_error(['message' => __('Nonce verification failed.', 'google-calendar-events')], 403);
+		}
+		if (!current_user_can('manage_options')) {
+			wp_send_json_error(['message' => __('You do not have permission to do this.', 'google-calendar-events')], 403);
+		}
+
+		$result = apply_filters('simcal_connect_own_oauth_calendarlist', null);
+
+		if (is_wp_error($result)) {
+			delete_option('simple_calendar_connect_pro_own_oauth_health_ok');
+			wp_send_json_error(['message' => $result->get_error_message()], 200);
+		}
+
+		// If the add-on isn't available or there's no token yet, treat as not connected.
+		if (!is_array($result) || empty($result)) {
+			delete_option('simple_calendar_connect_pro_own_oauth_health_ok');
+			wp_send_json_success(['connected' => false]);
+		}
+
+		update_option('simple_calendar_connect_pro_own_oauth_health_ok', '1', false);
+		wp_send_json_success(['connected' => true]);
 	}
 
 	/**
