@@ -113,14 +113,23 @@ final class Plugin
 		// Do update call here.
 		add_action('admin_init', [$this, 'update'], 999);
 
-		// Redirect to Connect page after activation (only hook when needed).
-		if (is_admin() && get_option('simple-calendar_redirect_to_connect')) {
+		// Redirect to Connect page after activation (core or supported add-on).
+		// Only hook when needed.
+		if (
+			is_admin() &&
+			(get_option('simple-calendar_redirect_to_connect') || get_option('simple_calendar_pro_redirect_to_connect'))
+		) {
 			add_action('admin_init', [$this, 'maybe_redirect_to_connect'], 1);
 		}
 
 		// Init hooks.
 		add_action('init', [$this, 'init'], 5);
 		add_action('admin_init', [$this, 'register_settings'], 5);
+
+		// After Connect "Save & Authenticate", send user to Google OAuth (options.php redirect override).
+		if (is_admin()) {
+			add_filter('wp_redirect', [$this, 'redirect_connect_google_pro_save_and_authenticate'], 99, 2);
+		}
 
 		//Oauth Helper init
 		add_action('init', [$this, 'oauth_helper_init'], 5);
@@ -341,8 +350,16 @@ final class Plugin
 			return;
 		}
 
-		// Do not redirect during AJAX or if no redirect flag is set.
-		if ((defined('DOING_AJAX') && DOING_AJAX) || !get_option('simple-calendar_redirect_to_connect')) {
+		// Do not redirect during AJAX.
+		if (defined('DOING_AJAX') && DOING_AJAX) {
+			return;
+		}
+
+		$core_flag = (bool) get_option('simple-calendar_redirect_to_connect');
+		$addon_flag = 1 === (int) get_option('simple_calendar_pro_redirect_to_connect', 0);
+
+		// Do not redirect if no redirect flag is set.
+		if (!$core_flag && !$addon_flag) {
 			return;
 		}
 
@@ -350,17 +367,68 @@ final class Plugin
 		if (isset($_GET['activate-multi'])) {
 			// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			delete_option('simple-calendar_redirect_to_connect');
+			delete_option('simple_calendar_pro_redirect_to_connect');
 			return;
 		}
 
 		// Clear the flag so we only redirect once.
 		delete_option('simple-calendar_redirect_to_connect');
+		delete_option('simple_calendar_pro_redirect_to_connect');
 
-		$redirect_url = admin_url('edit.php?post_type=calendar&page=simple-calendar_connect');
+		$redirect_url = admin_url(
+			$addon_flag
+				? 'edit.php?post_type=calendar&page=simple-calendar_connect&sc_welcome=1'
+				: 'edit.php?post_type=calendar&page=simple-calendar_connect'
+		);
 
 		wp_safe_redirect($redirect_url);
 		exit();
 	}
+
+	/**
+	 * When saving Google Pro credentials from Connect via "Save & Authenticate", redirect to Google OAuth
+	 * instead of returning to the Connect screen (after options.php has persisted settings).
+	 *
+	 * @param string $location Redirect target URL.
+	 * @param int    $status   HTTP status code.
+	 *
+	 * @return string
+	 */
+	public function redirect_connect_google_pro_save_and_authenticate($location, $status)
+	{
+		if ('POST' !== ($_SERVER['REQUEST_METHOD'] ?? '')) {
+			return $location;
+		}
+		if (empty($_POST['sc_connect_save_and_authenticate']) || '1' !== (string) wp_unslash($_POST['sc_connect_save_and_authenticate'])) {
+			return $location;
+		}
+		if (empty($_POST['option_page']) || 'simple-calendar_settings_feeds' !== (string) wp_unslash($_POST['option_page'])) {
+			return $location;
+		}
+		if (!current_user_can('manage_options')) {
+			return $location;
+		}
+
+		$referer = wp_get_referer();
+		if (!$referer || false === strpos($referer, 'simple-calendar_connect')) {
+			return $location;
+		}
+
+		// Only hijack the normal settings-updated return from options.php (successful save path).
+		if (false === strpos((string) $location, 'settings-updated=true')) {
+			return $location;
+		}
+
+		$auth_url = apply_filters('simcal_connect_authenticate_with_google_url', '');
+		$auth_url = is_string($auth_url) ? trim($auth_url) : '';
+
+		if (empty($auth_url) || !preg_match('#^https://#i', $auth_url)) {
+			return $location;
+		}
+
+		return $auth_url;
+	}
+
 }
 
 /**

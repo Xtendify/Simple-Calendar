@@ -361,9 +361,275 @@
 		margin-top: 4px;
 	}
 
+	/* ========================================
+	   STEP: PRO CREDENTIALS
+	   ======================================== */
+	.sc_connect_credentials_header {
+		display: flex;
+		align-items: baseline;
+		gap: 10px;
+
+		.sc_connect_oauth_status_header_badge {
+			display: inline-flex;
+			align-items: center;
+			padding-bottom: 2px;
+		}
+
+		.sc_connect_credentials_auth_status_dot {
+			width: 6px;
+			height: 6px;
+			border-radius: 999px;
+			background: var(--sc-color-green);
+			display: inline-block;
+		}
+
+		/* OAuth header badge (synced with AJAX calendar-list check) */
+		.sc_connect_oauth_status_header_badge_inner {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+		}
+
+		.sc_connect_oauth_status_header_badge--pending {
+			color: var(--sc-color-dark-gray);
+
+			.sc_connect_oauth_status_header_dot,
+			.sc_connect_oauth_status_header_warn {
+				display: none;
+			}
+		}
+
+		.sc_connect_oauth_status_header_badge--ok {
+			color: var(--sc-color-green);
+
+			.sc_connect_oauth_status_header_warn {
+				display: none;
+			}
+
+			.sc_connect_oauth_status_header_dot {
+				display: inline-block;
+			}
+		}
+
+		.sc_connect_oauth_status_header_badge--error {
+			color: var(--sc-color-red);
+
+			.sc_connect_oauth_status_header_dot {
+				display: none;
+			}
+
+			.sc_connect_oauth_status_header_warn {
+				display: inline-block;
+				object-fit: contain;
+				flex-shrink: 0;
+			}
+		}
+	}
+
+	.sc_connect_credentials_subtitle {
+		margin-top: 8px;
+	}
+
+	.sc_connect_google_api_key_health_detail:not(.is_hidden) {
+		margin-top: 8px;
+		color: var(--sc-color-red);
+		line-height: var(--sc-body-small-line-height);
+	}
+
+	.sc_connect_credentials_actions_center {
+		justify-content: center;
+		margin-top: 32px;
+	}
+
+	.sc_connect_auth_status_box {
+		margin: 50px auto 0;
+		max-width: 370px;
+		width: 100%;
+		min-height: 126px;
+		border-radius: 100px;
+		background: var(--sc-color-alabaster-grey);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 11px;
+		padding: 18px 28px;
+		box-sizing: border-box;
+
+		// Left icon (Simple Calendar)
+		.sc_connect_auth_status_icon_circle {
+			width: 74px;
+			height: 74px;
+			border-radius: 999px;
+			background: var(--sc-color-white);
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			flex-shrink: 0;
+
+			img {
+				width: 42px;
+				height: 42px;
+				display: block;
+			}
+		}
+
+		// Center status (link/unlink + label)
+		.sc_connect_auth_status_center {
+			display: inline-flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 8px;
+			transform: translateY(16px);
+
+			.sc_connect_auth_status_link_row {
+				display: inline-flex;
+				align-items: center;
+				gap: 10px;
+			}
+
+			.sc_connect_auth_status_line {
+				width: 40px;
+				border-top: 1px solid var(--sc-color-black);
+			}
+
+			.sc_connect_auth_status_link_icon {
+				width: 30px;
+				height: 30px;
+				display: block;
+			}
+
+			.sc_connect_oauth_status {
+				display: inline-flex;
+				align-items: center;
+				gap: 6px;
+
+				&--ok {
+					color: var(--sc-color-green);
+				}
+
+				&--error {
+					color: var(--sc-color-red);
+				}
+
+				&--disconnected {
+					color: var(--sc-color-dark-gray);
+				}
+			}
+
+			.sc_connect_auth_status_text {
+				font-family: var(--sc-font-body);
+				font-weight: var(--sc-font-weight-medium);
+				font-size: var(--sc-font-medium-sm);
+				line-height: var(--sc-body-medium-sm-line-height);
+				color: var(--sc-color-black);
+				margin-top: 2px;
+			}
+		}
+
+		// Right icon (Google) uses same base styles as the left icon circle.
+	}
+
+	.sc_connect_credentials_link_row_center {
+		margin-top: 21px;
+		text-align: center;
+	}
+
+	.sc_connect_credentials_helper_row {
+		margin-top: 18px;
+		justify-content: flex-start;
+	}
+
+	.sc_connect_credentials_form {
+		margin-top: 16px;
+	}
+
+	.sc_connect_credentials_step_help {
+		margin-top: 8px;
+	}
+
+	.sc_connect_credentials_field_top {
+		margin-top: 16px;
+	}
+
+	.sc_connect_credentials_actions_top {
+		margin-top: 18px;
+	}
+
+	/* OAuth deauthenticate: in-page confirm (replaces browser confirm on Connect) */
+	.sc_connect_modal {
+		position: fixed;
+		inset: 0;
+		z-index: 100000;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 24px;
+		box-sizing: border-box;
+
+		&.is_hidden {
+			display: none;
+		}
+
+		.sc_connect_modal__backdrop {
+			position: absolute;
+			inset: 0;
+			background: rgba(0, 0, 0, 0.45);
+		}
+
+		.sc_connect_modal__panel {
+			position: relative;
+			z-index: 1;
+			width: 100%;
+			max-width: 420px;
+			margin: 0;
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+		}
+
+		.sc_connect_modal__message {
+			margin: 0 0 24px;
+		}
+
+		.sc_connect_modal__actions {
+			margin-top: 0;
+			justify-content: flex-end;
+			flex-wrap: wrap;
+		}
+	}
+
+	.is_hidden {
+		display: none;
+	}
+
+	.sc_connect_api_key_msg_wrap {
+		margin-top: 8px;
+	}
+
+	.sc_connect_credentials_link_row {
+		margin-top: 10px;
+	}
+
+	.sc_connect_credentials_core_card {
+		margin-top: 24px;
+	}
+
+	.sc_connect_credentials_core_form {
+		margin-top: 12px;
+	}
+
 	@media (max-width: 1024px) {
 		.sc_connect_page_outer .sc_connect_page_inner {
 			grid-template-columns: 1fr;
 		}
+	}
+
+	/* ========================================
+	   CONNECT PAGE - NO SIDEBAR LAYOUT (welcome step)
+	   Ensures the main column uses full width and is centered.
+	   ======================================== */
+	.sc_connect_page_outer .sc_connect_page_inner.sc_connect_page_inner--no-sidebar {
+		grid-template-columns: 1fr;
+		gap: 0;
+		margin-left: auto;
+		margin-right: auto;
 	}
 }
