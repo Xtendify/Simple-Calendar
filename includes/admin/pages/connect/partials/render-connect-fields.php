@@ -74,7 +74,8 @@ foreach ($field_defs as $key => $def) {
 					aria-label="<?php esc_attr_e('Copy', 'google-calendar-events'); ?>"
 					title="<?php esc_attr_e('Copy', 'google-calendar-events'); ?>"
 				>
-					<img src="<?php echo esc_url($assets_base . 'copy.svg'); ?>" alt="" />
+					<img src="<?php echo esc_url($assets_base . 'copy.svg'); ?>" alt="" class="sc_icon_copy" />
+					<img src="<?php echo esc_url($assets_base . 'copy-white.svg'); ?>" alt="" class="sc_icon_copy_white" />
 				</button>
 			<?php } ?>
 		</div>

@@ -89,6 +89,7 @@ class Oauth_Ajax
 			delete_option('simple_calendar_connect_pro_connection_type');
 			delete_option('simple_calendar_connect_pro_oauth_health_ok');
 			delete_option('simple_calendar_connect_pro_own_oauth_health_ok');
+			delete_option('simple-calendar_connect_pro_setup_completed_at');
 			$message = __('DeAuthenticate Successfully.', 'google-calendar-events');
 			$send_msg = ['message' => $message];
 			wp_send_json_success($send_msg);

@@ -56,6 +56,13 @@ class Assets
 		 * Register Admin Scripts *
 		 * ====================== */
 
+		// Use file mtimes to avoid stale admin asset caches during development/releases.
+		$admin_js_ver = SIMPLE_CALENDAR_VERSION;
+		$admin_js_file = SIMPLE_CALENDAR_PATH . 'assets/generated/admin.min.js';
+		if (is_string($admin_js_file) && file_exists($admin_js_file)) {
+			$admin_js_ver = (string) filemtime($admin_js_file);
+		}
+
 		// TipTip uses ".minified.js" filename ending.
 		wp_register_script(
 			'simcal-tiptip',
@@ -69,7 +76,7 @@ class Assets
 			'simcal-admin',
 			$js_path . 'admin.min.js',
 			['jquery', 'jquery-ui-sortable', 'jquery-ui-datepicker', 'wp-color-picker', 'simcal-tiptip', 'simcal-select2'],
-			SIMPLE_CALENDAR_VERSION,
+			$admin_js_ver,
 			true
 		);
 		wp_register_script(
@@ -122,6 +129,7 @@ class Assets
 			wp_localize_script('simcal-admin', 'simcal_connect', [
 				'ajax_url' => admin_url('admin-ajax.php'),
 				'nonce' => wp_create_nonce('simcal_connect_validate_google_api_key'),
+				'google_api_key_health_nonce' => wp_create_nonce('simcal_connect_google_api_key_health'),
 				'oauth_check_nonce' => wp_create_nonce('simcal_connect_oauth_via_sc_check'),
 				'mark_pro_connection_nonce' => wp_create_nonce('simcal_mark_pro_connection'),
 				'check_icon_url' => SIMPLE_CALENDAR_ASSETS . 'images/admin/check.svg',
@@ -140,6 +148,10 @@ class Assets
 					'oauth_connected' => __('Connected', 'google-calendar-events'),
 					'oauth_error' => __('Error', 'google-calendar-events'),
 					'oauth_not_connected' => __('Not Connected', 'google-calendar-events'),
+					'google_api_key_public_calendar_failed' => __(
+						'Could not load public calendar data with this API key. Events may not display until this is fixed.',
+						'google-calendar-events'
+					),
 				],
 			]);
 

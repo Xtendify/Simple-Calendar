@@ -81,21 +81,48 @@ $has_client_credentials =
 	!empty(trim((string) ($google_pro['client_id'] ?? ''))) && !empty(trim((string) ($google_pro['client_secret'] ?? '')));
 
 // Pro onboarding completion requires a Pro calendar feed configured (e.g. google-pro).
+// Some installs store the feed type in taxonomy `calendar_feed`, others in meta `_feed_type`.
 $has_published_pro_calendar = false;
+
+// Prefer taxonomy check (current storage). Fall back to legacy meta only if needed.
+$pro_query_base = [
+	'post_type' => 'calendar',
+	'post_status' => 'publish',
+	'posts_per_page' => 1,
+	'fields' => 'ids',
+];
+
 if (taxonomy_exists('calendar_feed')) {
-	$pro_calendar_query = new WP_Query([
-		'post_type' => 'calendar',
-		'post_status' => 'publish',
-		'posts_per_page' => 1,
-		'fields' => 'ids',
+	$pro_calendar_query = new WP_Query(array_merge($pro_query_base, [
 		'tax_query' => [
 			[
 				'taxonomy' => 'calendar_feed',
 				'field' => 'slug',
-				'terms' => ['google-pro'],
+				'terms' => ['google-pro', 'google_pro'],
 			],
 		],
-	]);
+	]));
+	$has_published_pro_calendar = $pro_calendar_query->have_posts();
+	wp_reset_postdata();
+}
+
+if (!$has_published_pro_calendar) {
+	// Legacy meta key used by some versions.
+	$pro_calendar_query = new WP_Query(array_merge($pro_query_base, [
+		'meta_query' => [
+			'relation' => 'OR',
+			[
+				'key' => '_feed_type',
+				'value' => 'google-pro',
+				'compare' => '=',
+			],
+			[
+				'key' => '_feed_type',
+				'value' => 'google_pro',
+				'compare' => '=',
+			],
+		],
+	]));
 	$has_published_pro_calendar = $pro_calendar_query->have_posts();
 	wp_reset_postdata();
 }
@@ -122,12 +149,28 @@ $should_hide_progress = $has_published_calendar && $completed_timestamp > 0 && t
 // Pro flow must never be shown when Pro is inactive.
 $is_pro_flow = $is_pro_active;
 
-// For Pro onboarding, always keep progress visible until Pro setup is complete.
-$pro_setup_complete = $has_oauth_connection || $has_client_credentials;
-$pro_setup_complete = (bool) apply_filters('simcal_connect_is_pro_setup_complete', $pro_setup_complete, $feeds_options);
-
+// For Pro onboarding, mirror core: keep the progress card until setup is complete, then hide it after one day
+// (rating card only; no Pro upsell — see sidebar).
 if ($is_pro_flow) {
-	$should_hide_progress = false;
+	$pro_oauth_ok = '1' === (string) get_option('simple_calendar_connect_pro_oauth_health_ok', '');
+	$pro_own_ok = '1' === (string) get_option('simple_calendar_connect_pro_own_oauth_health_ok', '');
+	$pro_onboarding_complete = $has_published_pro_calendar || $pro_oauth_ok || $pro_own_ok;
+
+	$pro_completed_timestamp = (int) get_option('simple-calendar_connect_pro_setup_completed_at', 0);
+	if ($pro_onboarding_complete && $pro_completed_timestamp <= 0) {
+		$pro_completed_timestamp = time();
+		update_option('simple-calendar_connect_pro_setup_completed_at', $pro_completed_timestamp, false);
+	}
+
+	if (
+		$pro_onboarding_complete &&
+		$pro_completed_timestamp > 0 &&
+		(time() - $pro_completed_timestamp) >= $hide_progress_after
+	) {
+		$should_hide_progress = true;
+	} else {
+		$should_hide_progress = false;
+	}
 }
 
 // Decide current step.
@@ -144,7 +187,7 @@ if ($show_welcome) {
 
 $step_title_map = [
 	'welcome' => __('Welcome', 'google-calendar-events'),
-	'credentials' => __('Add Credentials', 'google-calendar-events'),
+	'credentials' => __('Authentication', 'google-calendar-events'),
 	'api_key' => __('Add API Key', 'google-calendar-events'),
 	'add_calendar' => __('Add New Calendar', 'google-calendar-events'),
 ];
@@ -154,7 +197,7 @@ $step_template_map = [
 	'welcome' => SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/steps/welcome.php',
 	'credentials' => SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/steps/credentials.php',
 	'api_key' => SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/steps/api-key.php',
-	'add_calendar' => SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/steps/add-calendar.php',
+	'add_calendar' => SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/steps/api-key.php',
 ];
 $step_template_path = isset($step_template_map[$step]) ? $step_template_map[$step] : $step_template_map['api_key'];
 

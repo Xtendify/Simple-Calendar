@@ -366,8 +366,14 @@
 	   ======================================== */
 	.sc_connect_credentials_header {
 		display: flex;
-		align-items: center;
+		align-items: baseline;
 		gap: 10px;
+
+		.sc_connect_oauth_status_header_badge {
+			display: inline-flex;
+			align-items: center;
+			padding-bottom: 2px;
+		}
 
 		.sc_connect_credentials_auth_status_dot {
 			width: 6px;
@@ -424,6 +430,12 @@
 		margin-top: 8px;
 	}
 
+	.sc_connect_google_api_key_health_detail:not(.is_hidden) {
+		margin-top: 8px;
+		color: var(--sc-color-red);
+		line-height: var(--sc-body-small-line-height);
+	}
+
 	.sc_connect_credentials_actions_center {
 		justify-content: center;
 		margin-top: 32px;
@@ -435,7 +447,7 @@
 		width: 100%;
 		min-height: 126px;
 		border-radius: 100px;
-		background: var(--sc-connect-auth-status-bg);
+		background: var(--sc-color-alabaster-grey);
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -477,7 +489,7 @@
 
 			.sc_connect_auth_status_line {
 				width: 40px;
-				border-top: var(--sc-border-black-1);
+				border-top: 1px solid var(--sc-color-black);
 			}
 
 			.sc_connect_auth_status_link_icon {
@@ -543,6 +555,47 @@
 		margin-top: 18px;
 	}
 
+	/* OAuth deauthenticate: in-page confirm (replaces browser confirm on Connect) */
+	.sc_connect_modal {
+		position: fixed;
+		inset: 0;
+		z-index: 100000;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 24px;
+		box-sizing: border-box;
+
+		&.is_hidden {
+			display: none;
+		}
+
+		.sc_connect_modal__backdrop {
+			position: absolute;
+			inset: 0;
+			background: rgba(0, 0, 0, 0.45);
+		}
+
+		.sc_connect_modal__panel {
+			position: relative;
+			z-index: 1;
+			width: 100%;
+			max-width: 420px;
+			margin: 0;
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+		}
+
+		.sc_connect_modal__message {
+			margin: 0 0 24px;
+		}
+
+		.sc_connect_modal__actions {
+			margin-top: 0;
+			justify-content: flex-end;
+			flex-wrap: wrap;
+		}
+	}
+
 	.is_hidden {
 		display: none;
 	}
@@ -576,7 +629,6 @@
 	.sc_connect_page_outer .sc_connect_page_inner.sc_connect_page_inner--no-sidebar {
 		grid-template-columns: 1fr;
 		gap: 0;
-		max-width: 1160px;
 		margin-left: auto;
 		margin-right: auto;
 	}

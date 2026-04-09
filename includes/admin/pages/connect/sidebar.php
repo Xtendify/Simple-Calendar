@@ -17,6 +17,9 @@ if (!defined('ABSPATH')) {
 	exit();
 }
 
+$is_pro = isset($welcome_context) && 'pro' === (string) $welcome_context;
+$has_published_pro_calendar = isset($has_published_pro_calendar) ? (bool) $has_published_pro_calendar : false;
+
 if (!$should_hide_progress) {
 	$is_pro = isset($welcome_context) && 'pro' === (string) $welcome_context;
 
@@ -53,6 +56,18 @@ if (!$should_hide_progress) {
 			$percent = 25;
 		}
 
+		$pro_step_connection_done = $connection_type_chosen || $has_published_pro_calendar;
+		$pro_step_auth_done =
+			$has_via_sc_authenticated ||
+			$has_own_authenticated ||
+			(('own' === $pro_connection_choice || $show_own_credentials) && $has_client_credentials) ||
+			$has_published_pro_calendar;
+		$pro_step_private_done =
+			$has_published_pro_calendar || $has_via_sc_authenticated || $has_own_authenticated;
+		if ($pro_step_connection_done && $pro_step_auth_done && $pro_step_private_done) {
+			$percent = 100;
+		}
+
 		$labels = [
 			25 => __('25% Ready', 'google-calendar-events'),
 			50 => __('50% Ready', 'google-calendar-events'),
@@ -78,7 +93,7 @@ if (!$should_hide_progress) {
 				],
 				[
 					'id' => 'sc_connect_step_credentials',
-					'text' => __('Enter Client ID & Secret Key', 'google-calendar-events'),
+					'text' => __('Authentication', 'google-calendar-events'),
 					'completed' =>
 						$has_via_sc_authenticated ||
 						$has_own_authenticated ||
@@ -124,9 +139,9 @@ if (!$should_hide_progress) {
 		];
 	}
 
-	// This class forces all connectors/checkbox rings to green.
-	// It should only reflect CORE setup completion, not Pro onboarding progress.
-	$force_complete_styles = !$is_pro && $has_published_calendar;
+	// This class forces all connectors/checkbox rings to green when setup is fully complete.
+	$progress_percent = isset($progress['percent']) ? (int) $progress['percent'] : 0;
+	$force_complete_styles = (!$is_pro && $has_published_calendar) || ($is_pro && $progress_percent >= 100);
 	include SIMPLE_CALENDAR_PATH . 'includes/admin/pages/components/progress.php';
 	return;
 }
@@ -156,53 +171,55 @@ if (!$should_hide_progress) {
 		</a>
 	</div>
 
-	<div class="sc_setup_card sc_connect_pro_card">
-		<h3 class="sc_connect_pro_title">
-			<?php esc_html_e('Get Pro to Access', 'google-calendar-events'); ?>
-		</h3>
-		<p class="sc_connect_pro_subtitle">
-			<?php esc_html_e(
-   	'Simple Calendar is a Calendar WordPress plugin made for powerful, automated event displays.',
-   	'google-calendar-events'
-   ); ?>
-		</p>
-		<ul class="sc_connect_pro_list">
-			<li>
-				<span class="sc_connect_pro_list_icon">
-					<img src="<?php echo esc_url($assets_base . 'check.svg'); ?>" alt="" />
-				</span>
-				<span class="sc_connect_pro_list_text">
-					<?php esc_html_e('Priority 24/7 Support', 'google-calendar-events'); ?>
-				</span>
-			</li>
-			<li>
-				<span class="sc_connect_pro_list_icon">
-					<img src="<?php echo esc_url($assets_base . 'check.svg'); ?>" alt="" />
-				</span>
-				<span class="sc_connect_pro_list_text">
-					<?php esc_html_e('Private Google Calendars', 'google-calendar-events'); ?>
-				</span>
-			</li>
-			<li>
-				<span class="sc_connect_pro_list_icon">
-					<img src="<?php echo esc_url($assets_base . 'check.svg'); ?>" alt="" />
-				</span>
-				<span class="sc_connect_pro_list_text">
-					<?php esc_html_e('Attachments & Advanced Display', 'google-calendar-events'); ?>
-				</span>
-			</li>
-			<li>
-				<span class="sc_connect_pro_list_icon">
-					<img src="<?php echo esc_url($assets_base . 'check.svg'); ?>" alt="" />
-				</span>
-				<span class="sc_connect_pro_list_text">
-					<?php esc_html_e('More Add‑ons & Features', 'google-calendar-events'); ?>
-				</span>
-			</li>
-		</ul>
-		<a href="<?php echo simcal_ga_campaign_url('https://simplecalendar.io/addons/google-calendar-pro/', 'core-plugin', 'connect-sidebar-pro-addon'); ?>" target="_blank" class="sc_btn sc_btn--blue sc_connect_pro_btn">
-			<?php esc_html_e('Upgrade to Pro', 'google-calendar-events'); ?>
-		</a>
-	</div>
+	<?php if (!$is_pro) { ?>
+		<div class="sc_setup_card sc_connect_pro_card">
+			<h3 class="sc_connect_pro_title">
+				<?php esc_html_e('Get Pro to Access', 'google-calendar-events'); ?>
+			</h3>
+			<p class="sc_connect_pro_subtitle">
+				<?php esc_html_e(
+    	'Simple Calendar is a Calendar WordPress plugin made for powerful, automated event displays.',
+    	'google-calendar-events'
+    ); ?>
+			</p>
+			<ul class="sc_connect_pro_list">
+				<li>
+					<span class="sc_connect_pro_list_icon">
+						<img src="<?php echo esc_url($assets_base . 'check.svg'); ?>" alt="" />
+					</span>
+					<span class="sc_connect_pro_list_text">
+						<?php esc_html_e('Priority 24/7 Support', 'google-calendar-events'); ?>
+					</span>
+				</li>
+				<li>
+					<span class="sc_connect_pro_list_icon">
+						<img src="<?php echo esc_url($assets_base . 'check.svg'); ?>" alt="" />
+					</span>
+					<span class="sc_connect_pro_list_text">
+						<?php esc_html_e('Private Google Calendars', 'google-calendar-events'); ?>
+					</span>
+				</li>
+				<li>
+					<span class="sc_connect_pro_list_icon">
+						<img src="<?php echo esc_url($assets_base . 'check.svg'); ?>" alt="" />
+					</span>
+					<span class="sc_connect_pro_list_text">
+						<?php esc_html_e('Attachments & Advanced Display', 'google-calendar-events'); ?>
+					</span>
+				</li>
+				<li>
+					<span class="sc_connect_pro_list_icon">
+						<img src="<?php echo esc_url($assets_base . 'check.svg'); ?>" alt="" />
+					</span>
+					<span class="sc_connect_pro_list_text">
+						<?php esc_html_e('More Add‑ons & Features', 'google-calendar-events'); ?>
+					</span>
+				</li>
+			</ul>
+			<a href="<?php echo simcal_ga_campaign_url('https://simplecalendar.io/addons/google-calendar-pro/', 'core-plugin', 'connect-sidebar-pro-addon'); ?>" target="_blank" class="sc_btn sc_btn--blue sc_connect_pro_btn">
+				<?php esc_html_e('Upgrade to Pro', 'google-calendar-events'); ?>
+			</a>
+		</div>
+	<?php } ?>
 </div>
 

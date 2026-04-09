@@ -38,6 +38,25 @@ wp_nonce_field('oauth_action_deauthentication', 'oauth_action_deauthentication')
 			<?php esc_html_e('Deauthenticate', 'google-calendar-events'); ?>
 			<i class="simcal-icon-spinner simcal-icon-spin is_hidden"></i>
 		</a>
+		<div id="sc_oauth_deauth_modal" class="sc_connect_modal is_hidden" aria-hidden="true">
+			<div class="sc_connect_modal__backdrop" data-sc-deauth-modal-dismiss tabindex="-1"></div>
+			<div
+				class="sc_connect_modal__panel sc_setup_card"
+				role="dialog"
+				aria-modal="true"
+				aria-labelledby="sc_oauth_deauth_modal_title"
+			>
+				<p id="sc_oauth_deauth_modal_title" class="sc_connect_modal__message sc_text--body_b1"></p>
+				<div class="sc_connect_form_actions sc_connect_modal__actions">
+					<button type="button" class="sc_btn sc_btn--blue" id="sc_oauth_deauth_confirm">
+						<?php esc_html_e('OK', 'google-calendar-events'); ?>
+					</button>
+					<button type="button" class="sc_btn sc_btn--white" data-sc-deauth-modal-dismiss>
+						<?php esc_html_e('Cancel', 'google-calendar-events'); ?>
+					</button>
+				</div>
+			</div>
+		</div>
 	<?php } ?>
 </div>
 

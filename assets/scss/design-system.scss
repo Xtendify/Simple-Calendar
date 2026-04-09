@@ -91,8 +91,7 @@
 	--sc-color-white: #ffffff;
 	--sc-color-green: #50be1d;
 	--sc-color-red: #be1d1d;
-	--sc-connect-auth-status-bg: #e5e5e5;
-	--sc-border-black-1: 1px solid var(--sc-color-black);
+	--sc-color-alabaster-grey: #e5e5e5;
 
 	/* ===== LAYOUT TOKENS ===== */
 	--sc-icon-circle-size: 51px;
@@ -881,17 +880,20 @@
 
 		/* White icons: hidden by default (override .sc_icon--square img); show only on hover */
 		img.sc_input_square_show_white,
-		img.sc_input_square_hide_white {
+		img.sc_input_square_hide_white,
+		img.sc_icon_copy_white {
 			display: none;
 		}
 
 		&:hover .sc_input_square_show,
-		&:hover .sc_input_square_hide {
+		&:hover .sc_input_square_hide,
+		&:hover .sc_icon_copy {
 			display: none;
 		}
 
 		&:hover .sc_input_square_show_white,
-		&:hover .sc_input_square_hide_white {
+		&:hover .sc_input_square_hide_white,
+		&:hover .sc_icon_copy_white {
 			display: none;
 		}
 
@@ -900,6 +902,10 @@
 		}
 
 		&:hover .sc_input_square_hide:not([hidden]) ~ .sc_input_square_hide_white {
+			display: block;
+		}
+
+		&:hover .sc_icon_copy ~ .sc_icon_copy_white {
 			display: block;
 		}
 
@@ -1013,14 +1019,13 @@
 	.sc_checklist {
 		list-style: none;
 		padding: 0;
-		margin: 0;
 		position: relative;
 		padding-left: 10px;
 	}
 
 	.sc_checklist_item {
 		display: flex;
-		align-items: flex-start;
+		align-items: baseline;
 		gap: 12px;
 		padding: 6px 0;
 		font-family: var(--sc-font-body);
@@ -1131,7 +1136,6 @@
 		align-items: center;
 		justify-content: space-between;
 		margin: 0 auto 24px;
-		max-width: 1160px;
 
 		.sc_connect_page_header_left,
 		.sc_connect_page_header_right {

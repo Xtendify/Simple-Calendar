@@ -122,14 +122,14 @@ final class Plugin
 			add_action('admin_init', [$this, 'maybe_redirect_to_connect'], 1);
 		}
 
-		// Redirect to Connect page after supported add-on activation.
-		if (is_admin()) {
-			add_action('activated_plugin', [$this, 'maybe_flag_connect_redirect_after_addon_activation'], 10, 2);
-		}
-
 		// Init hooks.
 		add_action('init', [$this, 'init'], 5);
 		add_action('admin_init', [$this, 'register_settings'], 5);
+
+		// After Connect "Save & Authenticate", send user to Google OAuth (options.php redirect override).
+		if (is_admin()) {
+			add_filter('wp_redirect', [$this, 'redirect_connect_google_pro_save_and_authenticate'], 99, 2);
+		}
 
 		//Oauth Helper init
 		add_action('init', [$this, 'oauth_helper_init'], 5);
@@ -386,37 +386,47 @@ final class Plugin
 	}
 
 	/**
-	 * When a supported add-on is activated, flag a one-time redirect
-	 * to the Connect page and show the Welcome step for that add-on.
+	 * When saving Google Pro credentials from Connect via "Save & Authenticate", redirect to Google OAuth
+	 * instead of returning to the Connect screen (after options.php has persisted settings).
 	 *
-	 * @since 3.6.3
+	 * @param string $location Redirect target URL.
+	 * @param int    $status   HTTP status code.
 	 *
-	 * @param string $plugin       Plugin basename just activated.
-	 * @param bool   $network_wide Whether activated network-wide.
-	 *
-	 * @return void
+	 * @return string
 	 */
-	public function maybe_flag_connect_redirect_after_addon_activation($plugin, $network_wide)
+	public function redirect_connect_google_pro_save_and_authenticate($location, $status)
 	{
-		if (!is_admin() || !current_user_can('manage_options')) {
-			return;
+		if ('POST' !== ($_SERVER['REQUEST_METHOD'] ?? '')) {
+			return $location;
+		}
+		if (empty($_POST['sc_connect_save_and_authenticate']) || '1' !== (string) wp_unslash($_POST['sc_connect_save_and_authenticate'])) {
+			return $location;
+		}
+		if (empty($_POST['option_page']) || 'simple-calendar_settings_feeds' !== (string) wp_unslash($_POST['option_page'])) {
+			return $location;
+		}
+		if (!current_user_can('manage_options')) {
+			return $location;
 		}
 
-		$plugin = (string) $plugin;
-
-		$simcal_addon_list = [
-			// Google Calendar Pro (common plugin basenames).
-			'simple-calendar-google-calendar-pro/simple-calendar-google-calendar-pro.php',
-		];
-		$simcal_addons = apply_filters('simcal_connect_redirect_addon_plugins', $simcal_addon_list);
-		$simcal_addons = array_values(array_unique(array_filter(array_map('strval', (array) $simcal_addons))));
-
-		$is_simcal_addon = in_array($plugin, $simcal_addons, true);
-
-		if ($is_simcal_addon) {
-			update_option('simple_calendar_pro_redirect_to_connect', 1, false);
-			update_option('simple_calendar_connect_welcome_context', 'pro', false);
+		$referer = wp_get_referer();
+		if (!$referer || false === strpos($referer, 'simple-calendar_connect')) {
+			return $location;
 		}
+
+		// Only hijack the normal settings-updated return from options.php (successful save path).
+		if (false === strpos((string) $location, 'settings-updated=true')) {
+			return $location;
+		}
+
+		$auth_url = apply_filters('simcal_connect_authenticate_with_google_url', '');
+		$auth_url = is_string($auth_url) ? trim($auth_url) : '';
+
+		if (empty($auth_url) || !preg_match('#^https://#i', $auth_url)) {
+			return $location;
+		}
+
+		return $auth_url;
 	}
 
 }
