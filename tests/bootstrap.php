@@ -2,7 +2,15 @@
 
 define('ABSPATH', '/tmp/fake-wp/');
 
+// Patchwork must load before any user-defined functions so it can intercept
+// them when Brain\Monkey overrides them per-test.
+require_once dirname(__DIR__) . '/vendor/antecedent/patchwork/Patchwork.php';
+
 require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+// WP function stubs — loaded through Patchwork's stream wrapper so they are
+// interceptable by Brain\Monkey at test time.
+require_once __DIR__ . '/wp-stubs.php';
 
 require_once dirname(__DIR__) . '/includes/autoload.php';
 
@@ -26,3 +34,5 @@ if (!defined('SIMPLE_CALENDAR_INC')) {
 }
 
 require_once dirname(__DIR__) . '/includes/functions/shared.php';
+require_once dirname(__DIR__) . '/includes/functions/admin.php';
+require_once dirname(__DIR__) . '/includes/wp-requirements.php';
