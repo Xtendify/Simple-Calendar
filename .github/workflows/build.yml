@@ -1,6 +1,26 @@
 name: build
 on: [push]
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          extensions: curl, iconv, json, mbstring
+          coverage: none
+      - name: Install dependencies
+        run: composer install --no-scripts --prefer-dist --no-progress
+      - name: Create guzzle function stubs
+        run: |
+          mkdir -p vendor/guzzlehttp/guzzle/src
+          echo '<?php' > vendor/guzzlehttp/guzzle/src/functions_include.php
+          mkdir -p vendor/guzzlehttp/promises/src
+          echo '<?php' > vendor/guzzlehttp/promises/src/functions_include.php
+      - name: Run unit tests
+        run: vendor/bin/phpunit
+
   lint:
     runs-on: ubuntu-latest
     steps:
