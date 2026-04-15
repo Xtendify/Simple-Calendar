@@ -1,0 +1,32 @@
+<?php
+
+namespace SimpleCalendar\Tests\Unit;
+
+use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use Brain\Monkey;
+use Brain\Monkey\Functions;
+
+abstract class TestCase extends PHPUnitTestCase
+{
+    protected function setUp(): void
+    {
+        parent::setUp();
+        Monkey\setUp();
+
+        Functions\stubs([
+            'esc_attr' => function ($v) { return $v; },
+            'esc_html' => function ($v) { return $v; },
+            'esc_url_raw' => function ($v) { return $v; },
+            'wp_kses_post' => function ($v) { return $v; },
+            'absint' => function ($v) { return abs(intval($v)); },
+            'sanitize_title' => function ($v) { return strtolower(str_replace(' ', '-', $v)); },
+            '__' => function ($text, $domain = 'default') { return $text; },
+        ]);
+    }
+
+    protected function tearDown(): void
+    {
+        Monkey\tearDown();
+        parent::tearDown();
+    }
+}

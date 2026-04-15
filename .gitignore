@@ -26,6 +26,7 @@
 
 # Tests
 phpunit.xml
+.phpunit.result.cache
 
 # Logs
 /logs

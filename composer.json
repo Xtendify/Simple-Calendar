@@ -67,6 +67,7 @@
       "Google\\Task\\Composer::cleanup",
       "@prefix-dependencies"
     ],
+    "test": "phpunit",
     "prefix-dependencies": [
       "rm -rf php-scoper && mkdir php-scoper",
       "cd php-scoper && composer init -q --name \"calendar/php_scoper\" && composer require humbug/php-scoper",
@@ -77,5 +78,15 @@
       "cp vendor/composer/autoload_files.php third-party/vendor/composer/autoload_files.php",
       "rm -rf php-scoper"
     ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "SimpleCalendar\\Tests\\": "tests/"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.6",
+    "brain/monkey": "^2.6",
+    "mockery/mockery": "^1.6"
   }
 }
