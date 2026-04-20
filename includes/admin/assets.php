@@ -56,13 +56,6 @@ class Assets
 		 * Register Admin Scripts *
 		 * ====================== */
 
-		// Use file mtimes to avoid stale admin asset caches during development/releases.
-		$admin_js_ver = SIMPLE_CALENDAR_VERSION;
-		$admin_js_file = SIMPLE_CALENDAR_PATH . 'assets/generated/admin.min.js';
-		if (is_string($admin_js_file) && file_exists($admin_js_file)) {
-			$admin_js_ver = (string) filemtime($admin_js_file);
-		}
-
 		// TipTip uses ".minified.js" filename ending.
 		wp_register_script(
 			'simcal-tiptip',
@@ -76,7 +69,7 @@ class Assets
 			'simcal-admin',
 			$js_path . 'admin.min.js',
 			['jquery', 'jquery-ui-sortable', 'jquery-ui-datepicker', 'wp-color-picker', 'simcal-tiptip', 'simcal-select2'],
-			$admin_js_ver,
+			SIMPLE_CALENDAR_VERSION,
 			true
 		);
 		wp_register_script(
@@ -94,11 +87,18 @@ class Assets
 			true
 		);
 
+		$connect_screen_ids = [
+			'calendar_page_simple-calendar_connect',
+			'index_page_simple-calendar_connect',
+			'dashboard_page_simple-calendar_connect',
+		];
 		$is_connect_page =
-			($sc_screen && $sc_screen->id === 'calendar_page_simple-calendar_connect') ||
+			($sc_screen && isset($sc_screen->id) && in_array($sc_screen->id, $connect_screen_ids, true)) ||
 			$this->current_page === 'simple-calendar_connect';
 
-		if (class_exists('SimpleCalendar\Feeds\Google_Pro') && ($this->current_page === 'simple-calendar_settings' || $is_connect_page)) {
+		// OAuth helper UI (deauthenticate + legacy auth tabs). Safe to enqueue on Connect/Settings
+		// because it no-ops when its target elements are not present.
+		if ($this->current_page === 'simple-calendar_settings' || $is_connect_page) {
 			wp_enqueue_script('simcal-oauth-helper-admin');
 			wp_localize_script('simcal-oauth-helper-admin', 'oauth_admin', simcal_common_scripts_variables());
 		}
@@ -147,6 +147,8 @@ class Assets
 					'oauth_checking' => __('Checking…', 'google-calendar-events'),
 					'oauth_connected' => __('Connected', 'google-calendar-events'),
 					'oauth_error' => __('Error', 'google-calendar-events'),
+					'oauth_not_comunicate' => __('Not able to communicate with Google.', 'google-calendar-events'),
+					'oauth_ajax_url_not_found' => __('Ajax URL not found.', 'google-calendar-events'),
 					'oauth_not_connected' => __('Not Connected', 'google-calendar-events'),
 					'google_api_key_public_calendar_failed' => __(
 						'Could not load public calendar data with this API key. Events may not display until this is fixed.',

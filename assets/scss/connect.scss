@@ -41,13 +41,29 @@
 			}
 		}
 
+		.sc_connect_welcome_video_embed {
+			position: relative;
+			width: 100%;
+			padding-top: 56.25%;
+			border-radius: 12px;
+			overflow: hidden;
+			background: var(--sc-color-black);
+		}
+
+		.sc_connect_welcome_video_iframe {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			border: 0;
+		}
+
 		.sc_connect_welcome_button_wrap {
-			/* Next button wrapper */
 			margin-top: 40px;
 			text-align: center;
 		}
 	}
-	
+
 	/* ========================================
 	   SHARED CARD + TYPOGRAPHY (used by steps and sidebar)
 	   ======================================== */
@@ -175,7 +191,33 @@
 			gap: 20px;
 			background: var(--sc-color-white);
 			border-radius: var(--sc-radius-16);
-			padding: 24px;
+			padding: 24px 0px 24px 0;
+			justify-content: space-between;
+
+			.sc_helpful_link_card {
+				width: calc(25% - 20px);
+				min-height: 156px;
+				border-radius: var(--sc-radius-16);
+				background: var(--sc-color-off-white);
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 16px;
+				text-decoration: none;
+				color: var(--sc-color-black);
+				transition: opacity 0.2s ease;
+				box-sizing: border-box;
+				padding: 24px 16px;
+
+				&:hover {
+					opacity: 0.9;
+				}
+
+				.sc_icon--circle {
+					flex-shrink: 0;
+				}
+			}
 		}
 	}
 
@@ -187,32 +229,6 @@
 		display: flex;
 		flex-wrap: wrap;
 		gap: 20px;
-	}
-
-	/* Individual helpful link card: light grey rounded card, icon on top, label below (match design-system.html) */
-	.sc_helpful_link_card {
-		width: 185px;
-		min-height: 174px;
-		border-radius: var(--sc-radius-16);
-		background: var(--sc-color-off-white);
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		gap: 16px;
-		text-decoration: none;
-		color: var(--sc-color-black);
-		transition: opacity 0.2s ease;
-		box-sizing: border-box;
-		padding: 24px 16px;
-
-		&:hover {
-			opacity: 0.9;
-		}
-
-		.sc_icon--circle {
-			flex-shrink: 0;
-		}
 	}
 
 	.sc_helpful_link_card_label {
@@ -420,6 +436,8 @@
 
 			.sc_connect_oauth_status_header_warn {
 				display: inline-block;
+				width: 16px;
+				height: 16px;
 				object-fit: contain;
 				flex-shrink: 0;
 			}

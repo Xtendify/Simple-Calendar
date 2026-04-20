@@ -18,9 +18,28 @@
 		$('#oauth_deauthentication').on('click', function (e) {
 			e.preventDefault();
 			var $btn = $(this);
-			var spinner = $btn.find('i');
 			var dialog = $btn.data('dialog');
 			var $modal = $('#sc_oauth_deauth_modal');
+
+			function setBtnLoading() {
+				$btn.removeClass('sc_is_finished sc_btn--red').addClass('sc_is_active');
+				$btn.attr('aria-disabled', 'true');
+			}
+
+			function clearBtnLoading() {
+				$btn.removeClass('sc_is_active');
+				$btn.removeAttr('aria-disabled');
+			}
+
+			function setBtnSuccess() {
+				$btn.removeClass('sc_is_active sc_btn--red').addClass('sc_is_finished');
+				$btn.attr('aria-disabled', 'true');
+			}
+
+			function setBtnError() {
+				$btn.removeClass('sc_is_active sc_is_finished').addClass('sc_btn--red');
+				$btn.removeAttr('aria-disabled');
+			}
 
 			function runDeauthenticationAjax() {
 				$.ajax({
@@ -31,22 +50,29 @@
 						nonce: $('#oauth_action_deauthentication').val(),
 					},
 					beforeSend: function () {
-						spinner.toggle();
+						setBtnLoading();
 					},
 					success: function (response) {
-						if (response.data) {
-							var curUrl = window.location.href;
-							var newURL = curUrl.replace('status=1', 'status=0');
-							newURL = newURL.replace('auth_token=', '');
-							window.location.href = newURL;
-						} else {
-							console.log(response);
-							spinner.fadeToggle();
+						if (response && response.data) {
+							// Show success state briefly, then reload to reflect disconnected status.
+							setBtnSuccess();
+							setTimeout(function () {
+								var curUrl = window.location.href;
+								var newURL = curUrl.replace('status=1', 'status=0');
+								newURL = newURL.replace('auth_token=', '');
+								window.location.href = newURL;
+							}, 700);
+							return;
 						}
+
+						console.log(response);
+						clearBtnLoading();
+						setBtnError();
 					},
 					error: function (response) {
 						console.log(response);
-						spinner.fadeToggle();
+						clearBtnLoading();
+						setBtnError();
 					},
 				});
 			}

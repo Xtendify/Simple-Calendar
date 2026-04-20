@@ -26,7 +26,7 @@ if (!defined('ABSPATH')) {
 			</div>
 			<div class="sc_connect_page_header_right">
 				<span class="sc_text--body_b1">
-					<?php echo esc_html($step_title); ?>
+					<?php echo __('Connect', 'google-calendar-events'); ?>
 				</span>
 			</div>
 		</div>
@@ -48,7 +48,8 @@ if (!defined('ABSPATH')) {
 			<?php if (!$hide_sidebar) { ?>
 				<div>
 					<?php // Sidebar content.
-     if (!empty($context['sidebar_template_path']) && is_string($context['sidebar_template_path'])) {
+   	// Sidebar content.
+   	if (!empty($context['sidebar_template_path']) && is_string($context['sidebar_template_path'])) {
      	include $context['sidebar_template_path'];
      } ?>
 				</div>

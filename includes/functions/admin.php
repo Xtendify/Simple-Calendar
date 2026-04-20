@@ -125,6 +125,33 @@ function simcal_sanitize_input($var, $func = 'sanitize_text_field')
 }
 
 /**
+ * Whether the installed Google Calendar Pro add-on meets a minimum version.
+ *
+ * If the Pro add-on isn't active/loaded (constant not defined), this returns true.
+ *
+ * @since 4.0.0
+ *
+ * @param string $min_version Minimum required version (default 2.0.0).
+ * @return bool
+ */
+function simcal_is_google_calendar_pro_version_compatible($min_version = '2.0.0')
+{
+	if (!defined('SIMPLE_CALENDAR_GOOGLE_PRO_VERSION')) {
+		return true;
+	}
+
+	$installed = (string) SIMPLE_CALENDAR_GOOGLE_PRO_VERSION;
+	$min = is_string($min_version) && $min_version !== '' ? $min_version : '2.0.0';
+
+	// If version string is missing/unexpected, fail closed (require update).
+	if ($installed === '') {
+		return false;
+	}
+
+	return version_compare($installed, $min, '>=');
+}
+
+/**
  * Check if a screen is a plugin admin view.
  * Returns the screen id if true, false (bool) if not.
  *
@@ -142,6 +169,8 @@ function simcal_is_admin_screen()
 			'customize',
 			'calendar',
 			'calendar_page_simple-calendar_connect',
+			'index_page_simple-calendar_connect',
+			'dashboard_page_simple-calendar_connect',
 			'calendar_page_simple-calendar_add_ons',
 			'calendar_page_simple-calendar_settings',
 			'calendar_page_simple-calendar_tools',
@@ -216,7 +245,7 @@ function simcal_get_license_status($addon = null)
  * Mirrors the classic `settings_fields()` pattern (field definitions in PHP, extensible via hooks),
  * but intended for the Connect onboarding UI.
  *
- * @since 3.6.3
+ * @since 4.0.0
  *
  * @return array
  */
@@ -242,13 +271,71 @@ function simcal_connect_settings_fields()
 /**
  * Back-compat wrapper for suggested name.
  *
- * @since 3.6.3
+ * @since 4.0.0
  *
  * @return array
  */
 function connect_settings_fields()
 {
 	return simcal_connect_settings_fields();
+}
+
+/**
+ * Hash scheme for storing "verified" Connect Google API key fingerprint.
+ *
+ * @since 4.0.0
+ */
+const SIMCAL_CONNECT_GOOGLE_API_KEY_VERIFY_SCHEME = 'simcal_connect_google_api_key';
+
+/**
+ * Mark the given API key as verified for Connect / core onboarding progress.
+ *
+ * @since 4.0.0
+ *
+ * @param string $api_key Raw API key (trimmed internally).
+ */
+function simcal_mark_connect_google_api_key_verified($api_key)
+{
+	$k = trim((string) $api_key);
+	if ($k === '') {
+		return;
+	}
+	update_option(
+		'simple_calendar_connect_core_api_key_verified_hash',
+		wp_hash($k, SIMCAL_CONNECT_GOOGLE_API_KEY_VERIFY_SCHEME),
+		false
+	);
+}
+
+/**
+ * Clear verified state (e.g. after failed health check).
+ *
+ * @since 4.0.0
+ */
+function simcal_clear_connect_google_api_key_verified()
+{
+	delete_option('simple_calendar_connect_core_api_key_verified_hash');
+}
+
+/**
+ * Whether the saved API key matches the last verified fingerprint.
+ *
+ * @since 4.0.0
+ *
+ * @param string $api_key Current saved key (as in settings).
+ * @return bool
+ */
+function simcal_is_connect_google_api_key_verified($api_key)
+{
+	$k = trim((string) $api_key);
+	if ($k === '') {
+		return false;
+	}
+	$h = get_option('simple_calendar_connect_core_api_key_verified_hash', '');
+	if (!is_string($h) || $h === '') {
+		return false;
+	}
+	return hash_equals($h, wp_hash($k, SIMCAL_CONNECT_GOOGLE_API_KEY_VERIFY_SCHEME));
 }
 
 /**

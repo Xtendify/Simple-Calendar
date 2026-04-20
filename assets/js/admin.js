@@ -184,10 +184,13 @@
 				});
 				tab.show();
 
-				// Toggle the settings lock mask only for feed types requiring a Google API key.
+				// Toggle the settings lock mask:
+				// - core feeds: require Google API key
+				// - google-pro feed: requires OAuth (via Simple Calendar or own credentials)
 				var settingsContentWrap = calendarSettings.find('.simcal-settings-content-wrap'),
 					settingsMask = settingsContentWrap.find('.simcal-settings-mask'),
 					hasGoogleApiKey = String(settingsContentWrap.data('sc-has-google-api-key')) === '1',
+					hasProAuth = String(settingsContentWrap.data('sc-has-pro-auth')) === '1',
 					requiredFeedsRaw = settingsContentWrap.attr('data-sc-api-key-required-feeds'),
 					requiredFeeds = ['google', 'grouped-calendars'];
 
@@ -200,7 +203,8 @@
 				}
 
 				var requiresGoogleApiKey = $.inArray(feed, requiredFeeds) !== -1,
-					shouldShowMask = requiresGoogleApiKey && !hasGoogleApiKey;
+					requiresProAuth = String(feed) === 'google-pro',
+					shouldShowMask = (requiresGoogleApiKey && !hasGoogleApiKey) || (requiresProAuth && !hasProAuth);
 
 				settingsContentWrap.toggleClass('simcal-settings-content-wrap--masked', shouldShowMask);
 				settingsMask.attr('aria-hidden', shouldShowMask ? 'false' : 'true');
@@ -671,18 +675,34 @@
 					var text = String(el.value || '');
 					if (!text) return;
 
+					function markCopiedUi() {
+						// Only requested UX: Pro Redirect URL field border turns green after copy.
+						if (targetId !== 'sc_google_pro_redirect_url') return;
+						$(el).addClass('sc_input--copied');
+						window.clearTimeout(el._scCopyTimer);
+						el._scCopyTimer = window.setTimeout(function () {
+							$(el).removeClass('sc_input--copied');
+						}, 1600);
+					}
+
 					function fallbackCopy() {
 						try {
 							el.focus();
 							el.select();
 							document.execCommand('copy');
+							markCopiedUi();
 						} catch (err) {}
 					}
 
 					if (navigator.clipboard && navigator.clipboard.writeText) {
-						navigator.clipboard.writeText(text).catch(function () {
-							fallbackCopy();
-						});
+						navigator.clipboard
+							.writeText(text)
+							.then(function () {
+								markCopiedUi();
+							})
+							.catch(function () {
+								fallbackCopy();
+							});
 					} else {
 						fallbackCopy();
 					}
@@ -714,9 +734,7 @@
 
 		function simcalAdminAjaxUrl() {
 			var href =
-				(typeof globalThis !== 'undefined' &&
-				globalThis.location &&
-				typeof globalThis.location.href === 'string'
+				(typeof globalThis !== 'undefined' && globalThis.location && typeof globalThis.location.href === 'string'
 					? globalThis.location.href
 					: document && document.location && typeof document.location.href === 'string'
 						? document.location.href
@@ -745,101 +763,141 @@
 			return urls;
 		}
 
-		/* Google API key header badge (saved key ↔ public Calendar API check) */
-		var simcalGoogleApiKeyHeaderBadge = {
-			holder: function () {
-				return $('#sc_connect_google_api_key_badge_holder');
-			},
-			el: function () {
-				return $('#sc_connect_google_api_key_header_badge');
-			},
-			detail: function () {
-				return $('#sc_connect_google_api_key_health_detail');
-			},
-			showHolder: function () {
-				this.holder().removeClass('is_hidden');
-			},
-			setChecking: function () {
-				this.showHolder();
-				var badge = this.el();
-				if (!badge.length) {
-					return;
-				}
-				badge
-					.removeClass('sc_connect_oauth_status_header_badge--ok sc_connect_oauth_status_header_badge--error')
-					.addClass('sc_connect_oauth_status_header_badge--pending');
-				badge
-					.find('.sc_connect_oauth_status_header_label')
-					.first()
-					.text((connectCfg.strings && connectCfg.strings.oauth_checking) || 'Checking…');
-				this.detail().addClass('is_hidden').empty();
-			},
-			setOk: function () {
-				this.showHolder();
-				var badge = this.el();
-				if (!badge.length) {
-					return;
-				}
-				badge
-					.removeClass('sc_connect_oauth_status_header_badge--pending sc_connect_oauth_status_header_badge--error')
-					.addClass('sc_connect_oauth_status_header_badge--ok');
-				badge
-					.find('.sc_connect_oauth_status_header_label')
-					.first()
-					.text((connectCfg.strings && connectCfg.strings.oauth_connected) || 'Connected');
-				this.detail().addClass('is_hidden').empty();
-			},
-			setInvalidKey: function () {
-				this.showHolder();
-				var badge = this.el();
-				if (!badge.length) {
-					return;
-				}
-				badge
-					.removeClass('sc_connect_oauth_status_header_badge--pending sc_connect_oauth_status_header_badge--ok')
-					.addClass('sc_connect_oauth_status_header_badge--error');
-				badge
-					.find('.sc_connect_oauth_status_header_label')
-					.first()
-					.text('API key is not valid.');
-				this.detail().addClass('is_hidden').empty();
-			},
-			setError: function (message) {
-				this.showHolder();
-				var badge = this.el();
-				if (!badge.length) {
-					return;
-				}
-				badge
-					.removeClass('sc_connect_oauth_status_header_badge--pending sc_connect_oauth_status_header_badge--ok')
-					.addClass('sc_connect_oauth_status_header_badge--error');
-				badge
-					.find('.sc_connect_oauth_status_header_label')
-					.first()
-					.text((connectCfg.strings && connectCfg.strings.oauth_error) || 'Error');
-				var intro =
-					(connectCfg.strings && connectCfg.strings.google_api_key_public_calendar_failed) || '';
-				var msg = message ? String(message) : '';
-				var detail = this.detail();
-				detail.removeClass('is_hidden');
-				detail.text(intro && msg ? intro + ' ' + msg : intro || msg || '');
-			},
-		};
+		function simcalXhrGetContentType(xhr) {
+			if (!xhr || typeof xhr.getResponseHeader !== 'function') {
+				return '';
+			}
+			try {
+				return String(xhr.getResponseHeader('content-type') || '').toLowerCase();
+			} catch (e) {
+				return '';
+			}
+		}
+
+		function simcalTryParseJson(text) {
+			if (typeof text !== 'string') {
+				return null;
+			}
+			var trimmed = text.trim();
+			if (!trimmed) {
+				return null;
+			}
+			var startsLikeJson = trimmed.charAt(0) === '{' || trimmed.charAt(0) === '[';
+			if (!startsLikeJson) {
+				return null;
+			}
+			try {
+				return JSON.parse(trimmed);
+			} catch (e) {
+				return null;
+			}
+		}
+
+		function simcalIsNonJsonResponse(xhr) {
+			if (!xhr) return true;
+			if (xhr.responseJSON && typeof xhr.responseJSON === 'object') {
+				return false;
+			}
+			var ct = simcalXhrGetContentType(xhr);
+			if (ct && ct.indexOf('application/json') !== -1) {
+				return false;
+			}
+			var parsed = simcalTryParseJson(xhr.responseText);
+			return !parsed;
+		}
+
+		function simcalNormalizeAjaxJson(resOrXhr) {
+			// Accept either already-parsed JSON, or an XHR with responseJSON/responseText.
+			if (!resOrXhr) return null;
+			if (typeof resOrXhr === 'object' && !resOrXhr.getResponseHeader) {
+				return resOrXhr;
+			}
+			var xhr = resOrXhr;
+			if (xhr && xhr.responseJSON && typeof xhr.responseJSON === 'object') {
+				return xhr.responseJSON;
+			}
+			return simcalTryParseJson(xhr && xhr.responseText);
+		}
+
+		function scApiKeyBadgeNodes() {
+			return $('[data-sc-google-api-key-health="1"]');
+		}
+
+		function scApiKeyBadgeHolders() {
+			return $('[data-sc-google-api-key-badge-holder="1"]');
+		}
+
+		function scApiKeyBadgeDetails() {
+			return $('[data-sc-google-api-key-health-detail="1"]');
+		}
+
+		function scApiKeyBadgeSetChecking() {
+			scApiKeyBadgeHolders().removeClass('is_hidden');
+			var badges = scApiKeyBadgeNodes();
+			badges
+				.removeClass('sc_connect_oauth_status_header_badge--ok sc_connect_oauth_status_header_badge--error')
+				.addClass('sc_connect_oauth_status_header_badge--pending');
+			badges
+				.find('.sc_connect_oauth_status_header_label')
+				.first()
+				.text((connectCfg.strings && connectCfg.strings.oauth_checking) || 'Checking…');
+			scApiKeyBadgeDetails().addClass('is_hidden').empty();
+		}
+
+		function scApiKeyBadgeSetOk() {
+			scApiKeyBadgeHolders().removeClass('is_hidden');
+			var badges = scApiKeyBadgeNodes();
+			badges
+				.removeClass('sc_connect_oauth_status_header_badge--pending sc_connect_oauth_status_header_badge--error')
+				.addClass('sc_connect_oauth_status_header_badge--ok');
+			badges
+				.find('.sc_connect_oauth_status_header_label')
+				.first()
+				.text((connectCfg.strings && connectCfg.strings.oauth_connected) || 'Connected');
+			scApiKeyBadgeDetails().addClass('is_hidden').empty();
+		}
+
+		function scApiKeyBadgeSetInvalid() {
+			scApiKeyBadgeHolders().removeClass('is_hidden');
+			var badges = scApiKeyBadgeNodes();
+			badges
+				.removeClass('sc_connect_oauth_status_header_badge--pending sc_connect_oauth_status_header_badge--ok')
+				.addClass('sc_connect_oauth_status_header_badge--error');
+			badges.find('.sc_connect_oauth_status_header_label').first().text('API key is not valid.');
+			scApiKeyBadgeDetails().addClass('is_hidden').empty();
+		}
+
+		function scApiKeyBadgeSetError(message) {
+			scApiKeyBadgeHolders().removeClass('is_hidden');
+			var badges = scApiKeyBadgeNodes();
+			badges
+				.removeClass('sc_connect_oauth_status_header_badge--pending sc_connect_oauth_status_header_badge--ok')
+				.addClass('sc_connect_oauth_status_header_badge--error');
+			badges
+				.find('.sc_connect_oauth_status_header_label')
+				.first()
+				.text((connectCfg.strings && connectCfg.strings.oauth_error) || 'Error');
+			var intro = (connectCfg.strings && connectCfg.strings.google_api_key_public_calendar_failed) || '';
+			var msg = message ? String(message) : '';
+			var detail = scApiKeyBadgeDetails();
+			detail.removeClass('is_hidden');
+			detail.text(intro && msg ? intro + ' ' + msg : intro || msg || '');
+		}
 
 		/* =========================================
 		 * Saved API key health check (public calendar fetch)
 		 * ========================================= */
 		(function googleApiKeySavedHealthCheck() {
-			var holder = simcalGoogleApiKeyHeaderBadge.holder();
-			if (!holder.length || holder.hasClass('is_hidden')) {
+			var holders = scApiKeyBadgeHolders();
+			if (!holders.length || holders.first().hasClass('is_hidden')) {
 				return;
 			}
 
-			simcalGoogleApiKeyHeaderBadge.setChecking();
+			scApiKeyBadgeSetChecking();
 
 			var ajaxUrls = simcalAdminAjaxUrl();
 			if (!ajaxUrls.length) {
-				simcalGoogleApiKeyHeaderBadge.setError('');
+				scApiKeyBadgeSetError('');
 				return;
 			}
 
@@ -856,42 +914,57 @@
 					},
 				})
 					.done(function (res) {
-						var isHtml =
-							res &&
-							typeof res === 'string' &&
-							res.indexOf &&
-							res.indexOf('<!DOCTYPE html>') !== -1;
-						if (isHtml && idx + 1 < ajaxUrls.length) {
-							healthAtIndex(idx + 1);
-							return;
+						if (typeof res === 'string') {
+							var parsedRes = simcalTryParseJson(res);
+							if (parsedRes) {
+								res = parsedRes;
+							} else if (idx + 1 < ajaxUrls.length) {
+								healthAtIndex(idx + 1);
+								return;
+							}
 						}
 						var connected = !!(res && res.success && res.data && res.data.connected);
 						if (connected) {
-							simcalGoogleApiKeyHeaderBadge.setOk();
+							scApiKeyBadgeSetOk();
 							return;
 						}
 						if (res && res.data && res.data.reason === 'api_keys_not_supported') {
 							// Treat this as connected for onboarding UI, but don't show the error text.
-							simcalGoogleApiKeyHeaderBadge.setOk();
+							scApiKeyBadgeSetOk();
 							return;
 						}
 						if (res && res.data && res.data.reason === 'api_key_invalid') {
-							simcalGoogleApiKeyHeaderBadge.setInvalidKey();
+							scApiKeyBadgeSetInvalid();
 							return;
 						}
 						var msg = res && res.data && res.data.message ? String(res.data.message) : '';
-						simcalGoogleApiKeyHeaderBadge.setError(msg);
+						scApiKeyBadgeSetError(msg);
 					})
 					.fail(function (xhr) {
-						var isHtml =
-							xhr &&
-							typeof xhr.responseText === 'string' &&
-							xhr.responseText.indexOf('<!DOCTYPE html>') !== -1;
-						if (isHtml && idx + 1 < ajaxUrls.length) {
+						var json = simcalNormalizeAjaxJson(xhr);
+						if (json) {
+							var connected = !!(json && json.success && json.data && json.data.connected);
+							if (connected) {
+								scApiKeyBadgeSetOk();
+								return;
+							}
+							if (json && json.data && json.data.reason === 'api_keys_not_supported') {
+								scApiKeyBadgeSetOk();
+								return;
+							}
+							if (json && json.data && json.data.reason === 'api_key_invalid') {
+								scApiKeyBadgeSetInvalid();
+								return;
+							}
+							var msg = json && json.data && json.data.message ? String(json.data.message) : '';
+							scApiKeyBadgeSetError(msg);
+							return;
+						}
+						if (simcalIsNonJsonResponse(xhr) && idx + 1 < ajaxUrls.length) {
 							healthAtIndex(idx + 1);
 							return;
 						}
-						simcalGoogleApiKeyHeaderBadge.setError('');
+						scApiKeyBadgeSetError('');
 					});
 			}
 
@@ -970,23 +1043,39 @@
 					statusText.text((connectCfg.strings && connectCfg.strings.oauth_connected) || 'Connected');
 				}
 
-				// Pro sidebar: OAuth health success = full onboarding complete (100% + all checklist steps).
+				// Pro sidebar: OAuth health success means authentication is complete,
+				// but onboarding should only be 100% when a Pro calendar is created.
 				markProSidebarStepComplete($('#sc_connect_step_connection_type'));
 				markProSidebarStepComplete($('#sc_connect_step_credentials'));
-				markProSidebarStepComplete($('#sc_connect_step_private'));
 
 				var scCircle = $('#sc_connect_progress_circle');
 				var scProgressText = $('#sc_connect_progress_text');
 				if (scCircle.length) {
+					// If the server already marked the final step complete (i.e. Pro calendar exists),
+					// keep the UI at 100% instead of forcing 75%.
+					var $privateStep = $('#sc_connect_step_private');
+					var hasProCalendar = $privateStep.length && $privateStep.hasClass('is_completed');
+					var isAlready100 = scCircle.hasClass('sc_progress_circle--100');
+
 					scCircle.addClass('sc_connect_progress_anim');
-					scCircle.removeClass('sc_progress_circle--33 sc_progress_circle--67').addClass('sc_progress_circle--100');
-					scCircle[0].style.setProperty('--sc-progress', '100');
-					if (scProgressText.length) {
-						scProgressText.text((connectCfg.strings && connectCfg.strings['100_ready']) || '100% Ready');
+					if (hasProCalendar || isAlready100) {
+						markProSidebarStepComplete($privateStep);
+						scCircle.removeClass('sc_progress_circle--33 sc_progress_circle--67').addClass('sc_progress_circle--100');
+						scCircle[0].style.setProperty('--sc-progress', '100');
+						if (scProgressText.length) {
+							scProgressText.text((connectCfg.strings && connectCfg.strings['100_ready']) || '100% Ready');
+						}
+					} else {
+						// 75% uses the 67% circle styles but updates the conic-gradient via CSS var.
+						scCircle.removeClass('sc_progress_circle--33 sc_progress_circle--100').addClass('sc_progress_circle--67');
+						scCircle[0].style.setProperty('--sc-progress', '75');
+						if (scProgressText.length) {
+							scProgressText.text((connectCfg.strings && connectCfg.strings['75_ready']) || '75% Ready');
+						}
 					}
 					var $progressRow = scCircle.closest('.sc_row.sc_row_align_start');
 					if ($progressRow.length) {
-						$progressRow.addClass('sc_connect_progress_is_complete');
+						$progressRow.toggleClass('sc_connect_progress_is_complete', hasProCalendar || isAlready100);
 					}
 					setTimeout(function () {
 						scCircle.removeClass('sc_connect_progress_anim');
@@ -1018,7 +1107,9 @@
 			setHeaderChecking();
 			if (statusText.length) {
 				statusText
-					.removeClass('sc_connect_oauth_status--ok sc_connect_oauth_status--disconnected sc_connect_oauth_status--error')
+					.removeClass(
+						'sc_connect_oauth_status--ok sc_connect_oauth_status--disconnected sc_connect_oauth_status--error'
+					)
 					.text((connectCfg.strings && connectCfg.strings.oauth_checking) || 'Checking…');
 			}
 			if (linkIcon.length && iconUnlinkUrl) {
@@ -1027,7 +1118,10 @@
 
 			var ajaxUrls = simcalAdminAjaxUrl();
 			if (!ajaxUrls.length) {
-				applyDisconnectedUi();
+				applyDisconnectedUi(
+					(connectCfg.strings && connectCfg.strings.oauth_ajax_url_not_found) || 'Ajax URL not found.'
+				);
+				console.log('ajaxUrls.length', ajaxUrls.length);
 				return;
 			}
 
@@ -1046,14 +1140,14 @@
 					},
 				})
 					.done(function (res) {
-						var isHtml =
-							res &&
-							typeof res === 'string' &&
-							res.indexOf &&
-							res.indexOf('<!DOCTYPE html>') !== -1;
-						if (isHtml && idx + 1 < ajaxUrls.length) {
-							oauthCheckAtIndex(idx + 1);
-							return;
+						if (typeof res === 'string') {
+							var parsedRes = simcalTryParseJson(res);
+							if (parsedRes) {
+								res = parsedRes;
+							} else if (idx + 1 < ajaxUrls.length) {
+								oauthCheckAtIndex(idx + 1);
+								return;
+							}
 						}
 						var isOk = !!(res && res.success);
 						var isConnected = !!(res && res.data && res.data.connected);
@@ -1061,19 +1155,31 @@
 							applyConnectedUi();
 							return;
 						}
-						var msg = (res && res.data && res.data.message) ? String(res.data.message) : '';
+						var msg = res && res.data && res.data.message ? String(res.data.message) : '';
 						applyDisconnectedUi(msg || '');
+						console.log('done oauthCheckAtIndex', res);
 					})
 					.fail(function (xhr) {
-						var isHtml =
-							xhr &&
-							typeof xhr.responseText === 'string' &&
-							xhr.responseText.indexOf('<!DOCTYPE html>') !== -1;
-						if (isHtml && idx + 1 < ajaxUrls.length) {
+						var json = simcalNormalizeAjaxJson(xhr);
+						if (json) {
+							var isOk = !!(json && json.success);
+							var isConnected = !!(json && json.data && json.data.connected);
+							if (isOk && isConnected) {
+								applyConnectedUi();
+								return;
+							}
+							var msg = json && json.data && json.data.message ? String(json.data.message) : '';
+							applyDisconnectedUi(msg || '');
+							return;
+						}
+						if (simcalIsNonJsonResponse(xhr) && idx + 1 < ajaxUrls.length) {
 							oauthCheckAtIndex(idx + 1);
 							return;
 						}
-						applyDisconnectedUi('');
+						applyDisconnectedUi(
+							(connectCfg.strings && connectCfg.strings.oauth_not_comunicate) || 'Not able to communicate with Google.'
+						);
+						console.log('fail oauthCheckAtIndex');
 					});
 			}
 
@@ -1103,10 +1209,9 @@
 						action: 'simcal_mark_pro_connection_via_sc',
 						nonce: nonce,
 					},
-				})
-					.always(function () {
-						window.location.assign(targetUrl);
-					});
+				}).always(function () {
+					window.location.assign(targetUrl);
+				});
 			}
 			postMark(0);
 		});
@@ -1127,6 +1232,13 @@
 			var originalBtnClass = scValidateBtnEl ? scValidateBtn.attr('class') : '';
 			var resetTimer = null;
 			var submitTimer = null;
+
+			function showInlineFlex($el) {
+				if (!$el || !$el.length) {
+					return;
+				}
+				$el.css('display', 'inline-flex');
+			}
 
 			function resetVisualState() {
 				if (resetTimer) {
@@ -1175,8 +1287,8 @@
 			scInput.on('input', function () {
 				scConnectForm.removeData('scValidated');
 				resetVisualState();
-				if (!simcalGoogleApiKeyHeaderBadge.holder().hasClass('is_hidden')) {
-					simcalGoogleApiKeyHeaderBadge.setChecking();
+				if (scApiKeyBadgeHolders().not('.is_hidden').length) {
+					scApiKeyBadgeSetChecking();
 				}
 			});
 
@@ -1200,6 +1312,7 @@
 					scConnectMsgWrap.show();
 					scmsgSuccess.hide();
 					scmsgError.show();
+					showInlineFlex(scmsgError);
 					scmsgError
 						.find('.sc_icon_warning_label')
 						.text((connectCfg.strings && connectCfg.strings.please_enter_api_key) || '');
@@ -1219,9 +1332,7 @@
 				var ajaxNonce = (connectCfg && connectCfg.nonce) || scConnectForm.attr('data-sc-connect-validate-nonce') || '';
 				var fallbackAjaxUrl = (function () {
 					var href =
-						(typeof globalThis !== 'undefined' &&
-						globalThis.location &&
-						typeof globalThis.location.href === 'string'
+						(typeof globalThis !== 'undefined' && globalThis.location && typeof globalThis.location.href === 'string'
 							? globalThis.location.href
 							: document && document.location && typeof document.location.href === 'string'
 								? document.location.href
@@ -1258,87 +1369,109 @@
 							api_key: rawKey,
 						},
 					})
-					.done(function (res) {
-						validating = false;
-						if (res && res.success) {
-							scConnectFieldWrap.addClass('sc_input--success');
-							scConnectMsgWrap.show();
-							scmsgSuccess.show();
-							animateProgressToApiKeyCompleted();
-							$('#sc_connect_add_calendar_btn').show();
-							simcalGoogleApiKeyHeaderBadge.setOk();
-							if (scValidateBtnEl) {
-								scValidateBtn.removeClass('sc_is_active sc_btn--red').addClass('sc_is_finished').prop('disabled', true);
+						.done(function (res) {
+							validating = false;
+							if (res && res.success) {
+								scConnectFieldWrap.addClass('sc_input--success');
+								scConnectMsgWrap.show();
+								scmsgSuccess.show();
+								animateProgressToApiKeyCompleted();
+								$('#sc_connect_add_calendar_btn').show();
+								scApiKeyBadgeSetOk();
+								if (scValidateBtnEl) {
+									scValidateBtn
+										.removeClass('sc_is_active sc_btn--red')
+										.addClass('sc_is_finished')
+										.prop('disabled', true);
+								}
+								scConnectForm.data('scValidated', true);
+								submitTimer = setTimeout(function () {
+									if (scValidateBtnEl) scValidateBtn.prop('disabled', false);
+									scConnectForm.trigger('submit');
+								}, 1000);
+							} else if (res && res.data && res.data.reason === 'api_keys_not_supported') {
+								scConnectFieldWrap.addClass('sc_input--success');
+								scConnectMsgWrap.show();
+								scmsgSuccess.show();
+								animateProgressToApiKeyCompleted();
+								$('#sc_connect_add_calendar_btn').show();
+								// Treat this as connected for onboarding UI, but don't show the error text.
+								scApiKeyBadgeSetOk();
+								if (scValidateBtnEl) {
+									scValidateBtn
+										.removeClass('sc_is_active sc_btn--red')
+										.addClass('sc_is_finished')
+										.prop('disabled', true);
+								}
+								scConnectForm.data('scValidated', true);
+								submitTimer = setTimeout(function () {
+									if (scValidateBtnEl) scValidateBtn.prop('disabled', false);
+									scConnectForm.trigger('submit');
+								}, 1000);
+							} else if (res && res.data && res.data.reason === 'api_key_invalid') {
+								scConnectFieldWrap.addClass('sc_input--error');
+								scConnectMsgWrap.show();
+								scmsgError.show();
+								showInlineFlex(scmsgError);
+								scmsgError.find('.sc_icon_warning_label').text('API key is not valid.');
+								scApiKeyBadgeSetInvalid();
+								if (scValidateBtnEl) {
+									scValidateBtn
+										.removeClass('sc_is_active sc_is_finished')
+										.addClass('sc_btn--red')
+										.prop('disabled', false);
+								}
+								resetTimer = setTimeout(resetVisualState, 10000);
+							} else {
+								scConnectFieldWrap.addClass('sc_input--error');
+								scConnectMsgWrap.show();
+								scmsgError.show();
+								showInlineFlex(scmsgError);
+								var failMsg = '';
+								if (res && res.data && res.data.message) {
+									failMsg = String(res.data.message);
+									scmsgError.find('.sc_icon_warning_label').text(failMsg);
+								}
+								scApiKeyBadgeSetError(failMsg);
+								if (scValidateBtnEl) {
+									scValidateBtn
+										.removeClass('sc_is_active sc_is_finished')
+										.addClass('sc_btn--red')
+										.prop('disabled', false);
+								}
+								resetTimer = setTimeout(resetVisualState, 10000);
 							}
-							scConnectForm.data('scValidated', true);
-							submitTimer = setTimeout(function () {
-								if (scValidateBtnEl) scValidateBtn.prop('disabled', false);
-								scConnectForm.trigger('submit');
-							}, 1000);
-						} else if (res && res.data && res.data.reason === 'api_keys_not_supported') {
-							scConnectFieldWrap.addClass('sc_input--success');
-							scConnectMsgWrap.show();
-							scmsgSuccess.show();
-							animateProgressToApiKeyCompleted();
-							$('#sc_connect_add_calendar_btn').show();
-							// Treat this as connected for onboarding UI, but don't show the error text.
-							simcalGoogleApiKeyHeaderBadge.setOk();
-							if (scValidateBtnEl) {
-								scValidateBtn.removeClass('sc_is_active sc_btn--red').addClass('sc_is_finished').prop('disabled', true);
+						})
+						.fail(function (xhr) {
+							var json = simcalNormalizeAjaxJson(xhr);
+							var isNonJsonResponse = simcalIsNonJsonResponse(xhr);
+							if (isNonJsonResponse && index + 1 < ajaxUrls.length) {
+								validateRequestAtIndex(index + 1);
+								return;
 							}
-							scConnectForm.data('scValidated', true);
-							submitTimer = setTimeout(function () {
-								if (scValidateBtnEl) scValidateBtn.prop('disabled', false);
-								scConnectForm.trigger('submit');
-							}, 1000);
-						} else if (res && res.data && res.data.reason === 'api_key_invalid') {
-							scConnectFieldWrap.addClass('sc_input--error');
-							scConnectMsgWrap.show();
-							scmsgError.show();
-							scmsgError.find('.sc_icon_warning_label').text('API key is not valid.');
-							simcalGoogleApiKeyHeaderBadge.setInvalidKey();
-							if (scValidateBtnEl) {
-								scValidateBtn.removeClass('sc_is_active sc_is_finished').addClass('sc_btn--red').prop('disabled', false);
-							}
-							resetTimer = setTimeout(resetVisualState, 10000);
-						} else {
-							scConnectFieldWrap.addClass('sc_input--error');
-							scConnectMsgWrap.show();
-							scmsgError.show();
-							var failMsg = '';
-							if (res && res.data && res.data.message) {
-								failMsg = String(res.data.message);
-								scmsgError.find('.sc_icon_warning_label').text(failMsg);
-							}
-							simcalGoogleApiKeyHeaderBadge.setError(failMsg);
-							if (scValidateBtnEl) {
-								scValidateBtn.removeClass('sc_is_active sc_is_finished').addClass('sc_btn--red').prop('disabled', false);
-							}
-							resetTimer = setTimeout(resetVisualState, 10000);
-						}
-					})
-					.fail(function (xhr) {
-						var isHtmlResponse = xhr && typeof xhr.responseText === 'string' && xhr.responseText.indexOf('<!DOCTYPE html>') !== -1;
-						if (isHtmlResponse && index + 1 < ajaxUrls.length) {
-							validateRequestAtIndex(index + 1);
-							return;
-						}
 
-						validating = false;
-						scConnectFieldWrap.addClass('sc_input--error');
-						scConnectMsgWrap.show();
-						scmsgError.show();
-						var errorText = 'Unable to validate the API key right now. Please try again.';
-						if (isHtmlResponse) {
-							errorText = 'Validation endpoint returned HTML instead of JSON. Please check WP debug notices and admin-ajax routing.';
-						}
-						scmsgError.find('.sc_icon_warning_label').text(errorText);
-						simcalGoogleApiKeyHeaderBadge.setError(errorText);
-						if (scValidateBtnEl) {
-							scValidateBtn.removeClass('sc_is_active sc_is_finished').addClass('sc_btn--red').prop('disabled', false);
-						}
-						resetTimer = setTimeout(resetVisualState, 10000);
-					});
+							validating = false;
+							scConnectFieldWrap.addClass('sc_input--error');
+							scConnectMsgWrap.show();
+							scmsgError.show();
+							showInlineFlex(scmsgError);
+							var errorText = 'Unable to validate the API key right now. Please try again.';
+							if (json && json.data && json.data.message) {
+								errorText = String(json.data.message);
+							} else if (isNonJsonResponse) {
+								errorText =
+									'Validation endpoint returned a non-JSON response. Please check WP debug notices and admin-ajax routing.';
+							}
+							scmsgError.find('.sc_icon_warning_label').text(errorText);
+							scApiKeyBadgeSetError(errorText);
+							if (scValidateBtnEl) {
+								scValidateBtn
+									.removeClass('sc_is_active sc_is_finished')
+									.addClass('sc_btn--red')
+									.prop('disabled', false);
+							}
+							resetTimer = setTimeout(resetVisualState, 10000);
+						});
 				}
 
 				validateRequestAtIndex(0);

@@ -736,6 +736,10 @@
 		border-radius: var(--sc-radius-sm);
 		transition: border-color 0.2s ease;
 
+		&.sc_input--copied {
+			border-color: var(--sc-color-green);
+		}
+
 		&.sc_input--dark {
 			background: var(--sc-color-dark-gray);
 			color: var(--sc-color-white);
@@ -1025,7 +1029,7 @@
 
 	.sc_checklist_item {
 		display: flex;
-		align-items: baseline;
+		align-items: center;
 		gap: 12px;
 		padding: 6px 0;
 		font-family: var(--sc-font-body);
@@ -1122,50 +1126,50 @@
 			text-decoration: underline;
 		}
 	}
-/* ========================================
+	/* ========================================
    CONNECT PAGE - MAIN ONBOARDING SCREEN
    Mirrors: connect/layout.php -> steps/* -> connect/sidebar.php
    ======================================== */
-   .sc_connect_page_outer {
-	background: var(--sc-color-off-white);
-	padding: 40px 20px 60px;
+	.sc_connect_page_outer {
+		background: #f0f0f1;
+		padding: 40px 20px 60px;
 
-	/* Header row */
-	.sc_connect_page_header {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		margin: 0 auto 24px;
-
-		.sc_connect_page_header_left,
-		.sc_connect_page_header_right {
+		/* Header row */
+		.sc_connect_page_header {
 			display: flex;
 			align-items: center;
-			flex: 0 0 auto;
+			justify-content: space-between;
+			margin: 0 auto 24px;
+
+			.sc_connect_page_header_left,
+			.sc_connect_page_header_right {
+				display: flex;
+				align-items: center;
+				flex: 0 0 auto;
+			}
+
+			.sc_connect_page_header_right {
+				margin-left: auto;
+			}
+
+			.sc_connect_page_header_left .sc_logo_link img {
+				display: block;
+				height: 40px;
+				width: auto;
+			}
 		}
 
-		.sc_connect_page_header_right {
-			margin-left: auto;
-		}
-
-		.sc_connect_page_header_left .sc_logo_link img {
-			display: block;
-			height: 40px;
-			width: auto;
+		/* Two-column layout: main content + sidebar */
+		.sc_connect_page_inner {
+			max-width: 100%;
+			width: 100%;
+			margin: 0;
+			display: grid;
+			grid-template-columns: 2fr 1fr;
+			gap: var(--sc-spacing-20);
+			align-items: flex-start;
 		}
 	}
-
-	/* Two-column layout: main content + sidebar */
-	.sc_connect_page_inner {
-		max-width: 100%;
-		width: 100%;
-		margin: 0;
-		display: grid;
-		grid-template-columns: 2fr 1fr;
-		gap: var(--sc-spacing-20);
-		align-items: flex-start;
-	}
-}
 	/* ========================================
    LOGO
    ======================================== */

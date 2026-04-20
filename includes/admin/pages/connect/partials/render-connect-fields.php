@@ -15,6 +15,7 @@ $field_defs = isset($field_defs) && is_array($field_defs) ? $field_defs : [];
 $values = isset($values) && is_array($values) ? $values : [];
 
 foreach ($field_defs as $key => $def) {
+
 	if (!is_array($def)) {
 		continue;
 	}
@@ -38,7 +39,9 @@ foreach ($field_defs as $key => $def) {
 			<?php echo esc_html($label); ?>
 		</label>
 
-		<div class="sc_input_wrapper sc_input_wrapper--icons-outside sc_input_wrapper--square sc_input_full<?php echo $readonly ? ' sc_input_wrapper--readonly' : ''; ?>">
+		<div class="sc_input_wrapper sc_input_wrapper--icons-outside sc_input_wrapper--square sc_input_full<?php echo $readonly
+  	? ' sc_input_wrapper--readonly'
+  	: ''; ?>">
 			<input
 				id="<?php echo esc_attr($id); ?>"
 				type="<?php echo esc_attr($type); ?>"
@@ -82,4 +85,3 @@ foreach ($field_defs as $key => $def) {
 	</div>
 	<?php
 }
-

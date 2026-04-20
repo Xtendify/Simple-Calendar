@@ -80,6 +80,14 @@
 	}
 }
 
+/* Admin menu "New!" badge for Connect submenu. */
+#adminmenu .sc_menu_badge_new {
+	color: #f18200;
+	font-size: 10px;
+	margin-left: 3px;
+	vertical-align: super;
+}
+
 @-ms-keyframes spin {
 	0% {
 		-moz-transform: rotate(0deg);

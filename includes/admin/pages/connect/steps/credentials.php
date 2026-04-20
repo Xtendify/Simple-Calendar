@@ -11,13 +11,26 @@ if (!defined('ABSPATH')) {
 	exit();
 }
 
+$is_pro_active = false;
+if (defined('SIMPLE_CALENDAR_GOOGLE_PRO_VERSION')) {
+	$is_pro_active = true;
+} elseif (class_exists('Google_Pro')) {
+	$is_pro_active = true;
+} elseif (isset($welcome_context) && 'pro' === (string) $welcome_context) {
+	$is_pro_active = true;
+}
+
+$setup_video_url = $is_pro_active
+	? 'https://youtu.be/lmN774Fk3rw?si=zBMoOck0BjI7Q39j'
+	: 'https://youtu.be/3QveIbm5Oc0?si=fMEUU0Za7KFzlJk5';
+
 $feeds_options = get_option('simple-calendar_settings_feeds', []);
-$google_pro = isset($feeds_options['google-pro']) && is_array($feeds_options['google-pro'])
-	? $feeds_options['google-pro']
-	: [];
+$google_pro =
+	isset($feeds_options['google-pro']) && is_array($feeds_options['google-pro']) ? $feeds_options['google-pro'] : [];
 $redirect_url = isset($google_pro['redirect_url']) ? trim((string) $google_pro['redirect_url']) : '';
 $client_id = isset($google_pro['client_id']) ? trim((string) $google_pro['client_id']) : '';
 $client_secret = isset($google_pro['client_secret']) ? trim((string) $google_pro['client_secret']) : '';
+$client_auth = isset($google_pro['client_auth']) ? trim((string) $google_pro['client_auth']) : '';
 $has_client_credentials = !empty($client_id) && !empty($client_secret);
 
 // phpcs:ignore WordPress.Security.NonceVerification.Recommended
@@ -54,9 +67,10 @@ if (defined('SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN') && SIMPLE_CALENDAR_OAUTH
 $authredirect = apply_filters('simcal_connect_oauth_via_simple_calendar_url', $authredirect);
 
 $connect_field_groups = function_exists('simcal_connect_settings_fields') ? simcal_connect_settings_fields() : [];
-$google_pro_defs = isset($connect_field_groups['google-pro']['fields']) && is_array($connect_field_groups['google-pro']['fields'])
-	? $connect_field_groups['google-pro']['fields']
-	: [];
+$google_pro_defs =
+	isset($connect_field_groups['google-pro']['fields']) && is_array($connect_field_groups['google-pro']['fields'])
+		? $connect_field_groups['google-pro']['fields']
+		: [];
 ?>
 
 <div class="sc_setup_card">
@@ -65,23 +79,23 @@ $google_pro_defs = isset($connect_field_groups['google-pro']['fields']) && is_ar
 			<?php esc_html_e('Google Calendar Pro', 'google-calendar-events'); ?>
 		</h2>
 		<?php
-		// Only show the status badge when the *current connection type* has an active authentication to check.
-		$should_show_oauth_badge = false;
-		$oauth_badge_action = '';
-		if (!$show_own_credentials) {
-			// OAuth via Simple Calendar connection type.
-			if (!empty($has_oauth_connection)) {
-				$should_show_oauth_badge = true;
-				$oauth_badge_action = 'simcal_connect_oauth_via_sc_check';
-			}
-		} else {
-			// Own credentials connection type.
-			if (!empty($has_client_credentials)) {
-				$should_show_oauth_badge = true;
-				$oauth_badge_action = 'simcal_connect_own_oauth_check';
-			}
-		}
-		?>
+  // Only show the status badge when the *current connection type* has an active authentication to check.
+  $should_show_oauth_badge = false;
+  $oauth_badge_action = '';
+  if (!$show_own_credentials) {
+  	// OAuth via Simple Calendar connection type.
+  	if (!empty($has_oauth_connection)) {
+  		$should_show_oauth_badge = true;
+  		$oauth_badge_action = 'simcal_connect_oauth_via_sc_check';
+  	}
+  } else {
+  	// Own credentials connection type.
+  	if (!empty($has_client_credentials)) {
+  		$should_show_oauth_badge = true;
+  		$oauth_badge_action = 'simcal_connect_own_oauth_check';
+  	}
+  }
+  ?>
 		<?php if ($should_show_oauth_badge) { ?>
 			<span
 				id="sc_connect_oauth_status_header_badge"
@@ -95,8 +109,6 @@ $google_pro_defs = isset($connect_field_groups['google-pro']['fields']) && is_ar
 						class="sc_connect_oauth_status_header_warn"
 						src="<?php echo esc_url($assets_base . 'warning.svg'); ?>"
 						alt=""
-						width="16"
-						height="16"
 					/>
 					<span class="sc_connect_oauth_status_header_label">
 						<?php esc_html_e('Checking…', 'google-calendar-events'); ?>
@@ -107,21 +119,17 @@ $google_pro_defs = isset($connect_field_groups['google-pro']['fields']) && is_ar
 	</div>
 	<p class="sc_text--body_b2 sc_text--dark sc_connect_credentials_subtitle">
 		<?php esc_html_e(
-			'Configure a Google OAuth client to read event details from both public and private Google Calendars.',
-			'google-calendar-events'
-		); ?>
+  	'Configure a Google OAuth client to read event details from both public and private Google Calendars.',
+  	'google-calendar-events'
+  ); ?>
 	</p>
 
-	<?php if (!$show_own_credentials) {
-		
-		 ?>
-		<?php
-		// Always render the status pill (unlink + Not Connected) like the design.
-		// Only enable AJAX checking when a token exists, to avoid showing network errors when not authenticated.
-		$auth_status_text = !empty($has_oauth_connection)
-			? esc_html__('Checking…', 'google-calendar-events')
-			: esc_html__('Not Connected', 'google-calendar-events');
-		?>
+	<?php if (!$show_own_credentials) { ?>
+		<?php // Always render the status pill (unlink + Not Connected) like the design.
+  // Only enable AJAX checking when a token exists, to avoid showing network errors when not authenticated.
+  $auth_status_text = !empty($has_oauth_connection)
+  	? esc_html__('Checking…', 'google-calendar-events')
+  	: esc_html__('Not Connected', 'google-calendar-events'); ?>
 		<div class="sc_connect_auth_status_box">
 			<div class="sc_connect_auth_status_icon_circle">
 				<img src="<?php echo esc_url($assets_base . 'logo-favicon.svg'); ?>" alt="" />
@@ -138,7 +146,7 @@ $google_pro_defs = isset($connect_field_groups['google-pro']['fields']) && is_ar
 				<div class="sc_connect_auth_status_link_row" aria-hidden="true">
 					<span class="sc_connect_auth_status_line"></span>
 					<img
-						src="<?php echo esc_url(!empty($has_oauth_connection) ? ($assets_base . 'unlink.svg') : ($assets_base . 'unlink.svg')); ?>"
+						src="<?php echo esc_url(!empty($has_oauth_connection) ? $assets_base . 'unlink.svg' : $assets_base . 'unlink.svg'); ?>"
 						class="sc_connect_auth_status_link_icon"
 						alt=""
 					/>
@@ -153,9 +161,7 @@ $google_pro_defs = isset($connect_field_groups['google-pro']['fields']) && is_ar
 			</div>
 		</div>
 
-		<?php
-		include SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/partials/oauth-via-simple-calendar.php';
-		?>
+		<?php include SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/partials/oauth-via-simple-calendar.php'; ?>
 
 		<?php if (empty($has_oauth_connection)) { ?>
 			<div class="sc_connect_credentials_link_row_center">
@@ -170,42 +176,57 @@ $google_pro_defs = isset($connect_field_groups['google-pro']['fields']) && is_ar
 		<?php } ?>
 	<?php } else { ?>
 		<div class="sc_connect_helper_row sc_connect_credentials_helper_row">
-			<a href="#" class="sc_connect_helper_link"><?php esc_html_e('Step-by-step instructions', 'google-calendar-events'); ?></a>
-			<a href="https://console.cloud.google.com/apis/credentials" target="_blank" class="sc_connect_helper_link"><?php esc_html_e('Google Developers Console', 'google-calendar-events'); ?></a>
+			<a href="#" class="sc_connect_helper_link"><?php esc_html_e(
+   	'Step-by-step instructions',
+   	'google-calendar-events'
+   ); ?></a>
+			<a href="https://console.cloud.google.com/apis/credentials" target="_blank" class="sc_connect_helper_link"><?php esc_html_e(
+   	'Google Developers Console',
+   	'google-calendar-events'
+   ); ?></a>
 		</div>
 
 		<?php
-		$form_id = 'simcal-pro-connect-page-form';
-		$form_action = 'options.php';
-		$settings_group = 'simple-calendar_settings_feeds';
-		$form_attrs = [
-			'class' => 'sc_connect_credentials_form',
-		];
-		include SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/partials/settings-form.php';
-		?>
+  $form_id = 'simcal-pro-connect-page-form';
+  $form_action = 'options.php';
+  $settings_group = 'simple-calendar_settings_feeds';
+  $form_attrs = [
+  	'class' => 'sc_connect_credentials_form',
+  ];
+  include SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/partials/settings-form.php';
+  ?>
 			<input type="hidden" name="simple-calendar_settings_feeds[__sc_partial_update]" value="1" />
 			<input type="hidden" name="simple-calendar_settings_feeds[__sc_partial_sections][google-pro]" value="1" />
-
 			<?php
-			$field_defs = $google_pro_defs;
-			$values = [
-				'redirect_url' => $redirect_url,
-				'client_id' => $client_id,
-				'client_secret' => $client_secret,
-			];
-			include SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/partials/render-connect-fields.php';
-			?>
+   // Same option key as settings page; only output when non-empty so partial saves do not wipe stored auth.
+   if ('' !== $client_auth) { ?>
+			<input
+				type="hidden"
+				id="simple-calendar-settings-feeds-google-pro-client_auth"
+				name="simple-calendar_settings_feeds[google-pro][client_auth]"
+				value="<?php echo esc_attr($client_auth); ?>"
+				autocomplete="off"
+			/>
+				<?php }
+   $field_defs = $google_pro_defs;
+   $values = [
+   	'redirect_url' => $redirect_url,
+   	'client_id' => $client_id,
+   	'client_secret' => $client_secret,
+   ];
+   include SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/partials/render-connect-fields.php';
+   ?>
 			<p class="sc_text--body_b3 sc_text--dark sc_connect_credentials_step_help">
 				<?php esc_html_e(
-					'Step 1: To copy link, click on the above Redirect URL, and then paste it into the "Authorized redirect URIs" field on Google Developers Console.',
-					'google-calendar-events'
-				); ?>
+    	'Step 1: To copy link, click on the above Redirect URL, and then paste it into the "Authorized redirect URIs" field on Google Developers Console.',
+    	'google-calendar-events'
+    ); ?>
 			</p>
 			<p class="sc_text--body_b3 sc_text--dark sc_connect_credentials_step_help">
 				<?php esc_html_e(
-					'After your Client ID and Client Secret are entered, click Save & Authenticate to store them and continue to Google to authorize access.',
-					'google-calendar-events'
-				); ?>
+    	'After your Client ID and Client Secret are entered, click Save & Authenticate to store them and continue to Google to authorize access.',
+    	'google-calendar-events'
+    ); ?>
 			</p>
 
 			<div class="sc_connect_form_actions sc_connect_credentials_actions_top">
@@ -213,10 +234,10 @@ $google_pro_defs = isset($connect_field_groups['google-pro']['fields']) && is_ar
 					<?php esc_html_e('Save & Authenticate', 'google-calendar-events'); ?>
 				</button>
 				<?php
-				$has_published_pro_calendar = isset($has_published_pro_calendar) ? (bool) $has_published_pro_calendar : false;
-				$own_oauth_health_ok = (string) get_option('simple_calendar_connect_pro_own_oauth_health_ok', '');
-				$show_add_pro_calendar_btn = !$has_published_pro_calendar && '1' === $own_oauth_health_ok;
-				?>
+    $has_published_pro_calendar = isset($has_published_pro_calendar) ? (bool) $has_published_pro_calendar : false;
+    $own_oauth_health_ok = (string) get_option('simple_calendar_connect_pro_own_oauth_health_ok', '');
+    $show_add_pro_calendar_btn = !$has_published_pro_calendar && '1' === $own_oauth_health_ok;
+    ?>
 				<a
 					href="<?php echo esc_url(admin_url('post-new.php?post_type=calendar')); ?>"
 					id="sc_connect_add_pro_calendar_btn"
@@ -240,44 +261,13 @@ $google_pro_defs = isset($connect_field_groups['google-pro']['fields']) && is_ar
 	<?php } ?>
 </div>
 
-<?php if ($show_own_credentials) { ?>
+<?php
+if ($show_own_credentials) { ?>
 	<?php
-	$sc_google_api_key_mode = 'credentials_core';
-	include SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/partials/google-calendar-api-key-connect.php';
-	?>
-<?php } ?>
-
-<section class="sc_section sc_section_last sc_connect_helpful_links">
-	<div class="sc_setup_card">
-		<h3 class="sc_h3 sc_section_title">
-			<?php esc_html_e('Helpful Link', 'google-calendar-events'); ?>
-		</h3>
-		<div class="sc_helpful_links_cards_wrapper">
-			<a href="<?php echo simcal_ga_campaign_url('https://docs.simplecalendar.io/', 'core-plugin', 'connect-credentials-documentation'); ?>" target="_blank" class="sc_helpful_link_card">
-				<span class="sc_icon--circle">
-					<img src="<?php echo esc_url($assets_base . 'document.svg'); ?>" alt="" />
-				</span>
-				<span class="sc_helpful_link_card_label"><?php esc_html_e('Documentation', 'google-calendar-events'); ?></span>
-			</a>
-			<a href="<?php echo simcal_ga_campaign_url('https://simplecalendar.io/go/setup-video', 'core-plugin', 'connect-credentials-setup-video'); ?>" target="_blank" class="sc_helpful_link_card">
-				<span class="sc_icon--circle">
-					<img src="<?php echo esc_url($assets_base . 'clapperboard.svg'); ?>" alt="" />
-				</span>
-				<span class="sc_helpful_link_card_label"><?php esc_html_e('Setup Video', 'google-calendar-events'); ?></span>
-			</a>
-			<a href="<?php echo simcal_ga_campaign_url('https://simplecalendar.io/go/faq', 'core-plugin', 'connect-credentials-faq'); ?>" target="_blank" class="sc_helpful_link_card">
-				<span class="sc_icon--circle">
-					<img src="<?php echo esc_url($assets_base . 'question-white.svg'); ?>" alt="" />
-				</span>
-				<span class="sc_helpful_link_card_label"><?php esc_html_e('FAQ', 'google-calendar-events'); ?></span>
-			</a>
-			<a href="<?php echo simcal_ga_campaign_url('https://simplecalendar.io/go/support', 'core-plugin', 'connect-credentials-support'); ?>" target="_blank" class="sc_helpful_link_card">
-				<span class="sc_icon--circle">
-					<img src="<?php echo esc_url($assets_base . 'headphone.svg'); ?>" alt="" />
-				</span>
-				<span class="sc_helpful_link_card_label"><?php esc_html_e('Support Form', 'google-calendar-events'); ?></span>
-			</a>
-		</div>
-	</div>
-</section>
+ $sc_google_api_key_mode = 'credentials_core';
+ include SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/partials/google-calendar-api-key-connect.php';
+ ?>
+<?php }
+include SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/partials/helpful-links.php';
+?>
 

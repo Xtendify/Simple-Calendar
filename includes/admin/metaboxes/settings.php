@@ -39,12 +39,18 @@ class Settings implements Meta_Box
 
 		$feeds_options = get_option('simple-calendar_settings_feeds', []);
 		$api_key = isset($feeds_options['google']['api_key']) ? trim((string) $feeds_options['google']['api_key']) : '';
+		$has_oauth_via_simple_calendar = !empty(trim((string) get_option('simple_calendar_auth_site_token', '')));
+		$has_own_oauth = !empty(trim((string) get_option('simple-calendar_google-pro-token', '')));
+		$has_pro_auth = $has_oauth_via_simple_calendar || $has_own_oauth;
 
-		$feed_types_needing_api_key = apply_filters(
-			'simcal_feed_types_requiring_google_api_key',
-			['google', 'grouped-calendars', 'grouped-calendar']
+		$feed_types_needing_api_key = apply_filters('simcal_feed_types_requiring_google_api_key', [
+			'google',
+			'grouped-calendars',
+			'grouped-calendar',
+		]);
+		$feed_types_needing_api_key = array_values(
+			array_unique(array_map('sanitize_title', (array) $feed_types_needing_api_key))
 		);
-		$feed_types_needing_api_key = array_values(array_unique(array_map('sanitize_title', (array) $feed_types_needing_api_key)));
 
 		if ($feed_terms = wp_get_object_terms($post->ID, 'calendar_feed')) {
 			$current_feed_type = sanitize_title(current($feed_terms)->name);
@@ -53,7 +59,8 @@ class Settings implements Meta_Box
 		}
 
 		$requires_google_api_key = in_array($current_feed_type, $feed_types_needing_api_key, true);
-		$show_api_key_mask = $requires_google_api_key && empty($api_key);
+		$requires_pro_auth = 'google-pro' === $current_feed_type;
+		$show_api_key_mask = ($requires_google_api_key && empty($api_key)) || ($requires_pro_auth && !$has_pro_auth);
 		$connect_url = admin_url('edit.php?post_type=calendar&page=simple-calendar_connect');
 		?>
 		<div class="simcal-panels-wrap">
@@ -64,6 +71,7 @@ class Settings implements Meta_Box
 			<div
 				class="simcal-settings-content-wrap<?php echo $show_api_key_mask ? ' simcal-settings-content-wrap--masked' : ''; ?>"
 				data-sc-has-google-api-key="<?php echo empty($api_key) ? '0' : '1'; ?>"
+				data-sc-has-pro-auth="<?php echo $has_pro_auth ? '1' : '0'; ?>"
 				data-sc-api-key-required-feeds="<?php echo esc_attr(wp_json_encode($feed_types_needing_api_key)); ?>"
 			>
 				<div
