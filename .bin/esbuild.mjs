@@ -1,6 +1,6 @@
 import * as esbuild from 'esbuild';
 import { sassPlugin } from 'esbuild-sass-plugin';
-import pkg from '../package.json' with { type: 'json' };
+import pkg from '../package.json' assert { type: 'json' };
 
 const watch = process.argv.includes('--watch');
 
