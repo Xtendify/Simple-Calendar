@@ -236,7 +236,7 @@ if (!$should_hide_progress) {
 				</li>
 			</ul>
 			<a href="<?php echo simcal_ga_campaign_url(
-   	'https://simplecalendar.io/addons/google-calendar-pro/',
+   	'https://simplecalendar.io/downloads/google-calendar-pro/',
    	'core-plugin',
    	'connect-sidebar-pro-addon'
    ); ?>" target="_blank" class="sc_btn sc_btn--blue sc_connect_pro_btn">

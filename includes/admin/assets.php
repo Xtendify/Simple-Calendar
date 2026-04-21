@@ -121,8 +121,12 @@ class Assets
 			['simcal-select2'],
 			SIMPLE_CALENDAR_VERSION
 		);
+		wp_register_style('sc-global-admin', $css_path . 'global.min.css', [], SIMPLE_CALENDAR_VERSION);
 
 		if (simcal_is_admin_screen() !== false) {
+			// Global admin styles (e.g. menu badges) used outside plugin screens too.
+			wp_enqueue_style('sc-global-admin');
+
 			wp_enqueue_script('simcal-admin');
 			wp_localize_script('simcal-admin', 'simcal_admin', simcal_common_scripts_variables());
 			// Always expose simcal_connect when admin script loads (JS only uses it when #simcal-connect-page exists).
@@ -165,6 +169,9 @@ class Assets
 				wp_enqueue_style('sc-connect');
 			}
 		} else {
+			// Still enqueue global admin styles on non-plugin screens.
+			wp_enqueue_style('sc-global-admin');
+
 			global $post_type;
 			$screen = get_current_screen();
 

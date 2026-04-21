@@ -126,7 +126,8 @@ $google_pro_defs =
 
 	<?php if (!$show_own_credentials) { ?>
 		<?php // Always render the status pill (unlink + Not Connected) like the design.
-  // Only enable AJAX checking when a token exists, to avoid showing network errors when not authenticated.
+ 	// Always render the status pill (unlink + Not Connected) like the design.
+ 	// Only enable AJAX checking when a token exists, to avoid showing network errors when not authenticated.
   $auth_status_text = !empty($has_oauth_connection)
   	? esc_html__('Checking…', 'google-calendar-events')
   	: esc_html__('Not Connected', 'google-calendar-events'); ?>

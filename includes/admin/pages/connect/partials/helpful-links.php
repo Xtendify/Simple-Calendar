@@ -36,16 +36,6 @@ if (!defined('ABSPATH')) {
 				<span class="sc_helpful_link_card_label"><?php esc_html_e('Setup Video', 'google-calendar-events'); ?></span>
 			</a>
 			<a href="<?php echo simcal_ga_campaign_url(
-   	'https://simplecalendar.io/faq',
-   	'core-plugin',
-   	'connect-faq'
-   ); ?>" target="_blank" class="sc_helpful_link_card">
-				<span class="sc_icon--circle">
-					<img src="<?php echo esc_url($assets_base . 'question-white.svg'); ?>" alt="" />
-				</span>
-				<span class="sc_helpful_link_card_label"><?php esc_html_e('FAQ', 'google-calendar-events'); ?></span>
-			</a>
-			<a href="<?php echo simcal_ga_campaign_url(
    	'https://simplecalendar.io/contact',
    	'core-plugin',
    	'connect-support'

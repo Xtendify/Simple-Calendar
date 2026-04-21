@@ -141,7 +141,7 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
 
 			<?php if (!$is_credentials_core) { ?>
 				<a href="<?php echo simcal_ga_campaign_url(
-    	'https://simplecalendar.io/addons/google-calendar-pro/',
+    	'https://simplecalendar.io/downloads/google-calendar-pro/',
     	'core-plugin',
     	'connect-api-key-pro-addon'
     ); ?>" target="_blank" class="sc_connect_pro_link">
