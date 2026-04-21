@@ -62,7 +62,7 @@ class Assets
 			$js_path_vendor . 'jquery.tipTip.minified.js',
 			['jquery'],
 			SIMPLE_CALENDAR_VERSION,
-			true
+			true,
 		);
 		wp_register_script('simcal-select2', $js_path_vendor . 'select2.min.js', [], SIMPLE_CALENDAR_VERSION, true);
 		wp_register_script(
@@ -70,21 +70,21 @@ class Assets
 			$js_path . 'admin.min.js',
 			['jquery', 'jquery-ui-sortable', 'jquery-ui-datepicker', 'wp-color-picker', 'simcal-tiptip', 'simcal-select2'],
 			SIMPLE_CALENDAR_VERSION,
-			true
+			true,
 		);
 		wp_register_script(
 			'simcal-admin-add-calendar',
 			$js_path . 'admin-add-calendar.min.js',
 			['simcal-select2'],
 			SIMPLE_CALENDAR_VERSION,
-			true
+			true,
 		);
 		wp_register_script(
 			'simcal-oauth-helper-admin',
 			$js_path . 'oauth-helper-admin.min.js',
 			['jquery'],
 			SIMPLE_CALENDAR_VERSION,
-			true
+			true,
 		);
 
 		$connect_screen_ids = [
@@ -111,7 +111,7 @@ class Assets
 			'simcal-admin',
 			$css_path . 'admin.min.css',
 			['wp-color-picker', 'simcal-select2'],
-			SIMPLE_CALENDAR_VERSION
+			SIMPLE_CALENDAR_VERSION,
 		);
 		wp_register_style('sc-design-system', $css_path . 'design-system.min.css', [], SIMPLE_CALENDAR_VERSION);
 		wp_register_style('sc-connect', $css_path . 'connect.min.css', ['sc-design-system'], SIMPLE_CALENDAR_VERSION);
@@ -119,7 +119,7 @@ class Assets
 			'simcal-admin-add-calendar',
 			$css_path . 'admin-add-calendar.min.css',
 			['simcal-select2'],
-			SIMPLE_CALENDAR_VERSION
+			SIMPLE_CALENDAR_VERSION,
 		);
 		wp_register_style('sc-global-admin', $css_path . 'global.min.css', [], SIMPLE_CALENDAR_VERSION);
 

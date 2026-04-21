@@ -129,7 +129,7 @@ class Pages
 								$section_id,
 								isset($section['title']) ? $section['title'] : '',
 								isset($section['callback']) ? $section['callback'] : '',
-								'simple-calendar_' . $this->page . '_' . $tab_id
+								'simple-calendar_' . $this->page . '_' . $tab_id,
 							);
 
 							if (isset($section['fields'])) {
@@ -146,7 +146,7 @@ class Pages
 													isset($field['title']) ? $field['title'] : '',
 													[$field_object, 'html'],
 													'simple-calendar_' . $this->page . '_' . $tab_id,
-													$section_id
+													$section_id,
 												);
 											} // add field
 										} // is field valid?
@@ -159,7 +159,7 @@ class Pages
 							register_setting(
 								'simple-calendar_' . $this->page . '_' . $tab_id,
 								'simple-calendar_' . $this->page . '_' . $tab_id,
-								$page instanceof Admin_Page ? [$page, 'validate'] : ''
+								$page instanceof Admin_Page ? [$page, 'validate'] : '',
 							);
 						} // loop sections
 					} // are sections non empty?
@@ -312,7 +312,7 @@ class Pages
 									<div class="simcal-mt-[25px] simcal-text-center simcal-text-base simcal-underline ">
 										<a class="hover:simcal-text-sc_green-200" href="https://simplecalendar.io/go/reviews--theme?utm_source=inside-plugin&utm_medium=link&utm_campaign=core-plugin&utm_content=settings-link"><?php _e(
           	'See All Customers Reviews',
-          	'google-calendar-events'
+          	'google-calendar-events',
           ); ?></a>
 									</div>
 								</div>
@@ -340,11 +340,11 @@ class Pages
 							<span>
 								<?php _e(
         	'Calendars configured to use the',
-        	'google-calendar-events'
+        	'google-calendar-events',
         ); ?><b class="simcal-text-sc_black-100 hover:simcal-text-sc_green-200">
 								<?php _e(' Google Calendar Pro add-on', 'google-calendar-events'); ?></b> <?php _e(
 	'use a different method of authorization.',
-	'google-calendar-events'
+	'google-calendar-events',
 ); ?>
 							</span>
 						</div>
@@ -378,7 +378,7 @@ class Pages
 								<div class="simcal-ml-[9px] simcal-text-base simcal-text-sc_grey-100 simcal-font-normal " >
 									<span> <?php _e(
          	'Display a list of attachments with links to their original source.',
-         	'google-calendar-events'
+         	'google-calendar-events',
          ); ?></span>
 								</div>
 							</div>

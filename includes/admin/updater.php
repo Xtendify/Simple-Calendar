@@ -207,24 +207,24 @@ class Updater
 					$this->name .
 					'&slug=' .
 					$this->slug .
-					'&TB_iframe=true&width=772&height=911'
+					'&TB_iframe=true&width=772&height=911',
 			);
 
 			if (empty($version_info->download_link)) {
 				printf(
 					__(
 						'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a>.',
-						'google-calendar-events'
+						'google-calendar-events',
 					),
 					esc_html($version_info->name),
 					esc_url($changelog_link),
-					esc_html($version_info->new_version)
+					esc_html($version_info->new_version),
 				);
 			} else {
 				printf(
 					__(
 						'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a> or <a href="%4$s">update now</a>.',
-						'google-calendar-events'
+						'google-calendar-events',
 					),
 					esc_html($version_info->name),
 					esc_url($changelog_link),
@@ -232,9 +232,9 @@ class Updater
 					esc_url(
 						wp_nonce_url(
 							self_admin_url('update.php?action=upgrade-plugin&plugin=') . $this->name,
-							'upgrade-plugin_' . $this->name
-						)
-					)
+							'upgrade-plugin_' . $this->name,
+						),
+					),
 				);
 			}
 
@@ -374,7 +374,7 @@ class Updater
 			wp_die(
 				__('You do not have permission to install plugin updates', 'google-calendar-events'),
 				__('Error', 'google-calendar-events'),
-				['response' => 403]
+				['response' => 403],
 			);
 		}
 
