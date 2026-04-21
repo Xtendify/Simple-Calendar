@@ -4,6 +4,7 @@
 	/**
 	 * Password / text toggle for square icon buttons (no document-level listeners).
 	 * Binds click on DOMContentLoaded; do not add inline onclick (double handler toggles twice).
+	 * Binds click on DOMContentLoaded; do not add inline onclick (double handler toggles twice).
 	 * Markup: type="button" data-sc-password-toggle aria-controls="input_id"
 	 * Optional: data-sc-label-show / data-sc-label-hide (else simcal_connect.strings when present).
 	 */

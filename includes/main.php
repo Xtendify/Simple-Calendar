@@ -115,7 +115,6 @@ final class Plugin
 
 		// OAuth via Simple Calendar legacy return URL (Settings page) → redirect to Connect.
 		add_action('admin_init', [$this, 'maybe_redirect_legacy_oauth_return_to_connect'], 2);
-
 		// Redirect to Connect page after activation (core or supported add-on).
 		// Only hook when needed.
 		if (

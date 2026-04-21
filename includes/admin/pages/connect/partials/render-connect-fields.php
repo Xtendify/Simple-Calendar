@@ -15,7 +15,6 @@ $field_defs = isset($field_defs) && is_array($field_defs) ? $field_defs : [];
 $values = isset($values) && is_array($values) ? $values : [];
 
 foreach ($field_defs as $key => $def) {
-
 	if (!is_array($def)) {
 		continue;
 	}
