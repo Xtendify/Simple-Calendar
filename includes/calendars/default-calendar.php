@@ -132,7 +132,7 @@ class Default_Calendar extends Calendar
 					return $class;
 				},
 				10,
-				2,
+				2
 			);
 		}
 

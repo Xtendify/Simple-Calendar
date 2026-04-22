@@ -175,7 +175,7 @@ class Settings implements Meta_Box
 							<option value="<?php echo $calendar; ?>" <?php selected(
 	$calendar,
 	$calendar_type,
-	true,
+	true
 ); ?>><?php echo $name; ?></option>
 						<?php } ?>
 					</optgroup>
@@ -230,7 +230,7 @@ class Settings implements Meta_Box
 					'icon' => 'simcal-icon-calendar',
 				],
 			],
-			$post->ID,
+			$post->ID
 		);
 
 		// Always keep advanced tab as the last one.
@@ -325,14 +325,14 @@ class Settings implements Meta_Box
 										data-show-field="_calendar_begins_nth" <?php selected(
           	'days_before',
           	$calendar_begins,
-          	true,
+          	true
           ); ?>><?php _e('Day(s) before today', 'google-calendar-events'); ?></option>
 								<option value="days_after"
 										data-hide-field="_calendar_begins_custom_date"
 										data-show-field="_calendar_begins_nth" <?php selected(
           	'days_after',
           	$calendar_begins,
-          	true,
+          	true
           ); ?>><?php _e('Day(s) after today', 'google-calendar-events'); ?></option>
 							</optgroup>
 							<optgroup label="<?php _e('Weeks', 'google-calendar-events'); ?>">
@@ -344,14 +344,14 @@ class Settings implements Meta_Box
 										data-show-field="_calendar_begins_nth" <?php selected(
           	'weeks_before',
           	$calendar_begins,
-          	true,
+          	true
           ); ?>><?php _e('Week(s) before current', 'google-calendar-events'); ?></option>
 								<option value="weeks_after"
 										data-hide-field="_calendar_begins_custom_date"
 										data-show-field="_calendar_begins_nth" <?php selected(
           	'weeks_after',
           	$calendar_begins,
-          	true,
+          	true
           ); ?>><?php _e('Week(s) after current', 'google-calendar-events'); ?></option>
 							</optgroup>
 							<optgroup label="<?php _e('Months', 'google-calendar-events'); ?>">
@@ -363,14 +363,14 @@ class Settings implements Meta_Box
 										data-show-field="_calendar_begins_nth" <?php selected(
           	'months_before',
           	$calendar_begins,
-          	true,
+          	true
           ); ?>><?php _e('Month(s) before current', 'google-calendar-events'); ?></option>
 								<option value="months_after"
 										data-hide-field="_calendar_begins_custom_date"
 										data-show-field="_calendar_begins_nth" <?php selected(
           	'months_after',
           	$calendar_begins,
-          	true,
+          	true
           ); ?>><?php _e('Month(s) after current', 'google-calendar-events'); ?></option>
 							</optgroup>
 							<optgroup label="<?php _e('Years', 'google-calendar-events'); ?>">
@@ -381,14 +381,14 @@ class Settings implements Meta_Box
 										data-show-field="_calendar_begins_nth" <?php selected(
           	'years_before',
           	$calendar_begins,
-          	true,
+          	true
           ); ?>><?php _e('Year(s) before current', 'google-calendar-events'); ?></option>
 								<option value="years_after"
 										data-hide-field="_calendar_begins_custom_date"
 										data-show-field="_calendar_begins_nth" <?php selected(
           	'years_after',
           	$calendar_begins,
-          	true,
+          	true
           ); ?>><?php _e('Year(s) after current', 'google-calendar-events'); ?></option>
 							</optgroup>
 							<optgroup label="<?php _e('Other', 'google-calendar-events'); ?>">
@@ -397,7 +397,7 @@ class Settings implements Meta_Box
 										data-show-field="_calendar_begins_custom_date" <?php selected(
           	'custom_date',
           	$calendar_begins,
-          	true,
+          	true
           ); ?>><?php _e('Specific date', 'google-calendar-events'); ?></option>
 							</optgroup>
 						</select>
@@ -412,7 +412,7 @@ class Settings implements Meta_Box
 						<i class="simcal-icon-help simcal-help-tip"
 						   data-tip="<?php _e(
          	'The calendar default opening date. It will automatically adapt based on the chosen calendar type.',
-         	'google-calendar-events',
+         	'google-calendar-events'
          ); ?>"></i>
 					</td>
 				</tr>
@@ -445,37 +445,37 @@ class Settings implements Meta_Box
 									data-hide-field="_feed_earliest_event_date_range" <?php selected(
          	'calendar_start',
          	$earliest_event,
-         	true,
+         	true
          ); ?>><?php _e('Same as start date', 'google-calendar-events'); ?></option>
 							<option value="days_before"
 									data-show-field="_feed_earliest_event_date_range" <?php selected(
          	'days_before',
          	$earliest_event,
-         	true,
+         	true
          ); ?>><?php _e('Day(s) before start date', 'google-calendar-events'); ?></option>
 							<option value="weeks_before"
 									data-show-field="_feed_earliest_event_date_range" <?php selected(
          	'weeks_before',
          	$earliest_event,
-         	true,
+         	true
          ); ?>><?php _e('Week(s) before start date', 'google-calendar-events'); ?></option>
 							<option value="months_before"
 									data-show-field="_feed_earliest_event_date_range" <?php selected(
          	'months_before',
          	$earliest_event,
-         	true,
+         	true
          ); ?>><?php _e('Month(s) before start date', 'google-calendar-events'); ?></option>
 							<option value="years_before"
 									data-show-field="_feed_earliest_event_date_range" <?php selected(
          	'years_before',
          	$earliest_event,
-         	true,
+         	true
          ); ?>><?php _e('Year(s) before start date', 'google-calendar-events'); ?></option>
 						</select>
 						<i class="simcal-icon-help simcal-help-tip"
 						   data-tip="<?php _e(
          	'Set the date for the earliest possible event to show in calendar. There will not be events before this date.',
-         	'google-calendar-events',
+         	'google-calendar-events'
          ); ?>"></i>
 					</td>
 				</tr>
@@ -508,37 +508,37 @@ class Settings implements Meta_Box
 									data-hide-field="_feed_latest_event_date_range" <?php selected(
          	'calendar_start',
          	$earliest_event,
-         	true,
+         	true
          ); ?>><?php _e('Day end of start date', 'google-calendar-events'); ?></option>
 							<option value="days_after"
 									data-show-field="_feed_latest_event_date_range" <?php selected(
          	'days_after',
          	$latest_event,
-         	true,
+         	true
          ); ?>><?php _e('Day(s) after start date', 'google-calendar-events'); ?></option>
 							<option value="weeks_after"
 									data-show-field="_feed_latest_event_date_range" <?php selected(
          	'weeks_after',
          	$latest_event,
-         	true,
+         	true
          ); ?>><?php _e('Weeks(s) after start date', 'google-calendar-events'); ?></option>
 							<option value="months_after"
 									data-show-field="_feed_latest_event_date_range" <?php selected(
          	'months_after',
          	$latest_event,
-         	true,
+         	true
          ); ?>><?php _e('Month(s) after start date', 'google-calendar-events'); ?></option>
 							<option value="years_after"
 									data-show-field="_feed_latest_event_date_range" <?php selected(
          	'years_after',
          	$latest_event,
-         	true,
+         	true
          ); ?>><?php _e('Year(s) after start date', 'google-calendar-events'); ?></option>
 						</select>
 						<i class="simcal-icon-help simcal-help-tip"
 						   data-tip="<?php _e(
          	'Set the date for the latest possible event to show on calendar. There will not be events after this date.',
-         	'google-calendar-events',
+         	'google-calendar-events'
          ); ?>"></i>
 					</td>
 				</tr>
@@ -598,7 +598,7 @@ class Settings implements Meta_Box
       	'id' => '_calendar_is_static',
       	'tooltip' => __(
       		'Remove the navigation arrows and fix the calendar view to its initial state.',
-      		'google-calendar-events',
+      		'google-calendar-events'
       	),
       	'value' => 'yes' == $calendar_is_static_value ? 'yes' : 'no',
       	'text' => __('Yes (hide navigation arrows)', 'google-calendar-events'),
@@ -617,7 +617,7 @@ class Settings implements Meta_Box
       	'id' => '_no_events_message',
       	'tooltip' => __(
       		'Some calendars may display a message when no events are found. You can change the default message here.',
-      		'google-calendar-events',
+      		'google-calendar-events'
       	),
       	'value' => get_post_meta($post->ID, '_no_events_message', true),
       	'placeholder' => __('There are no upcoming events.', 'google-calendar-events'),
@@ -638,7 +638,7 @@ class Settings implements Meta_Box
       	'id' => '_event_formatting',
       	'tooltip' => __(
       		'How to preserve line breaks and paragraphs in the event template builder.',
-      		'google-calendar-events',
+      		'google-calendar-events'
       	),
       	'value' => $event_formatting,
       	'default' => 'preserve_linebreaks',
@@ -666,7 +666,7 @@ class Settings implements Meta_Box
       	'value' => 'yes' == $poweredby ? 'yes' : 'no',
       	'text' => __(
       		'Yes, Simple Calendar rocks! Show some love with a little link below this calendar.',
-      		'google-calendar-events',
+      		'google-calendar-events'
       	),
       ]);?>
 					</td>
@@ -720,21 +720,21 @@ class Settings implements Meta_Box
 							<option value="use_site" <?php selected(
        	'use_site',
        	$timezone_setting,
-       	true,
+       	true
        ); ?>><?php printf(_x('Site default', 'Use this site default setting', 'google-calendar-events') . ' (%s)', $timezone_default); ?></option>
 							<?php if ($show_use_calendar) { ?>
 								<option id="use_calendar" value="use_calendar"
 										data-show-field="_use_calendar_warning" <?php selected('use_calendar', $timezone_setting, true); ?>><?php _ex(
 	'Event source default',
 	'Use the calendar default setting',
-	'google-calendar-events',
+	'google-calendar-events'
 ); ?></option>
 							<?php } ?>
 							<option value="use_custom"
 									data-show-field="_feed_timezone" <?php selected(
          	'use_custom',
          	$timezone_setting,
-         	true,
+         	true
          ); ?>><?php _ex('Custom', 'Use a custom setting', 'google-calendar-events'); ?></option>
 						</select>
 						<select name="_feed_timezone"
@@ -746,13 +746,13 @@ class Settings implements Meta_Box
 						<i class="simcal-icon-help simcal-help-tip"
 						   data-tip="<?php _e(
          	'Using a different timezone may alter the date and time display of your calendar events. We recommended using the site default timezone.',
-         	'google-calendar-events',
+         	'google-calendar-events'
          ); ?>"></i>
 						<p id="_use_calendar_warning" style="display: none;" class="simcal-field">
 							<span class="attention"><?php _e('Warning', 'google-calendar-events'); ?>:</span>
 							<?php _e(
        	'Setting this to <code>Event source default</code> can at times cause unexpected results. Please test thoroughly.',
-       	'google-calendar-events',
+       	'google-calendar-events'
        ); ?>
 							<a href="http://docs.simplecalendar.io/timezone-settings/"
 							   target="_blank"><?php _e('See details.', 'google-calendar-events'); ?></a>
@@ -778,25 +778,25 @@ class Settings implements Meta_Box
 									data-show-field="_calendar_date_format_default" <?php selected(
          	'use_site',
          	$date_format_setting,
-         	true,
+         	true
          ); ?>><?php _ex('Site default', 'Use this site default setting', 'google-calendar-events'); ?></option>
 							<option value="use_custom"
 									data-show-field="_calendar_date_format" <?php selected(
          	'use_custom',
          	$date_format_setting,
-         	true,
+         	true
          ); ?>><?php _ex('Custom', 'Use a custom setting', 'google-calendar-events'); ?></option>
 							<option value="use_custom_php"
 									data-show-field="_calendar_date_format_php_field" <?php selected(
          	'use_custom_php',
          	$date_format_setting,
-         	true,
+         	true
          ); ?>><?php _e('Custom (PHP format)', 'google-calendar-events'); ?></option>
 						</select>
 						<i class="simcal-icon-help simcal-help-tip"
 						   data-tip="<?php _e(
          	'This option sets how calendars display event dates. It is recommended to keep your site default setting.',
-         	'google-calendar-events',
+         	'google-calendar-events'
          ); ?>"></i>
 						<p id="_calendar_date_format_default"
 						   style="<?php echo $date_format_setting != 'use_site' ? 'display: none;' : ''; ?>">
@@ -822,7 +822,7 @@ class Settings implements Meta_Box
 									   value="<?php echo $date_format_php; ?>"/>
 								<?php printf(
         	__('Enter a date format using %s values.', 'google-calendar-events'),
-        	'<a href="//php.net/manual/en/function.date.php" target="_blank">PHP</a>',
+        	'<a href="//php.net/manual/en/function.date.php" target="_blank">PHP</a>'
         ); ?>
 							</label>
 							<p>
@@ -857,7 +857,7 @@ class Settings implements Meta_Box
 					<th>
 						<label for="_calendar_datetime_separator_spacing"><?php _e(
       	'Preserve Separator Spacing',
-      	'google-calendar-events',
+      	'google-calendar-events'
       ); ?></label>
 					</th>
 					<td>
@@ -871,7 +871,7 @@ class Settings implements Meta_Box
       	'value' => 'yes' === $separator_spacing ? 'yes' : 'no',
       	'tooltip' => __(
       		'Checking this box will use the spacing contained in the separator field above. Otherwise one space on each side of the separator will be used instead.',
-      		'google-calendar-events',
+      		'google-calendar-events'
       	),
       	'class' => ['simcal-field-tiny'],
       ]);
@@ -897,25 +897,25 @@ class Settings implements Meta_Box
 									data-show-field="_calendar_time_format_default" <?php selected(
          	'use_site',
          	$time_format_setting,
-         	true,
+         	true
          ); ?>><?php _ex('Site default', 'Use this site default setting', 'google-calendar-events'); ?></option>
 							<option value="use_custom"
 									data-show-field="_calendar_time_format" <?php selected(
          	'use_custom',
          	$time_format_setting,
-         	true,
+         	true
          ); ?>><?php _ex('Custom', 'Use a custom setting', 'google-calendar-events'); ?></option>
 							<option value="use_custom_php"
 									data-show-field="_calendar_time_format_php_field" <?php selected(
          	'use_custom_php',
          	$time_format_setting,
-         	true,
+         	true
          ); ?>><?php _e('Custom (PHP format)', 'google-calendar-events'); ?></option>
 						</select>
 						<i class="simcal-icon-help simcal-help-tip"
 						   data-tip="<?php _e(
          	'This option sets how calendars display event times. It is recommended to keep your site default setting.',
-         	'google-calendar-events',
+         	'google-calendar-events'
          ); ?>"></i>
 						<p id="_calendar_time_format_default"
 						   style="<?php echo $time_format_setting != 'use_site' ? 'display: none;' : ''; ?>">
@@ -941,7 +941,7 @@ class Settings implements Meta_Box
 									   value="<?php echo $time_format_php; ?>"/>
 								<?php printf(
         	__('Enter a time format using %s values.', 'google-calendar-events'),
-        	'<a href="//php.net/manual/en/function.date.php" target="_blank">PHP</a>',
+        	'<a href="//php.net/manual/en/function.date.php" target="_blank">PHP</a>'
         ); ?>
 							</label>
 							<p>
@@ -970,12 +970,12 @@ class Settings implements Meta_Box
 							<option value="use_site" <?php selected(
        	'use_site',
        	$week_starts_setting,
-       	true,
+       	true
        ); ?>><?php printf(_x('Site default', 'Use this site default setting', 'google-calendar-events') . ' (%s)', date_i18n('l', strtotime("Sunday + $week_starts_default Days"))); ?></option>
 							<option value="use_custom" <?php selected(
        	'use_custom',
        	$week_starts_setting,
-       	true,
+       	true
        ); ?>><?php _ex('Custom', 'Use a custom setting', 'google-calendar-events'); ?></option>
 						</select>
 						<select
@@ -991,7 +991,7 @@ class Settings implements Meta_Box
 						<i class="simcal-icon-help simcal-help-tip"
 						   data-tip="<?php _e(
          	'Some calendars may use this setting to display the start of the week. It is recommended to keep the site default setting.',
-         	'google-calendar-events',
+         	'google-calendar-events'
          ); ?>"></i>
 					</td>
 				</tr>
@@ -1016,7 +1016,7 @@ class Settings implements Meta_Box
 						<label for="_feed_cache_user_amount"><?php _ex(
       	'Refresh Interval',
       	'Cache maximum interval',
-      	'google-calendar-events',
+      	'google-calendar-events'
       ); ?></label>
 					</th>
 					<td>
@@ -1032,28 +1032,28 @@ class Settings implements Meta_Box
 							<option value="60" <?php selected(
        	'60',
        	$cache_unit,
-       	true,
+       	true
        ); ?>><?php _e('Minute(s)', 'google-calendar-events'); ?></option>
 							<option value="3600" <?php selected(
        	'3600',
        	$cache_unit,
-       	true,
+       	true
        ); ?>><?php _e('Hour(s)', 'google-calendar-events'); ?></option>
 							<option value="86400" <?php selected(
        	'86400',
        	$cache_unit,
-       	true,
+       	true
        ); ?>><?php _e('Day(s)', 'google-calendar-events'); ?></option>
 							<option value="604800" <?php selected(
        	'604800',
        	$cache_unit,
-       	true,
+       	true
        ); ?>><?php _e('Week(s)', 'google-calendar-events'); ?></option>
 						</select>
 						<i class="simcal-icon-help simcal-help-tip"
 						   data-tip="<?php _e(
          	'If you add, edit or remove events in your calendar very often, you can set a lower interval to refresh the events displayed. Set a higher interval for best performance.',
-         	'google-calendar-events',
+         	'google-calendar-events'
          ); ?>"></i>
 					</td>
 				</tr>

@@ -195,7 +195,7 @@ class Default_Calendar_Grid implements Calendar_View
    	__('Edit Calendar', 'google-calendar-events'),
    	'<p class="simcal-align-right"><small>',
    	'</small></p>',
-   	$calendar->id,
+   	$calendar->id
    ); ?>
 
             <table class="simcal-calendar-grid"
@@ -205,14 +205,14 @@ class Default_Calendar_Grid implements Calendar_View
 					<?php if (!$calendar->static) { ?>
                         <th class="simcal-nav simcal-prev-wrapper" colspan="<?php echo apply_filters(
                         	'simcal_prev_cols',
-                        	'1',
+                        	'1'
                         ); ?>">
                             <button class="simcal-nav-button simcal-month-nav simcal-prev" title="<?php _e(
                             	'Previous Month',
-                            	'google-calendar-events',
+                            	'google-calendar-events'
                             ); ?>" aria-label="<?php _e(
 	'Previous Month',
-	'google-calendar-events',
+	'google-calendar-events'
 ); ?>"><i class="simcal-icon-left"></i></button>
                         </th>
 					<?php } ?>
@@ -243,14 +243,14 @@ class Default_Calendar_Grid implements Calendar_View
 					<?php if (!$calendar->static) { ?>
                         <th class="simcal-nav simcal-next-wrapper" colspan="<?php echo apply_filters(
                         	'simcal_next_cols',
-                        	'1',
+                        	'1'
                         ); ?>">
                             <button class="simcal-nav-button simcal-month-nav simcal-next" title="<?php _e(
                             	'Next Month',
-                            	'google-calendar-events',
+                            	'google-calendar-events'
                             ); ?>" aria-label="<?php _e(
 	'Next Month',
-	'google-calendar-events',
+	'google-calendar-events'
 ); ?>"><i class="simcal-icon-right"></i></button>
                         </th>
 					<?php } ?>
@@ -288,7 +288,7 @@ class Default_Calendar_Grid implements Calendar_View
 
 				<?php echo $this->draw_month(
     	date($this->format_timestamp($calendar->start, 'n')),
-    	date($this->format_timestamp($calendar->start, 'Y')),
+    	date($this->format_timestamp($calendar->start, 'Y'))
     ); ?>	 			
             </table>
 
@@ -612,8 +612,12 @@ class Default_Calendar_Grid implements Calendar_View
 
 			$days_in_row++;
 
-			$current_min = Carbon::createFromTimestamp($current_min, $calendar->timezone)->addDay()->getTimestamp();
-			$current_max = Carbon::createFromTimestamp($current_max, $calendar->timezone)->addDay()->getTimestamp();
+			$current_min = Carbon::createFromTimestamp($current_min, $calendar->timezone)
+				->addDay()
+				->getTimestamp();
+			$current_max = Carbon::createFromTimestamp($current_max, $calendar->timezone)
+				->addDay()
+				->getTimestamp();
 		endfor;
 
 		// Void days at the end of the month.

@@ -96,17 +96,17 @@ class Grouped_Calendars_Admin
 							<option value="ids" data-show-field="_grouped_calendars_ids" <?php selected(
        	'ids',
        	$source,
-       	true,
+       	true
        ); ?>><?php _e('Manual selection', 'google-calendar-events'); ?></option>
 							<option value="category" data-show-field="_grouped_calendars_category" <?php selected(
        	'category',
        	$source,
-       	true,
+       	true
        ); ?>><?php _e('Category', 'google-calendar-events'); ?></option>
 						</select>
 						<i class="simcal-icon-help simcal-help-tip" data-tip="<?php _e(
       	'Choose from which calendar feeds you want to get events from. Choose them individually or select all those belonging to calendar feed categories.',
-      	'google-calendar-events',
+      	'google-calendar-events'
       ); ?>"></i>
 						<br><br>
 						<?php

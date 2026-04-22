@@ -122,6 +122,8 @@ class Update
 		// Pro: after an upgrade, land on "own credentials" when Via SC is not verified but OAuth client creds exist.
 		if (!is_null($this->installed_ver)) {
 			$this->maybe_set_pro_own_credentials_ui_after_update();
+			$this->maybe_backdate_pro_setup_completed_at_after_update();
+			$this->maybe_backdate_core_setup_completed_at_after_update();
 		}
 
 		$this->admin_redirects();
@@ -238,6 +240,144 @@ class Update
 	}
 
 	/**
+	 * After a plugin upgrade, mark Pro setup as already complete when appropriate.
+	 *
+	 * Used for existing installs that were fully set up pre-Connect UI. If a published Pro
+	 * calendar feed already exists but the new "setup completed" timestamp was never set,
+	 * backdate it so post-setup UI (rating/pro sidebar) shows immediately after update.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return void
+	 */
+	private function maybe_backdate_pro_setup_completed_at_after_update()
+	{
+		if (!$this->is_google_calendar_pro_active_for_update()) {
+			return;
+		}
+
+		$existing = (int) get_option('simple-calendar_connect_pro_setup_completed_at', 0);
+		if ($existing > 0) {
+			return;
+		}
+
+		// Mirror Connect controller logic: "complete" means a published Pro calendar exists.
+		$has_published_pro_calendar = false;
+
+		$pro_query_base = [
+			'post_type' => 'calendar',
+			'post_status' => 'publish',
+			'posts_per_page' => 1,
+			'fields' => 'ids',
+		];
+
+		if (taxonomy_exists('calendar_feed')) {
+			$pro_calendar_query = new \WP_Query(
+				array_merge($pro_query_base, [
+					'tax_query' => [
+						[
+							'taxonomy' => 'calendar_feed',
+							'field' => 'slug',
+							'terms' => ['google-pro', 'google_pro'],
+						],
+					],
+				])
+			);
+			$has_published_pro_calendar = $pro_calendar_query->have_posts();
+			wp_reset_postdata();
+		}
+
+		if (!$has_published_pro_calendar) {
+			$pro_calendar_query = new \WP_Query(
+				array_merge($pro_query_base, [
+					'meta_query' => [
+						'relation' => 'OR',
+						[
+							'key' => '_feed_type',
+							'value' => 'google-pro',
+							'compare' => '=',
+						],
+						[
+							'key' => '_feed_type',
+							'value' => 'google_pro',
+							'compare' => '=',
+						],
+					],
+				])
+			);
+			$has_published_pro_calendar = $pro_calendar_query->have_posts();
+			wp_reset_postdata();
+		}
+
+		if (!$has_published_pro_calendar) {
+			return;
+		}
+
+		$day = defined('DAY_IN_SECONDS') ? (int) DAY_IN_SECONDS : 86400;
+		$backdated = time() - 2 * $day;
+		update_option('simple-calendar_connect_pro_setup_completed_at', $backdated, false);
+	}
+
+	/**
+	 * After a plugin upgrade, mark Core setup as already complete when appropriate.
+	 *
+	 * Used for existing installs that were fully set up pre-Connect UI. If a verified API key
+	 * already exists and at least one calendar is published but the new "setup completed"
+	 * timestamp was never set, backdate it so post-setup UI (rating card) shows immediately
+	 * after update.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return void
+	 */
+	private function maybe_backdate_core_setup_completed_at_after_update()
+	{
+		// Only relevant for Core flow (when Pro isn't active).
+		if ($this->is_google_calendar_pro_active_for_update()) {
+			return;
+		}
+
+		$existing = (int) get_option('simple-calendar_connect_setup_completed_at', 0);
+		if ($existing > 0) {
+			return;
+		}
+
+		$feeds_options = get_option('simple-calendar_settings_feeds', []);
+		$api_key = '';
+		if (is_array($feeds_options) && isset($feeds_options['google']) && is_array($feeds_options['google'])) {
+			$api_key = (string) ($feeds_options['google']['api_key'] ?? '');
+		}
+		$api_key = trim($api_key);
+		if ('' === $api_key) {
+			return;
+		}
+
+		$has_core_api_key_verified = function_exists('simcal_is_connect_google_api_key_verified')
+			? (bool) simcal_is_connect_google_api_key_verified((string) $api_key)
+			: false;
+		if (!$has_core_api_key_verified) {
+			return;
+		}
+
+		$calendar_query = new \WP_Query([
+			'post_type' => 'calendar',
+			'post_status' => 'publish',
+			'posts_per_page' => 1,
+			'fields' => 'ids',
+		]);
+		$has_published_calendar = $calendar_query->have_posts();
+		wp_reset_postdata();
+
+		if (!$has_published_calendar) {
+			return;
+		}
+
+		$day = defined('DAY_IN_SECONDS') ? (int) DAY_IN_SECONDS : 86400;
+		$backdated = time() - 2 * $day;
+		update_option('simple-calendar_connect_setup_completed_at', $backdated);
+	}
+
+	/**
 	 * Whether Google Calendar Pro appears active (lightweight check for upgrade routine).
 	 *
 	 * @since 4.0.0
@@ -262,11 +402,7 @@ class Update
 			}
 
 			if (function_exists('is_plugin_active')) {
-				$paths = [
-					'Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php',
-					'Simple-Calendar-Google-Calendar-Pro-main/simple-calendar-google-calendar-pro.php',
-					'simple-calendar-google-calendar-pro/simple-calendar-google-calendar-pro.php',
-				];
+				$paths = ['simple-calendar-google-calendar-pro/simple-calendar-google-calendar-pro.php'];
 				foreach ($paths as $path) {
 					if (is_plugin_active($path)) {
 						$detected = true;

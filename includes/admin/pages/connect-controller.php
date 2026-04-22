@@ -215,9 +215,9 @@ $step_title = isset($step_title_map[$step]) ? $step_title_map[$step] : __('Conne
 
 $step_template_map = [
 	'welcome' => SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/steps/welcome.php',
-	'credentials' => SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/steps/credentials.php',
-	'api_key' => SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/steps/api-key.php',
-	'add_calendar' => SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/steps/api-key.php',
+	'credentials' => SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/steps/pro-credentials.php',
+	'api_key' => SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/steps/core-credentials.php',
+	'add_calendar' => SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/steps/core-credentials.php',
 ];
 $step_template_path = isset($step_template_map[$step]) ? $step_template_map[$step] : $step_template_map['api_key'];
 

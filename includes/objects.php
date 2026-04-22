@@ -37,7 +37,7 @@ class Objects
 				return array_merge($feed_types, ['google', 'grouped-calendars']);
 			},
 			10,
-			1,
+			1
 		);
 
 		// Add default calendar type.
@@ -49,7 +49,7 @@ class Objects
 				]);
 			},
 			10,
-			1,
+			1
 		);
 
 		// Add default admin objects.
@@ -64,7 +64,7 @@ class Objects
 					]);
 				},
 				10,
-				1,
+				1
 			);
 		}
 

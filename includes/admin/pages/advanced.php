@@ -89,7 +89,7 @@ class Advanced extends Admin_Page
 						'title' => __('Disable CSS', 'google-calendar-events'),
 						'tooltip' => __(
 							'If ticked, this option will prevent all front end stylesheets to load. This also includes all add-on stylesheets.',
-							'google-calendar-events',
+							'google-calendar-events'
 						),
 						'type' => 'checkbox',
 						'name' => 'simple-calendar_' . $this->option_group . '_' . $this->id . '[' . $section . '][disable_css]',
@@ -103,7 +103,7 @@ class Advanced extends Admin_Page
 						'title' => __('Disable Lazy Loading', 'google-calendar-events'),
 						'tooltip' => __(
 							'By default, calendar scripts and styles only load on pages that contain calendars or calendar shortcodes for improved performance. When this option is checked (disabled), scripts and styles will load on all pages (old behavior).',
-							'google-calendar-events',
+							'google-calendar-events'
 						),
 						'type' => 'checkbox',
 						'name' =>
@@ -119,7 +119,7 @@ class Advanced extends Admin_Page
 						'title' => __('Delete settings', 'google-calendar-events'),
 						'tooltip' => __(
 							'Tick this option if you want to wipe this plugin settings from database when uninstalling.',
-							'google-calendar-events',
+							'google-calendar-events'
 						),
 						'type' => 'checkbox',
 						'name' =>
@@ -131,7 +131,7 @@ class Advanced extends Admin_Page
 						'title' => __('Erase calendar data', 'google-calendar-events'),
 						'tooltip' => __(
 							'By default your data will be retained in database even after uninstall. Tick this option if you want to delete all your calendar data when uninstalling.',
-							'google-calendar-events',
+							'google-calendar-events'
 						),
 						'type' => 'checkbox',
 						'name' => 'simple-calendar_' . $this->option_group . '_' . $this->id . '[' . $section . '][erase_data]',

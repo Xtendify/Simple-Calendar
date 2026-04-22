@@ -32,7 +32,7 @@ if ($delete_settings === true || $erase_data === true) {
 	$wpdb->query(
 		"
 DELETE FROM $wpdb->options WHERE option_name LIKE '%simple-calendar%';
-",
+"
 	);
 }
 
@@ -42,7 +42,7 @@ if ($erase_data === true) {
 	$wpdb->query(
 		"
 DELETE FROM {$wpdb->posts} WHERE post_type IN ( 'calendar' );
-",
+"
 	);
 
 	// Delete calendar postmeta.

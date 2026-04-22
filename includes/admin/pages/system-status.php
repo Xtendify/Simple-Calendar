@@ -57,11 +57,11 @@ class System_Status extends Admin_Page
 			<textarea readonly="readonly" onclick="this.select();"></textarea>
 			<p><?php _e(
    	'You can also download your information as a text file to attach, or simply view it below.',
-   	'google-calendar-events',
+   	'google-calendar-events'
    ); ?></p>
 			<p><a href="#" id="simcal-system-status-report-download" class="button button-primary"><?php _e(
    	'Download System Report',
-   	'google-calendar-events',
+   	'google-calendar-events'
    ); ?></a></p>
 		</div>
 		<hr>
@@ -121,10 +121,10 @@ class System_Status extends Admin_Page
   		sprintf(
   			__(
   				'%1$s - It is recomendend to set memory to at least 64MB. See: <a href="%2$s" target="_blank">Increasing memory allocated to PHP</a>',
-  				'google-calendar-events',
+  				'google-calendar-events'
   			),
   			$memory_export,
-  			'http://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP',
+  			'http://codex.wordpress.org/Editing_wp-config.php#Increasing_memory_allocated_to_PHP'
   		) .
   		'</mark>';
   } else {
@@ -678,7 +678,7 @@ class System_Status extends Admin_Page
 				var file = new Blob( [ report ], { type: 'text/plain' } );
 				jQuery( this ).attr( 'href', URL.createObjectURL( file ) );
 				jQuery( this ).attr( 'download', '<?php echo sanitize_title(
-    	str_replace(['http://', 'https://'], '', get_bloginfo('url')) . '-system-report-' . date('Y-m-d', time()),
+    	str_replace(['http://', 'https://'], '', get_bloginfo('url')) . '-system-report-' . date('Y-m-d', time())
     ); ?>' );
 			} );
 

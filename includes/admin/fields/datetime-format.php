@@ -199,11 +199,11 @@ class Datetime_Format extends Field
 					<option value="" data-preview=""></option>
 					<option value="D" <?php selected('D', strpbrk('D', $this->value)); ?> data-preview="<?php echo date_i18n(
  	'D',
- 	$this->timestamp,
+ 	$this->timestamp
  ); ?>"><?php echo date_i18n('D', $this->timestamp); ?></option>
 					<option value="l" <?php selected('l', strpbrk('l', $this->value)); ?> data-preview="<?php echo date_i18n(
  	'l',
- 	$this->timestamp,
+ 	$this->timestamp
  ); ?>"><?php echo date_i18n('l', $this->timestamp); ?></option>
 				</select>
 			</label>
@@ -227,11 +227,11 @@ class Datetime_Format extends Field
 					<option value="" data-preview=""></option>
 					<option value="j" <?php selected('j', strpbrk('j', $this->value)); ?> data-preview="<?php echo date(
  	'j',
- 	$this->timestamp,
+ 	$this->timestamp
  ); ?>"><?php echo date('j', $this->timestamp); ?></option>
 					<option value="d" <?php selected('d', strpbrk('d', $this->value)); ?> data-preview="<?php echo date(
  	'd',
- 	$this->timestamp,
+ 	$this->timestamp
  ); ?>"><?php echo date('d', $this->timestamp); ?></option>
 				</select>
 			</label>
@@ -255,19 +255,19 @@ class Datetime_Format extends Field
 					<option value="" data-preview=""></option>
 					<option value="F" <?php selected('F', strpbrk('F', $this->value)); ?> data-preview="<?php echo date_i18n(
  	'F',
- 	$this->timestamp,
+ 	$this->timestamp
  ); ?>"><?php echo date_i18n('F', $this->timestamp); ?></option>
 					<option value="M" <?php selected('M', strpbrk('M', $this->value)); ?> data-preview="<?php echo date_i18n(
  	'M',
- 	$this->timestamp,
+ 	$this->timestamp
  ); ?>"><?php echo date_i18n('M', $this->timestamp); ?></option>
 					<option value="m" <?php selected('m', strpbrk('m', $this->value)); ?> data-preview="<?php echo date(
  	'm',
- 	$this->timestamp,
+ 	$this->timestamp
  ); ?>"><?php echo date('m', $this->timestamp); ?></option>
 					<option value="n" <?php selected('n', strpbrk('n', $this->value)); ?> data-preview="<?php echo date(
  	'n',
- 	$this->timestamp,
+ 	$this->timestamp
  ); ?>"><?php echo date('n', $this->timestamp); ?></option>
 				</select>
 			</label>
@@ -291,11 +291,11 @@ class Datetime_Format extends Field
 					<option value="" data-preview=""></option>
 					<option value="Y" <?php selected('Y', strpbrk('Y', $this->value)); ?> data-preview="<?php echo date(
  	'Y',
- 	$this->timestamp,
+ 	$this->timestamp
  ); ?>"><?php echo date('Y', $this->timestamp); ?></option>
 					<option value="y" <?php selected('y', strpbrk('y', $this->value)); ?> data-preview="<?php echo date(
  	'y',
- 	$this->timestamp,
+ 	$this->timestamp
  ); ?>"><?php echo date('y', $this->timestamp); ?></option>
 				</select>
 			</label>
@@ -319,19 +319,19 @@ class Datetime_Format extends Field
 					<option value="" data-preview=""></option>
 					<option value="g" <?php selected('g', strpbrk('g', $this->value)); ?> data-preview="<?php echo date(
  	'g',
- 	$this->timestamp,
+ 	$this->timestamp
  ); ?>"><?php echo date('g', $this->timestamp) . ' (12h)'; ?></option>
 					<option value="G" <?php selected('G', strpbrk('G', $this->value)); ?> data-preview="<?php echo date(
  	'G',
- 	$this->timestamp - 43200,
+ 	$this->timestamp - 43200
  ); ?>"><?php echo date('G', $this->timestamp - 43200) . ' (24h)'; ?></option>
 					<option value="h" <?php selected('h', strpbrk('h', $this->value)); ?> data-preview="<?php echo date(
  	'h',
- 	$this->timestamp,
+ 	$this->timestamp
  ); ?>"><?php echo date('h', $this->timestamp) . ' (12h)'; ?></option>
 					<option value="H" <?php selected('H', strpbrk('H', $this->value)); ?> data-preview="<?php echo date(
  	'H',
- 	$this->timestamp - 43200,
+ 	$this->timestamp - 43200
  ); ?>"><?php echo date('H', $this->timestamp - 43200) . ' (24h)'; ?></option>
 				</select>
 			</label>
@@ -355,7 +355,7 @@ class Datetime_Format extends Field
 					<option value="" data-preview=""></option>
 					<option value="i" <?php selected('i', strpbrk('i', $this->value)); ?> data-preview="<?php echo date(
  	'i',
- 	$this->timestamp,
+ 	$this->timestamp
  ); ?>"><?php echo date('i', $this->timestamp); ?></option>
 				</select>
 			</label>
@@ -379,11 +379,11 @@ class Datetime_Format extends Field
 					<option value="" data-preview=""></option>
 					<option value="a" <?php selected('a', strpbrk('a', $this->value)); ?> data-preview="<?php echo date(
  	'a',
- 	$this->timestamp,
+ 	$this->timestamp
  ); ?>"><?php echo date('a', $this->timestamp); ?></option>
 					<option value="A" <?php selected('A', strpbrk('A', $this->value)); ?> data-preview="<?php echo date(
  	'A',
- 	$this->timestamp,
+ 	$this->timestamp
  ); ?>"><?php echo date('A', $this->timestamp); ?></option>
 				</select>
 			</label>

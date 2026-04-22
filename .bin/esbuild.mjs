@@ -30,7 +30,7 @@ const files = [
 	{ in: 'assets/generated/tailwind-output.css', out: 'tailwind.min' },
 	{ in: 'assets/scss/design-system.scss', out: 'design-system.min' },
 	{ in: 'assets/scss/connect.scss', out: 'connect.min' },
-	{ in: 'assets/scss/global.scss', out: 'global.min' },
+	{ in: 'assets/scss/admin-global.scss', out: 'admin-global.min' },
 ];
 
 const defaultConfig = {

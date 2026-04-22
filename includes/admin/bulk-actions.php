@@ -182,7 +182,7 @@ class Bulk_Actions
 					'bulk_edit',
 					'post_view',
 				],
-				$sendback,
+				$sendback
 			);
 
 			wp_redirect($sendback);
@@ -220,7 +220,7 @@ class Bulk_Actions
 				if (is_array($message)) {
 					$message = sprintf(
 						_n($message['single'], $message['plural'], $post_ids_count, 'google-calendar-events'),
-						$post_ids_count,
+						$post_ids_count
 					);
 				}
 

@@ -65,12 +65,10 @@
 							return;
 						}
 
-						console.log(response);
 						clearBtnLoading();
 						setBtnError();
 					},
 					error: function (response) {
-						console.log(response);
 						clearBtnLoading();
 						setBtnError();
 					},

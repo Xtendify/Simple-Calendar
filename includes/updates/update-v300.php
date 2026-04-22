@@ -307,7 +307,7 @@ class Update_V300
 		$wpdb->query(
 			"
 UPDATE {$table} SET `post_type`='calendar' WHERE `post_type`='gce_feed';
-",
+"
 		);
 	}
 

@@ -664,15 +664,25 @@ abstract class Calendar
 		} elseif ('this_month' == $calendar_begins) {
 			$start_dt = Carbon::today($this->timezone)->startOfMonth();
 		} elseif ('months_before' == $calendar_begins) {
-			$start_dt = Carbon::today($this->timezone)->subMonths($nth)->startOfMonth();
+			$start_dt = Carbon::today($this->timezone)
+				->subMonths($nth)
+				->startOfMonth();
 		} elseif ('months_after' == $calendar_begins) {
-			$start_dt = Carbon::today($this->timezone)->addMonths($nth)->startOfMonth();
+			$start_dt = Carbon::today($this->timezone)
+				->addMonths($nth)
+				->startOfMonth();
 		} elseif ('this_year' == $calendar_begins) {
-			$start_dt = Carbon::today($this->timezone)->startOfYear()->addHour();
+			$start_dt = Carbon::today($this->timezone)
+				->startOfYear()
+				->addHour();
 		} elseif ('years_before' == $calendar_begins) {
-			$start_dt = Carbon::today($this->timezone)->subYears($nth)->startOfYear();
+			$start_dt = Carbon::today($this->timezone)
+				->subYears($nth)
+				->startOfYear();
 		} elseif ('years_after' == $calendar_begins) {
-			$start_dt = Carbon::today($this->timezone)->addYears($nth)->startOfYear();
+			$start_dt = Carbon::today($this->timezone)
+				->addYears($nth)
+				->startOfYear();
 		} elseif ('custom_date' == $calendar_begins) {
 			if ($date = get_post_meta($this->id, '_calendar_begins_custom_date', true)) {
 				$start_dt = Carbon::createFromFormat('Y-m-d', esc_attr($date), $this->timezone)
@@ -837,8 +847,8 @@ abstract class Calendar
 				$calendar_class = trim(
 					implode(
 						' simcal-',
-						apply_filters('simcal_calendar_class', ['simcal-calendar', $this->type, $view_class], $this->id),
-					),
+						apply_filters('simcal_calendar_class', ['simcal-calendar', $this->type, $view_class], $this->id)
+					)
 				);
 
 				echo '<div class="' .
@@ -886,7 +896,7 @@ abstract class Calendar
 						'">' .
 						sprintf(
 							__('Powered by <a href="%s" target="_blank">Simple Calendar</a>', 'google-calendar-events'),
-							simcal_get_url('home'),
+							simcal_get_url('home')
 						) .
 						'</small>';
 				}

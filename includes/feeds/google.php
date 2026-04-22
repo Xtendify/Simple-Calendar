@@ -111,7 +111,7 @@ class Google extends Feed
 		if ($this->post_id > 0) {
 			// Google query args.
 			$this->google_calendar_id = $this->esc_google_calendar_id(
-				get_post_meta($this->post_id, '_google_calendar_id', true),
+				get_post_meta($this->post_id, '_google_calendar_id', true)
 			);
 			$this->google_events_recurring = esc_attr(get_post_meta($this->post_id, '_google_events_recurring', true));
 			// note that google_search_query is used in a URL param and not as HTML output, so don't use esc_attr() on it
@@ -234,7 +234,7 @@ class Google extends Feed
 										$date->hour,
 										$date->minute,
 										$date->second,
-										$date->timezone,
+										$date->timezone
 									);
 									$google_start2 = Carbon::create(
 										$date->year,
@@ -243,7 +243,7 @@ class Google extends Feed
 										$date->hour,
 										$date->minute,
 										$date->second,
-										$event->getStart()->timeZone,
+										$event->getStart()->timeZone
 									);
 
 									// Get the offset in hours
@@ -264,7 +264,7 @@ class Google extends Feed
 									$date->hour,
 									$date->minute,
 									$date->second,
-									$start_timezone,
+									$start_timezone
 								);
 								$google_start_utc = Carbon::create(
 									$date->year,
@@ -273,7 +273,7 @@ class Google extends Feed
 									$date->hour,
 									$date->minute,
 									$date->second,
-									'UTC',
+									'UTC'
 								);
 
 								$this->timezone = $start_timezone;
@@ -315,7 +315,7 @@ class Google extends Feed
 											$date->hour,
 											$date->minute,
 											$date->second,
-											$date->timezone,
+											$date->timezone
 										);
 										$google_start2 = Carbon::create(
 											$date->year,
@@ -324,7 +324,7 @@ class Google extends Feed
 											$date->hour,
 											$date->minute,
 											$date->second,
-											$event->getEnd()->timeZone,
+											$event->getEnd()->timeZone
 										);
 
 										// Get the offset in hours
@@ -345,7 +345,7 @@ class Google extends Feed
 										$date->hour,
 										$date->minute,
 										$date->second,
-										$end_timezone,
+										$end_timezone
 									);
 									$google_end_utc = Carbon::create(
 										$date->year,
@@ -354,7 +354,7 @@ class Google extends Feed
 										$date->hour,
 										$date->minute,
 										$date->second,
-										'UTC',
+										'UTC'
 									);
 								}
 								// End.
@@ -429,7 +429,7 @@ class Google extends Feed
 						set_transient(
 							'_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type,
 							$calendar,
-							max(absint($this->cache), 1), // Since a value of 0 means forever we set the minimum here to 1 if the user has set it to be 0
+							max(absint($this->cache), 1) // Since a value of 0 means forever we set the minimum here to 1 if the user has set it to be 0
 						);
 					}
 				}
@@ -439,7 +439,7 @@ class Google extends Feed
 				$message .=
 					__(
 						'Please ensure that both your Google Calendar ID and API Key are valid and that the Google Calendar you want to display is public.',
-						'google-calendar-events',
+						'google-calendar-events'
 					) . '<br><br>';
 				$message .= __('Only you can see this notice.', 'google-calendar-events');
 

@@ -113,7 +113,7 @@ class Notices
 						$dismiss_link .
 						$notice->content .
 						'</div>';
-				},
+				}
 			);
 		}
 	}

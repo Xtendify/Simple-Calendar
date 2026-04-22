@@ -84,7 +84,7 @@ class Meta_Boxes
 			'\SimpleCalendar\Admin\Metaboxes\Settings::html',
 			'calendar',
 			'normal',
-			'core',
+			'core'
 		);
 
 		$addons = apply_filters('simcal_installed_addons', []);
@@ -96,7 +96,7 @@ class Meta_Boxes
 				'\SimpleCalendar\Admin\Metaboxes\Upgrade_To_Premium::html',
 				'calendar',
 				'side',
-				'default',
+				'default'
 			);
 
 			// Removing coupon code + mailing list sign-up for now. 9/26/16
@@ -118,7 +118,7 @@ class Meta_Boxes
 			'\SimpleCalendar\Admin\Metaboxes\Get_Shortcode::html',
 			'calendar',
 			'side',
-			'default',
+			'default'
 		);
 
 		// Add meta box if there are calendars.
@@ -130,7 +130,7 @@ class Meta_Boxes
 					'\SimpleCalendar\Admin\Metaboxes\Attach_Calendar::html',
 					$post_type,
 					'side',
-					'low',
+					'low'
 				);
 			}
 		}

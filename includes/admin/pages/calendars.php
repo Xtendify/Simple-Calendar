@@ -117,7 +117,7 @@ class Calendars extends Admin_Page
 						'show_ui' => false,
 					],
 					'objects',
-					'not',
+					'not'
 				);
 				unset($post_types['attachment']);
 				unset($post_types['calendar']);
@@ -134,7 +134,7 @@ class Calendars extends Admin_Page
 					'title' => __('Attach Calendars', 'google-calendar-events'),
 					'tooltip' => __(
 						'You can choose on which content types to add the ability to attach calendars.',
-						'google-calendar-events',
+						'google-calendar-events'
 					),
 					'name' =>
 						'simple-calendar_' . $this->option_group . '_' . $this->id . '[' . $section . '][attach_calendars_posts]',

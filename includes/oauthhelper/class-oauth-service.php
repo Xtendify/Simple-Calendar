@@ -34,7 +34,7 @@ class Auth_Service_Helpers
 			'simple_calendar_oauth_get_events_cover_base64image',
 			[$this, 'auth_get_events_cover_base64image'],
 			10,
-			2,
+			2
 		);
 	}
 
