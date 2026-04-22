@@ -211,7 +211,7 @@ class Ajax
 		// Check for user capabilities.
 		if (!current_user_can('edit_posts')) {
 			wp_send_json_error(
-				sprintf(__('An error occurred: %s', 'google-calendar-events'), 'You don\'t have permission to make changes.')
+				sprintf(__('An error occurred: %s', 'google-calendar-events'), 'You don\'t have permission to make changes.'),
 			);
 		}
 
@@ -242,7 +242,7 @@ class Ajax
 				'timeout' => 15,
 				'sslverify' => false,
 				'body' => $api_request,
-			]
+			],
 		);
 
 		// Update license in db.
@@ -255,8 +255,8 @@ class Ajax
 			wp_send_json_error(
 				sprintf(
 					__('There was an error processing your request: %s', 'google-calendar-events'),
-					$response->get_error_message()
-				)
+					$response->get_error_message(),
+				),
 			);
 		}
 
@@ -300,7 +300,7 @@ class Ajax
 		// Check for user capabilities.
 		if (!current_user_can('edit_posts')) {
 			wp_send_json_error(
-				sprintf(__('An error occurred: %s', 'google-calendar-events'), 'You don\'t have permission to make changes.')
+				sprintf(__('An error occurred: %s', 'google-calendar-events'), 'You don\'t have permission to make changes.'),
 			);
 		}
 		delete_option('simple-calendar_settings_licenses');
