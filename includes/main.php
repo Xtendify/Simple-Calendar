@@ -113,8 +113,6 @@ final class Plugin
 		// Do update call here.
 		add_action('admin_init', [$this, 'update'], 999);
 
-		// OAuth via Simple Calendar legacy return URL (Settings page) → redirect to Connect.
-		add_action('admin_init', [$this, 'maybe_redirect_legacy_oauth_return_to_connect'], 2);
 		// Redirect to Connect page after activation (core or supported add-on).
 		// Only hook when needed.
 		if (
@@ -138,51 +136,6 @@ final class Plugin
 
 		// Upon plugin loaded action hook.
 		do_action('simcal_loaded');
-	}
-
-	/**
-	 * Redirect legacy OAuth return (Settings page) to Connect page.
-	 *
-	 * OAuth via Simple Calendar may still return users to the old Settings URL with
-	 * `status` + `auth_token` query params. Since settings have moved to Connect,
-	 * redirect to Connect while preserving those params.
-	 *
-	 * @since 3.7.0
-	 *
-	 * @return void
-	 */
-	public function maybe_redirect_legacy_oauth_return_to_connect()
-	{
-		if (!is_admin() || !current_user_can('manage_options')) {
-			return;
-		}
-
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$page = isset($_GET['page']) ? (string) $_GET['page'] : '';
-		if ($page !== 'simple-calendar_settings') {
-			return;
-		}
-
-		// Only redirect when this looks like an OAuth return.
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$status = isset($_GET['status']) ? (string) $_GET['status'] : '';
-		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		$auth_token = isset($_GET['auth_token']) ? (string) $_GET['auth_token'] : '';
-		if ($status === '' && $auth_token === '') {
-			return;
-		}
-
-		$target = admin_url('edit.php?post_type=calendar&page=simple-calendar_connect');
-		$args = [];
-		if ($status !== '') {
-			$args['status'] = sanitize_text_field(wp_unslash($status));
-		}
-		if ($auth_token !== '') {
-			$args['auth_token'] = sanitize_text_field(wp_unslash($auth_token));
-		}
-
-		wp_safe_redirect(add_query_arg($args, $target));
-		exit();
 	}
 
 	/**
@@ -424,8 +377,8 @@ final class Plugin
 
 		$redirect_url = admin_url(
 			$addon_flag
-				? 'edit.php?post_type=calendar&page=simple-calendar_connect&sc_welcome=1'
-				: 'edit.php?post_type=calendar&page=simple-calendar_connect'
+				? 'edit.php?post_type=calendar&page=simple-calendar_settings&sc_welcome=1'
+				: 'edit.php?post_type=calendar&page=simple-calendar_settings'
 		);
 
 		wp_safe_redirect($redirect_url);
@@ -463,7 +416,7 @@ final class Plugin
 		}
 
 		$referer = wp_get_referer();
-		if (!$referer || false === strpos($referer, 'simple-calendar_connect')) {
+		if (!$referer ||  false === strpos($referer, 'simple-calendar_settings')) {
 			return $location;
 		}
 

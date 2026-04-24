@@ -95,13 +95,14 @@ class Assets
 		);
 
 		$connect_screen_ids = [
-			'calendar_page_simple-calendar_connect',
-			'index_page_simple-calendar_connect',
-			'dashboard_page_simple-calendar_connect',
+			'calendar_page_simple-calendar_settings',
+			'index_page_simple-calendar_settings',
+			'dashboard_page_simple-calendar_settings',
 		];
+
 		$is_connect_page =
-			($sc_screen && isset($sc_screen->id) && in_array($sc_screen->id, $connect_screen_ids, true)) ||
-			$this->current_page === 'simple-calendar_connect';
+			(($sc_screen && isset($sc_screen->id) && in_array($sc_screen->id, $connect_screen_ids, true)) ||
+				$this->current_page === 'simple-calendar_settings');
 
 		// OAuth helper UI (deauthenticate + legacy auth tabs). Safe to enqueue on Connect/Settings
 		// because it no-ops when its target elements are not present.
@@ -122,13 +123,14 @@ class Assets
 		);
 		wp_register_style('sc-design-system', $css_path . 'design-system.min.css', [], SIMPLE_CALENDAR_VERSION);
 		wp_register_style('sc-connect', $css_path . 'connect.min.css', ['sc-design-system'], SIMPLE_CALENDAR_VERSION);
+		wp_register_style('sc-settings', $css_path . 'settings.min.css', ['sc-design-system'], SIMPLE_CALENDAR_VERSION);
 		wp_register_style(
 			'simcal-admin-add-calendar',
 			$css_path . 'admin-add-calendar.min.css',
 			['simcal-select2'],
 			SIMPLE_CALENDAR_VERSION
 		);
-		wp_register_style('sc-global-admin', $css_path . 'admin-global.min.css', [], SIMPLE_CALENDAR_VERSION);
+		wp_register_style('sc-global-admin', $css_path . 'global.min.css', [], SIMPLE_CALENDAR_VERSION);
 
 		if (simcal_is_admin_screen() !== false) {
 			// Global admin styles (e.g. menu badges) used outside plugin screens too.
@@ -202,9 +204,10 @@ class Assets
 		}
 
 		// Load the style on where that needed.
-		if ('calendar_page_simple-calendar_settings' == $sc_screen->id) {
+		if ('calendar_page_simple-calendar_misc_settings' == $sc_screen->id) {
 			wp_enqueue_style('sc-admin-style', $css_path . 'admin-sett-style.min.css', [], SIMPLE_CALENDAR_VERSION);
 			wp_enqueue_style('sc-tail-style', $css_path . 'tailwind.min.css', [], SIMPLE_CALENDAR_VERSION);
+			wp_enqueue_style('sc-settings');
 		}
 		if (
 			'dashboard_page_simple-calendar_about' == $sc_screen->id ||

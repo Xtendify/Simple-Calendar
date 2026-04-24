@@ -171,7 +171,7 @@ $google_pro_defs =
 			<div class="sc_connect_credentials_link_row_center">
 			<span class="sc_text--body_b3 sc_text--medium_gray"><?php esc_html_e('Or, ', 'google-calendar-events'); ?></span>
 				<a
-					href="<?php echo esc_url(admin_url('edit.php?post_type=calendar&page=simple-calendar_connect&sc_pro_own=1')); ?>"
+					href="<?php echo esc_url(admin_url('edit.php?post_type=calendar&page=simple-calendar_settings&sc_pro_own=1')); ?>"
 					class="sc_link sc_link_muted  sc_text--body_b3"
 				>
 					<?php esc_html_e('I wanted to connect with own credentials', 'google-calendar-events'); ?>
@@ -255,7 +255,7 @@ $google_pro_defs =
 			<div class="sc_connect_credentials_link_row">
 			<span class="sc_text--body_b3 sc_text--medium_gray"><?php esc_html_e('Or, ', 'google-calendar-events'); ?></span>
 				<a
-					href="<?php echo esc_url(admin_url('edit.php?post_type=calendar&page=simple-calendar_connect&sc_pro_via=1')); ?>"
+					href="<?php echo esc_url(admin_url('edit.php?post_type=calendar&page=simple-calendar_settings&sc_pro_via=1')); ?>"
 					class="sc_link sc_link_muted  sc_text--body_b3"
 				>
 					<?php esc_html_e('I wanted to connect with Auth Via Simple Calendar', 'google-calendar-events'); ?>

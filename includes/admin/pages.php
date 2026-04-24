@@ -258,7 +258,7 @@ class Pages
 
     			// The Event Source (Feeds) settings have been moved to Connect.
     			if ($this->page === 'settings' && $current_tab === 'feeds') {
-    				$connect_url = admin_url('edit.php?post_type=calendar&page=simple-calendar_connect');
+    				$connect_url = admin_url('edit.php?post_type=calendar&page=simple-calendar_settings');
     				echo '<div class="notice notice-warning inline">';
     				echo '<p><strong>' .
     					esc_html__('Update:', 'google-calendar-events') .

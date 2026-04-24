@@ -61,7 +61,7 @@ class Settings implements Meta_Box
 		$requires_google_api_key = in_array($current_feed_type, $feed_types_needing_api_key, true);
 		$requires_pro_auth = 'google-pro' === $current_feed_type;
 		$show_api_key_mask = ($requires_google_api_key && empty($api_key)) || ($requires_pro_auth && !$has_pro_auth);
-		$connect_url = admin_url('edit.php?post_type=calendar&page=simple-calendar_connect');
+		$connect_url = admin_url('edit.php?post_type=calendar&page=simple-calendar_settings');
 		?>
 		<div class="simcal-panels-wrap">
 

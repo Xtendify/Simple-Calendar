@@ -34,8 +34,11 @@ class Connect_Menu
 		$screen = get_current_screen();
 		$connect_ids = [
 			'calendar_page_simple-calendar_connect',
+			'calendar_page_simple-calendar_settings',
 			'index_page_simple-calendar_connect',
+			'index_page_simple-calendar_settings',
 			'dashboard_page_simple-calendar_connect',
+			'dashboard_page_simple-calendar_settings',
 		];
 		if (!$screen || !isset($screen->id) || !in_array($screen->id, $connect_ids, true)) {
 			return;
@@ -83,7 +86,7 @@ class Connect_Menu
 				update_option('simple-calendar_connect_welcome_dismissed_' . $welcome_context, 1);
 			}
 
-			wp_safe_redirect(admin_url('edit.php?post_type=calendar&page=simple-calendar_connect'));
+			wp_safe_redirect(admin_url('edit.php?post_type=calendar&page=simple-calendar_settings'));
 			exit();
 		}
 	}

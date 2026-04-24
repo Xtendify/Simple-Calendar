@@ -73,6 +73,8 @@ class Menus
 			esc_html__('New!', 'google-calendar-events')
 		);
 
+		// Serve Connect UI on the Settings slug to preserve legacy OAuth redirect URLs:
+		// wp-admin/edit.php?post_type=calendar&page=simple-calendar_settings
 		$connect_callback = [Connect_Menu::class, 'html'];
 
 		// Register under Dashboard first so OAuth / legacy URLs using
@@ -83,7 +85,7 @@ class Menus
 			__('Connect', 'google-calendar-events'),
 			__('Connect', 'google-calendar-events'),
 			'manage_options',
-			'simple-calendar_connect',
+			'simple-calendar_settings',
 			$connect_callback
 		);
 
@@ -92,11 +94,11 @@ class Menus
 			__('Connect', 'google-calendar-events'),
 			$connect_menu_title,
 			'manage_options',
-			'simple-calendar_connect',
+			'simple-calendar_settings',
 			$connect_callback
 		);
 
-		remove_submenu_page('index.php', 'simple-calendar_connect');
+		//remove_submenu_page('index.php', 'simple-calendar_settings');
 
 		foreach ([$connect_hook_index, $connect_hook] as $maybe_hook) {
 			if (!is_string($maybe_hook) || !$maybe_hook) {
@@ -108,12 +110,13 @@ class Menus
 			});
 		}
 
+		// Old Settings UI lives under Misc Settings now.
 		add_submenu_page(
 			self::$main_menu,
 			__('Settings', 'google-calendar-events'),
 			__('Settings', 'google-calendar-events'),
 			'manage_options',
-			'simple-calendar_settings',
+			'simple-calendar_misc_settings',
 			function () {
 				$page = new Pages('settings');
 				$page->html();
@@ -163,9 +166,15 @@ class Menus
 			$links = [];
 			$links['connect'] =
 				'<a href="' .
-				admin_url('edit.php?post_type=calendar&page=simple-calendar_connect') .
+				admin_url('edit.php?post_type=calendar&page=simple-calendar_settings') .
 				'">' .
-				__('Connect', 'google-calendar-events') .
+				__('Settings', 'google-calendar-events') .
+				'</a>';
+			$links['misc_settings'] =
+				'<a href="' .
+				admin_url('edit.php?post_type=calendar&page=simple-calendar_misc_settings') .
+				'">' .
+				__('Misc Settings', 'google-calendar-events') .
 				'</a>';
 			$links['feeds'] =
 				'<a href="' .

@@ -149,12 +149,12 @@ class Update
 		delete_transient('_simple-calendar_activation_redirect');
 
 		// Do not redirect if already on welcome page screen.
-		if (!empty($_GET['page']) && in_array($_GET['page'], ['simple-calendar_connect'], true)) {
+		if (!empty($_GET['page']) && in_array($_GET['page'], ['simple-calendar_settings'], true)) {
 			return;
 		}
 
 		// Use Dashboard-based URL to avoid CPT permission edge-cases.
-		$connect_base_url = admin_url('edit.php?post_type=calendar&page=simple-calendar_connect');
+		$connect_base_url = admin_url('edit.php?post_type=calendar&page=simple-calendar_settings');
 
 		$url = esc_url(add_query_arg('simcal_install', esc_attr($transient), $connect_base_url));
 		wp_safe_redirect($url);
