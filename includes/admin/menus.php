@@ -98,7 +98,7 @@ class Menus
 			$connect_callback
 		);
 
-		//remove_submenu_page('index.php', 'simple-calendar_settings');
+		remove_submenu_page('index.php', 'simple-calendar_settings');
 
 		foreach ([$connect_hook_index, $connect_hook] as $maybe_hook) {
 			if (!is_string($maybe_hook) || !$maybe_hook) {
