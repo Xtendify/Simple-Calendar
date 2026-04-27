@@ -168,13 +168,7 @@ class Menus
 				'<a href="' .
 				admin_url('edit.php?post_type=calendar&page=simple-calendar_settings') .
 				'">' .
-				__('Settings', 'google-calendar-events') .
-				'</a>';
-			$links['misc_settings'] =
-				'<a href="' .
-				admin_url('edit.php?post_type=calendar&page=simple-calendar_misc_settings') .
-				'">' .
-				__('Misc Settings', 'google-calendar-events') .
+				__('Connect', 'google-calendar-events') .
 				'</a>';
 			$links['feeds'] =
 				'<a href="' .

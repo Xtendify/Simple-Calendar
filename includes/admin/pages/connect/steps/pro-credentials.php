@@ -240,13 +240,15 @@ $google_pro_defs =
 				<?php
     $has_published_pro_calendar = isset($has_published_pro_calendar) ? (bool) $has_published_pro_calendar : false;
     $own_oauth_health_ok = (string) get_option('simple_calendar_connect_pro_own_oauth_health_ok', '');
+
     $show_add_pro_calendar_btn = !$has_published_pro_calendar && '1' === $own_oauth_health_ok;
+    $can_unhide_add_pro_calendar_btn = !$has_published_pro_calendar;
     ?>
 				<a
 					href="<?php echo esc_url(admin_url('post-new.php?post_type=calendar')); ?>"
 					id="sc_connect_add_pro_calendar_btn"
 					class="sc_btn sc_btn--white<?php echo $show_add_pro_calendar_btn ? '' : ' is_hidden'; ?>"
-					data-sc-can-unhide="<?php echo $show_add_pro_calendar_btn ? '1' : '0'; ?>"
+					data-sc-can-unhide="<?php echo $can_unhide_add_pro_calendar_btn ? '1' : '0'; ?>"
 				>
 					<?php esc_html_e('Add New Calendar', 'google-calendar-events'); ?>
 				</a>
