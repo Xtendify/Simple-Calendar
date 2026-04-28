@@ -66,7 +66,7 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
 	<p class="<?php echo esc_attr($subtitle_class); ?>">
 		<?php esc_html_e(
   	'Simple for a reason. Zero technical setup. Easy integration steps with advanced options when you need them.',
-  	'google-calendar-events'
+  	'google-calendar-events',
   ); ?>
 	</p>
 	<p
@@ -135,7 +135,7 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
     	/* translators: %1$s: Opening anchor tag, %2$s: Closing anchor tag */
     	esc_html__('Never share your API key. Get one from %1$sGoogle Cloud Console%2$s.', 'google-calendar-events'),
     	'<a href="https://console.cloud.google.com/apis/credentials" target="_blank" class="sc_connect_helper_link">',
-    	'</a>'
+    	'</a>',
     ); ?>
 			</p>
 
@@ -143,7 +143,7 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
 				<a href="<?php echo simcal_ga_campaign_url(
     	'https://simplecalendar.io/downloads/google-calendar-pro/',
     	'core-plugin',
-    	'connect-api-key-pro-addon'
+    	'connect-api-key-pro-addon',
     ); ?>" target="_blank" class="sc_connect_pro_link">
 					<img src="<?php echo esc_url($assets_base . 'crown.svg'); ?>" alt="" />
 					<span class="sc_link"><?php esc_html_e('Pro Version Available Here', 'google-calendar-events'); ?></span>

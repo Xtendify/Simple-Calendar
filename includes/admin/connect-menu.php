@@ -115,12 +115,12 @@ class Connect_Menu
       	/* translators: 1: installed version 2: required version */
       	esc_html__(
       		'Your Google Calendar Pro add-on version (%1$s) is not compatible. Please update it to %2$s or newer to use Connect and Settings.',
-      		'google-calendar-events'
+      		'google-calendar-events',
       	),
       	defined('SIMPLE_CALENDAR_GOOGLE_PRO_VERSION')
       		? esc_html((string) SIMPLE_CALENDAR_GOOGLE_PRO_VERSION)
       		: esc_html__('unknown', 'google-calendar-events'),
-      	esc_html($min_pro_version)
+      	esc_html($min_pro_version),
       ); ?>
 					</p>
 					<p>

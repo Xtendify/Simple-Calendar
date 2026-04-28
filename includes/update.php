@@ -281,7 +281,7 @@ class Update
 							'terms' => ['google-pro', 'google_pro'],
 						],
 					],
-				])
+				]),
 			);
 			$has_published_pro_calendar = $pro_calendar_query->have_posts();
 			wp_reset_postdata();
@@ -303,7 +303,7 @@ class Update
 							'compare' => '=',
 						],
 					],
-				])
+				]),
 			);
 			$has_published_pro_calendar = $pro_calendar_query->have_posts();
 			wp_reset_postdata();

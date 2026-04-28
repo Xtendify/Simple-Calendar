@@ -110,7 +110,7 @@ if (taxonomy_exists('calendar_feed')) {
 					'terms' => ['google-pro', 'google_pro'],
 				],
 			],
-		])
+		]),
 	);
 	$has_published_pro_calendar = $pro_calendar_query->have_posts();
 	wp_reset_postdata();
@@ -133,7 +133,7 @@ if (!$has_published_pro_calendar) {
 					'compare' => '=',
 				],
 			],
-		])
+		]),
 	);
 	$has_published_pro_calendar = $pro_calendar_query->have_posts();
 	wp_reset_postdata();

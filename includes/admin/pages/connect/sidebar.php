@@ -173,7 +173,7 @@ if (!$should_hide_progress) {
 		<p class="sc_connect_rating_subtitle">
 			<?php esc_html_e(
    	'Simple for a reason. Zero technical setup. Easy integration steps with advanced options when you need them.',
-   	'google-calendar-events'
+   	'google-calendar-events',
    ); ?>
 		</p>
 		<div class="sc_connect_rating_stars">
@@ -198,7 +198,7 @@ if (!$should_hide_progress) {
 			<p class="sc_connect_pro_subtitle">
 				<?php esc_html_e(
     	'Simple Calendar is a Calendar WordPress plugin made for powerful, automated event displays.',
-    	'google-calendar-events'
+    	'google-calendar-events',
     ); ?>
 			</p>
 			<ul class="sc_connect_pro_list">
@@ -238,7 +238,7 @@ if (!$should_hide_progress) {
 			<a href="<?php echo simcal_ga_campaign_url(
    	'https://simplecalendar.io/downloads/google-calendar-pro/',
    	'core-plugin',
-   	'connect-sidebar-pro-addon'
+   	'connect-sidebar-pro-addon',
    ); ?>" target="_blank" class="sc_btn sc_btn--blue sc_connect_pro_btn">
 				<?php esc_html_e('Upgrade to Pro', 'google-calendar-events'); ?>
 			</a>

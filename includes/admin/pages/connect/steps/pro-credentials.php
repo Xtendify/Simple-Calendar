@@ -61,7 +61,7 @@ if (defined('SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN') && SIMPLE_CALENDAR_OAUTH
 		[
 			'request_from' => $site_url,
 		],
-		SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN . 'helper/'
+		SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN . 'helper/',
 	);
 }
 $authredirect = apply_filters('simcal_connect_oauth_via_simple_calendar_url', $authredirect);
@@ -120,7 +120,7 @@ $google_pro_defs =
 	<p class="sc_text--body_b2 sc_text--dark sc_connect_credentials_subtitle">
 		<?php esc_html_e(
   	'Configure a Google OAuth client to read event details from both public and private Google Calendars.',
-  	'google-calendar-events'
+  	'google-calendar-events',
   ); ?>
 	</p>
 
@@ -128,6 +128,7 @@ $google_pro_defs =
 		<?php // Always render the status pill (unlink + Not Connected) like the design.
  	// Always render the status pill (unlink + Not Connected) like the design.
  	// Always render the status pill (unlink + Not Connected) like the design.
+  // Always render the status pill (unlink + Not Connected) like the design.
   // Always render the status pill (unlink + Not Connected) like the design.
   // Always render the status pill (unlink + Not Connected) like the design.
   // Only enable AJAX checking when a token exists, to avoid showing network errors when not authenticated.
@@ -182,11 +183,11 @@ $google_pro_defs =
 		<div class="sc_connect_helper_row sc_connect_credentials_helper_row">
 			<a href="#" class="sc_connect_helper_link"><?php esc_html_e(
    	'Step-by-step instructions',
-   	'google-calendar-events'
+   	'google-calendar-events',
    ); ?></a>
 			<a href="https://console.cloud.google.com/apis/credentials" target="_blank" class="sc_connect_helper_link"><?php esc_html_e(
    	'Google Developers Console',
-   	'google-calendar-events'
+   	'google-calendar-events',
    ); ?></a>
 		</div>
 
@@ -223,13 +224,13 @@ $google_pro_defs =
 			<p class="sc_text--body_b3 sc_text--dark sc_connect_credentials_step_help">
 				<?php esc_html_e(
     	'Step 1: To copy link, click on the above Redirect URL, and then paste it into the "Authorized redirect URIs" field on Google Developers Console.',
-    	'google-calendar-events'
+    	'google-calendar-events',
     ); ?>
 			</p>
 			<p class="sc_text--body_b3 sc_text--dark sc_connect_credentials_step_help">
 				<?php esc_html_e(
     	'After your Client ID and Client Secret are entered, click Save & Authenticate to store them and continue to Google to authorize access.',
-    	'google-calendar-events'
+    	'google-calendar-events',
     ); ?>
 			</p>
 

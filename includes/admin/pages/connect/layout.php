@@ -19,7 +19,7 @@ if (!defined('ABSPATH')) {
 					<a href="<?php echo esc_url(admin_url('admin.php?page=simple-calendar_settings')); ?>" class="sc_logo_link">
 						<img src="<?php echo esc_url($assets_base . 'logo.png'); ?>" alt="<?php esc_attr_e(
 	'Simple Calendar',
-	'google-calendar-events'
+	'google-calendar-events',
 ); ?>" />
 					</a>
 				</span>
@@ -48,7 +48,8 @@ if (!defined('ABSPATH')) {
 			<?php if (!$hide_sidebar) { ?>
 				<div>
 					<?php // Sidebar content.
-     if (!empty($context['sidebar_template_path']) && is_string($context['sidebar_template_path'])) {
+   	// Sidebar content.
+   	if (!empty($context['sidebar_template_path']) && is_string($context['sidebar_template_path'])) {
      	include $context['sidebar_template_path'];
      } ?>
 				</div>

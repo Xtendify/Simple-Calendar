@@ -76,14 +76,14 @@ class License extends Field
 					<button class="button-secondary button-primary simcal-addon-manage-license deactivate" data-add-on="<?php echo $this->addon; ?>" style="<?php echo $display_deactivate; ?>">
 				        <i class="simcal-icon-spinner simcal-icon-spin" style="display: none; "></i><?php _e(
             	'Deactivate',
-            	'google-calendar-events'
+            	'google-calendar-events',
             ); ?>
 					</button>
 
 					<button class="button-secondary button-primary simcal-addon-manage-license activate" data-add-on="<?php echo $this->addon; ?>" style="<?php echo $display_activate; ?>">
 						<i class="simcal-icon-spinner simcal-icon-spin" style="display: none; border: unset;"></i><?php _e(
       	'Activate',
-      	'google-calendar-events'
+      	'google-calendar-events',
       ); ?>
 					</button>
 
@@ -91,7 +91,7 @@ class License extends Field
 
 					<strong class="label" style="color:green; <?php echo $active; ?>"> <?php _e(
 	'(active)',
-	'google-calendar-events'
+	'google-calendar-events',
 ); ?></strong>
 
 		</div>

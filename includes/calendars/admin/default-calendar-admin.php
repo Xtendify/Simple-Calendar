@@ -89,7 +89,7 @@ class Default_Calendar_Admin
 			<tr class="simcal-panel-field simcal-default-calendar-grid" style="display: none;">
 				<th><label for="_default_calendar_event_bubbles_action"><?php _e(
     	'Event Bubbles',
-    	'google-calendar-events'
+    	'google-calendar-events',
     ); ?></label></th>
 				<td>
 					<?php
@@ -102,7 +102,7 @@ class Default_Calendar_Admin
      	'id' => '_default_calendar_event_bubble_trigger',
      	'tooltip' => __(
      		'Open event bubbles in calendar grid by clicking or hovering on event titles. On mobile devices it will always default to tapping.',
-     		'google-calendar-events'
+     		'google-calendar-events',
      	),
      	'value' => $bubbles ? $bubbles : 'hover',
      	'default' => 'hover',
@@ -138,7 +138,7 @@ class Default_Calendar_Admin
      	'id' => '_default_calendar_trim_titles_chars',
      	'tooltip' => __(
      		'Shorten event titles in calendar grid to a specified length in characters.',
-     		'google-calendar-events'
+     		'google-calendar-events',
      	),
      	'class' => ['simcal-field-tiny'],
      	'value' =>
@@ -217,7 +217,7 @@ class Default_Calendar_Admin
      	'id' => '_default_calendar_compact_list',
      	'tooltip' => __(
      		'Make an events list more compact by grouping together events from different days in a single list.',
-     		'google-calendar-events'
+     		'google-calendar-events',
      	),
      	'value' => 'yes' == $compact ? 'yes' : 'no',
      ]);
@@ -227,7 +227,7 @@ class Default_Calendar_Admin
 			<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list"  style="display: none;">
 				<th><label for="_default_calendar_limit_visible_events"><?php _e(
     	'Limit Visible Events',
-    	'google-calendar-events'
+    	'google-calendar-events',
     ); ?></label></th>
 				<td>
 					<?php
@@ -254,7 +254,7 @@ class Default_Calendar_Admin
      	'id' => '_default_calendar_visible_events',
      	'tooltip' => __(
      		'Limit the number of initial visible events on each day to a set maximum.',
-     		'google-calendar-events'
+     		'google-calendar-events',
      	),
      	'class' => ['simcal-field-tiny'],
      	'value' => $visible_events,
@@ -268,7 +268,7 @@ class Default_Calendar_Admin
 			<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list" style="display: none;">
 				<th><label for="_default_calendar_event_bubbles_action"><?php _e(
     	'Expand Multi-day Events',
-    	'google-calendar-events'
+    	'google-calendar-events',
     ); ?></label></th>
 				<td>
 					<?php
@@ -288,7 +288,7 @@ class Default_Calendar_Admin
      		'For events spanning multiple days, you can display them on each day of the event, ' .
      			'only on the first day of the event, or on all days of the event, but only up to the current day. ' .
      			'Third option applies to list views only.',
-     		'google-calendar-events'
+     		'google-calendar-events',
      	),
      	'value' => $multi_day_value,
      	'options' => [
@@ -296,7 +296,7 @@ class Default_Calendar_Admin
      		'no' => __('No, display only on first day of event', 'google-calendar-events'),
      		'current_day_only' => __(
      			'No, display on all days of event up to current day (list view only)',
-     			'google-calendar-events'
+     			'google-calendar-events',
      		),
      	],
      	'default' => 'yes',
@@ -353,7 +353,7 @@ class Default_Calendar_Admin
      	'value' => $value,
      	'tooltip' => __(
      		"This option will set the background color for today's date. It will change the day number background and the border around the current day.",
-     		'google-calendar-events'
+     		'google-calendar-events',
      	),
      ]);
      ?>
@@ -362,7 +362,7 @@ class Default_Calendar_Admin
 			<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list" style="display: none;">
 				<th><label for="_default_calendar_style_days_events"><?php _e(
     	'Days with Events',
-    	'google-calendar-events'
+    	'google-calendar-events',
     ); ?></label></th>
 				<td>
 					<?php
@@ -377,7 +377,7 @@ class Default_Calendar_Admin
      	'value' => $value,
      	'tooltip' => __(
      		'This setting will modify the day number background for any days that have events on them.',
-     		'google-calendar-events'
+     		'google-calendar-events',
      	),
      ]);
      ?>

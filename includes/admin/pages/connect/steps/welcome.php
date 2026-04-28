@@ -17,7 +17,7 @@ $heading =
 		: __('Welcome to your new simple calendar', 'google-calendar-events');
 $subtitle = __(
 	'Keep planning in Google Calendar, and display events on your site with 1-click. Simple Calendar keeps everything in sync for you.',
-	'google-calendar-events'
+	'google-calendar-events',
 );
 $video_url = isset($video_url) ? trim((string) $video_url) : '';
 ?>

@@ -211,7 +211,7 @@ class Ajax
 		// Check for user capabilities.
 		if (!current_user_can('edit_posts')) {
 			wp_send_json_error(
-				sprintf(__('An error occurred: %s', 'google-calendar-events'), 'You don\'t have permission to make changes.')
+				sprintf(__('An error occurred: %s', 'google-calendar-events'), 'You don\'t have permission to make changes.'),
 			);
 		}
 
@@ -242,7 +242,7 @@ class Ajax
 				'timeout' => 15,
 				'sslverify' => false,
 				'body' => $api_request,
-			]
+			],
 		);
 
 		// Update license in db.
@@ -255,8 +255,8 @@ class Ajax
 			wp_send_json_error(
 				sprintf(
 					__('There was an error processing your request: %s', 'google-calendar-events'),
-					$response->get_error_message()
-				)
+					$response->get_error_message(),
+				),
 			);
 		}
 
@@ -300,7 +300,7 @@ class Ajax
 		// Check for user capabilities.
 		if (!current_user_can('edit_posts')) {
 			wp_send_json_error(
-				sprintf(__('An error occurred: %s', 'google-calendar-events'), 'You don\'t have permission to make changes.')
+				sprintf(__('An error occurred: %s', 'google-calendar-events'), 'You don\'t have permission to make changes.'),
 			);
 		}
 		delete_option('simple-calendar_settings_licenses');
@@ -332,7 +332,7 @@ class Ajax
 
 		$public_calendar_id = apply_filters(
 			'simcal_validate_api_key_public_calendar_id',
-			'en.usa%23holiday%40group.v.calendar.google.com'
+			'en.usa%23holiday%40group.v.calendar.google.com',
 		);
 
 		$time_min = gmdate('Y-m-d\TH:i:s\Z', time() - 365 * DAY_IN_SECONDS);
@@ -346,7 +346,7 @@ class Ajax
 				'orderBy' => 'startTime',
 				'timeMin' => $time_min,
 			],
-			$events_path
+			$events_path,
 		);
 
 		$response = wp_remote_get($url, [
@@ -449,7 +449,7 @@ class Ajax
 				'ok' => false,
 				'message' => __(
 					'Unable to validate the API key. Please check that it is correct and that the Google Calendar API is enabled in Google Cloud.',
-					'google-calendar-events'
+					'google-calendar-events',
 				),
 			];
 		}
@@ -460,7 +460,7 @@ class Ajax
 				? $error_message
 				: __(
 					'Unable to validate the API key. Please check that it is correct and that the Google Calendar API is enabled in Google Cloud.',
-					'google-calendar-events'
+					'google-calendar-events',
 				),
 		];
 	}
