@@ -125,14 +125,11 @@ $google_pro_defs =
 	</p>
 
 	<?php if (!$show_own_credentials) { ?>
-		<?php // Always render the status pill (unlink + Not Connected) like the design.
+		<?php
  	// Always render the status pill (unlink + Not Connected) like the design.
- 	// Always render the status pill (unlink + Not Connected) like the design.
-  // Always render the status pill (unlink + Not Connected) like the design.
-  // Always render the status pill (unlink + Not Connected) like the design.
-  // Always render the status pill (unlink + Not Connected) like the design.
-  // Only enable AJAX checking when a token exists, to avoid showing network errors when not authenticated.
-  $auth_status_text = !empty($has_oauth_connection)
+ 	// Only enable AJAX checking when a token exists, to avoid showing network errors when not authenticated.
+ 	?>
+  <?php $auth_status_text = !empty($has_oauth_connection)
   	? esc_html__('Checking…', 'google-calendar-events')
   	: esc_html__('Not Connected', 'google-calendar-events'); ?>
 		<div class="sc_connect_auth_status_box">
@@ -253,7 +250,7 @@ $google_pro_defs =
 					<?php esc_html_e('Add New Calendar', 'google-calendar-events'); ?>
 				</a>
 			</div>
-			
+
 			<div class="sc_connect_credentials_link_row">
 			<span class="sc_text--body_b3 sc_text--medium_gray"><?php esc_html_e('Or, ', 'google-calendar-events'); ?></span>
 				<a
