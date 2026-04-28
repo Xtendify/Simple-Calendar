@@ -321,7 +321,7 @@ class Google_Admin
 							'Your Google Calendar events will not show up until you <a href="%s">create and save a Google API key</a>.',
 							'google-calendar-events',
 						),
-						admin_url('edit.php?post_type=calendar&page=simple-calendar_settings&tab=feeds'),
+						admin_url('edit.php?post_type=calendar&page=simple-calendar_misc_settings&tab=feeds'),
 					) .
 					'</p>',
 			]);

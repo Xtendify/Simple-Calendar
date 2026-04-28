@@ -192,9 +192,10 @@ abstract class Admin_Page
 			$existing = get_option($option_name, []);
 			$existing = is_array($existing) ? $existing : [];
 
-			$sections_map = isset($sanitized['__sc_partial_sections']) && is_array($sanitized['__sc_partial_sections'])
-				? $sanitized['__sc_partial_sections']
-				: [];
+			$sections_map =
+				isset($sanitized['__sc_partial_sections']) && is_array($sanitized['__sc_partial_sections'])
+					? $sanitized['__sc_partial_sections']
+					: [];
 			$sections = array_keys($sections_map);
 
 			unset($sanitized['__sc_partial_update'], $sanitized['__sc_partial_sections']);

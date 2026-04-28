@@ -32,11 +32,16 @@ wp_nonce_field('oauth_action_deauthentication', 'oauth_action_deauthentication')
 		<a
 			href="javascript:void(0);"
 			id="oauth_deauthentication"
-			class="sc_btn sc_btn--white"
+			class="sc_btn sc_btn--blue-loading"
 			data-dialog="<?php echo esc_attr(__('Are you sure you want to DeAuthenticate.', 'google-calendar-events')); ?>"
 		>
-			<?php esc_html_e('Deauthenticate', 'google-calendar-events'); ?>
-			<i class="simcal-icon-spinner simcal-icon-spin is_hidden"></i>
+			<span class="sc_btn_submit"><?php esc_html_e('DeAuthenticate', 'google-calendar-events'); ?></span>
+			<span class="sc_btn_loading" aria-hidden="true">
+				<span class="sc_btn--icons sc_btn--loading-icon">autorenew</span>
+			</span>
+			<span class="sc_btn_check" aria-hidden="true">
+				<span class="sc_btn--icons sc_btn--check-icon">check</span>
+			</span>
 		</a>
 		<div id="sc_oauth_deauth_modal" class="sc_connect_modal is_hidden" aria-hidden="true">
 			<div class="sc_connect_modal__backdrop" data-sc-deauth-modal-dismiss tabindex="-1"></div>

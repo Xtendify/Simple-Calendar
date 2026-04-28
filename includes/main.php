@@ -339,7 +339,7 @@ final class Plugin
 	/**
 	 * Redirect to the Connect page on first admin load after activation.
 	 *
-	 * @since 3.6.3
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -377,8 +377,8 @@ final class Plugin
 
 		$redirect_url = admin_url(
 			$addon_flag
-				? 'edit.php?post_type=calendar&page=simple-calendar_connect&sc_welcome=1'
-				: 'edit.php?post_type=calendar&page=simple-calendar_connect'
+				? 'edit.php?post_type=calendar&page=simple-calendar_settings&sc_welcome=1'
+				: 'edit.php?post_type=calendar&page=simple-calendar_settings',
 		);
 
 		wp_safe_redirect($redirect_url);
@@ -399,10 +399,16 @@ final class Plugin
 		if ('POST' !== ($_SERVER['REQUEST_METHOD'] ?? '')) {
 			return $location;
 		}
-		if (empty($_POST['sc_connect_save_and_authenticate']) || '1' !== (string) wp_unslash($_POST['sc_connect_save_and_authenticate'])) {
+		if (
+			empty($_POST['sc_connect_save_and_authenticate']) ||
+			'1' !== (string) wp_unslash($_POST['sc_connect_save_and_authenticate'])
+		) {
 			return $location;
 		}
-		if (empty($_POST['option_page']) || 'simple-calendar_settings_feeds' !== (string) wp_unslash($_POST['option_page'])) {
+		if (
+			empty($_POST['option_page']) ||
+			'simple-calendar_settings_feeds' !== (string) wp_unslash($_POST['option_page'])
+		) {
 			return $location;
 		}
 		if (!current_user_can('manage_options')) {
@@ -410,7 +416,7 @@ final class Plugin
 		}
 
 		$referer = wp_get_referer();
-		if (!$referer || false === strpos($referer, 'simple-calendar_connect')) {
+		if (!$referer || false === strpos($referer, 'simple-calendar_settings')) {
 			return $location;
 		}
 
@@ -428,7 +434,6 @@ final class Plugin
 
 		return $auth_url;
 	}
-
 }
 
 /**

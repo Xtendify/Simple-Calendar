@@ -78,8 +78,6 @@ class Assets
 			['jquery', 'jquery-ui-sortable', 'jquery-ui-datepicker', 'wp-color-picker', 'simcal-tiptip', 'simcal-select2'],
 			SIMPLE_CALENDAR_VERSION,
 			true,
-			$admin_js_ver,
-			true
 		);
 		wp_register_script(
 			'simcal-admin-add-calendar',
@@ -96,15 +94,19 @@ class Assets
 			true,
 		);
 
-		$is_connect_page =
-			($sc_screen && $sc_screen->id === 'calendar_page_simple-calendar_connect') ||
-			$this->current_page === 'simple-calendar_connect';
+		$connect_screen_ids = [
+			'calendar_page_simple-calendar_settings',
+			'index_page_simple-calendar_settings',
+			'dashboard_page_simple-calendar_settings',
+		];
 
 		$is_connect_page =
-			($sc_screen && $sc_screen->id === 'calendar_page_simple-calendar_connect') ||
-			$this->current_page === 'simple-calendar_connect';
+			($sc_screen && isset($sc_screen->id) && in_array($sc_screen->id, $connect_screen_ids, true)) ||
+			$this->current_page === 'simple-calendar_settings';
 
-		if (class_exists('SimpleCalendar\Feeds\Google_Pro') && ($this->current_page === 'simple-calendar_settings' || $is_connect_page)) {
+		// OAuth helper UI (deauthenticate + legacy auth tabs). Safe to enqueue on Connect/Settings
+		// because it no-ops when its target elements are not present.
+		if ($this->current_page === 'simple-calendar_settings' || $is_connect_page) {
 			wp_enqueue_script('simcal-oauth-helper-admin');
 			wp_localize_script('simcal-oauth-helper-admin', 'oauth_admin', simcal_common_scripts_variables());
 		}
@@ -121,14 +123,19 @@ class Assets
 		);
 		wp_register_style('sc-design-system', $css_path . 'design-system.min.css', [], SIMPLE_CALENDAR_VERSION);
 		wp_register_style('sc-connect', $css_path . 'connect.min.css', ['sc-design-system'], SIMPLE_CALENDAR_VERSION);
+		wp_register_style('sc-settings', $css_path . 'settings.min.css', ['sc-design-system'], SIMPLE_CALENDAR_VERSION);
 		wp_register_style(
 			'simcal-admin-add-calendar',
 			$css_path . 'admin-add-calendar.min.css',
 			['simcal-select2'],
 			SIMPLE_CALENDAR_VERSION,
 		);
+		wp_register_style('sc-global-admin', $css_path . 'global.min.css', [], SIMPLE_CALENDAR_VERSION);
 
 		if (simcal_is_admin_screen() !== false) {
+			// Global admin styles (e.g. menu badges) used outside plugin screens too.
+			wp_enqueue_style('sc-global-admin');
+
 			wp_enqueue_script('simcal-admin');
 			wp_localize_script('simcal-admin', 'simcal_admin', simcal_common_scripts_variables());
 			// Always expose simcal_connect when admin script loads (JS only uses it when #simcal-connect-page exists).
@@ -153,10 +160,12 @@ class Assets
 					'oauth_checking' => __('Checking…', 'google-calendar-events'),
 					'oauth_connected' => __('Connected', 'google-calendar-events'),
 					'oauth_error' => __('Error', 'google-calendar-events'),
+					'oauth_not_comunicate' => __('Not able to communicate with Google.', 'google-calendar-events'),
+					'oauth_ajax_url_not_found' => __('Ajax URL not found.', 'google-calendar-events'),
 					'oauth_not_connected' => __('Not Connected', 'google-calendar-events'),
 					'google_api_key_public_calendar_failed' => __(
 						'Could not load public calendar data with this API key. Events may not display until this is fixed.',
-						'google-calendar-events'
+						'google-calendar-events',
 					),
 				],
 			]);
@@ -169,6 +178,9 @@ class Assets
 				wp_enqueue_style('sc-connect');
 			}
 		} else {
+			// Still enqueue global admin styles on non-plugin screens.
+			wp_enqueue_style('sc-global-admin');
+
 			global $post_type;
 			$screen = get_current_screen();
 
@@ -192,9 +204,10 @@ class Assets
 		}
 
 		// Load the style on where that needed.
-		if ('calendar_page_simple-calendar_settings' == $sc_screen->id) {
+		if ('calendar_page_simple-calendar_misc_settings' == $sc_screen->id) {
 			wp_enqueue_style('sc-admin-style', $css_path . 'admin-sett-style.min.css', [], SIMPLE_CALENDAR_VERSION);
 			wp_enqueue_style('sc-tail-style', $css_path . 'tailwind.min.css', [], SIMPLE_CALENDAR_VERSION);
+			wp_enqueue_style('sc-settings');
 		}
 		if (
 			'dashboard_page_simple-calendar_about' == $sc_screen->id ||

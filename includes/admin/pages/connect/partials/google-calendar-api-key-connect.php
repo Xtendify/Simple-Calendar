@@ -42,11 +42,10 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
 			<?php esc_html_e('Google Calendar', 'google-calendar-events'); ?>
 		</h2>
 		<div
-			id="sc_connect_google_api_key_badge_holder"
+			data-sc-google-api-key-badge-holder="1"
 			class="<?php echo $has_api_key_for_step ? '' : 'is_hidden'; ?>"
 		>
 			<span
-				id="sc_connect_google_api_key_header_badge"
 				class="sc_connect_oauth_status_header_badge sc_connect_oauth_status_header_badge--pending sc_text--body_b3"
 				data-sc-google-api-key-health="1"
 			>
@@ -56,8 +55,6 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
 						class="sc_connect_oauth_status_header_warn"
 						src="<?php echo esc_url($assets_base . 'warning.svg'); ?>"
 						alt=""
-						width="16"
-						height="16"
 					/>
 					<span class="sc_connect_oauth_status_header_label">
 						<?php esc_html_e('Checking…', 'google-calendar-events'); ?>
@@ -68,12 +65,12 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
 	</div>
 	<p class="<?php echo esc_attr($subtitle_class); ?>">
 		<?php esc_html_e(
-			'Simple for a reason. Zero technical setup. Easy integration steps with advanced options when you need them.',
-			'google-calendar-events'
-		); ?>
+  	'Simple for a reason. Zero technical setup. Easy integration steps with advanced options when you need them.',
+  	'google-calendar-events',
+  ); ?>
 	</p>
 	<p
-		id="sc_connect_google_api_key_health_detail"
+		data-sc-google-api-key-health-detail="1"
 		class="sc_text--body_b3 sc_connect_google_api_key_health_detail is_hidden"
 		role="status"
 	></p>
@@ -135,15 +132,19 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
 		<div class="sc_connect_helper_row">
 			<p class="sc_connect_helper_text">
 				<?php printf(
-					/* translators: %1$s: Opening anchor tag, %2$s: Closing anchor tag */
-					esc_html__('Never share your API key. Get one from %1$sGoogle Cloud Console%2$s.', 'google-calendar-events'),
-					'<a href="https://console.cloud.google.com/apis/credentials" target="_blank" class="sc_connect_helper_link">',
-					'</a>'
-				); ?>
+    	/* translators: %1$s: Opening anchor tag, %2$s: Closing anchor tag */
+    	esc_html__('Never share your API key. Get one from %1$sGoogle Cloud Console%2$s.', 'google-calendar-events'),
+    	'<a href="https://console.cloud.google.com/apis/credentials" target="_blank" class="sc_connect_helper_link">',
+    	'</a>',
+    ); ?>
 			</p>
 
 			<?php if (!$is_credentials_core) { ?>
-				<a href="<?php echo simcal_ga_campaign_url('https://simplecalendar.io/addons/google-calendar-pro/', 'core-plugin', 'connect-api-key-pro-addon'); ?>" target="_blank" class="sc_connect_pro_link">
+				<a href="<?php echo simcal_ga_campaign_url(
+    	'https://simplecalendar.io/downloads/google-calendar-pro/',
+    	'core-plugin',
+    	'connect-api-key-pro-addon',
+    ); ?>" target="_blank" class="sc_connect_pro_link">
 					<img src="<?php echo esc_url($assets_base . 'crown.svg'); ?>" alt="" />
 					<span class="sc_link"><?php esc_html_e('Pro Version Available Here', 'google-calendar-events'); ?></span>
 				</a>
