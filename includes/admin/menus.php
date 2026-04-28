@@ -79,6 +79,20 @@ class Menus
 			}
 		);
 
+		// Misc Settings: dedicated slug, but reuses Settings renderer and option groups.
+		// This allows direct access to `page=simple-calendar_misc_settings`.
+		add_submenu_page(
+			self::$main_menu,
+			__('Misc Settings', 'google-calendar-events'),
+			__('Misc Settings', 'google-calendar-events'),
+			'manage_options',
+			'simple-calendar_misc_settings',
+			function () {
+				$page = new Pages('settings');
+				$page->html();
+			}
+		);
+
 		add_submenu_page(
 			self::$main_menu,
 			__('Connect', 'google-calendar-events'),

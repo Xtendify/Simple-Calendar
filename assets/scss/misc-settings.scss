@@ -1,0 +1,79 @@
+/* Misc Settings (Calendars + Advanced) screen
+ * This page is wrapped in `.sc_root` so design-system vars apply.
+ */
+
+.sc_root.sc_misc_settings {
+	background: var(--sc-color-blue-100);
+	padding: 24px 0 48px;
+
+	.sc_misc_settings_layout {
+		display: flex;
+		gap: 24px;
+		align-items: flex-start;
+	}
+
+	.sc_misc_settings_main {
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+
+	.sc_misc_settings_sidebar {
+		flex: 0 0 360px;
+	}
+
+	@media (max-width: 1200px) {
+		.sc_misc_settings_layout {
+			flex-direction: column;
+		}
+		.sc_misc_settings_sidebar {
+			flex: 1 1 auto;
+			width: 100%;
+		}
+	}
+
+	.sc_misc_settings_card_title {
+		margin: 0 0 10px;
+	}
+
+	.sc_misc_settings_card + .sc_misc_settings_card {
+		margin-top: 24px;
+	}
+
+	/* Settings API output (tables) */
+	.form-table {
+		width: 100%;
+		margin: 16px 0 0;
+		border-collapse: separate;
+		border-spacing: 0 14px;
+	}
+
+	.form-table th {
+		padding: 0 16px 0 0;
+		width: 220px;
+		vertical-align: top;
+		font-weight: 600;
+		color: var(--sc-color-black);
+	}
+
+	.form-table td {
+		padding: 0;
+		vertical-align: top;
+	}
+
+	.form-table .description {
+		margin-top: 6px;
+		color: var(--sc-color-medium-gray);
+	}
+
+	.submit {
+		margin: 18px 0 0;
+		padding: 0;
+	}
+
+	/* Make the default WP primary button look like design-system button when we pass sc_btn classes. */
+	.submit .sc_btn {
+		border: 0;
+		box-shadow: none;
+	}
+}
+

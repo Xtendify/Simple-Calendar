@@ -1,6 +1,6 @@
 import * as esbuild from 'esbuild';
 import { sassPlugin } from 'esbuild-sass-plugin';
-import pkg from '../package.json' assert { type: 'json' };
+import pkg from '../package.json' with { type: 'json' };
 
 const watch = process.argv.includes('--watch');
 
@@ -30,6 +30,7 @@ const files = [
 	{ in: 'assets/generated/tailwind-output.css', out: 'tailwind.min' },
 	{ in: 'assets/scss/design-system.scss', out: 'design-system.min' },
 	{ in: 'assets/scss/connect.scss', out: 'connect.min' },
+	{ in: 'assets/scss/misc-settings.scss', out: 'misc-settings.min' },
 ];
 
 const defaultConfig = {
