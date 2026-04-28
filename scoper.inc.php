@@ -20,8 +20,8 @@ $google_services = implode(
 		function ($service) {
 			return preg_quote($service, '#');
 		},
-		['Calendar', 'Drive']
-	)
+		['Calendar', 'Drive'],
+	),
 );
 
 $polyfillsBootstraps = array_map(
@@ -31,8 +31,8 @@ $polyfillsBootstraps = array_map(
 			->files()
 			->in(__DIR__ . '/vendor/symfony/polyfill-*')
 			->name('bootstrap*.php'),
-		false
-	)
+		false,
+	),
 );
 
 $polyfillsStubs = array_map(
@@ -42,8 +42,8 @@ $polyfillsStubs = array_map(
 			->files()
 			->in(__DIR__ . '/vendor/symfony/polyfill-*/Resources/stubs')
 			->name('*.php'),
-		false
-	)
+		false,
+	),
 );
 
 return [

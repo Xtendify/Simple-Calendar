@@ -196,7 +196,7 @@ class Default_Calendar_List implements Calendar_View
 				__('Edit Calendar', 'google-calendar-events'),
 				'<p class="simcal-align-right"><small>',
 				'</small></p>',
-				$calendar->id
+				$calendar->id,
 			);
 
 			echo '<div class="simcal-calendar-list ' . $compact_list_class . '">';
@@ -526,7 +526,7 @@ class Default_Calendar_List implements Calendar_View
 
 		if (empty($calendar)) {
 			$calendar = $this->calendar = simcal_get_calendar(intval($id));
-			if (!$calendar instanceof Default_Calendar) {
+			if (!($calendar instanceof Default_Calendar)) {
 				return '';
 			}
 		}
@@ -729,11 +729,11 @@ class Default_Calendar_List implements Calendar_View
 						sprintf(
 							__('Nothing from %1$s to %2$s.', 'google-calendar-events'),
 							date_i18n($calendar->date_format, $from),
-							date_i18n($calendar->date_format, $to)
+							date_i18n($calendar->date_format, $to),
 						),
 						$calendar->id,
 						$from,
-						$to
+						$to,
 					);
 				}
 			}

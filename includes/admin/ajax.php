@@ -56,7 +56,7 @@ class Ajax
 	/**
 	 * Store Pro Connect choice: OAuth via Simple Calendar (helper).
 	 *
-	 * @since 3.6.3
+	 * @since 4.0.0
 	 */
 	public function mark_pro_connection_via_sc()
 	{
@@ -75,7 +75,7 @@ class Ajax
 	/**
 	 * Check if OAuth connection is actually working by fetching calendar list.
 	 *
-	 * @since 3.6.3
+	 * @since 4.0.0
 	 */
 	public function connect_oauth_via_sc_check()
 	{
@@ -114,7 +114,7 @@ class Ajax
 	 *
 	 * The Pro add-on should provide the calendar list via filter.
 	 *
-	 * @since 3.6.3
+	 * @since 4.0.0
 	 */
 	public function connect_own_oauth_check()
 	{
@@ -211,7 +211,7 @@ class Ajax
 		// Check for user capabilities.
 		if (!current_user_can('edit_posts')) {
 			wp_send_json_error(
-				sprintf(__('An error occurred: %s', 'google-calendar-events'), 'You don\'t have permission to make changes.')
+				sprintf(__('An error occurred: %s', 'google-calendar-events'), 'You don\'t have permission to make changes.'),
 			);
 		}
 
@@ -242,7 +242,7 @@ class Ajax
 				'timeout' => 15,
 				'sslverify' => false,
 				'body' => $api_request,
-			]
+			],
 		);
 
 		// Update license in db.
@@ -255,8 +255,8 @@ class Ajax
 			wp_send_json_error(
 				sprintf(
 					__('There was an error processing your request: %s', 'google-calendar-events'),
-					$response->get_error_message()
-				)
+					$response->get_error_message(),
+				),
 			);
 		}
 
@@ -300,7 +300,7 @@ class Ajax
 		// Check for user capabilities.
 		if (!current_user_can('edit_posts')) {
 			wp_send_json_error(
-				sprintf(__('An error occurred: %s', 'google-calendar-events'), 'You don\'t have permission to make changes.')
+				sprintf(__('An error occurred: %s', 'google-calendar-events'), 'You don\'t have permission to make changes.'),
 			);
 		}
 		delete_option('simple-calendar_settings_licenses');
@@ -315,7 +315,7 @@ class Ajax
 	 * Uses `events.list` so behaviour matches the front end (“retrieve events”). Metadata-only
 	 * `calendars.get` can return 200 for some public IDs even when the API key is bogus.
 	 *
-	 * @since 3.6.3
+	 * @since 4.0.0
 	 *
 	 * @param string $api_key API key.
 	 * @return array{ok:bool,message:string,reason?:string}
@@ -332,7 +332,7 @@ class Ajax
 
 		$public_calendar_id = apply_filters(
 			'simcal_validate_api_key_public_calendar_id',
-			'en.usa%23holiday%40group.v.calendar.google.com'
+			'en.usa%23holiday%40group.v.calendar.google.com',
 		);
 
 		$time_min = gmdate('Y-m-d\TH:i:s\Z', time() - 365 * DAY_IN_SECONDS);
@@ -346,7 +346,7 @@ class Ajax
 				'orderBy' => 'startTime',
 				'timeMin' => $time_min,
 			],
-			$events_path
+			$events_path,
 		);
 
 		$response = wp_remote_get($url, [
@@ -370,19 +370,16 @@ class Ajax
 
 		// Success: events list payload (invalid keys get 400 before this shape).
 		if (
-			200 === $code
-			&& isset($decoded['kind'])
-			&& 'calendar#events' === $decoded['kind']
-			&& empty($decoded['error'])
+			200 === $code &&
+			isset($decoded['kind']) &&
+			'calendar#events' === $decoded['kind'] &&
+			empty($decoded['error'])
 		) {
 			return ['ok' => true, 'message' => ''];
 		}
 
 		// Invalid key: match JSON or raw body (proxies / odd responses).
-		if (
-			stripos($raw_body, 'API_KEY_INVALID') !== false
-			|| stripos($raw_body, 'API key not valid') !== false
-		) {
+		if (stripos($raw_body, 'API_KEY_INVALID') !== false || stripos($raw_body, 'API key not valid') !== false) {
 			return [
 				'ok' => false,
 				'message' => __('API key is not valid.', 'google-calendar-events'),
@@ -452,7 +449,7 @@ class Ajax
 				'ok' => false,
 				'message' => __(
 					'Unable to validate the API key. Please check that it is correct and that the Google Calendar API is enabled in Google Cloud.',
-					'google-calendar-events'
+					'google-calendar-events',
 				),
 			];
 		}
@@ -463,7 +460,7 @@ class Ajax
 				? $error_message
 				: __(
 					'Unable to validate the API key. Please check that it is correct and that the Google Calendar API is enabled in Google Cloud.',
-					'google-calendar-events'
+					'google-calendar-events',
 				),
 		];
 	}
@@ -471,7 +468,7 @@ class Ajax
 	/**
 	 * Connect page: check saved Google API key against public Calendar API (header badge).
 	 *
-	 * @since 3.6.3
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -490,6 +487,7 @@ class Ajax
 		$api_key = isset($settings['google']['api_key']) ? trim((string) $settings['google']['api_key']) : '';
 
 		if ($api_key === '') {
+			simcal_clear_connect_google_api_key_verified();
 			wp_send_json_success([
 				'connected' => false,
 				'message' => __('No API key is saved yet.', 'google-calendar-events'),
@@ -499,6 +497,7 @@ class Ajax
 		$test = $this->test_google_api_key_public_calendar_access($api_key);
 
 		if (!empty($test['ok'])) {
+			simcal_mark_connect_google_api_key_verified($api_key);
 			wp_send_json_success(['connected' => true]);
 		}
 
@@ -510,6 +509,20 @@ class Ajax
 			$payload['reason'] = (string) $test['reason'];
 		}
 
+		// Same as Connect UI: treat "API keys not supported" as OK for onboarding progress.
+		if (!empty($test['reason']) && 'api_keys_not_supported' === $test['reason']) {
+			simcal_mark_connect_google_api_key_verified($api_key);
+			wp_send_json_success([
+				'connected' => true,
+				'message' => isset($test['message']) ? (string) $test['message'] : '',
+				'reason' => 'api_keys_not_supported',
+			]);
+		}
+
+		if (!empty($test['reason']) && 'api_key_invalid' === $test['reason']) {
+			simcal_clear_connect_google_api_key_verified();
+		}
+
 		wp_send_json_success($payload);
 	}
 
@@ -519,7 +532,7 @@ class Ajax
 	 * Checks whether the provided API key can successfully access
 	 * a known public Google Calendar resource.
 	 *
-	 * @since 3.6.3
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -548,18 +561,21 @@ class Ajax
 		$test = $this->test_google_api_key_public_calendar_access($api_key);
 
 		if (!empty($test['ok'])) {
+			simcal_mark_connect_google_api_key_verified($api_key);
 			wp_send_json_success([
 				'message' => __('API key looks valid and Google Calendar API is reachable.', 'google-calendar-events'),
 			]);
 		}
 
 		if (!empty($test['reason']) && 'api_keys_not_supported' === $test['reason']) {
+			simcal_mark_connect_google_api_key_verified($api_key);
 			wp_send_json_error([
 				'message' => $test['message'],
 				'reason' => 'api_keys_not_supported',
 			]);
 		}
 		if (!empty($test['reason']) && 'api_key_invalid' === $test['reason']) {
+			simcal_clear_connect_google_api_key_verified();
 			wp_send_json_error([
 				'message' => $test['message'],
 				'reason' => 'api_key_invalid',

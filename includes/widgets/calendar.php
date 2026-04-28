@@ -142,7 +142,7 @@ class Calendar extends \WP_Widget implements Widget
 
 			<p>
 				<label for="<?php echo $this->get_field_id(
-    	'calendar_id'
+    	'calendar_id',
     ); ?>"><?php _e('Calendar:', 'google-calendar-events'); ?></label>
 				<br>
 				<?php $multiselect = count($this->calendars) > 15 ? ' simcal-field-select-enhanced' : ''; ?>

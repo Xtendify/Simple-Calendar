@@ -24,12 +24,12 @@ $circle_class = $percent >= 100 ? '100' : ($percent >= 67 ? '67' : '33');
 	<p class="sc_text--body_b2 sc_text--dark">
 		<?php esc_html_e(
   	'Simple Calendar is a WordPress plugin specifically built to eliminate manual event updates.',
-  	'google-calendar-events'
+  	'google-calendar-events',
   ); ?>
 	</p>
 
 	<div class="sc_row sc_row_align_start <?php echo esc_attr(
- 	$force_complete_styles ? 'sc_connect_progress_is_complete' : ''
+ 	$force_complete_styles ? 'sc_connect_progress_is_complete' : '',
  ); ?>">
 		<div class="sc_item">
 			<div

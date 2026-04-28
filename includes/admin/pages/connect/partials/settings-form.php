@@ -17,9 +17,10 @@ if (!defined('ABSPATH')) {
 
 $form_id = isset($form_id) && is_string($form_id) && $form_id ? $form_id : 'simcal-settings-page-form';
 $form_action = isset($form_action) && is_string($form_action) && $form_action ? $form_action : 'options.php';
-$settings_group = isset($settings_group) && is_string($settings_group) && $settings_group
-	? $settings_group
-	: 'simple-calendar_settings_feeds';
+$settings_group =
+	isset($settings_group) && is_string($settings_group) && $settings_group
+		? $settings_group
+		: 'simple-calendar_settings_feeds';
 $form_attrs = isset($form_attrs) && is_array($form_attrs) ? $form_attrs : [];
 ?>
 <form id="<?php echo esc_attr($form_id); ?>" method="post" action="<?php echo esc_attr($form_action); ?>"
