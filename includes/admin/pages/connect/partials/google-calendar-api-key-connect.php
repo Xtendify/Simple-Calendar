@@ -131,12 +131,27 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
 
 		<div class="sc_connect_helper_row">
 			<p class="sc_connect_helper_text">
-				<?php printf(
-    	/* translators: %1$s: Opening anchor tag, %2$s: Closing anchor tag */
-    	esc_html__('Never share your API key. Get one from %1$sGoogle Cloud Console%2$s.', 'google-calendar-events'),
-    	'<a href="https://console.cloud.google.com/apis/credentials" target="_blank" class="sc_connect_helper_link">',
-    	'</a>',
-    ); ?>
+				<?php
+    /* translators: %1$s: Opening anchor tag, %2$s: Closing anchor tag */
+    $text = __('Never share your API key. Get one from %1$sGoogle Cloud Console%2$s.', 'google-calendar-events');
+    echo wp_kses(
+    	sprintf(
+    		$text,
+    		'<a href="' .
+    			esc_url('https://console.cloud.google.com/apis/credentials') .
+    			'" target="_blank" rel="noopener noreferrer" class="sc_connect_helper_link">',
+    		'</a>',
+    	),
+    	[
+    		'a' => [
+    			'href' => true,
+    			'target' => true,
+    			'rel' => true,
+    			'class' => true,
+    		],
+    	],
+    );
+    ?>
 			</p>
 
 			<?php if (!$is_credentials_core) { ?>
@@ -144,7 +159,7 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
     	'https://simplecalendar.io/downloads/google-calendar-pro/',
     	'core-plugin',
     	'connect-api-key-pro-addon',
-    ); ?>" target="_blank" class="sc_connect_pro_link">
+    ); ?>" target="_blank" rel="noopener noreferrer" class="sc_connect_pro_link">
 					<img src="<?php echo esc_url($assets_base . 'crown.svg'); ?>" alt="" />
 					<span class="sc_link"><?php esc_html_e('Pro Version Available Here', 'google-calendar-events'); ?></span>
 				</a>

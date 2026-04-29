@@ -131,6 +131,7 @@ $google_pro_defs =
   // Always render the status pill (unlink + Not Connected) like the design.
   // Always render the status pill (unlink + Not Connected) like the design.
   // Always render the status pill (unlink + Not Connected) like the design.
+  // Always render the status pill (unlink + Not Connected) like the design.
   // Only enable AJAX checking when a token exists, to avoid showing network errors when not authenticated.
   $auth_status_text = !empty($has_oauth_connection)
   	? esc_html__('Checking…', 'google-calendar-events')
