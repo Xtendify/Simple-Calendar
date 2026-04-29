@@ -178,14 +178,27 @@ $google_pro_defs =
 		<?php } ?>
 	<?php } else { ?>
 		<div class="sc_connect_helper_row sc_connect_credentials_helper_row">
-			<a href="#" class="sc_connect_helper_link"><?php esc_html_e(
-   	'Step-by-step instructions',
-   	'google-calendar-events',
-   ); ?></a>
-			<a href="https://console.cloud.google.com/apis/credentials" target="_blank" class="sc_connect_helper_link"><?php esc_html_e(
-   	'Google Developers Console',
-   	'google-calendar-events',
-   ); ?></a>
+			<?php
+   echo sprintf(
+   	__(
+   		'<a href="%s" target="_blank" class="sc_connect_helper_link">Step-by-step instructions</a>',
+   		'google-calendar-events',
+   	),
+   	simcal_ga_campaign_url(
+   		simcal_get_url('docs') . '/google-calendar-pro-configure-google-oauth/',
+   		'gcal-pro',
+   		'settings-link',
+   	),
+   );
+
+   echo sprintf(
+   	__(
+   		'<a href="%s" target="_blank" class="sc_connect_helper_link">Google Developers Console</a> ',
+   		'google-calendar-events',
+   	),
+   	simcal_get_url('gdev-console'),
+   );
+   ?>
 		</div>
 
 		<?php
@@ -218,19 +231,6 @@ $google_pro_defs =
    ];
    include SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/partials/render-connect-fields.php';
    ?>
-			<p class="sc_text--body_b3 sc_text--dark sc_connect_credentials_step_help">
-				<?php esc_html_e(
-    	'Step 1: To copy link, click on the above Redirect URL, and then paste it into the "Authorized redirect URIs" field on Google Developers Console.',
-    	'google-calendar-events',
-    ); ?>
-			</p>
-			<p class="sc_text--body_b3 sc_text--dark sc_connect_credentials_step_help">
-				<?php esc_html_e(
-    	'After your Client ID and Client Secret are entered, click Save & Authenticate to store them and continue to Google to authorize access.',
-    	'google-calendar-events',
-    ); ?>
-			</p>
-
 			<div class="sc_connect_form_actions sc_connect_credentials_actions_top">
 				<button type="submit" name="sc_connect_save_and_authenticate" value="1" class="sc_btn sc_btn--blue">
 					<?php esc_html_e('Save & Authenticate', 'google-calendar-events'); ?>

@@ -227,7 +227,12 @@ class Pages
     		foreach ($settings_pages as $id => $settings) {
     			$tab_id = isset($id) ? $id : '';
     			$tab_label = isset($settings['label']) ? $settings['label'] : '';
-    			$tab_link = admin_url('edit.php?post_type=calendar&page=simple-calendar_' . $this->page . '&tab=' . $tab_id);
+
+    			$current_page = isset($_GET['page']) ? sanitize_text_field((string) $_GET['page']) : '';
+    			$is_misc_settings_page = 'simple-calendar_misc_settings' === $current_page;
+
+    			$base_slug = $is_misc_settings_page ? 'simple-calendar_misc_settings' : 'simple-calendar_' . $this->page;
+    			$tab_link = admin_url('edit.php?post_type=calendar&page=' . $base_slug . '&tab=' . $tab_id);
 
     			echo '<a href="' .
     				$tab_link .
@@ -256,8 +261,11 @@ class Pages
 
     			echo '<div class="simcal-bg-white simcal-p-[2%] simcal-w-[54%] simcal-rounded-[5px] ">';
 
-    			// The Event Source (Feeds) settings have been moved to Connect.
-    			if ($this->page === 'settings' && $current_tab === 'feeds') {
+    			// Event Sources (feeds) tab: do not output Settings API fields (API key, etc.); those are on Connect.
+    			// For core < 4.0.0, align with Google Calendar Pro (it does not load feed admin when core is outdated).
+    			$feeds_tab = $this->page === 'settings' && $current_tab === 'feeds';
+
+    			if ($feeds_tab) {
     				$connect_url = admin_url('edit.php?post_type=calendar&page=simple-calendar_settings');
     				echo '<div class="notice notice-warning inline">';
     				echo '<p><strong>' .
@@ -301,7 +309,7 @@ class Pages
 									</div>
 									<div class="simcal-mt-[44px]">
 										<?php // Rating function is used here
-
+    			// Rating function is used here
     			sc_rating(); ?>
 									</div>
 									<a href="https://simplecalendar.io/go/leave-a-review--theme?utm_source=inside-plugin&utm_medium=link&utm_campaign=core-plugin&utm_content=settings-link">

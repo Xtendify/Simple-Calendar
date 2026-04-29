@@ -133,8 +133,10 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
 			<p class="sc_connect_helper_text">
 				<?php printf(
     	/* translators: %1$s: Opening anchor tag, %2$s: Closing anchor tag */
-    	esc_html__('Never share your API key. Get one from %1$sGoogle Cloud Console%2$s.', 'google-calendar-events'),
-    	'<a href="https://console.cloud.google.com/apis/credentials" target="_blank" class="sc_connect_helper_link">',
+    	esc_html__('Never share your API key. Get one from %1$sCreating a Google API Key%2$s.', 'google-calendar-events'),
+    	'<a href="' .
+    		simcal_ga_campaign_url('https://docs.simplecalendar.io/google-api-key', 'core-plugin', 'connect-api-key-docs') .
+    		'" target="_blank" class="sc_connect_helper_link">',
     	'</a>',
     ); ?>
 			</p>

@@ -130,7 +130,7 @@ class Assets
 			['simcal-select2'],
 			SIMPLE_CALENDAR_VERSION,
 		);
-		wp_register_style('sc-global-admin', $css_path . 'global.min.css', [], SIMPLE_CALENDAR_VERSION);
+		wp_register_style('sc-global-admin', $css_path . 'admin-global.min.css', [], SIMPLE_CALENDAR_VERSION);
 
 		if (simcal_is_admin_screen() !== false) {
 			// Global admin styles (e.g. menu badges) used outside plugin screens too.
