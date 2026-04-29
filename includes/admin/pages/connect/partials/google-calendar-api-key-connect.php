@@ -131,27 +131,14 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
 
 		<div class="sc_connect_helper_row">
 			<p class="sc_connect_helper_text">
-				<?php
-    /* translators: %1$s: Opening anchor tag, %2$s: Closing anchor tag */
-    $text = __('Never share your API key. Get one from %1$sGoogle Cloud Console%2$s.', 'google-calendar-events');
-    echo wp_kses(
-    	sprintf(
-    		$text,
-    		'<a href="' .
-    			esc_url('https://console.cloud.google.com/apis/credentials') .
-    			'" target="_blank" rel="noopener noreferrer" class="sc_connect_helper_link">',
-    		'</a>',
-    	),
-    	[
-    		'a' => [
-    			'href' => true,
-    			'target' => true,
-    			'rel' => true,
-    			'class' => true,
-    		],
-    	],
-    );
-    ?>
+				<?php printf(
+    	/* translators: %1$s: Opening anchor tag, %2$s: Closing anchor tag */
+    	esc_html__('Never share your API key. Get one from %1$sCreating a Google API Key%2$s.', 'google-calendar-events'),
+    	'<a href="' .
+    		simcal_ga_campaign_url('https://docs.simplecalendar.io/google-api-key', 'core-plugin', 'connect-api-key-docs') .
+    		'" target="_blank" class="sc_connect_helper_link">',
+    	'</a>',
+    ); ?>
 			</p>
 
 			<?php if (!$is_credentials_core) { ?>

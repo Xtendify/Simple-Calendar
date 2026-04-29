@@ -47,10 +47,7 @@ if (!defined('ABSPATH')) {
 
 			<?php if (!$hide_sidebar) { ?>
 				<div>
-					<?php // Sidebar content.
-   	// Sidebar content.
-   	// Sidebar content.
-     if (!empty($context['sidebar_template_path']) && is_string($context['sidebar_template_path'])) {
+					<?php if (!empty($context['sidebar_template_path']) && is_string($context['sidebar_template_path'])) {
      	include $context['sidebar_template_path'];
      } ?>
 				</div>
