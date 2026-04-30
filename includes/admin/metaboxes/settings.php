@@ -82,7 +82,7 @@ class Settings implements Meta_Box
 					<?php echo $show_api_key_mask ? '' : 'style="display:none;"'; ?>
 				>
 					<p class="simcal-settings-mask__message">
-						<?php esc_html_e('Complete Your Setup, Before creating a calendar', 'google-calendar-events'); ?>
+						<?php esc_html_e('Complete Your Setup Before creating a calendar.', 'google-calendar-events'); ?>
 					</p>
 					<a href="<?php echo esc_url($connect_url); ?>" class="simcal-settings-mask__btn button button-primary">
 						<?php esc_html_e('Complete Setup', 'google-calendar-events'); ?>

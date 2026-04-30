@@ -77,9 +77,6 @@
       "cp composer.third-party.dump-autoload third-party/composer.json && cd third-party && composer dump-autoload -vvv --no-plugins --classmap-authoritative --no-interaction && rm composer.json",
       "cp vendor/composer/autoload_files.php third-party/vendor/composer/autoload_files.php",
       "rm -rf php-scoper"
-    ],
-    "build-admin-css": [
-      "npm run build:admin-ui-css"
     ]
   }
 }
