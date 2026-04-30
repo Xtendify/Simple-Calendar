@@ -33,16 +33,18 @@ $client_secret = isset($google_pro['client_secret']) ? trim((string) $google_pro
 $client_auth = isset($google_pro['client_auth']) ? trim((string) $google_pro['client_auth']) : '';
 $has_client_credentials = !empty($client_id) && !empty($client_secret);
 
-// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+// Allow switching UI via query args, but only persist the choice when a nonce is present.
 $show_own_credentials = isset($_GET['sc_pro_own']) && '1' === (string) $_GET['sc_pro_own'];
-// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 $force_via_sc = isset($_GET['sc_pro_via']) && '1' === (string) $_GET['sc_pro_via'];
+
+$switch_nonce = isset($_GET['_wpnonce']) ? sanitize_text_field((string) wp_unslash($_GET['_wpnonce'])) : '';
+$can_persist_switch = $switch_nonce && wp_verify_nonce($switch_nonce, 'simcal_pro_connection_switch');
 
 // Pro Connect: persist and remember connection type choice (via SC vs own credentials).
 // If user explicitly chose own credentials via query param, store the choice.
-if ($show_own_credentials && current_user_can('manage_options')) {
+if ($show_own_credentials && current_user_can('manage_options') && $can_persist_switch) {
 	update_option('simple_calendar_connect_pro_connection_type', 'own', false);
-} elseif ($force_via_sc && current_user_can('manage_options')) {
+} elseif ($force_via_sc && current_user_can('manage_options') && $can_persist_switch) {
 	// Explicitly switching back to OAuth via Simple Calendar.
 	$show_own_credentials = false;
 	update_option('simple_calendar_connect_pro_connection_type', 'via_sc', false);
@@ -57,9 +59,11 @@ if ($show_own_credentials && current_user_can('manage_options')) {
 $site_url = get_site_url();
 $authredirect = '';
 if (defined('SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN') && SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN) {
+	$oauth_state = wp_create_nonce('simcal_oauth_via_sc_state');
 	$authredirect = add_query_arg(
 		[
 			'request_from' => $site_url,
+			'state' => $oauth_state,
 		],
 		SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN . 'helper/',
 	);
@@ -125,11 +129,7 @@ $google_pro_defs =
 	</p>
 
 	<?php if (!$show_own_credentials) { ?>
-		<?php // Always render the status pill (unlink + Not Connected) like the design.
- 	// Always render the status pill (unlink + Not Connected) like the design.
- 	// Always render the status pill (unlink + Not Connected) like the design.
-  // Always render the status pill (unlink + Not Connected) like the design.
-  // Always render the status pill (unlink + Not Connected) like the design.
+		<?php
   // Always render the status pill (unlink + Not Connected) like the design.
   // Only enable AJAX checking when a token exists, to avoid showing network errors when not authenticated.
   $auth_status_text = !empty($has_oauth_connection)
@@ -172,7 +172,12 @@ $google_pro_defs =
 			<div class="sc_connect_credentials_link_row_center">
 			<span class="sc_text--body_b3 sc_text--medium_gray"><?php esc_html_e('Or, ', 'google-calendar-events'); ?></span>
 				<a
-					href="<?php echo esc_url(admin_url('edit.php?post_type=calendar&page=simple-calendar_settings&sc_pro_own=1')); ?>"
+					href="<?php echo esc_url(
+     	wp_nonce_url(
+     		admin_url('edit.php?post_type=calendar&page=simple-calendar_settings&sc_pro_own=1'),
+     		'simcal_pro_connection_switch',
+     	),
+     ); ?>"
 					class="sc_link sc_link_muted  sc_text--body_b3"
 				>
 					<?php esc_html_e('I wanted to connect with own credentials', 'google-calendar-events'); ?>
@@ -181,14 +186,27 @@ $google_pro_defs =
 		<?php } ?>
 	<?php } else { ?>
 		<div class="sc_connect_helper_row sc_connect_credentials_helper_row">
-			<a href="#" class="sc_connect_helper_link"><?php esc_html_e(
-   	'Step-by-step instructions',
-   	'google-calendar-events',
-   ); ?></a>
-			<a href="https://console.cloud.google.com/apis/credentials" target="_blank" class="sc_connect_helper_link"><?php esc_html_e(
-   	'Google Developers Console',
-   	'google-calendar-events',
-   ); ?></a>
+			<?php
+   echo sprintf(
+   	__(
+   		'<a href="%s" target="_blank" class="sc_connect_helper_link">Step-by-step instructions</a>',
+   		'google-calendar-events',
+   	),
+   	simcal_ga_campaign_url(
+   		simcal_get_url('docs') . '/google-calendar-pro-configure-google-oauth/',
+   		'gcal-pro',
+   		'settings-link',
+   	),
+   );
+
+   echo sprintf(
+   	__(
+   		'<a href="%s" target="_blank" class="sc_connect_helper_link">Google Developers Console</a> ',
+   		'google-calendar-events',
+   	),
+   	simcal_get_url('gdev-console'),
+   );
+   ?>
 		</div>
 
 		<?php
@@ -253,11 +271,15 @@ $google_pro_defs =
 					<?php esc_html_e('Add New Calendar', 'google-calendar-events'); ?>
 				</a>
 			</div>
-			
 			<div class="sc_connect_credentials_link_row">
 			<span class="sc_text--body_b3 sc_text--medium_gray"><?php esc_html_e('Or, ', 'google-calendar-events'); ?></span>
 				<a
-					href="<?php echo esc_url(admin_url('edit.php?post_type=calendar&page=simple-calendar_settings&sc_pro_via=1')); ?>"
+					href="<?php echo esc_url(
+     	wp_nonce_url(
+     		admin_url('edit.php?post_type=calendar&page=simple-calendar_settings&sc_pro_via=1'),
+     		'simcal_pro_connection_switch',
+     	),
+     ); ?>"
 					class="sc_link sc_link_muted  sc_text--body_b3"
 				>
 					<?php esc_html_e('I wanted to connect with Auth Via Simple Calendar', 'google-calendar-events'); ?>

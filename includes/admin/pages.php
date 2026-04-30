@@ -357,8 +357,10 @@ class Pages
 
 								echo '<div class="simcal-bg-white simcal-p-[2%] simcal-w-[54%] simcal-rounded-[5px] ">';
 
-								// The Event Source (Feeds) settings have been moved to Connect.
-								if ($this->page === 'settings' && $current_tab === 'feeds') {
+								// Event Sources (feeds) tab: do not output Settings API fields (API key, etc.); those are on Connect.
+								$feeds_tab = $this->page === 'settings' && $current_tab === 'feeds';
+
+								if ($feeds_tab) {
 									$connect_url = admin_url('edit.php?post_type=calendar&page=simple-calendar_settings');
 									echo '<div class="notice notice-warning inline">';
 									echo '<p><strong>' .
@@ -374,10 +376,6 @@ class Pages
 									echo '</div>';
 									echo '</div>';
 								} else {
-									if ($current_tab == 'feeds') {
-										do_action('simple_calendar_auth_via_google_button');
-									}
-
 									echo isset($contents['description']) ? '<p>' . $contents['description'] . '</p>' : '';
 
 									do_action('simcal_admin_page_' . $this->page . '_' . $current_tab . '_start');
@@ -390,10 +388,6 @@ class Pages
 									$submit = apply_filters('simcal_admin_page_' . $this->page . '_' . $current_tab . '_submit', true);
 									if (true === $submit) {
 										submit_button();
-									}
-
-									if ($current_tab == 'feeds') {
-										do_action('simple_calendar_auth_via_xtendify_button');
 									}
 									echo '</div>';
 								}
@@ -409,8 +403,7 @@ class Pages
 										<Span><?php _e('If you like Simple Calendar please Rate Us', 'google-calendar-events'); ?> </Span>
 									</div>
 									<div class="simcal-mt-[44px]">
-										<?php // Rating function is used here
-										sc_rating(); ?>
+										<?php sc_rating(); ?>
 									</div>
 									<a href="https://simplecalendar.io/go/leave-a-review--theme?utm_source=inside-plugin&utm_medium=link&utm_campaign=core-plugin&utm_content=settings-link">
 										<button type="button" class="simcal-mt-[20px] simcal-m-auto simcal-flex simcal-justify-center simcal-items-center simcal-w-[85%] simcal-h-[40px] simcal-bg-sc_green-200 simcal-text-white simcal-text-xl simcal-font-medium simcal-rounded-md">
@@ -509,4 +502,5 @@ class Pages
 		</div>
 		<?php
 	}
+}
 }

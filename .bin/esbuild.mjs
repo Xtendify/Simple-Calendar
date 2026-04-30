@@ -31,6 +31,7 @@ const files = [
 	{ in: 'assets/scss/design-system.scss', out: 'design-system.min' },
 	{ in: 'assets/scss/connect.scss', out: 'connect.min' },
 	{ in: 'assets/scss/misc-settings.scss', out: 'misc-settings.min' },
+	{ in: 'assets/scss/admin-global.scss', out: 'admin-global.min' },
 ];
 
 const defaultConfig = {

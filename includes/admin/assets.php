@@ -123,6 +123,7 @@ class Assets
 		);
 		wp_register_style('sc-design-system', $css_path . 'design-system.min.css', [], SIMPLE_CALENDAR_VERSION);
 		wp_register_style('sc-connect', $css_path . 'connect.min.css', ['sc-design-system'], SIMPLE_CALENDAR_VERSION);
+		wp_register_style('sc-settings', $css_path . 'settings.min.css', ['sc-design-system'], SIMPLE_CALENDAR_VERSION);
 		wp_register_style('sc-misc-settings', $css_path . 'misc-settings.min.css', ['sc-design-system'], SIMPLE_CALENDAR_VERSION);
 		wp_register_style(
 			'simcal-admin-add-calendar',
@@ -130,7 +131,7 @@ class Assets
 			['simcal-select2'],
 			SIMPLE_CALENDAR_VERSION,
 		);
-		wp_register_style('sc-global-admin', $css_path . 'global.min.css', [], SIMPLE_CALENDAR_VERSION);
+		wp_register_style('sc-global-admin', $css_path . 'admin-global.min.css', [], SIMPLE_CALENDAR_VERSION);
 
 		if (simcal_is_admin_screen() !== false) {
 			// Global admin styles (e.g. menu badges) used outside plugin screens too.
@@ -176,14 +177,6 @@ class Assets
 			// Connect page specific styles.
 			if ($is_connect_page) {
 				wp_enqueue_style('sc-connect');
-			}
-
-			// Misc Settings page specific styles.
-			if (
-				($sc_screen && $sc_screen->id === 'calendar_page_simple-calendar_misc_settings') ||
-				$this->current_page === 'simple-calendar_misc_settings'
-			) {
-				wp_enqueue_style('sc-misc-settings');
 			}
 		} else {
 			// Still enqueue global admin styles on non-plugin screens.

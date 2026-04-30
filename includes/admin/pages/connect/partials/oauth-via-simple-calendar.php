@@ -19,21 +19,31 @@ wp_nonce_field('oauth_action_deauthentication', 'oauth_action_deauthentication')
 
 <div class="sc_connect_form_actions sc_connect_credentials_actions_center">
 	<?php if (!$has_oauth_connection) { ?>
-		<a
-			href="<?php echo esc_url($authredirect ?: '#'); ?>"
-			class="sc_btn sc_btn--blue"
-			data-sc-pro-mark-via-sc="<?php echo $authredirect ? '1' : '0'; ?>"
-			data-sc-pro-oauth-url="<?php echo esc_url($authredirect ?: ''); ?>"
-			<?php echo $authredirect ? '' : 'aria-disabled="true"'; ?>
-		>
-			<?php esc_html_e('OAuth via Simple Calendar', 'google-calendar-events'); ?>
-		</a>
+		<?php if ($authredirect) { ?>
+			<a
+				href="<?php echo esc_url($authredirect); ?>"
+				class="sc_btn sc_btn--blue"
+				data-sc-pro-mark-via-sc="1"
+				data-sc-pro-oauth-url="<?php echo esc_url($authredirect); ?>"
+			>
+				<?php esc_html_e('OAuth via Simple Calendar', 'google-calendar-events'); ?>
+			</a>
+		<?php } else { ?>
+			<button
+				type="button"
+				class="sc_btn sc_btn--blue sc_btn--disabled"
+				disabled
+				aria-disabled="true"
+			>
+				<?php esc_html_e('OAuth via Simple Calendar', 'google-calendar-events'); ?>
+			</button>
+		<?php } ?>
 	<?php } else { ?>
 		<a
 			href="javascript:void(0);"
 			id="oauth_deauthentication"
 			class="sc_btn sc_btn--blue-loading"
-			data-dialog="<?php echo esc_attr(__('Are you sure you want to DeAuthenticate.', 'google-calendar-events')); ?>"
+			data-dialog="<?php echo esc_attr(__('Are you sure you want to deauthenticate?', 'google-calendar-events')); ?>"
 		>
 			<span class="sc_btn_submit"><?php esc_html_e('DeAuthenticate', 'google-calendar-events'); ?></span>
 			<span class="sc_btn_loading" aria-hidden="true">

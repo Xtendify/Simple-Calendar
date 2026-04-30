@@ -480,6 +480,13 @@
 		}
 	}
 
+	.sc_btn--disabled,
+	.sc_btn:disabled {
+		opacity: 0.55;
+		cursor: not-allowed;
+		pointer-events: none;
+	}
+
 	.sc_btn--white {
 		background: var(--sc-color-white);
 		color: var(--sc-color-black);
@@ -823,17 +830,20 @@
 			}
 		}
 
-		.sc_input_toggle,
-		.sc_input_status {
-			position: absolute;
-			right: 12px;
-			top: 50%;
-			transform: translateY(-50%);
-			background: none;
-			border: none;
-			cursor: pointer;
-			padding: 4px;
-			color: var(--sc-color-medium-gray);
+		/* Variant: icons inside the field (default wrapper without --icons-outside). */
+		&:not(.sc_input_wrapper--icons-outside) {
+			.sc_input_toggle,
+			.sc_input_status {
+				position: absolute;
+				right: 12px;
+				top: 50%;
+				transform: translateY(-50%);
+				background: none;
+				border: none;
+				cursor: pointer;
+				padding: 4px;
+				color: var(--sc-color-medium-gray);
+			}
 		}
 
 		/* Success state: green border (Figma field 3) */

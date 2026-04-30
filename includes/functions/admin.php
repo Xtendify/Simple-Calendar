@@ -269,13 +269,18 @@ function simcal_connect_settings_fields()
 /**
  * Back-compat wrapper for suggested name.
  *
+ * Guarded to avoid fatal redeclare collisions if another plugin/theme
+ * defines the same helper.
+ *
  * @since 4.0.0
  *
  * @return array
  */
-function connect_settings_fields()
-{
-	return simcal_connect_settings_fields();
+if (!function_exists('connect_settings_fields')) {
+	function connect_settings_fields()
+	{
+		return simcal_connect_settings_fields();
+	}
 }
 
 /**
