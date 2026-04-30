@@ -52,12 +52,10 @@ class Settings implements Meta_Box
 			array_unique(array_map('sanitize_title', (array) $feed_types_needing_api_key)),
 		);
 
-		$feed_terms = wp_get_object_terms($post->ID, 'calendar_feed');
-		if (!is_wp_error($feed_terms) && !empty($feed_terms)) {
+		if ($feed_terms = wp_get_object_terms($post->ID, 'calendar_feed')) {
 			$current_feed_type = sanitize_title(current($feed_terms)->name);
 		} else {
-			$default = apply_filters('simcal_default_feed_type', 'google');
-			$current_feed_type = sanitize_title($default);
+			$current_feed_type = apply_filters('simcal_default_feed_type', 'google');
 		}
 
 		$requires_google_api_key = in_array($current_feed_type, $feed_types_needing_api_key, true);
@@ -88,25 +86,23 @@ class Settings implements Meta_Box
 						<?php esc_html_e('Complete Setup', 'google-calendar-events'); ?>
 					</a>
 				</div>
-				<div class="simcal-settings-fields">
-					<ul class="simcal-tabs">
-						<?php self::settings_tabs($post); ?>
-						<?php do_action('simcal_settings_meta_tabs'); ?>
-					</ul>
-					<div class="simcal-panels">
-						<div id="events-settings-panel" class="simcal-panel">
-							<?php self::events_settings_panel($post); ?>
-							<?php do_action('simcal_settings_meta_events_panel', $post->ID); ?>
-						</div>
-						<div id="calendar-settings-panel" class="simcal-panel">
-							<?php do_action('simcal_settings_meta_calendar_panel', $post->ID); ?>
-							<?php self::calendar_settings_panel($post); ?>
-						</div>
-						<?php do_action('simcal_settings_meta_panels', $post->ID); ?>
-						<div id="advanced-settings-panel" class="simcal-panel">
-							<?php self::advanced_settings_panel($post); ?>
-							<?php do_action('simcal_settings_meta_advanced_panel', $post->ID); ?>
-						</div>
+				<ul class="simcal-tabs">
+					<?php self::settings_tabs($post); ?>
+					<?php do_action('simcal_settings_meta_tabs'); ?>
+				</ul>
+				<div class="simcal-panels">
+					<div id="events-settings-panel" class="simcal-panel">
+						<?php self::events_settings_panel($post); ?>
+						<?php do_action('simcal_settings_meta_events_panel', $post->ID); ?>
+					</div>
+					<div id="calendar-settings-panel" class="simcal-panel">
+						<?php do_action('simcal_settings_meta_calendar_panel', $post->ID); ?>
+						<?php self::calendar_settings_panel($post); ?>
+					</div>
+					<?php do_action('simcal_settings_meta_panels', $post->ID); ?>
+					<div id="advanced-settings-panel" class="simcal-panel">
+						<?php self::advanced_settings_panel($post); ?>
+						<?php do_action('simcal_settings_meta_advanced_panel', $post->ID); ?>
 					</div>
 				</div>
 			</div>
@@ -148,15 +144,11 @@ class Settings implements Meta_Box
 		}
 
 		if ($feed_options) {
-
-			$feed_types = wp_get_object_terms($post->ID, 'calendar_feed');
-			if (!is_wp_error($feed_types) && !empty($feed_types)) {
+			if ($feed_types = wp_get_object_terms($post->ID, 'calendar_feed')) {
 				$feed_type = sanitize_title(current($feed_types)->name);
 			} else {
-				$default = apply_filters('simcal_default_feed_type', 'google');
-				$feed_type = sanitize_title($default);
-			}
-			?>
+				$feed_type = apply_filters('simcal_default_feed_type', 'google');
+			} ?>
 			<label for="_feed_type"><span><?php _e('Event Source', 'google-calendar-events'); ?></span>
 				<select name="_feed_type" id="_feed_type">
 					<optgroup
@@ -171,15 +163,11 @@ class Settings implements Meta_Box
 		}
 
 		if ($calendar_options) {
-
-			$calendar_types = wp_get_object_terms($post->ID, 'calendar_type');
-			if (!is_wp_error($calendar_types) && !empty($calendar_types)) {
+			if ($calendar_types = wp_get_object_terms($post->ID, 'calendar_type')) {
 				$calendar_type = sanitize_title(current($calendar_types)->name);
 			} else {
-				$default = apply_filters('simcal_default_calendar_type', 'default-calendar');
-				$calendar_type = sanitize_title($default);
-			}
-			?>
+				$calendar_type = apply_filters('simcal_default_calendar_type', 'default-calendar');
+			} ?>
 			<label for="_calendar_type"><span><?php _e('Calendar Type', 'google-calendar-events'); ?></span>
 				<select name="_calendar_type" id="_calendar_type">
 					<optgroup label="<?php _e('Calendar to use', 'google-calendar-events'); ?>">

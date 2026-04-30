@@ -56,6 +56,13 @@ class Assets
 		 * Register Admin Scripts *
 		 * ====================== */
 
+		// Use file mtimes to avoid stale admin asset caches during development/releases.
+		$admin_js_ver = SIMPLE_CALENDAR_VERSION;
+		$admin_js_file = SIMPLE_CALENDAR_PATH . 'assets/generated/admin.min.js';
+		if (is_string($admin_js_file) && file_exists($admin_js_file)) {
+			$admin_js_ver = (string) filemtime($admin_js_file);
+		}
+
 		// TipTip uses ".minified.js" filename ending.
 		wp_register_script(
 			'simcal-tiptip',

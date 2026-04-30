@@ -156,7 +156,7 @@ class Update
 		// Use Dashboard-based URL to avoid CPT permission edge-cases.
 		$connect_base_url = admin_url('edit.php?post_type=calendar&page=simple-calendar_settings');
 
-		$url = esc_url_raw(add_query_arg('simcal_install', esc_attr($transient), $connect_base_url));
+		$url = esc_url(add_query_arg('simcal_install', esc_attr($transient), $connect_base_url));
 		wp_safe_redirect($url);
 		exit();
 	}

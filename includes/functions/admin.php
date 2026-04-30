@@ -152,33 +152,6 @@ function simcal_is_google_calendar_pro_version_compatible($min_version = '2.0.0'
 }
 
 /**
- * Whether the installed Google Calendar Pro add-on meets a minimum version.
- *
- * If the Pro add-on isn't active/loaded (constant not defined), this returns true.
- *
- * @since 4.0.0
- *
- * @param string $min_version Minimum required version (default 2.0.0).
- * @return bool
- */
-function simcal_is_google_calendar_pro_version_compatible($min_version = '2.0.0')
-{
-	if (!defined('SIMPLE_CALENDAR_GOOGLE_PRO_VERSION')) {
-		return true;
-	}
-
-	$installed = (string) SIMPLE_CALENDAR_GOOGLE_PRO_VERSION;
-	$min = is_string($min_version) && $min_version !== '' ? $min_version : '2.0.0';
-
-	// If version string is missing/unexpected, fail closed (require update).
-	if ($installed === '') {
-		return false;
-	}
-
-	return version_compare($installed, $min, '>=');
-}
-
-/**
  * Check if a screen is a plugin admin view.
  * Returns the screen id if true, false (bool) if not.
  *
@@ -296,18 +269,13 @@ function simcal_connect_settings_fields()
 /**
  * Back-compat wrapper for suggested name.
  *
- * Guarded to avoid fatal redeclare collisions if another plugin/theme
- * defines the same helper.
- *
  * @since 4.0.0
  *
  * @return array
  */
-if (!function_exists('connect_settings_fields')) {
-	function connect_settings_fields()
-	{
-		return simcal_connect_settings_fields();
-	}
+function connect_settings_fields()
+{
+	return simcal_connect_settings_fields();
 }
 
 /**

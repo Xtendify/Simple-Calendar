@@ -207,17 +207,6 @@
 					requiresProAuth = String(feed) === 'google-pro',
 					shouldShowMask = (requiresGoogleApiKey && !hasGoogleApiKey) || (requiresProAuth && !hasProAuth);
 
-				// Prevent keyboard/screen reader access to the masked settings fields.
-				var settingsFields = settingsContentWrap.find('.simcal-settings-fields');
-				if (settingsFields.length) {
-					settingsFields.attr('aria-hidden', shouldShowMask ? 'true' : 'false');
-					if (shouldShowMask) {
-						settingsFields.attr('inert', '');
-					} else {
-						settingsFields.removeAttr('inert');
-					}
-				}
-
 				settingsContentWrap.toggleClass('simcal-settings-content-wrap--masked', shouldShowMask);
 				settingsMask.attr('aria-hidden', shouldShowMask ? 'false' : 'true');
 				settingsMask.toggle(shouldShowMask);
