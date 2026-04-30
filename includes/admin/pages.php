@@ -181,6 +181,36 @@ class Pages
 		// Get current tab/section
 		$current_tab = empty($_GET['tab']) ? $this->tab : sanitize_title($_GET['tab']);
 		$this->tab = $current_tab;
+
+		// If Pro is active but outdated, block Settings page and direct users to update.
+		$min_pro_version = '2.0.0';
+		if ($this->page === 'settings' && !\simcal_is_google_calendar_pro_version_compatible($min_pro_version)) {
+			$plugins_url = admin_url('plugins.php'); ?>
+			<div class="wrap" id="simcal-settings-page">
+				<div class="notice notice-error">
+					<p>
+						<strong><?php esc_html_e('Update required.', 'google-calendar-events'); ?></strong>
+						<?php printf(
+      	/* translators: 1: installed version 2: required version */
+      	esc_html__(
+      		'Your Google Calendar Pro add-on version (%1$s) is not compatible. Please update it to %2$s or newer to use Connect and Settings.',
+      		'google-calendar-events',
+      	),
+      	defined('SIMPLE_CALENDAR_GOOGLE_PRO_VERSION')
+      		? esc_html((string) SIMPLE_CALENDAR_GOOGLE_PRO_VERSION)
+      		: esc_html__('unknown', 'google-calendar-events'),
+      	esc_html($min_pro_version),
+      ); ?>
+					</p>
+					<p>
+						<a class="button button-primary" href="<?php echo esc_url($plugins_url); ?>">
+							<?php esc_html_e('Go to Plugins', 'google-calendar-events'); ?>
+						</a>
+					</p>
+				</div>
+			</div>
+			<?php return;
+		}
 		?>
 		<div class="wrap simcal-font-poppins semical-<?php echo $current_tab; ?>-tab" id="simcal-settings-page">
 			<form id="simcal-settings-page-form"
@@ -197,7 +227,12 @@ class Pages
     		foreach ($settings_pages as $id => $settings) {
     			$tab_id = isset($id) ? $id : '';
     			$tab_label = isset($settings['label']) ? $settings['label'] : '';
-    			$tab_link = admin_url('edit.php?post_type=calendar&page=simple-calendar_' . $this->page . '&tab=' . $tab_id);
+
+    			$current_page = isset($_GET['page']) ? sanitize_text_field((string) $_GET['page']) : '';
+    			$is_misc_settings_page = 'simple-calendar_misc_settings' === $current_page;
+
+    			$base_slug = $is_misc_settings_page ? 'simple-calendar_misc_settings' : 'simple-calendar_' . $this->page;
+    			$tab_link = admin_url('edit.php?post_type=calendar&page=' . $base_slug . '&tab=' . $tab_id);
 
     			echo '<a href="' .
     				$tab_link .
@@ -225,26 +260,42 @@ class Pages
     		if ($tab_id === $current_tab) {
 
     			echo '<div class="simcal-bg-white simcal-p-[2%] simcal-w-[54%] simcal-rounded-[5px] ">';
-    			if ($current_tab == 'feeds') {
-    				do_action('simple_calendar_auth_via_google_button');
+
+    			// Event Sources (feeds) tab: do not output Settings API fields (API key, etc.); those are on Connect.
+    			// For core < 4.0.0, align with Google Calendar Pro (it does not load feed admin when core is outdated).
+    			$feeds_tab = $this->page === 'settings' && $current_tab === 'feeds';
+
+    			if ($feeds_tab) {
+    				$connect_url = admin_url('edit.php?post_type=calendar&page=simple-calendar_settings');
+    				echo '<div class="notice notice-warning inline">';
+    				echo '<p><strong>' .
+    					esc_html__('Update:', 'google-calendar-events') .
+    					'</strong> ' .
+    					esc_html__('All Event Source settings have been moved to the Connect page.', 'google-calendar-events') .
+    					'</p>';
+    				echo '<p><a class="button button-primary" href="' .
+    					esc_url($connect_url) .
+    					'">' .
+    					esc_html__('Go to Connect', 'google-calendar-events') .
+    					'</a></p>';
+    				echo '</div>';
+    				echo '</div>';
+    			} else {
+    				echo isset($contents['description']) ? '<p>' . $contents['description'] . '</p>' : '';
+
+    				do_action('simcal_admin_page_' . $this->page . '_' . $current_tab . '_start');
+
+    				settings_fields('simple-calendar_' . $this->page . '_' . $tab_id);
+    				do_settings_sections('simple-calendar_' . $this->page . '_' . $tab_id);
+
+    				do_action('simcal_admin_page_' . $this->page . '_' . $current_tab . '_end');
+
+    				$submit = apply_filters('simcal_admin_page_' . $this->page . '_' . $current_tab . '_submit', true);
+    				if (true === $submit) {
+    					submit_button();
+    				}
+    				echo '</div>';
     			}
-    			echo isset($contents['description']) ? '<p>' . $contents['description'] . '</p>' : '';
-
-    			do_action('simcal_admin_page_' . $this->page . '_' . $current_tab . '_start');
-
-    			settings_fields('simple-calendar_' . $this->page . '_' . $tab_id);
-    			do_settings_sections('simple-calendar_' . $this->page . '_' . $tab_id);
-
-    			do_action('simcal_admin_page_' . $this->page . '_' . $current_tab . '_end');
-
-    			$submit = apply_filters('simcal_admin_page_' . $this->page . '_' . $current_tab . '_submit', true);
-    			if (true === $submit) {
-    				submit_button();
-    			}
-    			if ($current_tab == 'feeds') {
-    				do_action('simple_calendar_auth_via_xtendify_button');
-    			}
-    			echo '</div>';
     			?>
 								<div class="simcal-w-[39%] simcal-h-[452px] simcal-ml-[2%] simcal-rounded-[5px] simcal-bg-white">
 									<div class="simcal-mt-[75px]">
@@ -257,9 +308,7 @@ class Pages
 										<Span><?php _e('If you like Simple Calendar please Rate Us', 'google-calendar-events'); ?> </Span>
 									</div>
 									<div class="simcal-mt-[44px]">
-										<?php // Rating function is used here
-
-    			sc_rating(); ?>
+										<?php sc_rating(); ?>
 									</div>
 									<a href="https://simplecalendar.io/go/leave-a-review--theme?utm_source=inside-plugin&utm_medium=link&utm_campaign=core-plugin&utm_content=settings-link">
 										<button type="button" class="simcal-mt-[20px] simcal-m-auto simcal-flex simcal-justify-center simcal-items-center simcal-w-[85%] simcal-h-[40px] simcal-bg-sc_green-200 simcal-text-white simcal-text-xl simcal-font-medium simcal-rounded-md">

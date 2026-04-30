@@ -1,6 +1,112 @@
 (function (window, undefined) {
 	'use strict';
 
+	/**
+	 * Password / text toggle for square icon buttons (no document-level listeners).
+	 * Binds click on DOMContentLoaded; do not add inline onclick (double handler toggles twice).
+	 * Binds click on DOMContentLoaded; do not add inline onclick (double handler toggles twice).
+	 * Markup: type="button" data-sc-password-toggle aria-controls="input_id"
+	 * Optional: data-sc-label-show / data-sc-label-hide (else simcal_connect.strings when present).
+	 */
+	(function scRegisterPasswordToggleApi() {
+		if (window.__scPasswordToggleApi) {
+			return;
+		}
+		window.__scPasswordToggleApi = true;
+
+		function getToggleLabels(btn) {
+			var localized = window.simcal_connect && window.simcal_connect.strings ? window.simcal_connect.strings : {};
+			return {
+				show: btn.getAttribute('data-sc-label-show') || localized.show_api_key || '',
+				hide: btn.getAttribute('data-sc-label-hide') || localized.hide_api_key || '',
+			};
+		}
+
+		function scPasswordToggleUpdateIcons(btn, input) {
+			var imgShow = btn.querySelector('.sc_input_square_show');
+			var imgHide = btn.querySelector('.sc_input_square_hide');
+			if (!imgShow || !imgHide) {
+				return;
+			}
+			var labels = getToggleLabels(btn);
+			if (input.type === 'password') {
+				imgShow.setAttribute('hidden', '');
+				imgHide.removeAttribute('hidden');
+				if (labels.show) {
+					btn.setAttribute('aria-label', labels.show);
+					btn.setAttribute('title', labels.show);
+				}
+			} else {
+				imgShow.removeAttribute('hidden');
+				imgHide.setAttribute('hidden', '');
+				if (labels.hide) {
+					btn.setAttribute('aria-label', labels.hide);
+					btn.setAttribute('title', labels.hide);
+				}
+			}
+		}
+
+		function handleButtonClick(e) {
+			if (!e || !e.currentTarget) {
+				return;
+			}
+			var btn = e.currentTarget;
+			if (btn.disabled || !btn.hasAttribute('data-sc-password-toggle')) {
+				return;
+			}
+			var inputId = btn.getAttribute('aria-controls');
+			if (!inputId) {
+				return;
+			}
+			var input = document.getElementById(inputId);
+			if (!input || (input.tagName !== 'INPUT' && input.tagName !== 'TEXTAREA')) {
+				return;
+			}
+			if (input.type !== 'password' && input.type !== 'text') {
+				return;
+			}
+			e.preventDefault();
+			e.stopPropagation();
+			input.type = input.type === 'password' ? 'text' : 'password';
+			scPasswordToggleUpdateIcons(btn, input);
+		}
+
+		function init(root) {
+			var scRoot = root || document;
+			var scButtons = scRoot.querySelectorAll('button[data-sc-password-toggle]');
+			for (var i = 0; i < scButtons.length; i++) {
+				var scBtn = scButtons[i];
+				if (scBtn.__scPasswordToggleBound) {
+					continue;
+				}
+				scBtn.__scPasswordToggleBound = true;
+				scBtn.addEventListener('click', handleButtonClick);
+
+				var scInputId = scBtn.getAttribute('aria-controls');
+				if (scInputId) {
+					var scInput = document.getElementById(scInputId);
+					if (scInput) {
+						scPasswordToggleUpdateIcons(scBtn, scInput);
+					}
+				}
+			}
+		}
+
+		window.scPasswordToggle = {
+			handleButtonClick: handleButtonClick,
+			updateIcons: scPasswordToggleUpdateIcons,
+			init: init,
+		};
+
+		if (document.readyState === 'loading') {
+			document.addEventListener('DOMContentLoaded', function () {
+				init(document);
+			});
+		} else {
+			init(document);
+		}
+	})();
+
 	jQuery(function ($) {
 		/* ======== *
 		 * Tooltips *
@@ -78,6 +184,43 @@
 					$(this).hide();
 				});
 				tab.show();
+
+				// Toggle the settings lock mask:
+				// - core feeds: require Google API key
+				// - google-pro feed: requires OAuth (via Simple Calendar or own credentials)
+				var settingsContentWrap = calendarSettings.find('.simcal-settings-content-wrap'),
+					settingsMask = settingsContentWrap.find('.simcal-settings-mask'),
+					hasGoogleApiKey = String(settingsContentWrap.data('sc-has-google-api-key')) === '1',
+					hasProAuth = String(settingsContentWrap.data('sc-has-pro-auth')) === '1',
+					requiredFeedsRaw = settingsContentWrap.attr('data-sc-api-key-required-feeds'),
+					requiredFeeds = ['google', 'grouped-calendars'];
+
+				if (requiredFeedsRaw) {
+					try {
+						requiredFeeds = JSON.parse(requiredFeedsRaw);
+					} catch (e) {
+						requiredFeeds = ['google', 'grouped-calendars'];
+					}
+				}
+
+				var requiresGoogleApiKey = $.inArray(feed, requiredFeeds) !== -1,
+					requiresProAuth = String(feed) === 'google-pro',
+					shouldShowMask = (requiresGoogleApiKey && !hasGoogleApiKey) || (requiresProAuth && !hasProAuth);
+
+				// Prevent keyboard/screen reader access to the masked settings fields.
+				var settingsFields = settingsContentWrap.find('.simcal-settings-fields');
+				if (settingsFields.length) {
+					settingsFields.attr('aria-hidden', shouldShowMask ? 'true' : 'false');
+					if (shouldShowMask) {
+						settingsFields.attr('inert', '');
+					} else {
+						settingsFields.removeAttr('inert');
+					}
+				}
+
+				settingsContentWrap.toggleClass('simcal-settings-content-wrap--masked', shouldShowMask);
+				settingsMask.attr('aria-hidden', shouldShowMask ? 'false' : 'true');
+				settingsMask.toggle(shouldShowMask);
 				a.trigger('click');
 			})
 			.trigger('change');
@@ -526,5 +669,825 @@
 				},
 			});
 		});
+
+		/* =========================
+		 * Connect page: copy helper
+		 * ========================= */
+		function simcalBindCopyTargets(rootEl) {
+			var ctxEl = rootEl && rootEl.length ? rootEl : $(document);
+			ctxEl
+				.find('[data-sc-copy-target-field]')
+				.off('click.simcalCopy')
+				.on('click.simcalCopy', function (e) {
+					e.preventDefault();
+					var targetId = $(this).attr('data-sc-copy-target-field');
+					if (!targetId) return;
+					var el = document.getElementById(targetId);
+					if (!el) return;
+					var text = String(el.value || '');
+					if (!text) return;
+
+					function markCopiedUi() {
+						// Only requested UX: Pro Redirect URL field border turns green after copy.
+						if (targetId !== 'sc_google_pro_redirect_url') return;
+						$(el).addClass('sc_input--copied');
+						window.clearTimeout(el._scCopyTimer);
+						el._scCopyTimer = window.setTimeout(function () {
+							$(el).removeClass('sc_input--copied');
+						}, 1600);
+					}
+
+					function fallbackCopy() {
+						try {
+							el.focus();
+							el.select();
+							document.execCommand('copy');
+							markCopiedUi();
+						} catch (err) {}
+					}
+
+					if (navigator.clipboard && navigator.clipboard.writeText) {
+						navigator.clipboard
+							.writeText(text)
+							.then(function () {
+								markCopiedUi();
+							})
+							.catch(function () {
+								fallbackCopy();
+							});
+					} else {
+						fallbackCopy();
+					}
+				});
+		}
+
+		// Bind once for initial DOM (avoids document-level delegated click).
+		simcalBindCopyTargets($('#simcal-connect-page').length ? $('#simcal-connect-page') : $(document));
 	});
-})(this);
+
+	/* =========================================
+	 * Connect page: eye toggle + API key validation (DOM ready)
+	 * ========================================= */
+	jQuery(function ($) {
+		var _scConnectPageEl = $('#simcal-connect-page');
+		if (!_scConnectPageEl.length) {
+			return;
+		}
+
+		// Use localized config only (strings come from wp_localize_script).
+		var connectCfg = window.simcal_connect || {
+			ajax_url: (window.simcal_admin && window.simcal_admin.ajax_url) || '',
+			nonce: '',
+			check_icon_url: '',
+			warning_icon_url: '',
+			oauth_check_nonce: '',
+			strings: {},
+		};
+
+		function simcalAdminAjaxUrl() {
+			var href =
+				(typeof globalThis !== 'undefined' && globalThis.location && typeof globalThis.location.href === 'string'
+					? globalThis.location.href
+					: document && document.location && typeof document.location.href === 'string'
+						? document.location.href
+						: '') || '';
+			var wpAdminPos = href.indexOf('/wp-admin/');
+			var derived = '';
+			if (wpAdminPos > -1) {
+				derived = href.substring(0, wpAdminPos) + '/wp-admin/admin-ajax.php';
+			} else {
+				derived = '/wp-admin/admin-ajax.php';
+			}
+			var candidates = [
+				(connectCfg && connectCfg.ajax_url) || '',
+				(window.simcal_admin && window.simcal_admin.ajax_url) || '',
+				typeof window.ajaxurl === 'string' ? window.ajaxurl : '',
+				derived,
+			];
+			var urls = [];
+			for (var i = 0; i < candidates.length; i++) {
+				var c = String(candidates[i] || '').trim();
+				if (!c || $.inArray(c, urls) !== -1) {
+					continue;
+				}
+				urls.push(c);
+			}
+			return urls;
+		}
+
+		function simcalXhrGetContentType(xhr) {
+			if (!xhr || typeof xhr.getResponseHeader !== 'function') {
+				return '';
+			}
+			try {
+				return String(xhr.getResponseHeader('content-type') || '').toLowerCase();
+			} catch (e) {
+				return '';
+			}
+		}
+
+		function simcalTryParseJson(text) {
+			if (typeof text !== 'string') {
+				return null;
+			}
+			var trimmed = text.trim();
+			if (!trimmed) {
+				return null;
+			}
+			var startsLikeJson = trimmed.charAt(0) === '{' || trimmed.charAt(0) === '[';
+			if (!startsLikeJson) {
+				return null;
+			}
+			try {
+				return JSON.parse(trimmed);
+			} catch (e) {
+				return null;
+			}
+		}
+
+		function simcalIsNonJsonResponse(xhr) {
+			if (!xhr) return true;
+			if (xhr.responseJSON && typeof xhr.responseJSON === 'object') {
+				return false;
+			}
+			var ct = simcalXhrGetContentType(xhr);
+			if (ct && ct.indexOf('application/json') !== -1) {
+				return false;
+			}
+			var parsed = simcalTryParseJson(xhr.responseText);
+			return !parsed;
+		}
+
+		function simcalNormalizeAjaxJson(resOrXhr) {
+			// Accept either already-parsed JSON, or an XHR with responseJSON/responseText.
+			if (!resOrXhr) return null;
+			if (typeof resOrXhr === 'object' && !resOrXhr.getResponseHeader) {
+				return resOrXhr;
+			}
+			var xhr = resOrXhr;
+			if (xhr && xhr.responseJSON && typeof xhr.responseJSON === 'object') {
+				return xhr.responseJSON;
+			}
+			return simcalTryParseJson(xhr && xhr.responseText);
+		}
+
+		function scApiKeyBadgeNodes() {
+			return $('[data-sc-google-api-key-health="1"]');
+		}
+
+		function scApiKeyBadgeHolders() {
+			return $('[data-sc-google-api-key-badge-holder="1"]');
+		}
+
+		function scApiKeyBadgeDetails() {
+			return $('[data-sc-google-api-key-health-detail="1"]');
+		}
+
+		function scApiKeyBadgeSetChecking() {
+			scApiKeyBadgeHolders().removeClass('is_hidden');
+			var badges = scApiKeyBadgeNodes();
+			badges
+				.removeClass('sc_connect_oauth_status_header_badge--ok sc_connect_oauth_status_header_badge--error')
+				.addClass('sc_connect_oauth_status_header_badge--pending');
+			badges
+				.find('.sc_connect_oauth_status_header_label')
+				.first()
+				.text((connectCfg.strings && connectCfg.strings.oauth_checking) || 'Checking…');
+			scApiKeyBadgeDetails().addClass('is_hidden').empty();
+		}
+
+		function scApiKeyBadgeSetOk() {
+			scApiKeyBadgeHolders().removeClass('is_hidden');
+			var badges = scApiKeyBadgeNodes();
+			badges
+				.removeClass('sc_connect_oauth_status_header_badge--pending sc_connect_oauth_status_header_badge--error')
+				.addClass('sc_connect_oauth_status_header_badge--ok');
+			badges
+				.find('.sc_connect_oauth_status_header_label')
+				.first()
+				.text((connectCfg.strings && connectCfg.strings.oauth_connected) || 'Connected');
+			scApiKeyBadgeDetails().addClass('is_hidden').empty();
+		}
+
+		function scApiKeyBadgeSetInvalid() {
+			scApiKeyBadgeHolders().removeClass('is_hidden');
+			var badges = scApiKeyBadgeNodes();
+			badges
+				.removeClass('sc_connect_oauth_status_header_badge--pending sc_connect_oauth_status_header_badge--ok')
+				.addClass('sc_connect_oauth_status_header_badge--error');
+			badges.find('.sc_connect_oauth_status_header_label').first().text('API key is not valid.');
+			scApiKeyBadgeDetails().addClass('is_hidden').empty();
+		}
+
+		function scApiKeyBadgeSetError(message) {
+			scApiKeyBadgeHolders().removeClass('is_hidden');
+			var badges = scApiKeyBadgeNodes();
+			badges
+				.removeClass('sc_connect_oauth_status_header_badge--pending sc_connect_oauth_status_header_badge--ok')
+				.addClass('sc_connect_oauth_status_header_badge--error');
+			badges
+				.find('.sc_connect_oauth_status_header_label')
+				.first()
+				.text((connectCfg.strings && connectCfg.strings.oauth_error) || 'Error');
+			var intro = (connectCfg.strings && connectCfg.strings.google_api_key_public_calendar_failed) || '';
+			var msg = message ? String(message) : '';
+			var detail = scApiKeyBadgeDetails();
+			detail.removeClass('is_hidden');
+			detail.text(intro && msg ? intro + ' ' + msg : intro || msg || '');
+		}
+
+		/* =========================================
+		 * Saved API key health check (public calendar fetch)
+		 * ========================================= */
+		(function googleApiKeySavedHealthCheck() {
+			var holders = scApiKeyBadgeHolders();
+			if (!holders.length || holders.first().hasClass('is_hidden')) {
+				return;
+			}
+
+			scApiKeyBadgeSetChecking();
+
+			var ajaxUrls = simcalAdminAjaxUrl();
+			if (!ajaxUrls.length) {
+				scApiKeyBadgeSetError('');
+				return;
+			}
+
+			var healthNonce = (connectCfg && connectCfg.google_api_key_health_nonce) || '';
+
+			function healthAtIndex(idx) {
+				$.ajax({
+					url: ajaxUrls[idx],
+					type: 'POST',
+					dataType: 'json',
+					data: {
+						action: 'simcal_connect_google_api_key_health_check',
+						nonce: healthNonce,
+					},
+				})
+					.done(function (res) {
+						if (typeof res === 'string') {
+							var parsedRes = simcalTryParseJson(res);
+							if (parsedRes) {
+								res = parsedRes;
+							} else if (idx + 1 < ajaxUrls.length) {
+								healthAtIndex(idx + 1);
+								return;
+							}
+						}
+						var connected = !!(res && res.success && res.data && res.data.connected);
+						if (connected) {
+							scApiKeyBadgeSetOk();
+							return;
+						}
+						if (res && res.data && res.data.reason === 'api_keys_not_supported') {
+							// Treat this as connected for onboarding UI, but don't show the error text.
+							scApiKeyBadgeSetOk();
+							return;
+						}
+						if (res && res.data && res.data.reason === 'api_key_invalid') {
+							scApiKeyBadgeSetInvalid();
+							return;
+						}
+						var msg = res && res.data && res.data.message ? String(res.data.message) : '';
+						scApiKeyBadgeSetError(msg);
+					})
+					.fail(function (xhr) {
+						var json = simcalNormalizeAjaxJson(xhr);
+						if (json) {
+							var connected = !!(json && json.success && json.data && json.data.connected);
+							if (connected) {
+								scApiKeyBadgeSetOk();
+								return;
+							}
+							if (json && json.data && json.data.reason === 'api_keys_not_supported') {
+								scApiKeyBadgeSetOk();
+								return;
+							}
+							if (json && json.data && json.data.reason === 'api_key_invalid') {
+								scApiKeyBadgeSetInvalid();
+								return;
+							}
+							var msg = json && json.data && json.data.message ? String(json.data.message) : '';
+							scApiKeyBadgeSetError(msg);
+							return;
+						}
+						if (simcalIsNonJsonResponse(xhr) && idx + 1 < ajaxUrls.length) {
+							healthAtIndex(idx + 1);
+							return;
+						}
+						scApiKeyBadgeSetError('');
+					});
+			}
+
+			healthAtIndex(0);
+		})();
+
+		/* =========================================
+		 * Pro OAuth health check (calendar list)
+		 * ========================================= */
+		(function oauthConnectionHealthCheck() {
+			var statusWrap = $('.sc_connect_auth_status_center[data-sc-oauth-check="1"]').first();
+			var headerBadge = $('#sc_connect_oauth_status_header_badge[data-sc-oauth-check="1"]').first();
+			if (!statusWrap.length && !headerBadge.length) {
+				return;
+			}
+
+			var statusText = statusWrap.length ? statusWrap.find('.sc_connect_oauth_status').first() : $();
+			var linkIcon = statusWrap.length ? statusWrap.find('.sc_connect_auth_status_link_icon').first() : $();
+
+			var iconLinkUrl = statusWrap.length ? String(statusWrap.attr('data-sc-oauth-icon-link') || '') : '';
+			var iconUnlinkUrl = statusWrap.length ? String(statusWrap.attr('data-sc-oauth-icon-unlink') || '') : '';
+
+			function setHeaderChecking() {
+				if (!headerBadge.length) return;
+				headerBadge
+					.removeClass('sc_connect_oauth_status_header_badge--ok sc_connect_oauth_status_header_badge--error')
+					.addClass('sc_connect_oauth_status_header_badge--pending');
+				headerBadge
+					.find('.sc_connect_oauth_status_header_label')
+					.first()
+					.text((connectCfg.strings && connectCfg.strings.oauth_checking) || 'Checking…');
+			}
+
+			function setHeaderConnected() {
+				if (!headerBadge.length) return;
+				headerBadge
+					.removeClass('sc_connect_oauth_status_header_badge--pending sc_connect_oauth_status_header_badge--error')
+					.addClass('sc_connect_oauth_status_header_badge--ok');
+				headerBadge
+					.find('.sc_connect_oauth_status_header_label')
+					.first()
+					.text((connectCfg.strings && connectCfg.strings.oauth_connected) || 'Connected');
+			}
+
+			function setHeaderError(message) {
+				if (!headerBadge.length) return;
+				headerBadge
+					.removeClass('sc_connect_oauth_status_header_badge--pending sc_connect_oauth_status_header_badge--ok')
+					.addClass('sc_connect_oauth_status_header_badge--error');
+				headerBadge
+					.find('.sc_connect_oauth_status_header_label')
+					.first()
+					.text(message || (connectCfg.strings && connectCfg.strings.oauth_error) || 'Error');
+			}
+
+			function markProSidebarStepComplete($li) {
+				if (!$li.length || $li.hasClass('is_completed')) {
+					return;
+				}
+				$li.addClass('is_completed');
+				var $cb = $li.find('.sc_checklist_checkbox');
+				if ($cb.length && !$cb.find('img').length) {
+					$cb.html('<img src="' + connectCfg.check_icon_url + '" alt="" class="sc_checklist_icon" />');
+				}
+			}
+
+			function applyConnectedUi() {
+				setHeaderConnected();
+				if (linkIcon.length && iconLinkUrl) {
+					linkIcon.attr('src', iconLinkUrl);
+				}
+				if (statusText.length) {
+					statusText
+						.removeClass('sc_connect_oauth_status--error sc_connect_oauth_status--disconnected')
+						.addClass('sc_connect_oauth_status--ok');
+					statusText.text((connectCfg.strings && connectCfg.strings.oauth_connected) || 'Connected');
+				}
+
+				// Pro sidebar: OAuth health success means authentication is complete,
+				// but onboarding should only be 100% when a Pro calendar is created.
+				markProSidebarStepComplete($('#sc_connect_step_connection_type'));
+				markProSidebarStepComplete($('#sc_connect_step_credentials'));
+
+				var scCircle = $('#sc_connect_progress_circle');
+				var scProgressText = $('#sc_connect_progress_text');
+				if (scCircle.length) {
+					// If the server already marked the final step complete (i.e. Pro calendar exists),
+					// keep the UI at 100% instead of forcing 75%.
+					var $privateStep = $('#sc_connect_step_private');
+					var hasProCalendar = $privateStep.length && $privateStep.hasClass('is_completed');
+					var isAlready100 = scCircle.hasClass('sc_progress_circle--100');
+
+					scCircle.addClass('sc_connect_progress_anim');
+					if (hasProCalendar || isAlready100) {
+						markProSidebarStepComplete($privateStep);
+						scCircle.removeClass('sc_progress_circle--33 sc_progress_circle--67').addClass('sc_progress_circle--100');
+						scCircle[0].style.setProperty('--sc-progress', '100');
+						if (scProgressText.length) {
+							scProgressText.text((connectCfg.strings && connectCfg.strings['100_ready']) || '100% Ready');
+						}
+					} else {
+						// 75% uses the 67% circle styles but updates the conic-gradient via CSS var.
+						scCircle.removeClass('sc_progress_circle--33 sc_progress_circle--100').addClass('sc_progress_circle--67');
+						scCircle[0].style.setProperty('--sc-progress', '75');
+						if (scProgressText.length) {
+							scProgressText.text((connectCfg.strings && connectCfg.strings['75_ready']) || '75% Ready');
+						}
+					}
+					var $progressRow = scCircle.closest('.sc_row.sc_row_align_start');
+					if ($progressRow.length) {
+						$progressRow.toggleClass('sc_connect_progress_is_complete', hasProCalendar || isAlready100);
+					}
+					setTimeout(function () {
+						scCircle.removeClass('sc_connect_progress_anim');
+					}, 1200);
+				}
+
+				// Pro own-credentials flow: show "Add New Calendar" CTA after successful auth
+				// (button is hidden server-side when a Pro calendar already exists).
+				var scAddProBtn = $('#sc_connect_add_pro_calendar_btn');
+				if (scAddProBtn.length && String(scAddProBtn.attr('data-sc-can-unhide') || '') === '1') {
+					scAddProBtn.removeClass('is_hidden');
+				}
+			}
+
+			function applyDisconnectedUi(message) {
+				setHeaderError(message);
+				if (linkIcon.length && iconUnlinkUrl) {
+					linkIcon.attr('src', iconUnlinkUrl);
+				}
+				if (statusText.length) {
+					statusText
+						.removeClass('sc_connect_oauth_status--ok')
+						.removeClass('sc_connect_oauth_status--error')
+						.addClass('sc_connect_oauth_status--disconnected');
+					statusText.text(message || (connectCfg.strings && connectCfg.strings.oauth_not_connected) || 'Not Connected');
+				}
+			}
+
+			setHeaderChecking();
+			if (statusText.length) {
+				statusText
+					.removeClass(
+						'sc_connect_oauth_status--ok sc_connect_oauth_status--disconnected sc_connect_oauth_status--error'
+					)
+					.text((connectCfg.strings && connectCfg.strings.oauth_checking) || 'Checking…');
+			}
+			if (linkIcon.length && iconUnlinkUrl) {
+				linkIcon.attr('src', iconUnlinkUrl);
+			}
+
+			var ajaxUrls = simcalAdminAjaxUrl();
+			if (!ajaxUrls.length) {
+				applyDisconnectedUi(
+					(connectCfg.strings && connectCfg.strings.oauth_ajax_url_not_found) || 'Ajax URL not found.'
+				);
+				console.log('ajaxUrls.length', ajaxUrls.length);
+				return;
+			}
+
+			var oauthCheckAction = statusWrap.length
+				? String(statusWrap.attr('data-sc-oauth-check-action') || 'simcal_connect_oauth_via_sc_check')
+				: String(headerBadge.attr('data-sc-oauth-check-action') || 'simcal_connect_oauth_via_sc_check');
+
+			function oauthCheckAtIndex(idx) {
+				$.ajax({
+					url: ajaxUrls[idx],
+					type: 'POST',
+					dataType: 'json',
+					data: {
+						action: oauthCheckAction,
+						nonce: connectCfg.oauth_check_nonce || '',
+					},
+				})
+					.done(function (res) {
+						if (typeof res === 'string') {
+							var parsedRes = simcalTryParseJson(res);
+							if (parsedRes) {
+								res = parsedRes;
+							} else if (idx + 1 < ajaxUrls.length) {
+								oauthCheckAtIndex(idx + 1);
+								return;
+							}
+						}
+						var isOk = !!(res && res.success);
+						var isConnected = !!(res && res.data && res.data.connected);
+						if (isOk && isConnected) {
+							applyConnectedUi();
+							return;
+						}
+						var msg = res && res.data && res.data.message ? String(res.data.message) : '';
+						applyDisconnectedUi(msg || '');
+						console.log('done oauthCheckAtIndex', res);
+					})
+					.fail(function (xhr) {
+						var json = simcalNormalizeAjaxJson(xhr);
+						if (json) {
+							var isOk = !!(json && json.success);
+							var isConnected = !!(json && json.data && json.data.connected);
+							if (isOk && isConnected) {
+								applyConnectedUi();
+								return;
+							}
+							var msg = json && json.data && json.data.message ? String(json.data.message) : '';
+							applyDisconnectedUi(msg || '');
+							return;
+						}
+						if (simcalIsNonJsonResponse(xhr) && idx + 1 < ajaxUrls.length) {
+							oauthCheckAtIndex(idx + 1);
+							return;
+						}
+						applyDisconnectedUi(
+							(connectCfg.strings && connectCfg.strings.oauth_not_comunicate) || 'Not able to communicate with Google.'
+						);
+						console.log('fail oauthCheckAtIndex');
+					});
+			}
+
+			oauthCheckAtIndex(0);
+		})();
+
+		/* Pro Connect: persist "OAuth via Simple Calendar" choice before redirect (progress sidebar). */
+		$(document).on('click', 'a[data-sc-pro-mark-via-sc="1"]', function (e) {
+			var $a = $(this);
+			var targetUrl = String($a.attr('data-sc-pro-oauth-url') || $a.attr('href') || '').trim();
+			if (!targetUrl || targetUrl === '#') {
+				return;
+			}
+			e.preventDefault();
+			var nonce = (connectCfg && connectCfg.mark_pro_connection_nonce) || '';
+			var ajaxUrls = simcalAdminAjaxUrl();
+			if (!ajaxUrls.length) {
+				window.location.assign(targetUrl);
+				return;
+			}
+			function postMark(i) {
+				$.ajax({
+					url: ajaxUrls[i],
+					type: 'POST',
+					dataType: 'json',
+					data: {
+						action: 'simcal_mark_pro_connection_via_sc',
+						nonce: nonce,
+					},
+				}).always(function () {
+					window.location.assign(targetUrl);
+				});
+			}
+			postMark(0);
+		});
+
+		/* API key eye toggle: handled globally via [data-sc-password-toggle] + aria-controls (see top of file). */
+
+		var scConnectForm = $('#simcal-connect-page-form');
+		if (scConnectForm.length && scConnectForm.find('[data-sc-connect-validate-btn]').length) {
+			var scInput = $('#sc_google_api_key');
+			var scConnectFieldWrap = $('#sc_connect_api_key_wrap');
+			var scConnectMsgWrap = $('#sc_connect_api_key_msg_wrap');
+			var scmsgError = $('#sc_connect_api_key_msg_error');
+			var scmsgSuccess = $('#sc_connect_api_key_msg_success');
+			var scValidateBtn = $('[data-sc-connect-validate-btn]');
+			var scValidateBtnEl = scValidateBtn.get(0) || null;
+			var validating = false;
+			var originalBtnHtml = scValidateBtnEl ? scValidateBtn.html() : '';
+			var originalBtnClass = scValidateBtnEl ? scValidateBtn.attr('class') : '';
+			var resetTimer = null;
+			var submitTimer = null;
+
+			function showInlineFlex($el) {
+				if (!$el || !$el.length) {
+					return;
+				}
+				$el.css('display', 'inline-flex');
+			}
+
+			function resetVisualState() {
+				if (resetTimer) {
+					clearTimeout(resetTimer);
+					resetTimer = null;
+				}
+				if (submitTimer) {
+					clearTimeout(submitTimer);
+					submitTimer = null;
+				}
+				scConnectFieldWrap.removeClass('sc_input--error sc_input--success');
+				scConnectMsgWrap.hide();
+				scmsgError.hide();
+				scmsgSuccess.hide();
+				if (scValidateBtnEl) {
+					scValidateBtn.attr('class', originalBtnClass);
+					scValidateBtn.html(originalBtnHtml);
+					scValidateBtn.prop('disabled', false);
+				}
+			}
+
+			function animateProgressToApiKeyCompleted() {
+				var sccircle = $('#sc_connect_progress_circle');
+				var scProgressText = $('#sc_connect_progress_text');
+				var scOnBoardingStep = $('#sc_connect_step_api_key');
+				if (!sccircle.length) return;
+
+				if (scOnBoardingStep.length && !scOnBoardingStep.hasClass('is_completed')) {
+					scOnBoardingStep.addClass('is_completed');
+					var scCheckBox = scOnBoardingStep.find('.sc_checklist_checkbox');
+					if (scCheckBox.length && !scCheckBox.find('img').length) {
+						scCheckBox.html('<img src="' + connectCfg.check_icon_url + '" alt="" class="sc_checklist_icon" />');
+					}
+				}
+
+				sccircle.addClass('sc_connect_progress_anim');
+				sccircle[0].style.setProperty('--sc-progress', '67');
+				if (scProgressText.length) {
+					scProgressText.text((connectCfg.strings && connectCfg.strings['67_ready']) || '');
+				}
+				setTimeout(function () {
+					sccircle.removeClass('sc_connect_progress_anim');
+				}, 1200);
+			}
+
+			scInput.on('input', function () {
+				scConnectForm.removeData('scValidated');
+				resetVisualState();
+				if (scApiKeyBadgeHolders().not('.is_hidden').length) {
+					scApiKeyBadgeSetChecking();
+				}
+			});
+
+			scConnectForm.on('submit', function (e) {
+				if (scConnectForm.data('scValidated') === true) {
+					return;
+				}
+				e.preventDefault();
+				if (validating) {
+					return;
+				}
+				resetVisualState();
+				var inputEl = (scInput && scInput.length ? scInput[0] : null) || document.getElementById('sc_google_api_key');
+				var rawKey = ((inputEl && typeof inputEl.value === 'string' ? inputEl.value : '') || '').trim();
+				if (scValidateBtnEl) {
+					// Show loading state immediately on submit attempt.
+					scValidateBtn.removeClass('sc_is_finished sc_btn--red').addClass('sc_is_active').prop('disabled', true);
+				}
+				if (!rawKey) {
+					scConnectFieldWrap.removeClass('sc_input--success').addClass('sc_input--error');
+					scConnectMsgWrap.show();
+					scmsgSuccess.hide();
+					scmsgError.show();
+					showInlineFlex(scmsgError);
+					scmsgError
+						.find('.sc_icon_warning_label')
+						.text((connectCfg.strings && connectCfg.strings.please_enter_api_key) || '');
+					if (scValidateBtnEl) {
+						scValidateBtn.removeClass('sc_is_active sc_is_finished').addClass('sc_btn--red').prop('disabled', false);
+					}
+					resetTimer = setTimeout(resetVisualState, 10000);
+					return;
+				}
+
+				validating = true;
+				scConnectFieldWrap.removeClass('sc_input--error sc_input--success');
+				scConnectMsgWrap.hide();
+				scmsgError.hide();
+				scmsgSuccess.hide();
+
+				var ajaxNonce = (connectCfg && connectCfg.nonce) || scConnectForm.attr('data-sc-connect-validate-nonce') || '';
+				var fallbackAjaxUrl = (function () {
+					var href =
+						(typeof globalThis !== 'undefined' && globalThis.location && typeof globalThis.location.href === 'string'
+							? globalThis.location.href
+							: document && document.location && typeof document.location.href === 'string'
+								? document.location.href
+								: '') || '';
+					var wpAdminPos = href.indexOf('/wp-admin/');
+					if (wpAdminPos > -1) {
+						return href.substring(0, wpAdminPos) + '/wp-admin/admin-ajax.php';
+					}
+					return '/wp-admin/admin-ajax.php';
+				})();
+				var ajaxCandidates = [
+					(connectCfg && connectCfg.ajax_url) || '',
+					window.ajaxurl || '',
+					(window.simcal_admin && window.simcal_admin.ajax_url) || '',
+					fallbackAjaxUrl,
+				];
+				var ajaxUrls = [];
+				for (var i = 0; i < ajaxCandidates.length; i++) {
+					var candidate = String(ajaxCandidates[i] || '').trim();
+					if (!candidate || $.inArray(candidate, ajaxUrls) !== -1) {
+						continue;
+					}
+					ajaxUrls.push(candidate);
+				}
+
+				function validateRequestAtIndex(index) {
+					$.ajax({
+						url: ajaxUrls[index],
+						type: 'POST',
+						dataType: 'json',
+						data: {
+							action: 'simcal_validate_google_api_key',
+							nonce: ajaxNonce,
+							api_key: rawKey,
+						},
+					})
+						.done(function (res) {
+							validating = false;
+							if (res && res.success) {
+								scConnectFieldWrap.addClass('sc_input--success');
+								scConnectMsgWrap.show();
+								scmsgSuccess.show();
+								animateProgressToApiKeyCompleted();
+								$('#sc_connect_add_calendar_btn').show();
+								scApiKeyBadgeSetOk();
+								if (scValidateBtnEl) {
+									scValidateBtn
+										.removeClass('sc_is_active sc_btn--red')
+										.addClass('sc_is_finished')
+										.prop('disabled', true);
+								}
+								scConnectForm.data('scValidated', true);
+								submitTimer = setTimeout(function () {
+									if (scValidateBtnEl) scValidateBtn.prop('disabled', false);
+									scConnectForm.trigger('submit');
+								}, 1000);
+							} else if (res && res.data && res.data.reason === 'api_keys_not_supported') {
+								scConnectFieldWrap.addClass('sc_input--success');
+								scConnectMsgWrap.show();
+								scmsgSuccess.show();
+								animateProgressToApiKeyCompleted();
+								$('#sc_connect_add_calendar_btn').show();
+								// Treat this as connected for onboarding UI, but don't show the error text.
+								scApiKeyBadgeSetOk();
+								if (scValidateBtnEl) {
+									scValidateBtn
+										.removeClass('sc_is_active sc_btn--red')
+										.addClass('sc_is_finished')
+										.prop('disabled', true);
+								}
+								scConnectForm.data('scValidated', true);
+								submitTimer = setTimeout(function () {
+									if (scValidateBtnEl) scValidateBtn.prop('disabled', false);
+									scConnectForm.trigger('submit');
+								}, 1000);
+							} else if (res && res.data && res.data.reason === 'api_key_invalid') {
+								scConnectFieldWrap.addClass('sc_input--error');
+								scConnectMsgWrap.show();
+								scmsgError.show();
+								showInlineFlex(scmsgError);
+								scmsgError.find('.sc_icon_warning_label').text('API key is not valid.');
+								scApiKeyBadgeSetInvalid();
+								if (scValidateBtnEl) {
+									scValidateBtn
+										.removeClass('sc_is_active sc_is_finished')
+										.addClass('sc_btn--red')
+										.prop('disabled', false);
+								}
+								resetTimer = setTimeout(resetVisualState, 10000);
+							} else {
+								scConnectFieldWrap.addClass('sc_input--error');
+								scConnectMsgWrap.show();
+								scmsgError.show();
+								showInlineFlex(scmsgError);
+								var failMsg = '';
+								if (res && res.data && res.data.message) {
+									failMsg = String(res.data.message);
+									scmsgError.find('.sc_icon_warning_label').text(failMsg);
+								}
+								scApiKeyBadgeSetError(failMsg);
+								if (scValidateBtnEl) {
+									scValidateBtn
+										.removeClass('sc_is_active sc_is_finished')
+										.addClass('sc_btn--red')
+										.prop('disabled', false);
+								}
+								resetTimer = setTimeout(resetVisualState, 10000);
+							}
+						})
+						.fail(function (xhr) {
+							var json = simcalNormalizeAjaxJson(xhr);
+							var isNonJsonResponse = simcalIsNonJsonResponse(xhr);
+							if (isNonJsonResponse && index + 1 < ajaxUrls.length) {
+								validateRequestAtIndex(index + 1);
+								return;
+							}
+
+							validating = false;
+							scConnectFieldWrap.addClass('sc_input--error');
+							scConnectMsgWrap.show();
+							scmsgError.show();
+							showInlineFlex(scmsgError);
+							var errorText = 'Unable to validate the API key right now. Please try again.';
+							if (json && json.data && json.data.message) {
+								errorText = String(json.data.message);
+							} else if (isNonJsonResponse) {
+								errorText =
+									'Validation endpoint returned a non-JSON response. Please check WP debug notices and admin-ajax routing.';
+							}
+							scmsgError.find('.sc_icon_warning_label').text(errorText);
+							scApiKeyBadgeSetError(errorText);
+							if (scValidateBtnEl) {
+								scValidateBtn
+									.removeClass('sc_is_active sc_is_finished')
+									.addClass('sc_btn--red')
+									.prop('disabled', false);
+							}
+							resetTimer = setTimeout(resetVisualState, 10000);
+						});
+				}
+
+				validateRequestAtIndex(0);
+			});
+		}
+	});
+})(window);

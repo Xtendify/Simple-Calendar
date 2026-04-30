@@ -1,0 +1,653 @@
+.sc_root {
+	/* ========================================
+	   CONNECT PAGE - WELCOME STEP
+	   ======================================== */
+	.sc_connect_welcome_outer {
+		/* Outer background frame */
+		background: var(--sc-color-off-white);
+		padding: 75px 0;
+		display: flex;
+		justify-content: center;
+
+		.sc_connect_welcome_inner {
+			/* Inner white card */
+			background: var(--sc-color-white);
+			border-radius: var(--sc-radius-16);
+			max-width: 960px;
+			width: 100%;
+			margin: 0 auto;
+			padding: 48px 64px 56px;
+			box-sizing: border-box;
+			text-align: center;
+		}
+
+		.sc_connect_welcome_video {
+			/* Video placeholder container */
+			margin: 40px auto 0;
+			max-width: 948px;
+			width: 100%;
+			border-radius: var(--sc-radius-15);
+			background: #00000026;
+			overflow: hidden;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			aspect-ratio: 948 / 498;
+
+			img {
+				display: block;
+				width: 100%;
+				height: auto;
+			}
+		}
+
+		.sc_connect_welcome_video_embed {
+			position: relative;
+			width: 100%;
+			padding-top: 52.25%;
+			border-radius: 12px;
+			overflow: hidden;
+			background: var(--sc-color-black);
+		}
+
+		.sc_connect_welcome_video_iframe {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			border: 0;
+		}
+
+		.sc_connect_welcome_button_wrap {
+			margin-top: 40px;
+			text-align: center;
+		}
+	}
+
+	/* ========================================
+	   SHARED CARD + TYPOGRAPHY (used by steps and sidebar)
+	   ======================================== */
+
+	.sc_connect_label {
+		font-family: var(--sc-font-heading);
+		font-weight: var(--sc-font-weight-medium);
+		font-size: var(--sc-font-small);
+		line-height: var(--sc-body-small-line-height);
+		color: var(--sc-color-black);
+		display: block;
+		margin-bottom: 8px;
+	}
+
+	/* ========================================
+	   STEP: CORE CREDENTIALS (connect/steps/core-credentials.php)
+	   ======================================== */
+	.sc_connect_helper_row {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-top: 8px;
+		font-family: var(--sc-font-body);
+		font-size: var(--sc-font-base);
+		line-height: var(--sc-body-small-line-height);
+		color: var(--sc-color-dark-gray);
+		gap: 12px;
+	}
+
+	.sc_connect_helper_text {
+		margin: 0;
+	}
+
+	.sc_connect_helper_link {
+		font-family: var(--sc-font-body);
+		font-weight: var(--sc-font-weight-regular);
+		font-size: var(--sc-font-base);
+		line-height: var(--sc-body-small-line-height);
+		letter-spacing: 0;
+		color: var(--sc-color-blue);
+		text-decoration: underline;
+	}
+
+	.sc_connect_pro_link {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		font-family: var(--sc-font-body);
+		font-weight: var(--sc-font-weight-regular);
+		font-size: var(--sc-font-base);
+		line-height: var(--sc-body-small-line-height);
+		letter-spacing: 0;
+		color: var(--sc-color-dark-gray);
+		text-align: right;
+		text-decoration: underline;
+
+		img {
+			width: 18px;
+			height: 18px;
+			display: block;
+		}
+	}
+
+	.sc_connect_form_actions {
+		margin-top: 20px;
+		display: flex;
+		align-items: center;
+		gap: 16px;
+	}
+
+	/* Success message styles (green) to match warning pattern */
+	.sc_connect_success_wrap {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding-top: 6px;
+
+		/* Green circle icon for success message */
+		.sc_icon--circle-small {
+			width: var(--sc-icon-size);
+			height: var(--sc-icon-size);
+			border-radius: 50%;
+			background: var(--sc-color-green);
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+
+			img {
+				width: var(--sc-icon-xs-size);
+				height: var(--sc-icon-xs-size);
+			}
+		}
+	}
+
+	.sc_connect_success_label {
+		font-family: var(--sc-font-body);
+		font-size: var(--sc-font-small);
+		font-weight: var(--sc-font-weight-medium);
+		color: var(--sc-color-green);
+	}
+
+	/* Button icon for checked.svg (success) */
+	.sc_btn--checked-icon {
+		background-image: url('../images/admin/check.svg');
+		background-size: var(--sc-icon-size) var(--sc-icon-size);
+	}
+
+	/* ========================================
+	   STEP: HELPFUL LINKS (connect/steps/core-credentials.php)
+	   ======================================== */
+	.sc_connect_helpful_links {
+		margin-top: 24px;
+
+		/* Fine‑tune Helpful Links layout under heading on Connect page */
+		.sc_section_title {
+			display: block;
+			width: 100%;
+			margin-bottom: 16px;
+		}
+
+		.sc_helpful_links_cards_wrapper {
+			margin-top: 0;
+			display: flex;
+			flex-wrap: wrap;
+			gap: 20px;
+			background: var(--sc-color-white);
+			border-radius: var(--sc-radius-16);
+			padding: 24px 0px 24px 0;
+			justify-content: space-between;
+
+			.sc_helpful_link_card {
+				width: calc(33% - 20px);
+				min-height: 156px;
+				border-radius: var(--sc-radius-16);
+				background: var(--sc-color-off-white);
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 16px;
+				text-decoration: none;
+				color: var(--sc-color-black);
+				transition: opacity 0.2s ease;
+				box-sizing: border-box;
+				padding: 24px 16px;
+
+				&:hover {
+					opacity: 0.9;
+				}
+
+				.sc_icon--circle {
+					flex-shrink: 0;
+				}
+			}
+		}
+	}
+
+	/* Helpful links cards (white bg wrapper + grey card with icon) */
+	.sc_helpful_links_cards_wrapper {
+		background: var(--sc-color-white);
+		border-radius: var(--sc-radius-lg);
+		padding: 24px;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 20px;
+	}
+
+	.sc_helpful_link_card_label {
+		font-weight: var(--sc-font-weight-medium);
+		font-size: var(--sc-font-small);
+		line-height: 1.3;
+		text-align: center;
+		margin: 0;
+	}
+
+	/* ========================================
+	   SIDEBAR: PROGRESS + RATING/PRO CARDS (connect/sidebar.php)
+	   ======================================== */
+	/* Animate progress value change (33 -> 67). */
+	@property --sc-progress {
+		syntax: '<number>';
+		inherits: true;
+		initial-value: 33;
+	}
+
+	.sc_progress_circle.sc_connect_progress_anim {
+		transition: --sc-progress 1.1s ease;
+	}
+
+	/* When setup is fully complete, force checklist connectors and icons to green */
+	.sc_connect_progress_is_complete {
+		.sc_checklist_item::before {
+			background-color: var(--sc-color-green);
+		}
+
+		.sc_checklist_checkbox {
+			border-color: var(--sc-color-green);
+		}
+	}
+
+	/* Sidebar stack for rating + pro cards (shown after progress stays 100% for a day) */
+	.sc_connect_sidebar_stack {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.sc_connect_rating_card {
+		background: var(--sc-color-blue);
+		color: var(--sc-color-white);
+	}
+
+	.sc_connect_rating_title {
+		font-family: var(--sc-font-heading);
+		font-weight: var(--sc-font-weight-semibold);
+		font-size: 30px;
+		line-height: var(--sc-h4-line-height);
+		letter-spacing: 0;
+		color: var(--sc-color-white);
+		margin: 0 0 8px;
+	}
+
+	.sc_connect_rating_subtitle {
+		font-family: var(--sc-font-body);
+		font-weight: var(--sc-font-weight-regular);
+		font-size: var(--sc-font-medium-sm);
+		line-height: var(--sc-body-medium-sm-line-height);
+		letter-spacing: 0;
+		color: var(--sc-color-white);
+		margin: 0 0 16px;
+	}
+
+	.sc_connect_rating_stars {
+		display: flex;
+		gap: 4px;
+		margin-bottom: 16px;
+	}
+
+	.sc_connect_rating_star {
+		width: 18px;
+		height: 18px;
+		display: block;
+	}
+
+	.sc_connect_rating_btn {
+		margin-top: 4px;
+	}
+
+	.sc_connect_pro_card {
+		background: var(--sc-color-white);
+	}
+
+	.sc_connect_pro_title {
+		font-family: var(--sc-font-heading);
+		font-weight: var(--sc-font-weight-semibold);
+		font-size: var(--sc-font-large);
+		line-height: 1.23;
+		color: var(--sc-color-black);
+		margin: 0 0 8px;
+	}
+
+	.sc_connect_pro_subtitle {
+		font-family: var(--sc-font-body);
+		font-weight: var(--sc-font-weight-regular);
+		font-size: var(--sc-font-medium-sm);
+		line-height: var(--sc-body-medium-sm-line-height);
+		color: var(--sc-color-dark-gray);
+		margin: 0 0 16px;
+	}
+
+	.sc_connect_pro_list {
+		list-style: none;
+		margin: 0 0 16px;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+
+		li {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+		}
+	}
+
+	.sc_connect_pro_list_icon {
+		width: 20px;
+		height: 20px;
+		border-radius: 50%;
+		background: #1d73be;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+
+		img {
+			width: var(--sc-icon-xs-size);
+			height: var(--sc-icon-xs-size);
+			display: block;
+		}
+	}
+
+	.sc_connect_pro_list_text {
+		font-family: var(--sc-font-body);
+		font-weight: var(--sc-font-weight-medium);
+		font-size: var(--sc-font-medium-sm);
+		line-height: var(--sc-body-medium-sm-line-height);
+		color: var(--sc-color-dark-gray);
+	}
+
+	.sc_connect_pro_btn {
+		margin-top: 4px;
+	}
+
+	/* ========================================
+	   STEP: PRO CREDENTIALS
+	   ======================================== */
+	.sc_connect_credentials_header {
+		display: flex;
+		align-items: baseline;
+		gap: 10px;
+
+		.sc_connect_oauth_status_header_badge {
+			display: inline-flex;
+			align-items: center;
+			padding-bottom: 2px;
+		}
+
+		.sc_connect_credentials_auth_status_dot {
+			width: 6px;
+			height: 6px;
+			border-radius: 999px;
+			background: var(--sc-color-green);
+			display: inline-block;
+		}
+
+		/* OAuth header badge (synced with AJAX calendar-list check) */
+		.sc_connect_oauth_status_header_badge_inner {
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+		}
+
+		.sc_connect_oauth_status_header_badge--pending {
+			color: var(--sc-color-dark-gray);
+
+			.sc_connect_oauth_status_header_dot,
+			.sc_connect_oauth_status_header_warn {
+				display: none;
+			}
+		}
+
+		.sc_connect_oauth_status_header_badge--ok {
+			color: var(--sc-color-green);
+
+			.sc_connect_oauth_status_header_warn {
+				display: none;
+			}
+
+			.sc_connect_oauth_status_header_dot {
+				display: inline-block;
+			}
+		}
+
+		.sc_connect_oauth_status_header_badge--error {
+			color: var(--sc-color-red);
+
+			.sc_connect_oauth_status_header_dot {
+				display: none;
+			}
+
+			.sc_connect_oauth_status_header_warn {
+				display: inline-block;
+				width: 16px;
+				height: 16px;
+				object-fit: contain;
+				flex-shrink: 0;
+			}
+		}
+	}
+
+	.sc_connect_credentials_subtitle {
+		margin-top: 8px;
+	}
+
+	.sc_connect_google_api_key_health_detail:not(.is_hidden) {
+		margin-top: 8px;
+		color: var(--sc-color-red);
+		line-height: var(--sc-body-small-line-height);
+	}
+
+	.sc_connect_credentials_actions_center {
+		justify-content: center;
+		margin-top: 32px;
+	}
+
+	.sc_connect_auth_status_box {
+		margin: 50px auto 0;
+		max-width: 370px;
+		width: 100%;
+		min-height: 126px;
+		border-radius: 100px;
+		background: var(--sc-color-alabaster-grey);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 11px;
+		padding: 18px 28px;
+		box-sizing: border-box;
+
+		// Left icon (Simple Calendar)
+		.sc_connect_auth_status_icon_circle {
+			width: 74px;
+			height: 74px;
+			border-radius: 999px;
+			background: var(--sc-color-white);
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			flex-shrink: 0;
+
+			img {
+				width: 42px;
+				height: 42px;
+				display: block;
+			}
+		}
+
+		// Center status (link/unlink + label)
+		.sc_connect_auth_status_center {
+			display: inline-flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 8px;
+			transform: translateY(16px);
+
+			.sc_connect_auth_status_link_row {
+				display: inline-flex;
+				align-items: center;
+				gap: 10px;
+			}
+
+			.sc_connect_auth_status_line {
+				width: 40px;
+				border-top: 1px solid var(--sc-color-black);
+			}
+
+			.sc_connect_auth_status_link_icon {
+				width: 30px;
+				height: 30px;
+				display: block;
+			}
+
+			.sc_connect_oauth_status {
+				display: inline-flex;
+				align-items: center;
+				gap: 6px;
+
+				&--ok {
+					color: var(--sc-color-green);
+				}
+
+				&--error {
+					color: var(--sc-color-red);
+				}
+
+				&--disconnected {
+					color: var(--sc-color-dark-gray);
+				}
+			}
+
+			.sc_connect_auth_status_text {
+				font-family: var(--sc-font-body);
+				font-weight: var(--sc-font-weight-medium);
+				font-size: var(--sc-font-medium-sm);
+				line-height: var(--sc-body-medium-sm-line-height);
+				color: var(--sc-color-black);
+				margin-top: 2px;
+			}
+		}
+
+		// Right icon (Google) uses same base styles as the left icon circle.
+	}
+
+	.sc_connect_credentials_link_row_center {
+		margin-top: 21px;
+		text-align: center;
+	}
+
+	.sc_connect_credentials_helper_row {
+		margin-top: 18px;
+		justify-content: flex-start;
+	}
+
+	.sc_connect_credentials_form {
+		margin-top: 16px;
+	}
+
+	.sc_connect_credentials_step_help {
+		margin-top: 8px;
+	}
+
+	.sc_connect_credentials_field_top {
+		margin-top: 16px;
+	}
+
+	.sc_connect_credentials_actions_top {
+		margin-top: 18px;
+	}
+
+	/* OAuth deauthenticate: in-page confirm (replaces browser confirm on Connect) */
+	.sc_connect_modal {
+		position: fixed;
+		inset: 0;
+		z-index: 100000;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 24px;
+		box-sizing: border-box;
+
+		&.is_hidden {
+			display: none;
+		}
+
+		.sc_connect_modal__backdrop {
+			position: absolute;
+			inset: 0;
+			background: rgba(0, 0, 0, 0.45);
+		}
+
+		.sc_connect_modal__panel {
+			position: relative;
+			z-index: 1;
+			width: 100%;
+			max-width: 420px;
+			margin: 0;
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+		}
+
+		.sc_connect_modal__message {
+			margin: 0 0 24px;
+		}
+
+		.sc_connect_modal__actions {
+			margin-top: 0;
+			justify-content: flex-end;
+			flex-wrap: wrap;
+		}
+	}
+
+	.is_hidden {
+		display: none;
+	}
+
+	.sc_connect_api_key_msg_wrap {
+		margin-top: 8px;
+	}
+
+	.sc_connect_credentials_link_row {
+		margin-top: 10px;
+	}
+
+	.sc_connect_credentials_core_card {
+		margin-top: 24px;
+	}
+
+	.sc_connect_credentials_core_form {
+		margin-top: 12px;
+	}
+
+	@media (max-width: 1024px) {
+		.sc_connect_page_outer .sc_connect_page_inner {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	/* ========================================
+	   CONNECT PAGE - NO SIDEBAR LAYOUT (welcome step)
+	   Ensures the main column uses full width and is centered.
+	   ======================================== */
+	.sc_connect_page_outer .sc_connect_page_inner.sc_connect_page_inner--no-sidebar {
+		grid-template-columns: 1fr;
+		gap: 0;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}

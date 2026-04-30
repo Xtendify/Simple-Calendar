@@ -10,6 +10,9 @@ if (!defined('ABSPATH')) {
 	exit();
 }
 
+// Connect submenu callback is extracted for readability.
+require_once __DIR__ . '/connect-menu.php';
+
 /**
  * Admin Menus.
  *
@@ -48,7 +51,7 @@ class Menus
 
 		self::$plugin = plugin_basename(SIMPLE_CALENDAR_MAIN_FILE);
 
-		new Welcome();
+		//new Welcome();
 
 		// Links and meta content in plugins page.
 		add_filter('plugin_action_links_' . self::$plugin, [__CLASS__, 'plugin_action_links'], 10, 5);
@@ -64,12 +67,56 @@ class Menus
 	 */
 	public static function add_menu_items()
 	{
+		$connect_menu_title = sprintf(
+			'%1$s <span class="sc_menu_badge_new">%2$s</span>',
+			esc_html__('Connect', 'google-calendar-events'),
+			esc_html__('New!', 'google-calendar-events'),
+		);
+
+		// Serve Connect UI on the Settings slug to preserve legacy OAuth redirect URLs:
+		// wp-admin/edit.php?post_type=calendar&page=simple-calendar_settings
+		$connect_callback = [Connect_Menu::class, 'html'];
+
+		// Register under Dashboard first so OAuth / legacy URLs using
+		// wp-admin/index.php?page=simple-calendar_connect resolve (same menu slug).
+		// Register Calendars second so $_parent_pages points at the real menu parent.
+		$connect_hook_index = add_submenu_page(
+			'index.php',
+			__('Connect', 'google-calendar-events'),
+			__('Connect', 'google-calendar-events'),
+			'manage_options',
+			'simple-calendar_settings',
+			$connect_callback,
+		);
+
+		$connect_hook = add_submenu_page(
+			self::$main_menu,
+			__('Connect', 'google-calendar-events'),
+			$connect_menu_title,
+			'manage_options',
+			'simple-calendar_settings',
+			$connect_callback,
+		);
+
+		remove_submenu_page('index.php', 'simple-calendar_settings');
+
+		foreach ([$connect_hook_index, $connect_hook] as $maybe_hook) {
+			if (!is_string($maybe_hook) || !$maybe_hook) {
+				continue;
+			}
+			add_action('load-' . $maybe_hook, [Connect_Menu::class, 'handle_actions']);
+			add_action('load-' . $maybe_hook, function () {
+				add_action('in_admin_header', [Connect_Menu::class, 'suppress_admin_notices'], 0);
+			});
+		}
+
+		// Old Settings UI lives under Misc Settings now.
 		add_submenu_page(
 			self::$main_menu,
 			__('Settings', 'google-calendar-events'),
 			__('Settings', 'google-calendar-events'),
 			'manage_options',
-			'simple-calendar_settings',
+			'simple-calendar_misc_settings',
 			function () {
 				$page = new Pages('settings');
 				$page->html();
@@ -117,11 +164,11 @@ class Menus
 	{
 		if (self::$plugin == $file) {
 			$links = [];
-			$links['settings'] =
+			$links['connect'] =
 				'<a href="' .
 				admin_url('edit.php?post_type=calendar&page=simple-calendar_settings') .
 				'">' .
-				__('Settings', 'google-calendar-events') .
+				__('Connect', 'google-calendar-events') .
 				'</a>';
 			$links['feeds'] =
 				'<a href="' .

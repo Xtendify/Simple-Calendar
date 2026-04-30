@@ -1,6 +1,6 @@
 import * as esbuild from 'esbuild';
 import { sassPlugin } from 'esbuild-sass-plugin';
-import pkg from '../package.json' assert { type: 'json' };
+import pkg from '../package.json' with { type: 'json' };
 
 const watch = process.argv.includes('--watch');
 
@@ -28,6 +28,9 @@ const files = [
 	{ in: 'assets/css/default-calendar-list.css', out: 'default-calendar-list.min' },
 	{ in: 'assets/css/sc-welcome-pg-style.css', out: 'sc-welcome-pg-style.min' },
 	{ in: 'assets/generated/tailwind-output.css', out: 'tailwind.min' },
+	{ in: 'assets/scss/design-system.scss', out: 'design-system.min' },
+	{ in: 'assets/scss/connect.scss', out: 'connect.min' },
+	{ in: 'assets/scss/admin-global.scss', out: 'admin-global.min' },
 ];
 
 const defaultConfig = {
