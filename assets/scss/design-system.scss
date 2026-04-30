@@ -480,6 +480,13 @@
 		}
 	}
 
+	.sc_btn--disabled,
+	.sc_btn:disabled {
+		opacity: 0.55;
+		cursor: not-allowed;
+		pointer-events: none;
+	}
+
 	.sc_btn--white {
 		background: var(--sc-color-white);
 		color: var(--sc-color-black);

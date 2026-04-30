@@ -196,7 +196,28 @@ abstract class Admin_Page
 				isset($sanitized['__sc_partial_sections']) && is_array($sanitized['__sc_partial_sections'])
 					? $sanitized['__sc_partial_sections']
 					: [];
-			$sections = array_keys($sections_map);
+			$had_partial_section_keys = !empty($sections_map);
+
+			$allowed_section_ids = [];
+			if (!empty($this->sections) && is_array($this->sections)) {
+				foreach (array_keys($this->sections) as $section_id) {
+					if (is_string($section_id) && $section_id !== '') {
+						$allowed_section_ids[$section_id] = true;
+					}
+				}
+			}
+
+			$filtered_sections_map = [];
+			foreach ($sections_map as $map_key => $map_value) {
+				if (!is_string($map_key) || $map_key === '') {
+					continue;
+				}
+				if (!isset($allowed_section_ids[$map_key])) {
+					continue;
+				}
+				$filtered_sections_map[$map_key] = $map_value;
+			}
+			$sections = array_keys($filtered_sections_map);
 
 			unset($sanitized['__sc_partial_update'], $sanitized['__sc_partial_sections']);
 
@@ -212,6 +233,11 @@ abstract class Admin_Page
 					$new_section = is_array($sanitized[$section]) ? $sanitized[$section] : [];
 					$existing[$section] = array_replace_recursive($existing_section, $new_section);
 				}
+				return $existing;
+			}
+
+			// Client sent partial section names but none match declared sections — do not merge arbitrary POST keys.
+			if ($had_partial_section_keys) {
 				return $existing;
 			}
 

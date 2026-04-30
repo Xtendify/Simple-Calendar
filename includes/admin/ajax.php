@@ -336,7 +336,8 @@ class Ajax
 		);
 
 		$time_min = gmdate('Y-m-d\TH:i:s\Z', time() - 365 * DAY_IN_SECONDS);
-		$events_path = 'https://www.googleapis.com/calendar/v3/calendars/' . $public_calendar_id . '/events';
+		$events_path =
+			'https://www.googleapis.com/calendar/v3/calendars/' . rawurlencode((string) $public_calendar_id) . '/events';
 
 		$url = add_query_arg(
 			[

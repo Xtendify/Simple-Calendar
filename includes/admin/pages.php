@@ -308,9 +308,7 @@ class Pages
 										<Span><?php _e('If you like Simple Calendar please Rate Us', 'google-calendar-events'); ?> </Span>
 									</div>
 									<div class="simcal-mt-[44px]">
-										<?php // Rating function is used here
-    			// Rating function is used here
-    			sc_rating(); ?>
+										<?php sc_rating(); ?>
 									</div>
 									<a href="https://simplecalendar.io/go/leave-a-review--theme?utm_source=inside-plugin&utm_medium=link&utm_campaign=core-plugin&utm_content=settings-link">
 										<button type="button" class="simcal-mt-[20px] simcal-m-auto simcal-flex simcal-justify-center simcal-items-center simcal-w-[85%] simcal-h-[40px] simcal-bg-sc_green-200 simcal-text-white simcal-text-xl simcal-font-medium simcal-rounded-md">
