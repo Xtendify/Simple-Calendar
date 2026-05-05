@@ -349,12 +349,12 @@ function simcal_is_connect_google_api_key_verified($api_key)
  *
  * @since 4.0.0
  *
- * @param string $welcome_context Optional. 'pro' or 'core'.
+ * @param string $connect_flow_context Optional. 'pro' or 'core' (Connect onboarding context).
  * @return bool
  */
-function simcal_is_google_calendar_pro_active($welcome_context = '')
+function simcal_is_google_calendar_pro_active($connect_flow_context = '')
 {
-	$welcome_context = (string) $welcome_context;
+	$connect_flow_context = (string) $connect_flow_context;
 
 	$is_pro_active = false;
 
@@ -365,7 +365,7 @@ function simcal_is_google_calendar_pro_active($welcome_context = '')
 		$is_pro_active = true;
 	} elseif (class_exists('\SimpleCalendar\Feeds\Google_Pro')) {
 		$is_pro_active = true;
-	} elseif ('pro' === $welcome_context) {
+	} elseif ('pro' === $connect_flow_context) {
 		// Connect onboarding can be forced into a Pro context via saved choice/query args.
 		$is_pro_active = true;
 	}
@@ -426,13 +426,15 @@ function simcal_is_google_calendar_pro_active($welcome_context = '')
  */
 function simcal_prepare_connect_sidebar_scope()
 {
+	static $cached_scope = null;
+	if (null !== $cached_scope) {
+		return $cached_scope;
+	}
+
 	$welcome_context = (string) get_option('simple_calendar_connect_welcome_context', '');
 	$welcome_context = $welcome_context ? $welcome_context : 'core';
 
-	$is_pro_active = function_exists('simcal_is_google_calendar_pro_active')
-		? simcal_is_google_calendar_pro_active($welcome_context)
-		: false;
-
+	$is_pro_active = simcal_is_google_calendar_pro_active($welcome_context);
 	if (!$is_pro_active && 'pro' === $welcome_context) {
 		$welcome_context = 'core';
 		delete_option('simple_calendar_connect_welcome_context');
@@ -571,7 +573,7 @@ function simcal_prepare_connect_sidebar_scope()
 		}
 	}
 
-	return [
+	$cached_scope = [
 		'welcome_context' => $welcome_context,
 		'is_pro_active' => $is_pro_active,
 		'is_pro_flow' => $is_pro_flow,
@@ -585,6 +587,8 @@ function simcal_prepare_connect_sidebar_scope()
 		'should_hide_progress' => $should_hide_progress,
 		'assets_base' => SIMPLE_CALENDAR_ASSETS . 'images/admin/',
 	];
+
+	return $cached_scope;
 }
 
 /**

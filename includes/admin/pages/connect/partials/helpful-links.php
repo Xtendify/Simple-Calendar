@@ -11,9 +11,7 @@ if (!defined('ABSPATH')) {
 	exit();
 }
 
-$is_pro_active = function_exists('simcal_is_google_calendar_pro_active')
-	? simcal_is_google_calendar_pro_active(isset($welcome_context) ? (string) $welcome_context : '')
-	: class_exists('Google_Pro') || class_exists('\SimpleCalendar\Feeds\Google_Pro');
+$is_pro_active = simcal_is_google_calendar_pro_active(isset($welcome_context) ? $welcome_context : '');
 
 $support_url = $is_pro_active
 	? simcal_ga_campaign_url('https://simplecalendar.io/contact', 'core-plugin', 'connect-support')

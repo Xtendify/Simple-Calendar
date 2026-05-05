@@ -12,9 +12,9 @@ if (!defined('ABSPATH')) {
 }
 
 $is_pro_active = false;
-$is_pro_active = function_exists('simcal_is_google_calendar_pro_active')
-	? simcal_is_google_calendar_pro_active(isset($welcome_context) ? (string) $welcome_context : '')
-	: isset($welcome_context) && 'pro' === (string) $welcome_context;
+$is_pro_active =
+	simcal_is_google_calendar_pro_active(isset($welcome_context) ? $welcome_context : '') &&
+	'pro' === (string) $welcome_context;
 
 $setup_video_url = $is_pro_active
 	? 'https://youtu.be/lmN774Fk3rw?si=zBMoOck0BjI7Q39j'
