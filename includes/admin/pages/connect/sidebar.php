@@ -86,19 +86,19 @@ if (!$should_hide_progress) {
 			'label' => $label,
 			'items' => [
 				[
-					'text' => __('Watch Tutorial', 'google-calendar-events'),
+					'text' => __('Video guide', 'google-calendar-events'),
 					'completed' => true,
 					'icon_src' => $assets_base . 'check.svg',
 				],
 				[
 					'id' => 'sc_connect_step_connection_type',
-					'text' => __('Connection type', 'google-calendar-events'),
+					'text' => __('Setup connection', 'google-calendar-events'),
 					'completed' => $connection_type_chosen || $has_published_pro_calendar,
 					'icon_src' => $assets_base . 'check.svg',
 				],
 				[
 					'id' => 'sc_connect_step_credentials',
-					'text' => __('Authentication', 'google-calendar-events'),
+					'text' => __('Connect', 'google-calendar-events'),
 					'completed' =>
 						$has_via_sc_authenticated ||
 						$has_own_authenticated ||
@@ -108,7 +108,7 @@ if (!$should_hide_progress) {
 				],
 				[
 					'id' => 'sc_connect_step_private',
-					'text' => __('Display private calendar', 'google-calendar-events'),
+					'text' => __('Display', 'google-calendar-events'),
 					'completed' => $has_published_pro_calendar,
 					'icon_src' => $assets_base . 'check.svg',
 				],
@@ -168,11 +168,11 @@ if (!$should_hide_progress) {
 <div class="sc_connect_sidebar_stack">
 	<div class="sc_setup_card sc_connect_rating_card">
 		<h3 class="sc_connect_rating_title">
-			<?php esc_html_e('Loving the Plugin', 'google-calendar-events'); ?>
+			<?php esc_html_e('Loving the plugin?', 'google-calendar-events'); ?>
 		</h3>
 		<p class="sc_connect_rating_subtitle">
 			<?php esc_html_e(
-   	'Simple for a reason. Zero technical setup. Easy integration steps with advanced options when you need them.',
+   	'A quick review goes a long way for our small team. Your words help other users find us and keep us motivated to build better features.',
    	'google-calendar-events',
    ); ?>
 		</p>

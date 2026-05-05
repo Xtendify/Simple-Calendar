@@ -32,10 +32,10 @@ if ($show_welcome) {
 }
 
 $step_title_map = [
-	'welcome' => __('Welcome', 'google-calendar-events'),
-	'credentials' => __('Authentication', 'google-calendar-events'),
+	'welcome' => __('Video guide', 'google-calendar-events'),
+	'credentials' => __('Connect', 'google-calendar-events'),
 	'api_key' => __('Add API Key', 'google-calendar-events'),
-	'add_calendar' => __('Add New Calendar', 'google-calendar-events'),
+	'add_calendar' => __('Display', 'google-calendar-events'),
 ];
 $step_title = isset($step_title_map[$step]) ? $step_title_map[$step] : __('Connect', 'google-calendar-events');
 

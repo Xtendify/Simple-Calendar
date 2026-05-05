@@ -83,8 +83,7 @@
 	   ======================================== */
 	.sc_connect_helper_row {
 		display: flex;
-		justify-content: space-between;
-		align-items: center;
+		flex-direction: column;
 		margin-top: 8px;
 		font-family: var(--sc-font-body);
 		font-size: var(--sc-font-base);
@@ -105,6 +104,12 @@
 		letter-spacing: 0;
 		color: var(--sc-color-blue);
 		text-decoration: underline;
+	}
+
+	.sc_connect_helper_text_pro {
+		display: flex;
+		align-items: center;
+		gap: 5px;
 	}
 
 	.sc_connect_pro_link {
