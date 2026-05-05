@@ -38,9 +38,9 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
 ?>
 <div class="<?php echo esc_attr($card_class); ?>">
 	<div class="sc_connect_credentials_header">
-		<h2 class="<?php echo esc_attr($heading_class); ?>">
-			<?php esc_html_e('Google Calendar', 'google-calendar-events'); ?>
-		</h2>
+	<h3 class="<?php echo esc_attr($heading_class); ?>">
+			<?php esc_html_e('Connect Google Calendar', 'google-calendar-events'); ?>
+		</h3>
 		<div
 			data-sc-google-api-key-badge-holder="1"
 			class="<?php echo $has_api_key_for_step ? '' : 'is_hidden'; ?>"
@@ -65,7 +65,7 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
 	</div>
 	<p class="<?php echo esc_attr($subtitle_class); ?>">
 		<?php esc_html_e(
-  	'Simple for a reason. Zero technical setup. Easy integration steps with advanced options when you need them.',
+  	'Enter your API key to connect your public Google Calendar to this website.',
   	'google-calendar-events',
   ); ?>
 	</p>
@@ -133,7 +133,10 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
 			<p class="sc_connect_helper_text">
 				<?php
     /* translators: %1$s: Opening anchor tag, %2$s: Closing anchor tag */
-    $text = __('Never share your API key. Get one from %1$sCreating a Google API Key%2$s.', 'google-calendar-events');
+    $text = __(
+    	'Protect your API key from unauthorized access. To create one, follow our %1$sstep-by-step guide%2$s on %3$sGoogle Cloud Console%4$s.',
+    	'google-calendar-events',
+    );
     echo wp_kses(
     	sprintf(
     		$text,
@@ -146,6 +149,8 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
     				),
     			) .
     			'" target="_blank" class="sc_connect_helper_link">',
+    		'</a>',
+    		'<a href="https://console.cloud.google.com/" target="_blank" class="sc_connect_helper_link">',
     		'</a>',
     	),
     	[
@@ -161,20 +166,23 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
 			</p>
 
 			<?php if (!$is_credentials_core) { ?>
+				<p class="sc_connect_helper_text sc_connect_helper_text_pro">
+				<?php esc_html_e('Connect in a single click without API keys, available in the', 'google-calendar-events'); ?>
 				<a href="<?php echo simcal_ga_campaign_url(
     	'https://simplecalendar.io/downloads/google-calendar-pro/',
     	'core-plugin',
     	'connect-api-key-pro-addon',
     ); ?>" target="_blank"  class="sc_connect_pro_link">
 					<img src="<?php echo esc_url($assets_base . 'crown.svg'); ?>" alt="" />
-					<span class="sc_link"><?php esc_html_e('Pro Version Available Here', 'google-calendar-events'); ?></span>
+					<span class="sc_link"><?php esc_html_e('Pro version', 'google-calendar-events'); ?></span>
 				</a>
+				</p>
 			<?php } ?>
 		</div>
 
 		<div class="sc_connect_form_actions">
 			<button type="submit" class="sc_btn sc_btn--blue-loading" data-sc-connect-validate-btn>
-				<span class="sc_btn_submit"><?php esc_html_e('Validate & Save', 'google-calendar-events'); ?></span>
+				<span class="sc_btn_submit"><?php esc_html_e('Validate & save', 'google-calendar-events'); ?></span>
 				<span class="sc_btn_loading" aria-hidden="true">
 					<span class="sc_btn--icons sc_btn--loading-icon">autorenew</span>
 				</span>
@@ -187,8 +195,8 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
 				class="sc_btn sc_btn--white<?php echo $has_api_key_for_step ? '' : ' is_hidden'; ?>"
 				id="sc_connect_add_calendar_btn"
 			>
-				<?php esc_html_e('Add New Calendar', 'google-calendar-events'); ?>
-			</a>
+				<?php esc_html_e('Add new calendar', 'google-calendar-events'); ?>
+				</a>
 		</div>
 	</form>
 </div>

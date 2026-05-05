@@ -79,9 +79,9 @@ $google_pro_defs =
 
 <div class="sc_setup_card">
 	<div class="sc_connect_credentials_header">
-		<h2 class="sc_h4 sc_connect_credentials_heading">
-			<?php esc_html_e('Google Calendar Pro', 'google-calendar-events'); ?>
-		</h2>
+		<h3 class="sc_h4 sc_connect_credentials_heading">
+			<?php esc_html_e('Connect Google Calendar Pro', 'google-calendar-events'); ?>
+		</h3>
 		<?php
   // Only show the status badge when the *current connection type* has an active authentication to check.
   $should_show_oauth_badge = false;
@@ -121,10 +121,29 @@ $google_pro_defs =
 			</span>
 		<?php } ?>
 	</div>
-	<p class="sc_text--body_b2 sc_text--dark sc_connect_credentials_subtitle">
-		<?php esc_html_e(
-  	'Configure a Google OAuth client to read event details from both public and private Google Calendars.',
+	<p
+		class="sc_text--body_b2 sc_text--dark sc_connect_credentials_subtitle"
+		data-sc-subtitle-disconnected="<?php echo esc_attr__(
+  	$show_own_credentials
+  		? 'Enter your credentials to manually configure Google OAuth client. Your credentials remain secure and are never stored on our servers.'
+  		: 'You’re one tap away from linking your Google account. Your credentials remain secure and are never stored on our servers.',
   	'google-calendar-events',
+  ); ?>"
+		data-sc-subtitle-connected="<?php echo esc_attr__(
+  	'Google Calendar is connected and ready to sync your events.',
+  	'google-calendar-events',
+  ); ?>"
+	>
+		<?php echo esc_html(
+  	$show_own_credentials
+  		? __(
+  			'Enter your credentials to manually configure Google OAuth client. Your credentials remain secure and are never stored on our servers.',
+  			'google-calendar-events',
+  		)
+  		: __(
+  			'You’re one tap away from linking your Google account. Your credentials remain secure and are never stored on our servers.',
+  			'google-calendar-events',
+  		),
   ); ?>
 	</p>
 
@@ -171,7 +190,7 @@ $google_pro_defs =
 
 		<?php if (empty($has_oauth_connection)) { ?>
 			<div class="sc_connect_credentials_link_row_center">
-			<span class="sc_text--body_b3 sc_text--medium_gray"><?php esc_html_e('Or, ', 'google-calendar-events'); ?></span>
+			<span class="sc_text--body_b3 sc_text--medium_gray"><?php esc_html_e('or, ', 'google-calendar-events'); ?></span>
 				<a
 					href="<?php echo esc_url(
      	wp_nonce_url(
@@ -181,7 +200,7 @@ $google_pro_defs =
      ); ?>"
 					class="sc_link sc_link_muted  sc_text--body_b3"
 				>
-					<?php esc_html_e('I wanted to connect with own credentials', 'google-calendar-events'); ?>
+					<?php esc_html_e('I’ll connect manually with my own credentials', 'google-calendar-events'); ?>
 				</a>
 			</div>
 		<?php } ?>
@@ -194,7 +213,7 @@ $google_pro_defs =
    		'google-calendar-events',
    	),
    	simcal_ga_campaign_url(
-   		simcal_get_url('docs') . '/google-calendar-pro-configure-google-oauth/',
+   		simcal_get_url('docs') . '/gcal-pro-how-to-properly-configure-the-google-oauth-client/',
    		'gcal-pro',
    		'settings-link',
    	),
@@ -261,7 +280,7 @@ $google_pro_defs =
 			</div>
 
 			<div class="sc_connect_credentials_link_row">
-			<span class="sc_text--body_b3 sc_text--medium_gray"><?php esc_html_e('Or, ', 'google-calendar-events'); ?></span>
+			<span class="sc_text--body_b3 sc_text--medium_gray"><?php esc_html_e('or, ', 'google-calendar-events'); ?></span>
 				<a
 					href="<?php echo esc_url(
      	wp_nonce_url(
@@ -271,7 +290,7 @@ $google_pro_defs =
      ); ?>"
 					class="sc_link sc_link_muted  sc_text--body_b3"
 				>
-					<?php esc_html_e('I wanted to connect with Auth Via Simple Calendar', 'google-calendar-events'); ?>
+					<?php esc_html_e('I want to connect securely in 1 click with OAuth via Simple Calendar', 'google-calendar-events'); ?>
 				</a>
 			</div>
 		</form>
