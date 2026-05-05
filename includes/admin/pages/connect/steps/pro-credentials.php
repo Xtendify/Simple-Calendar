@@ -200,7 +200,7 @@ $google_pro_defs =
      ); ?>"
 					class="sc_link sc_link_muted  sc_text--body_b3"
 				>
-					<?php esc_html_e(' I’ll connect manually with my own credentials', 'google-calendar-events'); ?>
+					<?php esc_html_e('I’ll connect manually with my own credentials', 'google-calendar-events'); ?>
 				</a>
 			</div>
 		<?php } ?>
@@ -213,7 +213,7 @@ $google_pro_defs =
    		'google-calendar-events',
    	),
    	simcal_ga_campaign_url(
-   		simcal_get_url('docs') . '/google-calendar-pro-configure-google-oauth/',
+   		simcal_get_url('docs') . '/gcal-pro-how-to-properly-configure-the-google-oauth-client/',
    		'gcal-pro',
    		'settings-link',
    	),

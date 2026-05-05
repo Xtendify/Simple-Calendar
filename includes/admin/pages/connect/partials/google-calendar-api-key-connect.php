@@ -38,7 +38,7 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
 ?>
 <div class="<?php echo esc_attr($card_class); ?>">
 	<div class="sc_connect_credentials_header">
-		<h3 class="<?php echo esc_attr($heading_class); ?>">
+	<h3 class="<?php echo esc_attr($heading_class); ?>">
 			<?php esc_html_e('Connect Google Calendar', 'google-calendar-events'); ?>
 		</h3>
 		<div
@@ -151,7 +151,6 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
     			'" target="_blank" class="sc_connect_helper_link">',
     		'</a>',
     		'<a href="https://console.cloud.google.com/" target="_blank" class="sc_connect_helper_link">',
-
     		'</a>',
     	),
     	[
@@ -197,7 +196,7 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
 				id="sc_connect_add_calendar_btn"
 			>
 				<?php esc_html_e('Add new calendar', 'google-calendar-events'); ?>
-			</a>
+				</a>
 		</div>
 	</form>
 </div>
