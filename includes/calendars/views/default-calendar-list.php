@@ -390,7 +390,13 @@ class Default_Calendar_List implements Calendar_View
 			}
 		}
 
-		ksort($daily_events, SORT_NUMERIC);
+		// Sort daily events - reverse if reverse chronological order is enabled
+		$reverse_order = get_post_meta($calendar->id, '_default_calendar_reverse_chronological_order', true) == 'yes';
+		if ($reverse_order) {
+			krsort($daily_events, SORT_NUMERIC);
+		} else {
+			ksort($daily_events, SORT_NUMERIC);
+		}
 
 		if (!empty($paged_events)) {
 			$first_event = array_slice($paged_events, 0, 1, true);
@@ -495,16 +501,29 @@ class Default_Calendar_List implements Calendar_View
 	 * @since  3.1.28
 	 * @access private
 	 */
-	private static function cmp($a, $b)
+	private static function cmp($a, $b, $reverse = false)
 	{
 		if ($a->start == $b->start) {
 			if ($a->title == $b->title) {
 				return 0;
 			}
-			return $a->title < $b->title ? -1 : 1;
+			$title_cmp = $a->title < $b->title ? -1 : 1;
+			return $reverse ? -$title_cmp : $title_cmp;
 		} else {
-			return $a->start < $b->start ? -1 : 1;
+			$time_cmp = $a->start < $b->start ? -1 : 1;
+			return $reverse ? -$time_cmp : $time_cmp;
 		}
+	}
+
+	/**
+	 * Comparison function for reverse chronological order.
+	 *
+	 * @since  3.x.x
+	 * @access private
+	 */
+	private function cmp_reverse($a, $b)
+	{
+		return self::cmp($a, $b, true);
 	}
 
 	/**
@@ -530,6 +549,9 @@ class Default_Calendar_List implements Calendar_View
 				return '';
 			}
 		}
+
+		// Check if reverse chronological order is enabled
+		$reverse_order = get_post_meta($calendar->id, '_default_calendar_reverse_chronological_order', true) == 'yes';
 
 		$now = $calendar->now;
 		$current_events = $this->get_events($timestamp);
@@ -641,7 +663,11 @@ class Default_Calendar_List implements Calendar_View
 				$count = 0;
 
 				foreach ($events as $day_events):
-					usort($day_events, [$this, 'cmp']);
+					if ($reverse_order) {
+						usort($day_events, [$this, 'cmp_reverse']);
+					} else {
+						usort($day_events, [$this, 'cmp']);
+					}
 
 					foreach ($day_events as $event):
 						if ($event instanceof Event):
