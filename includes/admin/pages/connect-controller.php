@@ -14,6 +14,8 @@ if (!defined('ABSPATH')) {
 // Ensure variable exists.
 $show_welcome = isset($show_welcome) ? (bool) $show_welcome : false;
 
+$assets_base = SIMPLE_CALENDAR_ASSETS . 'images/admin/';
+
 $scope = simcal_prepare_connect_sidebar_scope();
 extract($scope);
 

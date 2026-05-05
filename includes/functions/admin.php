@@ -342,6 +342,66 @@ function simcal_is_connect_google_api_key_verified($api_key)
 }
 
 /**
+ * Whether Simple Calendar Google Calendar Pro add-on is active.
+ *
+ * Note: Some Connect screens also render in a "pro" onboarding context even when the add-on
+ * isn't installed yet. Pass the onboarding context to treat that UI path as Pro.
+ *
+ * @since 4.0.0
+ *
+ * @param string $welcome_context Optional. 'pro' or 'core'.
+ * @return bool
+ */
+function simcal_is_google_calendar_pro_active($welcome_context = '')
+{
+	$welcome_context = (string) $welcome_context;
+
+	$is_pro_active = false;
+
+	// Runtime signals (add-on loaded).
+	if (defined('SIMPLE_CALENDAR_GOOGLE_PRO_VERSION')) {
+		$is_pro_active = true;
+	} elseif (class_exists('Google_Pro')) {
+		$is_pro_active = true;
+	} elseif (class_exists('\SimpleCalendar\Feeds\Google_Pro')) {
+		$is_pro_active = true;
+	} elseif ('pro' === $welcome_context) {
+		// Connect onboarding can be forced into a Pro context via saved choice/query args.
+		$is_pro_active = true;
+	}
+
+	// If we still don't know, fall back to plugin activation checks (works when add-on files exist but aren't loaded yet).
+	if (!$is_pro_active) {
+		if (!function_exists('is_plugin_active') && defined('ABSPATH')) {
+			$plugin_file = trailingslashit(ABSPATH) . 'wp-admin/includes/plugin.php';
+			if (is_readable($plugin_file)) {
+				// phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
+				require_once $plugin_file;
+			}
+		}
+
+		if (function_exists('is_plugin_active')) {
+			$is_pro_active = is_plugin_active('simple-calendar-google-calendar-pro/simple-calendar-google-calendar-pro.php');
+		} else {
+			$active_plugins = (array) get_option('active_plugins', []);
+			$active_plugins = array_map('strval', $active_plugins);
+			foreach ($active_plugins as $p) {
+				$p_lower = strtolower($p);
+				if (
+					strpos($p_lower, 'google-calendar-pro') !== false ||
+					strpos($p_lower, 'simple-calendar-google-calendar-pro') !== false
+				) {
+					$is_pro_active = true;
+					break;
+				}
+			}
+		}
+	}
+
+	return (bool) apply_filters('simcal_is_google_calendar_pro_active', $is_pro_active);
+}
+
+/**
  * Build variables for Connect sidebar (progress / rating / Pro CTA) and Connect step logic.
  *
  * Mirrors {@see SIMPLE_CALENDAR_PATH}/includes/admin/pages/connect-controller.php onboarding
@@ -369,40 +429,9 @@ function simcal_prepare_connect_sidebar_scope()
 	$welcome_context = (string) get_option('simple_calendar_connect_welcome_context', '');
 	$welcome_context = $welcome_context ? $welcome_context : 'core';
 
-	$is_pro_active = false;
-	if (!function_exists('is_plugin_active') && defined('ABSPATH')) {
-		$plugin_file = trailingslashit(ABSPATH) . 'wp-admin/includes/plugin.php';
-		if (is_readable($plugin_file)) {
-			// phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
-			require_once $plugin_file;
-		}
-	}
-
-	$is_pro_active = false;
-	if (defined('SIMPLE_CALENDAR_GOOGLE_PRO_VERSION')) {
-		$is_pro_active = true;
-	} elseif (class_exists('Google_Pro')) {
-		$is_pro_active = true;
-	} elseif (function_exists('is_plugin_active')) {
-		$is_pro_active =
-			is_plugin_active('Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php') ||
-			is_plugin_active('Simple-Calendar-Google-Calendar-Pro-main/simple-calendar-google-calendar-pro.php') ||
-			is_plugin_active('simple-calendar-google-calendar-pro/simple-calendar-google-calendar-pro.php');
-	} else {
-		$active_plugins = (array) get_option('active_plugins', []);
-		$active_plugins = array_map('strval', $active_plugins);
-		foreach ($active_plugins as $p) {
-			$p_lower = strtolower($p);
-			if (
-				strpos($p_lower, 'google-calendar-pro') !== false ||
-				strpos($p_lower, 'simple-calendar-google-calendar-pro') !== false
-			) {
-				$is_pro_active = true;
-				break;
-			}
-		}
-	}
-	$is_pro_active = (bool) apply_filters('simcal_is_google_calendar_pro_active', $is_pro_active);
+	$is_pro_active = function_exists('simcal_is_google_calendar_pro_active')
+		? simcal_is_google_calendar_pro_active($welcome_context)
+		: false;
 
 	if (!$is_pro_active && 'pro' === $welcome_context) {
 		$welcome_context = 'core';

@@ -12,13 +12,9 @@ if (!defined('ABSPATH')) {
 }
 
 $is_pro_active = false;
-if (defined('SIMPLE_CALENDAR_GOOGLE_PRO_VERSION')) {
-	$is_pro_active = true;
-} elseif (class_exists('Google_Pro')) {
-	$is_pro_active = true;
-} elseif (isset($welcome_context) && 'pro' === (string) $welcome_context) {
-	$is_pro_active = true;
-}
+$is_pro_active = function_exists('simcal_is_google_calendar_pro_active')
+	? simcal_is_google_calendar_pro_active(isset($welcome_context) ? (string) $welcome_context : '')
+	: isset($welcome_context) && 'pro' === (string) $welcome_context;
 
 $setup_video_url = $is_pro_active
 	? 'https://youtu.be/lmN774Fk3rw?si=zBMoOck0BjI7Q39j'
@@ -130,7 +126,8 @@ $google_pro_defs =
 
 	<?php if (!$show_own_credentials) { ?>
 		<?php // Always render the status pill (unlink + Not Connected) like the design.
-  // Only enable AJAX checking when a token exists, to avoid showing network errors when not authenticated.
+ 	// Always render the status pill (unlink + Not Connected) like the design.
+ 	// Only enable AJAX checking when a token exists, to avoid showing network errors when not authenticated.
   $auth_status_text = !empty($has_oauth_connection)
   	? esc_html__('Checking…', 'google-calendar-events')
   	: esc_html__('Not Connected', 'google-calendar-events'); ?>
