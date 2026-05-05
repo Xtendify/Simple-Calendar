@@ -41,7 +41,9 @@ $support_url = $is_pro_active
 				</span>
 				<span class="sc_helpful_link_card_label"><?php esc_html_e('Documentation', 'google-calendar-events'); ?></span>
 			</a>
-			<a href="<?php echo esc_url($setup_video_url); ?>" target="_blank" rel="noopener noreferrer" class="sc_helpful_link_card">
+			<a href="<?php echo esc_url(
+   	$setup_video_url,
+   ); ?>" target="_blank" rel="noopener noreferrer" class="sc_helpful_link_card">
 				<span class="sc_icon--circle">
 					<img src="<?php echo esc_url($assets_base . 'clapperboard.svg'); ?>" alt="" />
 				</span>

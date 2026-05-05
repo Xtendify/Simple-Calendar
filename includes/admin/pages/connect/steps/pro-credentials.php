@@ -129,8 +129,7 @@ $google_pro_defs =
 	</p>
 
 	<?php if (!$show_own_credentials) { ?>
-		<?php
-  // Always render the status pill (unlink + Not Connected) like the design.
+		<?php // Always render the status pill (unlink + Not Connected) like the design.
   // Only enable AJAX checking when a token exists, to avoid showing network errors when not authenticated.
   $auth_status_text = !empty($has_oauth_connection)
   	? esc_html__('Checking…', 'google-calendar-events')
@@ -239,18 +238,6 @@ $google_pro_defs =
    ];
    include SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/partials/render-connect-fields.php';
    ?>
-			<p class="sc_text--body_b3 sc_text--dark sc_connect_credentials_step_help">
-				<?php esc_html_e(
-    	'Step 1: To copy link, click on the above Redirect URL, and then paste it into the "Authorized redirect URIs" field on Google Developers Console.',
-    	'google-calendar-events',
-    ); ?>
-			</p>
-			<p class="sc_text--body_b3 sc_text--dark sc_connect_credentials_step_help">
-				<?php esc_html_e(
-    	'After your Client ID and Client Secret are entered, click Save & Authenticate to store them and continue to Google to authorize access.',
-    	'google-calendar-events',
-    ); ?>
-			</p>
 
 			<div class="sc_connect_form_actions sc_connect_credentials_actions_top">
 				<button type="submit" name="sc_connect_save_and_authenticate" value="1" class="sc_btn sc_btn--blue">

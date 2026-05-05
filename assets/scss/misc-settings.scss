@@ -3,8 +3,14 @@
  */
 
 .sc_root.sc_misc_settings {
-	background: var(--sc-color-blue-100);
+	background: var(--sc-color-off-white);
 	padding: 24px 0 48px;
+
+	.sc_misc_settings_notices {
+		.notice {
+			margin: 0 0 16px;
+		}
+	}
 
 	.sc_misc_settings_layout {
 		display: flex;
@@ -58,6 +64,9 @@
 	.form-table td {
 		padding: 0;
 		vertical-align: top;
+		display: flex;
+		align-items: center;
+		gap: 5px;
 	}
 
 	.form-table .description {
@@ -74,6 +83,12 @@
 	.submit .sc_btn {
 		border: 0;
 		box-shadow: none;
+		&:hover {
+			color: var(--sc-color-white);
+		}
+		&:focus {
+			outline: none;
+			box-shadow: 0 0 0 2px var(--sc-color-white);
+		}
 	}
 }
-

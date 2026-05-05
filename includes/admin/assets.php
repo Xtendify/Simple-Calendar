@@ -56,13 +56,6 @@ class Assets
 		 * Register Admin Scripts *
 		 * ====================== */
 
-		// Use file mtimes to avoid stale admin asset caches during development/releases.
-		$admin_js_ver = SIMPLE_CALENDAR_VERSION;
-		$admin_js_file = SIMPLE_CALENDAR_PATH . 'assets/generated/admin.min.js';
-		if (is_string($admin_js_file) && file_exists($admin_js_file)) {
-			$admin_js_ver = (string) filemtime($admin_js_file);
-		}
-
 		// TipTip uses ".minified.js" filename ending.
 		wp_register_script(
 			'simcal-tiptip',
@@ -124,7 +117,12 @@ class Assets
 		wp_register_style('sc-design-system', $css_path . 'design-system.min.css', [], SIMPLE_CALENDAR_VERSION);
 		wp_register_style('sc-connect', $css_path . 'connect.min.css', ['sc-design-system'], SIMPLE_CALENDAR_VERSION);
 		wp_register_style('sc-settings', $css_path . 'settings.min.css', ['sc-design-system'], SIMPLE_CALENDAR_VERSION);
-		wp_register_style('sc-misc-settings', $css_path . 'misc-settings.min.css', ['sc-design-system'], SIMPLE_CALENDAR_VERSION);
+		wp_register_style(
+			'sc-misc-settings',
+			$css_path . 'misc-settings.min.css',
+			['sc-design-system'],
+			SIMPLE_CALENDAR_VERSION,
+		);
 		wp_register_style(
 			'simcal-admin-add-calendar',
 			$css_path . 'admin-add-calendar.min.css',
@@ -204,11 +202,13 @@ class Assets
 			}
 		}
 
-		// Load the style on where that needed.
-		if ('calendar_page_simple-calendar_misc_settings' == $sc_screen->id) {
+		// Misc Settings (Calendars + Advanced cards): design-system layout + legacy Tailwind utilities used by fields.
+		if ($sc_screen && 'calendar_page_simple-calendar_misc_settings' === $sc_screen->id) {
 			wp_enqueue_style('sc-admin-style', $css_path . 'admin-sett-style.min.css', [], SIMPLE_CALENDAR_VERSION);
 			wp_enqueue_style('sc-tail-style', $css_path . 'tailwind.min.css', [], SIMPLE_CALENDAR_VERSION);
+			wp_enqueue_style('sc-misc-settings');
 			wp_enqueue_style('sc-settings');
+			wp_enqueue_style('sc-connect');
 		}
 		if (
 			'dashboard_page_simple-calendar_about' == $sc_screen->id ||
