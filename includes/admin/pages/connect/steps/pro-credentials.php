@@ -143,7 +143,6 @@ $google_pro_defs =
 
 	<?php if (!$show_own_credentials) { ?>
 		<?php // Only enable AJAX checking when a token exists, to avoid showing network errors when not authenticated.
- 	// Only enable AJAX checking when a token exists, to avoid showing network errors when not authenticated.
  	$auth_status_text = !empty($has_oauth_connection)
   	? esc_html__('Checking…', 'google-calendar-events')
   	: esc_html__('Not Connected', 'google-calendar-events'); ?>

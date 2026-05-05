@@ -395,6 +395,22 @@ function simcal_is_google_calendar_pro_active($connect_flow_context = '')
 					break;
 				}
 			}
+
+			// Multisite: network-activated plugins live in active_sitewide_plugins (keys are plugin filenames).
+			if (!$is_pro_active) {
+				$sitewide = (array) get_option('active_sitewide_plugins', []);
+				$sitewide_files = array_map('strval', array_keys($sitewide));
+				foreach ($sitewide_files as $p) {
+					$p_lower = strtolower($p);
+					if (
+						strpos($p_lower, 'google-calendar-pro') !== false ||
+						strpos($p_lower, 'simple-calendar-google-calendar-pro') !== false
+					) {
+						$is_pro_active = true;
+						break;
+					}
+				}
+			}
 		}
 	}
 
