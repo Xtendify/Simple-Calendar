@@ -13,12 +13,18 @@ if (!defined('ABSPATH')) {
 $welcome_context = isset($welcome_context) ? (string) $welcome_context : 'core';
 $heading =
 	'pro' === $welcome_context
-		? __('Welcome to your Pro simple calendar', 'google-calendar-events')
-		: __('Welcome to your new simple calendar', 'google-calendar-events');
-$subtitle = __(
-	'Keep planning in Google Calendar, and display events on your site with 1-click. Simple Calendar keeps everything in sync for you.',
-	'google-calendar-events',
-);
+		? __('Welcome to Simple Calendar (Pro)', 'google-calendar-events')
+		: __('Welcome to Simple Calendar (Core)', 'google-calendar-events');
+$subtitle =
+	'pro' === $welcome_context
+		? __(
+			'Experience a one-stop solution for 1-click Google Calendar integration, with zero stress of handling complex API keys, Client ID, and Client Secret, powered by Simple Calendar’s pro addons.',
+			'google-calendar-events',
+		)
+		: __(
+			'Experience an easy, breezy integration of Google Calendar with WordPress using the OG Google Calendar WordPress plugin.',
+			'google-calendar-events',
+		);
 $video_url = isset($video_url) ? trim((string) $video_url) : '';
 ?>
 <div class="sc_connect_welcome_outer">

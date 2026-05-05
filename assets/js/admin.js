@@ -1055,6 +1055,14 @@
 					statusText.text((connectCfg.strings && connectCfg.strings.oauth_connected) || 'Connected');
 				}
 
+				var subtitle = $('.sc_connect_credentials_subtitle').first();
+				if (subtitle.length) {
+					var connectedSubtitle = String(subtitle.attr('data-sc-subtitle-connected') || '');
+					if (connectedSubtitle) {
+						subtitle.text(connectedSubtitle);
+					}
+				}
+
 				// Pro sidebar: OAuth health success means authentication is complete,
 				// but onboarding should only be 100% when a Pro calendar is created.
 				markProSidebarStepComplete($('#sc_connect_step_connection_type'));
@@ -1113,6 +1121,14 @@
 						.removeClass('sc_connect_oauth_status--error')
 						.addClass('sc_connect_oauth_status--disconnected');
 					statusText.text(message || (connectCfg.strings && connectCfg.strings.oauth_not_connected) || 'Not Connected');
+				}
+
+				var subtitle = $('.sc_connect_credentials_subtitle').first();
+				if (subtitle.length) {
+					var disconnectedSubtitle = String(subtitle.attr('data-sc-subtitle-disconnected') || '');
+					if (disconnectedSubtitle) {
+						subtitle.text(disconnectedSubtitle);
+					}
 				}
 			}
 

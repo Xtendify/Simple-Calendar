@@ -43,7 +43,7 @@ wp_nonce_field('oauth_action_deauthentication', 'oauth_action_deauthentication')
 			href="javascript:void(0);"
 			id="oauth_deauthentication"
 			class="sc_btn sc_btn--blue-loading"
-			data-dialog="<?php echo esc_attr(__('Are you sure you want to deauthenticate?', 'google-calendar-events')); ?>"
+			data-dialog="<?php echo esc_attr(__('Confirm disconnect?', 'google-calendar-events')); ?>"
 		>
 			<span class="sc_btn_submit"><?php esc_html_e('DeAuthenticate', 'google-calendar-events'); ?></span>
 			<span class="sc_btn_loading" aria-hidden="true">

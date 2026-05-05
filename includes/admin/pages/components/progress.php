@@ -19,11 +19,11 @@ $circle_class = $percent >= 100 ? '100' : ($percent >= 67 ? '67' : '33');
 ?>
 <div class="sc_setup_card">
 	<h3 class="sc_connect_helpful_links_title">
-		<?php esc_html_e('Setup Progress', 'google-calendar-events'); ?>
+		<?php esc_html_e('Setup progress', 'google-calendar-events'); ?>
 	</h3>
 	<p class="sc_text--body_b2 sc_text--dark">
 		<?php esc_html_e(
-  	'Simple Calendar is a WordPress plugin specifically built to eliminate manual event updates.',
+  	'Complete the steps below to sync your Google Calendar with your website in real time.',
   	'google-calendar-events',
   ); ?>
 	</p>

@@ -28,7 +28,7 @@ $support_url = $is_pro_active
 <section class="sc_section sc_section_last sc_connect_helpful_links">
 	<div class="sc_setup_card">
 		<h3 class="sc_h4 sc_section_title">
-			<?php esc_html_e('Helpful Link', 'google-calendar-events'); ?>
+			<?php esc_html_e('Helpful links', 'google-calendar-events'); ?>
 		</h3>
 		<div class="sc_helpful_links_cards_wrapper">
 			<a href="<?php echo simcal_ga_campaign_url(
