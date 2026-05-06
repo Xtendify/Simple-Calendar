@@ -51,27 +51,29 @@
 		margin: 16px 0 0;
 		border-collapse: separate;
 		border-spacing: 0 14px;
-	}
 
-	.form-table th {
-		padding: 0 16px 0 0;
-		width: 220px;
-		vertical-align: top;
-		font-weight: 600;
-		color: var(--sc-color-black);
-	}
+		.select2-container {
+			z-index: 999;
+		}
+		th {
+			padding: 0 16px 0 0;
+			width: 220px;
+			vertical-align: top;
+			font-weight: 600;
+			color: var(--sc-color-black);
+		}
+		td {
+			padding: 0;
+			vertical-align: top;
+			display: flex;
+			align-items: center;
+			gap: 5px;
+		}
 
-	.form-table td {
-		padding: 0;
-		vertical-align: top;
-		display: flex;
-		align-items: center;
-		gap: 5px;
-	}
-
-	.form-table .description {
-		margin-top: 6px;
-		color: var(--sc-color-medium-gray);
+		.description {
+			margin-top: 6px;
+			color: var(--sc-color-medium-gray);
+		}
 	}
 
 	.submit {

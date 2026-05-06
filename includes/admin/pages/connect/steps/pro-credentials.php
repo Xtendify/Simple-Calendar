@@ -141,11 +141,11 @@ $google_pro_defs =
   ); ?>
 	</p>
 
-	<?php if (!$show_own_credentials) { ?>
-		<?php // Only enable AJAX checking when a token exists, to avoid showing network errors when not authenticated.
+	<?php if (!$show_own_credentials) {
+ 	// Only enable AJAX checking when a token exists, to avoid showing network errors when not authenticated.
  	$auth_status_text = !empty($has_oauth_connection)
-  	? esc_html__('Checking…', 'google-calendar-events')
-  	: esc_html__('Not Connected', 'google-calendar-events'); ?>
+ 		? esc_html__('Checking…', 'google-calendar-events')
+ 		: esc_html__('Not Connected', 'google-calendar-events'); ?>
 		<div class="sc_connect_auth_status_box">
 			<div class="sc_connect_auth_status_icon_circle">
 				<img src="<?php echo esc_url($assets_base . 'logo-favicon.svg'); ?>" alt="" />
@@ -195,7 +195,9 @@ $google_pro_defs =
 				</a>
 			</div>
 		<?php } ?>
-	<?php } else { ?>
+	<?php
+ } else {
+ 	 ?>
 		<div class="sc_connect_helper_row sc_connect_credentials_helper_row">
 			<?php
    echo sprintf(
@@ -285,7 +287,8 @@ $google_pro_defs =
 				</a>
 			</div>
 		</form>
-	<?php } ?>
+	<?php
+ } ?>
 </div>
 
 <?php
