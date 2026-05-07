@@ -11,14 +11,7 @@ if (!defined('ABSPATH')) {
 	exit();
 }
 
-$is_pro_active = false;
-if (defined('SIMPLE_CALENDAR_GOOGLE_PRO_VERSION')) {
-	$is_pro_active = true;
-} elseif (class_exists('Google_Pro')) {
-	$is_pro_active = true;
-} elseif (class_exists('\SimpleCalendar\Feeds\Google_Pro')) {
-	$is_pro_active = true;
-}
+$is_pro_active = simcal_is_google_calendar_pro_active(isset($welcome_context) ? $welcome_context : '');
 
 $support_url = $is_pro_active
 	? simcal_ga_campaign_url('https://simplecalendar.io/contact', 'core-plugin', 'connect-support')
@@ -41,7 +34,9 @@ $support_url = $is_pro_active
 				</span>
 				<span class="sc_helpful_link_card_label"><?php esc_html_e('Documentation', 'google-calendar-events'); ?></span>
 			</a>
-			<a href="<?php echo esc_url($setup_video_url); ?>" target="_blank" class="sc_helpful_link_card">
+			<a href="<?php echo esc_url(
+   	$setup_video_url,
+   ); ?>" target="_blank" rel="noopener noreferrer" class="sc_helpful_link_card">
 				<span class="sc_icon--circle">
 					<img src="<?php echo esc_url($assets_base . 'clapperboard.svg'); ?>" alt="" />
 				</span>

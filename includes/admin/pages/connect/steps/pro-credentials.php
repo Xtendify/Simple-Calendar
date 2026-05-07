@@ -12,13 +12,7 @@ if (!defined('ABSPATH')) {
 }
 
 $is_pro_active = false;
-if (defined('SIMPLE_CALENDAR_GOOGLE_PRO_VERSION')) {
-	$is_pro_active = true;
-} elseif (class_exists('Google_Pro')) {
-	$is_pro_active = true;
-} elseif (isset($welcome_context) && 'pro' === (string) $welcome_context) {
-	$is_pro_active = true;
-}
+$is_pro_active = simcal_is_google_calendar_pro_active(isset($welcome_context) ? (string) $welcome_context : '');
 
 $setup_video_url = $is_pro_active
 	? 'https://youtu.be/lmN774Fk3rw?si=zBMoOck0BjI7Q39j'
@@ -147,14 +141,11 @@ $google_pro_defs =
   ); ?>
 	</p>
 
-	<?php if (!$show_own_credentials) { ?>
-		<?php
- 	// Always render the status pill (unlink + Not Connected) like the design.
+	<?php if (!$show_own_credentials) {
  	// Only enable AJAX checking when a token exists, to avoid showing network errors when not authenticated.
- 	?>
-  <?php $auth_status_text = !empty($has_oauth_connection)
-  	? esc_html__('Checking…', 'google-calendar-events')
-  	: esc_html__('Not Connected', 'google-calendar-events'); ?>
+ 	$auth_status_text = !empty($has_oauth_connection)
+ 		? esc_html__('Checking…', 'google-calendar-events')
+ 		: esc_html__('Not Connected', 'google-calendar-events'); ?>
 		<div class="sc_connect_auth_status_box">
 			<div class="sc_connect_auth_status_icon_circle">
 				<img src="<?php echo esc_url($assets_base . 'logo-favicon.svg'); ?>" alt="" />
@@ -204,7 +195,9 @@ $google_pro_defs =
 				</a>
 			</div>
 		<?php } ?>
-	<?php } else { ?>
+	<?php
+ } else {
+ 	 ?>
 		<div class="sc_connect_helper_row sc_connect_credentials_helper_row">
 			<?php
    echo sprintf(
@@ -259,6 +252,7 @@ $google_pro_defs =
    ];
    include SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/partials/render-connect-fields.php';
    ?>
+
 			<div class="sc_connect_form_actions sc_connect_credentials_actions_top">
 				<button type="submit" name="sc_connect_save_and_authenticate" value="1" class="sc_btn sc_btn--blue">
 					<?php esc_html_e('Save & Authenticate', 'google-calendar-events'); ?>
@@ -278,7 +272,6 @@ $google_pro_defs =
 					<?php esc_html_e('Add New Calendar', 'google-calendar-events'); ?>
 				</a>
 			</div>
-
 			<div class="sc_connect_credentials_link_row">
 			<span class="sc_text--body_b3 sc_text--medium_gray"><?php esc_html_e('or, ', 'google-calendar-events'); ?></span>
 				<a
@@ -294,7 +287,8 @@ $google_pro_defs =
 				</a>
 			</div>
 		</form>
-	<?php } ?>
+	<?php
+ } ?>
 </div>
 
 <?php

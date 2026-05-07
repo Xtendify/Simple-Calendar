@@ -116,7 +116,12 @@ class Assets
 		);
 		wp_register_style('sc-design-system', $css_path . 'design-system.min.css', [], SIMPLE_CALENDAR_VERSION);
 		wp_register_style('sc-connect', $css_path . 'connect.min.css', ['sc-design-system'], SIMPLE_CALENDAR_VERSION);
-		wp_register_style('sc-settings', $css_path . 'settings.min.css', ['sc-design-system'], SIMPLE_CALENDAR_VERSION);
+		wp_register_style(
+			'sc-misc-settings',
+			$css_path . 'misc-settings.min.css',
+			['sc-design-system'],
+			SIMPLE_CALENDAR_VERSION,
+		);
 		wp_register_style(
 			'simcal-admin-add-calendar',
 			$css_path . 'admin-add-calendar.min.css',
@@ -196,11 +201,13 @@ class Assets
 			}
 		}
 
-		// Load the style on where that needed.
-		if ('calendar_page_simple-calendar_misc_settings' == $sc_screen->id) {
+		// Misc Settings (Calendars + Advanced cards): design-system layout + legacy Tailwind utilities used by fields.
+		if ($sc_screen && 'calendar_page_simple-calendar_misc_settings' === $sc_screen->id) {
 			wp_enqueue_style('sc-admin-style', $css_path . 'admin-sett-style.min.css', [], SIMPLE_CALENDAR_VERSION);
 			wp_enqueue_style('sc-tail-style', $css_path . 'tailwind.min.css', [], SIMPLE_CALENDAR_VERSION);
+			wp_enqueue_style('sc-misc-settings');
 			wp_enqueue_style('sc-settings');
+			wp_enqueue_style('sc-connect');
 		}
 		if (
 			'dashboard_page_simple-calendar_about' == $sc_screen->id ||

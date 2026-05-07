@@ -332,7 +332,7 @@ class Ajax
 
 		$public_calendar_id = apply_filters(
 			'simcal_validate_api_key_public_calendar_id',
-			'en.usa%23holiday%40group.v.calendar.google.com',
+			'en.usa#holiday@group.v.calendar.google.com',
 		);
 
 		$time_min = gmdate('Y-m-d\TH:i:s\Z', time() - 365 * DAY_IN_SECONDS);
