@@ -296,7 +296,9 @@ class Pages
 
            $submit_cal = apply_filters('simcal_admin_page_' . $this->page . '_' . $calendars_tab_id . '_submit', true);
            if (true === $submit_cal) {
-           	submit_button(__('Save Changes', 'google-calendar-events'), 'sc_btn sc_btn--blue', 'submit', true);
+           	echo '<input type="submit" name="simcal-misc-settings-form-calendars-submit"  class="sc_btn sc_btn--blue" value="' .
+           		esc_attr__('Save Changes', 'google-calendar-events') .
+           		'"/>';
            }
            ?>
 										</form>
@@ -321,7 +323,9 @@ class Pages
 
            $submit_adv = apply_filters('simcal_admin_page_' . $this->page . '_' . $advanced_tab_id . '_submit', true);
            if (true === $submit_adv) {
-           	submit_button(__('Save Changes', 'google-calendar-events'), 'sc_btn sc_btn--blue', 'submit', true);
+           	echo '<input type="submit" name="simcal-misc-settings-form-advanced-submit"  class="sc_btn sc_btn--blue" value="' .
+           		esc_attr__('Save Changes', 'google-calendar-events') .
+           		'"/>';
            }
            ?>
 										</form>
