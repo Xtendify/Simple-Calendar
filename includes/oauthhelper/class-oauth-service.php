@@ -34,7 +34,7 @@ class Auth_Service_Helpers
 			'simple_calendar_oauth_get_events_cover_base64image',
 			[$this, 'auth_get_events_cover_base64image'],
 			10,
-			2
+			2,
 		);
 	}
 
@@ -73,13 +73,32 @@ class Auth_Service_Helpers
 		$site_url = get_site_url();
 		$query_arg = [
 			'request_from' => $site_url,
+			'state' => wp_create_nonce('simcal_oauth_via_sc_state'),
 		];
 		$authredirect = add_query_arg($query_arg, SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN . 'helper/');
 		$admin_image_about_path = SIMPLE_CALENDAR_ASSETS . '/images';
 
 		if (!empty($_GET['auth_token'])) {
-			$auth_token = sanitize_text_field($_GET['auth_token']);
-			add_option('simple_calendar_auth_site_token', $auth_token, '', true);
+			$auth_token = sanitize_text_field((string) wp_unslash($_GET['auth_token']));
+			$state = isset($_GET['state']) ? sanitize_text_field((string) wp_unslash($_GET['state'])) : '';
+
+			$helper_origin_ok = false;
+			$helper_host = wp_parse_url((string) SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN, PHP_URL_HOST);
+			$ref = wp_get_raw_referer();
+			if ($helper_host && $ref) {
+				$ref_host = wp_parse_url($ref, PHP_URL_HOST);
+				$helper_origin_ok = $ref_host && strtolower((string) $ref_host) === strtolower((string) $helper_host);
+			}
+
+			if (
+				$auth_token &&
+				current_user_can('manage_options') &&
+				$state &&
+				wp_verify_nonce($state, 'simcal_oauth_via_sc_state') &&
+				$helper_origin_ok
+			) {
+				update_option('simple_calendar_auth_site_token', $auth_token, true);
+			}
 		}
 
 		$simple_calendar_auth_site_token = get_option('simple_calendar_auth_site_token');

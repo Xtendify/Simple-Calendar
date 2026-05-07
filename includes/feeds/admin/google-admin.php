@@ -88,16 +88,16 @@ class Google_Admin
 				'<div class="simcal-text-sm simcal-font-poppins simcal-font-normal simcal-text-sc_grey-100 simcal-mt-[5px]">' .
 				__(
 					"To read events from your public Google Calendars you'll need create a Google API key and save it here.",
-					'google-calendar-events'
+					'google-calendar-events',
 				) .
 				'</div><br/><br/>' .
 				'<em style="font-size: 14px;">' .
 				sprintf(
 					__(
 						'<strong>Note:</strong> Calendars configured to use the <a href="%s" class=" hover:simcal-text-green-600 simcal-underline" target="_blank">Google Calendar Pro add-on</a> use a different method of authorization.',
-						'google-calendar-events'
+						'google-calendar-events',
 					),
-					simcal_ga_campaign_url(simcal_get_url('addons'), 'core-plugin', 'settings-link')
+					simcal_ga_campaign_url(simcal_get_url('addons'), 'core-plugin', 'settings-link'),
 				) .
 				'</em><section class="simcal-mt-[15px]"><hr></section>',
 			'fields' => [
@@ -147,16 +147,16 @@ class Google_Admin
 			sprintf(
 				__(
 					'<a href="%s" class="simcal-underline hover:simcal-text-green-600 simcal-text-[13px]" target="_blank">Step-by-step instructions</a> ',
-					'google-calendar-events'
+					'google-calendar-events',
 				),
-				simcal_ga_campaign_url(simcal_get_url('docs') . '/google-api-key/', 'core-plugin', 'settings-link')
+				simcal_ga_campaign_url(simcal_get_url('docs') . '/google-api-key/', 'core-plugin', 'settings-link'),
 			) .
 			sprintf(
 				__(
 					'<a href="%s" class="simcal-pl-[20px] simcal-underline hover:simcal-text-green-600 simcal-text-[13px]" target="_blank">Google Developers Console</a> ',
-					'google-calendar-events'
+					'google-calendar-events',
 				),
-				simcal_get_url('gdev-console')
+				simcal_get_url('gdev-console'),
 			) .
 			'</p>';
 
@@ -203,7 +203,7 @@ class Google_Admin
 					'title' => __('Calendar ID', 'google-calendar-events'),
 					'tooltip' => __(
 						'Visit your Google Calendar account, copy your public calendar ID, then paste it here.',
-						'google-calendar-events'
+						'google-calendar-events',
 					),
 					'placeholder' => __('Enter a valid Google Calendar ID from a public calendar', 'google-calendar-events'),
 					'escaping' => [$this->feed, 'esc_google_calendar_id'],
@@ -217,7 +217,7 @@ class Google_Admin
 					'title' => __('Search Query', 'google-calendar-events'),
 					'tooltip' => __(
 						'Type in keywords if you only want display events that match these terms. You can use basic boolean search operators too.',
-						'google-calendar-events'
+						'google-calendar-events',
 					),
 					'placeholder' => __('Filter events to display by search terms...', 'google-calendar-events'),
 				],
@@ -240,7 +240,7 @@ class Google_Admin
 					'title' => __('Maximum Events', 'google-calendar-events'),
 					'tooltip' => __(
 						'Google Calendar only allows to query for a maximum amount of 2500 events from a calendar each time.',
-						'google-calendar-events'
+						'google-calendar-events',
 					),
 					'class' => ['simcal-field-small'],
 					'default' => '2500',
@@ -290,19 +290,19 @@ class Google_Admin
 			sprintf(
 				__(
 					'Step 1: Set the Google Calendar you want to use as <strong>"public."</strong> <a href="%1s" target="_blank">Detailed instructions</a>',
-					'google-calendar-events'
+					'google-calendar-events',
 				) .
 					'<br />' .
 					__(
 						'Step 2: Copy and paste your Google Calendar ID here. <a href="%2s" target="_blank">Detailed instructions</a>',
-						'google-calendar-events'
+						'google-calendar-events',
 					),
 				simcal_ga_campaign_url(
 					simcal_get_url('docs') . '/make-google-calendar-public/',
 					'core-plugin',
-					'settings-link'
+					'settings-link',
 				),
-				simcal_ga_campaign_url(simcal_get_url('docs') . '/find-google-calendar-id/', 'core-plugin', 'settings-link')
+				simcal_ga_campaign_url(simcal_get_url('docs') . '/find-google-calendar-id/', 'core-plugin', 'settings-link'),
 			) .
 			'</p>';
 
@@ -319,9 +319,9 @@ class Google_Admin
 					sprintf(
 						__(
 							'Your Google Calendar events will not show up until you <a href="%s">create and save a Google API key</a>.',
-							'google-calendar-events'
+							'google-calendar-events',
 						),
-						admin_url('edit.php?post_type=calendar&page=simple-calendar_settings&tab=feeds')
+						admin_url('edit.php?post_type=calendar&page=simple-calendar_misc_settings&tab=feeds'),
 					) .
 					'</p>',
 			]);
@@ -354,7 +354,7 @@ class Google_Admin
 						'<br>' .
 						__(
 							'Please ensure that both your Google Calendar ID and API Key are valid and that the Google Calendar you want to display is public.',
-							'google-calendar-events'
+							'google-calendar-events',
 						) .
 						'</p>',
 				]);

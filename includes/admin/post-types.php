@@ -349,7 +349,7 @@ class Post_Types
 			<a href="#TB_inline?height=250&width=500&inlineId=simcal-insert-shortcode-panel" id="simcal-insert-shortcode-button" class="thickbox button insert-calendar add_calendar">
 				<span class="wp-media-buttons-icon dashicons-before dashicons-calendar-alt"></span> <?php _e(
     	'Add Calendar',
-    	'google-calendar-events'
+    	'google-calendar-events',
     ); ?>
 			</a>
 			<?php }
@@ -384,13 +384,13 @@ class Post_Types
 					</p>
 					<p><input type="button" value="<?php _e(
      	'Insert Calendar',
-     	'google-calendar-events'
+     	'google-calendar-events',
      ); ?>" id="simcal-insert-shortcode" class="button button-primary button-large" name="" /></p>
 				<?php else: ?>
 					<p><em><?php _e('Could not find any calendars to add to this post.', 'google-calendar-events'); ?></em></p>
 					<strong><a href="post-new.php?post_type=calendar"><?php _e(
      	'Please add and configure new calendar first.',
-     	'google-calendar-events'
+     	'google-calendar-events',
      ); ?></a></strong>
 				<?php endif; ?>
 			</div>

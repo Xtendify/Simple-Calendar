@@ -185,6 +185,66 @@ abstract class Admin_Page
 			$sanitized = simcal_sanitize_input($settings);
 		}
 
+		// Allow partial updates for Connect page forms that only submit one section.
+		// Without this, posting a subset of keys would overwrite the whole option.
+		if (is_array($sanitized) && isset($sanitized['__sc_partial_update'])) {
+			$option_name = 'simple-calendar_' . $this->option_group . '_' . $this->id;
+			$existing = get_option($option_name, []);
+			$existing = is_array($existing) ? $existing : [];
+
+			$sections_map =
+				isset($sanitized['__sc_partial_sections']) && is_array($sanitized['__sc_partial_sections'])
+					? $sanitized['__sc_partial_sections']
+					: [];
+			$had_partial_section_keys = !empty($sections_map);
+
+			$allowed_section_ids = [];
+			if (!empty($this->sections) && is_array($this->sections)) {
+				foreach (array_keys($this->sections) as $section_id) {
+					if (is_string($section_id) && $section_id !== '') {
+						$allowed_section_ids[$section_id] = true;
+					}
+				}
+			}
+
+			$filtered_sections_map = [];
+			foreach ($sections_map as $map_key => $map_value) {
+				if (!is_string($map_key) || $map_key === '') {
+					continue;
+				}
+				if (!isset($allowed_section_ids[$map_key])) {
+					continue;
+				}
+				$filtered_sections_map[$map_key] = $map_value;
+			}
+			$sections = array_keys($filtered_sections_map);
+
+			unset($sanitized['__sc_partial_update'], $sanitized['__sc_partial_sections']);
+
+			if (!empty($sections)) {
+				foreach ($sections as $section) {
+					if (!is_string($section) || $section === '') {
+						continue;
+					}
+					if (!isset($sanitized[$section])) {
+						continue;
+					}
+					$existing_section = isset($existing[$section]) && is_array($existing[$section]) ? $existing[$section] : [];
+					$new_section = is_array($sanitized[$section]) ? $sanitized[$section] : [];
+					$existing[$section] = array_replace_recursive($existing_section, $new_section);
+				}
+				return $existing;
+			}
+
+			// Client sent partial section names but none match declared sections — do not merge arbitrary POST keys.
+			if ($had_partial_section_keys) {
+				return $existing;
+			}
+
+			// If no sections declared, fall back to merging everything we got.
+			return array_replace_recursive($existing, $sanitized);
+		}
+
 		return $sanitized;
 	}
 }

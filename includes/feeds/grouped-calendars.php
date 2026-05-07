@@ -144,7 +144,7 @@ class Grouped_Calendars extends Feed
 				set_transient(
 					'_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type,
 					$events,
-					absint($this->cache)
+					absint($this->cache),
 				);
 			}
 		}
