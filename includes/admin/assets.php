@@ -116,6 +116,7 @@ class Assets
 		);
 		wp_register_style('sc-design-system', $css_path . 'design-system.min.css', [], SIMPLE_CALENDAR_VERSION);
 		wp_register_style('sc-connect', $css_path . 'connect.min.css', ['sc-design-system'], SIMPLE_CALENDAR_VERSION);
+		wp_register_style('sc-add-ons', $css_path . 'add-ons.min.css', ['sc-design-system'], SIMPLE_CALENDAR_VERSION);
 		wp_register_style(
 			'sc-misc-settings',
 			$css_path . 'misc-settings.min.css',
@@ -207,6 +208,12 @@ class Assets
 			wp_enqueue_style('sc-tail-style', $css_path . 'tailwind.min.css', [], SIMPLE_CALENDAR_VERSION);
 			wp_enqueue_style('sc-misc-settings');
 			wp_enqueue_style('sc-settings');
+			wp_enqueue_style('sc-connect');
+		}
+
+		// Add-ons page: design-system layout + Connect progress sidebar styles.
+		if ($sc_screen && 'calendar_page_simple-calendar_add_ons' === $sc_screen->id) {
+			wp_enqueue_style('sc-add-ons');
 			wp_enqueue_style('sc-connect');
 		}
 		if (

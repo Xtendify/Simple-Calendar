@@ -185,6 +185,7 @@ class Pages
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$current_page = isset($_GET['page']) ? sanitize_text_field((string) $_GET['page']) : '';
 		$is_misc_settings_page = 'simple-calendar_misc_settings' === $current_page;
+		$is_add_ons_page = $this->page === 'add-ons' && 'simple-calendar_add_ons' === $current_page;
 
 		// If Pro is active but outdated, block Settings page and direct users to update.
 		$min_pro_version = '2.0.0';
@@ -219,14 +220,57 @@ class Pages
 		<div
 			class="wrap <?php echo $is_misc_settings_page
    	? 'sc_root sc_misc_settings'
-   	: 'simcal-font-poppins semical-' . esc_attr($current_tab) . '-tab'; ?>"
-			id="<?php echo $is_misc_settings_page ? 'simcal-misc-settings-page' : 'simcal-settings-page'; ?>"
+   	: ($is_add_ons_page
+   		? 'sc_root sc_addons'
+   		: 'simcal-font-poppins semical-' . esc_attr($current_tab) . '-tab'); ?>"
+			id="<?php echo $is_misc_settings_page
+   	? 'simcal-misc-settings-page'
+   	: ($is_add_ons_page
+   		? 'simcal-add-ons-page'
+   		: 'simcal-settings-page'); ?>"
 		>
 			<?php
    // Include settings pages.
    $settings_pages = self::get_settings();
    if (!empty($settings_pages) && is_array($settings_pages)) {
-   	if ($is_misc_settings_page) {
+   	if ($is_add_ons_page) {
+
+   		$connect_sidebar_scope = function_exists('simcal_prepare_connect_sidebar_scope')
+   			? simcal_prepare_connect_sidebar_scope()
+   			: [];
+   		$assets_base = isset($connect_sidebar_scope['assets_base'])
+   			? (string) $connect_sidebar_scope['assets_base']
+   			: (string) (SIMPLE_CALENDAR_ASSETS . 'images/admin/');
+   		?>
+					<div class="sc_connect_page_outer">
+						<div class="sc_connect_page_header">
+							<div class="sc_connect_page_header_left">
+								<span class="sc_logo">
+									<a href="<?php echo esc_url(admin_url('admin.php?page=simple-calendar_settings')); ?>" class="sc_logo_link">
+										<img
+											src="<?php echo esc_url($assets_base . 'logo.png'); ?>"
+											alt="<?php esc_attr_e('Simple Calendar', 'google-calendar-events'); ?>"
+										/>
+									</a>
+								</span>
+							</div>
+							<div class="sc_connect_page_header_right">
+								<span class="sc_text--body_b1">
+									<?php echo esc_html__('Addons', 'google-calendar-events'); ?>
+								</span>
+							</div>
+						</div>
+
+						<div class="sc_container">
+							<?php settings_errors(); ?>
+							<?php
+       do_action('simcal_admin_page_' . $this->page . '_' . $current_tab . '_start');
+       do_action('simcal_admin_page_' . $this->page . '_' . $current_tab . '_end');
+       ?>
+						</div>
+					</div>
+					<?php
+   	} elseif ($is_misc_settings_page) {
 
    		$calendars_tab_id = 'calendars';
    		$advanced_tab_id = 'advanced';

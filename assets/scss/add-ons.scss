@@ -1,0 +1,96 @@
+@use './design-system.scss' as *;
+
+.sc_root.sc_addons {
+	.sc_addons_layout {
+		display: flex;
+		gap: 24px;
+		align-items: flex-start;
+	}
+
+	.sc_addons_main {
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+
+	.sc_addons_sidebar {
+		flex: 0 0 360px;
+	}
+
+	@media (max-width: 1200px) {
+		.sc_addons_layout {
+			flex-direction: column;
+		}
+		.sc_addons_sidebar {
+			flex: 1 1 auto;
+			width: 100%;
+		}
+	}
+
+	.sc_addons_card_note {
+		margin: -10px 0 18px;
+		font-family: var(--sc-font-body);
+		font-weight: var(--sc-font-weight-medium);
+		font-style: italic;
+		font-size: var(--sc-font-base);
+		line-height: 25px;
+		letter-spacing: var(--sc-letter-spacing);
+		vertical-align: middle;
+		color: var(--sc-color-medium-gray);
+	}
+
+	.sc_addon_list {
+		display: grid;
+		gap: 14px;
+	}
+
+	.sc_addon_item {
+		border: 1px solid var(--sc-color-extra-light-gray);
+		.sc_addon_item_header {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 8px;
+			margin-bottom: 8px;
+
+			img {
+				width: 43px;
+				height: 42px;
+			}
+			.sc_addon_item_title {
+				margin: 0;
+			}
+		}
+
+		.sc_addon_item_desc {
+			color: var(--sc-color-medium-gray);
+		}
+
+		.sc_addon_item_actions {
+			display: flex;
+			gap: 10px;
+			flex-wrap: wrap;
+		}
+	}
+
+	.simcal-addon-manage-license-buttons {
+		margin-top: 10px;
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		flex-wrap: wrap;
+	}
+
+	.simcal-addon-manage-license-buttons .error {
+		margin-left: 0;
+		color: var(--sc-color-red);
+		vertical-align: sub;
+	}
+
+	.simcal-addon-manage-license-buttons .label {
+		margin-left: 0;
+	}
+
+	.sc_license_active_label {
+		color: var(--sc-color-green);
+	}
+}

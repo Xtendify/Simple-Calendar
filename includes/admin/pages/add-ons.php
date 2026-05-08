@@ -39,7 +39,7 @@ class Add_Ons extends Admin_Page
 		});
 
 		// Add html.
-		add_action('simcal_admin_page_' . $page . '_' . $tab . '_end', [$this, 'html']);
+		add_action('simcal_admin_page_' . $page . '_' . $tab . '_end', [__CLASS__, 'html']);
 	}
 
 	/**
@@ -47,17 +47,203 @@ class Add_Ons extends Admin_Page
 	 *
 	 * @since 3.0.0
 	 */
-	public function html()
+	public static function html()
 	{
-		// @todo pull data from simplecalendar.io to showcase add-ons
-		$js_redirect = '<script type="text/javascript">';
-		$js_redirect .=
-			'window.location = "' .
-			simcal_ga_campaign_url(simcal_get_url('addons'), 'core-plugin', 'plugin-submenu-link', true) .
-			'"';
-		$js_redirect .= '</script>';
+		$assets_base = SIMPLE_CALENDAR_ASSETS . 'images/admin/';
 
-		echo $js_redirect;
+		$connect_sidebar_scope = function_exists('simcal_prepare_connect_sidebar_scope')
+			? simcal_prepare_connect_sidebar_scope()
+			: [];
+		if (is_array($connect_sidebar_scope)) {
+			extract($connect_sidebar_scope, EXTR_OVERWRITE);
+		}
+		$current_step = 'add_ons';
+
+		$addon_icons = [
+			'simcal_1' => 'fullcalendar-extended.svg',
+			'simcal_2' => 'google-calendar-pro.svg',
+			'simcal_3' => 'appointment-calendar.svg',
+		];
+
+		if (!function_exists('is_plugin_active') && defined('ABSPATH')) {
+			$plugin_file = trailingslashit(ABSPATH) . 'wp-admin/includes/plugin.php';
+			if (is_readable($plugin_file)) {
+				// phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
+				require_once $plugin_file;
+			}
+		}
+
+		$is_plugin_active = function ($plugin_basename) {
+			$plugin_basename = is_string($plugin_basename) ? $plugin_basename : '';
+			if ($plugin_basename === '') {
+				return false;
+			}
+
+			if (function_exists('is_plugin_active') && is_plugin_active($plugin_basename)) {
+				return true;
+			}
+
+			// Multisite: network-activated plugins live in active_sitewide_plugins (keys are plugin filenames).
+			$sitewide = (array) get_option('active_sitewide_plugins', []);
+			$sitewide_files = array_map('strval', array_keys($sitewide));
+			return in_array($plugin_basename, $sitewide_files, true);
+		};
+
+		$catalog = [
+			'simcal_1' => [
+				'title' => __('FullCalendar Extended', 'google-calendar-events'),
+				'description' => __(
+					'Built on the trusted fullcalendar open-source library, the FullCalendar Extended addon brings google calendar customized for your wordpress site. Choose from month',
+					'google-calendar-events',
+				),
+				'learn_more_url' => 'https://simplecalendar.io/downloads/fullcalendar/',
+				'buy_url' => simcal_get_url('addons'),
+				'is_active' => $is_plugin_active('simple-calendar-fullcalendar/simple-calendar-fullcalendar.php'),
+			],
+			'simcal_2' => [
+				'title' => __('Google Calendar Pro', 'google-calendar-events'),
+				'description' => __(
+					'Embed google calendar in wordpress without making it public, ideal for internal teams, client portals, member-only sites, and private events. Protect calendars',
+					'google-calendar-events',
+				),
+				'learn_more_url' => 'https://simplecalendar.io/downloads/google-calendar-pro/',
+				'buy_url' => simcal_get_url('addons'),
+				'is_active' => function_exists('simcal_is_google_calendar_pro_active')
+					? simcal_is_google_calendar_pro_active()
+					: false,
+			],
+			'simcal_3' => [
+				'title' => __('Appointment Calendar', 'google-calendar-events'),
+				'description' => __(
+					'Built on the trusted fullcalendar open-source library, the FullCalendar Extended addon brings google calendar customized for your wordpress site.',
+					'google-calendar-events',
+				),
+				'learn_more_url' => 'https://simplecalendar.io/downloads/book-an-appointment/',
+				'buy_url' => simcal_get_url('addons'),
+				'is_active' => $is_plugin_active('simple-calendar-appointment/simple-calendar-appointment.php'),
+			],
+		];
+
+		// Needed for existing license activation / reset AJAX.
+		wp_nonce_field('simcal_license_manager', 'simcal_license_manager');
+		?>
+		<div class="sc_addons_layout">
+			<div class="sc_addons_main">
+				<div class="sc_setup_card">
+							<h2 class="sc_h4 sc_addons_card_title">
+								<?php esc_html_e('Premium Add-on License Keys', 'google-calendar-events'); ?>
+							</h2>
+							<p class="sc_text--body_b2 sc_text--dark sc_addons_card_subtitle">
+								<?php esc_html_e(
+        	'Enter your add-on license keys below, making sure to activate each one to ensure they are valid.',
+        	'google-calendar-events',
+        ); ?>
+							</p>
+							<p class="sc_text--body_b3 sc_addons_card_note">
+								<?php esc_html_e(
+        	'Your license keys are used for access to automatic upgrades and premium support.',
+        	'google-calendar-events',
+        ); ?>
+							</p>
+
+							<div class="sc_addon_list">
+								<?php foreach ($catalog as $addon_id => $addon) { ?>
+									<?php
+         $addon_id = (string) $addon_id;
+         $addon_title = isset($addon['title']) ? (string) $addon['title'] : '';
+         $addon_desc = isset($addon['description']) ? (string) $addon['description'] : '';
+         $learn_more = isset($addon['learn_more_url']) ? (string) $addon['learn_more_url'] : '';
+         $buy_url = isset($addon['buy_url']) ? (string) $addon['buy_url'] : '';
+         $is_active = !empty($addon['is_active']);
+         $icon_src = $assets_base . ($addon_icons[$addon_id] ?? 'calendar.svg');
+
+         if ($is_active) {
+         	$field = [
+         		'type' => 'license',
+         		'ui' => 'card',
+         		'addon' => $addon_id,
+         		'title' => $addon_title,
+         		'name' => 'simple-calendar_settings_licenses[keys][' . $addon_id . ']',
+         		'id' => 'simple-calendar-settings-licenses-keys-' . sanitize_key($addon_id),
+         		'value' => (string) \simcal_get_license_key($addon_id),
+         		'class' => ['regular-text', 'ltr', 'sc-btn-input'],
+         		'icon_src' => $icon_src,
+         		'card_description' => __(
+         			'Activate your license to enable automatic updates and premium support for this add-on.',
+         			'google-calendar-events',
+         		),
+         	];
+
+         	\simcal_print_field($field);
+         	continue;
+         }
+         ?>
+									<div class="sc_setup_card sc_addon_item">
+										<div class="sc_addon_item_header">
+											<img src="<?php echo esc_url($icon_src); ?>" alt="" class="sc_addon_item_icon" />
+											<h3 class="sc_h5 sc_addon_item_title"><?php echo esc_html($addon_title); ?></h3>
+										</div>
+										<p class="sc_text--body_b3 sc_addon_item_desc"><?php echo esc_html($addon_desc); ?></p>
+										<div class="sc_addon_item_actions">
+											<a
+												class="sc_btn sc_btn--blue"
+												target="_blank"
+												href="<?php echo esc_url(simcal_ga_campaign_url($learn_more, 'core-plugin', 'add-ons-learn-more')); ?>"
+											>
+												<?php esc_html_e('Learn More', 'google-calendar-events'); ?>
+											</a>
+											<a
+												class="sc_btn sc_btn--white"
+												target="_blank"
+												href="<?php echo esc_url(simcal_ga_campaign_url($buy_url, 'core-plugin', 'add-ons-buy-addon')); ?>"
+											>
+												<?php esc_html_e('Buy Addon', 'google-calendar-events'); ?>
+											</a>
+										</div>
+									</div>
+								<?php } ?>
+							</div>
+
+							<p class="sc_text--body_b3">
+								<a
+									href="#"
+									id="simcal-reset-licenses"
+									class="sc_link sc_link_muted"
+									data-dialog="<?php echo esc_attr__(
+         	'WARNING: Are you sure you want to start over and delete all license keys from the settings?',
+         	'google-calendar-events',
+         ); ?>"
+								>
+									<?php esc_html_e('Delete your license keys', 'google-calendar-events'); ?>
+									<i class="simcal-icon-spinner simcal-icon-spin sc_addons_spinner is_hidden" aria-hidden="true"></i>
+								</a>
+							</p>
+							<div id="sc_reset_licenses_modal" class="sc_connect_modal is_hidden" aria-hidden="true">
+								<div class="sc_connect_modal__backdrop" data-sc-reset-licenses-modal-dismiss tabindex="-1"></div>
+								<div
+									class="sc_connect_modal__panel sc_setup_card"
+									role="dialog"
+									aria-modal="true"
+									aria-labelledby="sc_reset_licenses_modal_title"
+								>
+									<p id="sc_reset_licenses_modal_title" class="sc_connect_modal__message sc_text--body_b1"></p>
+									<div class="sc_connect_form_actions sc_connect_modal__actions">
+										<button type="button" class="sc_btn sc_btn--blue" id="sc_reset_licenses_confirm">
+											<?php esc_html_e('OK', 'google-calendar-events'); ?>
+										</button>
+										<button type="button" class="sc_btn sc_btn--white" data-sc-reset-licenses-modal-dismiss>
+											<?php esc_html_e('Cancel', 'google-calendar-events'); ?>
+										</button>
+									</div>
+								</div>
+							</div>
+			</div>
+		</div>
+
+		<div class="sc_addons_sidebar">
+			<?php include SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/sidebar.php'; ?>
+		</div>
+		<?php
 	}
 
 	/**
