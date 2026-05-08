@@ -59,11 +59,27 @@ class Add_Ons extends Admin_Page
 		}
 		$current_step = 'add_ons';
 
-		$addon_icons = [
-			'simcal_1' => 'fullcalendar-extended.svg',
-			'simcal_2' => 'google-calendar-pro.svg',
-			'simcal_3' => 'appointment-calendar.svg',
-		];
+		$installed_addons = apply_filters('simcal_installed_addons', []);
+		$installed_addons = is_array($installed_addons) ? $installed_addons : [];
+
+		$get_license_key_for_title = function ($expected_title) use ($installed_addons) {
+			$expected_title = is_string($expected_title) ? $expected_title : '';
+			if ($expected_title === '') {
+				return '';
+			}
+			foreach ($installed_addons as $k => $v) {
+				if (!is_string($k) || $k === '' || strpos($k, 'simcal_') !== 0) {
+					continue;
+				}
+				if (!is_string($v) || $v === '') {
+					continue;
+				}
+				if (strcasecmp($v, $expected_title) === 0) {
+					return $k;
+				}
+			}
+			return '';
+		};
 
 		if (!function_exists('is_plugin_active') && defined('ABSPATH')) {
 			$plugin_file = trailingslashit(ABSPATH) . 'wp-admin/includes/plugin.php';
@@ -89,8 +105,12 @@ class Add_Ons extends Admin_Page
 			return in_array($plugin_basename, $sitewide_files, true);
 		};
 
+		$google_pro_license_key = defined('SIMPLE_CALENDAR_GOOGLE_PRO_ID')
+			? ('simcal_' . (string) SIMPLE_CALENDAR_GOOGLE_PRO_ID)
+			: $get_license_key_for_title('Google Calendar Pro');
+
 		$catalog = [
-			'simcal_1' => [
+			'fullcalendar' => [
 				'title' => __('FullCalendar Extended', 'google-calendar-events'),
 				'description' => __(
 					'Built on the trusted fullcalendar open-source library, the FullCalendar Extended addon brings google calendar customized for your wordpress site. Choose from month',
@@ -99,8 +119,10 @@ class Add_Ons extends Admin_Page
 				'learn_more_url' => 'https://simplecalendar.io/downloads/fullcalendar/',
 				'buy_url' => simcal_get_url('addons'),
 				'is_active' => $is_plugin_active('simple-calendar-fullcalendar/simple-calendar-fullcalendar.php'),
+				'icon' => 'fullcalendar-extended.svg',
+				'license_key' => $get_license_key_for_title('FullCalendar Extended'),
 			],
-			'simcal_2' => [
+			'google_pro' => [
 				'title' => __('Google Calendar Pro', 'google-calendar-events'),
 				'description' => __(
 					'Embed google calendar in wordpress without making it public, ideal for internal teams, client portals, member-only sites, and private events. Protect calendars',
@@ -111,8 +133,10 @@ class Add_Ons extends Admin_Page
 				'is_active' => function_exists('simcal_is_google_calendar_pro_active')
 					? simcal_is_google_calendar_pro_active()
 					: false,
+				'icon' => 'google-calendar-pro.svg',
+				'license_key' => $google_pro_license_key,
 			],
-			'simcal_3' => [
+			'appointment' => [
 				'title' => __('Appointment Calendar', 'google-calendar-events'),
 				'description' => __(
 					'Built on the trusted fullcalendar open-source library, the FullCalendar Extended addon brings google calendar customized for your wordpress site.',
@@ -121,6 +145,8 @@ class Add_Ons extends Admin_Page
 				'learn_more_url' => 'https://simplecalendar.io/downloads/book-an-appointment/',
 				'buy_url' => simcal_get_url('addons'),
 				'is_active' => $is_plugin_active('simple-calendar-appointment/simple-calendar-appointment.php'),
+				'icon' => 'appointment-calendar.svg',
+				'license_key' => $get_license_key_for_title('Appointment Calendar'),
 			],
 		];
 
@@ -147,25 +173,27 @@ class Add_Ons extends Admin_Page
 							</p>
 
 							<div class="sc_addon_list">
-								<?php foreach ($catalog as $addon_id => $addon) { ?>
+								<?php foreach ($catalog as $addon_slug => $addon) { ?>
 									<?php
-         $addon_id = (string) $addon_id;
+         $addon_slug = (string) $addon_slug;
          $addon_title = isset($addon['title']) ? (string) $addon['title'] : '';
          $addon_desc = isset($addon['description']) ? (string) $addon['description'] : '';
          $learn_more = isset($addon['learn_more_url']) ? (string) $addon['learn_more_url'] : '';
          $buy_url = isset($addon['buy_url']) ? (string) $addon['buy_url'] : '';
          $is_active = !empty($addon['is_active']);
-         $icon_src = $assets_base . ($addon_icons[$addon_id] ?? 'calendar.svg');
+         $license_key = isset($addon['license_key']) ? (string) $addon['license_key'] : '';
+         $icon = isset($addon['icon']) ? (string) $addon['icon'] : 'calendar.svg';
+         $icon_src = $assets_base . $icon;
 
-         if ($is_active) {
+         if ($is_active && $license_key) {
          	$field = [
          		'type' => 'license',
          		'ui' => 'card',
-         		'addon' => $addon_id,
+         		'addon' => $license_key,
          		'title' => $addon_title,
-         		'name' => 'simple-calendar_settings_licenses[keys][' . $addon_id . ']',
-         		'id' => 'simple-calendar-settings-licenses-keys-' . sanitize_key($addon_id),
-         		'value' => (string) \simcal_get_license_key($addon_id),
+         		'name' => 'simple-calendar_settings_licenses[keys][' . $license_key . ']',
+         		'id' => 'simple-calendar-settings-licenses-keys-' . sanitize_key($license_key),
+         		'value' => (string) \simcal_get_license_key($license_key),
          		'class' => ['regular-text', 'ltr', 'sc-btn-input'],
          		'icon_src' => $icon_src,
          		'card_description' => __(
