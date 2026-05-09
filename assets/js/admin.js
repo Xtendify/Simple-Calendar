@@ -108,6 +108,25 @@
 	})();
 
 	jQuery(function ($) {
+		/* =========================
+		 * Relocate notices (SC pages)
+		 * ========================= */
+		(function relocateScNotices() {
+			var $scRoot = $('.sc_root.sc_misc_settings, .sc_root.sc_addons').first();
+			if (!$scRoot.length) return;
+
+			var $target = $scRoot.find('.sc_connect_notices').first();
+			if (!$target.length) return;
+
+			// Move any notices that ended up inside the main cards back under the header.
+			var $cardNotices = $scRoot.find('.sc_container .sc_setup_card .notice');
+			if ($cardNotices.length) {
+				$cardNotices.each(function () {
+					$(this).detach().appendTo($target);
+				});
+			}
+		})();
+
 		/* ======== *
 		 * Tooltips *
 		 * ======== */
@@ -587,24 +606,36 @@
 				if (!$btn || !$btn.length) return;
 				$btn.removeClass('sc_is_finished sc_btn--red').addClass('sc_is_active');
 				$btn.attr('aria-disabled', 'true');
+				$btn.prop('disabled', true);
+				$btn.data('inFlight', true);
 			}
 
 			function clearBtnLoading($btn) {
 				if (!$btn || !$btn.length) return;
 				$btn.removeClass('sc_is_active');
 				$btn.removeAttr('aria-disabled');
+				$btn.prop('disabled', false);
+				$btn.data('inFlight', false);
 			}
 
 			function setBtnSuccess($btn) {
 				if (!$btn || !$btn.length) return;
 				$btn.removeClass('sc_is_active sc_btn--red').addClass('sc_is_finished');
 				$btn.attr('aria-disabled', 'true');
+				$btn.prop('disabled', true);
+				$btn.data('inFlight', false);
 			}
 
 			function setBtnError($btn) {
 				if (!$btn || !$btn.length) return;
 				$btn.removeClass('sc_is_active sc_is_finished').addClass('sc_btn--red');
 				$btn.removeAttr('aria-disabled');
+				$btn.prop('disabled', false);
+				$btn.data('inFlight', false);
+			}
+
+			if (button.data('inFlight') === true || button.prop('disabled')) {
+				return;
 			}
 
 			if ($(this).hasClass('activate')) {
@@ -634,14 +665,21 @@
 						if ('valid' == response.data) {
 							setBtnSuccess(button);
 							setTimeout(function () {
-								button.addClass('is_hidden').removeClass('sc_is_active sc_is_finished').removeAttr('aria-disabled');
+								button
+									.addClass('is_hidden')
+									.removeClass('sc_is_active sc_is_finished')
+									.removeAttr('aria-disabled')
+									.prop('disabled', false)
+									.data('inFlight', false);
 								field.attr('disabled', 'disabled');
 								$(buttons).find('.label').removeClass('is_hidden');
 								$(buttons)
 									.find('.deactivate')
 									.removeClass('is_hidden')
 									.removeClass('sc_is_active sc_is_finished')
-									.removeAttr('aria-disabled');
+									.removeAttr('aria-disabled')
+									.prop('disabled', false)
+									.data('inFlight', false);
 								error.addClass('is_hidden').text('');
 							}, 650);
 						} else {
@@ -653,14 +691,21 @@
 						if ('deactivated' == response.data) {
 							setBtnSuccess(button);
 							setTimeout(function () {
-								button.addClass('is_hidden').removeClass('sc_is_active sc_is_finished').removeAttr('aria-disabled');
+								button
+									.addClass('is_hidden')
+									.removeClass('sc_is_active sc_is_finished')
+									.removeAttr('aria-disabled')
+									.prop('disabled', false)
+									.data('inFlight', false);
 								field.removeAttr('disabled');
 								$(buttons).find('.label').addClass('is_hidden');
 								$(buttons)
 									.find('.activate')
 									.removeClass('is_hidden')
 									.removeClass('sc_is_active sc_is_finished')
-									.removeAttr('aria-disabled');
+									.removeAttr('aria-disabled')
+									.prop('disabled', false)
+									.data('inFlight', false);
 								error.addClass('is_hidden').text('');
 							}, 650);
 						} else {

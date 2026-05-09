@@ -100,13 +100,13 @@ class Add_Ons extends Admin_Page
 			}
 
 			// Multisite: network-activated plugins live in active_sitewide_plugins (keys are plugin filenames).
-			$sitewide = (array) get_option('active_sitewide_plugins', []);
+			$sitewide = (array) get_site_option('active_sitewide_plugins', []);
 			$sitewide_files = array_map('strval', array_keys($sitewide));
 			return in_array($plugin_basename, $sitewide_files, true);
 		};
 
 		$google_pro_license_key = defined('SIMPLE_CALENDAR_GOOGLE_PRO_ID')
-			? ('simcal_' . (string) SIMPLE_CALENDAR_GOOGLE_PRO_ID)
+			? 'simcal_' . (string) SIMPLE_CALENDAR_GOOGLE_PRO_ID
 			: $get_license_key_for_title('Google Calendar Pro');
 
 		$catalog = [

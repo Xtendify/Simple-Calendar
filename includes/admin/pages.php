@@ -261,8 +261,11 @@ class Pages
 							</div>
 						</div>
 
-						<div class="sc_container">
+						<div class="sc_connect_notices">
 							<?php settings_errors(); ?>
+						</div>
+
+						<div class="sc_container">
 							<?php
        do_action('simcal_admin_page_' . $this->page . '_' . $current_tab . '_start');
        do_action('simcal_admin_page_' . $this->page . '_' . $current_tab . '_end');
@@ -315,11 +318,11 @@ class Pages
 							</div>
 						</div>
 
-						<div class="sc_container">
-						<div class="sc_misc_settings_notices">
+						<div class="sc_connect_notices">
 							<?php settings_errors(); ?>
 						</div>
 
+						<div class="sc_container">
 						<div class="sc_misc_settings_layout">
 							<div class="sc_misc_settings_main">
 								<?php if (is_array($calendars_contents)) { ?>
