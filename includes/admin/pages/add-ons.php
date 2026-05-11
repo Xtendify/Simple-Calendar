@@ -113,7 +113,7 @@ class Add_Ons extends Admin_Page
 			'fullcalendar' => [
 				'title' => __('FullCalendar Extended', 'google-calendar-events'),
 				'description' => __(
-					'Built on the trusted fullcalendar open-source library, the FullCalendar Extended addon brings google calendar customized for your wordpress site. Choose from month',
+					'Adds month, week, day, and list views to your calendar with improved interactivity and display flexibility.',
 					'google-calendar-events',
 				),
 				'learn_more_url' => 'https://simplecalendar.io/downloads/fullcalendar/',
@@ -125,7 +125,7 @@ class Add_Ons extends Admin_Page
 			'google_pro' => [
 				'title' => __('Google Calendar Pro', 'google-calendar-events'),
 				'description' => __(
-					'Embed google calendar in wordpress without making it public, ideal for internal teams, client portals, member-only sites, and private events. Protect calendars',
+					'Enjoy 1-click Google Calendar integration with real-time synchronization for both public and private calendars.',
 					'google-calendar-events',
 				),
 				'learn_more_url' => 'https://simplecalendar.io/downloads/google-calendar-pro/',
@@ -139,7 +139,7 @@ class Add_Ons extends Admin_Page
 			'appointment' => [
 				'title' => __('Appointment Calendar', 'google-calendar-events'),
 				'description' => __(
-					'Built on the trusted fullcalendar open-source library, the FullCalendar Extended addon brings google calendar customized for your wordpress site.',
+					'Enables visitors to book multiple appointments on Google Calendar directly through your WordPress site, as per the shown availability.',
 					'google-calendar-events',
 				),
 				'learn_more_url' => 'https://simplecalendar.io/downloads/book-an-appointment/',
@@ -157,17 +157,12 @@ class Add_Ons extends Admin_Page
 			<div class="sc_addons_main">
 				<div class="sc_setup_card">
 							<h2 class="sc_h4 sc_addons_card_title">
-								<?php esc_html_e('Premium Add-on License Keys', 'google-calendar-events'); ?>
+								<?php esc_html_e('Sync More. Display Better. Accept Bookings.', 'google-calendar-events'); ?>
 							</h2>
 							<p class="sc_text--body_b2 sc_text--dark sc_addons_card_subtitle">
 								<?php esc_html_e(
-        	'Enter your add-on license keys below, making sure to activate each one to ensure they are valid.',
-        	'google-calendar-events',
-        ); ?>
-							</p>
-							<p class="sc_text--body_b3 sc_addons_card_note">
-								<?php esc_html_e(
-        	'Your license keys are used for access to automatic upgrades and premium support.',
+        	'Explore three focused addons. Each one extends Simple Calendar in a direction the free version doesn\'t go. 
+',
         	'google-calendar-events',
         ); ?>
 							</p>
