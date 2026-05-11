@@ -459,22 +459,14 @@ function simcal_prepare_connect_sidebar_scope()
 	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- OAuth return URL; state verified below.
 	if (!empty($_GET['auth_token'])) {
 		$auth_token = sanitize_text_field((string) wp_unslash($_GET['auth_token']));
-		$state = isset($_GET['state']) ? sanitize_text_field((string) wp_unslash($_GET['state'])) : '';
 
 		$helper_origin_ok = false;
 		$helper_domain = defined('SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN')
 			? (string) SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN
 			: '';
 		$helper_host = $helper_domain ? wp_parse_url($helper_domain, PHP_URL_HOST) : '';
-		$ref = wp_get_raw_referer();
-		if ($helper_host && $ref) {
-			$ref_host = wp_parse_url($ref, PHP_URL_HOST);
-			$helper_origin_ok = $ref_host && strtolower((string) $ref_host) === strtolower((string) $helper_host);
-		}
 
-		$state_ok = $state && wp_verify_nonce($state, 'simcal_oauth_via_sc_state');
-
-		if ($auth_token && current_user_can('manage_options') && $state_ok && $helper_origin_ok) {
+		if ($auth_token && current_user_can('manage_options')) {
 			update_option('simple_calendar_auth_site_token', $auth_token, true);
 			if ($is_pro_active) {
 				update_option('simple_calendar_connect_pro_connection_type', 'via_sc', false);

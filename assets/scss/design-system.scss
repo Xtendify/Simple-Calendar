@@ -660,7 +660,10 @@
 			background: var(--sc-color-extra-light-gray);
 		}
 	}
-
+	a:focus {
+		box-shadow: none;
+		outline: none;
+	}
 	.sc_btn_icon {
 		width: 150px;
 		height: 44px;
