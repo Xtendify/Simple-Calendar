@@ -62,10 +62,29 @@ class Add_Ons extends Admin_Page
 		$installed_addons = apply_filters('simcal_installed_addons', []);
 		$installed_addons = is_array($installed_addons) ? $installed_addons : [];
 
-		$get_license_key_for_title = function ($expected_title) use ($installed_addons) {
-			$expected_title = is_string($expected_title) ? $expected_title : '';
-			if ($expected_title === '') {
-				return '';
+		/**
+		 * Map a catalog display title to the `simcal_{id}` key used in settings.
+		 *
+		 * Add-ons register arbitrary display strings (not always identical to catalog titles),
+		 * so we accept multiple candidate labels and optional explicit `simcal_*` keys.
+		 *
+		 * @param string|string[] $expected_titles One or more strings to match against registered add-on names (case-insensitive).
+		 * @param string[]        $explicit_keys   Optional `simcal_*` keys that must exist in `$installed_addons` to count as a match.
+		 * @return string Empty string when not found.
+		 */
+		$get_license_key = function ($expected_titles, array $explicit_keys = []) use ($installed_addons) {
+			$titles = is_array($expected_titles) ? $expected_titles : [$expected_titles];
+			$candidates = [];
+			foreach ($titles as $t) {
+				if (is_string($t) && $t !== '') {
+					$candidates[] = $t;
+				}
+			}
+			foreach ($explicit_keys as $ek) {
+				$ek = is_string($ek) ? $ek : '';
+				if ($ek !== '' && strpos($ek, 'simcal_') === 0 && array_key_exists($ek, $installed_addons)) {
+					return $ek;
+				}
 			}
 			foreach ($installed_addons as $k => $v) {
 				if (!is_string($k) || $k === '' || strpos($k, 'simcal_') !== 0) {
@@ -74,8 +93,10 @@ class Add_Ons extends Admin_Page
 				if (!is_string($v) || $v === '') {
 					continue;
 				}
-				if (strcasecmp($v, $expected_title) === 0) {
-					return $k;
+				foreach ($candidates as $expected_title) {
+					if (strcasecmp($v, $expected_title) === 0) {
+						return $k;
+					}
 				}
 			}
 			return '';
@@ -107,7 +128,21 @@ class Add_Ons extends Admin_Page
 
 		$google_pro_license_key = defined('SIMPLE_CALENDAR_GOOGLE_PRO_ID')
 			? 'simcal_' . (string) SIMPLE_CALENDAR_GOOGLE_PRO_ID
-			: $get_license_key_for_title('Google Calendar Pro');
+			: $get_license_key('Google Calendar Pro');
+
+		// FullCalendar add-on registers `simcal_installed_addons` with display name "FullCalendar"
+		// (see Simple-Calendar-FullCalendar). Match that plus catalog/marketing titles so the
+		// license card resolves when SIMPLE_CALENDAR_FULLCALENDAR_ID is absent.
+		$fullcalendar_license_key = defined('SIMPLE_CALENDAR_FULLCALENDAR_ID')
+			? 'simcal_' . (string) SIMPLE_CALENDAR_FULLCALENDAR_ID
+			: $get_license_key(
+				[
+					__('FullCalendar Extended', 'google-calendar-events'),
+					'FullCalendarExtended',
+					'FullCalendar Extended',
+					'FullCalendar',
+				],
+			);
 
 		$catalog = [
 			'fullcalendar' => [
@@ -118,9 +153,11 @@ class Add_Ons extends Admin_Page
 				),
 				'learn_more_url' => 'https://simplecalendar.io/downloads/fullcalendar/',
 				'buy_url' => simcal_get_url('addons'),
-				'is_active' => $is_plugin_active('simple-calendar-fullcalendar/simple-calendar-fullcalendar.php'),
+				'is_active' => function_exists('simcal_is_fullcalendar_addon_active')
+					? simcal_is_fullcalendar_addon_active()
+					: $is_plugin_active('simple-calendar-fullcalendar/simple-calendar-fullcalendar.php'),
 				'icon' => 'fullcalendar-extended.svg',
-				'license_key' => $get_license_key_for_title('FullCalendar Extended'),
+				'license_key' => $fullcalendar_license_key,
 			],
 			'google_pro' => [
 				'title' => __('Google Calendar Pro', 'google-calendar-events'),
@@ -146,7 +183,16 @@ class Add_Ons extends Admin_Page
 				'buy_url' => simcal_get_url('addons'),
 				'is_active' => $is_plugin_active('simple-calendar-appointment/simple-calendar-appointment.php'),
 				'icon' => 'appointment-calendar.svg',
-				'license_key' => $get_license_key_for_title('Appointment Calendar'),
+				'license_key' => $get_license_key(
+					[
+						__('Appointment Calendar', 'google-calendar-events'),
+						'AppointmentCalendar',
+						'Book an Appointment',
+					],
+					defined('SIMPLE_CALENDAR_APPOINTMENT_ID')
+						? ['simcal_' . (string) SIMPLE_CALENDAR_APPOINTMENT_ID]
+						: [],
+				),
 			],
 		];
 

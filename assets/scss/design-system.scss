@@ -466,6 +466,9 @@
 		text-decoration: none;
 	}
 
+	.is_hidden {
+		display: none !important;
+	}
 	.sc_btn--sm {
 		padding: var(--sc-btn-sm-padding-y) var(--sc-btn-sm-padding-x);
 		font-size: var(--sc-btn-sm-font-size);
