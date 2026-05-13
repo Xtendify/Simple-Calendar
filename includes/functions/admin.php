@@ -151,6 +151,24 @@ function simcal_is_google_calendar_pro_version_compatible($min_version = '2.0.0'
 	return version_compare($installed, $min, '>=');
 }
 
+
+function simcal_is_google_calendar_book_an_appointment_version_compatible($min_version = '2.0.0')
+{
+	if (!defined('SIMPLE_CALENDAR_APPOINTMENT_VERSION')) {
+		return true;
+	}
+
+	$installed = (string) SIMPLE_CALENDAR_APPOINTMENT_VERSION;
+	$min = is_string($min_version) && $min_version !== '' ? $min_version : '2.0.0';
+
+	// If version string is missing/unexpected, fail closed (require update).
+	if ($installed === '') {
+		return false;
+	}
+
+	return version_compare($installed, $min, '>=');
+}
+
 /**
  * Check if a screen is a plugin admin view.
  * Returns the screen id if true, false (bool) if not.
@@ -515,7 +533,8 @@ function simcal_prepare_connect_sidebar_scope()
 	$welcome_context = (string) get_option('simple_calendar_connect_welcome_context', '');
 	$welcome_context = $welcome_context ? $welcome_context : 'core';
 
-	$is_pro_active = simcal_is_google_calendar_pro_active($welcome_context);
+	$is_appointment_active = function_exists('simcal_is_appointment_addon_active') && simcal_is_appointment_addon_active();
+	$is_pro_active = simcal_is_google_calendar_pro_active('') || $is_appointment_active;
 	if (!$is_pro_active && 'pro' === $welcome_context) {
 		$welcome_context = 'core';
 		delete_option('simple_calendar_connect_welcome_context');
