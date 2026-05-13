@@ -154,6 +154,13 @@
 			});
 		});
 
+		$('#_grouped_calendars_ids').on('select2:select', function (e) {
+			var $select = $(this);
+			var $option = $select.find('option[value="' + e.params.data.id + '"]');
+			$option.detach().appendTo($select);
+			$select.trigger('change.select2');
+		});
+
 		// jQuery Date Picker.
 		var fieldDatePicker = $('.simcal-field-date-picker');
 		fieldDatePicker.each(function (e, i) {
