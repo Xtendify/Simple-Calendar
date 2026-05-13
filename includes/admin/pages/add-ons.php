@@ -135,14 +135,12 @@ class Add_Ons extends Admin_Page
 		// license card resolves when SIMPLE_CALENDAR_FULLCALENDAR_ID is absent.
 		$fullcalendar_license_key = defined('SIMPLE_CALENDAR_FULLCALENDAR_ID')
 			? 'simcal_' . (string) SIMPLE_CALENDAR_FULLCALENDAR_ID
-			: $get_license_key(
-				[
-					__('FullCalendar Extended', 'google-calendar-events'),
-					'FullCalendarExtended',
-					'FullCalendar Extended',
-					'FullCalendar',
-				],
-			);
+			: $get_license_key([
+				__('FullCalendar Extended', 'google-calendar-events'),
+				'FullCalendarExtended',
+				'FullCalendar Extended',
+				'FullCalendar',
+			]);
 
 		$catalog = [
 			'fullcalendar' => [
@@ -174,7 +172,7 @@ class Add_Ons extends Admin_Page
 				'license_key' => $google_pro_license_key,
 			],
 			'appointment' => [
-				'title' => __('Appointment Calendar', 'google-calendar-events'),
+				'title' => __('Book an Appointment', 'google-calendar-events'),
 				'description' => __(
 					'Enables visitors to book multiple appointments on Google Calendar directly through your WordPress site, as per the shown availability.',
 					'google-calendar-events',
@@ -185,13 +183,12 @@ class Add_Ons extends Admin_Page
 				'icon' => 'appointment-calendar.svg',
 				'license_key' => $get_license_key(
 					[
+						__('Book an Appointment', 'google-calendar-events'),
 						__('Appointment Calendar', 'google-calendar-events'),
 						'AppointmentCalendar',
 						'Book an Appointment',
 					],
-					defined('SIMPLE_CALENDAR_APPOINTMENT_ID')
-						? ['simcal_' . (string) SIMPLE_CALENDAR_APPOINTMENT_ID]
-						: [],
+					defined('SIMPLE_CALENDAR_APPOINTMENT_ID') ? ['simcal_' . (string) SIMPLE_CALENDAR_APPOINTMENT_ID] : [],
 				),
 			],
 		];

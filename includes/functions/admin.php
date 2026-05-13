@@ -418,6 +418,71 @@ function simcal_is_google_calendar_pro_active($connect_flow_context = '')
 }
 
 /**
+ * Whether the Simple Calendar FullCalendar add-on is active.
+ *
+ * Mirrors {@see simcal_is_google_calendar_pro_active()} so the Add-ons page and other UI
+ * can detect the add-on even when the plugin directory name differs from the default.
+ *
+ * @since 4.0.0
+ *
+ * @return bool
+ */
+function simcal_is_fullcalendar_addon_active()
+{
+	$is_active = false;
+
+	if (defined('SIMPLE_CALENDAR_FULLCALENDAR_VERSION')) {
+		$is_active = true;
+	} elseif (class_exists('\SimpleCalendar\Add_On_FullCalendar')) {
+		$is_active = true;
+	}
+
+	if (!$is_active) {
+		if (!function_exists('is_plugin_active') && defined('ABSPATH')) {
+			$plugin_file = trailingslashit(ABSPATH) . 'wp-admin/includes/plugin.php';
+			if (is_readable($plugin_file)) {
+				// phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
+				require_once $plugin_file;
+			}
+		}
+
+		if (function_exists('is_plugin_active')) {
+			$is_active = is_plugin_active('simple-calendar-fullcalendar/simple-calendar-fullcalendar.php');
+		} else {
+			$active_plugins = (array) get_option('active_plugins', []);
+			$active_plugins = array_map('strval', $active_plugins);
+			foreach ($active_plugins as $p) {
+				$p_lower = strtolower($p);
+				if (
+					strpos($p_lower, 'simple-calendar-fullcalendar') !== false ||
+					(strpos($p_lower, 'fullcalendar') !== false && strpos($p_lower, 'simple-calendar') !== false)
+				) {
+					$is_active = true;
+					break;
+				}
+			}
+
+			if (!$is_active) {
+				$sitewide = (array) get_option('active_sitewide_plugins', []);
+				$sitewide_files = array_map('strval', array_keys($sitewide));
+				foreach ($sitewide_files as $p) {
+					$p_lower = strtolower($p);
+					if (
+						strpos($p_lower, 'simple-calendar-fullcalendar') !== false ||
+						(strpos($p_lower, 'fullcalendar') !== false && strpos($p_lower, 'simple-calendar') !== false)
+					) {
+						$is_active = true;
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	return (bool) apply_filters('simcal_is_fullcalendar_addon_active', $is_active);
+}
+
+/**
  * Build variables for Connect sidebar (progress / rating / Pro CTA) and Connect step logic.
  *
  * Mirrors {@see SIMPLE_CALENDAR_PATH}/includes/admin/pages/connect-controller.php onboarding
