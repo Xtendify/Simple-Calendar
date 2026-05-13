@@ -665,7 +665,8 @@
 	}
 	a:focus {
 		box-shadow: none;
-		outline: none;
+		outline: 2px solid var(--sc-color-blue);
+		outline-offset: 2px;
 	}
 	.sc_btn_icon {
 		width: 150px;
