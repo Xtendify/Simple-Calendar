@@ -93,7 +93,7 @@ class Assets
 			'dashboard_page_simple-calendar_settings',
 		];
 
-		$is_connect_page = $this->current_page = 'simple-calendar_settings';
+		$is_connect_page = $this->current_page == 'simple-calendar_settings';
 
 		// OAuth helper UI (deauthenticate + legacy auth tabs). Safe to enqueue on Connect/Settings
 		// because it no-ops when its target elements are not present.
