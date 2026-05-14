@@ -57,7 +57,8 @@ class Menus
 		add_filter('plugin_action_links_' . self::$plugin, [__CLASS__, 'plugin_action_links'], 10, 5);
 		add_filter('plugin_row_meta', [__CLASS__, 'plugin_row_meta'], 10, 2);
 		// Custom text in admin footer.
-		add_filter('admin_footer_text', [$this, 'admin_footer_text'], 1);
+		add_filter('admin_footer_text', '__return_empty_string', 1);
+		add_filter('update_footer', '__return_empty_string', 11);
 	}
 
 	/**
@@ -208,52 +209,5 @@ class Menus
 		}
 
 		return $meta_links;
-	}
-
-	/**
-	 * Admin footer text filter callback.
-	 *
-	 * Change this plugin screens admin footer text.
-	 *
-	 * @since  3.0.0
-	 *
-	 * @param  $footer_text
-	 *
-	 * @return string|void
-	 */
-	public function admin_footer_text($footer_text)
-	{
-		// Check to make sure we're on a SimpleCal admin page
-		$screen = simcal_is_admin_screen();
-		if ($screen !== false) {
-			// Change the footer text
-			if (!get_option('simple-calendar_admin_footer_text_rated')) {
-				$footer_text = sprintf(
-					__(
-						'If you like <strong>Simple Calendar</strong> please leave us a %s&#9733;&#9733;&#9733;&#9733;&#9733; rating on WordPress.org%s. A huge thank you in advance!',
-						'google-calendar-events',
-					),
-					'<a href="https://wordpress.org/support/view/plugin-reviews/google-calendar-events?filter=5#postform" target="_blank" class="simcal-rating-link" data-rated="' .
-						esc_attr__('Thanks :)', 'google-calendar-events') .
-						'">',
-					'</a>',
-				);
-				// Add a nonce field used in ajax.
-				$footer_text .= wp_nonce_field('simcal_rating_nonce', 'simcal_rating_nonce');
-				$footer_text .= '<script type="text/javascript">';
-				$footer_text .=
-					"jQuery( 'a.simcal-rating-link' ).click( function() {
-						jQuery.post( '" .
-					\SimpleCalendar\plugin()->ajax_url() .
-					"', { action: 'simcal_rated', nonce: jQuery( '#simcal_rating_nonce' ).val() } );
-						jQuery( this ).parent().text( jQuery( this ).data( 'rated' ) );
-					});";
-				$footer_text .= '</script>';
-			} else {
-				$footer_text = __('Thanks for using Simple Calendar!', 'google-calendar-events');
-			}
-		}
-
-		return $footer_text;
 	}
 }
