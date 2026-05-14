@@ -204,8 +204,7 @@ class Add_Ons extends Admin_Page
 							</h2>
 							<p class="sc_text--body_b2 sc_text--dark sc_addons_card_subtitle">
 								<?php esc_html_e(
-        	'Explore three focused addons. Each one extends Simple Calendar in a direction the free version doesn\'t go. 
-',
+        	'Explore three focused addons. Each one extends Simple Calendar in a direction the free version doesn\'t go.',
         	'google-calendar-events',
         ); ?>
 							</p>
