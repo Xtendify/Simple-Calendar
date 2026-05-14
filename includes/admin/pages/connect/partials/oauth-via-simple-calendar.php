@@ -45,7 +45,7 @@ wp_nonce_field('oauth_action_deauthentication', 'oauth_action_deauthentication')
 			class="sc_btn sc_btn--blue-loading"
 			data-dialog="<?php echo esc_attr(__('Confirm disconnect?', 'google-calendar-events')); ?>"
 		>
-			<span class="sc_btn_submit"><?php esc_html_e('DeAuthenticate', 'google-calendar-events'); ?></span>
+			<span class="sc_btn_submit"><?php esc_html_e('Disconnect', 'google-calendar-events'); ?></span>
 			<span class="sc_btn_loading" aria-hidden="true">
 				<span class="sc_btn--icons sc_btn--loading-icon">autorenew</span>
 			</span>

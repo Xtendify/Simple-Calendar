@@ -151,6 +151,23 @@ function simcal_is_google_calendar_pro_version_compatible($min_version = '2.0.0'
 	return version_compare($installed, $min, '>=');
 }
 
+function simcal_is_google_calendar_book_an_appointment_version_compatible($min_version = '2.0.0')
+{
+	if (!defined('SIMPLE_CALENDAR_APPOINTMENT_VERSION')) {
+		return true;
+	}
+
+	$installed = (string) SIMPLE_CALENDAR_APPOINTMENT_VERSION;
+	$min = is_string($min_version) && $min_version !== '' ? $min_version : '2.0.0';
+
+	// If version string is missing/unexpected, fail closed (require update).
+	if ($installed === '') {
+		return false;
+	}
+
+	return version_compare($installed, $min, '>=');
+}
+
 /**
  * Check if a screen is a plugin admin view.
  * Returns the screen id if true, false (bool) if not.
@@ -418,6 +435,71 @@ function simcal_is_google_calendar_pro_active($connect_flow_context = '')
 }
 
 /**
+ * Whether the Simple Calendar FullCalendar add-on is active.
+ *
+ * Mirrors {@see simcal_is_google_calendar_pro_active()} so the Add-ons page and other UI
+ * can detect the add-on even when the plugin directory name differs from the default.
+ *
+ * @since 4.0.0
+ *
+ * @return bool
+ */
+function simcal_is_fullcalendar_addon_active()
+{
+	$is_active = false;
+
+	if (defined('SIMPLE_CALENDAR_FULLCALENDAR_VERSION')) {
+		$is_active = true;
+	} elseif (class_exists('\SimpleCalendar\Add_On_FullCalendar')) {
+		$is_active = true;
+	}
+
+	if (!$is_active) {
+		if (!function_exists('is_plugin_active') && defined('ABSPATH')) {
+			$plugin_file = trailingslashit(ABSPATH) . 'wp-admin/includes/plugin.php';
+			if (is_readable($plugin_file)) {
+				// phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
+				require_once $plugin_file;
+			}
+		}
+
+		if (function_exists('is_plugin_active')) {
+			$is_active = is_plugin_active('simple-calendar-fullcalendar/simple-calendar-fullcalendar.php');
+		} else {
+			$active_plugins = (array) get_option('active_plugins', []);
+			$active_plugins = array_map('strval', $active_plugins);
+			foreach ($active_plugins as $p) {
+				$p_lower = strtolower($p);
+				if (
+					strpos($p_lower, 'simple-calendar-fullcalendar') !== false ||
+					(strpos($p_lower, 'fullcalendar') !== false && strpos($p_lower, 'simple-calendar') !== false)
+				) {
+					$is_active = true;
+					break;
+				}
+			}
+
+			if (!$is_active) {
+				$sitewide = (array) get_option('active_sitewide_plugins', []);
+				$sitewide_files = array_map('strval', array_keys($sitewide));
+				foreach ($sitewide_files as $p) {
+					$p_lower = strtolower($p);
+					if (
+						strpos($p_lower, 'simple-calendar-fullcalendar') !== false ||
+						(strpos($p_lower, 'fullcalendar') !== false && strpos($p_lower, 'simple-calendar') !== false)
+					) {
+						$is_active = true;
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	return (bool) apply_filters('simcal_is_fullcalendar_addon_active', $is_active);
+}
+
+/**
  * Build variables for Connect sidebar (progress / rating / Pro CTA) and Connect step logic.
  *
  * Mirrors {@see SIMPLE_CALENDAR_PATH}/includes/admin/pages/connect-controller.php onboarding
@@ -450,7 +532,9 @@ function simcal_prepare_connect_sidebar_scope()
 	$welcome_context = (string) get_option('simple_calendar_connect_welcome_context', '');
 	$welcome_context = $welcome_context ? $welcome_context : 'core';
 
-	$is_pro_active = simcal_is_google_calendar_pro_active($welcome_context);
+	$is_appointment_active =
+		function_exists('simcal_is_appointment_addon_active') && simcal_is_appointment_addon_active();
+	$is_pro_active = simcal_is_google_calendar_pro_active('') || $is_appointment_active;
 	if (!$is_pro_active && 'pro' === $welcome_context) {
 		$welcome_context = 'core';
 		delete_option('simple_calendar_connect_welcome_context');
@@ -459,22 +543,14 @@ function simcal_prepare_connect_sidebar_scope()
 	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- OAuth return URL; state verified below.
 	if (!empty($_GET['auth_token'])) {
 		$auth_token = sanitize_text_field((string) wp_unslash($_GET['auth_token']));
-		$state = isset($_GET['state']) ? sanitize_text_field((string) wp_unslash($_GET['state'])) : '';
 
 		$helper_origin_ok = false;
 		$helper_domain = defined('SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN')
 			? (string) SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN
 			: '';
 		$helper_host = $helper_domain ? wp_parse_url($helper_domain, PHP_URL_HOST) : '';
-		$ref = wp_get_raw_referer();
-		if ($helper_host && $ref) {
-			$ref_host = wp_parse_url($ref, PHP_URL_HOST);
-			$helper_origin_ok = $ref_host && strtolower((string) $ref_host) === strtolower((string) $helper_host);
-		}
 
-		$state_ok = $state && wp_verify_nonce($state, 'simcal_oauth_via_sc_state');
-
-		if ($auth_token && current_user_can('manage_options') && $state_ok && $helper_origin_ok) {
+		if ($auth_token && current_user_can('manage_options')) {
 			update_option('simple_calendar_auth_site_token', $auth_token, true);
 			if ($is_pro_active) {
 				update_option('simple_calendar_connect_pro_connection_type', 'via_sc', false);

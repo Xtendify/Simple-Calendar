@@ -93,13 +93,11 @@ class Assets
 			'dashboard_page_simple-calendar_settings',
 		];
 
-		$is_connect_page =
-			($sc_screen && isset($sc_screen->id) && in_array($sc_screen->id, $connect_screen_ids, true)) ||
-			$this->current_page === 'simple-calendar_settings';
+		$is_connect_page = $this->current_page == 'simple-calendar_settings';
 
 		// OAuth helper UI (deauthenticate + legacy auth tabs). Safe to enqueue on Connect/Settings
 		// because it no-ops when its target elements are not present.
-		if ($this->current_page === 'simple-calendar_settings' || $is_connect_page) {
+		if ($is_connect_page) {
 			wp_enqueue_script('simcal-oauth-helper-admin');
 			wp_localize_script('simcal-oauth-helper-admin', 'oauth_admin', simcal_common_scripts_variables());
 		}
@@ -116,6 +114,7 @@ class Assets
 		);
 		wp_register_style('sc-design-system', $css_path . 'design-system.min.css', [], SIMPLE_CALENDAR_VERSION);
 		wp_register_style('sc-connect', $css_path . 'connect.min.css', ['sc-design-system'], SIMPLE_CALENDAR_VERSION);
+		wp_register_style('sc-add-ons', $css_path . 'add-ons.min.css', ['sc-design-system'], SIMPLE_CALENDAR_VERSION);
 		wp_register_style(
 			'sc-misc-settings',
 			$css_path . 'misc-settings.min.css',
@@ -201,12 +200,15 @@ class Assets
 			}
 		}
 
-		// Misc Settings (Calendars + Advanced cards): design-system layout + legacy Tailwind utilities used by fields.
+		// Misc Settings (Calendars + Advanced cards): design-system layout.
 		if ($sc_screen && 'calendar_page_simple-calendar_misc_settings' === $sc_screen->id) {
-			wp_enqueue_style('sc-admin-style', $css_path . 'admin-sett-style.min.css', [], SIMPLE_CALENDAR_VERSION);
-			wp_enqueue_style('sc-tail-style', $css_path . 'tailwind.min.css', [], SIMPLE_CALENDAR_VERSION);
 			wp_enqueue_style('sc-misc-settings');
-			wp_enqueue_style('sc-settings');
+			wp_enqueue_style('sc-connect');
+		}
+
+		// Add-ons page: design-system layout + Connect progress sidebar styles.
+		if ($sc_screen && 'calendar_page_simple-calendar_add_ons' === $sc_screen->id) {
+			wp_enqueue_style('sc-add-ons');
 			wp_enqueue_style('sc-connect');
 		}
 		if (
@@ -222,7 +224,7 @@ class Assets
 			wp_enqueue_style('sc-setting-style', $css_path . 'admin-post-settings.min.css', [], SIMPLE_CALENDAR_VERSION);
 		}
 
-		if (class_exists('SimpleCalendar\Feeds\Google_Pro') && $this->current_page === 'simple-calendar_settings') {
+		if (class_exists('SimpleCalendar\Feeds\Google_Pro') && $is_connect_page) {
 			wp_enqueue_style('sc-oauth-helper-style', $css_path . 'oauth-helper-admin.min.css', [], SIMPLE_CALENDAR_VERSION);
 		}
 	}

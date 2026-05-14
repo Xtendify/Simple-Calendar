@@ -108,6 +108,25 @@
 	})();
 
 	jQuery(function ($) {
+		/* =========================
+		 * Relocate notices (SC pages)
+		 * ========================= */
+		(function relocateScNotices() {
+			var $scRoot = $('.sc_root.sc_misc_settings, .sc_root.sc_addons').first();
+			if (!$scRoot.length) return;
+
+			var $target = $scRoot.find('.sc_connect_notices').first();
+			if (!$target.length) return;
+
+			// Move any notices that ended up inside the main cards back under the header.
+			var $cardNotices = $scRoot.find('.sc_container .sc_setup_card .notice');
+			if ($cardNotices.length) {
+				$cardNotices.each(function () {
+					$(this).detach().appendTo($target);
+				});
+			}
+		})();
+
 		/* ======== *
 		 * Tooltips *
 		 * ======== */
@@ -581,8 +600,43 @@
 				button = $(this),
 				buttons = button.closest('.simcal-addon-manage-license-buttons'),
 				field = button.closest('.simcal-addon-manage-license-field').find('> input'),
-				error = buttons.find('.error'),
-				spinner = button.find('i');
+				error = buttons.find('.error');
+
+			function setBtnLoading($btn) {
+				if (!$btn || !$btn.length) return;
+				$btn.removeClass('sc_is_finished sc_btn--red').addClass('sc_is_active');
+				$btn.attr('aria-disabled', 'true');
+				$btn.prop('disabled', true);
+				$btn.data('inFlight', true);
+			}
+
+			function clearBtnLoading($btn) {
+				if (!$btn || !$btn.length) return;
+				$btn.removeClass('sc_is_active');
+				$btn.removeAttr('aria-disabled');
+				$btn.prop('disabled', false);
+				$btn.data('inFlight', false);
+			}
+
+			function setBtnSuccess($btn) {
+				if (!$btn || !$btn.length) return;
+				$btn.removeClass('sc_is_active sc_btn--red').addClass('sc_is_finished');
+				$btn.attr('aria-disabled', 'true');
+				$btn.prop('disabled', true);
+				$btn.data('inFlight', false);
+			}
+
+			function setBtnError($btn) {
+				if (!$btn || !$btn.length) return;
+				$btn.removeClass('sc_is_active sc_is_finished').addClass('sc_btn--red');
+				$btn.removeAttr('aria-disabled');
+				$btn.prop('disabled', false);
+				$btn.data('inFlight', false);
+			}
+
+			if (button.data('inFlight') === true || button.prop('disabled')) {
+				return;
+			}
 
 			if ($(this).hasClass('activate')) {
 				manage_license_action = 'activate_license';
@@ -603,35 +657,68 @@
 					nonce: $('#simcal_license_manager').val(),
 				},
 				beforeSend: function () {
-					spinner.fadeToggle();
+					error.addClass('is_hidden').text('');
+					setBtnLoading(button);
 				},
 				success: function (response) {
-					spinner.fadeToggle();
 					if ('activate_license' == manage_license_action) {
 						if ('valid' == response.data) {
-							button.hide();
-							field.attr('disabled', 'disabled');
-							$(buttons).find('.label').show();
-							$(buttons).find('.deactivate').show();
-							error.hide();
+							setBtnSuccess(button);
+							setTimeout(function () {
+								button
+									.addClass('is_hidden')
+									.removeClass('sc_is_active sc_is_finished')
+									.removeAttr('aria-disabled')
+									.prop('disabled', false)
+									.data('inFlight', false);
+								field.attr('disabled', 'disabled');
+								$(buttons).find('.label').removeClass('is_hidden');
+								$(buttons)
+									.find('.deactivate')
+									.removeClass('is_hidden')
+									.removeClass('sc_is_active sc_is_finished')
+									.removeAttr('aria-disabled')
+									.prop('disabled', false)
+									.data('inFlight', false);
+								error.addClass('is_hidden').text('');
+							}, 650);
 						} else {
-							error.show().text(response.data);
+							clearBtnLoading(button);
+							setBtnError(button);
+							error.removeClass('is_hidden').text(response.data);
 						}
 					} else {
 						if ('deactivated' == response.data) {
-							button.hide();
-							field.removeAttr('disabled');
-							$(buttons).find('.label').hide();
-							$(buttons).find('.activate').show();
-							error.hide();
+							setBtnSuccess(button);
+							setTimeout(function () {
+								button
+									.addClass('is_hidden')
+									.removeClass('sc_is_active sc_is_finished')
+									.removeAttr('aria-disabled')
+									.prop('disabled', false)
+									.data('inFlight', false);
+								field.removeAttr('disabled');
+								$(buttons).find('.label').addClass('is_hidden');
+								$(buttons)
+									.find('.activate')
+									.removeClass('is_hidden')
+									.removeClass('sc_is_active sc_is_finished')
+									.removeAttr('aria-disabled')
+									.prop('disabled', false)
+									.data('inFlight', false);
+								error.addClass('is_hidden').text('');
+							}, 650);
 						} else {
-							error.show().text(response.data);
+							clearBtnLoading(button);
+							setBtnError(button);
+							error.removeClass('is_hidden').text(response.data);
 						}
 					}
 				},
 				error: function (response) {
 					console.log(response);
-					spinner.fadeToggle();
+					clearBtnLoading(button);
+					setBtnError(button);
 				},
 			});
 		});
@@ -641,33 +728,72 @@
 
 			var spinner = $(this).find('i'),
 				dialog = $(this).data('dialog'),
-				reply = confirm(dialog);
+				$modal = $('#sc_reset_licenses_modal');
 
-			if (true !== reply) {
+			function runResetAjax() {
+				$.ajax({
+					url: simcal_admin.ajax_url,
+					method: 'POST',
+					data: {
+						action: 'simcal_reset_add_ons_licenses',
+						nonce: $('#simcal_license_manager').val(),
+					},
+					beforeSend: function () {
+						spinner.removeClass('is_hidden');
+					},
+					success: function (response) {
+						if ('success' == response.data) {
+							location.reload();
+						} else {
+							console.log(response);
+						}
+					},
+					error: function (response) {
+						console.log(response);
+					},
+					complete: function () {
+						spinner.addClass('is_hidden');
+					},
+				});
+			}
+
+			if ($modal.length) {
+				$modal.find('.sc_connect_modal__message').text(typeof dialog === 'string' ? dialog : '');
+				$modal.removeClass('is_hidden').attr('aria-hidden', 'false');
+
+				$modal.off('.scResetLic');
+				$(document).off('keydown.scResetLic');
+
+				function dismissResetModal() {
+					$modal.addClass('is_hidden').attr('aria-hidden', 'true');
+					$modal.off('.scResetLic');
+					$(document).off('keydown.scResetLic');
+				}
+
+				$modal.on('click.scResetLic', '[data-sc-reset-licenses-modal-dismiss]', function (ev) {
+					ev.preventDefault();
+					dismissResetModal();
+				});
+
+				$modal.on('click.scResetLic', '#sc_reset_licenses_confirm', function (ev) {
+					ev.preventDefault();
+					dismissResetModal();
+					runResetAjax();
+				});
+
+				$(document).on('keydown.scResetLic', function (ev) {
+					if (ev.key === 'Escape' || ev.keyCode === 27) {
+						dismissResetModal();
+					}
+				});
 				return;
 			}
 
-			$.ajax({
-				url: simcal_admin.ajax_url,
-				method: 'POST',
-				data: {
-					action: 'simcal_reset_add_ons_licenses',
-					nonce: $('#simcal_license_manager').val(),
-				},
-				beforeSend: function () {
-					spinner.toggle();
-				},
-				success: function (response) {
-					if ('success' == response.data) {
-						location.reload();
-					} else {
-						console.log(response);
-					}
-				},
-				error: function (response) {
-					console.log(response);
-				},
-			});
+			if (true !== confirm(dialog)) {
+				return;
+			}
+
+			runResetAjax();
 		});
 
 		/* =========================

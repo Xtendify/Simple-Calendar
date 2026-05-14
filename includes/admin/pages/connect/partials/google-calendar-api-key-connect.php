@@ -134,7 +134,7 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
 				<?php
     /* translators: %1$s: Opening anchor tag, %2$s: Closing anchor tag */
     $text = __(
-    	'Protect your API key from unauthorized access. To create one, follow our %1$sstep-by-step guide%2$s on %3$sGoogle Cloud Console%4$s.',
+    	'Protect your API key from unauthorized access. To create one, follow our %1$sstep-by-step guide%2$s.',
     	'google-calendar-events',
     );
     echo wp_kses(
@@ -149,8 +149,6 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
     				),
     			) .
     			'" target="_blank" class="sc_connect_helper_link">',
-    		'</a>',
-    		'<a href="https://console.cloud.google.com/" target="_blank" class="sc_connect_helper_link">',
     		'</a>',
     	),
     	[

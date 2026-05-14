@@ -270,17 +270,22 @@
 	}
 
 	/* Sidebar stack for rating + pro cards (shown after progress stays 100% for a day) */
+
 	.sc_connect_sidebar_stack {
 		display: flex;
 		flex-direction: column;
 		gap: 16px;
 	}
-
+	.sc_container {
+		.sc_connect_rating_card {
+			background: var(--sc-color-blue);
+			color: var(--sc-color-white);
+		}
+	}
 	.sc_connect_rating_card {
 		background: var(--sc-color-blue);
 		color: var(--sc-color-white);
 	}
-
 	.sc_connect_rating_title {
 		font-family: var(--sc-font-heading);
 		font-weight: var(--sc-font-weight-semibold);
@@ -617,10 +622,6 @@
 			justify-content: flex-end;
 			flex-wrap: wrap;
 		}
-	}
-
-	.is_hidden {
-		display: none;
 	}
 
 	.sc_connect_api_key_msg_wrap {

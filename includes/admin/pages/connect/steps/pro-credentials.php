@@ -53,11 +53,9 @@ if ($show_own_credentials && current_user_can('manage_options') && $can_persist_
 $site_url = get_site_url();
 $authredirect = '';
 if (defined('SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN') && SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN) {
-	$oauth_state = wp_create_nonce('simcal_oauth_via_sc_state');
 	$authredirect = add_query_arg(
 		[
 			'request_from' => $site_url,
-			'state' => $oauth_state,
 		],
 		SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN . 'helper/',
 	);

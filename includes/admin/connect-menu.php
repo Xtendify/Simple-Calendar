@@ -71,6 +71,9 @@ class Connect_Menu
 		if (!\simcal_is_google_calendar_pro_version_compatible('2.0.0')) {
 			return;
 		}
+		if (!\simcal_is_google_calendar_book_an_appointment_version_compatible('2.0.0')) {
+			return;
+		}
 
 		$welcome_context = (string) get_option('simple_calendar_connect_welcome_context', '');
 		$welcome_context = $welcome_context ? $welcome_context : 'core';
@@ -104,7 +107,7 @@ class Connect_Menu
 			return;
 		}
 
-		$min_pro_version = '2.0.0';
+		$min_pro_version = $min_book_an_appointment_version = '2.0.0';
 		if (!\simcal_is_google_calendar_pro_version_compatible($min_pro_version)) {
 			$plugins_url = admin_url('plugins.php'); ?>
 			<div class="wrap">
@@ -131,6 +134,34 @@ class Connect_Menu
 				</div>
 			</div>
 			<?php return;
+		}
+
+		if (!\simcal_is_google_calendar_book_an_appointment_version_compatible($min_book_an_appointment_version)) {
+			$plugins_url = admin_url('plugins.php'); ?>
+				<div class="wrap">
+					<div class="notice notice-error">
+						<p>
+							<strong><?php esc_html_e('Update required.', 'google-calendar-events'); ?></strong>
+							<?php printf(
+       	/* translators: 1: installed version 2: required version */
+       	esc_html__(
+       		'Your Book an Appointment add-on version (%1$s) is not compatible. Please update it to %2$s or newer to use Connect and Settings.',
+       		'google-calendar-events',
+       	),
+       	defined('SIMPLE_CALENDAR_APPOINTMENT_VERSION')
+       		? esc_html((string) SIMPLE_CALENDAR_APPOINTMENT_VERSION)
+       		: esc_html__('unknown', 'google-calendar-events'),
+       	esc_html($min_book_an_appointment_version),
+       ); ?>
+						</p>
+						<p>
+							<a class="button button-primary" href="<?php echo esc_url($plugins_url); ?>">
+								<?php esc_html_e('Go to Plugins', 'google-calendar-events'); ?>
+							</a>
+						</p>
+					</div>
+				</div>
+				<?php return;
 		}
 
 		$welcome_context = (string) get_option('simple_calendar_connect_welcome_context', '');
