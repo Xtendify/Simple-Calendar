@@ -33,7 +33,7 @@
     "composer/installers": "2.3.0",
     "google/apiclient": "2.18.3",
     "nesbot/carbon": "^2.73.0",
-    "symfony/polyfill-php80": "1.36.0",
+    "symfony/polyfill-php80": "1.37.0",
     "erusev/parsedown": "1.7.4",
     "mexitek/phpcolors": "dev-master",
     "guzzlehttp/guzzle": "7.10.0",
