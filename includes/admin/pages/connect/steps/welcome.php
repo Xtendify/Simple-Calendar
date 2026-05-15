@@ -11,20 +11,22 @@ if (!defined('ABSPATH')) {
 }
 
 $welcome_context = isset($welcome_context) ? (string) $welcome_context : 'core';
-$heading =
-	'pro' === $welcome_context
-		? __('Welcome to Simple Calendar (Pro)', 'google-calendar-events')
-		: __('Welcome to Simple Calendar (Core)', 'google-calendar-events');
-$subtitle =
-	'pro' === $welcome_context
-		? __(
-			'Experience a one-stop solution for 1-click Google Calendar integration, with zero stress of handling complex API keys, Client ID, and Client Secret, powered by Simple Calendar’s pro addons.',
-			'google-calendar-events',
-		)
-		: __(
-			'Experience an easy, breezy integration of Google Calendar with WordPress using the OG Google Calendar WordPress plugin.',
-			'google-calendar-events',
-		);
+if ('appointment' === $welcome_context) {
+	$heading = __('Welcome to Simple Calendar book an Appointment', 'google-calendar-events');
+	$subtitle = __('You can book Appointment on google calendar by using simple calendar', 'google-calendar-events');
+} elseif ('pro' === $welcome_context) {
+	$heading = __('Welcome to Simple Calendar (Pro)', 'google-calendar-events');
+	$subtitle = __(
+		'Experience a one-stop solution for 1-click Google Calendar integration, with zero stress of handling complex API keys, Client ID, and Client Secret, powered by Simple Calendar’s pro addons.',
+		'google-calendar-events',
+	);
+} else {
+	$heading = __('Welcome to Simple Calendar (Core)', 'google-calendar-events');
+	$subtitle = __(
+		'Experience an easy, breezy integration of Google Calendar with WordPress using the OG Google Calendar WordPress plugin.',
+		'google-calendar-events',
+	);
+}
 $video_url = isset($video_url) ? trim((string) $video_url) : '';
 ?>
 <div class="sc_connect_welcome_outer">
@@ -61,7 +63,7 @@ $video_url = isset($video_url) ? trim((string) $video_url) : '';
 			<form method="post">
 				<?php wp_nonce_field('simcal_connect_welcome_next_action', 'simcal_connect_welcome_nonce'); ?>
 				<button type="submit" name="simcal_connect_welcome_next" class="sc_btn sc_btn--blue">
-					<?php esc_html_e('Next', 'google-calendar-events'); ?>
+					<?php echo esc_html(__('Continue setup', 'google-calendar-events') . ' →'); ?>
 				</button>
 			</form>
 		</div>

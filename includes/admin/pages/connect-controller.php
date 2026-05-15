@@ -47,6 +47,9 @@ $step_template_map = [
 ];
 $step_template_path = isset($step_template_map[$step]) ? $step_template_map[$step] : $step_template_map['api_key'];
 
+$welcome_context_for_template =
+	$is_pro_flow && 'appointment' !== (string) $welcome_context ? 'pro' : (string) $welcome_context;
+
 $context = [
 	// Shared.
 	'assets_base' => $assets_base,
@@ -62,10 +65,16 @@ $context = [
 	'has_published_pro_calendar' => $has_published_pro_calendar,
 	'should_hide_progress' => $should_hide_progress,
 	// Welcome.
-	'video_url' => (function () use ($is_pro_flow) {
+	'video_url' => (function () use ($is_pro_flow, $welcome_context_for_template) {
 		$core_video_url = 'https://www.youtube.com/embed/3QveIbm5Oc0?si=fMEUU0Za7KFzlJk5';
 		$pro_video_url = 'https://www.youtube.com/embed/lmN774Fk3rw?si=zBMoOck0BjI7Q39j';
-		$default = $is_pro_flow ? $pro_video_url : $core_video_url;
+		$appointment_video_url = 'https://www.youtube.com/embed/yCSpUlBnunw';
+		$default =
+			'appointment' === $welcome_context_for_template
+				? $appointment_video_url
+				: ($is_pro_flow
+					? $pro_video_url
+					: $core_video_url);
 
 		/**
 		 * Filter the welcome video embed URL shown on the Connect welcome step.
@@ -73,11 +82,11 @@ $context = [
 		 * @since 3.6.2
 		 *
 		 * @param string $default_embed_url Default YouTube embed URL.
-		 * @param string $context          'core' or 'pro'.
+		 * @param string $context          'core', 'pro', or 'appointment'.
 		 */
-		return apply_filters('simple_calendar_connect_welcome_video_url', $default, $is_pro_flow ? 'pro' : 'core');
+		return apply_filters('simple_calendar_connect_welcome_video_url', $default, $welcome_context_for_template);
 	})(),
-	'welcome_context' => $is_pro_flow ? 'pro' : $welcome_context,
+	'welcome_context' => $welcome_context_for_template,
 	// Sidebar.
 	'sidebar_template_path' => SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/sidebar.php',
 ];

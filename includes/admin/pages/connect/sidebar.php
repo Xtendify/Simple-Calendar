@@ -18,23 +18,26 @@ if (!defined('ABSPATH')) {
 	exit();
 }
 
-$is_pro = isset($welcome_context) && 'pro' === (string) $welcome_context;
+$is_pro = isset($welcome_context) && in_array((string) $welcome_context, ['pro', 'appointment'], true);
 $has_published_pro_calendar = isset($has_published_pro_calendar) ? (bool) $has_published_pro_calendar : false;
 $has_core_api_key_verified = isset($has_core_api_key_verified) ? (bool) $has_core_api_key_verified : false;
 
 if (!$should_hide_progress) {
-	$is_pro = isset($welcome_context) && 'pro' === (string) $welcome_context;
+	$is_pro = isset($welcome_context) && in_array((string) $welcome_context, ['pro', 'appointment'], true);
 
 	if ($is_pro) {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$show_own_credentials = isset($_GET['sc_pro_own']) && '1' === (string) $_GET['sc_pro_own'];
 		$is_connection_type_step = isset($current_step) && 'credentials' === (string) $current_step;
+		$has_oauth_connection = isset($has_oauth_connection) ? (bool) $has_oauth_connection : false;
+		$has_client_credentials = isset($has_client_credentials) ? (bool) $has_client_credentials : false;
 
 		$pro_connection_choice = (string) get_option('simple_calendar_connect_pro_connection_type', '');
 		$oauth_health_ok = (string) get_option('simple_calendar_connect_pro_oauth_health_ok', '');
-		$has_via_sc_authenticated = '1' === $oauth_health_ok;
+		$has_via_sc_authenticated = '1' === $oauth_health_ok || $has_oauth_connection;
 		$own_oauth_health_ok = (string) get_option('simple_calendar_connect_pro_own_oauth_health_ok', '');
-		$has_own_authenticated = '1' === $own_oauth_health_ok;
+		$has_own_oauth_token = !empty(trim((string) get_option('simple-calendar_google-pro-token', '')));
+		$has_own_authenticated = '1' === $own_oauth_health_ok || ($has_client_credentials && $has_own_oauth_token);
 
 		$connection_type_chosen =
 			$has_via_sc_authenticated ||
@@ -50,11 +53,7 @@ if (!$should_hide_progress) {
 		// - 75%: authenticated (via SC OAuth OR own OAuth/credentials)
 		// - 100%: a Pro calendar feed is created/published (post type `calendar`, feed `google-pro`)
 		$pro_step_connection_done = $connection_type_chosen || $has_published_pro_calendar;
-		$pro_step_auth_done =
-			$has_via_sc_authenticated ||
-			$has_own_authenticated ||
-			(('own' === $pro_connection_choice || $show_own_credentials) && $has_client_credentials) ||
-			$has_published_pro_calendar;
+		$pro_step_auth_done = $has_via_sc_authenticated || $has_own_authenticated || $has_published_pro_calendar;
 		$pro_step_private_done = $has_published_pro_calendar;
 
 		$percent = 25;
@@ -99,11 +98,7 @@ if (!$should_hide_progress) {
 				[
 					'id' => 'sc_connect_step_credentials',
 					'text' => __('Connect', 'google-calendar-events'),
-					'completed' =>
-						$has_via_sc_authenticated ||
-						$has_own_authenticated ||
-						(('own' === $pro_connection_choice || $show_own_credentials) && $has_client_credentials) ||
-						$has_published_pro_calendar,
+					'completed' => $has_via_sc_authenticated || $has_own_authenticated || $has_published_pro_calendar,
 					'icon_src' => $assets_base . 'check.svg',
 				],
 				[
