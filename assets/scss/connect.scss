@@ -21,6 +21,31 @@
 			text-align: center;
 		}
 
+		.sc_connect_welcome_title_row {
+			display: flex;
+			align-items: center;
+			gap: 20px;
+			text-align: left;
+			margin-bottom: 16px;
+
+			.sc_logo_link img {
+				display: block;
+				height: 40px;
+				width: auto;
+			}
+		}
+
+		.sc_connect_welcome_heading {
+			margin: 0;
+			padding: 0;
+			text-align: left;
+			flex: 1;
+		}
+		.sc_connect_welcome_subtitle {
+			text-align: left;
+			margin: 0px;
+		}
+
 		.sc_connect_welcome_video {
 			/* Video placeholder container */
 			margin: 40px auto 0;
@@ -186,7 +211,7 @@
 		.sc_section_title {
 			display: block;
 			width: 100%;
-			margin-bottom: 16px;
+			margin-bottom: 8px;
 		}
 
 		.sc_helpful_links_cards_wrapper {
@@ -558,7 +583,7 @@
 	}
 
 	.sc_connect_credentials_link_row_center {
-		margin-top: 21px;
+		margin-top: 8px;
 		text-align: center;
 	}
 
@@ -619,7 +644,7 @@
 
 		.sc_connect_modal__actions {
 			margin-top: 0;
-			justify-content: flex-end;
+			justify-content: center;
 			flex-wrap: wrap;
 		}
 	}
@@ -629,15 +654,22 @@
 	}
 
 	.sc_connect_credentials_link_row {
-		margin-top: 10px;
+		margin-top: 8px;
 	}
 
 	.sc_connect_credentials_core_card {
 		margin-top: 24px;
 	}
-
-	.sc_connect_credentials_core_form {
-		margin-top: 12px;
+	.sc_setup_card {
+		.sc_connect_credentials_core_form {
+			margin-top: 12px;
+			.sc_item_spaced {
+				margin-bottom: 0px;
+			}
+		}
+		.sc_connect_setup_progress_title {
+			margin: 0px;
+		}
 	}
 
 	@media (max-width: 1024px) {

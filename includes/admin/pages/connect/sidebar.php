@@ -103,7 +103,7 @@ if (!$should_hide_progress) {
 				],
 				[
 					'id' => 'sc_connect_step_private',
-					'text' => __('Display', 'google-calendar-events'),
+					'text' => __('Add new calendar', 'google-calendar-events'),
 					'completed' => $has_published_pro_calendar,
 					'icon_src' => $assets_base . 'check.svg',
 				],
@@ -132,19 +132,19 @@ if (!$should_hide_progress) {
 			'label' => $core_label,
 			'items' => [
 				[
-					'text' => __('Watch Tutorial', 'google-calendar-events'),
+					'text' => __('Watch tutorial', 'google-calendar-events'),
 					'completed' => true,
 					'icon_src' => $assets_base . 'check.svg',
 				],
 				[
 					'id' => 'sc_connect_step_api_key',
-					'text' => __('Add API Key', 'google-calendar-events'),
+					'text' => __('Add API key', 'google-calendar-events'),
 					'completed' => $has_core_api_key_verified,
 					'icon_src' => $assets_base . 'check.svg',
 				],
 				[
 					'id' => 'sc_connect_step_calendar',
-					'text' => __('Add New Calendar', 'google-calendar-events'),
+					'text' => __('Add new calendar', 'google-calendar-events'),
 					'completed' => $has_core_api_key_verified && $has_published_calendar,
 					'icon_src' => $assets_base . 'check.svg',
 				],

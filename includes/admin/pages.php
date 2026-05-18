@@ -254,11 +254,6 @@ class Pages
 									</a>
 								</span>
 							</div>
-							<div class="sc_connect_page_header_right">
-								<span class="sc_text--body_b1">
-									<?php echo esc_html__('Addons', 'google-calendar-events'); ?>
-								</span>
-							</div>
 						</div>
 
 						<div class="sc_connect_notices">
@@ -311,11 +306,6 @@ class Pages
 									</a>
 								</span>
 							</div>
-							<div class="sc_connect_page_header_right">
-								<span class="sc_text--body_b1">
-									<?php echo esc_html__('Settings', 'google-calendar-events'); ?>
-								</span>
-							</div>
 						</div>
 
 						<div class="sc_connect_notices">
@@ -334,7 +324,7 @@ class Pages
 											<div class="sc_text--body_b3 sc_text--dark"><?php echo $calendars_contents['description']; ?></div>
 										<?php } ?>
 
-										<form id="simcal-misc-settings-form-calendars" method="post" action="options.php">
+										<form id="simcal-misc-settings-form-calendars" class="simcal-misc-settings-general" method="post" action="options.php">
 											<?php
            do_action('simcal_admin_page_' . $this->page . '_' . $calendars_tab_id . '_start');
            settings_fields('simple-calendar_' . $this->page . '_' . $calendars_tab_id);
