@@ -13,7 +13,7 @@ if (!defined('ABSPATH')) {
 
 $welcome_context = isset($welcome_context) ? (string) $welcome_context : 'core';
 if ('appointment' === $welcome_context) {
-	$heading = __('Welcome to Book An Appointment', 'google-calendar-events');
+	$heading = __('Welcome to Appointment booking', 'google-calendar-events');
 	$subtitle = __(
 		'Explore the Simple Calendar addon that allows Google Calendar appointment bookings directly from your website in real-time, while automatically blocking booked time slots to prevent double bookings.',
 		'google-calendar-events',
