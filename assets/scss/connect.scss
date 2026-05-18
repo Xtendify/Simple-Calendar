@@ -109,12 +109,10 @@
 	.sc_connect_helper_row {
 		display: flex;
 		flex-direction: column;
-		margin-top: 8px;
 		font-family: var(--sc-font-body);
 		font-size: var(--sc-font-base);
 		line-height: var(--sc-body-small-line-height);
 		color: var(--sc-color-dark-gray);
-		gap: 12px;
 	}
 
 	.sc_connect_helper_text {
@@ -594,10 +592,6 @@
 
 	.sc_connect_credentials_form {
 		margin-top: 16px;
-	}
-
-	.sc_connect_credentials_step_help {
-		margin-top: 8px;
 	}
 
 	.sc_connect_credentials_field_top {

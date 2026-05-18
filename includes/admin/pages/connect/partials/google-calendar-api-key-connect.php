@@ -34,7 +34,7 @@ if ($is_credentials_core) {
 }
 
 $has_api_key_for_step = isset($has_api_key) && (bool) $has_api_key;
-$api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 'sc_item_spaced';
+$api_key_field_item_class = $is_credentials_core ? 'sc_item sc_core_item_spaced' : 'sc_core_item_spaced';
 ?>
 <div class="<?php echo esc_attr($card_class); ?>">
 	<div class="sc_connect_credentials_header">
