@@ -72,7 +72,7 @@ $google_pro_defs =
 <div class="sc_setup_card">
 	<div class="sc_connect_credentials_header">
 		<h3 class="sc_h4 sc_connect_credentials_heading">
-			<?php esc_html_e('Connect Google Calendar Pro', 'google-calendar-events'); ?>
+			<?php esc_html_e('Configure Google Calendar Pro', 'google-calendar-events'); ?>
 		</h3>
 		<?php
   // Only show the status badge when the *current connection type* has an active authentication to check.
@@ -117,8 +117,8 @@ $google_pro_defs =
 		class="sc_text--body_b2 sc_text--dark sc_connect_credentials_subtitle"
 		data-sc-subtitle-disconnected="<?php echo esc_attr__(
   	$show_own_credentials
-  		? 'Enter your credentials to manually configure Google OAuth client. Your credentials remain secure and are never stored on our servers.'
-  		: 'You’re one tap away from linking your Google account. Your credentials remain secure and are never stored on our servers.',
+  		? 'Enter your Google OAuth client credentials to get started. Your data is stored securely on your site and never on our servers.'
+  		: 'Almost there! Connect your Google Calendar events in a single click using authentication via Simple Calendar.',
   	'google-calendar-events',
   ); ?>"
 		data-sc-subtitle-connected="<?php echo esc_attr__(
@@ -129,11 +129,11 @@ $google_pro_defs =
 		<?php echo esc_html(
   	$show_own_credentials
   		? __(
-  			'Enter your credentials to manually configure Google OAuth client. Your credentials remain secure and are never stored on our servers.',
+  			'Enter your Google OAuth client credentials to get started. Your data is stored securely on your site and never on our servers.',
   			'google-calendar-events',
   		)
   		: __(
-  			'You’re one tap away from linking your Google account. Your credentials remain secure and are never stored on our servers.',
+  			'Almost there! Connect your Google Calendar events in a single click using authentication via Simple Calendar.',
   			'google-calendar-events',
   		),
   ); ?>
@@ -196,30 +196,6 @@ $google_pro_defs =
 	<?php
  } else {
  	 ?>
-		<div class="sc_connect_helper_row sc_connect_credentials_helper_row">
-			<?php
-   echo sprintf(
-   	__(
-   		'<a href="%s" target="_blank" class="sc_connect_helper_link">Step-by-step instructions</a>',
-   		'google-calendar-events',
-   	),
-   	simcal_ga_campaign_url(
-   		simcal_get_url('docs') . '/gcal-pro-how-to-properly-configure-the-google-oauth-client/',
-   		'gcal-pro',
-   		'settings-link',
-   	),
-   );
-
-   echo sprintf(
-   	__(
-   		'<a href="%s" target="_blank" class="sc_connect_helper_link">Google Developers Console</a> ',
-   		'google-calendar-events',
-   	),
-   	simcal_get_url('gdev-console'),
-   );
-   ?>
-		</div>
-
 		<?php
   $form_id = 'simcal-pro-connect-page-form';
   $form_action = 'options.php';
@@ -248,12 +224,33 @@ $google_pro_defs =
    	'client_id' => $client_id,
    	'client_secret' => $client_secret,
    ];
+   $step_by_step_url = simcal_ga_campaign_url(
+   	simcal_get_url('docs') . '/gcal-pro-how-to-properly-configure-the-google-oauth-client/',
+   	'gcal-pro',
+   	'settings-link',
+   );
+   ob_start();
+   ?>
+			<p class="sc_connect_helper_text sc_connect_credentials_step_help">
+			<?php echo sprintf(
+   	__(
+   		'To create one, follow our %1$sstep-by-step guide%2$s to configure Google OAuth client.',
+   		'google-calendar-events',
+   	),
+   	'<a href="' . esc_url($step_by_step_url) . '" target="_blank" class="sc_connect_helper_link">',
+   	'</a>',
+   ); ?>
+			</p>
+			<?php
+   $field_after = [
+   	'client_id' => (string) ob_get_clean(),
+   ];
    include SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/partials/render-connect-fields.php';
    ?>
 
 			<div class="sc_connect_form_actions sc_connect_credentials_actions_top">
 				<button type="submit" name="sc_connect_save_and_authenticate" value="1" class="sc_btn sc_btn--blue">
-					<?php esc_html_e('Save & Authenticate', 'google-calendar-events'); ?>
+					<?php esc_html_e('Save & authenticate', 'google-calendar-events'); ?>
 				</button>
 				<?php
     $has_published_pro_calendar = isset($has_published_pro_calendar) ? (bool) $has_published_pro_calendar : false;
@@ -267,7 +264,7 @@ $google_pro_defs =
 					class="sc_btn sc_btn--white<?php echo $show_add_pro_calendar_btn ? '' : ' is_hidden'; ?>"
 					data-sc-can-unhide="<?php echo $can_unhide_add_pro_calendar_btn ? '1' : '0'; ?>"
 				>
-					<?php esc_html_e('Add New Calendar', 'google-calendar-events'); ?>
+					<?php esc_html_e('Add new calendar', 'google-calendar-events'); ?>
 				</a>
 			</div>
 			<div class="sc_connect_credentials_link_row">
@@ -281,7 +278,7 @@ $google_pro_defs =
      ); ?>"
 					class="sc_link sc_link_muted  sc_text--body_b3"
 				>
-					<?php esc_html_e('I want to connect securely in 1 click with OAuth via Simple Calendar', 'google-calendar-events'); ?>
+					<?php esc_html_e('I want to connect in 1 click with OAuth via Simple Calendar', 'google-calendar-events'); ?>
 				</a>
 			</div>
 		</form>

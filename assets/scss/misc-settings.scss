@@ -41,6 +41,11 @@
 		margin: 0 0 10px;
 	}
 
+	/* Card title already shows "General"; hide duplicate Settings API section heading. */
+	.simcal-misc-settings-general > h2 {
+		display: none;
+	}
+
 	.sc_misc_settings_card + .sc_misc_settings_card {
 		margin-top: 24px;
 	}
@@ -76,6 +81,13 @@
 		}
 	}
 
+	.simcal-misc-settings-general {
+		.form-table {
+			th {
+				vertical-align: middle;
+			}
+		}
+	}
 	.submit {
 		margin: 18px 0 0;
 		padding: 0;

@@ -500,6 +500,71 @@ function simcal_is_fullcalendar_addon_active()
 }
 
 /**
+ * Whether the Simple Calendar Book an Appointment add-on is active.
+ *
+ * Mirrors the other add-on detection helpers so Connect can keep the Appointment
+ * onboarding context even when Google Calendar Pro is also active.
+ *
+ * @since 4.0.0
+ *
+ * @return bool
+ */
+function simcal_is_appointment_addon_active()
+{
+	$is_active = false;
+
+	if (defined('SIMPLE_CALENDAR_APPOINTMENT_VERSION')) {
+		$is_active = true;
+	} elseif (class_exists('\SimpleCalendar\Simple_Calendar_Appointment')) {
+		$is_active = true;
+	}
+
+	if (!$is_active) {
+		if (!function_exists('is_plugin_active') && defined('ABSPATH')) {
+			$plugin_file = trailingslashit(ABSPATH) . 'wp-admin/includes/plugin.php';
+			if (is_readable($plugin_file)) {
+				// phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
+				require_once $plugin_file;
+			}
+		}
+
+		if (function_exists('is_plugin_active')) {
+			$is_active = is_plugin_active('simple-calendar-appointment/simple-calendar-appointment.php');
+		} else {
+			$active_plugins = (array) get_option('active_plugins', []);
+			$active_plugins = array_map('strval', $active_plugins);
+			foreach ($active_plugins as $p) {
+				$p_lower = strtolower($p);
+				if (
+					strpos($p_lower, 'simple-calendar-appointment') !== false ||
+					(strpos($p_lower, 'appointment') !== false && strpos($p_lower, 'simple-calendar') !== false)
+				) {
+					$is_active = true;
+					break;
+				}
+			}
+
+			if (!$is_active) {
+				$sitewide = (array) get_option('active_sitewide_plugins', []);
+				$sitewide_files = array_map('strval', array_keys($sitewide));
+				foreach ($sitewide_files as $p) {
+					$p_lower = strtolower($p);
+					if (
+						strpos($p_lower, 'simple-calendar-appointment') !== false ||
+						(strpos($p_lower, 'appointment') !== false && strpos($p_lower, 'simple-calendar') !== false)
+					) {
+						$is_active = true;
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	return (bool) apply_filters('simcal_is_appointment_addon_active', $is_active);
+}
+
+/**
  * Build variables for Connect sidebar (progress / rating / Pro CTA) and Connect step logic.
  *
  * Mirrors {@see SIMPLE_CALENDAR_PATH}/includes/admin/pages/connect-controller.php onboarding
@@ -533,9 +598,18 @@ function simcal_prepare_connect_sidebar_scope()
 	$welcome_context = $welcome_context ? $welcome_context : 'core';
 
 	$is_appointment_active =
-		function_exists('simcal_is_appointment_addon_active') && simcal_is_appointment_addon_active();
-	$is_pro_active = simcal_is_google_calendar_pro_active('') || $is_appointment_active;
-	if (!$is_pro_active && 'pro' === $welcome_context) {
+		defined('SIMPLE_CALENDAR_APPOINTMENT_VERSION') ||
+		class_exists('\SimpleCalendar\Simple_Calendar_Appointment') ||
+		(function_exists('simcal_is_appointment_addon_active') && simcal_is_appointment_addon_active());
+	$is_google_pro_active = simcal_is_google_calendar_pro_active('');
+	$is_pro_active = $is_google_pro_active || $is_appointment_active;
+	if ('appointment' === $welcome_context && !$is_appointment_active) {
+		$welcome_context = $is_google_pro_active ? 'pro' : 'core';
+		update_option('simple_calendar_connect_welcome_context', $welcome_context, false);
+	} elseif ('pro' === $welcome_context && !$is_google_pro_active && $is_appointment_active) {
+		$welcome_context = 'appointment';
+		update_option('simple_calendar_connect_welcome_context', $welcome_context, false);
+	} elseif ('pro' === $welcome_context && !$is_google_pro_active && !$is_appointment_active) {
 		$welcome_context = 'core';
 		delete_option('simple_calendar_connect_welcome_context');
 	}

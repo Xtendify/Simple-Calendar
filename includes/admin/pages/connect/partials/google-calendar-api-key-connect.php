@@ -34,7 +34,7 @@ if ($is_credentials_core) {
 }
 
 $has_api_key_for_step = isset($has_api_key) && (bool) $has_api_key;
-$api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 'sc_item_spaced';
+$api_key_field_item_class = $is_credentials_core ? 'sc_item sc_core_item_spaced' : 'sc_core_item_spaced';
 ?>
 <div class="<?php echo esc_attr($card_class); ?>">
 	<div class="sc_connect_credentials_header">
@@ -79,7 +79,7 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
 		<input type="hidden" name="simple-calendar_settings_feeds[__sc_partial_sections][google]" value="1" />
 			<div class="<?php echo esc_attr($api_key_field_item_class); ?>">
 				<label for="sc_google_api_key" class="sc_h6">
-					<?php esc_html_e('Google API Key', 'google-calendar-events'); ?>
+					<?php esc_html_e('Google API key', 'google-calendar-events'); ?>
 				</label>
 
 				<div id="sc_connect_api_key_wrap" class="sc_input_wrapper sc_input_wrapper--icons-outside sc_input_wrapper--square sc_input_full">
@@ -133,10 +133,7 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_item_spaced' : 's
 			<p class="sc_connect_helper_text">
 				<?php
     /* translators: %1$s: Opening anchor tag, %2$s: Closing anchor tag */
-    $text = __(
-    	'Protect your API key from unauthorized access. To create one, follow our %1$sstep-by-step guide%2$s.',
-    	'google-calendar-events',
-    );
+    $text = __('To create one, follow our %1$sstep-by-step guide%2$s.', 'google-calendar-events');
     echo wp_kses(
     	sprintf(
     		$text,
