@@ -211,21 +211,5 @@ class Assets
 			wp_enqueue_style('sc-add-ons');
 			wp_enqueue_style('sc-connect');
 		}
-		if (
-			'dashboard_page_simple-calendar_about' == $sc_screen->id ||
-			'dashboard_page_simple-calendar_credits' == $sc_screen->id ||
-			'dashboard_page_simple-calendar_translators' == $sc_screen->id
-		) {
-			wp_enqueue_style('sc-welcome-style', $css_path . 'sc-welcome-pg-style.min.css', [], SIMPLE_CALENDAR_VERSION);
-			wp_enqueue_style('sc-tail-style', $css_path . 'tailwind.min.css', [], SIMPLE_CALENDAR_VERSION);
-		}
-
-		if ($sc_screen->id == 'calendar') {
-			wp_enqueue_style('sc-setting-style', $css_path . 'admin-post-settings.min.css', [], SIMPLE_CALENDAR_VERSION);
-		}
-
-		if (class_exists('SimpleCalendar\Feeds\Google_Pro') && $is_connect_page) {
-			wp_enqueue_style('sc-oauth-helper-style', $css_path . 'oauth-helper-admin.min.css', [], SIMPLE_CALENDAR_VERSION);
-		}
 	}
 }

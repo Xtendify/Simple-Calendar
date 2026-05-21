@@ -28,269 +28,293 @@ class Oauth_Ajax
 	public static $my_site_url = '';
 
 	/**
-	 * Set up ajax hooks.
+	 * Whether AJAX/admin hooks were registered.
+	 *
+	 * @var bool
+	 */
+	private static $booted = false;
+
+	/**
+	 * Set up ajax hooks (once).
 	 *
 	 * @since 3.0.0
 	 */
 	public function __construct()
 	{
-		// Set an option if the user rated the plugin.
+		self::$my_site_url = site_url();
+
+		if (self::$booted) {
+			return;
+		}
+		self::$booted = true;
+
 		add_action('wp_ajax_oauth_deauthenticate_site', [$this, 'oauth_deauthenticate_site']);
 
-		$post_type = '';
-
-		if (isset($_GET['post_type']) && 'calendar' === $_GET['post_type']) {
-			$post_type = esc_attr($_GET['post_type']);
-		} elseif (isset($_GET['post']) && !empty($_GET['post'])) {
-			$post_id = esc_attr($_GET['post']);
-			$post_type = get_post_type($post_id);
-		}
-		if ('calendar' === $post_type) {
+		if ($this->is_calendar_admin_screen()) {
 			add_action('admin_init', [$this, 'oauth_check_iftoken_expired']);
 		}
-
-		self::$my_site_url = site_url();
 	}
 
 	/**
-	 * DeAuthenticate.
+	 * Whether the current admin request is a calendar screen.
 	 *
+	 * @return bool
+	 */
+	private function is_calendar_admin_screen()
+	{
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if (isset($_GET['post_type']) && 'calendar' === $_GET['post_type']) {
+			return true;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if (!empty($_GET['post'])) {
+			$post_id = absint($_GET['post']);
+			return $post_id > 0 && 'calendar' === get_post_type($post_id);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Default auth payload for remote requests.
+	 *
+	 * @param array $extra Extra body fields.
+	 * @return array
+	 */
+	private function auth_payload(array $extra = [])
+	{
+		return array_merge(
+			[
+				'site_url' => self::$my_site_url,
+				'auth_token' => get_option('simple_calendar_auth_site_token'),
+			],
+			$extra,
+		);
+	}
+
+	/**
+	 * POST to the OAuth helper API.
+	 *
+	 * @param string $endpoint API route (without base URL).
+	 * @param array  $body     Request body.
+	 * @param int    $timeout  Request timeout in seconds.
+	 * @return array|\WP_Error
+	 */
+	private function post($endpoint, array $body, $timeout = 30)
+	{
+		return wp_remote_post(self::$url . $endpoint, [
+			'method' => 'POST',
+			'body' => $body,
+			'timeout' => $timeout,
+			'cookies' => [],
+		]);
+	}
+
+	/**
+	 * Decode a JSON API response body.
+	 *
+	 * @param string $body Raw response body.
+	 * @return array|null
+	 */
+	private function decode_response($body)
+	{
+		$data = json_decode($body, true);
+		return is_array($data) ? $data : null;
+	}
+
+	/**
+	 * Deauthenticate this site from OAuth via Simple Calendar.
 	 */
 	public function oauth_deauthenticate_site()
 	{
-		$nonce = isset($_POST['nonce']) ? esc_attr($_POST['nonce']) : '';
-		if (!wp_verify_nonce($nonce, 'oauth_action_deauthentication') && !current_user_can('edit_posts')) {
-			return;
-		}
-		$send_data = [
-			'site_url' => self::$my_site_url,
-			'auth_token' => get_option('simple_calendar_auth_site_token'),
-		];
-
-		$request = wp_remote_post(self::$url . 'de_authenticate_site', [
-			'method' => 'POST',
-			'body' => $send_data,
-			'cookies' => [],
-		]);
-
-		if (is_wp_error($request) || wp_remote_retrieve_response_code($request) != 200) {
-			error_log(print_r($request, true));
+		$nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+		if (!wp_verify_nonce($nonce, 'oauth_action_deauthentication') || !current_user_can('manage_options')) {
+			wp_send_json_error(['message' => __('Permission denied.', 'google-calendar-events')], 403);
 		}
 
-		$response = wp_remote_retrieve_body($request);
-		$response_arr = json_decode($response, true);
+		$request = $this->post('de_authenticate_site', $this->auth_payload());
 
-		$error_msg = [];
-		$message = '';
+		if (is_wp_error($request) || 200 !== (int) wp_remote_retrieve_response_code($request)) {
+			if (is_wp_error($request)) {
+				error_log($request->get_error_message());
+			}
+			wp_send_json_error(['message' => __('Deauthentication failed.', 'google-calendar-events')]);
+		}
+
+		$response_arr = $this->decode_response(wp_remote_retrieve_body($request));
 		delete_option('simple_calendar_auth_site_token');
 
-		if ($response_arr['response']) {
-			// Site-wide admin setup flags (Pro Connect).
+		if (!empty($response_arr['response'])) {
 			delete_option('simple_calendar_connect_pro_connection_type');
 			delete_option('simple_calendar_connect_pro_oauth_health_ok');
 			delete_option('simple_calendar_connect_pro_own_oauth_health_ok');
 			delete_option('simple-calendar_connect_pro_setup_completed_at');
-			$message = __('DeAuthenticate Successfully.', 'google-calendar-events');
-			$send_msg = ['message' => $message];
-			wp_send_json_success($send_msg);
-		} else {
-			if (isset($message['message']) && !empty($message['message'])) {
-				$message = $message['message'];
-			} else {
-				$message = __('Deauthentication Failed.', 'google-calendar-events');
-			}
 
-			$error_msg = ['message' => $message];
-			wp_send_json_error($error_msg);
+			wp_send_json_success([
+				'message' => __('DeAuthenticate Successfully.', 'google-calendar-events'),
+			]);
 		}
-		die();
+
+		$message = !empty($response_arr['message'])
+			? (string) $response_arr['message']
+			: __('Deauthentication Failed.', 'google-calendar-events');
+
+		wp_send_json_error(['message' => $message]);
 	}
 
-	/*
-	 * Check if token expire
+	/**
+	 * On calendar admin screens, clear expired auth tokens.
 	 */
 	public function oauth_check_iftoken_expired()
 	{
-		$send_data = [
-			'site_url' => self::$my_site_url,
-			'auth_token' => get_option('simple_calendar_auth_site_token'),
-		];
-		$request = wp_remote_post(self::$url . 'check_iftoken_expired', [
-			'method' => 'POST',
-			'body' => $send_data,
-			'cookies' => [],
-		]);
+		$token = get_option('simple_calendar_auth_site_token');
+		if (empty($token)) {
+			return;
+		}
 
-		$response = wp_remote_retrieve_body($request);
-		$response_arr = json_decode($response, true);
+		$request = $this->post('check_iftoken_expired', $this->auth_payload());
+		if (is_wp_error($request)) {
+			return;
+		}
 
-		if (isset($response_arr['response']) && !empty($response_arr['response'])) {
-			if ($response_arr['response']) {
-				return 'valid';
-			} else {
-				delete_option('simple_calendar_auth_site_token');
-				return 'invalid';
-			}
-		} else {
-			return 'Network issue';
+		$response_arr = $this->decode_response(wp_remote_retrieve_body($request));
+		if (empty($response_arr['response'])) {
+			delete_option('simple_calendar_auth_site_token');
 		}
 	}
 
-	/*
-	 * Get calendar list
+	/**
+	 * Get calendar list from the auth service.
+	 *
+	 * @return array
 	 */
 	public function auth_get_calendarlist()
 	{
-		$send_data = [
-			'site_url' => self::$my_site_url,
-			'auth_token' => get_option('simple_calendar_auth_site_token'),
-		];
-		$request = wp_remote_post(self::$url . 'auth_get_calendarlist', [
-			'method' => 'POST',
-			'body' => $send_data,
-			'cookies' => [],
-		]);
-
-		$response = wp_remote_retrieve_body($request);
-
-		$response_arr = json_decode($response, true);
-
-		if (isset($response_arr['response']) && !empty($response_arr['response'])) {
-			if ($response_arr['response']) {
-				return $response_arr['data'];
-			} else {
-				$response = [
-					'Error' => __('There is something wrong. please re-try.', 'google-calendar-events'),
-				];
-				return $response;
-			}
-		} else {
-			$response = [
-				'Error' => __('Network issue.', 'google-calendar-events'),
-			];
-			return $response;
+		$request = $this->post('auth_get_calendarlist', $this->auth_payload());
+		if (is_wp_error($request)) {
+			return ['Error' => __('Network issue.', 'google-calendar-events')];
 		}
+
+		$response_arr = $this->decode_response(wp_remote_retrieve_body($request));
+		if (!empty($response_arr['response'])) {
+			return isset($response_arr['data']) ? $response_arr['data'] : [];
+		}
+
+		return [
+			'Error' => !empty($response_arr['message'])
+				? (string) $response_arr['message']
+				: __('There is something wrong. please re-try.', 'google-calendar-events'),
+		];
 	}
 
-	/*
-	 * Get calendar Events
+	/**
+	 * Get calendar events from the auth service.
+	 *
+	 * @param string $id   Calendar ID.
+	 * @param array  $args Query arguments.
+	 * @return array
 	 */
 	public function auth_get_calendarsevents($id, $args)
 	{
-		$send_data = [
-			'site_url' => self::$my_site_url,
-			'auth_token' => get_option('simple_calendar_auth_site_token'),
-			'id' => $id,
-			'arguments' => $args,
-		];
-		$request = wp_remote_post(self::$url . 'get_calendar_events', [
-			'method' => 'POST',
-			'body' => $send_data,
-			'timeout' => 30,
-			'cookies' => [],
-		]);
+		$request = $this->post(
+			'get_calendar_events',
+			$this->auth_payload([
+				'id' => $id,
+				'arguments' => $args,
+			]),
+		);
 
-		$response = wp_remote_retrieve_body($request);
-		$response_arr = json_decode($response, true);
-
-		if (isset($response_arr['response']) && !empty($response_arr['response'])) {
-			if ($response_arr['response']) {
-				return $response_arr;
-			}
-		} elseif (isset($response_arr['message']) && !empty($response_arr['message'])) {
-			$response = [
-				'Error' => $response_arr['message'],
-			];
-			return $response;
-		} else {
-			$response = [
-				'Error' => __('Network issue.', 'google-calendar-events'),
-			];
-			return $response;
+		if (is_wp_error($request)) {
+			return ['Error' => __('Network issue.', 'google-calendar-events')];
 		}
+
+		$response_arr = $this->decode_response(wp_remote_retrieve_body($request));
+		if (!empty($response_arr['response'])) {
+			return $response_arr;
+		}
+
+		if (!empty($response_arr['message'])) {
+			return ['Error' => (string) $response_arr['message']];
+		}
+
+		return ['Error' => __('Network issue.', 'google-calendar-events')];
 	}
 
-	/*
-	 * Oauth helper schedule events
+	/**
+	 * Schedule an appointment event via the auth service.
+	 *
+	 * @param string $calendar_id Calendar ID.
+	 * @param array  $event_data  Event payload.
+	 * @return array|mixed
 	 */
-	public function oauth_helper_schedule_event_action($calendarId, $event_data)
+	public function oauth_helper_schedule_event_action($calendar_id, $event_data)
 	{
-		$send_data = [
-			'site_url' => self::$my_site_url,
-			'auth_token' => get_option('simple_calendar_auth_site_token'),
-			'calendarid' => $calendarId,
-			'event_data' => $event_data,
-		];
+		$request = $this->post(
+			'appointment_schedule_event',
+			$this->auth_payload([
+				'calendarid' => $calendar_id,
+				'event_data' => $event_data,
+			]),
+		);
 
-		$request = wp_remote_post(self::$url . 'appointment_schedule_event', [
-			'method' => 'POST',
-			'body' => $send_data,
-			'timeout' => 30,
-			'cookies' => [],
-		]);
-
-		$response = wp_remote_retrieve_body($request);
-		$response_arr = json_decode($response, true);
-
-		if (isset($response_arr['response']) && !empty($response_arr['response'])) {
-			if ($response_arr['response']) {
-				$response_message = $response_arr['message'];
-				if (isset($response_message) && !empty($response_message)) {
-					$response_data = $response_arr['data'];
-					return unserialize($response_data);
-				} else {
-					$response = [
-						'Error' => $response_arr['message'],
-					];
-					return $response;
-				}
-			}
-		} else {
-			$response = [
-				'Error' => $response_arr['message'],
-			];
-			return $response;
+		if (is_wp_error($request)) {
+			return ['Error' => __('Network issue.', 'google-calendar-events')];
 		}
+
+		$response_arr = $this->decode_response(wp_remote_retrieve_body($request));
+		if (!empty($response_arr['response']) && !empty($response_arr['data'])) {
+			return maybe_unserialize($response_arr['data']);
+		}
+
+		return [
+			'Error' => !empty($response_arr['message'])
+				? (string) $response_arr['message']
+				: __('There is something wrong. please re-try.', 'google-calendar-events'),
+		];
 	}
 
-	/*
-	 * Get calendar Cover Image Base64
+	/**
+	 * Get event cover image as base64 from the auth service.
+	 *
+	 * @param string $fileid File ID.
+	 * @param array  $args   Optional arguments.
+	 * @return array
 	 */
 	public function auth_get_events_cover_base64image($fileid, $args)
 	{
-		$send_data = [
-			'site_url' => self::$my_site_url,
-			'auth_token' => get_option('simple_calendar_auth_site_token'),
-			'fileid' => $fileid,
-			'arguments' => $args,
-		];
-		$request = wp_remote_post(self::$url . 'auth_get_events_cover_base64image', [
-			'method' => 'POST',
-			'body' => $send_data,
-			'timeout' => 30,
-			'cookies' => [],
-		]);
+		$request = $this->post(
+			'auth_get_events_cover_base64image',
+			$this->auth_payload([
+				'fileid' => $fileid,
+				'arguments' => $args,
+			]),
+		);
 
-		$response = wp_remote_retrieve_body($request);
-		$response_arr = json_decode($response, true);
-
-		if (isset($response_arr['response']) && !empty($response_arr['response'])) {
-			if ($response_arr['response']) {
-				return $response_arr;
-			}
-		} elseif (isset($response_arr['message']) && !empty($response_arr['message'])) {
-			$response = [
-				'Error' => $response_arr['message'],
-			];
-			return $response;
-		} else {
-			$response = [
+		if (is_wp_error($request)) {
+			return [
 				'response' => false,
 				'message' => __('Network issue.', 'google-calendar-events'),
 			];
-			return $response;
 		}
+
+		$response_arr = $this->decode_response(wp_remote_retrieve_body($request));
+		if (!empty($response_arr['response'])) {
+			return $response_arr;
+		}
+
+		if (!empty($response_arr['message'])) {
+			return [
+				'response' => false,
+				'message' => (string) $response_arr['message'],
+			];
+		}
+
+		return [
+			'response' => false,
+			'message' => __('Network issue.', 'google-calendar-events'),
+		];
 	}
-} //class End
+}
 
 new Oauth_Ajax();
