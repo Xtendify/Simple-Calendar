@@ -66,9 +66,9 @@ $context = [
 	'should_hide_progress' => $should_hide_progress,
 	// Welcome.
 	'video_url' => (function () use ($is_pro_flow, $welcome_context_for_template) {
-		$core_video_url = 'https://www.youtube.com/embed/3QveIbm5Oc0?si=fMEUU0Za7KFzlJk5';
-		$pro_video_url = 'https://www.youtube.com/embed/lmN774Fk3rw?si=zBMoOck0BjI7Q39j';
-		$appointment_video_url = 'https://www.youtube.com/embed/yCSpUlBnunw';
+		$core_video_url = 'https://www.youtube.com/embed/whpV-uM4RZg?si=A87Th56pITreHlix&amp;start=39';
+		$pro_video_url = 'https://www.youtube.com/embed/V-TkmyTwdI8?si=tyPDsayFzU3nD7Ci&amp;start=13';
+		$appointment_video_url = 'https://www.youtube.com/embed/EMHgh9UG80k?si=2sleDAqR1ppobNkE&amp;start=25';
 		$default =
 			'appointment' === $welcome_context_for_template
 				? $appointment_video_url
