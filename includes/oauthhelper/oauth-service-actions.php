@@ -165,21 +165,24 @@ class Oauth_Ajax
 
 	/**
 	 * On calendar admin screens, clear expired auth tokens.
+	 *
+	 * Only delete the token when the auth service explicitly reports it invalid.
+	 * Do not delete on network errors or missing responses (matches pre-cleanup behavior).
 	 */
 	public function oauth_check_iftoken_expired()
 	{
-		$token = get_option('simple_calendar_auth_site_token');
-		if (empty($token)) {
-			return;
-		}
-
 		$request = $this->post('check_iftoken_expired', $this->auth_payload());
 		if (is_wp_error($request)) {
 			return;
 		}
 
 		$response_arr = $this->decode_response(wp_remote_retrieve_body($request));
-		if (empty($response_arr['response'])) {
+
+		if (isset($response_arr['response']) && !empty($response_arr['response'])) {
+			if ($response_arr['response']) {
+				return;
+			}
+
 			delete_option('simple_calendar_auth_site_token');
 		}
 	}
@@ -263,8 +266,21 @@ class Oauth_Ajax
 		}
 
 		$response_arr = $this->decode_response(wp_remote_retrieve_body($request));
-		if (!empty($response_arr['response']) && !empty($response_arr['data'])) {
-			return maybe_unserialize($response_arr['data']);
+		if (isset($response_arr['response']) && !empty($response_arr['response']) && $response_arr['response']) {
+			$response_message = isset($response_arr['message']) ? $response_arr['message'] : '';
+			if (!empty($response_message) && isset($response_arr['data'])) {
+				return unserialize($response_arr['data']);
+			}
+
+			if (!empty($response_arr['message'])) {
+				return [
+					'Error' => $response_arr['message'],
+				];
+			}
+		} elseif (is_array($response_arr) && !empty($response_arr['message'])) {
+			return [
+				'Error' => $response_arr['message'],
+			];
 		}
 
 		return [
