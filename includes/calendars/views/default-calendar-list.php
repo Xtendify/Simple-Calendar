@@ -535,7 +535,7 @@ class Default_Calendar_List implements Calendar_View
 
 		if (empty($calendar)) {
 			$calendar = $this->calendar = simcal_get_calendar(intval($id));
-			if (!$calendar instanceof Default_Calendar) {
+			if (!($calendar instanceof Default_Calendar)) {
 				return '';
 			}
 		}

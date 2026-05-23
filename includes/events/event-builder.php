@@ -582,18 +582,17 @@ class Event_Builder
 					return '';
 
 				case 'if-event':
-					$parsed = array_merge(
-						['id--in' => '', 'id--not-in' => ''],
-						(array) shortcode_parse_atts($attr)
-					);
+					$parsed = array_merge(['id--in' => '', 'id--not-in' => ''], (array) shortcode_parse_atts($attr));
 					$event_id = $event->uid;
-					$in_ids   = array_filter(array_map('trim', explode(',', $parsed['id--in'])));
-					$not_in   = array_filter(array_map('trim', explode(',', $parsed['id--not-in'])));
+					$in_ids = array_filter(array_map('trim', explode(',', $parsed['id--in'])));
+					$not_in = array_filter(array_map('trim', explode(',', $parsed['id--not-in'])));
 
-					$in_match     = !empty($in_ids) && (bool) array_filter($in_ids, fn($id) => $this->matches_event_id($id, $event_id));
-					$not_in_match = !empty($not_in) && (bool) array_filter($not_in, fn($id) => $this->matches_event_id($id, $event_id));
+					$in_match =
+						!empty($in_ids) && (bool) array_filter($in_ids, fn($id) => $this->matches_event_id($id, $event_id));
+					$not_in_match =
+						!empty($not_in) && (bool) array_filter($not_in, fn($id) => $this->matches_event_id($id, $event_id));
 
-					$passes_in     = empty($in_ids) || $in_match;
+					$passes_in = empty($in_ids) || $in_match;
 					$passes_not_in = empty($not_in) || !$not_in_match;
 
 					if ($passes_in && $passes_not_in) {
@@ -878,7 +877,7 @@ class Event_Builder
 
 		$dt = $bound . '_dt';
 
-		if (!$event->$dt instanceof Carbon) {
+		if (!($event->$dt instanceof Carbon)) {
 			simcal_log_error('NOT CARBON');
 
 			return '';
