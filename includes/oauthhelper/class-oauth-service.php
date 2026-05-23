@@ -78,8 +78,12 @@ class Auth_Service_Helpers
 		$admin_image_about_path = SIMPLE_CALENDAR_ASSETS . '/images';
 
 		if (!empty($_GET['auth_token'])) {
-			$auth_token = sanitize_text_field($_GET['auth_token']);
-			add_option('simple_calendar_auth_site_token', $auth_token, '', true);
+			$auth_token = sanitize_text_field((string) wp_unslash($_GET['auth_token']));
+			$helper_origin_ok = false;
+			$helper_host = wp_parse_url((string) SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN, PHP_URL_HOST);
+			if ($auth_token && current_user_can('manage_options')) {
+				update_option('simple_calendar_auth_site_token', $auth_token, true);
+			}
 		}
 
 		$simple_calendar_auth_site_token = get_option('simple_calendar_auth_site_token');

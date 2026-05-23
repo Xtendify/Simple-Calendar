@@ -125,6 +125,50 @@ function simcal_sanitize_input($var, $func = 'sanitize_text_field')
 }
 
 /**
+ * Whether the installed Google Calendar Pro add-on meets a minimum version.
+ *
+ * If the Pro add-on isn't active/loaded (constant not defined), this returns true.
+ *
+ * @since 4.0.0
+ *
+ * @param string $min_version Minimum required version (default 2.0.0).
+ * @return bool
+ */
+function simcal_is_google_calendar_pro_version_compatible($min_version = '2.0.0')
+{
+	if (!defined('SIMPLE_CALENDAR_GOOGLE_PRO_VERSION')) {
+		return true;
+	}
+
+	$installed = (string) SIMPLE_CALENDAR_GOOGLE_PRO_VERSION;
+	$min = is_string($min_version) && $min_version !== '' ? $min_version : '2.0.0';
+
+	// If version string is missing/unexpected, fail closed (require update).
+	if ($installed === '') {
+		return false;
+	}
+
+	return version_compare($installed, $min, '>=');
+}
+
+function simcal_is_google_calendar_book_an_appointment_version_compatible($min_version = '2.0.0')
+{
+	if (!defined('SIMPLE_CALENDAR_APPOINTMENT_VERSION')) {
+		return true;
+	}
+
+	$installed = (string) SIMPLE_CALENDAR_APPOINTMENT_VERSION;
+	$min = is_string($min_version) && $min_version !== '' ? $min_version : '2.0.0';
+
+	// If version string is missing/unexpected, fail closed (require update).
+	if ($installed === '') {
+		return false;
+	}
+
+	return version_compare($installed, $min, '>=');
+}
+
+/**
  * Check if a screen is a plugin admin view.
  * Returns the screen id if true, false (bool) if not.
  *
@@ -143,6 +187,7 @@ function simcal_is_admin_screen()
 			'calendar',
 			'calendar_page_simple-calendar_add_ons',
 			'calendar_page_simple-calendar_settings',
+			'calendar_page_simple-calendar_misc_settings',
 			'calendar_page_simple-calendar_tools',
 			'edit-calendar',
 			'edit-calendar_category',
@@ -207,6 +252,509 @@ function simcal_get_license_status($addon = null)
 {
 	$licenses = get_option('simple-calendar_licenses_status', []);
 	return isset($licenses[$addon]) ? $licenses[$addon] : $licenses;
+}
+
+/**
+ * Get Connect page field definitions.
+ *
+ * Mirrors the classic `settings_fields()` pattern (field definitions in PHP, extensible via hooks),
+ * but intended for the Connect onboarding UI.
+ *
+ * @since 4.0.0
+ *
+ * @return array
+ */
+function simcal_connect_settings_fields()
+{
+	$fields = [
+		'google' => [
+			'name' => __('Google Calendar', 'google-calendar-events'),
+			'fields' => [
+				'api_key' => [
+					'id' => 'sc_google_api_key',
+					'name' => 'simple-calendar_settings_feeds[google][api_key]',
+					'type' => 'password',
+					'label' => __('Google API Key', 'google-calendar-events'),
+				],
+			],
+		],
+	];
+
+	return apply_filters('simcal_connect_settings_fields', $fields);
+}
+
+/**
+ * Back-compat wrapper for suggested name.
+ *
+ * Guarded to avoid fatal redeclare collisions if another plugin/theme
+ * defines the same helper.
+ *
+ * @since 4.0.0
+ *
+ * @return array
+ */
+if (!function_exists('connect_settings_fields')) {
+	function connect_settings_fields()
+	{
+		return simcal_connect_settings_fields();
+	}
+}
+
+/**
+ * Hash scheme for storing "verified" Connect Google API key fingerprint.
+ *
+ * @since 4.0.0
+ */
+const SIMCAL_CONNECT_GOOGLE_API_KEY_VERIFY_SCHEME = 'simcal_connect_google_api_key';
+
+/**
+ * Mark the given API key as verified for Connect / core onboarding progress.
+ *
+ * @since 4.0.0
+ *
+ * @param string $api_key Raw API key (trimmed internally).
+ */
+function simcal_mark_connect_google_api_key_verified($api_key)
+{
+	$k = trim((string) $api_key);
+	if ($k === '') {
+		return;
+	}
+	update_option(
+		'simple_calendar_connect_core_api_key_verified_hash',
+		wp_hash($k, SIMCAL_CONNECT_GOOGLE_API_KEY_VERIFY_SCHEME),
+		false
+	);
+}
+
+/**
+ * Clear verified state (e.g. after failed health check).
+ *
+ * @since 4.0.0
+ */
+function simcal_clear_connect_google_api_key_verified()
+{
+	delete_option('simple_calendar_connect_core_api_key_verified_hash');
+}
+
+/**
+ * Whether the saved API key matches the last verified fingerprint.
+ *
+ * @since 4.0.0
+ *
+ * @param string $api_key Current saved key (as in settings).
+ * @return bool
+ */
+function simcal_is_connect_google_api_key_verified($api_key)
+{
+	$k = trim((string) $api_key);
+	if ($k === '') {
+		return false;
+	}
+	$h = get_option('simple_calendar_connect_core_api_key_verified_hash', '');
+	if (!is_string($h) || $h === '') {
+		return false;
+	}
+	return hash_equals($h, wp_hash($k, SIMCAL_CONNECT_GOOGLE_API_KEY_VERIFY_SCHEME));
+}
+
+/**
+ * Whether Simple Calendar Google Calendar Pro add-on is active.
+ *
+ * Note: Some Connect screens also render in a "pro" onboarding context even when the add-on
+ * isn't installed yet. Pass the onboarding context to treat that UI path as Pro.
+ *
+ * @since 4.0.0
+ *
+ * @param string $connect_flow_context Optional. 'pro' or 'core' (Connect onboarding context).
+ * @return bool
+ */
+function simcal_is_google_calendar_pro_active($connect_flow_context = '')
+{
+	$connect_flow_context = (string) $connect_flow_context;
+
+	$is_pro_active = false;
+
+	// Runtime signals (add-on loaded).
+	if (defined('SIMPLE_CALENDAR_GOOGLE_PRO_VERSION')) {
+		$is_pro_active = true;
+	} elseif (class_exists('Google_Pro')) {
+		$is_pro_active = true;
+	} elseif (class_exists('\SimpleCalendar\Feeds\Google_Pro')) {
+		$is_pro_active = true;
+	} elseif ('pro' === $connect_flow_context) {
+		// Connect onboarding can be forced into a Pro context via saved choice/query args.
+		$is_pro_active = true;
+	}
+
+	// If we still don't know, fall back to plugin activation checks (works when add-on files exist but aren't loaded yet).
+	if (!$is_pro_active) {
+		if (!function_exists('is_plugin_active') && defined('ABSPATH')) {
+			$plugin_file = trailingslashit(ABSPATH) . 'wp-admin/includes/plugin.php';
+			if (is_readable($plugin_file)) {
+				// phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
+				require_once $plugin_file;
+			}
+		}
+
+		if (function_exists('is_plugin_active')) {
+			$is_pro_active = is_plugin_active('simple-calendar-google-calendar-pro/simple-calendar-google-calendar-pro.php');
+		} else {
+			$active_plugins = (array) get_option('active_plugins', []);
+			$active_plugins = array_map('strval', $active_plugins);
+			foreach ($active_plugins as $p) {
+				$p_lower = strtolower($p);
+				if (
+					strpos($p_lower, 'google-calendar-pro') !== false ||
+					strpos($p_lower, 'simple-calendar-google-calendar-pro') !== false
+				) {
+					$is_pro_active = true;
+					break;
+				}
+			}
+
+			// Multisite: network-activated plugins live in active_sitewide_plugins (keys are plugin filenames).
+			if (!$is_pro_active) {
+				$sitewide = (array) get_option('active_sitewide_plugins', []);
+				$sitewide_files = array_map('strval', array_keys($sitewide));
+				foreach ($sitewide_files as $p) {
+					$p_lower = strtolower($p);
+					if (
+						strpos($p_lower, 'google-calendar-pro') !== false ||
+						strpos($p_lower, 'simple-calendar-google-calendar-pro') !== false
+					) {
+						$is_pro_active = true;
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	return (bool) apply_filters('simcal_is_google_calendar_pro_active', $is_pro_active);
+}
+
+/**
+ * Whether the Simple Calendar FullCalendar add-on is active.
+ *
+ * Mirrors {@see simcal_is_google_calendar_pro_active()} so the Add-ons page and other UI
+ * can detect the add-on even when the plugin directory name differs from the default.
+ *
+ * @since 4.0.0
+ *
+ * @return bool
+ */
+function simcal_is_fullcalendar_addon_active()
+{
+	$is_active = false;
+
+	if (defined('SIMPLE_CALENDAR_FULLCALENDAR_VERSION')) {
+		$is_active = true;
+	} elseif (class_exists('\SimpleCalendar\Add_On_FullCalendar')) {
+		$is_active = true;
+	}
+
+	if (!$is_active) {
+		if (!function_exists('is_plugin_active') && defined('ABSPATH')) {
+			$plugin_file = trailingslashit(ABSPATH) . 'wp-admin/includes/plugin.php';
+			if (is_readable($plugin_file)) {
+				// phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
+				require_once $plugin_file;
+			}
+		}
+
+		if (function_exists('is_plugin_active')) {
+			$is_active = is_plugin_active('simple-calendar-fullcalendar/simple-calendar-fullcalendar.php');
+		} else {
+			$active_plugins = (array) get_option('active_plugins', []);
+			$active_plugins = array_map('strval', $active_plugins);
+			foreach ($active_plugins as $p) {
+				$p_lower = strtolower($p);
+				if (
+					strpos($p_lower, 'simple-calendar-fullcalendar') !== false ||
+					(strpos($p_lower, 'fullcalendar') !== false && strpos($p_lower, 'simple-calendar') !== false)
+				) {
+					$is_active = true;
+					break;
+				}
+			}
+
+			if (!$is_active) {
+				$sitewide = (array) get_option('active_sitewide_plugins', []);
+				$sitewide_files = array_map('strval', array_keys($sitewide));
+				foreach ($sitewide_files as $p) {
+					$p_lower = strtolower($p);
+					if (
+						strpos($p_lower, 'simple-calendar-fullcalendar') !== false ||
+						(strpos($p_lower, 'fullcalendar') !== false && strpos($p_lower, 'simple-calendar') !== false)
+					) {
+						$is_active = true;
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	return (bool) apply_filters('simcal_is_fullcalendar_addon_active', $is_active);
+}
+
+/**
+ * Whether the Simple Calendar Book an Appointment add-on is active.
+ *
+ * Mirrors the other add-on detection helpers so Connect can keep the Appointment
+ * onboarding context even when Google Calendar Pro is also active.
+ *
+ * @since 4.0.0
+ *
+ * @return bool
+ */
+function simcal_is_appointment_addon_active()
+{
+	$is_active = false;
+
+	if (defined('SIMPLE_CALENDAR_APPOINTMENT_VERSION')) {
+		$is_active = true;
+	} elseif (class_exists('\SimpleCalendar\Simple_Calendar_Appointment')) {
+		$is_active = true;
+	}
+
+	if (!$is_active) {
+		if (!function_exists('is_plugin_active') && defined('ABSPATH')) {
+			$plugin_file = trailingslashit(ABSPATH) . 'wp-admin/includes/plugin.php';
+			if (is_readable($plugin_file)) {
+				// phpcs:ignore WordPressVIPMinimum.Files.IncludingFile.UsingVariable
+				require_once $plugin_file;
+			}
+		}
+
+		if (function_exists('is_plugin_active')) {
+			$is_active = is_plugin_active('simple-calendar-appointment/simple-calendar-appointment.php');
+		} else {
+			$active_plugins = (array) get_option('active_plugins', []);
+			$active_plugins = array_map('strval', $active_plugins);
+			foreach ($active_plugins as $p) {
+				$p_lower = strtolower($p);
+				if (
+					strpos($p_lower, 'simple-calendar-appointment') !== false ||
+					(strpos($p_lower, 'appointment') !== false && strpos($p_lower, 'simple-calendar') !== false)
+				) {
+					$is_active = true;
+					break;
+				}
+			}
+
+			if (!$is_active) {
+				$sitewide = (array) get_option('active_sitewide_plugins', []);
+				$sitewide_files = array_map('strval', array_keys($sitewide));
+				foreach ($sitewide_files as $p) {
+					$p_lower = strtolower($p);
+					if (
+						strpos($p_lower, 'simple-calendar-appointment') !== false ||
+						(strpos($p_lower, 'appointment') !== false && strpos($p_lower, 'simple-calendar') !== false)
+					) {
+						$is_active = true;
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	return (bool) apply_filters('simcal_is_appointment_addon_active', $is_active);
+}
+
+/**
+ * Build variables for Connect sidebar (progress / rating / Pro CTA) and Connect step logic.
+ *
+ * Mirrors {@see SIMPLE_CALENDAR_PATH}/includes/admin/pages/connect-controller.php onboarding
+ * detection so Misc Settings and Connect show the same core vs Pro progress rules.
+ *
+ * @since 4.0.0
+ *
+ * @return array{
+ *   welcome_context: string,
+ *   is_pro_active: bool,
+ *   is_pro_flow: bool,
+ *   api_key: string,
+ *   has_api_key: bool,
+ *   has_core_api_key_verified: bool,
+ *   has_oauth_connection: bool,
+ *   has_client_credentials: bool,
+ *   has_published_pro_calendar: bool,
+ *   has_published_calendar: bool,
+ *   should_hide_progress: bool,
+ *   assets_base: string
+ * }
+ */
+function simcal_prepare_connect_sidebar_scope()
+{
+	static $cached_scope = null;
+	if (null !== $cached_scope) {
+		return $cached_scope;
+	}
+
+	$welcome_context = (string) get_option('simple_calendar_connect_welcome_context', '');
+	$welcome_context = $welcome_context ? $welcome_context : 'core';
+
+	$is_appointment_active =
+		defined('SIMPLE_CALENDAR_APPOINTMENT_VERSION') ||
+		class_exists('\SimpleCalendar\Simple_Calendar_Appointment') ||
+		(function_exists('simcal_is_appointment_addon_active') && simcal_is_appointment_addon_active());
+	$is_google_pro_active = simcal_is_google_calendar_pro_active('');
+	$is_pro_active = $is_google_pro_active || $is_appointment_active;
+	if ('appointment' === $welcome_context && !$is_appointment_active) {
+		$welcome_context = $is_google_pro_active ? 'pro' : 'core';
+		update_option('simple_calendar_connect_welcome_context', $welcome_context, false);
+	} elseif ('pro' === $welcome_context && !$is_google_pro_active && $is_appointment_active) {
+		$welcome_context = 'appointment';
+		update_option('simple_calendar_connect_welcome_context', $welcome_context, false);
+	} elseif ('pro' === $welcome_context && !$is_google_pro_active && !$is_appointment_active) {
+		$welcome_context = 'core';
+		delete_option('simple_calendar_connect_welcome_context');
+	}
+
+	// phpcs:disable WordPress.Security.NonceVerification.Recommended -- OAuth return URL; state verified below.
+	if (!empty($_GET['auth_token'])) {
+		$auth_token = sanitize_text_field((string) wp_unslash($_GET['auth_token']));
+
+		$helper_origin_ok = false;
+		$helper_domain = defined('SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN')
+			? (string) SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN
+			: '';
+		$helper_host = $helper_domain ? wp_parse_url($helper_domain, PHP_URL_HOST) : '';
+
+		if ($auth_token && current_user_can('manage_options')) {
+			update_option('simple_calendar_auth_site_token', $auth_token, true);
+			if ($is_pro_active) {
+				update_option('simple_calendar_connect_pro_connection_type', 'via_sc', false);
+			}
+		}
+	}
+	// phpcs:enable WordPress.Security.NonceVerification.Recommended
+
+	$feeds_options = get_option('simple-calendar_settings_feeds', []);
+	$api_key = isset($feeds_options['google']['api_key']) ? $feeds_options['google']['api_key'] : '';
+	$has_api_key = !empty(trim((string) $api_key));
+	$has_core_api_key_verified = function_exists('simcal_is_connect_google_api_key_verified')
+		? simcal_is_connect_google_api_key_verified((string) $api_key)
+		: false;
+	$auth_site_token = (string) get_option('simple_calendar_auth_site_token', '');
+	$has_oauth_connection = !empty(trim($auth_site_token));
+	$google_pro =
+		isset($feeds_options['google-pro']) && is_array($feeds_options['google-pro']) ? $feeds_options['google-pro'] : [];
+	$has_client_credentials =
+		!empty(trim((string) ($google_pro['client_id'] ?? ''))) &&
+		!empty(trim((string) ($google_pro['client_secret'] ?? '')));
+
+	$has_published_pro_calendar = false;
+
+	$pro_query_base = [
+		'post_type' => 'calendar',
+		'post_status' => 'publish',
+		'posts_per_page' => 1,
+		'fields' => 'ids',
+	];
+
+	if (taxonomy_exists('calendar_feed')) {
+		$pro_calendar_query = new \WP_Query(
+			array_merge($pro_query_base, [
+				'tax_query' => [
+					[
+						'taxonomy' => 'calendar_feed',
+						'field' => 'slug',
+						'terms' => ['google-pro', 'google_pro'],
+					],
+				],
+			])
+		);
+		$has_published_pro_calendar = $pro_calendar_query->have_posts();
+		wp_reset_postdata();
+	}
+
+	if (!$has_published_pro_calendar) {
+		$pro_calendar_query = new \WP_Query(
+			array_merge($pro_query_base, [
+				'meta_query' => [
+					'relation' => 'OR',
+					[
+						'key' => '_feed_type',
+						'value' => 'google-pro',
+						'compare' => '=',
+					],
+					[
+						'key' => '_feed_type',
+						'value' => 'google_pro',
+						'compare' => '=',
+					],
+				],
+			])
+		);
+		$has_published_pro_calendar = $pro_calendar_query->have_posts();
+		wp_reset_postdata();
+	}
+
+	$calendar_query = new \WP_Query([
+		'post_type' => 'calendar',
+		'post_status' => 'publish',
+		'posts_per_page' => 1,
+		'fields' => 'ids',
+	]);
+	$has_published_calendar = $calendar_query->have_posts();
+	wp_reset_postdata();
+
+	$completed_timestamp = (int) get_option('simple-calendar_connect_setup_completed_at', 0);
+	$core_setup_complete = !$is_pro_active && $has_core_api_key_verified && $has_published_calendar;
+	if ($core_setup_complete && $completed_timestamp <= 0) {
+		$completed_timestamp = time();
+		update_option('simple-calendar_connect_setup_completed_at', $completed_timestamp);
+	}
+	if (!$is_pro_active && !$core_setup_complete && $completed_timestamp > 0) {
+		delete_option('simple-calendar_connect_setup_completed_at');
+		$completed_timestamp = 0;
+	}
+	$hide_progress_after = DAY_IN_SECONDS;
+	$should_hide_progress =
+		$core_setup_complete && $completed_timestamp > 0 && time() - $completed_timestamp >= $hide_progress_after;
+
+	$is_pro_flow = $is_pro_active;
+
+	if ($is_pro_flow) {
+		$pro_onboarding_complete = (bool) $has_published_pro_calendar;
+
+		$pro_completed_timestamp = (int) get_option('simple-calendar_connect_pro_setup_completed_at', 0);
+		if ($pro_onboarding_complete && $pro_completed_timestamp <= 0) {
+			$pro_completed_timestamp = time();
+			update_option('simple-calendar_connect_pro_setup_completed_at', $pro_completed_timestamp, false);
+		}
+
+		if (
+			$pro_onboarding_complete &&
+			$pro_completed_timestamp > 0 &&
+			time() - $pro_completed_timestamp >= $hide_progress_after
+		) {
+			$should_hide_progress = true;
+		} else {
+			$should_hide_progress = false;
+		}
+	}
+
+	$cached_scope = [
+		'welcome_context' => $welcome_context,
+		'is_pro_active' => $is_pro_active,
+		'is_pro_flow' => $is_pro_flow,
+		'api_key' => $api_key,
+		'has_api_key' => $has_api_key,
+		'has_core_api_key_verified' => $has_core_api_key_verified,
+		'has_oauth_connection' => $has_oauth_connection,
+		'has_client_credentials' => $has_client_credentials,
+		'has_published_pro_calendar' => $has_published_pro_calendar,
+		'has_published_calendar' => $has_published_calendar,
+		'should_hide_progress' => $should_hide_progress,
+		'assets_base' => SIMPLE_CALENDAR_ASSETS . 'images/admin/',
+	];
+
+	return $cached_scope;
 }
 
 /**

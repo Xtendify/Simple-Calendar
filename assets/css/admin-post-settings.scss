@@ -1,4 +1,38 @@
 .post-type-calendar {
+	/* Mask over Calendar Settings when no Google API key is saved */
+	.simcal-settings-content-wrap {
+		position: relative;
+	}
+
+	.simcal-settings-mask {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		background: #00000099;
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 20px;
+		z-index: 10;
+	}
+
+	.simcal-settings-mask__message {
+		font-family: Poppins, sans-serif;
+		font-weight: 600;
+		font-size: 30px;
+		line-height: 42px;
+		letter-spacing: 0;
+		text-align: center;
+		color: #ffffff;
+		margin: 0;
+		padding: 0 24px;
+	}
+
 	#post-body-content #titlediv #title-prompt-text {
 		padding: 0 0 0 15px;
 	}
