@@ -21,7 +21,7 @@ if (!defined('ABSPATH')) {
 					<a href="<?php echo esc_url(admin_url('admin.php?page=simple-calendar_settings')); ?>" class="sc_logo_link">
 						<img src="<?php echo esc_url($assets_base . 'logo.png'); ?>" alt="<?php esc_attr_e(
 	'Simple Calendar',
-	'google-calendar-events'
+	'google-calendar-events',
 ); ?>" />
 					</a>
 				</span>

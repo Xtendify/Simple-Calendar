@@ -27,7 +27,7 @@ $support_url = $is_pro_active
 			<a href="<?php echo simcal_ga_campaign_url(
    	'https://docs.simplecalendar.io/',
    	'core-plugin',
-   	'connect-documentation'
+   	'connect-documentation',
    ); ?>" target="_blank" class="sc_helpful_link_card">
 				<span class="sc_icon--circle">
 					<img src="<?php echo esc_url($assets_base . 'document.svg'); ?>" alt="" />
@@ -35,7 +35,7 @@ $support_url = $is_pro_active
 				<span class="sc_helpful_link_card_label"><?php esc_html_e('Documentation', 'google-calendar-events'); ?></span>
 			</a>
 			<a href="<?php echo esc_url(
-   	$setup_video_url
+   	$setup_video_url,
    ); ?>" target="_blank" rel="noopener noreferrer" class="sc_helpful_link_card">
 				<span class="sc_icon--circle">
 					<img src="<?php echo esc_url($assets_base . 'clapperboard.svg'); ?>" alt="" />

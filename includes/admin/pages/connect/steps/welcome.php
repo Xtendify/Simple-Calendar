@@ -16,19 +16,19 @@ if ('appointment' === $welcome_context) {
 	$heading = __('Welcome to Appointment booking', 'google-calendar-events');
 	$subtitle = __(
 		'Explore the Simple Calendar addon that allows Google Calendar appointment bookings directly from your website in real-time, while automatically blocking booked time slots to prevent double bookings.',
-		'google-calendar-events'
+		'google-calendar-events',
 	);
 } elseif ('pro' === $welcome_context) {
 	$heading = __('Welcome to Simple Calendar Pro Version', 'google-calendar-events');
 	$subtitle = __(
 		'Experience a one-stop solution for 1-click Google Calendar integration, with zero stress of handling complex API keys, Client ID, and Client Secret, powered by Simple Calendar’s pro addons.',
-		'google-calendar-events'
+		'google-calendar-events',
 	);
 } else {
 	$heading = __('Getting started with Simple Calendar', 'google-calendar-events');
 	$subtitle = __(
 		'Experience an easy-breezy integration of Google Calendar with WordPress using the OG Google Calendar WordPress plugin.',
-		'google-calendar-events'
+		'google-calendar-events',
 	);
 }
 $video_url = isset($video_url) ? trim((string) $video_url) : '';

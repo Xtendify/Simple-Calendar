@@ -59,7 +59,7 @@ class Licenses extends Admin_Page
 		<br><br>
 		<a href="#" class="simcal-ml-[2px]" id="simcal-reset-licenses" data-dialog="<?php _e(
   	'WARNING: Are you sure you want to start over and delete all license keys from the settings?',
-  	'google-calendar-events'
+  	'google-calendar-events',
   ); ?>">
 			<?php _e('Delete your license keys', 'google-calendar-events'); ?>
 			<i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i>
@@ -83,13 +83,13 @@ class Licenses extends Admin_Page
 					'<div class="simcal-text-sm simcal-font-poppins simcal-font-normal simcal-text-sc_grey-100 simcal-mt-[5px]">' .
 					__(
 						'Enter your add-on license keys below, making sure to activate each one to ensure they are valid.',
-						'google-calendar-events'
+						'google-calendar-events',
 					) .
 					'</div><br/><br/>' .
 					'<em class="simcal-text-sc_grey-100">' .
 					__(
 						'Your license keys are used for access to automatic upgrades and premium support.',
-						'google-calendar-events'
+						'google-calendar-events',
 					) .
 					'</em>',
 			],

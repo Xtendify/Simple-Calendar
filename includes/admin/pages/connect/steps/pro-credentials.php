@@ -57,7 +57,7 @@ if (defined('SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN') && SIMPLE_CALENDAR_OAUTH
 		[
 			'request_from' => $site_url,
 		],
-		SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN . 'helper/'
+		SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN . 'helper/',
 	);
 }
 $authredirect = apply_filters('simcal_connect_oauth_via_simple_calendar_url', $authredirect);
@@ -119,23 +119,23 @@ $google_pro_defs =
   	$show_own_credentials
   		? 'Enter your Google OAuth client credentials to get started. Your data is stored securely on your site and never on our servers.'
   		: 'Almost there! Connect your Google Calendar events in a single click using authentication via Simple Calendar.',
-  	'google-calendar-events'
+  	'google-calendar-events',
   ); ?>"
 		data-sc-subtitle-connected="<?php echo esc_attr__(
   	'Google Calendar is connected and ready to sync your events.',
-  	'google-calendar-events'
+  	'google-calendar-events',
   ); ?>"
 	>
 		<?php echo esc_html(
   	$show_own_credentials
   		? __(
   			'Enter your Google OAuth client credentials to get started. Your data is stored securely on your site and never on our servers.',
-  			'google-calendar-events'
+  			'google-calendar-events',
   		)
   		: __(
   			'Almost there! Connect your Google Calendar events in a single click using authentication via Simple Calendar.',
-  			'google-calendar-events'
-  		)
+  			'google-calendar-events',
+  		),
   ); ?>
 	</p>
 
@@ -184,8 +184,8 @@ $google_pro_defs =
 					href="<?php echo esc_url(
      	wp_nonce_url(
      		admin_url('edit.php?post_type=calendar&page=simple-calendar_settings&sc_pro_own=1'),
-     		'simcal_pro_connection_switch'
-     	)
+     		'simcal_pro_connection_switch',
+     	),
      ); ?>"
 					class="sc_link sc_link_muted  sc_text--body_b3"
 				>
@@ -227,7 +227,7 @@ $google_pro_defs =
    $step_by_step_url = simcal_ga_campaign_url(
    	simcal_get_url('docs') . '/gcal-pro-how-to-properly-configure-the-google-oauth-client/',
    	'gcal-pro',
-   	'settings-link'
+   	'settings-link',
    );
    ob_start();
    ?>
@@ -235,10 +235,10 @@ $google_pro_defs =
 			<?php echo sprintf(
    	__(
    		'To create one, follow our %1$sstep-by-step guide%2$s to configure Google OAuth client.',
-   		'google-calendar-events'
+   		'google-calendar-events',
    	),
    	'<a href="' . esc_url($step_by_step_url) . '" target="_blank" class="sc_connect_helper_link">',
-   	'</a>'
+   	'</a>',
    ); ?>
 			</p>
 			<?php
@@ -273,8 +273,8 @@ $google_pro_defs =
 					href="<?php echo esc_url(
      	wp_nonce_url(
      		admin_url('edit.php?post_type=calendar&page=simple-calendar_settings&sc_pro_via=1'),
-     		'simcal_pro_connection_switch'
-     	)
+     		'simcal_pro_connection_switch',
+     	),
      ); ?>"
 					class="sc_link sc_link_muted  sc_text--body_b3"
 				>

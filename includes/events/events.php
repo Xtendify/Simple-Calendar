@@ -569,12 +569,8 @@ class Events
 		$y = intval($year);
 		$m = min(max(1, absint($month)), 12);
 		$d = min(absint($day), 31);
-		$from = Carbon::createFromDate($y, $m, $d, $this->timezone)
-			->startOfDay()
-			->getTimestamp();
-		$to = Carbon::createFromDate($y, $m, $d, $this->timezone)
-			->endOfDay()
-			->getTimestamp();
+		$from = Carbon::createFromDate($y, $m, $d, $this->timezone)->startOfDay()->getTimestamp();
+		$to = Carbon::createFromDate($y, $m, $d, $this->timezone)->endOfDay()->getTimestamp();
 		return $this->filter_events($from, $to);
 	}
 
@@ -587,12 +583,8 @@ class Events
 	 */
 	public function get_today()
 	{
-		$start = Carbon::today($this->timezone)
-			->startOfDay()
-			->getTimestamp();
-		$end = Carbon::today($this->timezone)
-			->endOfDay()
-			->getTimestamp();
+		$start = Carbon::today($this->timezone)->startOfDay()->getTimestamp();
+		$end = Carbon::today($this->timezone)->endOfDay()->getTimestamp();
 		return $this->filter_events($start, $end);
 	}
 
@@ -605,12 +597,8 @@ class Events
 	 */
 	public function get_tomorrow()
 	{
-		$start = Carbon::tomorrow($this->timezone)
-			->startOfDay()
-			->getTimestamp();
-		$end = Carbon::tomorrow($this->timezone)
-			->endOfDay()
-			->getTimestamp();
+		$start = Carbon::tomorrow($this->timezone)->startOfDay()->getTimestamp();
+		$end = Carbon::tomorrow($this->timezone)->endOfDay()->getTimestamp();
 		return $this->filter_events($start, $end);
 	}
 
@@ -623,12 +611,8 @@ class Events
 	 */
 	public function get_yesterday()
 	{
-		$start = Carbon::yesterday($this->timezone)
-			->startOfDay()
-			->getTimestamp();
-		$end = Carbon::yesterday($this->timezone)
-			->endOfDay()
-			->getTimestamp();
+		$start = Carbon::yesterday($this->timezone)->startOfDay()->getTimestamp();
+		$end = Carbon::yesterday($this->timezone)->endOfDay()->getTimestamp();
 		return $this->filter_events($start, $end);
 	}
 

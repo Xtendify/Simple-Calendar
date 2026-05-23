@@ -70,7 +70,7 @@ class Menus
 		$connect_menu_title = sprintf(
 			'%1$s <span class="sc_menu_badge_new">%2$s</span>',
 			esc_html__('Connect', 'google-calendar-events'),
-			esc_html__('New!', 'google-calendar-events')
+			esc_html__('New!', 'google-calendar-events'),
 		);
 
 		// Serve Connect UI on the Settings slug to preserve legacy OAuth redirect URLs:
@@ -86,7 +86,7 @@ class Menus
 			__('Connect', 'google-calendar-events'),
 			'manage_options',
 			'simple-calendar_settings',
-			$connect_callback
+			$connect_callback,
 		);
 
 		$connect_hook = add_submenu_page(
@@ -95,7 +95,7 @@ class Menus
 			$connect_menu_title,
 			'manage_options',
 			'simple-calendar_settings',
-			$connect_callback
+			$connect_callback,
 		);
 
 		remove_submenu_page('index.php', 'simple-calendar_settings');
@@ -120,7 +120,7 @@ class Menus
 			function () {
 				$page = new Pages('settings');
 				$page->html();
-			}
+			},
 		);
 
 		add_submenu_page(
@@ -132,7 +132,7 @@ class Menus
 			function () {
 				$page = new Pages('add-ons');
 				$page->html();
-			}
+			},
 		);
 
 		add_submenu_page(
@@ -144,7 +144,7 @@ class Menus
 			function () {
 				$page = new Pages('tools');
 				$page->html();
-			}
+			},
 		);
 
 		do_action('simcal_admin_add_menu_items');
@@ -231,12 +231,12 @@ class Menus
 				$footer_text = sprintf(
 					__(
 						'If you like <strong>Simple Calendar</strong> please leave us a %s&#9733;&#9733;&#9733;&#9733;&#9733; rating on WordPress.org%s. A huge thank you in advance!',
-						'google-calendar-events'
+						'google-calendar-events',
 					),
 					'<a href="https://wordpress.org/support/view/plugin-reviews/google-calendar-events?filter=5#postform" target="_blank" class="simcal-rating-link" data-rated="' .
 						esc_attr__('Thanks :)', 'google-calendar-events') .
 						'">',
-					'</a>'
+					'</a>',
 				);
 				// Add a nonce field used in ajax.
 				$footer_text .= wp_nonce_field('simcal_rating_nonce', 'simcal_rating_nonce');

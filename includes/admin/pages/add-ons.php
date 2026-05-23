@@ -147,7 +147,7 @@ class Add_Ons extends Admin_Page
 				'title' => __('Google Calendar Pro', 'google-calendar-events'),
 				'description' => __(
 					'Enjoy 1-click Google Calendar integration with real-time synchronization for both public and private calendars.',
-					'google-calendar-events'
+					'google-calendar-events',
 				),
 				'learn_more_url' => 'https://simplecalendar.io/downloads/google-calendar-pro/',
 				'buy_url' => simcal_get_url('addons'),
@@ -161,7 +161,7 @@ class Add_Ons extends Admin_Page
 				'title' => __('FullCalendar Extended', 'google-calendar-events'),
 				'description' => __(
 					'Adds month, week, day, and list views to your calendar with improved interactivity and display flexibility.',
-					'google-calendar-events'
+					'google-calendar-events',
 				),
 				'learn_more_url' => 'https://simplecalendar.io/downloads/fullcalendar/',
 				'buy_url' => simcal_get_url('addons'),
@@ -175,7 +175,7 @@ class Add_Ons extends Admin_Page
 				'title' => __('Book an Appointment', 'google-calendar-events'),
 				'description' => __(
 					'Enables visitors to book multiple appointments on Google Calendar directly through your WordPress site, as per the shown availability.',
-					'google-calendar-events'
+					'google-calendar-events',
 				),
 				'learn_more_url' => 'https://simplecalendar.io/downloads/book-an-appointment/',
 				'buy_url' => simcal_get_url('addons'),
@@ -188,7 +188,7 @@ class Add_Ons extends Admin_Page
 						'AppointmentCalendar',
 						'Book an Appointment',
 					],
-					defined('SIMPLE_CALENDAR_APPOINTMENT_ID') ? ['simcal_' . (string) SIMPLE_CALENDAR_APPOINTMENT_ID] : []
+					defined('SIMPLE_CALENDAR_APPOINTMENT_ID') ? ['simcal_' . (string) SIMPLE_CALENDAR_APPOINTMENT_ID] : [],
 				),
 			],
 		];
@@ -205,7 +205,7 @@ class Add_Ons extends Admin_Page
 							<p class="sc_text--body_b2 sc_text--dark sc_addons_card_subtitle">
 								<?php esc_html_e(
         	'Explore three focused addons. Each one extends Simple Calendar in a direction the free version doesn\'t go.',
-        	'google-calendar-events'
+        	'google-calendar-events',
         ); ?>
 							</p>
 
@@ -235,7 +235,7 @@ class Add_Ons extends Admin_Page
          		'icon_src' => $icon_src,
          		'card_description' => __(
          			'Activate your license to enable automatic updates and premium support for this add-on.',
-         			'google-calendar-events'
+         			'google-calendar-events',
          		),
          	];
 
@@ -276,7 +276,7 @@ class Add_Ons extends Admin_Page
 									class="sc_link sc_link_muted"
 									data-dialog="<?php echo esc_attr__(
          	'WARNING: Are you sure you want to start over and delete all license keys from the settings?',
-         	'google-calendar-events'
+         	'google-calendar-events',
          ); ?>"
 								>
 									<?php esc_html_e('Delete your license keys', 'google-calendar-events'); ?>

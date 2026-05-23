@@ -104,7 +104,7 @@ if (!class_exists('SimCal_WP_Requirements')) {
 						'PHP' => '',
 						'Extensions' => '',
 					],
-					$requirements
+					$requirements,
 				);
 
 				// Check for WordPress version.

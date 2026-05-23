@@ -323,7 +323,7 @@ function simcal_mark_connect_google_api_key_verified($api_key)
 	update_option(
 		'simple_calendar_connect_core_api_key_verified_hash',
 		wp_hash($k, SIMCAL_CONNECT_GOOGLE_API_KEY_VERIFY_SCHEME),
-		false
+		false,
 	);
 }
 
@@ -666,7 +666,7 @@ function simcal_prepare_connect_sidebar_scope()
 						'terms' => ['google-pro', 'google_pro'],
 					],
 				],
-			])
+			]),
 		);
 		$has_published_pro_calendar = $pro_calendar_query->have_posts();
 		wp_reset_postdata();
@@ -688,7 +688,7 @@ function simcal_prepare_connect_sidebar_scope()
 						'compare' => '=',
 					],
 				],
-			])
+			]),
 		);
 		$has_published_pro_calendar = $pro_calendar_query->have_posts();
 		wp_reset_postdata();
@@ -835,8 +835,8 @@ function simcal_ga_campaign_url($base_url, $campaign, $content, $raw = false)
 				'utm_campaign' => $campaign, // i.e. 'core-plugin', 'gcal-pro'
 				'utm_content' => $content, // i.e. 'sidebar-link', 'settings-link'
 			],
-			$base_url
-		)
+			$base_url,
+		),
 	);
 
 	if ($raw) {
@@ -867,7 +867,7 @@ function simcal_newsletter_signup()
 				<p>
 					<?php _e(
      	"Enter your name and email and we'll send you a coupon code for <strong>20% off</strong> all Pro Add-on purchases.",
-     	'google-calendar-events'
+     	'google-calendar-events',
      ); ?>
 				</p>
 
@@ -926,22 +926,22 @@ function simcal_upgrade_to_premium()
 			<ul>
 				<li><div class="dashicons dashicons-yes"></div> <?php _e(
     	'Display color coded events',
-    	'google-calendar-events'
+    	'google-calendar-events',
     ); ?></li>
 				<li><div class="dashicons dashicons-yes"></div> <?php _e('Show week & day views', 'google-calendar-events'); ?></li>
 				<li><div class="dashicons dashicons-yes"></div> <?php _e('Fast view switching', 'google-calendar-events'); ?></li>
 				<li><div class="dashicons dashicons-yes"></div> <?php _e(
     	'Event titles & start times in grid',
-    	'google-calendar-events'
+    	'google-calendar-events',
     ); ?></li>
 				<li><div class="dashicons dashicons-yes"></div> <?php _e('Limit event display times', 'google-calendar-events'); ?></li>
 				<li><div class="dashicons dashicons-yes"></div> <?php _e(
     	'Display private calendar events',
-    	'google-calendar-events'
+    	'google-calendar-events',
     ); ?></li>
 				<li><div class="dashicons dashicons-yes"></div> <?php _e(
     	'Show attendees & RSVP status',
-    	'google-calendar-events'
+    	'google-calendar-events',
     ); ?></li>
 				<li><div class="dashicons dashicons-yes"></div> <?php _e('Display attachments', 'google-calendar-events'); ?></li>
 				<li><div class="dashicons dashicons-yes"></div> <?php _e('Priority email support', 'google-calendar-events'); ?></li>
@@ -1003,7 +1003,7 @@ function simcal_notice_to_update_php_version()
 				__(
 					'<strong>Attention!</strong><br /> On <strong>November 15, 2025</strong>, we will be updating our plugin to the latest Google libraries and discontinuing support for PHP 7.x.
 					To ensure your calendar plugin continues to work without interruption, please upgrade your PHP version to 8.0 or higher. If you\'ve already upgraded, you\'re all set!',
-					'google-calendar-events'
+					'google-calendar-events',
 				) .
 				'</p>',
 		]);

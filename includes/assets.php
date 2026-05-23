@@ -185,11 +185,11 @@ class Assets
 						SIMPLE_CALENDAR_ASSETS . 'generated/vendor/imagesloaded.pkgd.min.js',
 						['simcal-qtip'],
 						SIMPLE_CALENDAR_VERSION,
-						true
+						true,
 					);
 				}
 			},
-			1000
+			1000,
 		);
 	}
 
@@ -453,7 +453,7 @@ class Assets
 									}
 								},
 								100,
-								2
+								2,
 							);
 							add_filter(
 								'simcal_front_end_styles',
@@ -465,7 +465,7 @@ class Assets
 									}
 								},
 								100,
-								2
+								2,
 							);
 						}
 					}

@@ -66,7 +66,7 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_core_item_spaced'
 	<p class="<?php echo esc_attr($subtitle_class); ?>">
 		<?php esc_html_e(
   	'Enter your API key to connect your public Google Calendar to this website.',
-  	'google-calendar-events'
+  	'google-calendar-events',
   ); ?>
 	</p>
 	<p
@@ -142,11 +142,11 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_core_item_spaced'
     				simcal_ga_campaign_url(
     					'https://docs.simplecalendar.io/google-api-key',
     					'core-plugin',
-    					'connect-api-key-docs'
-    				)
+    					'connect-api-key-docs',
+    				),
     			) .
     			'" target="_blank" class="sc_connect_helper_link">',
-    		'</a>'
+    		'</a>',
     	),
     	[
     		'a' => [
@@ -155,7 +155,7 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_core_item_spaced'
     			'rel' => true,
     			'class' => true,
     		],
-    	]
+    	],
     );
     ?>
 			</p>
@@ -166,7 +166,7 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_core_item_spaced'
 				<a href="<?php echo simcal_ga_campaign_url(
     	'https://simplecalendar.io/downloads/google-calendar-pro/',
     	'core-plugin',
-    	'connect-api-key-pro-addon'
+    	'connect-api-key-pro-addon',
     ); ?>" target="_blank" class="sc_connect_pro_link">
 					<img src="<?php echo esc_url($assets_base . 'crown.svg'); ?>" alt="" />
 					<span class="sc_link"><?php esc_html_e('Pro version', 'google-calendar-events'); ?></span>
