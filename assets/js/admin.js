@@ -1441,9 +1441,6 @@
 			scInput.on('input', function () {
 				scConnectForm.removeData('scValidated');
 				resetVisualState();
-				if (scApiKeyBadgeHolders().not('.is_hidden').length) {
-					scApiKeyBadgeSetChecking();
-				}
 			});
 
 			scConnectForm.on('submit', function (e) {
@@ -1482,6 +1479,7 @@
 				scConnectMsgWrap.hide();
 				scmsgError.hide();
 				scmsgSuccess.hide();
+				scApiKeyBadgeSetChecking();
 
 				var ajaxNonce = (connectCfg && connectCfg.nonce) || scConnectForm.attr('data-sc-connect-validate-nonce') || '';
 				var fallbackAjaxUrl = (function () {

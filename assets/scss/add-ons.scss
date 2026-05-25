@@ -10,6 +10,9 @@
 	.sc_addons_main {
 		flex: 1 1 auto;
 		min-width: 0;
+		.sc_addons_card_subtitle {
+			margin-top: 8px;
+		}
 	}
 
 	.sc_addons_sidebar {
@@ -63,6 +66,7 @@
 
 		.sc_addon_item_desc {
 			color: var(--sc-color-medium-gray);
+			margin-top: 8px;
 		}
 
 		.sc_addon_item_actions {

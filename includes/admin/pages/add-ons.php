@@ -143,20 +143,6 @@ class Add_Ons extends Admin_Page
 			]);
 
 		$catalog = [
-			'fullcalendar' => [
-				'title' => __('FullCalendar Extended', 'google-calendar-events'),
-				'description' => __(
-					'Adds month, week, day, and list views to your calendar with improved interactivity and display flexibility.',
-					'google-calendar-events',
-				),
-				'learn_more_url' => 'https://simplecalendar.io/downloads/fullcalendar/',
-				'buy_url' => simcal_get_url('addons'),
-				'is_active' => function_exists('simcal_is_fullcalendar_addon_active')
-					? simcal_is_fullcalendar_addon_active()
-					: $is_plugin_active('simple-calendar-fullcalendar/simple-calendar-fullcalendar.php'),
-				'icon' => 'fullcalendar-extended.svg',
-				'license_key' => $fullcalendar_license_key,
-			],
 			'google_pro' => [
 				'title' => __('Google Calendar Pro', 'google-calendar-events'),
 				'description' => __(
@@ -170,6 +156,20 @@ class Add_Ons extends Admin_Page
 					: false,
 				'icon' => 'google-calendar-pro.svg',
 				'license_key' => $google_pro_license_key,
+			],
+			'fullcalendar' => [
+				'title' => __('FullCalendar Extended', 'google-calendar-events'),
+				'description' => __(
+					'Adds month, week, day, and list views to your calendar with improved interactivity and display flexibility.',
+					'google-calendar-events',
+				),
+				'learn_more_url' => 'https://simplecalendar.io/downloads/fullcalendar/',
+				'buy_url' => simcal_get_url('addons'),
+				'is_active' => function_exists('simcal_is_fullcalendar_addon_active')
+					? simcal_is_fullcalendar_addon_active()
+					: $is_plugin_active('simple-calendar-fullcalendar/simple-calendar-fullcalendar.php'),
+				'icon' => 'fullcalendar-extended.svg',
+				'license_key' => $fullcalendar_license_key,
 			],
 			'appointment' => [
 				'title' => __('Book an Appointment', 'google-calendar-events'),

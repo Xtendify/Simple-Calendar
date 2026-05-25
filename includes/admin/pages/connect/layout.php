@@ -13,6 +13,8 @@ if (!defined('ABSPATH')) {
 } ?>
 <div class="wrap sc_root" id="simcal-connect-page">
 	<div class="sc_connect_page_outer">
+		<?php $hide_sidebar = !empty($context['hide_sidebar']); ?>
+		<?php if (!$hide_sidebar) { ?>
 		<div class="sc_connect_page_header">
 			<div class="sc_connect_page_header_left">
 				<span class="sc_logo">
@@ -24,14 +26,8 @@ if (!defined('ABSPATH')) {
 					</a>
 				</span>
 			</div>
-			<div class="sc_connect_page_header_right">
-				<span class="sc_text--body_b1">
-					<?php echo __('Connect', 'google-calendar-events'); ?>
-				</span>
-			</div>
 		</div>
-
-		<?php $hide_sidebar = !empty($context['hide_sidebar']); ?>
+		<?php } ?>
 		<div class="sc_connect_page_inner<?php echo $hide_sidebar ? ' sc_connect_page_inner--no-sidebar' : ''; ?>">
 			<div>
 				<?php

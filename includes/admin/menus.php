@@ -51,8 +51,6 @@ class Menus
 
 		self::$plugin = plugin_basename(SIMPLE_CALENDAR_MAIN_FILE);
 
-		//new Welcome();
-
 		// Links and meta content in plugins page.
 		add_filter('plugin_action_links_' . self::$plugin, [__CLASS__, 'plugin_action_links'], 10, 5);
 		add_filter('plugin_row_meta', [__CLASS__, 'plugin_row_meta'], 10, 2);
