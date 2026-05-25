@@ -56,7 +56,45 @@ class Menus
 		// Links and meta content in plugins page.
 		add_filter('plugin_action_links_' . self::$plugin, [__CLASS__, 'plugin_action_links'], 10, 5);
 		add_filter('plugin_row_meta', [__CLASS__, 'plugin_row_meta'], 10, 2);
-		// Custom text in admin footer.
+		// Custom text in admin footer — calendar list/edit and key SC admin pages only.
+		add_action('current_screen', [__CLASS__, 'scope_simple_calendar_footer_filters']);
+	}
+
+	/**
+	 * Register footer text filters on calendar list/edit and selected SC admin pages.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return void
+	 */
+	public static function scope_simple_calendar_footer_filters()
+	{
+		if (!function_exists('get_current_screen')) {
+			return;
+		}
+
+		$screen = get_current_screen();
+		if (!$screen || !isset($screen->id)) {
+			return;
+		}
+
+		$sc_footer_screen_ids = [
+			'calendar_page_simple-calendar_settings',
+			'calendar_page_simple-calendar_misc_settings',
+			'calendar_page_simple-calendar_tools',
+			'index_page_simple-calendar_settings',
+			'dashboard_page_simple-calendar_settings',
+		];
+
+		$is_calendar_post_screen =
+			isset($screen->post_type, $screen->base) &&
+			'calendar' === $screen->post_type &&
+			in_array($screen->base, ['edit', 'post'], true);
+
+		if (!$is_calendar_post_screen && !in_array($screen->id, $sc_footer_screen_ids, true)) {
+			return;
+		}
+
 		add_filter('admin_footer_text', '__return_empty_string', 1);
 		add_filter('update_footer', '__return_empty_string', 11);
 	}
