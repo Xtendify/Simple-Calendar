@@ -28,7 +28,7 @@
   "scripts": {
     "setup": "yarn && composer install && composer dump-autoload -o",
     "postsetup": "yarn build:esbuild",
-    "dev": "concurrently --kill-others  \"yarn dev:esbuild\"",
+    "dev": "yarn dev:esbuild",
     "dev:esbuild": "yarn build:esbuild --watch",
     "prebuild": "yarn setup",
     "build": "yarn build:grunt",

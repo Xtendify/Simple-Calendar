@@ -61,7 +61,7 @@ $assets_base = isset($connect_sidebar_scope['assets_base'])
 								<?php echo esc_html($calendars_card_title); ?>
 							</h2>
 							<?php if (!empty($calendars_contents['description'])) { ?>
-								<div class="sc_text--body_b3 sc_text--dark"><?php echo $calendars_contents['description']; ?></div>
+								<div class="sc_text--body_b3 sc_text--dark"><?php echo wp_kses_post($calendars_contents['description']); ?></div>
 							<?php } ?>
 
 							<form id="simcal-misc-settings-form-calendars" class="simcal-misc-settings-general" method="post" action="options.php">
@@ -88,7 +88,7 @@ $assets_base = isset($connect_sidebar_scope['assets_base'])
 								<?php echo esc_html($advanced_card_title); ?>
 							</h2>
 							<?php if (!empty($advanced_contents['description'])) { ?>
-								<div class="sc_text--body_b3 sc_text--dark"><?php echo $advanced_contents['description']; ?></div>
+								<div class="sc_text--body_b3 sc_text--dark"><?php echo wp_kses_post($advanced_contents['description']); ?></div>
 							<?php } ?>
 
 							<form id="simcal-misc-settings-form-advanced" method="post" action="options.php">

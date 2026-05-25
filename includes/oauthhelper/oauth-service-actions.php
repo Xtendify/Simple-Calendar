@@ -178,7 +178,7 @@ class Oauth_Ajax
 
 		$response_arr = $this->decode_response(wp_remote_retrieve_body($request));
 
-		if (isset($response_arr['response']) && !empty($response_arr['response'])) {
+		if (isset($response_arr['response'])) {
 			if ($response_arr['response']) {
 				return;
 			}
@@ -269,7 +269,7 @@ class Oauth_Ajax
 		if (isset($response_arr['response']) && !empty($response_arr['response']) && $response_arr['response']) {
 			$response_message = isset($response_arr['message']) ? $response_arr['message'] : '';
 			if (!empty($response_message) && isset($response_arr['data'])) {
-				return unserialize($response_arr['data']);
+				return unserialize($response_arr['data'], ['allowed_classes' => false]);
 			}
 
 			if (!empty($response_arr['message'])) {
