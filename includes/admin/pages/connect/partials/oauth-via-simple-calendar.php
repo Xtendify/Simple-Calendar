@@ -26,7 +26,7 @@ wp_nonce_field('oauth_action_deauthentication', 'oauth_action_deauthentication')
 				data-sc-pro-mark-via-sc="1"
 				data-sc-pro-oauth-url="<?php echo esc_url($authredirect); ?>"
 			>
-				<?php esc_html_e('OAuth via Simple Calendar', 'google-calendar-events'); ?>
+				<?php esc_html_e('Authenticate', 'google-calendar-events'); ?>
 			</a>
 		<?php } else { ?>
 			<button

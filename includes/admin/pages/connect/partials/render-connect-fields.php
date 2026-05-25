@@ -3,9 +3,10 @@
  * Render Connect fields using design-system markup.
  *
  * Variables expected:
- * - array  $field_defs  Field definitions (subset of simcal_connect_settings_fields()).
- * - array  $values      Values to prefill (key => value).
- * - string $assets_base Assets base URL for icons.
+ * - array  $field_defs   Field definitions (subset of simcal_connect_settings_fields()).
+ * - array  $values       Values to prefill (key => value).
+ * - string $assets_base  Assets base URL for icons.
+ * - array  $field_after  Optional HTML to output below a field (key => markup).
  */
 if (!defined('ABSPATH')) {
 	exit();
@@ -13,6 +14,7 @@ if (!defined('ABSPATH')) {
 
 $field_defs = isset($field_defs) && is_array($field_defs) ? $field_defs : [];
 $values = isset($values) && is_array($values) ? $values : [];
+$field_after = isset($field_after) && is_array($field_after) ? $field_after : [];
 
 foreach ($field_defs as $key => $def) {
 
@@ -82,6 +84,9 @@ foreach ($field_defs as $key => $def) {
 				</button>
 			<?php } ?>
 		</div>
+		<?php if (!empty($field_after[$key])) { ?>
+			<?php echo $field_after[$key]; ?>
+		<?php } ?>
 	</div>
 	<?php
 }

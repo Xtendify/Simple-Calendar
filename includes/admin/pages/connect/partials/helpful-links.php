@@ -40,13 +40,13 @@ $support_url = $is_pro_active
 				<span class="sc_icon--circle">
 					<img src="<?php echo esc_url($assets_base . 'clapperboard.svg'); ?>" alt="" />
 				</span>
-				<span class="sc_helpful_link_card_label"><?php esc_html_e('Setup Video', 'google-calendar-events'); ?></span>
+				<span class="sc_helpful_link_card_label"><?php esc_html_e('Setup video', 'google-calendar-events'); ?></span>
 			</a>
 			<a href="<?php echo esc_url($support_url); ?>" target="_blank" class="sc_helpful_link_card">
 				<span class="sc_icon--circle">
 					<img src="<?php echo esc_url($assets_base . 'headphone.svg'); ?>" alt="" />
 				</span>
-				<span class="sc_helpful_link_card_label"><?php esc_html_e('Support Form', 'google-calendar-events'); ?></span>
+				<span class="sc_helpful_link_card_label"><?php esc_html_e('Support', 'google-calendar-events'); ?></span>
 			</a>
 		</div>
 	</div>

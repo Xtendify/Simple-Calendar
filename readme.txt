@@ -97,6 +97,12 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 4.0.0 =
+* Dev: Revamped the WordPress admin experience with a new Connect onboarding flow (welcome guide, Google API key, Pro OAuth credentials, and calendar setup steps).
+* Dev: Connect is now the primary menu for Google Calendar setup; Event Source and authentication settings have moved from the legacy Settings tabs to Connect.
+* Dev: Redesigned Misc Settings with a modern layout for General and Additional Settings, including the Connect progress sidebar.
+* Dev: Updated the Add-ons admin page to match the new Connect design system.
+
 = 3.6.2 =
 * Fix: Date format inconsistency in List View navigation bar now uses the calendar's configured date format consistently.
 

@@ -148,11 +148,11 @@ class Pages
 													'simple-calendar_' . $this->page . '_' . $tab_id,
 													$section_id,
 												);
-											} // add field
-										} // is field valid?
-									} // loop fields
-								} // are fields non empty?
-							} // are there fields?
+											}
+										}
+									}
+								}
+							}
 
 							$page = simcal_get_admin_page($tab_id);
 
@@ -161,11 +161,11 @@ class Pages
 								'simple-calendar_' . $this->page . '_' . $tab_id,
 								$page instanceof Admin_Page ? [$page, 'validate'] : '',
 							);
-						} // loop sections
-					} // are sections non empty?
-				} // are there sections?
-			} // loop settings
-		} // are there settings?
+						}
+					}
+				}
+			}
+		}
 	}
 
 	/**
@@ -176,18 +176,14 @@ class Pages
 	public function html()
 	{
 		global $current_tab;
-		$admin_image_about_path = SIMPLE_CALENDAR_ASSETS . '/images/pages/settings';
 
-		// Get current tab/section
 		$current_tab = empty($_GET['tab']) ? $this->tab : sanitize_title($_GET['tab']);
 		$this->tab = $current_tab;
 
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$current_page = isset($_GET['page']) ? sanitize_text_field((string) $_GET['page']) : '';
-		$is_misc_settings_page = 'simple-calendar_misc_settings' === $current_page;
-		$is_add_ons_page = $this->page === 'add-ons' && 'simple-calendar_add_ons' === $current_page;
 
-		// If Pro is active but outdated, block Settings page and direct users to update.
+		// If Pro is active but outdated, block Settings and direct users to update.
 		$min_pro_version = '2.0.0';
 		if ($this->page === 'settings' && !\simcal_is_google_calendar_pro_version_compatible($min_pro_version)) {
 			$plugins_url = admin_url('plugins.php'); ?>
@@ -216,375 +212,27 @@ class Pages
 			</div>
 			<?php return;
 		}
-		?>
-		<div
-			class="wrap <?php echo $is_misc_settings_page
-   	? 'sc_root sc_misc_settings'
-   	: ($is_add_ons_page
-   		? 'sc_root sc_addons'
-   		: 'simcal-font-poppins semical-' . esc_attr($current_tab) . '-tab'); ?>"
-			id="<?php echo $is_misc_settings_page
-   	? 'simcal-misc-settings-page'
-   	: ($is_add_ons_page
-   		? 'simcal-add-ons-page'
-   		: 'simcal-settings-page'); ?>"
-		>
-			<?php
-   // Include settings pages.
-   $settings_pages = self::get_settings();
-   if (!empty($settings_pages) && is_array($settings_pages)) {
-   	if ($is_add_ons_page) {
 
-   		$connect_sidebar_scope = function_exists('simcal_prepare_connect_sidebar_scope')
-   			? simcal_prepare_connect_sidebar_scope()
-   			: [];
-   		$assets_base = isset($connect_sidebar_scope['assets_base'])
-   			? (string) $connect_sidebar_scope['assets_base']
-   			: (string) (SIMPLE_CALENDAR_ASSETS . 'images/admin/');
-   		?>
-					<div class="sc_connect_page_outer">
-						<div class="sc_connect_page_header">
-							<div class="sc_connect_page_header_left">
-								<span class="sc_logo">
-									<a href="<?php echo esc_url(admin_url('admin.php?page=simple-calendar_settings')); ?>" class="sc_logo_link">
-										<img
-											src="<?php echo esc_url($assets_base . 'logo.png'); ?>"
-											alt="<?php esc_attr_e('Simple Calendar', 'google-calendar-events'); ?>"
-										/>
-									</a>
-								</span>
-							</div>
-							<div class="sc_connect_page_header_right">
-								<span class="sc_text--body_b1">
-									<?php echo esc_html__('Addons', 'google-calendar-events'); ?>
-								</span>
-							</div>
-						</div>
+		$settings_pages = $this->get_settings();
+		if (empty($settings_pages) || !is_array($settings_pages)) {
+			return;
+		}
 
-						<div class="sc_connect_notices">
-							<?php settings_errors(); ?>
-						</div>
+		$page_slug = $this->page;
+		$views_path = SIMPLE_CALENDAR_PATH . 'includes/admin/views/';
 
-						<div class="sc_container">
-							<?php
-       do_action('simcal_admin_page_' . $this->page . '_' . $current_tab . '_start');
-       do_action('simcal_admin_page_' . $this->page . '_' . $current_tab . '_end');
-       ?>
-						</div>
-					</div>
-					<?php
-   	} elseif ($is_misc_settings_page) {
+		if ('simple-calendar_add_ons' === $current_page && 'add-ons' === $this->page) {
+			include $views_path . 'page-add-ons.php';
+			return;
+		}
 
-   		$calendars_tab_id = 'calendars';
-   		$advanced_tab_id = 'advanced';
+		if ('simple-calendar_misc_settings' === $current_page) {
+			include $views_path . 'page-misc-settings.php';
+			return;
+		}
 
-   		$calendars_contents = isset($settings_pages[$calendars_tab_id]) ? $settings_pages[$calendars_tab_id] : null;
-   		$advanced_contents = isset($settings_pages[$advanced_tab_id]) ? $settings_pages[$advanced_tab_id] : null;
-
-   		$calendars_card_title = __('General', 'google-calendar-events');
-   		if (
-   			is_array($calendars_contents) &&
-   			!empty($calendars_contents['sections']) &&
-   			is_array($calendars_contents['sections'])
-   		) {
-   			$first_section = reset($calendars_contents['sections']);
-   			if (is_array($first_section) && !empty($first_section['title'])) {
-   				$calendars_card_title = $first_section['title'];
-   			}
-   		}
-   		$advanced_card_title = __('Additional Settings', 'google-calendar-events');
-
-   		$connect_sidebar_scope = simcal_prepare_connect_sidebar_scope();
-   		$assets_base = isset($connect_sidebar_scope['assets_base'])
-   			? (string) $connect_sidebar_scope['assets_base']
-   			: (string) (SIMPLE_CALENDAR_ASSETS . 'images/admin/');
-   		?>
-					<div class="sc_connect_page_outer">
-						<div class="sc_connect_page_header">
-							<div class="sc_connect_page_header_left">
-								<span class="sc_logo">
-									<a href="<?php echo esc_url(admin_url('admin.php?page=simple-calendar_settings')); ?>" class="sc_logo_link">
-										<img
-											src="<?php echo esc_url($assets_base . 'logo.png'); ?>"
-											alt="<?php esc_attr_e('Simple Calendar', 'google-calendar-events'); ?>"
-										/>
-									</a>
-								</span>
-							</div>
-							<div class="sc_connect_page_header_right">
-								<span class="sc_text--body_b1">
-									<?php echo esc_html__('Settings', 'google-calendar-events'); ?>
-								</span>
-							</div>
-						</div>
-
-						<div class="sc_connect_notices">
-							<?php settings_errors(); ?>
-						</div>
-
-						<div class="sc_container">
-						<div class="sc_misc_settings_layout">
-							<div class="sc_misc_settings_main">
-								<?php if (is_array($calendars_contents)) { ?>
-									<div class="sc_setup_card sc_misc_settings_card">
-										<h2 class="sc_h4 sc_misc_settings_card_title">
-											<?php echo esc_html($calendars_card_title); ?>
-										</h2>
-										<?php if (!empty($calendars_contents['description'])) { ?>
-											<div class="sc_text--body_b3 sc_text--dark"><?php echo $calendars_contents['description']; ?></div>
-										<?php } ?>
-
-										<form id="simcal-misc-settings-form-calendars" method="post" action="options.php">
-											<?php
-           do_action('simcal_admin_page_' . $this->page . '_' . $calendars_tab_id . '_start');
-           settings_fields('simple-calendar_' . $this->page . '_' . $calendars_tab_id);
-           do_settings_sections('simple-calendar_' . $this->page . '_' . $calendars_tab_id);
-           do_action('simcal_admin_page_' . $this->page . '_' . $calendars_tab_id . '_end');
-
-           $submit_cal = apply_filters('simcal_admin_page_' . $this->page . '_' . $calendars_tab_id . '_submit', true);
-           if (true === $submit_cal) {
-           	echo '<input type="submit" name="simcal-misc-settings-form-calendars-submit"  class="sc_btn sc_btn--blue" value="' .
-           		esc_attr__('Save Changes', 'google-calendar-events') .
-           		'"/>';
-           }
-           ?>
-										</form>
-									</div>
-								<?php } ?>
-
-								<?php if (is_array($advanced_contents)) { ?>
-									<div class="sc_setup_card sc_misc_settings_card">
-										<h2 class="sc_h4 sc_misc_settings_card_title">
-											<?php echo esc_html($advanced_card_title); ?>
-										</h2>
-										<?php if (!empty($advanced_contents['description'])) { ?>
-											<div class="sc_text--body_b3 sc_text--dark"><?php echo $advanced_contents['description']; ?></div>
-										<?php } ?>
-
-										<form id="simcal-misc-settings-form-advanced" method="post" action="options.php">
-											<?php
-           do_action('simcal_admin_page_' . $this->page . '_' . $advanced_tab_id . '_start');
-           settings_fields('simple-calendar_' . $this->page . '_' . $advanced_tab_id);
-           do_settings_sections('simple-calendar_' . $this->page . '_' . $advanced_tab_id);
-           do_action('simcal_admin_page_' . $this->page . '_' . $advanced_tab_id . '_end');
-
-           $submit_adv = apply_filters('simcal_admin_page_' . $this->page . '_' . $advanced_tab_id . '_submit', true);
-           if (true === $submit_adv) {
-           	echo '<input type="submit" name="simcal-misc-settings-form-advanced-submit"  class="sc_btn sc_btn--blue" value="' .
-           		esc_attr__('Save Changes', 'google-calendar-events') .
-           		'"/>';
-           }
-           ?>
-										</form>
-									</div>
-								<?php } ?>
-							</div>
-
-							<div class="sc_misc_settings_sidebar">
-								<?php
-        extract($connect_sidebar_scope, EXTR_OVERWRITE);
-        // Same as Connect layout: sidebar uses 'pro' vs stored welcome context for progress variant.
-        $welcome_context = $is_pro_active ? 'pro' : (string) $welcome_context;
-        // Not the Connect credentials step: avoid forcing Pro progress to 25% when state already advanced.
-        $current_step = 'misc_settings';
-        include SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect/sidebar.php';
-        ?>
-							</div>
-						</div>
-					</div>
-					</div>
-				<?php
-   	} else {
-   		 ?>
-					
-					<form id="simcal-settings-page-form" method="post" action="options.php">
-						<?php
-      echo '<h2 class="nav-tab-wrapper simcal-nav-tab-wrapper simcal-flex simcal-space-x-[102px] simcal-bg-sc_blue-100 simcal-text-sc_grey-100 ">';
-
-      // Get tabs for the settings page.
-      foreach ($settings_pages as $id => $settings) {
-      	$tab_id = isset($id) ? $id : '';
-      	$tab_label = isset($settings['label']) ? $settings['label'] : '';
-      	$tab_link = admin_url('edit.php?post_type=calendar&page=simple-calendar_' . $this->page . '&tab=' . $tab_id);
-
-      	echo '<a href="' .
-      		$tab_link .
-      		'" class=" sc-link simcal-ml-[5%] simcal-text-base simcal-font-normal' .
-      		($current_tab == $tab_id
-      			? ' nav-tab-active hover:simcal-bg-inherit simcal-bg-sc_blue-100 simcal-border-b-[3px] simcal-pb-[7px] simcal-pr-[7px] simcal-pl-[7px] simcal-border-b-sc_green-200 '
-      			: '') .
-      		'">' .
-      		$tab_label .
-      		'</a>';
-      }
-
-      do_action('simcal_admin_page_' . $this->page . '_tabs');
-
-      echo '</h2>';
-      echo '<div class="simcal-max-w-[100%]">';
-      echo '<div class="simcal-bg-sc_blue-100 simcal-ml-[5%]">';
-
-      echo '<div class="simcal-flex simcal-pt-[80px]">';
-
-      settings_errors();
-
-      foreach ($settings_pages as $tab_id => $contents) {
-      	if ($tab_id === $current_tab) {
-
-      		echo '<div class="simcal-bg-white simcal-p-[2%] simcal-w-[54%] simcal-rounded-[5px] ">';
-
-      		// Event Sources (feeds) tab: do not output Settings API fields (API key, etc.); those are on Connect.
-      		$feeds_tab = $this->page === 'settings' && $current_tab === 'feeds';
-
-      		if ($feeds_tab) {
-      			$connect_url = admin_url('edit.php?post_type=calendar&page=simple-calendar_settings');
-      			echo '<div class="notice notice-warning inline">';
-      			echo '<p><strong>' .
-      				esc_html__('Update:', 'google-calendar-events') .
-      				'</strong> ' .
-      				esc_html__('All Event Source settings have been moved to the Connect page.', 'google-calendar-events') .
-      				'</p>';
-      			echo '<p><a class="button button-primary" href="' .
-      				esc_url($connect_url) .
-      				'">' .
-      				esc_html__('Go to Connect', 'google-calendar-events') .
-      				'</a></p>';
-      			echo '</div>';
-      			echo '</div>';
-      		} else {
-      			echo isset($contents['description']) ? '<p>' . $contents['description'] . '</p>' : '';
-
-      			do_action('simcal_admin_page_' . $this->page . '_' . $current_tab . '_start');
-
-      			settings_fields('simple-calendar_' . $this->page . '_' . $tab_id);
-      			do_settings_sections('simple-calendar_' . $this->page . '_' . $tab_id);
-
-      			do_action('simcal_admin_page_' . $this->page . '_' . $current_tab . '_end');
-
-      			$submit = apply_filters('simcal_admin_page_' . $this->page . '_' . $current_tab . '_submit', true);
-      			if (true === $submit) {
-      				submit_button();
-      			}
-      			echo '</div>';
-      		}
-      		?>
-								<div class="simcal-w-[39%] simcal-h-[452px] simcal-ml-[2%] simcal-rounded-[5px] simcal-bg-white">
-									<div class="simcal-mt-[75px]">
-										<img class="simcal-m-auto" src="<?php echo esc_url($admin_image_about_path) . '/rating.png'; ?>" />
-									</div>
-									<div class="simcal-mt-[15px] simcal-text-center simcal-font-semibold simcal-text-lg ">
-										<Span><?php _e('Please Rate Us !', 'google-calendar-events'); ?></Span>
-									</div>
-									<div class="simcal-mt-[5px] simcal-text-center simcal-font-normal simcal-text-base simcal-text-gray-500">
-										<Span><?php _e('If you like Simple Calendar please Rate Us', 'google-calendar-events'); ?> </Span>
-									</div>
-									<div class="simcal-mt-[44px]">
-										<?php sc_rating(); ?>
-									</div>
-									<a href="https://simplecalendar.io/go/leave-a-review--theme?utm_source=inside-plugin&utm_medium=link&utm_campaign=core-plugin&utm_content=settings-link">
-										<button type="button" class="simcal-mt-[20px] simcal-m-auto simcal-flex simcal-justify-center simcal-items-center simcal-w-[85%] simcal-h-[40px] simcal-bg-sc_green-200 simcal-text-white simcal-text-xl simcal-font-medium simcal-rounded-md">
-											<?php _e('Rate Now', 'google-calendar-events'); ?>
-										</button>
-									</a>
-									<div class="simcal-mt-[25px] simcal-text-center simcal-text-base simcal-underline ">
-										<a class="hover:simcal-text-sc_green-200" href="https://simplecalendar.io/go/reviews--theme?utm_source=inside-plugin&utm_medium=link&utm_campaign=core-plugin&utm_content=settings-link"><?php _e(
-          	'See All Customers Reviews',
-          	'google-calendar-events',
-          ); ?></a>
-									</div>
-								</div>
-								<?php echo '</div>';
-      	}
-      }
-      // It will display when the Pro is activated.
-      if (
-      	!is_plugin_active('Simple-Calendar-Google-Calendar-Pro-main/simple-calendar-google-calendar-pro.php') &&
-      	!is_plugin_active('Simple-Calendar-Google-Calendar-Pro/simple-calendar-google-calendar-pro.php')
-      ) { ?>
-								<div class="simcal-mr-[5%] simcal-mt-[50px] simcal-p-[3%] simcal-max-w-[100%] simcal-flex simcal-bg-sc_green-100 simcal-font-poppins simcal-rounded">
-					<div class="simcal-w-[36%]">
-						<div class="simcal-flex">
-							<div>
-								<img src="<?php echo esc_url($admin_image_about_path) . '/black-tick.png'; ?>" />
-							</div>
-							<div class="simcal-text-sc_green-200 simcal-m-auto simcal-ml-2.5 simcal-font-semibold simcal-text-xl">
-								<span>
-									<?php _e('Pro Version', 'google-calendar-events'); ?>
-								</span>
-							</div>
-						</div>
-						<div class="simcal-pt-[19px] simcal-text-sc_grey-100 simcal-text-base">
-							<span>
-								<?php _e(
-        	'Calendars configured to use the',
-        	'google-calendar-events',
-        ); ?><b class="simcal-text-sc_black-100 hover:simcal-text-sc_green-200">
-								<?php _e(' Google Calendar Pro add-on', 'google-calendar-events'); ?></b> <?php _e(
-	'use a different method of authorization.',
-	'google-calendar-events',
-); ?>
-							</span>
-						</div>
-						<div class="simcal-pt-[29px]">
-							<a href="https://simplecalendar.io/addons/?utm_source=inside-plugin&utm_medium=link&utm_campaign=core-plugin&utm_content=settings-link">
-								<button type="button"
-									class="simcal-flex simcal-justify-center simcal-items-center simcal-w-[100%] simcal-h-[40px] simcal-bg-sc_green-200 simcal-text-white simcal-text-base simcal-font-medium simcal-rounded-md simcal-font-poppins">
-									<img class="simcal-p-[8px]" src="<?php echo esc_url($admin_image_about_path) . '/crown.png'; ?>" />
-									<?php _e('Get Pro Version', 'google-calendar-events'); ?>
-								</button>
-							</a>
-						</div>
-					</div>
-					<div class="simcal-mx-auto simcal-mt-[4%]">
-						<img src="<?php echo esc_url($admin_image_about_path) . '/arrow.png'; ?>" />
-					</div>
-					<div class="simcal-bg-sc_green-100 simcal-rounded-r-[5px] simcal-pr-[1%] simcal-pt-[5px] ">
-						<div>
-							<div class="simcal-flex simcal-text-gray-400 simcal-mt-[21px]">
-								<div class="simcal-mt-[2px]">
-									<img src="<?php echo esc_url($admin_image_about_path) . '/green-tick.png'; ?>" />
-								</div>
-								<div class="simcal-ml-[9px] simcal-text-base simcal-text-sc_grey-100 simcal-font-normal" >
-									<span><?php _e('Display events from both private and public Google Calendars.', 'google-calendar-events'); ?></span>
-								</div>
-							</div>
-							<div class="simcal-flex simcal-mt-[14px] ">
-								<div class="simcal-mt-[2px]">
-									<img src="<?php echo esc_url($admin_image_about_path) . '/green-tick.png'; ?>" />
-								</div>
-								<div class="simcal-ml-[9px] simcal-text-base simcal-text-sc_grey-100 simcal-font-normal " >
-									<span> <?php _e(
-         	'Display a list of attachments with links to their original source.',
-         	'google-calendar-events',
-         ); ?></span>
-								</div>
-							</div>
-							<div class="simcal-flex simcal-mt-[14px] ">
-								<div class="simcal-mt-[2px]">
-									<img src="<?php echo esc_url($admin_image_about_path) . '/green-tick.png'; ?>" />
-								</div>
-								<div class="simcal-ml-[9px] simcal-text-base simcal-text-sc_grey-100 simcal-font-normal">
-									<span><?php _e('Many More...', 'google-calendar-events'); ?></span>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			<?php }
-      echo '</div>';
-      echo '</div>';
-
-   	}
-
-   	if ($is_misc_settings_page) {
-   		echo '</div>';
-   	} else {
-   		 ?>
-			</form>
-		</div>
-					<?php
-   	}
-   }?>
-		<?php
+		if ('simple-calendar_tools' === $current_page && 'tools' === $this->page) {
+			include $views_path . 'page-tools.php';
+		}
 	}
 }

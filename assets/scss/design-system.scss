@@ -265,6 +265,7 @@
 		line-height: var(--sc-h3-line-height);
 		letter-spacing: var(--sc-letter-spacing);
 		color: var(--sc-color-black);
+		margin: 0px;
 	}
 
 	.sc_h4 {
@@ -274,6 +275,7 @@
 		line-height: var(--sc-h4-line-height);
 		letter-spacing: var(--sc-letter-spacing);
 		color: var(--sc-color-black);
+		margin: 0px;
 	}
 
 	.sc_h5 {
@@ -1158,15 +1160,10 @@
 			justify-content: space-between;
 			margin: 0 auto 24px;
 
-			.sc_connect_page_header_left,
-			.sc_connect_page_header_right {
+			.sc_connect_page_header_left {
 				display: flex;
 				align-items: center;
 				flex: 0 0 auto;
-			}
-
-			.sc_connect_page_header_right {
-				margin-left: auto;
 			}
 
 			.sc_connect_page_header_left .sc_logo_link img {

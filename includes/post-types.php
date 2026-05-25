@@ -167,7 +167,7 @@ class Post_Types
 				'name_admin_bar' => __('Calendar', 'google-calendar-events'),
 				'parent_item_colon' => __('Parent Calendar:', 'google-calendar-events'),
 				'all_items' => __('All Calendars', 'google-calendar-events'),
-				'add_new_item' => __('Add New Calendar', 'google-calendar-events'),
+				'add_new_item' => __('Add New calendar', 'google-calendar-events'),
 				'add_new' => __('Add New', 'google-calendar-events'),
 				'new_item' => __('New Calendar', 'google-calendar-events'),
 				'edit_item' => __('Edit Calendar', 'google-calendar-events'),

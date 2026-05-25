@@ -4,7 +4,6 @@
 
 .sc_root.sc_misc_settings {
 	background: var(--sc-color-off-white);
-	padding: 24px 0 48px;
 
 	.sc_misc_settings_notices {
 		.notice {
@@ -39,6 +38,11 @@
 
 	.sc_misc_settings_card_title {
 		margin: 0 0 10px;
+	}
+
+	/* Card title already shows "General"; hide duplicate Settings API section heading. */
+	.simcal-misc-settings-general > h2 {
+		display: none;
 	}
 
 	.sc_misc_settings_card + .sc_misc_settings_card {
@@ -76,6 +80,13 @@
 		}
 	}
 
+	.simcal-misc-settings-general {
+		.form-table {
+			th {
+				vertical-align: middle;
+			}
+		}
+	}
 	.submit {
 		margin: 18px 0 0;
 		padding: 0;
