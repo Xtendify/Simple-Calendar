@@ -6,17 +6,11 @@
  * - string $assets_base
  * - bool   $has_oauth_connection
  * - string $api_key
+ * - string $setup_video_url
  */
 if (!defined('ABSPATH')) {
 	exit();
 }
-
-$is_pro_active = false;
-$is_pro_active = simcal_is_google_calendar_pro_active(isset($welcome_context) ? (string) $welcome_context : '');
-
-$setup_video_url = $is_pro_active
-	? 'https://youtu.be/lmN774Fk3rw?si=zBMoOck0BjI7Q39j'
-	: 'https://youtu.be/3QveIbm5Oc0?si=fMEUU0Za7KFzlJk5';
 
 $feeds_options = get_option('simple-calendar_settings_feeds', []);
 $google_pro =
