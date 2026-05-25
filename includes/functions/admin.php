@@ -191,9 +191,6 @@ function simcal_is_admin_screen()
 			'calendar_page_simple-calendar_tools',
 			'edit-calendar',
 			'edit-calendar_category',
-			'dashboard_page_simple-calendar_about',
-			'dashboard_page_simple-calendar_credits',
-			'dashboard_page_simple-calendar_translators',
 		];
 		if (in_array($view->id, $screens)) {
 			return $view->id;

@@ -312,11 +312,6 @@
 	vertical-align: baseline;
 }
 
-body .simcal-field-tiny,
-body .simcal-panel-field .simcal-field-tiny {
-	width: 14%;
-}
-
 body .simcal-field-small,
 body .simcal-panel-field .simcal-field-small {
 	max-width: 100px;
@@ -449,19 +444,6 @@ body .simcal-field-textarea {
 #simcal-settings-page .select2-container--open .select2-selection {
 	border-color: #5b9dd9;
 	box-shadow: 0 0 2px rgba(30, 140, 190, 0.8);
-}
-
-.about-wrap .simcal-badge {
-	position: absolute;
-	top: 0;
-	right: 0;
-}
-
-#simcal-welcome .whats-new-wrap img {
-	margin: 1em 2em 1em 0;
-	border: 1px solid #d6d6d6;
-	box-sizing: border-box;
-	vertical-align: top;
 }
 
 #simcal-system-status-report textarea {
@@ -624,7 +606,6 @@ body .simcal-field-textarea {
 }
 
 .simcal-tabs {
-	background: #f7fcf6;
 	box-sizing: border-box;
 	float: left;
 	line-height: 1em;
