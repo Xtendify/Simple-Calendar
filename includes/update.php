@@ -207,11 +207,10 @@ class Update
 	}
 
 	/**
-	 * After a plugin upgrade, default Pro Connect to "own credentials" when appropriate.
+	 * After a plugin upgrade, apply Connect UI defaults for existing configurations.
 	 *
-	 * If Google Calendar Pro is active, OAuth via Simple Calendar is not verified, and the
-	 * site already has a Client ID + Secret saved, set connection type to `own` so the
-	 * credentials step opens the own-credentials UI (same as visiting with sc_pro_own=1).
+	 * Dismisses the welcome step when credentials/OAuth are already saved, and for Pro
+	 * sets connection type to `own` when Via SC is not verified but Client ID + Secret exist.
 	 *
 	 * @since 4.0.0
 	 *
@@ -219,24 +218,9 @@ class Update
 	 */
 	private function maybe_set_pro_own_credentials_ui_after_update()
 	{
-		if (!$this->is_google_calendar_pro_active_for_update()) {
-			return;
+		if (function_exists('simcal_apply_connect_defaults_on_plugin_event')) {
+			simcal_apply_connect_defaults_on_plugin_event();
 		}
-
-		if ('1' === (string) get_option('simple_calendar_connect_pro_oauth_health_ok', '')) {
-			return;
-		}
-
-		$feeds = get_option('simple-calendar_settings_feeds', []);
-		$google_pro = isset($feeds['google-pro']) && is_array($feeds['google-pro']) ? $feeds['google-pro'] : [];
-		$client_id = isset($google_pro['client_id']) ? trim((string) $google_pro['client_id']) : '';
-		$client_secret = isset($google_pro['client_secret']) ? trim((string) $google_pro['client_secret']) : '';
-
-		if ('' === $client_id || '' === $client_secret) {
-			return;
-		}
-
-		update_option('simple_calendar_connect_pro_connection_type', 'own', false);
 	}
 
 	/**

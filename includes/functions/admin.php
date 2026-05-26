@@ -755,6 +755,141 @@ function simcal_prepare_connect_sidebar_scope()
 }
 
 /**
+ * Whether Core Connect already has credentials configured.
+ *
+ * @since 4.0.0
+ *
+ * @return bool
+ */
+function simcal_has_existing_core_connect_configuration()
+{
+	if ((int) get_option('simple-calendar_connect_setup_completed_at', 0) > 0) {
+		return true;
+	}
+
+	$feeds = get_option('simple-calendar_settings_feeds', []);
+	$api_key = '';
+	if (is_array($feeds) && isset($feeds['google']) && is_array($feeds['google'])) {
+		$api_key = trim((string) ($feeds['google']['api_key'] ?? ''));
+	}
+
+	if (
+		'' !== $api_key &&
+		function_exists('simcal_is_connect_google_api_key_verified') &&
+		simcal_is_connect_google_api_key_verified($api_key)
+	) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Whether Pro Connect already has credentials or OAuth via Simple Calendar configured.
+ *
+ * @since 4.0.0
+ *
+ * @return bool
+ */
+function simcal_has_existing_pro_connect_configuration()
+{
+	if ('1' === (string) get_option('simple_calendar_connect_pro_oauth_health_ok', '')) {
+		return true;
+	}
+
+	if ('' !== trim((string) get_option('simple_calendar_auth_site_token', ''))) {
+		return true;
+	}
+
+	if ('' !== trim((string) get_option('simple-calendar_google-pro-token', ''))) {
+		return true;
+	}
+
+	if ((int) get_option('simple-calendar_connect_pro_setup_completed_at', 0) > 0) {
+		return true;
+	}
+
+	$feeds = get_option('simple-calendar_settings_feeds', []);
+	$google_pro =
+		is_array($feeds) && isset($feeds['google-pro']) && is_array($feeds['google-pro']) ? $feeds['google-pro'] : [];
+	$client_id = trim((string) ($google_pro['client_id'] ?? ''));
+	$client_secret = trim((string) ($google_pro['client_secret'] ?? ''));
+
+	return '' !== $client_id && '' !== $client_secret;
+}
+
+/**
+ * Dismiss the Connect welcome step when credentials/OAuth are already saved.
+ *
+ * @since 4.0.0
+ *
+ * @return void
+ */
+function simcal_maybe_dismiss_connect_welcome_if_already_configured()
+{
+	if (simcal_has_existing_core_connect_configuration()) {
+		update_option('simple-calendar_connect_welcome_dismissed', 1, false);
+	}
+
+	if (simcal_is_google_calendar_pro_active('') && simcal_has_existing_pro_connect_configuration()) {
+		update_option('simple-calendar_connect_welcome_dismissed_pro', 1, false);
+	}
+}
+
+/**
+ * Default Pro Connect to "own credentials" when client ID/secret exist but Via SC is not verified.
+ *
+ * @since 4.0.0
+ *
+ * @return void
+ */
+function simcal_maybe_set_pro_own_credentials_connection_type()
+{
+	if (!simcal_is_google_calendar_pro_active('')) {
+		return;
+	}
+
+	if ('1' === (string) get_option('simple_calendar_connect_pro_oauth_health_ok', '')) {
+		update_option('simple_calendar_connect_pro_connection_type', 'via_sc', false);
+		return;
+	}
+
+	if ('' !== trim((string) get_option('simple_calendar_auth_site_token', ''))) {
+		update_option('simple_calendar_connect_pro_connection_type', 'via_sc', false);
+		return;
+	}
+
+	if ('' !== trim((string) get_option('simple-calendar_google-pro-token', ''))) {
+		update_option('simple_calendar_connect_pro_connection_type', 'own', false);
+		return;
+	}
+
+	$feeds = get_option('simple-calendar_settings_feeds', []);
+	$google_pro = isset($feeds['google-pro']) && is_array($feeds['google-pro']) ? $feeds['google-pro'] : [];
+	$client_id = isset($google_pro['client_id']) ? trim((string) $google_pro['client_id']) : '';
+	$client_secret = isset($google_pro['client_secret']) ? trim((string) $google_pro['client_secret']) : '';
+
+	if ('' === $client_id || '' === $client_secret) {
+		return;
+	}
+
+	update_option('simple_calendar_connect_pro_connection_type', 'own', false);
+}
+
+/**
+ * Apply Connect UI defaults after plugin activation or upgrade.
+ *
+ * @since 4.0.0
+ *
+ * @return void
+ */
+function simcal_apply_connect_defaults_on_plugin_event()
+{
+	simcal_maybe_dismiss_connect_welcome_if_already_configured();
+	simcal_maybe_set_pro_own_credentials_connection_type();
+}
+
+/**
  * Get admin notices.
  *
  * @since  3.0.0

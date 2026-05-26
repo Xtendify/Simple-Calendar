@@ -113,6 +113,10 @@ final class Plugin
 		// Do update call here.
 		add_action('admin_init', [$this, 'update'], 999);
 
+		if (is_admin()) {
+			add_action('upgrader_process_complete', [$this, 'maybe_apply_connect_defaults_after_upgrade'], 10, 2);
+		}
+
 		// Redirect to Connect page after activation (core or supported add-on).
 		// Only hook when needed.
 		if (
@@ -338,6 +342,47 @@ final class Plugin
 	}
 
 	/**
+	 * Apply Connect defaults after core or Pro is updated via the WordPress upgrader.
+	 *
+	 * Plugin updates do not fire `activated_plugin`, so connection type must be set here
+	 * when Pro is already active and the add-on is upgraded in place.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param \WP_Upgrader $upgrader Upgrader instance.
+	 * @param array        $options  Upgrade context.
+	 *
+	 * @return void
+	 */
+	public function maybe_apply_connect_defaults_after_upgrade($upgrader, $options)
+	{
+		unset($upgrader);
+
+		if (
+			!is_array($options) ||
+			!isset($options['action'], $options['type']) ||
+			'update' !== $options['action'] ||
+			'plugin' !== $options['type'] ||
+			empty($options['plugins']) ||
+			!is_array($options['plugins'])
+		) {
+			return;
+		}
+
+		$core_basename = plugin_basename(SIMPLE_CALENDAR_MAIN_FILE);
+		$pro_basename = 'simple-calendar-google-calendar-pro/simple-calendar-google-calendar-pro.php';
+		$updated = array_map('strval', $options['plugins']);
+
+		if (!in_array($core_basename, $updated, true) && !in_array($pro_basename, $updated, true)) {
+			return;
+		}
+
+		if (function_exists('simcal_apply_connect_defaults_on_plugin_event')) {
+			simcal_apply_connect_defaults_on_plugin_event();
+		}
+	}
+
+	/**
 	 * Redirect to the Connect page on first admin load after activation.
 	 *
 	 * @since 4.0.0
@@ -376,8 +421,13 @@ final class Plugin
 		delete_option('simple-calendar_redirect_to_connect');
 		delete_option('simple_calendar_pro_redirect_to_connect');
 
+		$force_pro_welcome =
+			$addon_flag &&
+			(!function_exists('simcal_has_existing_pro_connect_configuration') ||
+				!simcal_has_existing_pro_connect_configuration());
+
 		$redirect_url = admin_url(
-			$addon_flag
+			$force_pro_welcome
 				? 'edit.php?post_type=calendar&page=simple-calendar_settings&sc_welcome=1'
 				: 'edit.php?post_type=calendar&page=simple-calendar_settings',
 		);
