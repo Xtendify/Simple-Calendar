@@ -69,7 +69,7 @@ $assets_base = isset($assets_base) ? (string) $assets_base : (string) (SIMPLE_CA
 			<?php } else { ?>
 				<img
 					src="<?php echo esc_url(SIMPLE_CALENDAR_ASSETS . 'images/pages/connect/welcome-video-placeholder.png'); ?>"
-					alt="<?php esc_attr_e('Welcome', 'google-calendar-events'); ?>"
+					alt="<?php echo esc_html($heading); ?>"
 				/>
 			<?php } ?>
 		</div>

@@ -773,11 +773,7 @@ function simcal_has_existing_core_connect_configuration()
 		$api_key = trim((string) ($feeds['google']['api_key'] ?? ''));
 	}
 
-	if (
-		'' !== $api_key &&
-		function_exists('simcal_is_connect_google_api_key_verified') &&
-		simcal_is_connect_google_api_key_verified($api_key)
-	) {
+	if ('' !== $api_key) {
 		return true;
 	}
 
@@ -834,6 +830,14 @@ function simcal_maybe_dismiss_connect_welcome_if_already_configured()
 	if (simcal_is_google_calendar_pro_active('') && simcal_has_existing_pro_connect_configuration()) {
 		update_option('simple-calendar_connect_welcome_dismissed_pro', 1, false);
 	}
+
+	if (
+		function_exists('simcal_is_appointment_addon_active') &&
+		simcal_is_appointment_addon_active() &&
+		simcal_has_existing_pro_connect_configuration()
+	) {
+		update_option('simple-calendar_connect_welcome_dismissed_appointment', 1, false);
+	}
 }
 
 /**
@@ -845,7 +849,11 @@ function simcal_maybe_dismiss_connect_welcome_if_already_configured()
  */
 function simcal_maybe_set_pro_own_credentials_connection_type()
 {
-	if (!simcal_is_google_calendar_pro_active('')) {
+	$pro_or_appointment_active =
+		simcal_is_google_calendar_pro_active('') ||
+		(function_exists('simcal_is_appointment_addon_active') && simcal_is_appointment_addon_active());
+
+	if (!$pro_or_appointment_active) {
 		return;
 	}
 
@@ -869,11 +877,74 @@ function simcal_maybe_set_pro_own_credentials_connection_type()
 	$client_id = isset($google_pro['client_id']) ? trim((string) $google_pro['client_id']) : '';
 	$client_secret = isset($google_pro['client_secret']) ? trim((string) $google_pro['client_secret']) : '';
 
-	if ('' === $client_id || '' === $client_secret) {
+	if ('' !== $client_id && '' !== $client_secret) {
+		update_option('simple_calendar_connect_pro_connection_type', 'own', false);
+	}
+}
+
+/**
+ * Apply Connect defaults after core or an add-on is updated via the WordPress upgrader.
+ *
+ * Plugin updates do not fire `activated_plugin`. When core is updated alongside an active
+ * Pro or Appointment add-on, or when either add-on is updated in place, persist Connect options.
+ *
+ * @since 4.0.0
+ *
+ * @param \WP_Upgrader $upgrader Upgrader instance.
+ * @param array        $options  Upgrade context.
+ *
+ * @return void
+ */
+function simcal_apply_connect_defaults_on_plugin_update($upgrader, $options)
+{
+	unset($upgrader);
+
+	if (
+		!is_array($options) ||
+		!isset($options['action'], $options['type']) ||
+		'update' !== $options['action'] ||
+		'plugin' !== $options['type'] ||
+		empty($options['plugins']) ||
+		!is_array($options['plugins'])
+	) {
 		return;
 	}
 
-	update_option('simple_calendar_connect_pro_connection_type', 'own', false);
+	$core_basename = plugin_basename(SIMPLE_CALENDAR_MAIN_FILE);
+	$pro_basename = 'simple-calendar-google-calendar-pro/simple-calendar-google-calendar-pro.php';
+	$appointment_basename = 'simple-calendar-appointment/simple-calendar-appointment.php';
+	$updated = array_map('strval', $options['plugins']);
+
+	$core_updated = in_array($core_basename, $updated, true);
+	$pro_updated = in_array($pro_basename, $updated, true);
+	$appointment_updated = in_array($appointment_basename, $updated, true);
+
+	if (!$core_updated && !$pro_updated && !$appointment_updated) {
+		return;
+	}
+
+	$pro_active = simcal_is_google_calendar_pro_active('');
+	$appointment_active = function_exists('simcal_is_appointment_addon_active') && simcal_is_appointment_addon_active();
+
+	$should_apply = false;
+
+	if ($core_updated || $pro_active || $appointment_active) {
+		$should_apply = true;
+	}
+
+	if ($pro_updated && $pro_active) {
+		$should_apply = true;
+	}
+
+	if ($appointment_updated && $appointment_active) {
+		$should_apply = true;
+	}
+
+	if (!$should_apply) {
+		return;
+	}
+
+	simcal_apply_connect_defaults_on_plugin_event();
 }
 
 /**

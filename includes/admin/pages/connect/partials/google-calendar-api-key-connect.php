@@ -133,7 +133,7 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_core_item_spaced'
 			<p class="sc_connect_helper_text">
 				<?php
     /* translators: %1$s: Opening anchor tag, %2$s: Closing anchor tag */
-    $text = __('To create one, follow our %1$sstep-by-step guide%2$s.', 'google-calendar-events');
+    $text = __('To create one, follow our&nbsp; %1$sstep-by-step guide%2$s.', 'google-calendar-events');
     echo wp_kses(
     	sprintf(
     		$text,
@@ -162,7 +162,7 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_core_item_spaced'
 
 			<?php if (!$is_credentials_core) { ?>
 				
-				<?php esc_html_e('Connect in a single click without API keys, available in the', 'google-calendar-events'); ?>
+				<?php esc_html_e('Connect in a single click without API keys, available in the&nbsp;', 'google-calendar-events'); ?>
 				<a href="<?php echo simcal_ga_campaign_url(
     	'https://simplecalendar.io/downloads/google-calendar-pro/',
     	'core-plugin',

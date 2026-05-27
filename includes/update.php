@@ -121,7 +121,6 @@ class Update
 
 		// Pro: after an upgrade, land on "own credentials" when Via SC is not verified but OAuth client creds exist.
 		if (!is_null($this->installed_ver)) {
-			$this->maybe_set_pro_own_credentials_ui_after_update();
 			$this->maybe_backdate_pro_setup_completed_at_after_update();
 			$this->maybe_backdate_core_setup_completed_at_after_update();
 		}
@@ -203,23 +202,6 @@ class Update
 
 		if (class_exists($update_v)) {
 			new $update_v($this->posts);
-		}
-	}
-
-	/**
-	 * After a plugin upgrade, apply Connect UI defaults for existing configurations.
-	 *
-	 * Dismisses the welcome step when credentials/OAuth are already saved, and for Pro
-	 * sets connection type to `own` when Via SC is not verified but Client ID + Secret exist.
-	 *
-	 * @since 4.0.0
-	 *
-	 * @return void
-	 */
-	private function maybe_set_pro_own_credentials_ui_after_update()
-	{
-		if (function_exists('simcal_apply_connect_defaults_on_plugin_event')) {
-			simcal_apply_connect_defaults_on_plugin_event();
 		}
 	}
 

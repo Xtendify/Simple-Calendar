@@ -34,12 +34,11 @@ class Installation
 		self::create_terms();
 		self::create_options();
 
-		// Flag to redirect to the Connect page on first admin load after activation.
-		update_option('simple-calendar_redirect_to_connect', 1);
-
 		if (function_exists('simcal_apply_connect_defaults_on_plugin_event')) {
 			simcal_apply_connect_defaults_on_plugin_event();
 		}
+		// Flag to redirect to the Connect page on first admin load after activation.
+		update_option('simple-calendar_redirect_to_connect', 1);
 
 		// Clear cache on activation.
 		simcal_delete_feed_transients();

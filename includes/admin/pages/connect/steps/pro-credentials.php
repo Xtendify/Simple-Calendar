@@ -228,7 +228,7 @@ $google_pro_defs =
 			<p class="sc_connect_helper_text sc_connect_credentials_step_help">
 			<?php echo sprintf(
    	__(
-   		'To create one, follow our %1$sstep-by-step guide%2$s to configure Google OAuth client.',
+   		'To create one, follow our&nbsp; %1$sstep-by-step guide%2$s to configure Google OAuth client.',
    		'google-calendar-events',
    	),
    	'<a href="' . esc_url($step_by_step_url) . '" target="_blank" class="sc_connect_helper_link">',

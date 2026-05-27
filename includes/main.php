@@ -113,9 +113,7 @@ final class Plugin
 		// Do update call here.
 		add_action('admin_init', [$this, 'update'], 999);
 
-		if (is_admin()) {
-			add_action('upgrader_process_complete', [$this, 'maybe_apply_connect_defaults_after_upgrade'], 10, 2);
-		}
+		add_action('upgrader_process_complete', [$this, 'run_connect_defaults_on_plugin_update'], 10, 2);
 
 		// Redirect to Connect page after activation (core or supported add-on).
 		// Only hook when needed.
@@ -342,10 +340,7 @@ final class Plugin
 	}
 
 	/**
-	 * Apply Connect defaults after core or Pro is updated via the WordPress upgrader.
-	 *
-	 * Plugin updates do not fire `activated_plugin`, so connection type must be set here
-	 * when Pro is already active and the add-on is upgraded in place.
+	 * Load admin helpers and run Connect defaults after a plugin update.
 	 *
 	 * @since 4.0.0
 	 *
@@ -354,31 +349,15 @@ final class Plugin
 	 *
 	 * @return void
 	 */
-	public function maybe_apply_connect_defaults_after_upgrade($upgrader, $options)
+	public function run_connect_defaults_on_plugin_update($upgrader, $options)
 	{
-		unset($upgrader);
-
-		if (
-			!is_array($options) ||
-			!isset($options['action'], $options['type']) ||
-			'update' !== $options['action'] ||
-			'plugin' !== $options['type'] ||
-			empty($options['plugins']) ||
-			!is_array($options['plugins'])
-		) {
-			return;
+		$admin_php = plugin_dir_path(SIMPLE_CALENDAR_MAIN_FILE) . 'includes/functions/admin.php';
+		if (!function_exists('simcal_apply_connect_defaults_on_plugin_update') && is_readable($admin_php)) {
+			require_once $admin_php;
 		}
 
-		$core_basename = plugin_basename(SIMPLE_CALENDAR_MAIN_FILE);
-		$pro_basename = 'simple-calendar-google-calendar-pro/simple-calendar-google-calendar-pro.php';
-		$updated = array_map('strval', $options['plugins']);
-
-		if (!in_array($core_basename, $updated, true) && !in_array($pro_basename, $updated, true)) {
-			return;
-		}
-
-		if (function_exists('simcal_apply_connect_defaults_on_plugin_event')) {
-			simcal_apply_connect_defaults_on_plugin_event();
+		if (function_exists('simcal_apply_connect_defaults_on_plugin_update')) {
+			simcal_apply_connect_defaults_on_plugin_update($upgrader, $options);
 		}
 	}
 
