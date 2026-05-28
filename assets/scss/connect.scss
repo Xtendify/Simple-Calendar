@@ -3,9 +3,6 @@
 	   CONNECT PAGE - WELCOME STEP
 	   ======================================== */
 	.sc_connect_welcome_outer {
-		/* Outer background frame */
-		background: var(--sc-color-off-white);
-		padding: 75px 0;
 		display: flex;
 		justify-content: center;
 
@@ -113,12 +110,16 @@
 		font-size: var(--sc-font-base);
 		line-height: var(--sc-body-small-line-height);
 		color: var(--sc-color-dark-gray);
-	}
 
+		.sc_connect_helper_text {
+			display: flex;
+			align-items: center;
+			flex-wrap: wrap;
+		}
+	}
 	.sc_connect_helper_text {
 		margin: 0;
 	}
-
 	.sc_connect_helper_link {
 		font-family: var(--sc-font-body);
 		font-weight: var(--sc-font-weight-regular);
@@ -138,7 +139,7 @@
 	.sc_connect_pro_link {
 		display: inline-flex;
 		align-items: center;
-		gap: 6px;
+		gap: 0px;
 		font-family: var(--sc-font-body);
 		font-weight: var(--sc-font-weight-regular);
 		font-size: var(--sc-font-base);

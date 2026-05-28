@@ -177,7 +177,7 @@ if (!$should_hide_progress) {
 			<?php } ?>
 		</div>
 		<a
-			href="https://wordpress.org/support/plugin/google-calendar-events/reviews/?rate=5#new-post"
+			href="https://wordpress.org/support/plugin/google-calendar-events/reviews/?filter=5&rate=5#new-post"
 			target="_blank"
 			class="sc_btn sc_btn--light-blue sc_connect_rating_btn"
 		>
