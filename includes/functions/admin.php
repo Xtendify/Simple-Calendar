@@ -926,19 +926,7 @@ function simcal_apply_connect_defaults_on_plugin_update($upgrader, $options)
 	$pro_active = simcal_is_google_calendar_pro_active('');
 	$appointment_active = function_exists('simcal_is_appointment_addon_active') && simcal_is_appointment_addon_active();
 
-	$should_apply = false;
-
-	if ($core_updated || $pro_active || $appointment_active) {
-		$should_apply = true;
-	}
-
-	if ($pro_updated && $pro_active) {
-		$should_apply = true;
-	}
-
-	if ($appointment_updated && $appointment_active) {
-		$should_apply = true;
-	}
+	$should_apply = $core_updated || $pro_updated || $appointment_updated;
 
 	if (!$should_apply) {
 		return;
