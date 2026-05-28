@@ -19,13 +19,13 @@ if ('appointment' === $welcome_context) {
 		'google-calendar-events',
 	);
 } elseif ('pro' === $welcome_context) {
-	$heading = __('Welcome to Simple Calendar Pro Version', 'google-calendar-events');
+	$heading = __('Google Calendar Pro', 'google-calendar-events');
 	$subtitle = __(
 		'Experience a one-stop solution for 1-click Google Calendar integration, with zero stress of handling complex API keys, Client ID, and Client Secret, powered by Simple Calendar’s pro addons.',
 		'google-calendar-events',
 	);
 } else {
-	$heading = __('Getting started with Simple Calendar', 'google-calendar-events');
+	$heading = __('Get started', 'google-calendar-events');
 	$subtitle = __(
 		'Experience an easy-breezy integration of Google Calendar with WordPress using the OG Google Calendar WordPress plugin.',
 		'google-calendar-events',
@@ -69,7 +69,7 @@ $assets_base = isset($assets_base) ? (string) $assets_base : (string) (SIMPLE_CA
 			<?php } else { ?>
 				<img
 					src="<?php echo esc_url(SIMPLE_CALENDAR_ASSETS . 'images/pages/connect/welcome-video-placeholder.png'); ?>"
-					alt="<?php esc_attr_e('Getting Started with Simple Calendar', 'google-calendar-events'); ?>"
+					alt="<?php echo esc_html($heading); ?>"
 				/>
 			<?php } ?>
 		</div>

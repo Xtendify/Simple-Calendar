@@ -183,36 +183,6 @@ class Pages
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$current_page = isset($_GET['page']) ? sanitize_text_field((string) $_GET['page']) : '';
 
-		// If Pro is active but outdated, block Settings and direct users to update.
-		$min_pro_version = '2.0.0';
-		if ($this->page === 'settings' && !\simcal_is_google_calendar_pro_version_compatible($min_pro_version)) {
-			$plugins_url = admin_url('plugins.php'); ?>
-			<div class="wrap" id="simcal-settings-page">
-				<div class="notice notice-error">
-					<p>
-						<strong><?php esc_html_e('Update required.', 'google-calendar-events'); ?></strong>
-						<?php printf(
-      	/* translators: 1: installed version 2: required version */
-      	esc_html__(
-      		'Your Google Calendar Pro add-on version (%1$s) is not compatible. Please update it to %2$s or newer to use Connect and Settings.',
-      		'google-calendar-events',
-      	),
-      	defined('SIMPLE_CALENDAR_GOOGLE_PRO_VERSION')
-      		? esc_html((string) SIMPLE_CALENDAR_GOOGLE_PRO_VERSION)
-      		: esc_html__('unknown', 'google-calendar-events'),
-      	esc_html($min_pro_version),
-      ); ?>
-					</p>
-					<p>
-						<a class="button button-primary" href="<?php echo esc_url($plugins_url); ?>">
-							<?php esc_html_e('Go to Plugins', 'google-calendar-events'); ?>
-						</a>
-					</p>
-				</div>
-			</div>
-			<?php return;
-		}
-
 		$settings_pages = $this->get_settings();
 		if (empty($settings_pages) || !is_array($settings_pages)) {
 			return;
