@@ -34,7 +34,7 @@
     "google/apiclient": "2.18.3",
     "nesbot/carbon": "^2.73.0",
     "symfony/polyfill-php80": "1.36.0",
-    "erusev/parsedown": "1.7.4",
+    "erusev/parsedown": "1.8.0",
     "mexitek/phpcolors": "dev-master",
     "guzzlehttp/guzzle": "7.10.0",
     "instituteweb/composer-scripts": "1.1.0"
