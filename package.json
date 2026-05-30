@@ -38,7 +38,7 @@
     "lint:fix": "prettier --write . --plugin=@prettier/plugin-php"
   },
   "engines": {
-    "node": ">=18.15.0"
+    "node": ">=22.0.0"
   },
   "dependencies": {
     "dayjs": "1.11.21"
