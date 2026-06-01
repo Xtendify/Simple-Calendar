@@ -1246,7 +1246,7 @@
 						.removeClass('sc_connect_oauth_status--ok')
 						.removeClass('sc_connect_oauth_status--error')
 						.addClass('sc_connect_oauth_status--disconnected');
-					statusText.text(message || (connectCfg.strings && connectCfg.strings.oauth_not_connected) || 'Not Connected');
+					statusText.text((connectCfg.strings && connectCfg.strings.oauth_not_connected) || 'Not Connected');
 				}
 
 				var subtitle = $('.sc_connect_credentials_subtitle').first();
