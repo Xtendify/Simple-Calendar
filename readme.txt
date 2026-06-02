@@ -3,7 +3,7 @@ Contributors: simplecalendar, rosinghal, pderksen, nickyoung87, nekojira, rossha
 Tags: google calendar, events, website calendar, wp calendar, wp calendar widget
 Requires at least: 4.2
 Requires PHP: 8.1
-Tested up to: 6.8.1
+Tested up to: 7.0
 Stable tag: PACKAGE_VERSION
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
