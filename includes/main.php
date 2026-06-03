@@ -400,10 +400,6 @@ final class Plugin
 		delete_option('simple-calendar_redirect_to_connect');
 		delete_option('simple_calendar_pro_redirect_to_connect');
 
-		if (function_exists('simcal_apply_connect_defaults_on_plugin_event')) {
-			simcal_apply_connect_defaults_on_plugin_event();
-		}
-
 		$force_pro_welcome =
 			$addon_flag &&
 			(!function_exists('simcal_has_existing_pro_connect_configuration') ||

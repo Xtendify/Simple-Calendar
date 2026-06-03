@@ -67,10 +67,6 @@ class Connect_Menu
 			return;
 		}
 
-		if (function_exists('simcal_maybe_dismiss_connect_welcome_if_already_configured')) {
-			simcal_maybe_dismiss_connect_welcome_if_already_configured();
-		}
-
 		// If Pro is active but outdated, block Connect actions as well.
 		if (!\simcal_is_google_calendar_pro_version_compatible('2.0.0')) {
 			return;
@@ -168,10 +164,6 @@ class Connect_Menu
 				<?php return;
 		}
 
-		if (function_exists('simcal_maybe_dismiss_connect_welcome_if_already_configured')) {
-			simcal_maybe_dismiss_connect_welcome_if_already_configured();
-		}
-
 		$welcome_context = (string) get_option('simple_calendar_connect_welcome_context', '');
 		$welcome_context = $welcome_context ? $welcome_context : 'core';
 
@@ -185,14 +177,7 @@ class Connect_Menu
 				? $core_dismissed
 				: (bool) get_option('simple-calendar_connect_welcome_dismissed_' . $welcome_context, false);
 
-		$already_configured =
-			'core' === $welcome_context
-				? function_exists('simcal_has_existing_core_connect_configuration') &&
-					simcal_has_existing_core_connect_configuration()
-				: function_exists('simcal_has_existing_pro_connect_configuration') &&
-					simcal_has_existing_pro_connect_configuration();
-
-		$show_welcome = !$already_configured && ($force_welcome || !$context_dismissed);
+		$show_welcome = $force_welcome || !$context_dismissed;
 		include SIMPLE_CALENDAR_PATH . 'includes/admin/pages/connect-controller.php';
 	}
 }
