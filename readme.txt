@@ -97,6 +97,10 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 4.0.2 =
+* Dev: Added a new connect page in admin enhancing the onboarding experience.
+* Dev: Redesigned settings and add-ons pages with a modern layout.
+
 = 3.6.2 =
 * Fix: Date format inconsistency in List View navigation bar now uses the calendar's configured date format consistently.
 
@@ -149,7 +153,7 @@ We'd love your help! Here's a few things you can do:
 
 = 3.4.9 =
 
-* Fix: Resolved the issue where multi-day events were not rendered correctly on the last day.  
+* Fix: Resolved the issue where multi-day events were not rendered correctly on the last day.
 **Thanks to [MartinixH](https://github.com/MartinixH) for the contribution!**
 
 = 3.4.8 =

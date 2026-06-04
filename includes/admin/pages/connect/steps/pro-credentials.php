@@ -6,17 +6,11 @@
  * - string $assets_base
  * - bool   $has_oauth_connection
  * - string $api_key
+ * - string $setup_video_url
  */
 if (!defined('ABSPATH')) {
 	exit();
 }
-
-$is_pro_active = false;
-$is_pro_active = simcal_is_google_calendar_pro_active(isset($welcome_context) ? (string) $welcome_context : '');
-
-$setup_video_url = $is_pro_active
-	? 'https://youtu.be/lmN774Fk3rw?si=zBMoOck0BjI7Q39j'
-	: 'https://youtu.be/3QveIbm5Oc0?si=fMEUU0Za7KFzlJk5';
 
 $feeds_options = get_option('simple-calendar_settings_feeds', []);
 $google_pro =
@@ -234,7 +228,7 @@ $google_pro_defs =
 			<p class="sc_connect_helper_text sc_connect_credentials_step_help">
 			<?php echo sprintf(
    	__(
-   		'To create one, follow our %1$sstep-by-step guide%2$s to configure Google OAuth client.',
+   		'To create one, follow our&nbsp; %1$sstep-by-step guide%2$s to configure Google OAuth client.',
    		'google-calendar-events',
    	),
    	'<a href="' . esc_url($step_by_step_url) . '" target="_blank" class="sc_connect_helper_link">',

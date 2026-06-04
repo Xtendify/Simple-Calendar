@@ -50,6 +50,10 @@ $step_template_path = isset($step_template_map[$step]) ? $step_template_map[$ste
 $welcome_context_for_template =
 	$is_pro_flow && 'appointment' !== (string) $welcome_context ? 'pro' : (string) $welcome_context;
 
+$core_setup_video_url = 'https://youtu.be/whpV-uM4RZg?si=Qza-4B8l0zG1he_X';
+$pro_setup_video_url = 'https://youtu.be/V-TkmyTwdI8?si=VyjMFbG8fUk54hlk';
+$setup_video_url = $is_pro_flow ? $pro_setup_video_url : $core_setup_video_url;
+
 $context = [
 	// Shared.
 	'assets_base' => $assets_base,
@@ -64,17 +68,19 @@ $context = [
 	'has_published_calendar' => $has_published_calendar,
 	'has_published_pro_calendar' => $has_published_pro_calendar,
 	'should_hide_progress' => $should_hide_progress,
-	// Welcome.
+	// Helpful links (core / pro setup videos only; no appointment variant).
+	'setup_video_url' => $setup_video_url,
+	// Welcome step embed URLs.
 	'video_url' => (function () use ($is_pro_flow, $welcome_context_for_template) {
-		$core_video_url = 'https://www.youtube.com/embed/3QveIbm5Oc0?si=fMEUU0Za7KFzlJk5';
-		$pro_video_url = 'https://www.youtube.com/embed/lmN774Fk3rw?si=zBMoOck0BjI7Q39j';
-		$appointment_video_url = 'https://www.youtube.com/embed/yCSpUlBnunw';
+		$core_video_embed = 'https://www.youtube.com/embed/whpV-uM4RZg?si=Ze8syeOg6N6KMLvb&amp;start=39';
+		$pro_video_embed = 'https://www.youtube.com/embed/V-TkmyTwdI8?si=Lc5K8S7EWQB6Vu8a&amp;start=13';
+		$appointment_video_embed = 'https://www.youtube.com/embed/EMHgh9UG80k?si=2sleDAqR1ppobNkE&amp;start=25';
 		$default =
 			'appointment' === $welcome_context_for_template
-				? $appointment_video_url
+				? $appointment_video_embed
 				: ($is_pro_flow
-					? $pro_video_url
-					: $core_video_url);
+					? $pro_video_embed
+					: $core_video_embed);
 
 		/**
 		 * Filter the welcome video embed URL shown on the Connect welcome step.

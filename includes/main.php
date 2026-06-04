@@ -113,6 +113,8 @@ final class Plugin
 		// Do update call here.
 		add_action('admin_init', [$this, 'update'], 999);
 
+		add_action('upgrader_process_complete', [$this, 'run_connect_defaults_on_plugin_update'], 10, 2);
+
 		// Redirect to Connect page after activation (core or supported add-on).
 		// Only hook when needed.
 		if (
@@ -338,6 +340,28 @@ final class Plugin
 	}
 
 	/**
+	 * Load admin helpers and run Connect defaults after a plugin update.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @param \WP_Upgrader $upgrader Upgrader instance.
+	 * @param array        $options  Upgrade context.
+	 *
+	 * @return void
+	 */
+	public function run_connect_defaults_on_plugin_update($upgrader, $options)
+	{
+		$admin_php = plugin_dir_path(SIMPLE_CALENDAR_MAIN_FILE) . 'includes/functions/admin.php';
+		if (!function_exists('simcal_apply_connect_defaults_on_plugin_update') && is_readable($admin_php)) {
+			require_once $admin_php;
+		}
+
+		if (function_exists('simcal_apply_connect_defaults_on_plugin_update')) {
+			simcal_apply_connect_defaults_on_plugin_update($upgrader, $options);
+		}
+	}
+
+	/**
 	 * Redirect to the Connect page on first admin load after activation.
 	 *
 	 * @since 4.0.0
@@ -376,8 +400,13 @@ final class Plugin
 		delete_option('simple-calendar_redirect_to_connect');
 		delete_option('simple_calendar_pro_redirect_to_connect');
 
+		$force_pro_welcome =
+			$addon_flag &&
+			(!function_exists('simcal_has_existing_pro_connect_configuration') ||
+				!simcal_has_existing_pro_connect_configuration());
+
 		$redirect_url = admin_url(
-			$addon_flag
+			$force_pro_welcome
 				? 'edit.php?post_type=calendar&page=simple-calendar_settings&sc_welcome=1'
 				: 'edit.php?post_type=calendar&page=simple-calendar_settings',
 		);
