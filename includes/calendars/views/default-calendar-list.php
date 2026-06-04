@@ -497,7 +497,7 @@ class Default_Calendar_List implements Calendar_View
 	 */
 	private static function local_key($event)
 	{
-		return $event->start_dt instanceof Carbon ? $event->start_dt->format('YmdHis') : (string) $event->start;
+		return $event->start_dt instanceof Carbon ? $event->start_dt->getTimestamp() : (int) $event->start;
 	}
 
 	private static function cmp($a, $b)
