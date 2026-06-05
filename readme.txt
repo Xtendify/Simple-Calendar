@@ -100,6 +100,9 @@ We'd love your help! Here's a few things you can do:
 = 4.0.3 =
 * Dev: Ensured compatibility with WordPress 7.0.
 * Fix: Trimmed historical changelog entries to resolve WordPress.org length warnings.
+* Dev: Add an [if-event] conditional template tag
+* Dev: Allow the url argument in the [link] template tag to override the event's URL
+* Dev: Store the grouped calendar order instead of always sorting alphabetically
 
 = 4.0.2 =
 * Dev: Added a new connect page in admin enhancing the onboarding experience.
