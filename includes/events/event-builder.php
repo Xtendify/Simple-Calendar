@@ -225,6 +225,8 @@ class Event_Builder
 				// Does the event has NOT a start location?
 				'if-not-end-location',
 				// Does the event has NOT an end location?
+				'if-event',
+				// Conditional: show content if event ID matches id--in list or does not match id--not-in list.
 			],
 			(array) $this->add_custom_event_tags(),
 		);
@@ -352,8 +354,10 @@ class Event_Builder
 				case 'link':
 				case 'url':
 					$content = 'link' == $tag ? $calendar->get_event_html($event, $partial) : '';
+					$parsed_attr = (array) shortcode_parse_atts($attr);
+					$link_url = !empty($parsed_attr['url']) ? $parsed_attr['url'] : $event->link;
 
-					return $this->make_link($tag, $event->link, $content, $attr);
+					return $this->make_link($tag, $link_url, $content, $attr);
 
 				case 'add-to-gcal-link':
 					$content = 'add-to-gcal-link' == $tag ? $calendar->get_event_html($event, $partial) : '';
@@ -575,6 +579,25 @@ class Event_Builder
 						return $calendar->get_event_html($event, $partial);
 					}
 
+					return '';
+
+				case 'if-event':
+					$parsed = array_merge(['id--in' => '', 'id--not-in' => ''], (array) shortcode_parse_atts($attr));
+					$event_id = $event->uid;
+					$in_ids = array_filter(array_map('trim', explode(',', $parsed['id--in'])));
+					$not_in = array_filter(array_map('trim', explode(',', $parsed['id--not-in'])));
+
+					$in_match =
+						!empty($in_ids) && (bool) array_filter($in_ids, fn($id) => $this->matches_event_id($id, $event_id));
+					$not_in_match =
+						!empty($not_in) && (bool) array_filter($not_in, fn($id) => $this->matches_event_id($id, $event_id));
+
+					$passes_in = empty($in_ids) || $in_match;
+					$passes_not_in = empty($not_in) || !$not_in_match;
+
+					if ($passes_in && $passes_not_in) {
+						return $calendar->get_event_html($event, $partial);
+					}
 					return '';
 
 				/* ======= *
@@ -1222,6 +1245,35 @@ class Event_Builder
 			')' .
 			'(\\]?)' . // 6: Optional second closing bracket for escaping tags: [[tag]]
 			'/s';
+	}
+
+	private function matches_event_id($provided_id, $event_uid)
+	{
+		// Direct match
+		if ($provided_id === $event_uid) {
+			return true;
+		}
+
+		// Remove domain part for comparison if present (e.g., "08ic144bfaq0ss1rfukknevdc0@google.com" becomes "08ic144bfaq0ss1rfukknevdc0")
+		$removed_domain_provided_id = explode('@', $provided_id)[0];
+		$removed_domain_event_uid = explode('@', $event_uid)[0];
+
+		if ($removed_domain_provided_id === $removed_domain_event_uid) {
+			return true;
+		}
+
+		// Google Calendar URL IDs are base64("eventId calendarId") — decode and extract the event ID part
+		$decoded = base64_decode($provided_id, true);
+		if ($decoded !== false && ctype_print($decoded)) {
+			$space_pos = strpos($decoded, ' ');
+			$decoded_event_id = $space_pos !== false ? substr($decoded, 0, $space_pos) : trim($decoded);
+
+			if ($decoded_event_id === $event_uid || strpos($event_uid, $decoded_event_id . '@') === 0) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	//allow other plugins to register own event tags
