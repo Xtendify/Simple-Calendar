@@ -495,16 +495,25 @@ class Default_Calendar_List implements Calendar_View
 	 * @since  3.1.28
 	 * @access private
 	 */
+	private static function local_key($event)
+	{
+		return $event->start_dt instanceof Carbon ? $event->start_dt->getTimestamp() : (int) $event->start;
+	}
+
 	private static function cmp($a, $b)
 	{
-		if ($a->start == $b->start) {
+		$a_local = self::local_key($a);
+		$b_local = self::local_key($b);
+		if ($a_local === $b_local) {
+			if ($a->calendar_priority != $b->calendar_priority) {
+				return $a->calendar_priority < $b->calendar_priority ? -1 : 1;
+			}
 			if ($a->title == $b->title) {
 				return 0;
 			}
 			return $a->title < $b->title ? -1 : 1;
-		} else {
-			return $a->start < $b->start ? -1 : 1;
 		}
+		return $a_local < $b_local ? -1 : 1;
 	}
 
 	/**

@@ -225,6 +225,14 @@ class Event
 	public $meta = [];
 
 	/**
+	 * Calendar priority within a grouped calendar (0 = first selected, PHP_INT_MAX = unset).
+	 *
+	 * @access public
+	 * @var int
+	 */
+	public $calendar_priority = PHP_INT_MAX;
+
+	/**
 	 * Event default template.
 	 *
 	 * @access public
