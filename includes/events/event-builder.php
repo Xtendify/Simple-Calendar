@@ -1254,8 +1254,11 @@ class Event_Builder
 			return true;
 		}
 
-		// Prefix match: "08ic144bfaq0ss1rfukknevdc0" matches "08ic144bfaq0ss1rfukknevdc0@google.com"
-		if (strpos($event_uid, $provided_id . '@') === 0) {
+		// Remove domain part for comparison if present (e.g., "08ic144bfaq0ss1rfukknevdc0@google.com" becomes "08ic144bfaq0ss1rfukknevdc0")
+		$removed_domain_provided_id = explode('@', $provided_id)[0];
+		$removed_domain_event_uid = explode('@', $event_uid)[0];
+
+		if ($removed_domain_provided_id === $removed_domain_event_uid) {
 			return true;
 		}
 
