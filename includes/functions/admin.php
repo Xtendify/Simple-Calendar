@@ -793,6 +793,10 @@ function simcal_has_existing_pro_connect_configuration()
 		return true;
 	}
 
+	if ('1' === (string) get_option('simple_calendar_connect_pro_own_oauth_health_ok', '')) {
+		return true;
+	}
+
 	if ('' !== trim((string) get_option('simple_calendar_auth_site_token', ''))) {
 		return true;
 	}
@@ -810,8 +814,9 @@ function simcal_has_existing_pro_connect_configuration()
 		is_array($feeds) && isset($feeds['google-pro']) && is_array($feeds['google-pro']) ? $feeds['google-pro'] : [];
 	$client_id = trim((string) ($google_pro['client_id'] ?? ''));
 	$client_secret = trim((string) ($google_pro['client_secret'] ?? ''));
+	$client_auth = trim((string) ($google_pro['client_auth'] ?? ''));
 
-	return '' !== $client_id && '' !== $client_secret;
+	return '' !== $client_id || '' !== $client_secret || '' !== $client_auth;
 }
 
 /**
