@@ -570,12 +570,30 @@ class Google extends Feed
 			) {
 				$response_arr = apply_filters('simple_calendar_oauth_list_events', '', $id, $args);
 
-				$response = unserialize($response_arr['data']);
+				if (!is_array($response_arr)) {
+					throw new Google_Service_Exception(
+						__('Unable to fetch calendar events via OAuth.', 'google-calendar-events'),
+						1,
+					);
+				}
+
+				if (isset($response_arr['Error']) && !empty($response_arr['Error'])) {
+					throw new Google_Service_Exception($response_arr['Error'], 1);
+				}
+
+				if (!isset($response_arr['data']) || !is_string($response_arr['data']) || $response_arr['data'] === '') {
+					$message = !empty($response_arr['message'])
+						? (string) $response_arr['message']
+						: __('Unable to fetch calendar events via OAuth.', 'google-calendar-events');
+					throw new Google_Service_Exception($message, 1);
+				}
+
+				$response = unserialize($response_arr['data'], ['allowed_classes' => true]);
 				if (isset($response_arr['backgroundcolor']) && !empty($response_arr['backgroundcolor'])) {
 					$backgroundcolor = $response_arr['backgroundcolor'];
 				}
 
-				if (isset($response['Error']) && !empty($response['Error'])) {
+				if (is_array($response) && isset($response['Error']) && !empty($response['Error'])) {
 					throw new Google_Service_Exception($response['Error'], 1);
 				}
 			} else {

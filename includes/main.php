@@ -124,6 +124,9 @@ final class Plugin
 			add_action('admin_init', [$this, 'maybe_redirect_to_connect'], 1);
 		}
 
+		// Load translations before other init callbacks that use __().
+		add_action('init', [$this, 'load_plugin_textdomain'], 1);
+
 		// Init hooks.
 		add_action('init', [$this, 'init'], 5);
 		add_action('admin_init', [$this, 'register_settings'], 5);
@@ -214,9 +217,6 @@ final class Plugin
 	{
 		// Before init action hook.
 		do_action('before_simcal_init');
-
-		// Set up localization.
-		add_action('plugins_loaded', [$this, 'load_plugin_textdomain']);
 
 		// Init objects factory.
 		$this->objects = new Objects();
