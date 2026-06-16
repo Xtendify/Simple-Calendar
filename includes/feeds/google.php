@@ -6,9 +6,12 @@
  */
 namespace SimpleCalendar\Feeds;
 
+use SimpleCalendar\plugin_deps\Google\Collection as Google_Collection;
+use SimpleCalendar\plugin_deps\Google\Model as Google_Model;
 use SimpleCalendar\plugin_deps\Google\Service\Calendar as Google_Service_Calendar;
 use SimpleCalendar\plugin_deps\Google\Client as Google_Client;
 use SimpleCalendar\plugin_deps\Google\Service\Calendar\Event as Google_Service_Calendar_Event;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventDateTime as Google_Service_Calendar_EventDateTime;
 use SimpleCalendar\plugin_deps\Google\Service\Calendar\Events as Google_Service_Calendar_Events;
 use SimpleCalendar\plugin_deps\Google\Service\Exception as Google_Service_Exception;
 
@@ -588,7 +591,7 @@ class Google extends Feed
 					throw new Google_Service_Exception($message, 1);
 				}
 
-				$response = unserialize($response_arr['data'], ['allowed_classes' => true]);
+				$response = $this->oauth_unserialize_events_response($response_arr['data']);
 				if (isset($response_arr['backgroundcolor']) && !empty($response_arr['backgroundcolor'])) {
 					$backgroundcolor = $response_arr['backgroundcolor'];
 				}
@@ -614,6 +617,27 @@ class Google extends Feed
 		}
 
 		return $calendar;
+	}
+
+	/**
+	 * Unserialize OAuth proxy events response with a restricted class allowlist.
+	 *
+	 * @since  3.5.4
+	 *
+	 * @param string $data Serialized events payload from the auth proxy.
+	 * @return mixed
+	 */
+	private function oauth_unserialize_events_response($data)
+	{
+		return unserialize($data, [
+			'allowed_classes' => [
+				Google_Service_Calendar_Events::class,
+				Google_Service_Calendar_Event::class,
+				Google_Service_Calendar_EventDateTime::class,
+				Google_Model::class,
+				Google_Collection::class,
+			],
+		]);
 	}
 
 	/**
