@@ -1,7 +1,7 @@
 # Simple Calendar - Google Calendar Events
 
-**WordPress Plugin**: Add beautiful Google Calendar events to your WordPress site  
-**Download**: [WordPress.org Repository](https://wordpress.org/plugins/google-calendar-events/)  
+**WordPress Plugin**: Add beautiful Google Calendar events to your WordPress site
+**Download**: [WordPress.org Repository](https://wordpress.org/plugins/google-calendar-events/)
 **Website**: [simplecalendar.io](https://simplecalendar.io)
 
 ## Overview
@@ -10,12 +10,12 @@ Simple Calendar is a free WordPress plugin that makes it easy to display Google 
 
 ## Key Features
 
-✅ **Easy Google Calendar Integration** - Connect your Google Calendar in just a few clicks  
-✅ **Mobile Responsive** - Looks great on all devices  
-✅ **Multiple Display Options** - Grid view, list view, and compact calendar  
-✅ **Shortcode Support** - Embed calendars anywhere with `[calendar]`  
-✅ **Widget Ready** - Add calendars to sidebars and widget areas  
-✅ **Customizable Styling** - Match your website's design  
+✅ **Easy Google Calendar Integration** - Connect your Google Calendar in just a few clicks
+✅ **Mobile Responsive** - Looks great on all devices
+✅ **Multiple Display Options** - Grid view, list view, and compact calendar
+✅ **Shortcode Support** - Embed calendars anywhere with `[calendar]`
+✅ **Widget Ready** - Add calendars to sidebars and widget areas
+✅ **Customizable Styling** - Match your website's design
 ✅ **Event Details** - Display event descriptions, times, and locations
 
 ## Getting Started
@@ -28,7 +28,7 @@ Simple Calendar is a free WordPress plugin that makes it easy to display Google 
 ## Requirements
 
 - **WordPress**: 4.2 or higher
-- **PHP**: 7.3 or higher
+- **PHP**: 8.1 or higher
 - **Required Extensions**: cURL, iconv, JSON, mbstring
 
 ## Documentation & Support
@@ -51,6 +51,12 @@ Extend Simple Calendar with premium add-ons available at [simplecalendar.io](htt
 ## Contributing
 
 We welcome contributions! Please read our [contributing guidelines](contributing.md) before submitting pull requests.
+
+### Testing
+
+Any new feature or change to existing behavior must include corresponding test
+updates. Add new tests for new functionality and update existing tests when
+behavior changes — no change should be merged without its tests kept in sync.
 
 ## License
 
