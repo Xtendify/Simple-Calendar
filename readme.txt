@@ -98,6 +98,10 @@ We'd love your help! Here's a few things you can do:
 == Changelog ==
 
 = 4.0.3 =
+* Fix: Fixed text domain loading by hooking into init.
+* Dev: Added validation before unserialize() to prevent errors during OAuth failures.
+
+= 4.0.3 =
 * Dev: Ensured compatibility with WordPress 7.0.
 * Fix: Trimmed historical changelog entries to resolve WordPress.org length warnings.
 * Dev: Add an [if-event] conditional template tag
