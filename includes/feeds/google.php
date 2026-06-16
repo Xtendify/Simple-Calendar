@@ -6,9 +6,25 @@
  */
 namespace SimpleCalendar\Feeds;
 
+use SimpleCalendar\plugin_deps\Google\Collection as Google_Collection;
+use SimpleCalendar\plugin_deps\Google\Model as Google_Model;
 use SimpleCalendar\plugin_deps\Google\Service\Calendar as Google_Service_Calendar;
 use SimpleCalendar\plugin_deps\Google\Client as Google_Client;
 use SimpleCalendar\plugin_deps\Google\Service\Calendar\Event as Google_Service_Calendar_Event;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventAttendee as Google_Service_Calendar_EventAttendee;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventAttachment as Google_Service_Calendar_EventAttachment;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventBirthdayProperties as Google_Service_Calendar_EventBirthdayProperties;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventCreator as Google_Service_Calendar_EventCreator;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventDateTime as Google_Service_Calendar_EventDateTime;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventExtendedProperties as Google_Service_Calendar_EventExtendedProperties;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventFocusTimeProperties as Google_Service_Calendar_EventFocusTimeProperties;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventGadget as Google_Service_Calendar_EventGadget;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventOrganizer as Google_Service_Calendar_EventOrganizer;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventOutOfOfficeProperties as Google_Service_Calendar_EventOutOfOfficeProperties;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventReminder as Google_Service_Calendar_EventReminder;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventReminders as Google_Service_Calendar_EventReminders;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventSource as Google_Service_Calendar_EventSource;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventWorkingLocationProperties as Google_Service_Calendar_EventWorkingLocationProperties;
 use SimpleCalendar\plugin_deps\Google\Service\Calendar\Events as Google_Service_Calendar_Events;
 use SimpleCalendar\plugin_deps\Google\Service\Exception as Google_Service_Exception;
 
@@ -570,12 +586,30 @@ class Google extends Feed
 			) {
 				$response_arr = apply_filters('simple_calendar_oauth_list_events', '', $id, $args);
 
-				$response = unserialize($response_arr['data']);
+				if (!is_array($response_arr)) {
+					throw new Google_Service_Exception(
+						__('Unable to fetch calendar events via OAuth.', 'google-calendar-events'),
+						1,
+					);
+				}
+
+				if (isset($response_arr['Error']) && !empty($response_arr['Error'])) {
+					throw new Google_Service_Exception($response_arr['Error'], 1);
+				}
+
+				if (!isset($response_arr['data']) || !is_string($response_arr['data']) || $response_arr['data'] === '') {
+					$message = !empty($response_arr['message'])
+						? (string) $response_arr['message']
+						: __('Unable to fetch calendar events via OAuth.', 'google-calendar-events');
+					throw new Google_Service_Exception($message, 1);
+				}
+
+				$response = $this->oauth_unserialize_events_response($response_arr['data']);
 				if (isset($response_arr['backgroundcolor']) && !empty($response_arr['backgroundcolor'])) {
 					$backgroundcolor = $response_arr['backgroundcolor'];
 				}
 
-				if (isset($response['Error']) && !empty($response['Error'])) {
+				if (is_array($response) && isset($response['Error']) && !empty($response['Error'])) {
 					throw new Google_Service_Exception($response['Error'], 1);
 				}
 			} else {
@@ -596,6 +630,40 @@ class Google extends Feed
 		}
 
 		return $calendar;
+	}
+
+	/**
+	 * Unserialize OAuth proxy events response with a restricted class allowlist.
+	 *
+	 * @since  3.5.4
+	 *
+	 * @param string $data Serialized events payload from the auth proxy.
+	 * @return mixed
+	 */
+	private function oauth_unserialize_events_response($data)
+	{
+		return unserialize($data, [
+			'allowed_classes' => [
+				Google_Service_Calendar_Events::class,
+				Google_Service_Calendar_Event::class,
+				Google_Service_Calendar_EventAttendee::class,
+				Google_Service_Calendar_EventAttachment::class,
+				Google_Service_Calendar_EventBirthdayProperties::class,
+				Google_Service_Calendar_EventCreator::class,
+				Google_Service_Calendar_EventDateTime::class,
+				Google_Service_Calendar_EventExtendedProperties::class,
+				Google_Service_Calendar_EventFocusTimeProperties::class,
+				Google_Service_Calendar_EventGadget::class,
+				Google_Service_Calendar_EventOrganizer::class,
+				Google_Service_Calendar_EventOutOfOfficeProperties::class,
+				Google_Service_Calendar_EventReminder::class,
+				Google_Service_Calendar_EventReminders::class,
+				Google_Service_Calendar_EventSource::class,
+				Google_Service_Calendar_EventWorkingLocationProperties::class,
+				Google_Model::class,
+				Google_Collection::class,
+			],
+		]);
 	}
 
 	/**
