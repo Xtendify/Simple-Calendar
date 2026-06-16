@@ -10,6 +10,9 @@ if (!defined('ABSPATH')) {
 	exit();
 }
 
+// Connect submenu callback is extracted for readability.
+require_once __DIR__ . '/connect-menu.php';
+
 /**
  * Admin Menus.
  *
@@ -48,13 +51,50 @@ class Menus
 
 		self::$plugin = plugin_basename(SIMPLE_CALENDAR_MAIN_FILE);
 
-		new Welcome();
-
 		// Links and meta content in plugins page.
 		add_filter('plugin_action_links_' . self::$plugin, [__CLASS__, 'plugin_action_links'], 10, 5);
 		add_filter('plugin_row_meta', [__CLASS__, 'plugin_row_meta'], 10, 2);
-		// Custom text in admin footer.
-		add_filter('admin_footer_text', [$this, 'admin_footer_text'], 1);
+		// Custom text in admin footer — calendar list/edit and key SC admin pages only.
+		add_action('current_screen', [__CLASS__, 'scope_simple_calendar_footer_filters']);
+	}
+
+	/**
+	 * Register footer text filters on calendar list/edit and selected SC admin pages.
+	 *
+	 * @since 4.0.0
+	 *
+	 * @return void
+	 */
+	public static function scope_simple_calendar_footer_filters()
+	{
+		if (!function_exists('get_current_screen')) {
+			return;
+		}
+
+		$screen = get_current_screen();
+		if (!$screen || !isset($screen->id)) {
+			return;
+		}
+
+		$sc_footer_screen_ids = [
+			'calendar_page_simple-calendar_settings',
+			'calendar_page_simple-calendar_misc_settings',
+			'calendar_page_simple-calendar_tools',
+			'index_page_simple-calendar_settings',
+			'dashboard_page_simple-calendar_settings',
+		];
+
+		$is_calendar_post_screen =
+			isset($screen->post_type, $screen->base) &&
+			'calendar' === $screen->post_type &&
+			in_array($screen->base, ['edit', 'post'], true);
+
+		if (!$is_calendar_post_screen && !in_array($screen->id, $sc_footer_screen_ids, true)) {
+			return;
+		}
+
+		add_filter('admin_footer_text', '__return_empty_string', 1);
+		add_filter('update_footer', '__return_empty_string', 11);
 	}
 
 	/**
@@ -64,12 +104,56 @@ class Menus
 	 */
 	public static function add_menu_items()
 	{
+		$connect_menu_title = sprintf(
+			'%1$s <span class="sc_menu_badge_new">%2$s</span>',
+			esc_html__('Connect', 'google-calendar-events'),
+			esc_html__('New!', 'google-calendar-events'),
+		);
+
+		// Serve Connect UI on the Settings slug to preserve legacy OAuth redirect URLs:
+		// wp-admin/edit.php?post_type=calendar&page=simple-calendar_settings
+		$connect_callback = [Connect_Menu::class, 'html'];
+
+		// Register under Dashboard first so OAuth / legacy URLs using
+		// wp-admin/index.php?page=simple-calendar_connect resolve (same menu slug).
+		// Register Calendars second so $_parent_pages points at the real menu parent.
+		$connect_hook_index = add_submenu_page(
+			'index.php',
+			__('Connect', 'google-calendar-events'),
+			__('Connect', 'google-calendar-events'),
+			'manage_options',
+			'simple-calendar_settings',
+			$connect_callback,
+		);
+
+		$connect_hook = add_submenu_page(
+			self::$main_menu,
+			__('Connect', 'google-calendar-events'),
+			$connect_menu_title,
+			'manage_options',
+			'simple-calendar_settings',
+			$connect_callback,
+		);
+
+		remove_submenu_page('index.php', 'simple-calendar_settings');
+
+		foreach ([$connect_hook_index, $connect_hook] as $maybe_hook) {
+			if (!is_string($maybe_hook) || !$maybe_hook) {
+				continue;
+			}
+			add_action('load-' . $maybe_hook, [Connect_Menu::class, 'handle_actions']);
+			add_action('load-' . $maybe_hook, function () {
+				add_action('in_admin_header', [Connect_Menu::class, 'suppress_admin_notices'], 0);
+			});
+		}
+
+		// Old Settings UI lives under Misc Settings now.
 		add_submenu_page(
 			self::$main_menu,
 			__('Settings', 'google-calendar-events'),
 			__('Settings', 'google-calendar-events'),
 			'manage_options',
-			'simple-calendar_settings',
+			'simple-calendar_misc_settings',
 			function () {
 				$page = new Pages('settings');
 				$page->html();
@@ -117,11 +201,11 @@ class Menus
 	{
 		if (self::$plugin == $file) {
 			$links = [];
-			$links['settings'] =
+			$links['connect'] =
 				'<a href="' .
 				admin_url('edit.php?post_type=calendar&page=simple-calendar_settings') .
 				'">' .
-				__('Settings', 'google-calendar-events') .
+				__('Connect', 'google-calendar-events') .
 				'</a>';
 			$links['feeds'] =
 				'<a href="' .
@@ -161,52 +245,5 @@ class Menus
 		}
 
 		return $meta_links;
-	}
-
-	/**
-	 * Admin footer text filter callback.
-	 *
-	 * Change this plugin screens admin footer text.
-	 *
-	 * @since  3.0.0
-	 *
-	 * @param  $footer_text
-	 *
-	 * @return string|void
-	 */
-	public function admin_footer_text($footer_text)
-	{
-		// Check to make sure we're on a SimpleCal admin page
-		$screen = simcal_is_admin_screen();
-		if ($screen !== false) {
-			// Change the footer text
-			if (!get_option('simple-calendar_admin_footer_text_rated')) {
-				$footer_text = sprintf(
-					__(
-						'If you like <strong>Simple Calendar</strong> please leave us a %s&#9733;&#9733;&#9733;&#9733;&#9733; rating on WordPress.org%s. A huge thank you in advance!',
-						'google-calendar-events',
-					),
-					'<a href="https://wordpress.org/support/view/plugin-reviews/google-calendar-events?filter=5#postform" target="_blank" class="simcal-rating-link" data-rated="' .
-						esc_attr__('Thanks :)', 'google-calendar-events') .
-						'">',
-					'</a>',
-				);
-				// Add a nonce field used in ajax.
-				$footer_text .= wp_nonce_field('simcal_rating_nonce', 'simcal_rating_nonce');
-				$footer_text .= '<script type="text/javascript">';
-				$footer_text .=
-					"jQuery( 'a.simcal-rating-link' ).click( function() {
-						jQuery.post( '" .
-					\SimpleCalendar\plugin()->ajax_url() .
-					"', { action: 'simcal_rated', nonce: jQuery( '#simcal_rating_nonce' ).val() } );
-						jQuery( this ).parent().text( jQuery( this ).data( 'rated' ) );
-					});";
-				$footer_text .= '</script>';
-			} else {
-				$footer_text = __('Thanks for using Simple Calendar!', 'google-calendar-events');
-			}
-		}
-
-		return $footer_text;
 	}
 }

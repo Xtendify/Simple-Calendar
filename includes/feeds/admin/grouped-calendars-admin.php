@@ -112,7 +112,21 @@ class Grouped_Calendars_Admin
 						<?php
       $cals = simcal_get_calendars($post_id);
       $meta = get_post_meta($post_id, '_grouped_calendars_ids', true);
-      $ids = $meta && is_array($meta) ? implode(',', array_map('absint', $meta)) : absint($meta);
+      $ids_array = $meta && is_array($meta) ? array_map('absint', $meta) : [];
+      $ids = !empty($ids_array) ? implode(',', $ids_array) : absint($meta);
+
+      $ordered_cals = [];
+      foreach ($ids_array as $id) {
+      	if (isset($cals[$id])) {
+      		$ordered_cals[$id] = $cals[$id];
+      	}
+      }
+      foreach ($cals as $id => $name) {
+      	if (!isset($ordered_cals[$id])) {
+      		$ordered_cals[$id] = $name;
+      	}
+      }
+      $cals = $ordered_cals;
 
       simcal_print_field([
       	'type' => 'select',
