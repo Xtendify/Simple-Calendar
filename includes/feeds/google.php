@@ -11,7 +11,20 @@ use SimpleCalendar\plugin_deps\Google\Model as Google_Model;
 use SimpleCalendar\plugin_deps\Google\Service\Calendar as Google_Service_Calendar;
 use SimpleCalendar\plugin_deps\Google\Client as Google_Client;
 use SimpleCalendar\plugin_deps\Google\Service\Calendar\Event as Google_Service_Calendar_Event;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventAttendee as Google_Service_Calendar_EventAttendee;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventAttachment as Google_Service_Calendar_EventAttachment;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventBirthdayProperties as Google_Service_Calendar_EventBirthdayProperties;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventCreator as Google_Service_Calendar_EventCreator;
 use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventDateTime as Google_Service_Calendar_EventDateTime;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventExtendedProperties as Google_Service_Calendar_EventExtendedProperties;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventFocusTimeProperties as Google_Service_Calendar_EventFocusTimeProperties;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventGadget as Google_Service_Calendar_EventGadget;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventOrganizer as Google_Service_Calendar_EventOrganizer;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventOutOfOfficeProperties as Google_Service_Calendar_EventOutOfOfficeProperties;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventReminder as Google_Service_Calendar_EventReminder;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventReminders as Google_Service_Calendar_EventReminders;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventSource as Google_Service_Calendar_EventSource;
+use SimpleCalendar\plugin_deps\Google\Service\Calendar\EventWorkingLocationProperties as Google_Service_Calendar_EventWorkingLocationProperties;
 use SimpleCalendar\plugin_deps\Google\Service\Calendar\Events as Google_Service_Calendar_Events;
 use SimpleCalendar\plugin_deps\Google\Service\Exception as Google_Service_Exception;
 
@@ -633,7 +646,20 @@ class Google extends Feed
 			'allowed_classes' => [
 				Google_Service_Calendar_Events::class,
 				Google_Service_Calendar_Event::class,
+				Google_Service_Calendar_EventAttendee::class,
+				Google_Service_Calendar_EventAttachment::class,
+				Google_Service_Calendar_EventBirthdayProperties::class,
+				Google_Service_Calendar_EventCreator::class,
 				Google_Service_Calendar_EventDateTime::class,
+				Google_Service_Calendar_EventExtendedProperties::class,
+				Google_Service_Calendar_EventFocusTimeProperties::class,
+				Google_Service_Calendar_EventGadget::class,
+				Google_Service_Calendar_EventOrganizer::class,
+				Google_Service_Calendar_EventOutOfOfficeProperties::class,
+				Google_Service_Calendar_EventReminder::class,
+				Google_Service_Calendar_EventReminders::class,
+				Google_Service_Calendar_EventSource::class,
+				Google_Service_Calendar_EventWorkingLocationProperties::class,
 				Google_Model::class,
 				Google_Collection::class,
 			],
