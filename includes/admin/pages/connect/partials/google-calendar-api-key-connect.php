@@ -132,22 +132,18 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_core_item_spaced'
 		<div class="sc_connect_helper_row">
 			<p class="sc_connect_helper_text">
 				<?php
-    /* translators: %1$s: Opening anchor tag, %2$s: Closing anchor tag */
-    $text = __('To create one, follow our&nbsp; %1$sstep-by-step guide%2$s.', 'google-calendar-events');
+    $guide_url = simcal_ga_campaign_url(
+    	'https://docs.simplecalendar.io/google-api-key',
+    	'core-plugin',
+    	'connect-api-key-docs',
+    );
     echo wp_kses(
-    	sprintf(
-    		$text,
-    		'<a href="' .
-    			esc_url(
-    				simcal_ga_campaign_url(
-    					'https://docs.simplecalendar.io/google-api-key',
-    					'core-plugin',
-    					'connect-api-key-docs',
-    				),
-    			) .
-    			'" target="_blank" class="sc_connect_helper_link">',
-    		'</a>',
-    	),
+    	esc_html__('To create one, follow our', 'google-calendar-events') .
+    		'&nbsp; <a href="' .
+    		esc_url($guide_url) .
+    		'" target="_blank" class="sc_connect_helper_link">' .
+    		esc_html__('step-by-step guide', 'google-calendar-events') .
+    		'</a>.',
     	[
     		'a' => [
     			'href' => true,
