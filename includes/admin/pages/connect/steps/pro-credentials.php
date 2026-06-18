@@ -226,15 +226,13 @@ $google_pro_defs =
    ob_start();
    ?>
 			<p class="sc_connect_helper_text sc_connect_credentials_step_help">
-			<?php
-   echo esc_html__('To create one, follow our', 'google-calendar-events') .
+			<?php echo esc_html__('To create one, follow our', 'google-calendar-events') .
    	'&nbsp; <a href="' .
    	esc_url($step_by_step_url) .
    	'" target="_blank" class="sc_connect_helper_link">' .
    	esc_html__('step-by-step guide', 'google-calendar-events') .
    	'</a> ' .
-   	esc_html__('to configure Google OAuth client.', 'google-calendar-events');
-   ?>
+   	esc_html__('to configure Google OAuth client.', 'google-calendar-events'); ?>
 			</p>
 			<?php
    $field_after = [
