@@ -171,7 +171,19 @@ class Oauth_Ajax
 	 */
 	public function oauth_check_iftoken_expired()
 	{
-		$request = $this->post('check_iftoken_expired', $this->auth_payload());
+		if ($this->should_skip_oauth_token_check()) {
+			return;
+		}
+
+		// Throttle the token check to avoid slow admin loads when the auth service is slow/unreachable.
+		// This runs on calendar admin screens (list/edit) so it must stay lightweight.
+		if (get_transient('simcal_oauth_token_check_throttle')) {
+			return;
+		}
+		set_transient('simcal_oauth_token_check_throttle', 1, 15 * MINUTE_IN_SECONDS);
+
+		// Use a shorter timeout here because it's called on page load.
+		$request = $this->post('check_iftoken_expired', $this->auth_payload(), 10);
 		if (is_wp_error($request)) {
 			return;
 		}
@@ -185,6 +197,31 @@ class Oauth_Ajax
 
 			delete_option('simple_calendar_auth_site_token');
 		}
+	}
+
+	/**
+	 * Skip OAuth token checks for calendars that use the public API key feed.
+	 *
+	 * @return bool
+	 */
+	private function should_skip_oauth_token_check()
+	{
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if (empty($_GET['post'])) {
+			return false;
+		}
+
+		$post_id = absint($_GET['post']);
+		if ($post_id <= 0 || 'calendar' !== get_post_type($post_id)) {
+			return false;
+		}
+
+		$terms = wp_get_object_terms($post_id, 'calendar_feed');
+		if (is_wp_error($terms) || empty($terms)) {
+			return false;
+		}
+
+		return 'google' === sanitize_title(current($terms)->name);
 	}
 
 	/**

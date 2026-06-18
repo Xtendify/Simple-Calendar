@@ -74,6 +74,27 @@ function simcal_get_feed_types()
 }
 
 /**
+ * Get human-readable feed type labels without bootstrapping feed objects.
+ *
+ * @since  3.0.0
+ *
+ * @return array
+ */
+function simcal_get_feed_type_labels()
+{
+	$labels = apply_filters('simcal_feed_type_labels', []);
+	$types = simcal_get_feed_types();
+
+	foreach ($types as $type) {
+		if (!isset($labels[$type])) {
+			$labels[$type] = ucwords(str_replace('-', ' ', $type));
+		}
+	}
+
+	return $labels;
+}
+
+/**
  * Get an events feed.
  *
  * @since  3.0.0
@@ -195,16 +216,29 @@ function simcal_get_calendars($exclude = '', $cached = true)
 	$calendars = get_transient('_simple-calendar_feed_ids');
 
 	if (!$calendars || $cached === false) {
-		$posts = get_posts([
+		$ids = get_posts([
 			'post_type' => 'calendar',
-			'nopaging' => true,
+			'posts_per_page' => -1,
+			'fields' => 'ids',
+			'orderby' => 'title',
+			'order' => 'ASC',
+			'no_found_rows' => true,
+			'update_post_meta_cache' => false,
+			'update_post_term_cache' => false,
 		]);
 
 		$calendars = [];
-		foreach ($posts as $post) {
-			$calendars[$post->ID] = $post->post_title;
+		if (!empty($ids) && is_array($ids)) {
+			// Prime post caches so fetching titles doesn't trigger N queries.
+			_prime_post_caches($ids, false, false);
+
+			foreach ($ids as $post_id) {
+				$post_id = absint($post_id);
+				if ($post_id > 0) {
+					$calendars[$post_id] = get_post_field('post_title', $post_id);
+				}
+			}
 		}
-		asort($calendars);
 
 		set_transient('_simple-calendar_feed_ids', $calendars, 604800);
 	}

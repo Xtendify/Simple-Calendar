@@ -40,6 +40,18 @@ class Objects
 			1,
 		);
 
+		add_filter(
+			'simcal_feed_type_labels',
+			function ($labels) {
+				return array_merge($labels, [
+					'google' => __('Google Calendar', 'google-calendar-events'),
+					'grouped-calendars' => __('Grouped Calendar', 'google-calendar-events'),
+				]);
+			},
+			10,
+			1,
+		);
+
 		// Add default calendar type.
 		add_filter(
 			'simcal_get_calendar_types',

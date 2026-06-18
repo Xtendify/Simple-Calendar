@@ -34,6 +34,15 @@ class Settings implements Meta_Box
 	 */
 	public static function html($post)
 	{
+		// Register feed settings tabs/panels once without loading them in settings_handle().
+		static $feed_admins_bootstrapped = false;
+		if (!$feed_admins_bootstrapped) {
+			foreach (simcal_get_feed_types() as $feed_type) {
+				simcal_get_feed($feed_type);
+			}
+			$feed_admins_bootstrapped = true;
+		}
+
 		// @see Meta_Boxes::save_meta_boxes()
 		wp_nonce_field('simcal_save_data', 'simcal_meta_nonce');
 
@@ -128,14 +137,7 @@ class Settings implements Meta_Box
 	{
 		$feed_options = $calendar_options = $calendar_views = [];
 
-		$feed_types = simcal_get_feed_types();
-		foreach ($feed_types as $feed_type) {
-			$feed = simcal_get_feed($feed_type);
-
-			if ($feed instanceof Feed) {
-				$feed_options[$feed_type] = $feed->name;
-			}
-		}
+		$feed_options = simcal_get_feed_type_labels();
 
 		$calendar_types = simcal_get_calendar_types();
 		foreach ($calendar_types as $calendar_type => $views) {
@@ -717,13 +719,12 @@ class Settings implements Meta_Box
       $timezone_setting = esc_attr(get_post_meta($post->ID, '_feed_timezone_setting', true));
       $timezone = esc_attr(get_post_meta($post->ID, '_feed_timezone', true));
       $timezone = $timezone ? $timezone : $timezone_default;
-      $show_use_calendar = isset(simcal_get_feed($post)->type);
-
-      if ($show_use_calendar) {
-      	$show_use_calendar = simcal_get_feed($post)->type !== 'grouped-calendars' ? 1 : 0;
-      } else {
-      	$show_use_calendar = true;
-      }
+      $feed_terms = wp_get_object_terms($post->ID, 'calendar_feed');
+      $current_feed_type =
+      	!is_wp_error($feed_terms) && !empty($feed_terms)
+      		? sanitize_title(current($feed_terms)->name)
+      		: apply_filters('simcal_default_feed_type', 'google');
+      $show_use_calendar = 'grouped-calendars' !== $current_feed_type;
       ?>
 						<select name="_feed_timezone_setting"
 								id="_feed_timezone_setting"

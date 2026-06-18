@@ -65,7 +65,6 @@ class Google_Admin
 		$screen = simcal_is_admin_screen();
 
 		if ('calendar' == $screen) {
-			$this->test_api_key_connection($this->google_calendar_id);
 			add_filter('simcal_settings_meta_tabs_li', [$this, 'add_settings_meta_tab_li'], 10, 1);
 			add_action('simcal_settings_meta_panels', [$this, 'add_settings_meta_panel'], 10, 1);
 		}
@@ -207,7 +206,7 @@ class Google_Admin
 					),
 					'placeholder' => __('Enter a valid Google Calendar ID from a public calendar', 'google-calendar-events'),
 					'escaping' => [$this->feed, 'esc_google_calendar_id'],
-					'validation' => [$this, 'test_api_key_connection'],
+					'validation' => [$this, 'google_calendar_id_field_help'],
 				],
 				'_google_events_search_query' => [
 					'type' => 'standard',
@@ -263,6 +262,32 @@ class Google_Admin
 	}
 
 	/**
+	 * Calendar ID field help text (no remote API call).
+	 *
+	 * @since  3.0.0
+	 *
+	 * @return string
+	 */
+	public function google_calendar_id_field_help()
+	{
+		return sprintf(
+			'<p class="description">' .
+				__(
+					'Step 1: Set the Google Calendar you want to use as <strong>"public."</strong> <a href="%1s" target="_blank">Detailed instructions</a>',
+					'google-calendar-events',
+				) .
+				'<br />' .
+				__(
+					'Step 2: Copy and paste your Google Calendar ID here. <a href="%2s" target="_blank">Detailed instructions</a>',
+					'google-calendar-events',
+				) .
+				'</p>',
+			simcal_ga_campaign_url(simcal_get_url('docs') . '/make-google-calendar-public/', 'core-plugin', 'settings-link'),
+			simcal_ga_campaign_url(simcal_get_url('docs') . '/find-google-calendar-id/', 'core-plugin', 'settings-link'),
+		);
+	}
+
+	/**
 	 * Test a connection to Google Calendar API.
 	 *
 	 * @since  3.0.0
@@ -281,30 +306,9 @@ class Google_Admin
 			$feed = sanitize_title(current($feed_type)->name);
 		}
 
-		$message = '';
+		$message = $this->google_calendar_id_field_help();
 		$error = '';
 		$has_errors = false;
-
-		$message .=
-			'<p class="description">' .
-			sprintf(
-				__(
-					'Step 1: Set the Google Calendar you want to use as <strong>"public."</strong> <a href="%1s" target="_blank">Detailed instructions</a>',
-					'google-calendar-events',
-				) .
-					'<br />' .
-					__(
-						'Step 2: Copy and paste your Google Calendar ID here. <a href="%2s" target="_blank">Detailed instructions</a>',
-						'google-calendar-events',
-					),
-				simcal_ga_campaign_url(
-					simcal_get_url('docs') . '/make-google-calendar-public/',
-					'core-plugin',
-					'settings-link',
-				),
-				simcal_ga_campaign_url(simcal_get_url('docs') . '/find-google-calendar-id/', 'core-plugin', 'settings-link'),
-			) .
-			'</p>';
 
 		if ($post_id > 0 && !is_null($feed) && !empty($this->feed->type)) {
 			$no_key_notice = new Notice([
