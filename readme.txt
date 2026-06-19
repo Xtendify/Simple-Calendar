@@ -97,10 +97,10 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
-= 4.0.4 =
+= 4.0.5 =
 * Fix: Fixed a PHP 8.3 ValueError by replacing sprintf() with string concatenation to safely handle literal percent signs in translations.
 
-= 4.0.3 =
+= 4.0.4 =
 * Fix: Fixed text domain loading by hooking into init.
 * Dev: Added validation before unserialize() to prevent errors during OAuth failures.
 
