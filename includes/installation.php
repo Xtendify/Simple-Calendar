@@ -55,6 +55,9 @@ class Installation
 	{
 		flush_rewrite_rules();
 
+		include_once 'functions/shared.php';
+		simcal_delete_feed_transients();
+
 		do_action('simcal_deactivated');
 	}
 
