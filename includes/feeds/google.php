@@ -682,6 +682,10 @@ class Google extends Feed
 		static $clients = [];
 
 		$cache_key = md5($this->google_api_key . wp_json_encode($this->google_client_scopes));
+		$curl_options = apply_filters('simcal_google_client_curl_options', []);
+		$cache_key = md5(
+			$this->google_api_key . wp_json_encode($this->google_client_scopes) . wp_json_encode($curl_options),
+		);
 		if (isset($clients[$cache_key])) {
 			$this->google_client = $clients[$cache_key];
 			return $this->google_client;
@@ -692,8 +696,6 @@ class Google extends Feed
 		$client->setScopes($this->google_client_scopes);
 		$client->setDeveloperKey($this->google_api_key);
 		$client->setAccessType('online');
-
-		$curl_options = apply_filters('simcal_google_client_curl_options', []);
 
 		if (!empty($curl_options)) {
 			$guzzle = new Client([

@@ -324,8 +324,11 @@ class Google_Admin
 	private function normalize_calendar_id_for_request($google_calendar_id, $post_id = 0)
 	{
 		if (!empty($google_calendar_id)) {
-			$decoded = $this->feed->esc_google_calendar_id($google_calendar_id);
-			return !empty($decoded) ? $decoded : $google_calendar_id;
+			$decoded = base64_decode($google_calendar_id, true);
+			if ($decoded !== false && base64_encode($decoded) === $google_calendar_id) {
+				return $decoded;
+			}
+			return $google_calendar_id;
 		}
 
 		if ($post_id > 0) {
