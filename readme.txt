@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 4.0.6 =
+* Fix: Optimize admin & fronend performance, throttle OAuth token checks, and reduce redundant API calls.
+
 = 4.0.5 =
 * Fix: Fixed a PHP 8.3 ValueError by replacing sprintf() with string concatenation to safely handle literal percent signs in translations.
 

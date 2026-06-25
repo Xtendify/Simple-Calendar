@@ -294,7 +294,7 @@ class Post_Types
 				update_option('simple-calendar_admin_notices', $notices);
 			}
 
-			simcal_delete_plugin_transients($post_id);
+			simcal_delete_feed_transients($post_id);
 		}
 	}
 }

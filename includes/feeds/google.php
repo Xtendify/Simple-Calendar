@@ -681,7 +681,6 @@ class Google extends Feed
 
 		static $clients = [];
 
-		$cache_key = md5($this->google_api_key . wp_json_encode($this->google_client_scopes));
 		$curl_options = apply_filters('simcal_google_client_curl_options', []);
 		$cache_key = md5(
 			$this->google_api_key . wp_json_encode($this->google_client_scopes) . wp_json_encode($curl_options),
