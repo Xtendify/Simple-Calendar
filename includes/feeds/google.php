@@ -122,7 +122,6 @@ class Google extends Feed
 		$settings = get_option('simple-calendar_settings_feeds');
 		$this->google_api_key = isset($settings['google']['api_key']) ? esc_attr($settings['google']['api_key']) : '';
 		$this->google_client_scopes = [Google_Service_Calendar::CALENDAR_READONLY];
-		$this->google_client = $this->get_client();
 
 		if ($this->post_id > 0) {
 			// Google query args.
@@ -441,13 +440,13 @@ class Google extends Feed
 
 					if (!empty($calendar['events'])) {
 						ksort($calendar['events'], SORT_NUMERIC);
-
-						set_transient(
-							'_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type,
-							$calendar,
-							max(absint($this->cache), 1), // Since a value of 0 means forever we set the minimum here to 1 if the user has set it to be 0
-						);
 					}
+
+					set_transient(
+						'_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type,
+						$calendar,
+						max(absint($this->cache), 1), // Since a value of 0 means forever we set the minimum here to 1 if the user has set it to be 0
+					);
 				}
 			} else {
 				$message = __('While trying to retrieve events, Google returned an error:', 'google-calendar-events');
@@ -676,13 +675,26 @@ class Google extends Feed
 	 */
 	private function get_client()
 	{
+		if ($this->google_client instanceof Google_Client) {
+			return $this->google_client;
+		}
+
+		static $clients = [];
+
+		$curl_options = apply_filters('simcal_google_client_curl_options', []);
+		$cache_key = md5(
+			$this->google_api_key . wp_json_encode($this->google_client_scopes) . wp_json_encode($curl_options),
+		);
+		if (isset($clients[$cache_key])) {
+			$this->google_client = $clients[$cache_key];
+			return $this->google_client;
+		}
+
 		$client = new Google_Client();
 		$client->setApplicationName('Simple Calendar');
 		$client->setScopes($this->google_client_scopes);
 		$client->setDeveloperKey($this->google_api_key);
 		$client->setAccessType('online');
-
-		$curl_options = apply_filters('simcal_google_client_curl_options', []);
 
 		if (!empty($curl_options)) {
 			$guzzle = new Client([
@@ -691,6 +703,9 @@ class Google extends Feed
 
 			$client->setHttpClient($guzzle);
 		}
+
+		$clients[$cache_key] = $client;
+		$this->google_client = $client;
 
 		return $client;
 	}
@@ -705,6 +720,8 @@ class Google extends Feed
 	 */
 	protected function get_service()
 	{
-		return $this->google_client instanceof Google_Client ? new Google_Service_Calendar($this->google_client) : null;
+		$client = $this->get_client();
+
+		return $client instanceof Google_Client ? new Google_Service_Calendar($client) : null;
 	}
 }

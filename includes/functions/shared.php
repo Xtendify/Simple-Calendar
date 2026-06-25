@@ -74,6 +74,27 @@ function simcal_get_feed_types()
 }
 
 /**
+ * Get human-readable feed type labels without bootstrapping feed objects.
+ *
+ * @since  4.0.6
+ *
+ * @return array
+ */
+function simcal_get_feed_type_labels()
+{
+	$labels = apply_filters('simcal_feed_type_labels', []);
+	$types = simcal_get_feed_types();
+
+	foreach ($types as $type) {
+		if (!isset($labels[$type])) {
+			$labels[$type] = ucwords(str_replace('-', ' ', $type));
+		}
+	}
+
+	return $labels;
+}
+
+/**
  * Get an events feed.
  *
  * @since  3.0.0
@@ -197,14 +218,18 @@ function simcal_get_calendars($exclude = '', $cached = true)
 	if (!$calendars || $cached === false) {
 		$posts = get_posts([
 			'post_type' => 'calendar',
-			'nopaging' => true,
+			'posts_per_page' => -1,
+			'orderby' => 'title',
+			'order' => 'ASC',
+			'no_found_rows' => true,
+			'update_post_meta_cache' => false,
+			'update_post_term_cache' => false,
 		]);
 
 		$calendars = [];
 		foreach ($posts as $post) {
-			$calendars[$post->ID] = $post->post_title;
+			$calendars[(int) $post->ID] = $post->post_title;
 		}
-		asort($calendars);
 
 		set_transient('_simple-calendar_feed_ids', $calendars, 604800);
 	}
@@ -424,6 +449,38 @@ function simcal_esc_timezone($tz, $default = 'UTC')
 }
 
 /**
+ * Clear plugin-level transients (OAuth throttles, Pro tokens, auxiliary caches).
+ *
+ * @since 4.0.6
+ */
+function simcal_delete_plugin_transients()
+{
+	delete_transient('simcal_oauth_token_check_throttle');
+
+	$auth_token = get_option('simple_calendar_auth_site_token');
+	if (!empty($auth_token)) {
+		delete_transient('simcal_oauth_calendar_list_' . md5((string) $auth_token));
+	}
+
+	delete_transient('simple-calendar_google-pro-access-token');
+
+	global $wpdb;
+
+	$like_patterns = [
+		$wpdb->esc_like('_transient__simple-calendar_feed_id_') . '%',
+		$wpdb->esc_like('_transient_timeout__simple-calendar_feed_id_') . '%',
+	];
+
+	foreach ($like_patterns as $pattern) {
+		$wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", $pattern));
+	}
+
+	simcal_delete_feed_transients();
+
+	do_action('simcal_delete_plugin_transients');
+}
+
+/**
  * Clear feed transients cache.
  *
  * @since  3.0.0
@@ -434,7 +491,12 @@ function simcal_esc_timezone($tz, $default = 'UTC')
  */
 function simcal_delete_feed_transients($id = '')
 {
-	$grouped_ids = get_post_meta($id, '_grouped_calendars_ids', true);
+	$clear_plugin_transients = '' === $id;
+
+	$grouped_ids =
+		is_numeric($id) || $id instanceof WP_Post
+			? get_post_meta($id instanceof WP_Post ? $id->ID : $id, '_grouped_calendars_ids', true)
+			: null;
 
 	// If there are group IDs we need to construct an array to pass along with the grouped IDs + the original $post_id
 	if (is_array($grouped_ids)) {

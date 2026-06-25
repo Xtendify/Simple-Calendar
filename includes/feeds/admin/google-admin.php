@@ -65,9 +65,9 @@ class Google_Admin
 		$screen = simcal_is_admin_screen();
 
 		if ('calendar' == $screen) {
-			$this->test_api_key_connection($this->google_calendar_id);
 			add_filter('simcal_settings_meta_tabs_li', [$this, 'add_settings_meta_tab_li'], 10, 1);
 			add_action('simcal_settings_meta_panels', [$this, 'add_settings_meta_panel'], 10, 1);
+			add_action('admin_init', [$this, 'maybe_refresh_stored_error_notice'], 20);
 		}
 
 		add_action('simcal_process_settings_meta', [$this, 'process_meta'], 10, 1);
@@ -207,7 +207,7 @@ class Google_Admin
 					),
 					'placeholder' => __('Enter a valid Google Calendar ID from a public calendar', 'google-calendar-events'),
 					'escaping' => [$this->feed, 'esc_google_calendar_id'],
-					'validation' => [$this, 'test_api_key_connection'],
+					'validation' => [$this, 'google_calendar_id_field_help'],
 				],
 				'_google_events_search_query' => [
 					'type' => 'standard',
@@ -263,6 +263,85 @@ class Google_Admin
 	}
 
 	/**
+	 * Calendar ID field help text (no remote API call).
+	 *
+	 * @since  4.0.6
+	 *
+	 * @return string
+	 */
+	public function google_calendar_id_field_help()
+	{
+		return sprintf(
+			'<p class="description">' .
+				__(
+					'Step 1: Set the Google Calendar you want to use as <strong>"public."</strong> <a href="%1s" target="_blank">Detailed instructions</a>',
+					'google-calendar-events',
+				) .
+				'<br />' .
+				__(
+					'Step 2: Copy and paste your Google Calendar ID here. <a href="%2s" target="_blank">Detailed instructions</a>',
+					'google-calendar-events',
+				) .
+				'</p>',
+			simcal_ga_campaign_url(simcal_get_url('docs') . '/make-google-calendar-public/', 'core-plugin', 'settings-link'),
+			simcal_ga_campaign_url(simcal_get_url('docs') . '/find-google-calendar-id/', 'core-plugin', 'settings-link'),
+		);
+	}
+
+	/**
+	 * Re-test and clear a stored error notice when credentials are valid.
+	 *
+	 * Only runs when a stale google-error-response notice exists for the current calendar.
+	 *
+	 * @since 4.0.6
+	 */
+	public function maybe_refresh_stored_error_notice()
+	{
+		global $post;
+
+		if (!($post instanceof \WP_Post) || 'calendar' !== $post->post_type) {
+			return;
+		}
+
+		$notices = get_option('simple-calendar_admin_notices', []);
+		if (empty($notices['calendar_' . $post->ID]['google-error-response'])) {
+			return;
+		}
+
+		$this->test_api_key_connection('');
+	}
+
+	/**
+	 * Resolve a calendar ID for API requests (plain text, not base64).
+	 *
+	 * @since  4.0.6
+	 *
+	 * @param  string $google_calendar_id
+	 * @param  int    $post_id
+	 *
+	 * @return string
+	 */
+	private function normalize_calendar_id_for_request($google_calendar_id, $post_id = 0)
+	{
+		if (!empty($google_calendar_id)) {
+			$decoded = base64_decode($google_calendar_id, true);
+			if ($decoded !== false && base64_encode($decoded) === $google_calendar_id) {
+				return $decoded;
+			}
+			return $google_calendar_id;
+		}
+
+		if ($post_id > 0) {
+			$stored = get_post_meta($post_id, '_google_calendar_id', true);
+			if (!empty($stored)) {
+				return $this->feed->esc_google_calendar_id($stored);
+			}
+		}
+
+		return $this->google_calendar_id;
+	}
+
+	/**
 	 * Test a connection to Google Calendar API.
 	 *
 	 * @since  3.0.0
@@ -281,30 +360,9 @@ class Google_Admin
 			$feed = sanitize_title(current($feed_type)->name);
 		}
 
-		$message = '';
+		$message = $this->google_calendar_id_field_help();
 		$error = '';
 		$has_errors = false;
-
-		$message .=
-			'<p class="description">' .
-			sprintf(
-				__(
-					'Step 1: Set the Google Calendar you want to use as <strong>"public."</strong> <a href="%1s" target="_blank">Detailed instructions</a>',
-					'google-calendar-events',
-				) .
-					'<br />' .
-					__(
-						'Step 2: Copy and paste your Google Calendar ID here. <a href="%2s" target="_blank">Detailed instructions</a>',
-						'google-calendar-events',
-					),
-				simcal_ga_campaign_url(
-					simcal_get_url('docs') . '/make-google-calendar-public/',
-					'core-plugin',
-					'settings-link',
-				),
-				simcal_ga_campaign_url(simcal_get_url('docs') . '/find-google-calendar-id/', 'core-plugin', 'settings-link'),
-			) .
-			'</p>';
 
 		if ($post_id > 0 && !is_null($feed) && !empty($this->feed->type)) {
 			$no_key_notice = new Notice([
@@ -332,11 +390,15 @@ class Google_Admin
 			} else {
 				$no_key_notice->remove();
 
-				try {
-					$this->feed->make_request($google_calendar_id);
-				} catch (Google_Service_Exception $e) {
-					$error = $e->getMessage();
-					$message = !empty($error) ? '<blockquote>' . $error . '</blockquote>' : '';
+				$calendar_id_for_request = $this->normalize_calendar_id_for_request($google_calendar_id, $post_id);
+
+				if (!empty($calendar_id_for_request)) {
+					try {
+						$this->feed->make_request($calendar_id_for_request);
+					} catch (Google_Service_Exception $e) {
+						$error = $e->getMessage();
+						$message = !empty($error) ? '<blockquote>' . $error . '</blockquote>' : '';
+					}
 				}
 
 				$error_notice = new Notice([
@@ -381,7 +443,10 @@ class Google_Admin
 	 */
 	public function process_meta($post_id)
 	{
-		$calendar_id = isset($_POST['_google_calendar_id']) ? base64_encode(esc_attr($_POST['_google_calendar_id'])) : '';
+		$calendar_id_raw = isset($_POST['_google_calendar_id'])
+			? sanitize_text_field(wp_unslash($_POST['_google_calendar_id']))
+			: '';
+		$calendar_id = $calendar_id_raw ? base64_encode($calendar_id_raw) : '';
 		update_post_meta($post_id, '_google_calendar_id', $calendar_id);
 
 		$search_query = isset($_POST['_google_events_search_query']) ? esc_attr($_POST['_google_events_search_query']) : '';
@@ -396,6 +461,6 @@ class Google_Admin
 		$max_results = absint($max_results_sanitize);
 		update_post_meta($post_id, '_google_events_max_results', $max_results);
 
-		$this->test_api_key_connection($calendar_id);
+		$this->test_api_key_connection($calendar_id_raw);
 	}
 }
