@@ -265,7 +265,7 @@ class Google_Admin
 	/**
 	 * Calendar ID field help text (no remote API call).
 	 *
-	 * @since  3.0.0
+	 * @since  4.0.6
 	 *
 	 * @return string
 	 */
@@ -293,7 +293,7 @@ class Google_Admin
 	 *
 	 * Only runs when a stale google-error-response notice exists for the current calendar.
 	 *
-	 * @since 3.0.0
+	 * @since 4.0.6
 	 */
 	public function maybe_refresh_stored_error_notice()
 	{
@@ -314,7 +314,7 @@ class Google_Admin
 	/**
 	 * Resolve a calendar ID for API requests (plain text, not base64).
 	 *
-	 * @since  3.0.0
+	 * @since  4.0.6
 	 *
 	 * @param  string $google_calendar_id
 	 * @param  int    $post_id

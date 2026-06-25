@@ -41,7 +41,7 @@ class Installation
 		update_option('simple-calendar_redirect_to_connect', 1);
 
 		// Clear cache on activation.
-		simcal_delete_feed_transients();
+		simcal_delete_plugin_transients();
 
 		do_action('simcal_activated');
 	}
@@ -56,7 +56,7 @@ class Installation
 		flush_rewrite_rules();
 
 		include_once 'functions/shared.php';
-		simcal_delete_feed_transients();
+		simcal_delete_plugin_transients();
 
 		do_action('simcal_deactivated');
 	}

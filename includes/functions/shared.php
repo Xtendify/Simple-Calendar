@@ -76,7 +76,7 @@ function simcal_get_feed_types()
 /**
  * Get human-readable feed type labels without bootstrapping feed objects.
  *
- * @since  3.0.0
+ * @since  4.0.6
  *
  * @return array
  */
@@ -451,7 +451,7 @@ function simcal_esc_timezone($tz, $default = 'UTC')
 /**
  * Clear plugin-level transients (OAuth throttles, Pro tokens, auxiliary caches).
  *
- * @since 3.0.0
+ * @since 4.0.6
  */
 function simcal_delete_plugin_transients()
 {
@@ -467,8 +467,6 @@ function simcal_delete_plugin_transients()
 	global $wpdb;
 
 	$like_patterns = [
-		$wpdb->esc_like('_transient_simcal_gcal_color_') . '%',
-		$wpdb->esc_like('_transient_timeout_simcal_gcal_color_') . '%',
 		$wpdb->esc_like('_transient__simple-calendar_feed_id_') . '%',
 		$wpdb->esc_like('_transient_timeout__simple-calendar_feed_id_') . '%',
 	];
@@ -476,6 +474,8 @@ function simcal_delete_plugin_transients()
 	foreach ($like_patterns as $pattern) {
 		$wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->options} WHERE option_name LIKE %s", $pattern));
 	}
+
+	simcal_delete_feed_transients();
 
 	do_action('simcal_delete_plugin_transients');
 }
@@ -541,10 +541,6 @@ function simcal_delete_feed_transients($id = '')
 				delete_transient('_simple-calendar_feed_id_' . strval($calendar->id) . '_' . $feed_type);
 			}
 		}
-	}
-
-	if ($clear_plugin_transients) {
-		simcal_delete_plugin_transients();
 	}
 
 	return delete_transient('_simple-calendar_feed_ids');
