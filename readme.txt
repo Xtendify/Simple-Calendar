@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 4.0.7 =
+* Fix: Removed unnecessary Google API key/OAuth requirement when creating a Grouped Calendar.
+
 = 4.0.6 =
 * Fix: Optimize admin & fronend performance, throttle OAuth token checks, and reduce redundant API calls.
 

@@ -52,11 +52,7 @@ class Settings implements Meta_Box
 		$has_own_oauth = !empty(trim((string) get_option('simple-calendar_google-pro-token', '')));
 		$has_pro_auth = $has_oauth_via_simple_calendar || $has_own_oauth;
 
-		$feed_types_needing_api_key = apply_filters('simcal_feed_types_requiring_google_api_key', [
-			'google',
-			'grouped-calendars',
-			'grouped-calendar',
-		]);
+		$feed_types_needing_api_key = apply_filters('simcal_feed_types_requiring_google_api_key', ['google']);
 		$feed_types_needing_api_key = array_values(
 			array_unique(array_map('sanitize_title', (array) $feed_types_needing_api_key)),
 		);

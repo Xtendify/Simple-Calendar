@@ -212,13 +212,13 @@
 					hasGoogleApiKey = String(settingsContentWrap.data('sc-has-google-api-key')) === '1',
 					hasProAuth = String(settingsContentWrap.data('sc-has-pro-auth')) === '1',
 					requiredFeedsRaw = settingsContentWrap.attr('data-sc-api-key-required-feeds'),
-					requiredFeeds = ['google', 'grouped-calendars'];
+					requiredFeeds = ['google'];
 
 				if (requiredFeedsRaw) {
 					try {
 						requiredFeeds = JSON.parse(requiredFeedsRaw);
 					} catch (e) {
-						requiredFeeds = ['google', 'grouped-calendars'];
+						requiredFeeds = ['google'];
 					}
 				}
 
