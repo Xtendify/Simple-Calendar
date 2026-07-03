@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 4.0.8 =
+* Fix: Repetitive system report sections.
+
 = 4.0.7 =
 * Fix: Removed unnecessary Google API key/OAuth requirement when creating a Grouped Calendar.
 
