@@ -22,6 +22,18 @@ if (!defined('ABSPATH')) {
 class System_Status extends Admin_Page
 {
 	/**
+	 * Whether the report has been rendered in the current request.
+	 *
+	 * Each active add-on bootstraps the Tools page again, creating another
+	 * instance of this class that hooks another copy of `html()` onto the
+	 * same action. Shared across instances so the report prints only once.
+	 *
+	 * @access private
+	 * @var bool
+	 */
+	private static $rendered = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 3.0.0
@@ -51,6 +63,10 @@ class System_Status extends Admin_Page
 	 */
 	public function html()
 	{
+		if (self::$rendered) {
+			return;
+		}
+		self::$rendered = true;
 		?>
 		<div id="simcal-system-status-report">
 			<p><?php _e('Please copy and paste this information when contacting support:', 'google-calendar-events'); ?> </p>
