@@ -30,6 +30,9 @@ class Ajax
 		// Set an option if the user rated the plugin.
 		add_action('wp_ajax_simcal_clear_cache', [$this, 'clear_cache']);
 
+		// Upload an ICS feed file for a calendar post.
+		add_action('wp_ajax_simcal_upload_ics_feed', [$this, 'upload_ics_feed']);
+
 		// Convert a datetime format.
 		add_action('wp_ajax_simcal_date_i18n_input_preview', [$this, 'date_i18n']);
 
@@ -164,6 +167,49 @@ class Ajax
 		if (!empty($id)) {
 			simcal_delete_feed_transients($id);
 		}
+	}
+
+	/**
+	 * Upload an ICS file for a calendar post.
+	 *
+	 * @since 4.1.0
+	 */
+	public function upload_ics_feed()
+	{
+		$nonce = isset($_POST['nonce']) ? sanitize_text_field(wp_unslash($_POST['nonce'])) : '';
+
+		if (!wp_verify_nonce($nonce, 'simcal')) {
+			wp_send_json_error(
+				['message' => __('Security check failed. Please reload the page and try again.', 'google-calendar-events')],
+				403,
+			);
+		}
+
+		$post_id = isset($_POST['post_id']) ? absint($_POST['post_id']) : 0;
+
+		if ($post_id <= 0 || 'calendar' !== get_post_type($post_id) || !current_user_can('edit_post', $post_id)) {
+			wp_send_json_error(
+				['message' => __('You do not have permission to upload a file for this calendar.', 'google-calendar-events')],
+				403,
+			);
+		}
+
+		if (empty($_FILES['_ics_feed_file']) || empty($_FILES['_ics_feed_file']['name'])) {
+			wp_send_json_error(['message' => __('No ICS file was selected.', 'google-calendar-events')], 400);
+		}
+
+		$uploaded = \SimpleCalendar\Feeds\Ics_Feed::save_uploaded_file($post_id, $_FILES['_ics_feed_file']);
+
+		if (is_wp_error($uploaded)) {
+			wp_send_json_error(['message' => $uploaded->get_error_message()], 400);
+		}
+
+		simcal_delete_feed_transients($post_id);
+
+		wp_send_json_success([
+			'file' => basename($uploaded),
+			'message' => __('ICS file uploaded successfully.', 'google-calendar-events'),
+		]);
 	}
 
 	/**

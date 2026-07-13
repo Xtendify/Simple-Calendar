@@ -596,6 +596,72 @@
 			}
 		});
 
+		// Upload ICS feed files immediately (block editor does not submit $_FILES on save).
+		$('#_ics_feed_file').on('change', function () {
+			var input = $(this),
+				file = input[0].files && input[0].files[0],
+				postId = $('#post_ID').val(),
+				status = $('#simcal-ics-upload-status');
+
+			if (!file) {
+				return;
+			}
+
+			// Most WP editors already create an auto-draft post ID.
+			// If for some reason there is no post ID, we cannot associate the upload.
+			if (!postId || postId === '0') {
+				status.text('Please reload the page and try again.').css('color', '#b32d2e').show();
+				input.val('');
+				return;
+			}
+
+			var formData = new FormData();
+			formData.append('action', 'simcal_upload_ics_feed');
+			formData.append('nonce', simcal_admin.nonce);
+			formData.append('post_id', postId);
+			formData.append('_ics_feed_file', file);
+
+			status.text('Uploading ICS file...').css('color', '').show();
+			input.prop('disabled', true);
+
+			$.ajax({
+				url: simcal_admin.ajax_url,
+				type: 'POST',
+				data: formData,
+				processData: false,
+				contentType: false,
+			})
+				.done(function (response) {
+					if (response && response.success) {
+						var filename = response.data && response.data.file ? response.data.file : file.name;
+						status
+							.text('Current file: ' + filename)
+							.css('color', '#00a32a')
+							.show();
+
+						if (!$('#_ics_feed_remove_file').length) {
+							$(
+								'<label for="_ics_feed_remove_file"><input type="checkbox" name="_ics_feed_remove_file" id="_ics_feed_remove_file" value="1" /> Remove uploaded ICS file</label>'
+							).insertAfter(status);
+						}
+					} else {
+						var message =
+							response && response.data && response.data.message
+								? response.data.message
+								: 'The ICS file could not be uploaded.';
+						status.text(message).css('color', '#b32d2e').show();
+						input.val('');
+					}
+				})
+				.fail(function () {
+					status.text('The ICS file could not be uploaded.').css('color', '#b32d2e').show();
+					input.val('');
+				})
+				.always(function () {
+					input.prop('disabled', false);
+				});
+		});
+
 		/* ========================= *
 		 * Add-on License Management *
 		 * ========================= */

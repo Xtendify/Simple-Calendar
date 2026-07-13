@@ -700,7 +700,8 @@ body .simcal-field-textarea {
 	vertical-align: text-top;
 }
 
-.simcal-panel-field .simcal-field-text {
+.simcal-panel-field .simcal-field-text,
+.simcal-panel-field .simcal-field-url {
 	max-width: 500px;
 	width: 95%;
 }
