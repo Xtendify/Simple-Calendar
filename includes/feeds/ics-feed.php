@@ -57,12 +57,20 @@ class Ics_Feed extends Feed
 	protected $ics_max_results = 2500;
 
 	/**
-	 * Whether to use event colors from the ICS feed.
+	 * Whether to use event colors.
 	 *
 	 * @access protected
 	 * @var bool
 	 */
 	protected $ics_events_colors = false;
+
+	/**
+	 * Event color hex to apply when colors are enabled (set by Pro when active).
+	 *
+	 * @access protected
+	 * @var string
+	 */
+	protected $ics_event_color = '';
 
 	/**
 	 * Set properties.
@@ -93,8 +101,9 @@ class Ics_Feed extends Feed
 				? $this->ics_events_recurring
 				: 'show';
 			$this->ics_max_results = max(absint(get_post_meta($this->post_id, '_ics_feed_max_results', true)), 0);
-			$colors = get_post_meta($this->post_id, '_ics_feed_events_colors', true);
-			$this->ics_events_colors = 'yes' === $colors;
+
+			// Color hex is resolved by Pro (Ics_Feed_Pro) via Google_Pro::get_event_colors().
+			$this->ics_events_colors = 'yes' === get_post_meta($this->post_id, '_ics_feed_events_colors', true);
 
 			// When a subclass loads admin itself ($load_admin = false), it loads events after its own props.
 			if ($load_admin && (!is_admin() || defined('DOING_AJAX'))) {
@@ -464,7 +473,6 @@ class Ics_Feed extends Feed
 			$uid = sanitize_text_field($this->get_ics_property_value($properties, 'UID'));
 			$link = esc_url_raw($this->get_ics_property_value($properties, 'URL'));
 			$rrule = $this->get_ics_property_value($properties, 'RRULE');
-			$color = sanitize_text_field($this->get_ics_property_value($properties, 'COLOR'));
 			$duration = max(0, $end->getTimestamp() - $start->getTimestamp());
 			$occurrences = [[$start, $end]];
 			if (!empty($rrule) && 'show' === $this->ics_events_recurring) {
@@ -484,6 +492,7 @@ class Ics_Feed extends Feed
 				}
 
 				$meta = [];
+				$color = $this->ics_event_color;
 				if ($this->ics_events_colors && !empty($color)) {
 					$meta['color'] = $color;
 				}
