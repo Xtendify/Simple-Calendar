@@ -596,6 +596,25 @@ class Settings implements Meta_Box
 				</tr>
 				<tr class="simcal-panel-field">
 					<th>
+						<label for="_display_ics_export"><?php _e('ICS Export', 'google-calendar-events'); ?></label>
+					</th>
+					<td>
+						<?php
+      $display_ics_export_value = get_post_meta($post->ID, '_display_ics_export', true);
+
+      simcal_print_field([
+      	'type' => 'checkbox',
+      	'name' => '_display_ics_export',
+      	'id' => '_display_ics_export',
+      	'tooltip' => __('Check this to display ICS export button on frontend.', 'google-calendar-events'),
+      	'value' => 'yes' == $display_ics_export_value ? 'yes' : 'no',
+      	'text' => __('Yes (Display ICS Export Button)', 'google-calendar-events'),
+      ]);
+      ?>
+					</td>
+				</tr>
+				<tr class="simcal-panel-field">
+					<th>
 						<label for="_calendar_is_static"><?php _e('Static Calendar', 'google-calendar-events'); ?></label>
 					</th>
 					<td>
@@ -1183,6 +1202,10 @@ class Settings implements Meta_Box
 		// Print calendar.
 		$static = isset($_POST['_display_print_calendar']) ? 'yes' : 'no';
 		update_post_meta($post_id, '_display_print_calendar', $static);
+
+		// ICS export.
+		$ics_export = isset($_POST['_display_ics_export']) ? 'yes' : 'no';
+		update_post_meta($post_id, '_display_ics_export', $ics_export);
 
 		// Static calendar.
 		$static = isset($_POST['_calendar_is_static']) ? 'yes' : 'no';

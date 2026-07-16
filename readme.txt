@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 4.1.0 =
+* Dev: Added ICS Export option to download calendar events as an .ics file from the frontend.
+
 = 4.0.7 =
 * Fix: Removed unnecessary Google API key/OAuth requirement when creating a Grouped Calendar.
 

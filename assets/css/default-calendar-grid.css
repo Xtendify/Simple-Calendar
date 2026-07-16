@@ -542,7 +542,21 @@
 .simcal-event-bubble .simcal-event-details .simcal-event-description {
 	margin: 0 0 1em;
 }
-
+.ics-export-button {
+	margin-top: 20px;
+	margin-right: 10px;
+	display: inline-block;
+	padding: 10px 20px;
+	color: #ffffff;
+	font-family: sans-serif;
+	font-size: 16px;
+	text-decoration: none;
+	text-align: center;
+	background-color: #0009;
+	border-radius: 4px;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
 .print-calendar-button {
 	margin-top: 20px;
 }
@@ -557,6 +571,8 @@
 	.simcal-print-calendar .site-content,
 	.simcal-print-calendar .print-calendar-button,
 	.print-calendar-button,
+	.simcal-print-calendar .ics-export-button,
+	.ics-export-button,
 	.simcal-print-calendar .simcal-nav .simcal-prev,
 	.simcal-print-calendar .simcal-nav .simcal-next,
 	.simcal-print-calendar .fc-button-group,

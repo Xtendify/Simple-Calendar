@@ -297,6 +297,7 @@ class Default_Calendar_Grid implements Calendar_View
    if (isset($is_print_calendar[0]) && !empty($is_print_calendar[0]) && $is_print_calendar[0] === 'yes') {
    	echo '<button id="print-calendar-button" class="print-calendar-button demo_sc_primary_btn">Print Calendar</button>';
    }
+   \SimpleCalendar\Ics_Export::print_button($calendar->id);
    }
 	}
 
