@@ -85,7 +85,7 @@ class Ics_Feed extends Feed
 		parent::__construct($calendar);
 
 		$this->type = 'ics-feed';
-		$this->name = __('ICS Calendar', 'google-calendar-events');
+		$this->name = __('ICS Feed', 'google-calendar-events');
 
 		static $deletion_hook_registered = false;
 		if (!$deletion_hook_registered) {
@@ -236,7 +236,7 @@ class Ics_Feed extends Feed
 		if (false === $contents || false === stripos($contents, 'BEGIN:VCALENDAR')) {
 			return new \WP_Error(
 				'ics_invalid_contents',
-				__('The uploaded file does not appear to be a valid ICS calendar.', 'google-calendar-events'),
+				__('The uploaded file does not appear to be a valid ICS feed.', 'google-calendar-events'),
 			);
 		}
 

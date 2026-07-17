@@ -596,6 +596,42 @@
 			}
 		});
 
+		// Show only the selected Pro ICS source field.
+		function toggleIcsSourceField() {
+			var sourceType = $('input[name="_ics_feed_source_type"]:checked').val();
+
+			if (!sourceType) {
+				return;
+			}
+
+			$('.simcal-ics-url-source')
+				.prop('hidden', sourceType !== 'url')
+				.find(':input')
+				.prop('disabled', sourceType !== 'url');
+			$('.simcal-ics-file-source')
+				.prop('hidden', sourceType !== 'file')
+				.find(':input')
+				.prop('disabled', sourceType !== 'file');
+		}
+
+		$('input[name="_ics_feed_source_type"]').on('change', toggleIcsSourceField);
+		toggleIcsSourceField();
+
+		// Show Event Color picker only when Use Event Colors is checked.
+		function toggleIcsEventColorPicker() {
+			var enabled = $('#_ics_feed_events_colors').is(':checked'),
+				$picker = $('.simcal-panel-section-ics-feed-event-color');
+
+			if (!$picker.length) {
+				return;
+			}
+
+			$picker.prop('hidden', !enabled).find(':input').prop('disabled', !enabled);
+		}
+
+		$('#_ics_feed_events_colors').on('change', toggleIcsEventColorPicker);
+		toggleIcsEventColorPicker();
+
 		// Upload ICS feed files immediately (block editor does not submit $_FILES on save).
 		$('#_ics_feed_file').on('change', function () {
 			var input = $(this),

@@ -706,6 +706,43 @@ body .simcal-field-textarea {
 	width: 95%;
 }
 
+.simcal-ics-source-fields {
+	max-width: 500px;
+}
+
+.simcal-ics-source-choice {
+	border: 0;
+	display: flex;
+	gap: 20px;
+	margin: 0 0 14px;
+	padding: 0;
+}
+
+.simcal-ics-source-choice label {
+	align-items: center;
+	display: inline-flex;
+	font-weight: 600;
+	gap: 5px;
+}
+
+.simcal-ics-source-choice input {
+	margin: 0;
+}
+
+.simcal-ics-url-source[hidden],
+.simcal-ics-file-source[hidden],
+.simcal-panel-section-ics-feed-event-color[hidden] {
+	display: none;
+}
+
+@media screen and (max-width: 782px) {
+	.simcal-ics-source-choice {
+		align-items: flex-start;
+		flex-direction: column;
+		gap: 8px;
+	}
+}
+
 @media screen and (max-width: 1023px) {
 	.simcal-box-handle {
 		display: block;

@@ -117,59 +117,79 @@ class Ics_Feed_Admin
 	{
 		$ics_file = sanitize_text_field(get_post_meta($post_id, '_ics_feed_file', true));
 		$ics_filename = $ics_file ? basename($ics_file) : '';
+		$hide_file_source = (bool) apply_filters('simcal_ics_feed_hide_file_source', false, $post_id);
 		?>
 		<div id="ics-feed-settings-panel" class="simcal-panel">
 			<table>
 				<thead>
-					<tr><th colspan="2"><?php _e('ICS Calendar Settings', 'google-calendar-events'); ?></th></tr>
+					<tr><th colspan="2"><?php _e('ICS Feed Settings', 'google-calendar-events'); ?></th></tr>
 				</thead>
-				<?php /**
-     * Add ICS feed source fields before the file upload (e.g. live URL in Pro).
-     *
-     * @since 4.1.0
-     *
-     * @param int $post_id Calendar post ID.
-     */
-    do_action('simcal_ics_feed_settings_fields_before', $post_id); ?>
+				 /**
+		 * Add ICS feed source fields before the file upload (e.g. live URL in Pro).
+		 *
+		 * @since 4.1.0
+		 *
+		 * @param int $post_id Calendar post ID.
+		 */<?php
+
+		do_action('simcal_ics_feed_settings_fields_before', $post_id); ?>
 				<tbody class="simcal-panel-section simcal-panel-section-ics-feed-file">
 					<tr class="simcal-panel-field">
-						<th><label for="_ics_feed_file"><?php _e('ICS File', 'google-calendar-events'); ?></label></th>
+						<th>
+							<label for="_ics_feed_file">
+								<?php echo esc_html(apply_filters('simcal_ics_feed_file_field_label', __('ICS File', 'google-calendar-events'))); ?>
+							</label>
+						</th>
 						<td>
-							<input
-								type="file"
-								name="_ics_feed_file"
-								id="_ics_feed_file"
-								class="simcal-field simcal-field-file"
-								accept=".ics,.ical,text/calendar"
-							/>
-							<p
-								class="description simcal-ics-upload-status"
-								id="simcal-ics-upload-status"
-								<?php echo $ics_filename ? '' : 'style="display:none;"'; ?>
-							>
-								<?php if ($ics_filename) {
-        	printf(
-        		/* translators: %s: uploaded ICS filename */
-        		esc_html__('Current file: %s', 'google-calendar-events'),
-        		esc_html($ics_filename),
-        	);
-        } ?>
-							</p>
-							<?php if ($ics_filename) { ?>
-								<label for="_ics_feed_remove_file">
+							<div class="simcal-ics-source-fields">
+								<?php /**
+         * Used by ICS Feed Pro to place its URL field beside the file input.
+         *
+         * @since 4.1.0
+         *
+         * @param int $post_id Calendar post ID.
+         */
+        do_action('simcal_ics_feed_file_field_before', $post_id); ?>
+								<div class="simcal-ics-file-source" <?php echo $hide_file_source ? 'hidden' : ''; ?>>
 									<input
-										type="checkbox"
-										name="_ics_feed_remove_file"
-										id="_ics_feed_remove_file"
-										value="1"
+										type="file"
+										name="_ics_feed_file"
+										id="_ics_feed_file"
+										class="simcal-field simcal-field-file"
+										accept=".ics,.ical,text/calendar"
+										<?php disabled($hide_file_source); ?>
 									/>
-									<?php esc_html_e('Remove uploaded ICS file', 'google-calendar-events'); ?>
-								</label>
-							<?php } ?>
-							<i class="simcal-icon-help simcal-help-tip" data-tip="<?php esc_attr_e(
-       	'Upload an ICS/iCal file. It will be stored in wp-content/uploads/simple-calendar/ and used as the event source for this calendar.',
-       	'google-calendar-events',
-       ); ?>"></i>
+									<p
+										class="description simcal-ics-upload-status"
+										id="simcal-ics-upload-status"
+										<?php echo $ics_filename ? '' : 'style="display:none;"'; ?>
+									>
+										<?php if ($ics_filename) {
+          	printf(
+          		/* translators: %s: uploaded ICS filename */
+          		esc_html__('Current file: %s', 'google-calendar-events'),
+          		esc_html($ics_filename),
+          	);
+          } ?>
+									</p>
+									<?php if ($ics_filename) { ?>
+										<label for="_ics_feed_remove_file">
+											<input
+												type="checkbox"
+												name="_ics_feed_remove_file"
+												id="_ics_feed_remove_file"
+												value="1"
+												<?php disabled($hide_file_source); ?>
+											/>
+											<?php esc_html_e('Remove uploaded ICS file', 'google-calendar-events'); ?>
+										</label>
+									<?php } ?>
+									<i class="simcal-icon-help simcal-help-tip" data-tip="<?php esc_attr_e(
+         	'Upload an ICS/iCal file. It will be stored in wp-content/uploads/simple-calendar/ and used as the event source for this calendar.',
+         	'google-calendar-events',
+         ); ?>"></i>
+								</div>
+							</div>
 						</td>
 					</tr>
 				</tbody>
