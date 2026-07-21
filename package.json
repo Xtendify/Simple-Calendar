@@ -22,7 +22,7 @@
     "grunt-contrib-copy": "1.0.0",
     "load-grunt-tasks": "5.1.0",
     "postcss-cli": "11.0.1",
-    "prettier": "3.9.5"
+    "prettier": "3.9.6"
   },
   "scripts": {
     "setup": "yarn && composer install && composer dump-autoload -o",
