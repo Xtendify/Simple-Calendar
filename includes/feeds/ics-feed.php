@@ -652,13 +652,17 @@ class Ics_Feed extends Feed
 		$window_end = intval($this->time_max);
 		$max_iterations = 1000;
 		$iteration = 0;
-		$matched = 0;
+		$occurrence_index = 1;
 
 		if ($window_start > 0 && $current->getTimestamp() < $window_start) {
-			$current = $this->fast_forward_rrule($current, $rule, $window_start);
+			$current = $this->fast_forward_rrule($current, $rule, $window_start, $occurrence_index);
 		}
 
 		while ($iteration < $max_iterations) {
+			if ($count_limit > 0 && $occurrence_index > $count_limit) {
+				break;
+			}
+
 			$start_ts = $current->getTimestamp();
 			$end_ts = $start_ts + $duration;
 
@@ -668,16 +672,13 @@ class Ics_Feed extends Feed
 			if ($window_end > 0 && $start_ts > $window_end) {
 				break;
 			}
-			if ($count_limit > 0 && $matched >= $count_limit) {
-				break;
-			}
 
 			if (($window_start <= 0 || $end_ts > $window_start) && ($window_end <= 0 || $start_ts < $window_end)) {
 				$occurrences[] = [$current->copy(), $current->copy()->addSeconds($duration)];
-				$matched++;
 			}
 
 			$current = $this->advance_rrule($current, $rule);
+			$occurrence_index++;
 			$iteration++;
 		}
 
@@ -729,13 +730,14 @@ class Ics_Feed extends Feed
 	 *
 	 * @since 4.1.0
 	 *
-	 * @param Carbon $current      Current occurrence start.
-	 * @param array  $rule         Parsed RRULE.
-	 * @param int    $window_start Earliest allowed timestamp.
+	 * @param Carbon $current          Current occurrence start.
+	 * @param array  $rule             Parsed RRULE.
+	 * @param int    $window_start     Earliest allowed timestamp.
+	 * @param int    $occurrence_index 1-based recurrence index in the series (updated in place).
 	 *
 	 * @return Carbon
 	 */
-	private function fast_forward_rrule($current, $rule, $window_start)
+	private function fast_forward_rrule($current, $rule, $window_start, &$occurrence_index = 1)
 	{
 		$freq = isset($rule['FREQ']) ? strtoupper($rule['FREQ']) : '';
 		$interval = isset($rule['INTERVAL']) ? max(1, absint($rule['INTERVAL'])) : 1;
@@ -749,20 +751,24 @@ class Ics_Feed extends Feed
 			$days = (int) floor(($window_start - $current_ts) / (DAY_IN_SECONDS * $interval));
 			if ($days > 0) {
 				$current->addDays($days * $interval);
+				$occurrence_index += $days;
 			}
 		} elseif ('WEEKLY' === $freq) {
 			$weeks = (int) floor(($window_start - $current_ts) / (WEEK_IN_SECONDS * $interval));
 			if ($weeks > 0) {
 				$current->addWeeks($weeks * $interval);
+				$occurrence_index += $weeks;
 			}
 		} elseif ('MONTHLY' === $freq) {
 			while ($current->getTimestamp() < $window_start) {
 				$current->addMonths($interval);
+				$occurrence_index++;
 			}
 			return $current;
 		} elseif ('YEARLY' === $freq) {
 			while ($current->getTimestamp() < $window_start) {
 				$current->addYears($interval);
+				$occurrence_index++;
 			}
 			return $current;
 		}
@@ -770,6 +776,7 @@ class Ics_Feed extends Feed
 		$guard = 0;
 		while ($current->getTimestamp() < $window_start && $guard < 1000) {
 			$current = $this->advance_rrule($current, $rule);
+			$occurrence_index++;
 			$guard++;
 		}
 

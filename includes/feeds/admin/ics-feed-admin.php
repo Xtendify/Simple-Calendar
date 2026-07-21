@@ -29,7 +29,7 @@ class Ics_Feed_Admin
 	private $feed = null;
 
 	/**
-	 * Register admin hooks that must run outside the calendar edit screen.
+	 * Register admin hooks for the calendar edit screen.
 	 *
 	 * @since 4.1.0
 	 */
@@ -60,12 +60,13 @@ class Ics_Feed_Admin
 	{
 		$this->feed = $feed;
 
+		if ('calendar' !== simcal_is_admin_screen()) {
+			return;
+		}
 		self::register_hooks();
 
-		if ('calendar' == simcal_is_admin_screen()) {
-			add_filter('simcal_settings_meta_tabs_li', [$this, 'add_settings_meta_tab_li'], 10, 1);
-			add_action('simcal_settings_meta_panels', [$this, 'add_settings_meta_panel'], 10, 1);
-		}
+		add_filter('simcal_settings_meta_tabs_li', [$this, 'add_settings_meta_tab_li'], 10, 1);
+		add_action('simcal_settings_meta_panels', [$this, 'add_settings_meta_panel'], 10, 1);
 	}
 
 	/**
@@ -124,15 +125,14 @@ class Ics_Feed_Admin
 				<thead>
 					<tr><th colspan="2"><?php _e('ICS Feed Settings', 'google-calendar-events'); ?></th></tr>
 				</thead>
-				 /**
-		 * Add ICS feed source fields before the file upload (e.g. live URL in Pro).
-		 *
-		 * @since 4.1.0
-		 *
-		 * @param int $post_id Calendar post ID.
-		 */<?php
-
-		do_action('simcal_ics_feed_settings_fields_before', $post_id); ?>
+				<?php /**
+     * Add ICS feed source fields before the file upload (e.g. live URL in Pro).
+     *
+     * @since 4.1.0
+     *
+     * @param int $post_id Calendar post ID.
+     */
+    do_action('simcal_ics_feed_settings_fields_before', $post_id); ?>
 				<tbody class="simcal-panel-section simcal-panel-section-ics-feed-file">
 					<tr class="simcal-panel-field">
 						<th>
@@ -142,14 +142,15 @@ class Ics_Feed_Admin
 						</th>
 						<td>
 							<div class="simcal-ics-source-fields">
-								<?php /**
-         * Used by ICS Feed Pro to place its URL field beside the file input.
-         *
-         * @since 4.1.0
-         *
-         * @param int $post_id Calendar post ID.
-         */
-        do_action('simcal_ics_feed_file_field_before', $post_id); ?>
+								 /**
+		 * Used by ICS Feed Pro to place its URL field beside the file input.
+		 *
+		 * @since 4.1.0
+		 *
+		 * @param int $post_id Calendar post ID.
+		 */<?php
+
+		do_action('simcal_ics_feed_file_field_before', $post_id); ?>
 								<div class="simcal-ics-file-source" <?php echo $hide_file_source ? 'hidden' : ''; ?>>
 									<input
 										type="file"
@@ -272,7 +273,9 @@ class Ics_Feed_Admin
 
 		$show_core_options = apply_filters('simcal_ics_feed_show_core_options', true, $post_id);
 		if ($show_core_options) {
-			$search_query = isset($_POST['_ics_feed_search_query']) ? esc_attr($_POST['_ics_feed_search_query']) : '';
+			$search_query = isset($_POST['_ics_feed_search_query'])
+				? sanitize_text_field(wp_unslash($_POST['_ics_feed_search_query']))
+				: '';
 			update_post_meta($post_id, '_ics_feed_search_query', $search_query);
 
 			$recurring = isset($_POST['_ics_feed_recurring']) ? sanitize_key($_POST['_ics_feed_recurring']) : 'show';
