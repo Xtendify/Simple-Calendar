@@ -94,29 +94,135 @@ class Ics_Export
 	}
 
 	/**
-	 * Print the ICS export button when enabled.
+	 * Get the ICS feed URL for a calendar (placeholder until dynamic URL is added).
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param int $calendar_id Calendar post ID.
+	 * @return string
+	 */
+	public static function get_ics_feed_url($calendar_id)
+	{
+		return home_url('/calendar/ics/' . absint($calendar_id) . '.ics');
+	}
+
+	/**
+	 * Whether Google Calendar Pro is active.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @return bool
+	 */
+	private static function is_pro_active()
+	{
+		return defined('SIMPLE_CALENDAR_GOOGLE_PRO_VERSION');
+	}
+
+	/**
+	 * Print calendar action buttons (Export, URL, Print).
 	 *
 	 * @since 4.1.0
 	 *
 	 * @param int $calendar_id Calendar post ID.
 	 */
-	public static function print_button($calendar_id)
+	public static function print_actions($calendar_id)
 	{
-		$is_ics_export = get_post_meta($calendar_id, '_display_ics_export');
-		if (!isset($is_ics_export[0]) || empty($is_ics_export[0]) || $is_ics_export[0] !== 'yes') {
+		$calendar_id = absint($calendar_id);
+		if ($calendar_id < 1) {
 			return;
 		}
 
-		$url = esc_url(self::get_export_url($calendar_id));
-		$label = esc_html__('Export ICS', 'google-calendar-events');
+		$ics_export_meta = get_post_meta($calendar_id, '_display_ics_export', true);
+		$show_ics_export = 'yes' === $ics_export_meta;
 
-		echo '<a href="' .
-			$url .
-			'" class="button ics-export-button" id="ics-export-button-' .
-			absint($calendar_id) .
-			'">' .
-			$label .
-			'</a>';
+		$print_meta = get_post_meta($calendar_id, '_display_print_calendar', true);
+		$show_print = 'yes' === $print_meta;
+
+		$show_ics_url = $show_ics_export && self::is_pro_active();
+
+		if (!$show_ics_export && !$show_ics_url && !$show_print) {
+			return;
+		}
+
+		echo '<div class="simcal-calendar-actions" role="group" aria-label="' .
+			esc_attr__('Calendar actions', 'google-calendar-events') .
+			'">';
+
+		if ($show_ics_export) {
+			$export_url = esc_url(self::get_export_url($calendar_id));
+			$export_tooltip = esc_attr__(
+				'By pressing this you will get an ICS file of this calendar.',
+				'google-calendar-events',
+			);
+
+			echo '<a href="' .
+				$export_url .
+				'" class="button simcal-calendar-action simcal-ics-export-button" title="' .
+				$export_tooltip .
+				'">';
+			echo self::render_icon('export');
+			echo '<span class="simcal-calendar-action-label">' . esc_html__('Export', 'google-calendar-events') . '</span>';
+			echo '</a>';
+		}
+
+		if ($show_ics_url) {
+			$url_tooltip = esc_attr__(
+				'By clicking on this, the calendar ICS URL will be copied to your clipboard.',
+				'google-calendar-events',
+			);
+
+			echo '<button type="button" class="button simcal-calendar-action simcal-ics-url-button" data-url="' .
+				esc_attr(self::get_ics_feed_url($calendar_id)) .
+				'" title="' .
+				$url_tooltip .
+				'">';
+			echo self::render_icon('link');
+			echo '<span class="simcal-calendar-action-label">' . esc_html__('URL', 'google-calendar-events') . '</span>';
+			echo '</button>';
+		}
+
+		if ($show_print) {
+			$print_tooltip = esc_attr__('Print a copy of this calendar view.', 'google-calendar-events');
+
+			echo '<button type="button" class="button simcal-calendar-action simcal-print-calendar-button" title="' .
+				$print_tooltip .
+				'">';
+			echo self::render_icon('print');
+			echo '<span class="simcal-calendar-action-label">' . esc_html__('Print', 'google-calendar-events') . '</span>';
+			echo '</button>';
+		}
+
+		echo '</div>';
+	}
+
+	/**
+	 * @deprecated 4.1.0 Use print_actions() instead.
+	 */
+	public static function print_button($calendar_id)
+	{
+		self::print_actions($calendar_id);
+	}
+
+	/**
+	 * Render an inline SVG icon for calendar action buttons.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param string $icon Icon key.
+	 * @return string
+	 */
+	private static function render_icon($icon)
+	{
+		$icons = [
+			'export' =>
+				'<svg class="simcal-calendar-action-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
+			'link' =>
+				'<svg class="simcal-calendar-action-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
+			'print' =>
+				'<svg class="simcal-calendar-action-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>',
+		];
+
+		return isset($icons[$icon]) ? $icons[$icon] : '';
 	}
 
 	/**

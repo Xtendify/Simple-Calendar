@@ -542,23 +542,83 @@
 .simcal-event-bubble .simcal-event-details .simcal-event-description {
 	margin: 0 0 1em;
 }
-.ics-export-button {
-	margin-top: 20px;
-	margin-right: 10px;
-	display: inline-block;
-	padding: 10px 20px;
-	color: #ffffff;
-	font-family: sans-serif;
-	font-size: 16px;
-	text-decoration: none;
-	text-align: center;
-	background-color: #0009;
-	border-radius: 4px;
-	cursor: pointer;
-	transition: background-color 0.2s ease;
+.simcal-calendar-actions {
+	display: inline-flex;
+	align-items: stretch;
+	margin: 20px 0px;
+	border: 1px solid #c3c4c7;
+	border-radius: 6px;
+	background: #fff;
+	overflow: hidden;
+	vertical-align: middle;
+	line-height: 1;
+	box-shadow: none;
 }
-.print-calendar-button {
-	margin-top: 20px;
+
+.simcal-calendar-actions a.simcal-calendar-action,
+.simcal-calendar-actions a.simcal-calendar-action:link,
+.simcal-calendar-actions a.simcal-calendar-action:visited,
+.simcal-calendar-actions a.simcal-calendar-action:hover,
+.simcal-calendar-actions a.simcal-calendar-action:focus,
+.simcal-calendar-actions a.simcal-calendar-action:active,
+.simcal-calendar-actions button.simcal-calendar-action,
+.simcal-calendar-actions button.simcal-calendar-action:hover,
+.simcal-calendar-actions button.simcal-calendar-action:focus,
+.simcal-calendar-actions button.simcal-calendar-action:active {
+	display: inline-flex !important;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	margin: 0 !important;
+	padding: 10px 18px !important;
+	border: 0 !important;
+	border-radius: 0 !important;
+	border-left: 1px solid #c3c4c7 !important;
+	background: #fff !important;
+	color: #1e293b !important;
+	box-shadow: none !important;
+	text-decoration: none !important;
+	text-shadow: none !important;
+	line-height: 1.4 !important;
+	font-size: 14px !important;
+	font-weight: 400 !important;
+	font-family: inherit !important;
+	letter-spacing: normal !important;
+	text-transform: none !important;
+	cursor: pointer;
+	white-space: nowrap;
+	height: auto !important;
+	min-height: 0 !important;
+	outline: none !important;
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+.simcal-calendar-actions a.simcal-calendar-action:first-child,
+.simcal-calendar-actions button.simcal-calendar-action:first-child {
+	border-left: 0 !important;
+}
+
+.simcal-calendar-actions a.simcal-calendar-action:hover,
+.simcal-calendar-actions a.simcal-calendar-action:focus,
+.simcal-calendar-actions button.simcal-calendar-action:hover,
+.simcal-calendar-actions button.simcal-calendar-action:focus {
+	background: #f8fafc !important;
+	color: #1e293b !important;
+}
+
+.simcal-calendar-actions .simcal-calendar-action-icon {
+	display: block;
+	flex-shrink: 0;
+	width: 16px;
+	height: 16px;
+	stroke: currentColor;
+	fill: none;
+}
+
+.simcal-calendar-actions .simcal-calendar-action-label {
+	color: inherit !important;
+	text-decoration: none !important;
 }
 
 @media print {
@@ -569,10 +629,8 @@
 	.simcal-print-calendar header,
 	.simcal-print-calendar footer,
 	.simcal-print-calendar .site-content,
-	.simcal-print-calendar .print-calendar-button,
-	.print-calendar-button,
-	.simcal-print-calendar .ics-export-button,
-	.ics-export-button,
+	.simcal-print-calendar .simcal-calendar-actions,
+	.simcal-calendar-actions,
 	.simcal-print-calendar .simcal-nav .simcal-prev,
 	.simcal-print-calendar .simcal-nav .simcal-next,
 	.simcal-print-calendar .fc-button-group,
