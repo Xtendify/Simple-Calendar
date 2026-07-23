@@ -15,7 +15,9 @@ if (!defined('ABSPATH')) {
 }
 
 /**
- * Handles ICS file generation and download.
+ * Handles one-off ICS file downloads and frontend Export/Print actions.
+ *
+ * Subscription feed URLs are provided by the Google Calendar Pro add-on.
  *
  * @since 4.1.0
  */
@@ -25,15 +27,21 @@ class Ics_Export
 	 * Hook into WordPress.
 	 *
 	 * @since 4.1.0
+	 *
+	 * @param bool $register_hooks Whether to register download hooks.
 	 */
-	public function __construct()
+	public function __construct($register_hooks = true)
 	{
-		// Run after Plugin::init() creates the Objects factory (simcal_init).
+		if (!$register_hooks) {
+			return;
+		}
+
+		// Download uses $_GET and can run on simcal_init.
 		add_action('simcal_init', [$this, 'maybe_export']);
 	}
 
 	/**
-	 * Handle ICS export download request.
+	 * Handle one-off ICS file download request.
 	 *
 	 * @since 4.1.0
 	 */
@@ -53,8 +61,7 @@ class Ics_Export
 			wp_die(esc_html__('Calendar not found.', 'google-calendar-events'), 404);
 		}
 
-		$enabled = get_post_meta($calendar_id, '_display_ics_export', true);
-		if ('yes' !== $enabled) {
+		if (!self::is_ics_export_enabled($calendar_id)) {
 			wp_die(esc_html__('ICS export is not enabled for this calendar.', 'google-calendar-events'), 403);
 		}
 
@@ -64,7 +71,7 @@ class Ics_Export
 		}
 
 		$ics = $this->build_ics($calendar);
-		$filename = $this->get_filename($post);
+		$filename = self::get_filename($post);
 
 		nocache_headers();
 		header('Content-Type: text/calendar; charset=utf-8');
@@ -76,7 +83,20 @@ class Ics_Export
 	}
 
 	/**
-	 * Build ICS export URL for a calendar.
+	 * Whether ICS export is enabled for a calendar.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param int $calendar_id Calendar post ID.
+	 * @return bool
+	 */
+	public static function is_ics_export_enabled($calendar_id)
+	{
+		return 'yes' === get_post_meta(absint($calendar_id), '_display_ics_export', true);
+	}
+
+	/**
+	 * Build ICS export (download) URL for a calendar.
 	 *
 	 * @since 4.1.0
 	 *
@@ -94,32 +114,29 @@ class Ics_Export
 	}
 
 	/**
-	 * Get the ICS feed URL for a calendar (placeholder until dynamic URL is added).
+	 * Build ICS content string for a calendar ID.
 	 *
 	 * @since 4.1.0
 	 *
 	 * @param int $calendar_id Calendar post ID.
 	 * @return string
 	 */
-	public static function get_ics_feed_url($calendar_id)
+	public static function build_ics_for_calendar($calendar_id)
 	{
-		return home_url('/calendar/ics/' . absint($calendar_id) . '.ics');
+		$calendar = simcal_get_calendar(absint($calendar_id));
+		if (!($calendar instanceof Calendar)) {
+			return '';
+		}
+
+		$builder = new self(false);
+
+		return $builder->build_ics($calendar);
 	}
 
 	/**
-	 * Whether Google Calendar Pro is active.
+	 * Print calendar action buttons (Export, Print).
 	 *
-	 * @since 4.1.0
-	 *
-	 * @return bool
-	 */
-	private static function is_pro_active()
-	{
-		return defined('SIMPLE_CALENDAR_GOOGLE_PRO_VERSION');
-	}
-
-	/**
-	 * Print calendar action buttons (Export, URL, Print).
+	 * Pro can inject extra buttons via {@see 'simcal_calendar_action_buttons'}.
 	 *
 	 * @since 4.1.0
 	 *
@@ -132,15 +149,22 @@ class Ics_Export
 			return;
 		}
 
-		$ics_export_meta = get_post_meta($calendar_id, '_display_ics_export', true);
-		$show_ics_export = 'yes' === $ics_export_meta;
+		$show_ics_export = self::is_ics_export_enabled($calendar_id);
+		$show_print = 'yes' === get_post_meta($calendar_id, '_display_print_calendar', true);
 
-		$print_meta = get_post_meta($calendar_id, '_display_print_calendar', true);
-		$show_print = 'yes' === $print_meta;
+		ob_start();
+		/**
+		 * Print extra calendar action buttons (e.g. Pro ICS URL).
+		 *
+		 * @since 4.1.0
+		 *
+		 * @param int  $calendar_id      Calendar post ID.
+		 * @param bool $show_ics_export  Whether ICS Export is enabled in admin.
+		 */
+		do_action('simcal_calendar_action_buttons', $calendar_id, $show_ics_export);
+		$extra_buttons = ob_get_clean();
 
-		$show_ics_url = $show_ics_export && self::is_pro_active();
-
-		if (!$show_ics_export && !$show_ics_url && !$show_print) {
+		if (!$show_ics_export && !$show_print && '' === $extra_buttons) {
 			return;
 		}
 
@@ -165,21 +189,7 @@ class Ics_Export
 			echo '</a>';
 		}
 
-		if ($show_ics_url) {
-			$url_tooltip = esc_attr__(
-				'By clicking on this, the calendar ICS URL will be copied to your clipboard.',
-				'google-calendar-events',
-			);
-
-			echo '<button type="button" class="button simcal-calendar-action simcal-ics-url-button" data-url="' .
-				esc_attr(self::get_ics_feed_url($calendar_id)) .
-				'" title="' .
-				$url_tooltip .
-				'">';
-			echo self::render_icon('link');
-			echo '<span class="simcal-calendar-action-label">' . esc_html__('URL', 'google-calendar-events') . '</span>';
-			echo '</button>';
-		}
+		echo $extra_buttons; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by add-on callbacks.
 
 		if ($show_print) {
 			$print_tooltip = esc_attr__('Print a copy of this calendar view.', 'google-calendar-events');
@@ -211,7 +221,7 @@ class Ics_Export
 	 * @param string $icon Icon key.
 	 * @return string
 	 */
-	private static function render_icon($icon)
+	public static function render_icon($icon)
 	{
 		$icons = [
 			'export' =>
@@ -395,7 +405,7 @@ class Ics_Export
 	 * @param \WP_Post $post Calendar post.
 	 * @return string
 	 */
-	private function get_filename($post)
+	public static function get_filename($post)
 	{
 		$name = sanitize_file_name($post->post_title);
 		if (empty($name)) {
