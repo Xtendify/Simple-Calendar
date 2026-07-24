@@ -69,7 +69,7 @@ class Installation
 	public static function create_terms()
 	{
 		$taxonomies = [
-			'calendar_feed' => ['google', 'grouped-calendar'],
+			'calendar_feed' => ['google', 'grouped-calendar', 'ics-feed'],
 			'calendar_type' => ['default-calendar'],
 		];
 

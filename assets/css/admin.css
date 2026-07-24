@@ -700,9 +700,84 @@ body .simcal-field-textarea {
 	vertical-align: text-top;
 }
 
-.simcal-panel-field .simcal-field-text {
+.simcal-panel-field .simcal-field-text,
+.simcal-panel-field .simcal-field-url {
 	max-width: 500px;
 	width: 95%;
+}
+
+.simcal-ics-source-fields {
+	max-width: 500px;
+}
+
+.simcal-ics-source-choice {
+	border: 0;
+	display: flex;
+	gap: 20px;
+	margin: 0 0 14px;
+	padding: 0;
+}
+
+.simcal-ics-source-choice label {
+	align-items: center;
+	display: inline-flex;
+	font-weight: 600;
+	gap: 5px;
+}
+
+.simcal-ics-source-choice input {
+	margin: 0;
+}
+
+.simcal-ics-url-source[hidden],
+.simcal-ics-file-source[hidden],
+.simcal-panel-section-ics-feed-event-color[hidden] {
+	display: none;
+}
+
+.simcal-ics-url-status-error {
+	color: #b32d2e;
+}
+
+.simcal-ics-event-colors {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.simcal-ics-event-colors > li {
+	margin: 0;
+}
+
+.simcal-ics-event-colors label {
+	align-items: center;
+	cursor: pointer;
+	display: inline-flex;
+}
+
+.simcal-ics-event-colors input[type='radio'] {
+	margin: 0 6px 0 0;
+}
+
+.simcal-ics-event-color-swatch {
+	background: var(--simcal-ics-event-color);
+	border: 1px solid rgba(0, 0, 0, 0.2);
+	border-radius: 3px;
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+	display: inline-block;
+	height: 22px;
+	width: 22px;
+}
+
+@media screen and (max-width: 782px) {
+	.simcal-ics-source-choice {
+		align-items: flex-start;
+		flex-direction: column;
+		gap: 8px;
+	}
 }
 
 @media screen and (max-width: 1023px) {

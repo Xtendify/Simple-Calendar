@@ -1,0 +1,353 @@
+<?php
+/**
+ * ICS Feed - Admin
+ *
+ * @package SimpleCalendar/Feeds
+ */
+namespace SimpleCalendar\Feeds\Admin;
+
+use SimpleCalendar\Admin\Metaboxes\Settings;
+use SimpleCalendar\Feeds\Ics_Feed;
+
+if (!defined('ABSPATH')) {
+	exit();
+}
+
+/**
+ * ICS feed admin.
+ *
+ * @since 4.1.0
+ */
+class Ics_Feed_Admin
+{
+	/**
+	 * ICS feed object.
+	 *
+	 * @access private
+	 * @var Ics_Feed
+	 */
+	private $feed = null;
+
+	/**
+	 * Register admin hooks for the calendar edit screen.
+	 *
+	 * @since 4.1.0
+	 */
+	public static function register_hooks()
+	{
+		static $registered = false;
+
+		if ($registered) {
+			return;
+		}
+
+		$registered = true;
+
+		// File uploads are handled via AJAX (see admin.js). Do not change the
+		// post form enctype — that can prevent other feed fields from saving.
+		add_filter('upload_mimes', [__CLASS__, 'allow_ics_mime']);
+		add_action('simcal_process_settings_meta', [__CLASS__, 'process_meta'], 10, 1);
+	}
+
+	/**
+	 * Hook in tabs.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param Ics_Feed $feed
+	 */
+	public function __construct(Ics_Feed $feed)
+	{
+		$this->feed = $feed;
+
+		if ('calendar' !== simcal_is_admin_screen()) {
+			return;
+		}
+		self::register_hooks();
+
+		add_filter('simcal_settings_meta_tabs_li', [$this, 'add_settings_meta_tab_li'], 10, 1);
+		add_action('simcal_settings_meta_panels', [$this, 'add_settings_meta_panel'], 10, 1);
+	}
+
+	/**
+	 * Allow ICS file uploads.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param array $mimes Allowed mime types.
+	 *
+	 * @return array
+	 */
+	public static function allow_ics_mime($mimes)
+	{
+		$mimes['ics'] = 'text/calendar';
+		$mimes['ical'] = 'text/calendar';
+
+		return $mimes;
+	}
+
+	/**
+	 * Add a tab to the settings meta box.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param array $tabs
+	 *
+	 * @return array
+	 */
+	public function add_settings_meta_tab_li($tabs)
+	{
+		return array_merge($tabs, [
+			'ics-feed' => [
+				'label' => $this->feed->name,
+				'target' => 'ics-feed-settings-panel',
+				'class' => ['simcal-feed-type', 'simcal-feed-type-ics-feed'],
+				'icon' => 'simcal-icon-calendar',
+			],
+		]);
+	}
+
+	/**
+	 * Add a panel to the settings meta box.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param int $post_id
+	 */
+	public function add_settings_meta_panel($post_id)
+	{
+		$ics_file = sanitize_text_field(get_post_meta($post_id, '_ics_feed_file', true));
+		$ics_filename = $ics_file ? basename($ics_file) : '';
+		$hide_file_source = (bool) apply_filters('simcal_ics_feed_hide_file_source', false, $post_id);
+		?>
+		<div id="ics-feed-settings-panel" class="simcal-panel">
+			<table>
+				<thead>
+					<tr><th colspan="2"><?php _e('ICS Feed Settings', 'google-calendar-events'); ?></th></tr>
+				</thead>
+				  <?php
+				  /**
+		 * Add ICS feed source fields before the file upload (e.g. live URL in Pro).
+		 *
+		 * @since 4.1.0
+		 *
+		 * @param int $post_id Calendar post ID.
+		 */
+
+		do_action('simcal_ics_feed_settings_fields_before', $post_id); ?>
+				<tbody class="simcal-panel-section simcal-panel-section-ics-feed-file">
+					<tr class="simcal-panel-field">
+						<th>
+							<label for="_ics_feed_file">
+								<?php echo esc_html(apply_filters('simcal_ics_feed_file_field_label', __('ICS File', 'google-calendar-events'))); ?>
+							</label>
+						</th>
+						<td>
+							<div class="simcal-ics-source-fields">
+							 <?php /**
+         * Used by ICS Feed Pro to place its URL field beside the file input.
+         *
+         * @since 4.1.0
+         *
+         * @param int $post_id Calendar post ID.
+         */
+
+        do_action('simcal_ics_feed_file_field_before', $post_id); ?>
+								<div class="simcal-ics-file-source" <?php echo $hide_file_source ? 'hidden' : ''; ?>>
+									<input
+										type="file"
+										name="_ics_feed_file"
+										id="_ics_feed_file"
+										class="simcal-field simcal-field-file"
+										accept=".ics,.ical,text/calendar"
+										<?php disabled($hide_file_source); ?>
+									/>
+									<p
+										class="description simcal-ics-upload-status"
+										id="simcal-ics-upload-status"
+										<?php echo $ics_filename ? '' : 'style="display:none;"'; ?>
+									>
+										<?php if ($ics_filename) {
+          	printf(
+          		/* translators: %s: uploaded ICS filename */
+          		esc_html__('Current file: %s', 'google-calendar-events'),
+          		esc_html($ics_filename),
+          	);
+          } ?>
+									</p>
+									<?php if ($ics_filename) { ?>
+										<label for="_ics_feed_remove_file">
+											<input
+												type="checkbox"
+												name="_ics_feed_remove_file"
+												id="_ics_feed_remove_file"
+												value="1"
+												<?php disabled($hide_file_source); ?>
+											/>
+											<?php esc_html_e('Remove uploaded ICS file', 'google-calendar-events'); ?>
+										</label>
+									<?php } ?>
+									<i class="simcal-icon-help simcal-help-tip" data-tip="<?php esc_attr_e(
+         	'Upload an ICS/iCal file. It will be stored in wp-content/uploads/simple-calendar/ and used as the event source for this calendar.',
+         	'google-calendar-events',
+         ); ?>"></i>
+								</div>
+							</div>
+							<?php echo wp_kses(self::ics_source_field_help(), [
+       	'p' => [
+       		'class' => true,
+       	],
+       	'a' => [
+       		'href' => true,
+       		'target' => true,
+       	],
+       	'br' => [],
+       	'strong' => [],
+       ]); ?>
+						</td>
+					</tr>
+				</tbody>
+				<?php
+    $show_core_options = apply_filters('simcal_ics_feed_show_core_options', true, $post_id);
+    if ($show_core_options) {
+    	$inputs = [
+    		'ics-feed' => [
+    			'_ics_feed_search_query' => [
+    				'type' => 'standard',
+    				'subtype' => 'text',
+    				'name' => '_ics_feed_search_query',
+    				'id' => '_ics_feed_search_query',
+    				'title' => __('Search Query', 'google-calendar-events'),
+    				'tooltip' => __(
+    					'Type in keywords if you only want display events that match these terms. You can use basic boolean search operators too.',
+    					'google-calendar-events',
+    				),
+    				'placeholder' => __('Filter events to display by search terms...', 'google-calendar-events'),
+    			],
+    			'_ics_feed_recurring' => [
+    				'type' => 'select',
+    				'name' => '_ics_feed_recurring',
+    				'id' => '_ics_feed_recurring',
+    				'title' => __('Recurring Events', 'google-calendar-events'),
+    				'tooltip' => __('Events that are programmed to repeat themselves periodically.', 'google-calendar-events'),
+    				'options' => [
+    					'show' => __('Show all', 'google-calendar-events'),
+    					'first-only' => __('Only show first occurrence', 'google-calendar-events'),
+    				],
+    				'default' => 'show',
+    			],
+    			'_ics_feed_max_results' => [
+    				'type' => 'standard',
+    				'subtype' => 'number',
+    				'name' => '_ics_feed_max_results',
+    				'id' => '_ics_feed_max_results',
+    				'title' => __('Maximum Events', 'google-calendar-events'),
+    				'tooltip' => __('Limit how many events are stored and displayed from this feed.', 'google-calendar-events'),
+    				'class' => ['simcal-field-small'],
+    				'default' => '2500',
+    				'attributes' => [
+    					'min' => '0',
+    					'max' => '2500',
+    				],
+    			],
+    		],
+    	];
+
+    	Settings::print_panel_fields($inputs, $post_id);
+    }
+
+    /**
+     * Add ICS feed source fields after the file upload.
+     *
+     * @since 4.1.0
+     *
+     * @param int $post_id Calendar post ID.
+     */
+    do_action('simcal_ics_feed_settings_fields_after', $post_id);?>
+			</table>
+		</div>
+		<?php
+	}
+
+	/**
+	 * ICS source field help text.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @return string
+	 */
+	public static function ics_source_field_help()
+	{
+		$docs_url = simcal_ga_campaign_url(
+			simcal_get_url('docs') . '/ics-feed/',
+			'core-plugin',
+			'settings-link',
+		);
+
+		return sprintf(
+			'<p class="description">' .
+				__(
+					'Export or download an ICS/iCal file from your calendar. <a href="%1$s" target="_blank">Detailed instructions</a>',
+					'google-calendar-events',
+				) .
+				'</p>',
+			esc_url($docs_url),
+		);
+	}
+
+	/**
+	 * Process meta fields.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param int $post_id
+	 */
+	public static function process_meta($post_id)
+	{
+		$feed_type = isset($_POST['_feed_type']) ? sanitize_title(wp_unslash($_POST['_feed_type'])) : '';
+
+		if ('ics-feed' !== $feed_type) {
+			return;
+		}
+
+		$show_core_options = apply_filters('simcal_ics_feed_show_core_options', true, $post_id);
+		if ($show_core_options) {
+			$search_query = isset($_POST['_ics_feed_search_query'])
+				? sanitize_text_field(wp_unslash($_POST['_ics_feed_search_query']))
+				: '';
+			update_post_meta($post_id, '_ics_feed_search_query', $search_query);
+
+			$recurring = isset($_POST['_ics_feed_recurring']) ? sanitize_key($_POST['_ics_feed_recurring']) : 'show';
+			$recurring = in_array($recurring, ['show', 'first-only'], true) ? $recurring : 'show';
+			update_post_meta($post_id, '_ics_feed_recurring', $recurring);
+
+			$max_results = isset($_POST['_ics_feed_max_results']) ? absint(esc_attr($_POST['_ics_feed_max_results'])) : 2500;
+			update_post_meta($post_id, '_ics_feed_max_results', $max_results);
+		}
+
+		/**
+		 * Process add-on ICS feed meta before core file handling.
+		 *
+		 * @since 4.1.0
+		 *
+		 * @param int $post_id Calendar post ID.
+		 */
+		do_action('simcal_ics_feed_process_meta', $post_id);
+
+		if (!empty($_FILES['_ics_feed_file']['name'])) {
+			$uploaded = Ics_Feed::save_uploaded_file($post_id, $_FILES['_ics_feed_file']);
+
+			if (!is_wp_error($uploaded)) {
+				simcal_delete_feed_transients($post_id);
+			}
+
+			return;
+		}
+
+		if (!empty($_POST['_ics_feed_remove_file'])) {
+			Ics_Feed::delete_post_ics_file($post_id);
+		}
+
+		simcal_delete_feed_transients($post_id);
+	}
+}
