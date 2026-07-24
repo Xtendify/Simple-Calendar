@@ -452,7 +452,11 @@ jQuery(function ($) {
 		}
 
 		function copyWithTextarea(text) {
-			var $temp = $('<textarea>').val(text).appendTo('body');
+			var $temp = $('<textarea readonly>')
+				.val(text)
+				.css({ position: 'fixed', top: '-9999px', left: '-9999px', opacity: 0 })
+				.appendTo('body');
+			$temp[0].focus();
 			$temp[0].select();
 			document.execCommand('copy');
 			$temp.remove();

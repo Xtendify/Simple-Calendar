@@ -624,10 +624,7 @@ class Settings implements Meta_Box
       	'type' => 'checkbox',
       	'name' => '_display_ics_export_url',
       	'id' => '_display_ics_export_url',
-      	'tooltip' => __(
-      		'Check this to display the ICS feed URL button on the frontend.',
-      		'google-calendar-events',
-      	),
+      	'tooltip' => __('Check this to display the ICS feed URL button on the frontend.', 'google-calendar-events'),
       	'value' => 'yes' == $display_ics_export_url_value ? 'yes' : 'no',
       	'text' => __('Yes (Display ICS Feed URL Button)', 'google-calendar-events'),
       ]);

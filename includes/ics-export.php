@@ -57,8 +57,8 @@ class Ics_Export
 		}
 
 		$post = get_post($calendar_id);
-		if (!$post || 'calendar' !== $post->post_type) {
-			wp_die(esc_html__('Calendar not found.', 'google-calendar-events'), 404);
+		if ($post->post_status !== 'publish' && !current_user_can('read_post', $calendar_id)) {
+			wp_die(esc_html__('You do not have permission to view this calendar.', 'google-calendar-events'), 403);
 		}
 
 		if (!self::is_ics_export_enabled($calendar_id)) {
@@ -225,11 +225,11 @@ class Ics_Export
 	{
 		$icons = [
 			'export' =>
-				'<svg class="simcal-calendar-action-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
+				'<svg class="simcal-calendar-action-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>',
 			'link' =>
-				'<svg class="simcal-calendar-action-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
+				'<svg class="simcal-calendar-action-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>',
 			'print' =>
-				'<svg class="simcal-calendar-action-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>',
+				'<svg class="simcal-calendar-action-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>',
 		];
 
 		return isset($icons[$icon]) ? $icons[$icon] : '';
@@ -310,7 +310,7 @@ class Ics_Export
 			$start_date = $start_dt->format('Ymd');
 			if ($event->end_dt) {
 				// Stored all-day end is last inclusive moment; ICS DTEND is exclusive next date.
-				$end_date = $event->end_dt->copy()->addSeconds(59)->format('Ymd');
+				$end_date = $event->end_dt->copy()->startOfDay()->addDay()->format('Ymd');
 			} else {
 				$end_date = $start_dt->copy()->startOfDay()->addDay()->format('Ymd');
 			}
@@ -390,8 +390,13 @@ class Ics_Export
 
 		$folded = '';
 		while (strlen($line) > 75) {
-			$folded .= substr($line, 0, 75) . "\r\n ";
-			$line = substr($line, 75);
+			if (function_exists('mb_strcut')) {
+				$chunk = mb_strcut($line, 0, 75, 'UTF-8');
+			} else {
+				$chunk = substr($line, 0, 75);
+			}
+			$folded .= $chunk . "\r\n ";
+			$line = substr($line, strlen($chunk));
 		}
 
 		return $folded . $line;
