@@ -193,6 +193,17 @@ class Ics_Feed_Admin
          ); ?>"></i>
 								</div>
 							</div>
+							<?php echo wp_kses(self::ics_source_field_help(), [
+       	'p' => [
+       		'class' => true,
+       	],
+       	'a' => [
+       		'href' => true,
+       		'target' => true,
+       	],
+       	'br' => [],
+       	'strong' => [],
+       ]); ?>
 						</td>
 					</tr>
 				</tbody>
@@ -256,6 +267,32 @@ class Ics_Feed_Admin
 			</table>
 		</div>
 		<?php
+	}
+
+	/**
+	 * ICS source field help text.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @return string
+	 */
+	public static function ics_source_field_help()
+	{
+		$docs_url = simcal_ga_campaign_url(
+			simcal_get_url('docs') . '/ics-feed/',
+			'core-plugin',
+			'settings-link',
+		);
+
+		return sprintf(
+			'<p class="description">' .
+				__(
+					'Export or download an ICS/iCal file from your calendar. <a href="%1$s" target="_blank">Detailed instructions</a>',
+					'google-calendar-events',
+				) .
+				'</p>',
+			esc_url($docs_url),
+		);
 	}
 
 	/**
