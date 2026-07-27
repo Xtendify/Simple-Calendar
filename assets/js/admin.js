@@ -689,8 +689,15 @@
 						input.val('');
 					}
 				})
-				.fail(function () {
-					status.text('The ICS file could not be uploaded.').css('color', '#b32d2e').show();
+				.fail(function (xhr) {
+					var message =
+						xhr &&
+						xhr.responseJSON &&
+						xhr.responseJSON.data &&
+						xhr.responseJSON.data.message
+							? xhr.responseJSON.data.message
+							: 'The ICS file could not be uploaded.';
+					status.text(message).css('color', '#b32d2e').show();
 					input.val('');
 				})
 				.always(function () {

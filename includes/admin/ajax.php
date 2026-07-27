@@ -198,6 +198,21 @@ class Ajax
 			wp_send_json_error(['message' => __('No ICS file was selected.', 'google-calendar-events')], 400);
 		}
 
+		$upload_error = isset($_FILES['_ics_feed_file']['error']) ? (int) $_FILES['_ics_feed_file']['error'] : UPLOAD_ERR_OK;
+
+		if (UPLOAD_ERR_INI_SIZE === $upload_error || UPLOAD_ERR_FORM_SIZE === $upload_error) {
+			wp_send_json_error(
+				[
+					'message' => sprintf(
+						/* translators: %s: maximum upload file size */
+						__('The ICS file is too large. Please increase the PHP upload limit (currently %s) or upload a smaller file.', 'google-calendar-events'),
+						size_format(wp_max_upload_size()),
+					),
+				],
+				400,
+			);
+		}
+
 		$uploaded = \SimpleCalendar\Feeds\Ics_Feed::save_uploaded_file($post_id, $_FILES['_ics_feed_file']);
 
 		if (is_wp_error($uploaded)) {

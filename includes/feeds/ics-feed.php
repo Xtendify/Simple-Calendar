@@ -205,7 +205,20 @@ class Ics_Feed extends Feed
 			return new \WP_Error('ics_no_file', __('No ICS file was uploaded.', 'google-calendar-events'));
 		}
 
-		if (UPLOAD_ERR_OK !== (int) $file['error']) {
+		$upload_error = (int) $file['error'];
+
+		if (UPLOAD_ERR_INI_SIZE === $upload_error || UPLOAD_ERR_FORM_SIZE === $upload_error) {
+			return new \WP_Error(
+				'ics_file_too_large',
+				sprintf(
+					/* translators: %s: maximum upload file size */
+					__('The ICS file is too large. Please increase the PHP upload limit (currently %s) or upload a smaller file.', 'google-calendar-events'),
+					size_format(wp_max_upload_size()),
+				),
+			);
+		}
+
+		if (UPLOAD_ERR_OK !== $upload_error) {
 			return new \WP_Error('ics_upload_error', __('The ICS file could not be uploaded.', 'google-calendar-events'));
 		}
 
