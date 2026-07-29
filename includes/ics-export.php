@@ -168,7 +168,18 @@ class Ics_Export
 			return;
 		}
 
-		echo '<div class="simcal-calendar-actions" role="group" aria-label="' .
+		static $action_instances = [];
+		if (!isset($action_instances[$calendar_id])) {
+			$action_instances[$calendar_id] = 0;
+		}
+		$action_instances[$calendar_id]++;
+		$uid = $calendar_id . '-' . $action_instances[$calendar_id];
+
+		echo '<div class="simcal-calendar-actions" id="simcal-calendar-actions-' .
+			esc_attr($uid) .
+			'" data-calendar-id="' .
+			esc_attr((string) $calendar_id) .
+			'" role="group" aria-label="' .
 			esc_attr__('Calendar actions', 'google-calendar-events') .
 			'">';
 
@@ -181,7 +192,11 @@ class Ics_Export
 
 			echo '<a href="' .
 				$export_url .
-				'" class="button simcal-calendar-action simcal-ics-export-button" title="' .
+				'" id="simcal-ics-export-' .
+				esc_attr($uid) .
+				'" class="button simcal-calendar-action simcal-ics-export-button" data-calendar-id="' .
+				esc_attr((string) $calendar_id) .
+				'" title="' .
 				$export_tooltip .
 				'">';
 			echo self::render_icon('export');
@@ -194,7 +209,11 @@ class Ics_Export
 		if ($show_print) {
 			$print_tooltip = esc_attr__('Print a copy of this calendar view.', 'google-calendar-events');
 
-			echo '<button type="button" class="button simcal-calendar-action simcal-print-calendar-button" title="' .
+			echo '<button type="button" id="simcal-print-' .
+				esc_attr($uid) .
+				'" class="button simcal-calendar-action simcal-print-calendar-button" data-calendar-id="' .
+				esc_attr((string) $calendar_id) .
+				'" title="' .
 				$print_tooltip .
 				'">';
 			echo self::render_icon('print');

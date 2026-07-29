@@ -407,7 +407,12 @@ jQuery(function ($) {
 	 * Calendar action buttons (Export, URL, Print).
 	 */
 	$(document).on('click', '.simcal-print-calendar-button', function () {
-		var $divToPrint = $('.simcal-calendar').clone(true);
+		var $calendar = $(this).closest('.simcal-calendar');
+		if (!$calendar.length) {
+			return;
+		}
+
+		var $divToPrint = $calendar.clone(true);
 		$('body').children().hide();
 		$('body').append($divToPrint);
 		$('body').addClass('simcal-print-calendar');
