@@ -397,10 +397,15 @@ class Google extends Feed
 							$start_location = $end_location = $event->getLocation();
 
 							// Recurring event.
+							// Expanded instances only have recurringEventId; attach master RRULE when available.
 							$recurrence = $event->getRecurrence();
 							$recurring_id = $event->getRecurringEventId();
 							if (!$recurrence && $recurring_id) {
-								$recurrence = true;
+								if (!empty($response['recurrence_map'][$recurring_id]) && is_array($response['recurrence_map'][$recurring_id])) {
+									$recurrence = $response['recurrence_map'][$recurring_id];
+								} else {
+									$recurrence = true;
+								}
 							}
 
 							// Event link.
@@ -625,10 +630,74 @@ class Google extends Feed
 					'events' => $response->getItems(),
 					'backgroundcolor' => $backgroundcolor,
 				];
+
+				// Expanded instances omit RRULE; fetch masters so ICS export can keep weekly series.
+				if (!empty($args['singleEvents'])) {
+					$calendar['recurrence_map'] = $this->fetch_recurrence_map($id, $args, $google);
+				}
 			}
 		}
 
 		return $calendar;
+	}
+
+	/**
+	 * Fetch unexpanded events and map master event IDs to recurrence rule lines.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param string                                 $id     Google Calendar ID.
+	 * @param array                                  $args   Args used for the expanded events query.
+	 * @param \Google_Service_Calendar|null          $google Calendar service (API key path).
+	 * @return array<string, string[]>
+	 */
+	protected function fetch_recurrence_map($id, array $args, $google = null)
+	{
+		$master_args = $args;
+		unset($master_args['singleEvents'], $master_args['orderBy']);
+
+		$masters = null;
+		$feed_type = wp_get_object_terms($this->post_id, 'calendar_feed');
+		$simple_calendar_auth_site_token = get_option('simple_calendar_auth_site_token');
+
+		try {
+			if (
+				isset($simple_calendar_auth_site_token) &&
+				!empty($simple_calendar_auth_site_token) &&
+				isset($feed_type[0]->slug) &&
+				$feed_type[0]->slug != 'google'
+			) {
+				$response_arr = apply_filters('simple_calendar_oauth_list_events', '', $id, $master_args);
+				if (is_array($response_arr) && !empty($response_arr['data']) && is_string($response_arr['data'])) {
+					$masters = $this->oauth_unserialize_events_response($response_arr['data']);
+				}
+			} elseif ($google) {
+				$masters = $google->events->listEvents($id, $master_args);
+			}
+		} catch (\Exception $e) {
+			return [];
+		}
+
+		if (!($masters instanceof Google_Service_Calendar_Events)) {
+			return [];
+		}
+
+		$map = [];
+		foreach ((array) $masters->getItems() as $master) {
+			if (!($master instanceof Google_Service_Calendar_Event)) {
+				continue;
+			}
+			$rules = $master->getRecurrence();
+			if (empty($rules) || !is_array($rules)) {
+				continue;
+			}
+			$master_id = $master->getId();
+			if (!empty($master_id)) {
+				$map[$master_id] = $rules;
+			}
+		}
+
+		return $map;
 	}
 
 	/**

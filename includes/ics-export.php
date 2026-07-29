@@ -246,6 +246,8 @@ class Ics_Export
 	public function build_ics(Calendar $calendar)
 	{
 		$calendar_name = get_the_title($calendar->id);
+		$calendar_tz = !empty($calendar->timezone) ? simcal_esc_timezone($calendar->timezone) : 'UTC';
+
 		$lines = [
 			'BEGIN:VCALENDAR',
 			'VERSION:2.0',
@@ -253,9 +255,12 @@ class Ics_Export
 			'CALSCALE:GREGORIAN',
 			'METHOD:PUBLISH',
 			'X-WR-CALNAME:' . $this->escape_text($calendar_name),
+			'X-WR-TIMEZONE:' . $calendar_tz,
 		];
 
 		$seen = [];
+		$seen_series = [];
+
 		if (!empty($calendar->events) && is_array($calendar->events)) {
 			foreach ($calendar->events as $event_group) {
 				if (!is_array($event_group)) {
@@ -266,13 +271,25 @@ class Ics_Export
 						continue;
 					}
 
-					$dedupe_key = !empty($event->uid) ? $event->uid : $event->ical_id . '-' . $event->start;
-					if (isset($seen[$dedupe_key])) {
-						continue;
+					$rrule = $this->get_event_rrule($event);
+					if ($rrule) {
+						// One master VEVENT per recurring series.
+						$series_key = !empty($event->ical_id) ? $event->ical_id : $event->uid;
+						if (empty($series_key) || isset($seen_series[$series_key])) {
+							continue;
+						}
+						$seen_series[$series_key] = true;
+					} else {
+						// Include start so Pro's shared iCal UID does not drop later occurrences.
+						$dedupe_key =
+							(!empty($event->uid) ? $event->uid : $event->ical_id) . '-' . $event->start;
+						if (isset($seen[$dedupe_key])) {
+							continue;
+						}
+						$seen[$dedupe_key] = true;
 					}
-					$seen[$dedupe_key] = true;
 
-					$lines = array_merge($lines, $this->build_vevent($event));
+					$lines = array_merge($lines, $this->build_vevent($event, $calendar_tz, $rrule));
 				}
 			}
 		}
@@ -292,18 +309,25 @@ class Ics_Export
 	 *
 	 * @since 4.1.0
 	 *
-	 * @param Event $event Event instance.
+	 * @param Event       $event       Event instance.
+	 * @param string      $calendar_tz Calendar display timezone.
+	 * @param string|null $rrule       Optional full RRULE line.
 	 * @return array
 	 */
-	private function build_vevent(Event $event)
+	private function build_vevent(Event $event, $calendar_tz = 'UTC', $rrule = null)
 	{
-		$uid = !empty($event->uid) ? $event->uid : $event->ical_id;
-		if (empty($uid)) {
-			$uid = md5($event->title . $event->start . $event->end);
+		// Never reuse Google UIDs — Google Calendar import rejects @google.com UIDs.
+		if ($rrule) {
+			$seed = !empty($event->ical_id) ? $event->ical_id : $event->uid;
+		} else {
+			$seed = (!empty($event->uid) ? $event->uid : $event->ical_id) . '-' . $event->start;
 		}
-		$uid .= '@simple-calendar';
+		if (empty($seed) || $seed === '-' || $seed === '0-' || $seed === '-0') {
+			$seed = $event->title . $event->start . $event->end;
+		}
+		$uid = md5((string) $seed) . '@simple-calendar';
 
-		$lines = ['BEGIN:VEVENT', 'UID:' . $this->escape_text($uid), 'DTSTAMP:' . gmdate('Ymd\THis\Z')];
+		$lines = ['BEGIN:VEVENT', 'UID:' . $uid, 'DTSTAMP:' . gmdate('Ymd\THis\Z')];
 
 		if ($event->whole_day) {
 			$start_dt = $event->start_dt ?: Carbon::createFromTimestamp($event->start);
@@ -317,13 +341,28 @@ class Ics_Export
 			$lines[] = 'DTSTART;VALUE=DATE:' . $start_date;
 			$lines[] = 'DTEND;VALUE=DATE:' . $end_date;
 		} else {
-			$start_utc = !empty($event->start_utc) ? $event->start_utc : $event->start;
-			$end_utc = !empty($event->end_utc) ? $event->end_utc : $event->end;
-			if (empty($end_utc)) {
-				$end_utc = $start_utc;
-			}
-			$lines[] = 'DTSTART:' . gmdate('Ymd\THis\Z', $start_utc);
-			$lines[] = 'DTEND:' . gmdate('Ymd\THis\Z', $end_utc);
+			// Floating local times (no Z / no TZID) using the event timezone wall clock.
+			$tz = !empty($event->start_timezone)
+				? simcal_esc_timezone($event->start_timezone)
+				: $calendar_tz;
+			$end_tz = !empty($event->end_timezone)
+				? simcal_esc_timezone($event->end_timezone)
+				: $tz;
+
+			$start_dt = $event->start_dt
+				? $event->start_dt->copy()->setTimezone($tz)
+				: Carbon::createFromTimestamp($event->start, $tz);
+			$end_ts = !empty($event->end) ? $event->end : $event->start;
+			$end_dt = $event->end_dt
+				? $event->end_dt->copy()->setTimezone($end_tz)
+				: Carbon::createFromTimestamp($end_ts, $end_tz);
+
+			$lines[] = 'DTSTART:' . $start_dt->format('Ymd\THis');
+			$lines[] = 'DTEND:' . $end_dt->format('Ymd\THis');
+		}
+
+		if ($rrule) {
+			$lines[] = $rrule;
 		}
 
 		if (!empty($event->title)) {
@@ -344,13 +383,36 @@ class Ics_Export
 			$lines[] = 'LOCATION:' . $this->escape_text($location);
 		}
 
-		if (!empty($event->link)) {
-			$lines[] = 'URL:' . $this->escape_text($event->link);
-		}
-
 		$lines[] = 'END:VEVENT';
 
 		return $lines;
+	}
+
+	/**
+	 * Get a single RRULE line for ICS export.
+	 *
+	 * Only RRULE is emitted (not EXDATE/RDATE with TZID) so Google import stays valid.
+	 * BYDAY is kept — DTSTART uses floating local wall-clock times.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param Event $event Event instance.
+	 * @return string|null Full RRULE line or null.
+	 */
+	private function get_event_rrule(Event $event)
+	{
+		if (!is_array($event->recurrence)) {
+			return null;
+		}
+
+		foreach ($event->recurrence as $rule) {
+			$rule = trim((string) $rule);
+			if (preg_match('/^RRULE:/i', $rule)) {
+				return $rule;
+			}
+		}
+
+		return null;
 	}
 
 	/**
