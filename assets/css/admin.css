@@ -771,6 +771,9 @@ body .simcal-field-textarea {
 	height: 22px;
 	width: 22px;
 }
+.post-type-calendar #wpfooter {
+    display: none;
+}
 
 @media screen and (max-width: 782px) {
 	.simcal-ics-source-choice {
