@@ -131,9 +131,7 @@ class Ics_Feed_Admin
 		 * @since 4.1.0
 		 *
 		 * @param int $post_id Calendar post ID.
-		 */<?php
-
-		do_action('simcal_ics_feed_settings_fields_before', $post_id); ?>
+		 */<?php do_action('simcal_ics_feed_settings_fields_before', $post_id); ?>
 				<tbody class="simcal-panel-section simcal-panel-section-ics-feed-file">
 					<tr class="simcal-panel-field">
 						<th>
