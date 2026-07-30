@@ -125,15 +125,15 @@ class Ics_Feed_Admin
 				<thead>
 					<tr><th colspan="2"><?php _e('ICS Feed Settings', 'google-calendar-events'); ?></th></tr>
 				</thead>
-				  <?php /**
-       * Add ICS feed source fields before the file upload (e.g. live URL in Pro).
-       *
-       * @since 4.1.0
-       *
-       * @param int $post_id Calendar post ID.
-       */
+				   /**
+		 * Add ICS feed source fields before the file upload (e.g. live URL in Pro).
+		 *
+		 * @since 4.1.0
+		 *
+		 * @param int $post_id Calendar post ID.
+		 */<?php
 
-      do_action('simcal_ics_feed_settings_fields_before', $post_id); ?>
+		do_action('simcal_ics_feed_settings_fields_before', $post_id); ?>
 				<tbody class="simcal-panel-section simcal-panel-section-ics-feed-file">
 					<tr class="simcal-panel-field">
 						<th>
@@ -149,9 +149,7 @@ class Ics_Feed_Admin
 		 * @since 4.1.0
 		 *
 		 * @param int $post_id Calendar post ID.
-		 */<?php
-
-		do_action('simcal_ics_feed_file_field_before', $post_id); ?>
+		 */<?php do_action('simcal_ics_feed_file_field_before', $post_id); ?>
 								<div class="simcal-ics-file-source" <?php echo $hide_file_source ? 'hidden' : ''; ?>>
 									<input
 										type="file"
