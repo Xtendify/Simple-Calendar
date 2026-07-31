@@ -125,15 +125,14 @@ class Ics_Feed_Admin
 				<thead>
 					<tr><th colspan="2"><?php _e('ICS Feed Settings', 'google-calendar-events'); ?></th></tr>
 				</thead>
-				  <?php /**
-       * Add ICS feed source fields before the file upload (e.g. live URL in Pro).
-       *
-       * @since 4.1.0
-       *
-       * @param int $post_id Calendar post ID.
-       */
-
-      do_action('simcal_ics_feed_settings_fields_before', $post_id); ?>
+				<?php /**
+     * Add ICS feed source fields before the file upload (e.g. live URL in Pro).
+     *
+     * @since 4.1.0
+     *
+     * @param int $post_id Calendar post ID.
+     */
+    do_action('simcal_ics_feed_settings_fields_before', $post_id); ?>
 				<tbody class="simcal-panel-section simcal-panel-section-ics-feed-file">
 					<tr class="simcal-panel-field">
 						<th>
@@ -143,15 +142,14 @@ class Ics_Feed_Admin
 						</th>
 						<td>
 							<div class="simcal-ics-source-fields">
-							<?php  /**
-		 * Used by ICS Feed Pro to place its URL field beside the file input.
-		 *
-		 * @since 4.1.0
-		 *
-		 * @param int $post_id Calendar post ID.
-		 */
-
-		do_action('simcal_ics_feed_file_field_before', $post_id); ?>
+								<?php /**
+         * Used by ICS Feed Pro to place its URL field beside the file input.
+         *
+         * @since 4.1.0
+         *
+         * @param int $post_id Calendar post ID.
+         */
+        do_action('simcal_ics_feed_file_field_before', $post_id); ?>
 								<div class="simcal-ics-file-source" <?php echo $hide_file_source ? 'hidden' : ''; ?>>
 									<input
 										type="file"
@@ -186,10 +184,13 @@ class Ics_Feed_Admin
 											<?php esc_html_e('Remove uploaded ICS file', 'google-calendar-events'); ?>
 										</label>
 									<?php } ?>
-									<i class="simcal-icon-help simcal-help-tip" data-tip="<?php esc_attr_e(
-         	'Upload an ICS/iCal file. It will be stored in wp-content/uploads/simple-calendar/ and used as the event source for this calendar.',
-         	'google-calendar-events',
-         ); ?>"></i>
+									<i
+										class="simcal-icon-help simcal-help-tip"
+										data-tip="<?php esc_attr_e(
+          	'Upload an ICS/iCal file. It will be stored in wp-content/uploads/simple-calendar/ and used as the event source for this calendar.',
+          	'google-calendar-events',
+          ); ?>"
+									></i>
 								</div>
 							</div>
 							<?php echo wp_kses(self::ics_source_field_help(), [
@@ -277,7 +278,7 @@ class Ics_Feed_Admin
 	 */
 	public static function ics_source_field_help()
 	{
-		$docs_url = simcal_ga_campaign_url(simcal_get_url('docs') . '/ics-feed/', 'core-plugin', 'settings-link');
+		$docs_url = simcal_ga_campaign_url(simcal_get_url('docs') . '/importing-events-from-an-ics-feed/', 'core-plugin', 'settings-link');
 
 		return sprintf(
 			'<p class="description">' .

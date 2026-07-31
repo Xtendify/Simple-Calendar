@@ -57,6 +57,10 @@ class Ics_Export
 		}
 
 		$post = get_post($calendar_id);
+
+		if (!$post || 'calendar' !== $post->post_type) {
+			wp_die(esc_html__('Calendar not found.', 'google-calendar-events'), 404);
+		}
 		if ($post->post_status !== 'publish' && !current_user_can('read_post', $calendar_id)) {
 			wp_die(esc_html__('You do not have permission to view this calendar.', 'google-calendar-events'), 403);
 		}
@@ -293,8 +297,10 @@ class Ics_Export
 					$rrule = $this->get_event_rrule($event);
 					if ($rrule) {
 						// One master VEVENT per recurring series.
-						$series_key = !empty($event->ical_id) ? $event->ical_id : $event->uid;
-						if (empty($series_key) || isset($seen_series[$series_key])) {
+						if (empty($series_key)) {
+							$series_key = $event->title . $event->start . $event->end;
+						}
+						if (isset($seen_series[$series_key])) {
 							continue;
 						}
 						$seen_series[$series_key] = true;
