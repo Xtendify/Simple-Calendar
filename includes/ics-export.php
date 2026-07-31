@@ -300,8 +300,7 @@ class Ics_Export
 						$seen_series[$series_key] = true;
 					} else {
 						// Include start so Pro's shared iCal UID does not drop later occurrences.
-						$dedupe_key =
-							(!empty($event->uid) ? $event->uid : $event->ical_id) . '-' . $event->start;
+						$dedupe_key = (!empty($event->uid) ? $event->uid : $event->ical_id) . '-' . $event->start;
 						if (isset($seen[$dedupe_key])) {
 							continue;
 						}
@@ -361,12 +360,8 @@ class Ics_Export
 			$lines[] = 'DTEND;VALUE=DATE:' . $end_date;
 		} else {
 			// Floating local times (no Z / no TZID) using the event timezone wall clock.
-			$tz = !empty($event->start_timezone)
-				? simcal_esc_timezone($event->start_timezone)
-				: $calendar_tz;
-			$end_tz = !empty($event->end_timezone)
-				? simcal_esc_timezone($event->end_timezone)
-				: $tz;
+			$tz = !empty($event->start_timezone) ? simcal_esc_timezone($event->start_timezone) : $calendar_tz;
+			$end_tz = !empty($event->end_timezone) ? simcal_esc_timezone($event->end_timezone) : $tz;
 
 			$start_dt = $event->start_dt
 				? $event->start_dt->copy()->setTimezone($tz)
@@ -400,6 +395,24 @@ class Ics_Export
 		}
 		if (!empty($location)) {
 			$lines[] = 'LOCATION:' . $this->escape_text($location);
+		}
+
+		/**
+		 * Extra VEVENT lines (e.g. Pro ORGANIZER / ATTENDEE / ATTACH).
+		 *
+		 * @since 4.1.0
+		 *
+		 * @param array $extra Extra ICS lines (without trailing CRLF).
+		 * @param Event $event Event instance.
+		 */
+		$extra = apply_filters('simcal_ics_vevent_extra_lines', [], $event);
+		if (!empty($extra) && is_array($extra)) {
+			foreach ($extra as $extra_line) {
+				$extra_line = trim((string) $extra_line);
+				if ('' !== $extra_line) {
+					$lines[] = $extra_line;
+				}
+			}
 		}
 
 		$lines[] = 'END:VEVENT';

@@ -691,10 +691,7 @@
 				})
 				.fail(function (xhr) {
 					var message =
-						xhr &&
-						xhr.responseJSON &&
-						xhr.responseJSON.data &&
-						xhr.responseJSON.data.message
+						xhr && xhr.responseJSON && xhr.responseJSON.data && xhr.responseJSON.data.message
 							? xhr.responseJSON.data.message
 							: 'The ICS file could not be uploaded.';
 					status.text(message).css('color', '#b32d2e').show();

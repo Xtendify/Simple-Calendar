@@ -401,7 +401,10 @@ class Google extends Feed
 							$recurrence = $event->getRecurrence();
 							$recurring_id = $event->getRecurringEventId();
 							if (!$recurrence && $recurring_id) {
-								if (!empty($response['recurrence_map'][$recurring_id]) && is_array($response['recurrence_map'][$recurring_id])) {
+								if (
+									!empty($response['recurrence_map'][$recurring_id]) &&
+									is_array($response['recurrence_map'][$recurring_id])
+								) {
 									$recurrence = $response['recurrence_map'][$recurring_id];
 								} else {
 									$recurrence = true;

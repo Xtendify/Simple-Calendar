@@ -772,7 +772,7 @@ body .simcal-field-textarea {
 	width: 22px;
 }
 .post-type-calendar #wpfooter {
-    display: none;
+	display: none;
 }
 
 @media screen and (max-width: 782px) {
