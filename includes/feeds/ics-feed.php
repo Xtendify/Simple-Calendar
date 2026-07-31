@@ -212,7 +212,10 @@ class Ics_Feed extends Feed
 				'ics_file_too_large',
 				sprintf(
 					/* translators: %s: maximum upload file size */
-					__('The ICS file is too large. Please increase the PHP upload limit (currently %s) or upload a smaller file.', 'google-calendar-events'),
+					__(
+						'The ICS file is too large. Please increase the PHP upload limit (currently %s) or upload a smaller file.',
+						'google-calendar-events',
+					),
 					size_format(wp_max_upload_size()),
 				),
 			);
