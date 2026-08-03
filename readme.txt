@@ -98,9 +98,9 @@ We'd love your help! Here's a few things you can do:
 == Changelog ==
 
 = 4.1.0 =
-* Dev: ICS Feed Upload:Added support for importing local `.ics` files to import calendar events.
+* Dev: ICS Feed Upload: Added support for importing local `.ics` files to import calendar events.
 * Dev: ICS Event Export: Added the ability to download/export calendar events as a static `.ics` file.
-* Fix: Print Issue Fixed an issue where clicking the Print button on secondary calendar instances on the same page was unresponsive.
+* Fix: Print issue fixed: An issue where clicking the Print button on secondary calendar instances on the same page was unresponsive.
 
 = 4.0.7 =
 * Fix: Removed unnecessary Google API key/OAuth requirement when creating a Grouped Calendar.
