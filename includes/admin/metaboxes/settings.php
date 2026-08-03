@@ -11,6 +11,7 @@ use SimpleCalendar\Abstracts\Calendar;
 use SimpleCalendar\Abstracts\Feed;
 use SimpleCalendar\Abstracts\Field;
 use SimpleCalendar\Abstracts\Meta_Box;
+use SimpleCalendar\Feeds\Admin\Ics_Feed_Admin;
 
 if (!defined('ABSPATH')) {
 	exit();
@@ -575,10 +576,47 @@ class Settings implements Meta_Box
 				</tr>
 			</thead>
 			<tbody class="simcal-panel-section">
+				
 				<tr class="simcal-panel-field">
 					<th>
-						<label for="_display_print_calendar"><?php _e('Print Calendar', 'google-calendar-events'); ?></label>
+						<label for="_display_ics_export"><?php _e('Export Calendar', 'google-calendar-events'); ?></label>
 					</th>
+					<td>
+						<?php
+      $display_ics_export_value = get_post_meta($post->ID, '_display_ics_export', true);
+
+      simcal_print_field([
+      	'type' => 'checkbox',
+      	'name' => '_display_ics_export',
+      	'id' => '_display_ics_export',
+      	'tooltip' => __('Check this to display ICS export button on frontend.', 'google-calendar-events'),
+      	'value' => 'yes' == $display_ics_export_value ? 'yes' : 'no',
+      	'text' => __('Display ICS File Download Button', 'google-calendar-events'),
+      ]);
+      ?>
+					</td>
+</tr>
+				<?php if (defined('SIMPLE_CALENDAR_GOOGLE_PRO_VERSION')): ?>
+					<tr class="simcal-panel-field">
+					<th><label for="_display_ics_export"></label></th>
+					<td>
+						<?php
+      $display_ics_export_url_value = get_post_meta($post->ID, '_display_ics_export_url', true);
+
+      simcal_print_field([
+      	'type' => 'checkbox',
+      	'name' => '_display_ics_export_url',
+      	'id' => '_display_ics_export_url',
+      	'tooltip' => __('Check this to display the ICS feed URL button on the frontend.', 'google-calendar-events'),
+      	'value' => 'yes' == $display_ics_export_url_value ? 'yes' : 'no',
+      	'text' => __('Display ICS Feed URL Button', 'google-calendar-events'),
+      ]);
+      ?>
+					</td>
+				</tr>
+				<?php endif; ?>
+				<tr class="simcal-panel-field">
+					<th><label for="_display_ics_export"></label></th>
 					<td>
 						<?php
       $display_print_calendar_value = get_post_meta($post->ID, '_display_print_calendar', true);
@@ -589,11 +627,25 @@ class Settings implements Meta_Box
       	'id' => '_display_print_calendar',
       	'tooltip' => __('Check this to display print calendar button on frontend.', 'google-calendar-events'),
       	'value' => 'yes' == $display_print_calendar_value ? 'yes' : 'no',
-      	'text' => __('Yes (Display Print Calendar Button)', 'google-calendar-events'),
+      	'text' => __('Display Print Calendar Button', 'google-calendar-events'),
       ]);
+
+      if (class_exists(Ics_Feed_Admin::class)) {
+      	echo wp_kses(Ics_Feed_Admin::ics_source_field_help(), [
+      		'p' => [
+      			'class' => true,
+      		],
+      		'a' => [
+      			'href' => true,
+      			'target' => true,
+      		],
+      		'br' => [],
+      		'strong' => [],
+      	]);
+      }
       ?>
 					</td>
-				</tr>
+					</tr>
 				<tr class="simcal-panel-field">
 					<th>
 						<label for="_calendar_is_static"><?php _e('Static Calendar', 'google-calendar-events'); ?></label>
@@ -1183,6 +1235,16 @@ class Settings implements Meta_Box
 		// Print calendar.
 		$static = isset($_POST['_display_print_calendar']) ? 'yes' : 'no';
 		update_post_meta($post_id, '_display_print_calendar', $static);
+
+		// ICS export (file download button).
+		$ics_export = isset($_POST['_display_ics_export']) ? 'yes' : 'no';
+		update_post_meta($post_id, '_display_ics_export', $ics_export);
+
+		// ICS feed URL button (Pro only — do not clear when Pro is inactive).
+		if (defined('SIMPLE_CALENDAR_GOOGLE_PRO_VERSION')) {
+			$ics_export_url = isset($_POST['_display_ics_export_url']) ? 'yes' : 'no';
+			update_post_meta($post_id, '_display_ics_export_url', $ics_export_url);
+		}
 
 		// Static calendar.
 		$static = isset($_POST['_calendar_is_static']) ? 'yes' : 'no';

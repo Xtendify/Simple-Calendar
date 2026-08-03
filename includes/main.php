@@ -167,6 +167,9 @@ final class Plugin
 		// Front facing ajax callbacks.
 		new Ajax();
 
+		// ICS export download handler.
+		new Ics_Export();
+
 		// Add Shortcodes.
 		new Shortcodes();
 

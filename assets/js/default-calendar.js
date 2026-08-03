@@ -404,10 +404,15 @@ jQuery(function ($) {
 		});
 	};
 	/*
-	 * Print calendar option code
+	 * Calendar action buttons (Export, URL, Print).
 	 */
-	$('#print-calendar-button').on('click', function () {
-		var $divToPrint = $('.simcal-calendar').clone(true);
+	$(document).on('click', '.simcal-print-calendar-button', function () {
+		var $calendar = $(this).closest('.simcal-calendar');
+		if (!$calendar.length) {
+			return;
+		}
+
+		var $divToPrint = $calendar.clone(true);
 		$('body').children().hide();
 		$('body').append($divToPrint);
 		$('body').addClass('simcal-print-calendar');
@@ -417,6 +422,50 @@ jQuery(function ($) {
 		$('body > .simcal-calendar').remove();
 		$('body').children().not('script').show();
 		$('body').removeClass('simcal-print-calendar');
+	});
+
+	$(document).on('click', '.simcal-ics-url-button', function (e) {
+		e.preventDefault();
+
+		var $button = $(this);
+		var url = $button.data('url');
+		var $label = $button.find('.simcal-calendar-action-label');
+		var originalLabel = $label.text();
+
+		if (!url) {
+			return;
+		}
+
+		function showCopied() {
+			$label.text('Copied!');
+			setTimeout(function () {
+				$label.text(originalLabel);
+			}, 2000);
+		}
+
+		if (navigator.clipboard && navigator.clipboard.writeText) {
+			navigator.clipboard
+				.writeText(url)
+				.then(showCopied)
+				.catch(function () {
+					copyWithTextarea(url);
+					showCopied();
+				});
+		} else {
+			copyWithTextarea(url);
+			showCopied();
+		}
+
+		function copyWithTextarea(text) {
+			var $temp = $('<textarea readonly>')
+				.val(text)
+				.css({ position: 'fixed', top: '-9999px', left: '-9999px', opacity: 0 })
+				.appendTo('body');
+			$temp[0].focus();
+			$temp[0].select();
+			document.execCommand('copy');
+			$temp.remove();
+		}
 	});
 
 	/**
