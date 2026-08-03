@@ -4,10 +4,12 @@ permissions:
   contents: read
   issues: write
   pull-requests: write
+  actions: write
 
 on:
   schedule:
     - cron: '30 11 * * *'
+  workflow_dispatch:
 
 jobs:
   stale:

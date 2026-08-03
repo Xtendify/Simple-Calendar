@@ -690,7 +690,7 @@ body .simcal-field-textarea {
 .simcal-panel-field > th {
 	font-weight: normal;
 	min-width: 100px;
-	width: 15%;
+	width: 18%;
 }
 
 .simcal-panel-field > td,
@@ -770,6 +770,9 @@ body .simcal-field-textarea {
 	display: inline-block;
 	height: 22px;
 	width: 22px;
+}
+.post-type-calendar #wpfooter {
+	display: none;
 }
 
 @media screen and (max-width: 782px) {

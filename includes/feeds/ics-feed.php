@@ -212,7 +212,10 @@ class Ics_Feed extends Feed
 				'ics_file_too_large',
 				sprintf(
 					/* translators: %s: maximum upload file size */
-					__('The ICS file is too large. Please increase the PHP upload limit (currently %s) or upload a smaller file.', 'google-calendar-events'),
+					__(
+						'The ICS file is too large. Please increase the PHP upload limit (currently %s) or upload a smaller file.',
+						'google-calendar-events',
+					),
 					size_format(wp_max_upload_size()),
 				),
 			);
@@ -492,6 +495,8 @@ class Ics_Feed extends Feed
 				$occurrences = $this->expand_rrule_occurrences($start, $duration, $rrule);
 			}
 
+			$meta = $this->get_ics_event_meta($properties);
+
 			foreach ($occurrences as $occurrence) {
 				[$occurrence_start, $occurrence_end] = $occurrence;
 				$start_utc = Carbon::createFromTimestamp($occurrence_start->getTimestamp(), 'UTC');
@@ -504,15 +509,9 @@ class Ics_Feed extends Feed
 					$key--;
 				}
 
-				$meta = [];
-				$color = $this->ics_event_color;
-				if ($this->ics_events_colors && !empty($color)) {
-					$meta['color'] = $color;
-				}
-
 				$events[$key][] = [
 					'type' => 'ics-feed',
-					'source' => $this->ics_feed_file,
+					'source' => !empty($this->ics_feed_url) ? $this->ics_feed_url : $this->ics_feed_file,
 					'title' => $title,
 					'description' => $description,
 					'link' => $link,
@@ -539,6 +538,27 @@ class Ics_Feed extends Feed
 		}
 
 		return $events;
+	}
+
+	/**
+	 * Build event meta for a parsed ICS VEVENT.
+	 *
+	 * Core only sets color. Pro overrides this to add attachments, attendees, organizer.
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param array $properties Parsed VEVENT properties.
+	 * @return array
+	 */
+	protected function get_ics_event_meta($properties)
+	{
+		$meta = [];
+		$color = $this->ics_event_color;
+		if ($this->ics_events_colors && !empty($color)) {
+			$meta['color'] = $color;
+		}
+
+		return $meta;
 	}
 
 	/**
@@ -838,6 +858,7 @@ class Ics_Feed extends Feed
 	{
 		$properties = [];
 		$lines = explode("\n", $block);
+		$multi_value = ['ATTACH', 'ATTENDEE', 'EXDATE', 'RDATE'];
 
 		foreach ($lines as $line) {
 			$line = trim($line);
@@ -856,21 +877,34 @@ class Ics_Feed extends Feed
 						continue;
 					}
 					[$param_key, $param_value] = explode('=', $param_part, 2);
-					$params[strtoupper($param_key)] = $param_value;
+					$params[strtoupper($param_key)] = trim($param_value, '"');
 				}
 			}
 
-			$properties[$name] = [
+			$entry = [
 				'value' => $value,
 				'params' => $params,
 			];
+
+			if (in_array($name, $multi_value, true)) {
+				if (!isset($properties[$name]) || !is_array($properties[$name])) {
+					$properties[$name] = [];
+				}
+				// Detect list-of-entries vs single entry shape.
+				if (isset($properties[$name]['value'])) {
+					$properties[$name] = [$properties[$name]];
+				}
+				$properties[$name][] = $entry;
+			} else {
+				$properties[$name] = $entry;
+			}
 		}
 
 		return $properties;
 	}
 
 	/**
-	 * Get a parsed ICS property.
+	 * Get a parsed ICS property (first entry for multi-value properties).
 	 *
 	 * @since 4.1.0
 	 *
@@ -879,16 +913,47 @@ class Ics_Feed extends Feed
 	 *
 	 * @return array
 	 */
-	private function get_ics_property($properties, $name)
+	protected function get_ics_property($properties, $name)
 	{
-		if (!isset($properties[$name]) || !is_array($properties[$name])) {
-			return [
+		$entries = $this->get_ics_properties($properties, $name);
+
+		return !empty($entries[0])
+			? $entries[0]
+			: [
 				'value' => '',
 				'params' => [],
 			];
+	}
+
+	/**
+	 * Get all parsed ICS properties for a name (supports multi-value).
+	 *
+	 * @since 4.1.0
+	 *
+	 * @param array  $properties Parsed properties.
+	 * @param string $name       Property name.
+	 *
+	 * @return array
+	 */
+	protected function get_ics_properties($properties, $name)
+	{
+		if (!isset($properties[$name]) || !is_array($properties[$name])) {
+			return [];
 		}
 
-		return $properties[$name];
+		// Single property shape: ['value' => ..., 'params' => ...].
+		if (isset($properties[$name]['value'])) {
+			return [$properties[$name]];
+		}
+
+		$list = [];
+		foreach ($properties[$name] as $entry) {
+			if (is_array($entry) && isset($entry['value'])) {
+				$list[] = $entry;
+			}
+		}
+
+		return $list;
 	}
 
 	/**
@@ -971,7 +1036,7 @@ class Ics_Feed extends Feed
 	 *
 	 * @return string
 	 */
-	private function unescape_ics_text($value)
+	protected function unescape_ics_text($value)
 	{
 		return str_replace(['\\n', '\\N', '\\,', '\\;'], ["\n", "\n", ',', ';'], $value);
 	}
