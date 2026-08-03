@@ -11,6 +11,7 @@ use SimpleCalendar\Abstracts\Calendar;
 use SimpleCalendar\Abstracts\Feed;
 use SimpleCalendar\Abstracts\Field;
 use SimpleCalendar\Abstracts\Meta_Box;
+use SimpleCalendar\Feeds\Admin\Ics_Feed_Admin;
 
 if (!defined('ABSPATH')) {
 	exit();
@@ -628,6 +629,20 @@ class Settings implements Meta_Box
       	'value' => 'yes' == $display_print_calendar_value ? 'yes' : 'no',
       	'text' => __('Display Print Calendar Button', 'google-calendar-events'),
       ]);
+
+      if (class_exists(Ics_Feed_Admin::class)) {
+      	echo wp_kses(Ics_Feed_Admin::ics_source_field_help(), [
+      		'p' => [
+      			'class' => true,
+      		],
+      		'a' => [
+      			'href' => true,
+      			'target' => true,
+      		],
+      		'br' => [],
+      		'strong' => [],
+      	]);
+      }
       ?>
 					</td>
 					</tr>
