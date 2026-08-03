@@ -320,6 +320,27 @@
 	max-width: 24px;
 }
 
+.simcal-default-calendar .simcal-cover-image {
+	display: block;
+	margin: 0 0 8px;
+	max-width: 100%;
+}
+
+.simcal-default-calendar .simcal-cover-image a {
+	border-bottom: 0;
+	display: block;
+	text-decoration: none;
+}
+
+.simcal-default-calendar .simcal-cover-img {
+	display: block;
+	height: auto;
+	max-height: 220px;
+	max-width: 100%;
+	object-fit: contain;
+	width: auto;
+}
+
 .simcal-default-calendar .simcal-tooltip-content {
 	font-size: 1.2em;
 	line-height: 1.4;

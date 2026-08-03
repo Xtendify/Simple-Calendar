@@ -531,6 +531,14 @@ function simcal_delete_feed_transients($id = '')
 				foreach ($feed_types as $feed_type) {
 					delete_transient('_simple-calendar_feed_id_' . strval($calendar->id) . '_' . $feed_type);
 				}
+				/**
+				 * Clear Pro ICS subscription feed cache for this calendar.
+				 *
+				 * @since 4.1.0
+				 *
+				 * @param int $calendar_id Calendar post ID.
+				 */
+				do_action('simcal_clear_ics_feed_cache', $calendar->id);
 			}
 		}
 	} else {
@@ -540,6 +548,7 @@ function simcal_delete_feed_transients($id = '')
 			foreach ($feed_types as $feed_type) {
 				delete_transient('_simple-calendar_feed_id_' . strval($calendar->id) . '_' . $feed_type);
 			}
+			do_action('simcal_clear_ics_feed_cache', $calendar->id);
 		}
 	}
 

@@ -254,10 +254,7 @@ class Default_Calendar_List implements Calendar_View
 
 			echo '</div>';
 
-			$is_print_calendar = get_post_meta($calendar->id, '_display_print_calendar');
-			if (isset($is_print_calendar[0]) && !empty($is_print_calendar[0]) && $is_print_calendar[0] === 'yes') {
-				echo '<button id="print-calendar-button" class="print-calendar-button demo_sc_primary_btn">Print Calendar</button>';
-			}
+			\SimpleCalendar\Ics_Export::print_actions($calendar->id);
 		}
 	}
 
