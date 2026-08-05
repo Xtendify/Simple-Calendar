@@ -680,10 +680,11 @@ class Default_Calendar_List implements Calendar_View
 								'" style="' .
 								$event_visibility .
 								$event_color .
-								'" itemscope itemtype="http://schema.org/Event" data-start="' .
+								'" itemscope itemtype="https://schema.org/Event" data-start="' .
 								esc_attr($event->start) .
 								'">' .
 								"\n";
+							$list_events .= "\t\t" . $calendar->get_event_schema_meta($event) . "\n";
 							$list_events .=
 								"\t\t" . '<div class="simcal-event-details">' . $calendar->get_event_html($event) . '</div>' . "\n";
 							$list_events .= "\t" . '</li>' . "\n";

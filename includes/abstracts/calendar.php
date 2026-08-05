@@ -761,6 +761,22 @@ abstract class Calendar
 	}
 
 	/**
+	 * Get always-on Event schema microdata for an event wrapper.
+	 *
+	 * @since  4.1.1
+	 *
+	 * @param  Event $event Event object.
+	 *
+	 * @return string
+	 */
+	public function get_event_schema_meta(Event $event)
+	{
+		$event_builder = new Event_Builder($event, $this);
+
+		return $event_builder->get_schema_meta();
+	}
+
+	/**
 	 * Get "Add to Google Calendar" link.
 	 *
 	 * @since  3.1.3
