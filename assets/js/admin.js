@@ -252,27 +252,36 @@
 			defCalSettings = $('#default-calendar-settings'),
 			gridSettings = defCalSettings.find('.simcal-default-calendar-grid'),
 			listSettings = defCalSettings.find('.simcal-default-calendar-list'),
-			groupedListSettings = defCalSettings.find('.simcal-default-calendar-list-grouped');
+			groupedListSettings = defCalSettings.find('.simcal-default-calendar-list-grouped'),
+			listOnMobile = $('#_default_calendar_grid_desktop_list_mobile');
 
-		defCalViews
-			.on('change', function () {
-				var selView = $(this).val();
+		function toggleDefaultCalendarSettings() {
+			var selView = defCalViews.val();
 
-				if ('grid' == selView) {
-					listSettings.hide();
-					groupedListSettings.hide();
-					gridSettings.show();
-				} else if ('list' == selView) {
-					gridSettings.hide();
-					groupedListSettings.hide();
+			if ('grid' == selView) {
+				groupedListSettings.hide();
+				gridSettings.show();
+
+				// When list-on-mobile is enabled, also show list-only settings.
+				if (listOnMobile.is(':checked')) {
 					listSettings.show();
-				} else if ('list-grouped' == selView) {
-					gridSettings.hide();
-					listSettings.hide();
-					groupedListSettings.show();
+				} else {
+					// Hide list-only rows (keep shared grid+list rows visible via gridSettings).
+					defCalSettings.find('.simcal-default-calendar-list').not('.simcal-default-calendar-grid').hide();
 				}
-			})
-			.trigger('change');
+			} else if ('list' == selView) {
+				gridSettings.hide();
+				groupedListSettings.hide();
+				listSettings.show();
+			} else if ('list-grouped' == selView) {
+				gridSettings.hide();
+				listSettings.hide();
+				groupedListSettings.show();
+			}
+		}
+
+		defCalViews.on('change', toggleDefaultCalendarSettings).trigger('change');
+		listOnMobile.on('change', toggleDefaultCalendarSettings);
 
 		var calendar_type = $('#_calendar_type');
 

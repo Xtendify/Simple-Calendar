@@ -643,6 +643,21 @@
 	text-decoration: none;
 }
 
+/* Grid on desktop / list on mobile. Hidden view uses display:none (no layout/paint). */
+.simcal-responsive-views .simcal-default-calendar-list {
+	display: none;
+}
+
+@media (max-width: 768px) {
+	.simcal-responsive-views .simcal-default-calendar-grid {
+		display: none;
+	}
+
+	.simcal-responsive-views .simcal-default-calendar-list {
+		display: block;
+	}
+}
+
 @media print {
 	.simcal-print-calendar main,
 	.simcal-print-calendar #header,

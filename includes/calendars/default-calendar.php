@@ -99,6 +99,22 @@ class Default_Calendar extends Calendar
 	public $days_events_color = '#000000';
 
 	/**
+	 * Show grid on desktop and list on mobile.
+	 *
+	 * @access public
+	 * @var bool
+	 */
+	public $grid_desktop_list_mobile = false;
+
+	/**
+	 * Whether multi-day events have already been expanded.
+	 *
+	 * @access private
+	 * @var bool
+	 */
+	private $events_expanded = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 3.0.0
@@ -117,6 +133,9 @@ class Default_Calendar extends Calendar
 		parent::__construct($calendar);
 
 		if (!is_null($this->post)) {
+			$this->grid_desktop_list_mobile =
+				'yes' === get_post_meta($this->id, '_default_calendar_grid_desktop_list_mobile', true);
+
 			$this->set_properties($this->view->get_type());
 
 			$id = $this->id;
@@ -144,14 +163,55 @@ class Default_Calendar extends Calendar
 	}
 
 	/**
+	 * Output the calendar markup.
+	 *
+	 * When grid-desktop/list-mobile is enabled, both views are rendered as
+	 * siblings and toggled via CSS at the mobile breakpoint. Only one view
+	 * is visible at a time; JS defers initializing the hidden sibling.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $view The calendar view to display.
+	 */
+	public function html($view = '')
+	{
+		$requested = $view;
+		$view = empty($view) ? $this->view : $this->get_view($view);
+
+		if (
+			!($view instanceof Calendar_View) ||
+			!$this->grid_desktop_list_mobile ||
+			'grid' !== $view->get_type() ||
+			!empty($this->errors)
+		) {
+			parent::html($requested);
+			return;
+		}
+
+		echo '<div class="simcal-responsive-views">';
+
+		// Grid (desktop) — properties already set for grid in constructor.
+		$this->render_view_shell($view, false);
+
+		// List (mobile) — apply list properties once, then render.
+		$this->set_properties('list');
+		$list_view = $this->get_view('list');
+		$this->render_view_shell($list_view, false);
+
+		$this->render_powered_by();
+
+		echo '</div>';
+	}
+
+	/**
 	 * Set properties.
 	 *
 	 * @since  3.0.0
-	 * @access private
+	 * @access protected
 	 *
 	 * @param  $view
 	 */
-	private function set_properties($view)
+	protected function set_properties($view)
 	{
 		// Set styles.
 		if ('dark' == get_post_meta($this->id, '_default_calendar_style_theme', true)) {
@@ -169,13 +229,15 @@ class Default_Calendar extends Calendar
 			$this->events_limit = absint(get_post_meta($this->id, '_default_calendar_visible_events', true));
 		}
 
-		// Expand multiple day events.
+		// Expand multiple day events (once only when dual-rendering).
 		if (
-			'yes' == get_post_meta($this->id, '_default_calendar_expand_multi_day_events', true) ||
-			('list' == $view &&
-				'current_day_only' == get_post_meta($this->id, '_default_calendar_expand_multi_day_events', true))
+			!$this->events_expanded &&
+			('yes' == get_post_meta($this->id, '_default_calendar_expand_multi_day_events', true) ||
+				('list' == $view &&
+					'current_day_only' == get_post_meta($this->id, '_default_calendar_expand_multi_day_events', true)))
 		) {
 			$this->events = $this->expand_multiple_days_events();
+			$this->events_expanded = true;
 		}
 
 		if ('grid' == $view) {
