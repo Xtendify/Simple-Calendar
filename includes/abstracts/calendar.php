@@ -9,6 +9,7 @@ namespace SimpleCalendar\Abstracts;
 use SimpleCalendar\plugin_deps\Carbon\Carbon;
 use SimpleCalendar\Events\Event;
 use SimpleCalendar\Events\Event_Builder;
+use SimpleCalendar\Events\Event_Schema;
 use SimpleCalendar\Events\Events;
 
 if (!defined('ABSPATH')) {
@@ -771,9 +772,9 @@ abstract class Calendar
 	 */
 	public function get_event_schema_meta(Event $event)
 	{
-		$event_builder = new Event_Builder($event, $this);
+		$event_schema = new Event_Schema($event);
 
-		return $event_builder->get_schema_meta();
+		return $event_schema->get_schema_meta();
 	}
 
 	/**
