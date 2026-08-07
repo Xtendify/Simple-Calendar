@@ -9,6 +9,7 @@ namespace SimpleCalendar\Abstracts;
 use SimpleCalendar\plugin_deps\Carbon\Carbon;
 use SimpleCalendar\Events\Event;
 use SimpleCalendar\Events\Event_Builder;
+use SimpleCalendar\Events\Event_Schema;
 use SimpleCalendar\Events\Events;
 
 if (!defined('ABSPATH')) {
@@ -758,6 +759,22 @@ abstract class Calendar
 		// Use the event template to parse tags; if empty, fallback to calendar post content.
 		$template = empty($template) ? (empty($event->template) ? $this->events_template : $event->template) : $template;
 		return $event_builder->parse_event_template_tags($template);
+	}
+
+	/**
+	 * Get always-on Event schema microdata for an event wrapper.
+	 *
+	 * @since  4.1.1
+	 *
+	 * @param  Event $event Event object.
+	 *
+	 * @return string
+	 */
+	public function get_event_schema_meta(Event $event)
+	{
+		$event_schema = new Event_Schema($event);
+
+		return $event_schema->get_schema_meta();
 	}
 
 	/**
