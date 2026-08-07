@@ -412,15 +412,16 @@ jQuery(function ($) {
 			return;
 		}
 
-		var $divToPrint = $calendar.clone(true);
-		$('body').children().hide();
+		var $divToPrint = $calendar.clone(false);
+		var $toHide = $('body').children().not('script').filter(':visible');
+		$toHide.hide();
 		$('body').append($divToPrint);
 		$('body').addClass('simcal-print-calendar');
 
 		window.print();
 
-		$('body > .simcal-calendar').remove();
-		$('body').children().not('script').show();
+		$divToPrint.remove();
+		$toHide.show();
 		$('body').removeClass('simcal-print-calendar');
 	});
 
