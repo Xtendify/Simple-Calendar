@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
  *
  * Builds always-on schema.org Event meta independent of event template tags.
  *
- * @since 4.1.1
+ * @since 4.1.2
  */
 class Event_Schema
 {
@@ -33,7 +33,7 @@ class Event_Schema
 	/**
 	 * Constructor.
 	 *
-	 * @since 4.1.1
+	 * @since 4.1.2
 	 *
 	 * @param Event $event
 	 */
@@ -48,7 +48,7 @@ class Event_Schema
 	 * Ensures recommended Event fields are present on the Event node even when
 	 * the event template omits the related content tags.
 	 *
-	 * @since  4.1.1
+	 * @since  4.1.2
 	 *
 	 * @return string
 	 */
@@ -63,8 +63,7 @@ class Event_Schema
 
 		$html .= '<meta itemprop="eventStatus" content="https://schema.org/EventScheduled" />';
 
-		$html .=
-			'<meta itemprop="eventAttendanceMode" content="' . esc_attr($this->get_schema_attendance_mode()) . '" />';
+		$html .= '<meta itemprop="eventAttendanceMode" content="' . esc_attr($this->get_schema_attendance_mode()) . '" />';
 
 		$image_url = $this->get_schema_image_url();
 		if (!empty($image_url)) {
@@ -81,7 +80,7 @@ class Event_Schema
 	/**
 	 * Resolve schema.org eventAttendanceMode for the event.
 	 *
-	 * @since  4.1.1
+	 * @since  4.1.2
 	 * @access private
 	 *
 	 * @return string
@@ -89,23 +88,22 @@ class Event_Schema
 	private function get_schema_attendance_mode()
 	{
 		$location = !empty($this->event->start_location['address']) ? $this->event->start_location['address'] : '';
-
-		if (!empty($location)) {
-			return 'https://schema.org/OfflineEventAttendanceMode';
-		}
-
 		$link = !empty($this->event->link) ? $this->event->link : '';
-		if ($this->is_virtual_event_url($link)) {
+		$has_location = !empty($location);
+		$has_virtual_location = $this->is_virtual_event_url($link);
+		if ($has_location && $has_virtual_location) {
+			return 'https://schema.org/MixedEventAttendanceMode';
+		}
+		if ($has_virtual_location) {
 			return 'https://schema.org/OnlineEventAttendanceMode';
 		}
-
 		return 'https://schema.org/OfflineEventAttendanceMode';
 	}
 
 	/**
 	 * Whether a URL looks like a virtual meeting link.
 	 *
-	 * @since  4.1.1
+	 * @since  4.1.2
 	 * @access private
 	 *
 	 * @param  string $url
@@ -135,7 +133,7 @@ class Event_Schema
 		];
 
 		foreach ($virtual_hosts as $virtual_host) {
-			if ($host === $virtual_host || substr($host, -1 - strlen($virtual_host)) === '.' . $virtual_host) {
+			if ($host === $virtual_host || substr($host, -(1 - strlen($virtual_host))) === '.' . $virtual_host) {
 				return true;
 			}
 		}
@@ -146,7 +144,7 @@ class Event_Schema
 	/**
 	 * Resolve an image URL for Event schema.
 	 *
-	 * @since  4.1.1
+	 * @since  4.1.2
 	 * @access private
 	 *
 	 * @return string
@@ -209,7 +207,7 @@ class Event_Schema
 	/**
 	 * Build organizer microdata for Event schema.
 	 *
-	 * @since  4.1.1
+	 * @since  4.1.2
 	 * @access private
 	 *
 	 * @return string
@@ -218,8 +216,7 @@ class Event_Schema
 	{
 		$organizer = $this->event->get_organizer();
 		if (!empty($organizer) && is_array($organizer) && !empty($organizer['name'])) {
-			$html =
-				'<span itemprop="organizer" itemscope itemtype="https://schema.org/Person" style="display:none;">';
+			$html = '<span itemprop="organizer" itemscope itemtype="https://schema.org/Person" style="display:none;">';
 			$html .= '<meta itemprop="name" content="' . esc_attr($organizer['name']) . '" />';
 			if (!empty($organizer['email']) && $this->is_organizer_email_public()) {
 				$html .= '<meta itemprop="email" content="' . esc_attr($organizer['email']) . '" />';
@@ -249,7 +246,7 @@ class Event_Schema
 	 *
 	 * Mirrors Event_Builder [organizer] default: email="hide" unless email="show".
 	 *
-	 * @since  4.1.1
+	 * @since  4.1.2
 	 * @access private
 	 *
 	 * @return bool
@@ -278,7 +275,7 @@ class Event_Schema
 	 * Only emitted when the event source provides actual performer data.
 	 * Does not fall back to organizer or site name.
 	 *
-	 * @since  4.1.1
+	 * @since  4.1.2
 	 * @access private
 	 *
 	 * @return string
@@ -297,15 +294,10 @@ class Event_Schema
 				continue;
 			}
 
-			$type =
-				!empty($performer['type']) && 'Organization' === $performer['type']
-					? 'Organization'
-					: 'Person';
+			$type = !empty($performer['type']) && 'Organization' === $performer['type'] ? 'Organization' : 'Person';
 
 			$html .=
-				'<span itemprop="performer" itemscope itemtype="https://schema.org/' .
-				$type .
-				'" style="display:none;">';
+				'<span itemprop="performer" itemscope itemtype="https://schema.org/' . $type . '" style="display:none;">';
 			$html .= '<meta itemprop="name" content="' . esc_attr($name) . '" />';
 			$html .= '</span>';
 		}
@@ -316,7 +308,7 @@ class Event_Schema
 	/**
 	 * Get performer data supplied by the event source.
 	 *
-	 * @since  4.1.1
+	 * @since  4.1.2
 	 * @access private
 	 *
 	 * @return array
@@ -346,7 +338,7 @@ class Event_Schema
 	 * Uses verified ticket Offer data when present. When no ticket data exists,
 	 * falls back to a free Offer with price 0.
 	 *
-	 * @since  4.1.1
+	 * @since  4.1.2
 	 * @access private
 	 *
 	 * @return string
@@ -375,7 +367,7 @@ class Event_Schema
 	/**
 	 * Build a free Offer fallback (price 0) when no verified ticket data exists.
 	 *
-	 * @since  4.1.1
+	 * @since  4.1.2
 	 * @access private
 	 *
 	 * @return array Empty array when a purchase/event URL is unavailable.
@@ -418,7 +410,7 @@ class Event_Schema
 	 *
 	 * Requires price, priceCurrency, availability, url, and validFrom.
 	 *
-	 * @since  4.1.1
+	 * @since  4.1.2
 	 * @access private
 	 *
 	 * @return array Empty array when required ticket fields are missing.
@@ -448,16 +440,22 @@ class Event_Schema
 			$price = isset($candidate['price']) ? $candidate['price'] : null;
 			$currency = !empty($candidate['priceCurrency'])
 				? $candidate['priceCurrency']
-				: (!empty($candidate['currency']) ? $candidate['currency'] : '');
+				: (!empty($candidate['currency'])
+					? $candidate['currency']
+					: '');
 			$availability = !empty($candidate['availability']) ? $candidate['availability'] : '';
 			$url = !empty($candidate['url'])
 				? $candidate['url']
-				: (!empty($candidate['purchase_url']) ? $candidate['purchase_url'] : '');
+				: (!empty($candidate['purchase_url'])
+					? $candidate['purchase_url']
+					: '');
 			$valid_from = !empty($candidate['validFrom'])
 				? $candidate['validFrom']
 				: (!empty($candidate['valid_from'])
 					? $candidate['valid_from']
-					: (!empty($candidate['sales_start']) ? $candidate['sales_start'] : ''));
+					: (!empty($candidate['sales_start'])
+						? $candidate['sales_start']
+						: ''));
 
 			if (null === $price || !is_numeric($price)) {
 				continue;

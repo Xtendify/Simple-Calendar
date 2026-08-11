@@ -764,7 +764,7 @@ abstract class Calendar
 	/**
 	 * Get always-on Event schema microdata for an event wrapper.
 	 *
-	 * @since  4.1.1
+	 * @since  4.1.2
 	 *
 	 * @param  Event $event Event object.
 	 *

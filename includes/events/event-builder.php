@@ -853,8 +853,7 @@ class Event_Builder
 
 			// Single-day all-day events still need endDate for Event schema.
 			if ($event->whole_day && $end instanceof Carbon && empty($time_end)) {
-				$output .=
-					'<meta itemprop="endDate" content="' . esc_attr($end_iso) . '" />';
+				$output .= '<meta itemprop="endDate" content="' . esc_attr($end_iso) . '" />';
 			}
 		}
 
