@@ -229,11 +229,14 @@ class Default_Calendar extends Calendar
 			$this->events_limit = absint(get_post_meta($this->id, '_default_calendar_visible_events', true));
 		}
 
+		// List settings are needed for list view and for grid+list-on-mobile AJAX navigation.
+		$needs_list_props = 'list' === $view || $this->grid_desktop_list_mobile;
+
 		// Expand multiple day events (once only when dual-rendering).
 		if (
 			!$this->events_expanded &&
 			('yes' == get_post_meta($this->id, '_default_calendar_expand_multi_day_events', true) ||
-				('list' == $view &&
+				($needs_list_props &&
 					'current_day_only' == get_post_meta($this->id, '_default_calendar_expand_multi_day_events', true)))
 		) {
 			$this->events = $this->expand_multiple_days_events();
@@ -250,9 +253,12 @@ class Default_Calendar extends Calendar
 			if ('yes' == get_post_meta($this->id, '_default_calendar_trim_titles', true)) {
 				$this->trim_titles = max(absint(get_post_meta($this->id, '_default_calendar_trim_titles_chars', true)), 1);
 			}
-		} else {
-			// List range.
-			$this->group_type = esc_attr(get_post_meta($this->id, '_default_calendar_list_range_type', true));
+		}
+
+		if ($needs_list_props) {
+			// List range (default monthly when unset — required for list prev/next timestamps).
+			$list_type = get_post_meta($this->id, '_default_calendar_list_range_type', true);
+			$this->group_type = $list_type ? esc_attr($list_type) : 'monthly';
 			$this->group_span = max(absint(get_post_meta($this->id, '_default_calendar_list_range_span', true)), 1);
 
 			// Make the list look more compact.
