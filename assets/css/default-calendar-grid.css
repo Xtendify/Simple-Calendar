@@ -434,6 +434,7 @@
 	width: 100%;
 }
 .simcal-default-calendar-grid > table thead th,
+.simcal-default-calendar-grid > table thead td,
 .simcal-default-calendar-grid > table tbody td {
 	text-align: center;
 	vertical-align: top;
@@ -509,12 +510,27 @@
 }
 
 .simcal-default-calendar-grid .simcal-events {
-	font-size: 0.68em;
+	font-size: 0.75rem;
 	line-height: 1.4;
 	list-style: none;
 	margin: 0;
 	padding: 0;
 	text-align: left;
+}
+.simcal-default-calendar-grid .simcal-event-color {
+	background-color: currentColor;
+	border-radius: 1px;
+	display: inline-block;
+	height: 0.65em;
+	margin-right: 0.35em;
+	vertical-align: middle;
+	width: 0.65em;
+}
+.simcal-default-calendar-grid .simcal-event-color-dot {
+	border-radius: 50%;
+	height: 0.55em;
+	margin: 0 1px;
+	width: 0.55em;
 }
 .simcal-default-calendar-grid .simcal-events > .simcal-event {
 	border-bottom-style: solid;
@@ -551,7 +567,7 @@
 .simcal-default-calendar-grid .simcal-events-toggle {
 	background: transparent;
 	display: block;
-	font-size: 10px;
+	font-size: 12px;
 	padding: 2px 0;
 }
 

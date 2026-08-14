@@ -203,7 +203,7 @@ class Default_Calendar_Grid implements Calendar_View
                 <thead class="simcal-calendar-head">
                 <tr>
 					<?php if (!$calendar->static) { ?>
-                        <th class="simcal-nav simcal-prev-wrapper" colspan="<?php echo apply_filters(
+                        <td class="simcal-nav simcal-prev-wrapper" colspan="<?php echo apply_filters(
                         	'simcal_prev_cols',
                         	'1',
                         ); ?>">
@@ -213,10 +213,10 @@ class Default_Calendar_Grid implements Calendar_View
                             ); ?>" aria-label="<?php _e(
 	'Previous Month',
 	'google-calendar-events',
-); ?>"><i class="simcal-icon-left"></i></button>
-                        </th>
+); ?>"><i class="simcal-icon-left" aria-hidden="true"></i></button>
+                        </td>
 					<?php } ?>
-                    <th colspan="<?php echo apply_filters('simcal_current_cols', $calendar->static ? '7' : '5'); ?>"
+                    <td colspan="<?php echo apply_filters('simcal_current_cols', $calendar->static ? '7' : '5'); ?>"
                         class="simcal-nav simcal-current"
                         data-calendar-current="<?php echo $calendar->start; ?>">
 						<?php
@@ -239,9 +239,9 @@ class Default_Calendar_Grid implements Calendar_View
 
       echo '</h3>';
       ?>
-                    </th>
+                    </td>
 					<?php if (!$calendar->static) { ?>
-                        <th class="simcal-nav simcal-next-wrapper" colspan="<?php echo apply_filters(
+                        <td class="simcal-nav simcal-next-wrapper" colspan="<?php echo apply_filters(
                         	'simcal_next_cols',
                         	'1',
                         ); ?>">
@@ -251,8 +251,8 @@ class Default_Calendar_Grid implements Calendar_View
                             ); ?>" aria-label="<?php _e(
 	'Next Month',
 	'google-calendar-events',
-); ?>"><i class="simcal-icon-right"></i></button>
-                        </th>
+); ?>"><i class="simcal-icon-right" aria-hidden="true"></i></button>
+                        </td>
 					<?php } ?>
                 </tr>
                 <tr>
@@ -513,10 +513,12 @@ class Default_Calendar_Grid implements Calendar_View
 
 						// Event color.
 						$bullet = '';
-						//$bullet_color = '#000';
 						$event_color = $event->get_color();
 						if (!empty($event_color)) {
-							$bullet = '<span style="color: ' . $event_color . ';">&#9632;</span> ';
+							$bullet =
+								'<span class="simcal-event-color" style="background-color: ' .
+								esc_attr($event_color) .
+								';" aria-hidden="true"></span>';
 							$bullet_colors[] = $event_color;
 						} else {
 							$bullet_colors[] = '#000';
@@ -558,7 +560,7 @@ class Default_Calendar_Grid implements Calendar_View
 				// Optional button to toggle hidden events in list.
 				if ($calendar->events_limit > -1 && $count > $calendar->events_limit):
 					$list_events .=
-						'<button class="simcal-events-toggle"><i class="simcal-icon-down simcal-icon-animate"></i></button>';
+						'<button class="simcal-events-toggle"><i class="simcal-icon-down simcal-icon-animate" aria-hidden="true"></i></button>';
 				endif;
 
 				// Empty cell for day with no events.
@@ -586,9 +588,11 @@ class Default_Calendar_Grid implements Calendar_View
 			echo "\t\t";
 			echo '<span class="simcal-events-dots" style="display: none;">';
 
-			// Event bullets for calendar mobile mode.
+			// Event color markers for calendar mobile mode.
 			for ($i = 0; $i < $count; $i++) {
-				echo '<b style="color: ' . $bullet_colors[$i] . ';"> &bull; </b>';
+				echo '<span class="simcal-event-color simcal-event-color-dot" style="background-color: ' .
+					esc_attr($bullet_colors[$i]) .
+					';" aria-hidden="true"></span>';
 			}
 
 			echo '</span>' . "\n";
