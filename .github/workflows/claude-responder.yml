@@ -1,0 +1,31 @@
+# Claude answers @claude mentions on pull requests, including replies inside an existing
+# review thread.
+#
+# All the logic lives in Xtendify/github-workflows. Change it there and every consuming
+# repo picks it up — do not fork this file. GitHub only runs workflows stored in this
+# repo's own .github/workflows, which is why this thin caller has to exist at all.
+#
+# Managed by scripts/deploy-claude-pr-reviewer.sh in Xtendify/internal--hub.
+
+name: Claude Responder
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review_comment:
+    types: [created]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  respond:
+    uses: Xtendify/github-workflows/.github/workflows/claude-responder.yml@main
+    secrets: inherit
+    # A called workflow can never exceed the calling job's token, so the permissions have
+    # to be granted here. `contents: write` because Claude may be asked to push a fix.
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read
