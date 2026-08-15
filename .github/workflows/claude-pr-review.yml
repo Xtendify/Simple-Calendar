@@ -1,0 +1,27 @@
+# Automated Claude review on every PR open and every push to a PR.
+#
+# All the logic lives in Xtendify/github-workflows. Change the prompt, model, tool
+# allowlist or cost caps there and every consuming repo picks it up — do not fork this
+# file. GitHub only runs workflows stored in this repo's own .github/workflows, which is
+# why this thin caller has to exist at all.
+#
+# Managed by scripts/deploy-claude-pr-reviewer.sh in Xtendify/internal--hub.
+
+name: Claude PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  review:
+    uses: Xtendify/github-workflows/.github/workflows/claude-pr-review.yml@main
+    secrets: inherit
+    # A called workflow can never exceed the calling job's token, so the permissions have
+    # to be granted here.
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: read
+      id-token: write
+      actions: read
