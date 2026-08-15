@@ -16,7 +16,11 @@ on:
 jobs:
   review:
     uses: Xtendify/github-workflows/.github/workflows/claude-pr-review.yml@main
-    secrets: inherit
+    # Named rather than `secrets: inherit`, which would hand the shared workflow every
+    # secret this repo can see. The review job runs Claude with Bash access, so it gets
+    # the one credential it needs and nothing else.
+    secrets:
+      CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
     # A called workflow can never exceed the calling job's token, so the permissions have
     # to be granted here.
     permissions:
