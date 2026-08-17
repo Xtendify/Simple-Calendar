@@ -225,7 +225,7 @@ class Default_Calendar_List implements Calendar_View
 				echo "\t" .
 					'<div class="simcal-nav simcal-current ' .
 					$header_class .
-					'" data-calendar-current="' .
+					'" aria-live="polite" aria-atomic="true" data-calendar-current="' .
 					$calendar->start .
 					'">' .
 					"\n";

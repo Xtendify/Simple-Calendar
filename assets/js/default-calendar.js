@@ -75,6 +75,7 @@ jQuery(function ($) {
 					},
 					beforeSend: function () {
 						spinner.fadeToggle();
+						body.attr('aria-busy', 'true');
 					},
 					success: function (response) {
 						currentMonth.text(simcal_default_calendar.months.full[month]);
@@ -88,11 +89,14 @@ jQuery(function ($) {
 						date = newDate;
 
 						body.replaceWith(response.data);
+						body = calendar.find('.simcal-month');
+						body.removeAttr('aria-busy');
 
 						calendarBubbles(calendar, list);
 						expandEventsToggle();
 					},
 					error: function (response) {
+						body.removeAttr('aria-busy');
 						console.log(response);
 					},
 				});
@@ -116,9 +120,12 @@ jQuery(function ($) {
 					},
 					beforeSend: function () {
 						spinner.fadeToggle();
+						list.attr('aria-busy', 'true');
 					},
 					success: function (response) {
 						list.replaceWith(response.data);
+						list = calendar.find('.simcal-events-list-container');
+						list.removeAttr('aria-busy');
 						current.attr('data-calendar-current', timestamp);
 
 						toggleListHeading(calendar);
@@ -128,6 +135,7 @@ jQuery(function ($) {
 						expandEventsToggle();
 					},
 					error: function (response) {
+						list.removeAttr('aria-busy');
 						console.log(response);
 					},
 				});

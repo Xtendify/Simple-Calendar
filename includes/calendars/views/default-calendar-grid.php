@@ -218,6 +218,8 @@ class Default_Calendar_Grid implements Calendar_View
 					<?php } ?>
                     <td colspan="<?php echo apply_filters('simcal_current_cols', $calendar->static ? '7' : '5'); ?>"
                         class="simcal-nav simcal-current"
+                        aria-live="polite"
+                        aria-atomic="true"
                         data-calendar-current="<?php echo $calendar->start; ?>">
 						<?php
       echo '<h3>';
