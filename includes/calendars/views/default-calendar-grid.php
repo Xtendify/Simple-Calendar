@@ -518,10 +518,8 @@ class Default_Calendar_Grid implements Calendar_View
 							$bullet =
 								'<span class="simcal-event-color" style="background-color: ' .
 								esc_attr($event_color) .
-								';" aria-hidden="true"></span>';
+								';" aria-hidden="true"></span> ';
 							$bullet_colors[] = $event_color;
-						} else {
-							$bullet_colors[] = '#000';
 						}
 
 						// Event contents.
@@ -590,10 +588,10 @@ class Default_Calendar_Grid implements Calendar_View
 			echo "\t\t";
 			echo '<span class="simcal-events-dots" style="display: none;">';
 
-			// Event color markers for calendar mobile mode.
-			for ($i = 0; $i < $count; $i++) {
+			// Event color markers for calendar mobile mode (colored events only).
+			foreach ($bullet_colors as $bullet_color) {
 				echo '<span class="simcal-event-color simcal-event-color-dot" style="background-color: ' .
-					esc_attr($bullet_colors[$i]) .
+					esc_attr($bullet_color) .
 					';" aria-hidden="true"></span>';
 			}
 
