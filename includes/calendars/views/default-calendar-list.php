@@ -646,20 +646,29 @@ class Default_Calendar_List implements Calendar_View
 
 				$count = 0;
 
-				foreach ($events as $day_events):
-					usort($day_events, [$this, 'cmp']);
+				// Flatten timestamp groups, then sort the whole day by start time.
+				// Calendar::set_events() orders buckets by end time for nav bounds; without this,
+				// an earlier-starting event that ends later (e.g. 1–6pm) can render after a
+				// later-starting event that ends sooner (e.g. 2–3pm) when multi-day expand is off.
+				$day_events = [];
+				foreach ($events as $event_group) {
+					foreach ($event_group as $event) {
+						$day_events[] = $event;
+					}
+				}
+				usort($day_events, [$this, 'cmp']);
 
-					foreach ($day_events as $event):
-						if ($event instanceof Event):
-							$event_classes = $event_visibility = '';
+				foreach ($day_events as $event):
+					if ($event instanceof Event):
+						$event_classes = $event_visibility = '';
 
-							$calendar_class = 'simcal-events-calendar-' . strval($event->calendar);
-							$calendar_classes[] = $calendar_class;
+						$calendar_class = 'simcal-events-calendar-' . strval($event->calendar);
+						$calendar_classes[] = $calendar_class;
 
-							$recurring = $event->recurrence ? 'simcal-event-recurring ' : '';
-							$has_location = $event->venue ? 'simcal-event-has-location ' : '';
+						$recurring = $event->recurrence ? 'simcal-event-recurring ' : '';
+						$has_location = $event->venue ? 'simcal-event-has-location ' : '';
 
-							$event_classes .= 'simcal-event ' . $recurring . $has_location . $calendar_class;
+						$event_classes .= 'simcal-event ' . $recurring . $has_location . $calendar_class;
 
 							// Toggle some events visibility if more than optional limit.
 							if ($calendar->events_limit > -1 && $count >= $calendar->events_limit):
@@ -700,7 +709,40 @@ class Default_Calendar_List implements Calendar_View
 								$day_classes .= ' ' . trim(implode(' ', array_unique($calendar_classes)));
 							endif;
 						endif;
-					endforeach;
+
+						$event_color = $event->get_color();
+						if (!empty($event_color)) {
+							$side = is_rtl() ? 'right' : 'left';
+							$event_color = ' border-' . $side . ': 4px solid ' . $event_color . '; padding-' . $side . ': 8px;';
+						}
+
+						$list_events .=
+							"\t" .
+							'<li class="' .
+							$event_classes .
+							'" style="' .
+							$event_visibility .
+							$event_color .
+							'" itemscope itemtype="http://schema.org/Event" data-start="' .
+							esc_attr($event->start) .
+							'">' .
+							"\n";
+						$list_events .=
+							"\t\t" . '<div class="simcal-event-details">' . $calendar->get_event_html($event) . '</div>' . "\n";
+						$list_events .= "\t" . '</li>' . "\n";
+
+						$count++;
+
+						// Event falls within today.
+						if ($this->end <= $now && $this->start >= $now):
+							$day_classes .= ' simcal-today-has-events';
+						endif;
+						$day_classes .= ' simcal-day-has-events simcal-day-has-' . strval($count) . '-events';
+
+						if ($calendar_classes):
+							$day_classes .= ' ' . trim(implode(' ', array_unique($calendar_classes)));
+						endif;
+					endif;
 				endforeach;
 
 				$list_events .= '</ul>' . "\n";
