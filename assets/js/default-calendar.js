@@ -473,13 +473,23 @@ jQuery(function ($) {
 	 */
 	function expandEventsToggle() {
 		$('.simcal-events-toggle').each(function (e, button) {
-			var list = $(button).prev('.simcal-events'),
+			var $button = $(button),
+				list = $button.prev('.simcal-events'),
 				toggled = list.find('.simcal-event-toggled'),
-				arrow = $(button).find('i');
+				arrow = $button.find('i');
 
-			$(button).on('click', function () {
-				arrow.toggleClass('simcal-icon-rotate-180');
+			$button.off('click.simcalExpand').on('click.simcalExpand', function () {
+				var expanded = $button.attr('aria-expanded') === 'true',
+					nextExpanded = !expanded;
+
+				arrow.toggleClass('simcal-icon-rotate-180', nextExpanded);
 				toggled.slideToggle();
+				$button.attr({
+					'aria-expanded': nextExpanded ? 'true' : 'false',
+					'aria-label': nextExpanded
+						? simcal_default_calendar.collapse_events
+						: simcal_default_calendar.expand_events,
+				});
 			});
 		});
 	}

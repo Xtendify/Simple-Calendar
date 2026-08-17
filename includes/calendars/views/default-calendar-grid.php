@@ -560,7 +560,9 @@ class Default_Calendar_Grid implements Calendar_View
 				// Optional button to toggle hidden events in list.
 				if ($calendar->events_limit > -1 && $count > $calendar->events_limit):
 					$list_events .=
-						'<button class="simcal-events-toggle"><i class="simcal-icon-down simcal-icon-animate" aria-hidden="true"></i></button>';
+						'<button class="simcal-events-toggle" type="button" aria-expanded="false" aria-label="' .
+						esc_attr__('Show more events', 'google-calendar-events') .
+						'"><i class="simcal-icon-down simcal-icon-animate" aria-hidden="true"></i></button>';
 				endif;
 
 				// Empty cell for day with no events.

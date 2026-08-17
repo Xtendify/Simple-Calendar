@@ -518,7 +518,7 @@
 	text-align: left;
 }
 .simcal-default-calendar-grid .simcal-event-color {
-	background-color: currentColor;
+	background-color: currentcolor;
 	border-radius: 1px;
 	display: inline-block;
 	height: 0.65em;
@@ -531,6 +531,12 @@
 	height: 0.55em;
 	margin: 0 1px;
 	width: 0.55em;
+}
+@media (forced-colors: active) {
+	.simcal-default-calendar-grid .simcal-event-color {
+		border: 1px solid CanvasText;
+		forced-color-adjust: none;
+	}
 }
 .simcal-default-calendar-grid .simcal-events > .simcal-event {
 	border-bottom-style: solid;

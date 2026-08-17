@@ -196,6 +196,8 @@ function simcal_common_scripts_variables()
 			'short' => simcal_get_calendar_names_i18n('day', 'short'),
 		],
 		'meridiem' => simcal_get_calendar_names_i18n('meridiem'),
+		'expand_events' => __('Show more events', 'google-calendar-events'),
+		'collapse_events' => __('Hide additional events', 'google-calendar-events'),
 	];
 
 	return array_merge($vars, apply_filters('simcal_common_scripts_variables', []));
