@@ -670,11 +670,10 @@ class Default_Calendar_List implements Calendar_View
 
 						$event_classes .= 'simcal-event ' . $recurring . $has_location . $calendar_class;
 
-							// Toggle some events visibility if more than optional limit.
-							if ($calendar->events_limit > -1 && $count >= $calendar->events_limit):
-								$event_classes .= ' simcal-event-toggled';
-								$event_visibility = ' display: none;';
-							endif;
+						// Toggle some events visibility if more than optional limit.
+						if ($calendar->events_limit > -1 && $count >= $calendar->events_limit):
+							$event_classes .= ' simcal-event-toggled';
+							$event_visibility = ' display: none;';
 
 							$event_color = $event->get_color();
 							if (!empty($event_color)) {
