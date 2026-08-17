@@ -201,7 +201,8 @@ class Bulk_Actions
 		global $post_type, $pagenow;
 
 		if (isset($_REQUEST['ids'])) {
-			$post_ids = explode(',', $_REQUEST['ids']);
+			$ids = wp_unslash($_REQUEST['ids']);
+			$post_ids = is_array($ids) ? $ids : explode(',', (string) $ids);
 		}
 
 		// Make sure ids are submitted.
