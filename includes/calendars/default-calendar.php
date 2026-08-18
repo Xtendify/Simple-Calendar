@@ -178,12 +178,12 @@ class Default_Calendar extends Calendar
 		$requested = $view;
 		$view = empty($view) ? $this->view : $this->get_view($view);
 
-		$load_grid_view_only = !($view instanceof Calendar_View) ||
+		$load_grid_view_only =
+			!($view instanceof Calendar_View) ||
 			!$this->grid_desktop_list_mobile ||
 			'grid' !== $view->get_type() ||
 			!empty($this->errors);
-		if ($load_grid_view_only) 
-		{
+		if ($load_grid_view_only) {
 			parent::html($requested);
 			return;
 		}
