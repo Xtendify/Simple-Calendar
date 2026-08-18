@@ -267,7 +267,7 @@
 					listSettings.show();
 				} else {
 					// Hide list-only rows (keep shared grid+list rows visible via gridSettings).
-					defCalSettings.find('.simcal-default-calendar-list').not('.simcal-default-calendar-grid').hide();
+					listSettings.not(gridSettings).hide();
 				}
 			} else if ('list' == selView) {
 				gridSettings.hide();

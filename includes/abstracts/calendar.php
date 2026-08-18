@@ -857,10 +857,11 @@ abstract class Calendar
 	 *
 	 * @since 4.1.1
 	 *
-	 * @param Calendar_View $view       Calendar view instance.
-	 * @param bool          $powered_by Whether to output the powered-by credit.
+	 * @param Calendar_View $view        Calendar view instance.
+	 * @param bool          $powered_by  Whether to output the powered-by credit.
+	 * @param bool          $html_hooks  Whether to fire before/after HTML actions.
 	 */
-	protected function render_view_shell($view, $powered_by = true)
+	protected function render_view_shell($view, $powered_by = true, $html_hooks = true)
 	{
 		if (!($view instanceof Calendar_View)) {
 			return;
@@ -906,11 +907,15 @@ abstract class Calendar
 			'"' .
 			'>';
 
-		do_action('simcal_calendar_html_before', $this->id);
+		if ($html_hooks) {
+			do_action('simcal_calendar_html_before', $this->id);
+		}
 
 		$view->html();
 
-		do_action('simcal_calendar_html_after', $this->id);
+		if ($html_hooks) {
+			do_action('simcal_calendar_html_after', $this->id);
+		}
 
 		if ($powered_by) {
 			$this->render_powered_by();
@@ -922,7 +927,7 @@ abstract class Calendar
 	/**
 	 * Output the powered-by credit.
 	 *
-	 * @since 4.2.0
+	 * @since 4.1.1
 	 */
 	protected function render_powered_by()
 	{

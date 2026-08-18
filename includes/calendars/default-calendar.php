@@ -169,7 +169,7 @@ class Default_Calendar extends Calendar
 	 * siblings and toggled via CSS at the mobile breakpoint. Only one view
 	 * is visible at a time; JS defers initializing the hidden sibling.
 	 *
-	 * @since 3.0.0
+	 * @since 4.1.1
 	 *
 	 * @param string $view The calendar view to display.
 	 */
@@ -178,25 +178,29 @@ class Default_Calendar extends Calendar
 		$requested = $view;
 		$view = empty($view) ? $this->view : $this->get_view($view);
 
-		if (
-			!($view instanceof Calendar_View) ||
+		$load_grid_view_only = !($view instanceof Calendar_View) ||
 			!$this->grid_desktop_list_mobile ||
 			'grid' !== $view->get_type() ||
-			!empty($this->errors)
-		) {
+			!empty($this->errors);
+		if ($load_grid_view_only) 
+		{
 			parent::html($requested);
 			return;
 		}
 
 		echo '<div class="simcal-responsive-views">';
 
+		do_action('simcal_calendar_html_before', $this->id);
+
 		// Grid (desktop) — properties already set for grid in constructor.
-		$this->render_view_shell($view, false);
+		$this->render_view_shell($view, false, false);
 
 		// List (mobile) — apply list properties once, then render.
 		$this->set_properties('list');
 		$list_view = $this->get_view('list');
-		$this->render_view_shell($list_view, false);
+		$this->render_view_shell($list_view, false, false);
+
+		do_action('simcal_calendar_html_after', $this->id);
 
 		$this->render_powered_by();
 
@@ -233,10 +237,11 @@ class Default_Calendar extends Calendar
 		$needs_list_props = 'list' === $view || $this->grid_desktop_list_mobile;
 
 		// Expand multiple day events (once only when dual-rendering).
+		// current_day_only is list-view-only; do not expand during the grid pass.
 		if (
 			!$this->events_expanded &&
 			('yes' == get_post_meta($this->id, '_default_calendar_expand_multi_day_events', true) ||
-				($needs_list_props &&
+				('list' === $view &&
 					'current_day_only' == get_post_meta($this->id, '_default_calendar_expand_multi_day_events', true)))
 		) {
 			$this->events = $this->expand_multiple_days_events();

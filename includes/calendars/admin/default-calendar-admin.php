@@ -154,7 +154,7 @@ class Default_Calendar_Admin
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-grid" style="display: none;">
 				<th><label for="_default_calendar_grid_desktop_list_mobile"><?php _e(
-    	'List View on Mobile',
+    	'Switch to List View on Mobile',
     	'google-calendar-events',
     ); ?></label></th>
 				<td>
@@ -166,7 +166,7 @@ class Default_Calendar_Admin
      	'name' => '_default_calendar_grid_desktop_list_mobile',
      	'id' => '_default_calendar_grid_desktop_list_mobile',
      	'tooltip' => __(
-     		'Show the calendar grid on desktop and the list view on mobile (based on screen size).',
+     		'Show the calendar grid on desktop and the list view on mobile (screens narrower than 768px).',
      		'google-calendar-events',
      	),
      	'value' => 'yes' == $grid_desktop_list_mobile ? 'yes' : 'no',

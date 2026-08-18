@@ -100,7 +100,6 @@ jQuery(function ($) {
 						body.replaceWith(response.data);
 
 						calendarBubbles(calendar);
-						expandEventsToggle();
 					},
 					error: function (response) {
 						console.log(response);
@@ -135,7 +134,6 @@ jQuery(function ($) {
 						toggleListNavButtons(buttons, calendar, start, end, direction, timestamp);
 
 						spinner.fadeToggle();
-						expandEventsToggle();
 					},
 					error: function (response) {
 						console.log(response);
@@ -182,7 +180,6 @@ jQuery(function ($) {
 			} else {
 				toggleListHeading(calendar);
 			}
-			expandEventsToggle();
 		});
 	}
 
@@ -564,19 +561,12 @@ jQuery(function ($) {
 	});
 
 	/**
-	 * Toggle to expand events.
+	 * Toggle to expand events. Delegated so AJAX-replaced and deferred
+	 * sibling buttons work without re-binding.
 	 */
-	function expandEventsToggle() {
-		$('.simcal-events-toggle').each(function (e, button) {
-			var list = $(button).prev('.simcal-events'),
-				toggled = list.find('.simcal-event-toggled'),
-				arrow = $(button).find('i');
-
-			$(button).on('click', function () {
-				arrow.toggleClass('simcal-icon-rotate-180');
-				toggled.slideToggle();
-			});
-		});
-	}
-	expandEventsToggle();
+	$(document).on('click.simcalEventsToggle', '.simcal-events-toggle', function () {
+		var button = $(this);
+		button.find('i').toggleClass('simcal-icon-rotate-180');
+		button.prev('.simcal-events').find('.simcal-event-toggled').slideToggle();
+	});
 });
