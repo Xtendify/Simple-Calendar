@@ -6,10 +6,20 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 
 jQuery(function ($) {
-	// Browse calendar pages.
-	$('.simcal-default-calendar').each(function (e, i) {
-		var calendar = $(i),
-			id = calendar.data('calendar-id'),
+	/**
+	 * Initialize navigation / AJAX for a single default calendar.
+	 *
+	 * @param {Element|jQuery} calendarEl Calendar root element.
+	 */
+	function initDefaultCalendarNav(calendarEl) {
+		var calendar = $(calendarEl);
+
+		if (calendar.data('simcal-nav-initialized')) {
+			return;
+		}
+		calendar.data('simcal-nav-initialized', true);
+
+		var id = calendar.data('calendar-id'),
 			offset = calendar.data('offset'),
 			start = calendar.data('events-first'),
 			end = calendar.data('calendar-end'),
@@ -89,8 +99,7 @@ jQuery(function ($) {
 
 						body.replaceWith(response.data);
 
-						calendarBubbles(calendar, list);
-						expandEventsToggle();
+						calendarBubbles(calendar);
 					},
 					error: function (response) {
 						console.log(response);
@@ -125,7 +134,6 @@ jQuery(function ($) {
 						toggleListNavButtons(buttons, calendar, start, end, direction, timestamp);
 
 						spinner.fadeToggle();
-						expandEventsToggle();
 					},
 					error: function (response) {
 						console.log(response);
@@ -133,6 +141,58 @@ jQuery(function ($) {
 				});
 			}
 		});
+	}
+
+	/**
+	 * Whether a calendar is a hidden sibling inside a responsive dual-view wrapper.
+	 * Uses matchMedia so deferral does not depend on CSS having painted yet.
+	 *
+	 * @param {jQuery} calendar
+	 * @return {boolean}
+	 */
+	function isDeferredResponsiveSibling(calendar) {
+		if (!calendar.closest('.simcal-responsive-views').length) {
+			return false;
+		}
+		var isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+		if (isMobile) {
+			return calendar.hasClass('simcal-default-calendar-grid');
+		}
+		return calendar.hasClass('simcal-default-calendar-list');
+	}
+
+	/**
+	 * Init any deferred responsive siblings that are now visible.
+	 */
+	function initDeferredResponsiveViews() {
+		$('.simcal-responsive-views .simcal-default-calendar[data-simcal-deferred="1"]').each(function (e, el) {
+			var calendar = $(el);
+			if (isDeferredResponsiveSibling(calendar)) {
+				return;
+			}
+			calendar.removeAttr('data-simcal-deferred');
+			initDefaultCalendarNav(calendar);
+			if (calendar.hasClass('simcal-default-calendar-grid')) {
+				calendarBubbles(calendar);
+				calendar.off('change.simcalBubbles').on('change.simcalBubbles', function () {
+					calendarBubbles(this);
+				});
+			} else {
+				toggleListHeading(calendar);
+			}
+		});
+	}
+
+	// Browse calendar pages — skip hidden dual-view siblings until shown (keeps load light).
+	$('.simcal-default-calendar').each(function (e, i) {
+		var calendar = $(i);
+
+		if (isDeferredResponsiveSibling(calendar)) {
+			calendar.attr('data-simcal-deferred', '1');
+			return;
+		}
+
+		initDefaultCalendarNav(calendar);
 	});
 
 	/**
@@ -390,19 +450,50 @@ jQuery(function ($) {
 		});
 	}
 
-	// Event bubbles and calendar UI triggers.
+	// Event bubbles and calendar UI triggers (skip deferred/hidden dual-view grids).
 	gridCalendars.each(function (e, calendar) {
+		var $calendar = $(calendar);
+		if ($calendar.attr('data-simcal-deferred') === '1' || isDeferredResponsiveSibling($calendar)) {
+			return;
+		}
 		calendarBubbles(calendar);
-		$(calendar).on('change', function () {
+		$calendar.on('change', function () {
 			calendarBubbles(this);
 		});
 	});
-	// Viewport changes might require triggering calendar mobile mode.
+
+	// Viewport changes: debounce, only touch visible grids, and lazy-init deferred siblings.
+	var resizeTimer = null;
 	window.onresize = function () {
-		gridCalendars.each(function (e, calendar) {
-			calendarBubbles(calendar);
-		});
+		if (resizeTimer) {
+			clearTimeout(resizeTimer);
+		}
+		resizeTimer = setTimeout(function () {
+			initDeferredResponsiveViews();
+			gridCalendars.each(function (e, calendar) {
+				if ($(calendar).is(':visible')) {
+					calendarBubbles(calendar);
+				}
+			});
+		}, 150);
 	};
+
+	if (window.matchMedia) {
+		var responsiveViewsMq = window.matchMedia('(max-width: 768px)');
+		var onResponsiveViewsChange = function () {
+			initDeferredResponsiveViews();
+			gridCalendars.each(function (e, calendar) {
+				if ($(calendar).is(':visible')) {
+					calendarBubbles(calendar);
+				}
+			});
+		};
+		if (responsiveViewsMq.addEventListener) {
+			responsiveViewsMq.addEventListener('change', onResponsiveViewsChange);
+		} else if (responsiveViewsMq.addListener) {
+			responsiveViewsMq.addListener(onResponsiveViewsChange);
+		}
+	}
 	/*
 	 * Calendar action buttons (Export, URL, Print).
 	 */
@@ -470,19 +561,12 @@ jQuery(function ($) {
 	});
 
 	/**
-	 * Toggle to expand events.
+	 * Toggle to expand events. Delegated so AJAX-replaced and deferred
+	 * sibling buttons work without re-binding.
 	 */
-	function expandEventsToggle() {
-		$('.simcal-events-toggle').each(function (e, button) {
-			var list = $(button).prev('.simcal-events'),
-				toggled = list.find('.simcal-event-toggled'),
-				arrow = $(button).find('i');
-
-			$(button).on('click', function () {
-				arrow.toggleClass('simcal-icon-rotate-180');
-				toggled.slideToggle();
-			});
-		});
-	}
-	expandEventsToggle();
+	$(document).on('click.simcalEventsToggle', '.simcal-events-toggle', function () {
+		var button = $(this);
+		button.find('i').toggleClass('simcal-icon-rotate-180');
+		button.prev('.simcal-events').find('.simcal-event-toggled').slideToggle();
+	});
 });
