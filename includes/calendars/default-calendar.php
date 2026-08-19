@@ -203,6 +203,7 @@ class Default_Calendar extends Calendar
 		do_action('simcal_calendar_html_after', $this->id);
 
 		$this->render_powered_by();
+		$this->render_empty_events_notice();
 
 		echo '</div>';
 	}

@@ -216,6 +216,29 @@
 	margin: -10px 0 20px;
 }
 
+.simcal-empty-events-notice {
+	margin: 12px 0 0;
+	padding: 10px 12px;
+	border-left: 4px solid #2271b1;
+	background: #f0f6fc;
+	color: #1d2327;
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+.simcal-empty-events-notice p {
+	margin: 0;
+}
+
+.simcal-empty-events-notice p + p {
+	margin-top: 6px;
+}
+
+.simcal-empty-events-notice-meta {
+	opacity: 0.75;
+	font-size: 12px;
+}
+
 .simcal-align-left {
 	text-align: left;
 }
@@ -668,6 +691,7 @@
 	.simcal-print-calendar .site-content,
 	.simcal-print-calendar .simcal-calendar-actions,
 	.simcal-calendar-actions,
+	.simcal-empty-events-notice,
 	.simcal-print-calendar .simcal-nav .simcal-prev,
 	.simcal-print-calendar .simcal-nav .simcal-next,
 	.simcal-print-calendar .fc-button-group,

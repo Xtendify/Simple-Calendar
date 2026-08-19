@@ -838,17 +838,16 @@ abstract class Calendar
 		$view = empty($view) ? $this->view : $this->get_view($view);
 
 		if ($view instanceof Calendar_View) {
-			if (!empty($this->errors)) {
-				if (current_user_can('manage_options')) {
-					echo '<pre><code>';
-					foreach ($this->errors as $error) {
-						echo $error;
-					}
-					echo '</code></pre>';
+			if (!empty($this->errors) && current_user_can('manage_options')) {
+				echo '<pre><code>';
+				foreach ($this->errors as $error) {
+					echo $error;
 				}
-			} else {
-				$this->render_view_shell($view, true);
+				echo '</code></pre>';
 			}
+
+			$this->render_view_shell($view, true);
+			$this->render_empty_events_notice();
 		}
 	}
 
@@ -921,6 +920,99 @@ abstract class Calendar
 			$this->render_powered_by();
 		}
 
+		echo '</div>';
+	}
+
+	/**
+	 * Whether the current user can see frontend diagnostic notices.
+	 *
+	 * Administrators and Editors can see these notices. Site visitors cannot.
+	 *
+	 * @since 4.1.1
+	 *
+	 * @return bool
+	 */
+	protected function user_can_view_empty_events_notice()
+	{
+		$can_view = current_user_can('edit_others_posts');
+
+		/**
+		 * Filter whether the current user can see the empty-events diagnostic notice.
+		 *
+		 * @since 4.1.1
+		 *
+		 * @param bool     $can_view Whether the user can view the notice.
+		 * @param Calendar $calendar Calendar instance.
+		 */
+		return (bool) apply_filters('simcal_user_can_view_empty_events_notice', $can_view, $this);
+	}
+
+	/**
+	 * Output an admin-only notice when no events are displayed.
+	 *
+	 * Helps administrators and editors diagnose missing events, commonly caused
+	 * by a private Google Calendar or private events.
+	 *
+	 * @since 4.1.1
+	 */
+	protected function render_empty_events_notice()
+	{
+		if (!$this->user_can_view_empty_events_notice()) {
+			return;
+		}
+
+		$has_errors = !empty($this->errors);
+		$has_no_events = empty($this->events);
+		$show_notice = $has_errors || $has_no_events;
+
+		/**
+		 * Filter whether to display the empty-events diagnostic notice.
+		 *
+		 * @since 4.1.1
+		 *
+		 * @param bool     $show_notice Whether to show the notice.
+		 * @param Calendar $calendar    Calendar instance.
+		 */
+		if (!apply_filters('simcal_show_empty_events_notice', $show_notice, $this)) {
+			return;
+		}
+
+		$docs_url =
+			simcal_get_url('docs') . '/why-the-google-calendar-pro-add-on-is-essential-for-displaying-private-events/';
+
+		/**
+		 * Filter the prerequisites documentation URL shown in the empty-events notice.
+		 *
+		 * @since 4.1.1
+		 *
+		 * @param string   $docs_url Documentation URL.
+		 * @param Calendar $calendar Calendar instance.
+		 */
+		$docs_url = apply_filters('simcal_empty_events_notice_docs_url', $docs_url, $this);
+
+		echo '<div class="simcal-empty-events-notice" role="note">';
+		echo '<p>';
+		echo wp_kses(
+			sprintf(
+				/* translators: %s: URL to the prerequisites documentation. */
+				__(
+					'No events are showing. This often happens when the Google Calendar or its events are set to private. The calendar must be public, and events should not be private. <a href="%s" target="_blank" rel="noopener noreferrer">View prerequisites</a>.',
+					'google-calendar-events',
+				),
+				esc_url($docs_url),
+			),
+			[
+				'a' => [
+					'href' => true,
+					'target' => true,
+					'rel' => true,
+				],
+			],
+		);
+		echo '</p>';
+		echo '<p class="simcal-empty-events-notice-meta">';
+		echo esc_html__('Only administrators and editors can see this notice.', 'google-calendar-events');
+		echo '</p>';
 		echo '</div>';
 	}
 
