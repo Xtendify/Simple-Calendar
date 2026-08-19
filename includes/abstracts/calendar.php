@@ -9,6 +9,7 @@ namespace SimpleCalendar\Abstracts;
 use SimpleCalendar\plugin_deps\Carbon\Carbon;
 use SimpleCalendar\Events\Event;
 use SimpleCalendar\Events\Event_Builder;
+use SimpleCalendar\Events\Event_Schema;
 use SimpleCalendar\Events\Events;
 
 if (!defined('ABSPATH')) {
@@ -761,6 +762,22 @@ abstract class Calendar
 	}
 
 	/**
+	 * Get always-on Event schema microdata for an event wrapper.
+	 *
+	 * @since  4.1.2
+	 *
+	 * @param  Event $event Event object.
+	 *
+	 * @return string
+	 */
+	public function get_event_schema_meta(Event $event)
+	{
+		$event_schema = new Event_Schema($event);
+
+		return $event_schema->get_schema_meta();
+	}
+
+	/**
 	 * Get "Add to Google Calendar" link.
 	 *
 	 * @since  3.1.3
@@ -830,69 +847,102 @@ abstract class Calendar
 					echo '</code></pre>';
 				}
 			} else {
-				// Get a CSS class from the class name of the calendar view (minus namespace part).
-				$view_name = implode('-', array_map('lcfirst', explode('_', strtolower(get_class($view)))));
-				$view_class = substr($view_name, strrpos($view_name, '\\') + 1);
-
-				$calendar_class = trim(
-					implode(
-						' simcal-',
-						apply_filters('simcal_calendar_class', ['simcal-calendar', $this->type, $view_class], $this->id),
-					),
-				);
-
-				echo '<div class="' .
-					$calendar_class .
-					'" ' .
-					'data-calendar-id="' .
-					$this->id .
-					'" ' .
-					'data-timezone="' .
-					$this->timezone .
-					'" ' .
-					'data-offset="' .
-					$this->offset .
-					'" ' .
-					'data-week-start="' .
-					$this->week_starts .
-					'" ' .
-					'data-calendar-start="' .
-					$this->start .
-					'" ' .
-					'data-calendar-end="' .
-					$this->end .
-					'" ' .
-					'data-events-first="' .
-					$this->earliest_event .
-					'" ' .
-					'data-events-last="' .
-					$this->latest_event .
-					'"' .
-					'>';
-
-				do_action('simcal_calendar_html_before', $this->id);
-
-				$view->html();
-
-				do_action('simcal_calendar_html_after', $this->id);
-
-				//$settings = get_option( 'simple-calendar_settings_calendars' );
-				$poweredby = get_post_meta($this->id, '_poweredby', true);
-
-				if ('yes' == $poweredby) {
-					$align = is_rtl() ? 'left' : 'right';
-					echo '<small class="simcal-powered simcal-align-' .
-						$align .
-						'">' .
-						sprintf(
-							__('Powered by <a href="%s" target="_blank">Simple Calendar</a>', 'google-calendar-events'),
-							simcal_get_url('home'),
-						) .
-						'</small>';
-				}
-
-				echo '</div>';
+				$this->render_view_shell($view, true);
 			}
+		}
+	}
+
+	/**
+	 * Render a single calendar view shell.
+	 *
+	 * @since 4.1.1
+	 *
+	 * @param Calendar_View $view        Calendar view instance.
+	 * @param bool          $powered_by  Whether to output the powered-by credit.
+	 * @param bool          $html_hooks  Whether to fire before/after HTML actions.
+	 */
+	protected function render_view_shell($view, $powered_by = true, $html_hooks = true)
+	{
+		if (!($view instanceof Calendar_View)) {
+			return;
+		}
+
+		// Get a CSS class from the class name of the calendar view (minus namespace part).
+		$view_name = implode('-', array_map('lcfirst', explode('_', strtolower(get_class($view)))));
+		$view_class = substr($view_name, strrpos($view_name, '\\') + 1);
+
+		$calendar_class = trim(
+			implode(
+				' simcal-',
+				apply_filters('simcal_calendar_class', ['simcal-calendar', $this->type, $view_class], $this->id),
+			),
+		);
+
+		echo '<div class="' .
+			$calendar_class .
+			'" ' .
+			'data-calendar-id="' .
+			$this->id .
+			'" ' .
+			'data-timezone="' .
+			$this->timezone .
+			'" ' .
+			'data-offset="' .
+			$this->offset .
+			'" ' .
+			'data-week-start="' .
+			$this->week_starts .
+			'" ' .
+			'data-calendar-start="' .
+			$this->start .
+			'" ' .
+			'data-calendar-end="' .
+			$this->end .
+			'" ' .
+			'data-events-first="' .
+			$this->earliest_event .
+			'" ' .
+			'data-events-last="' .
+			$this->latest_event .
+			'"' .
+			'>';
+
+		if ($html_hooks) {
+			do_action('simcal_calendar_html_before', $this->id);
+		}
+
+		$view->html();
+
+		if ($html_hooks) {
+			do_action('simcal_calendar_html_after', $this->id);
+		}
+
+		if ($powered_by) {
+			$this->render_powered_by();
+		}
+
+		echo '</div>';
+	}
+
+	/**
+	 * Output the powered-by credit.
+	 *
+	 * @since 4.1.1
+	 */
+	protected function render_powered_by()
+	{
+		$poweredby = get_post_meta($this->id, '_poweredby', true);
+
+		if ('yes' == $poweredby) {
+			$align = is_rtl() ? 'left' : 'right';
+			echo '<small class="simcal-powered simcal-align-' .
+				$align .
+				'">' .
+				sprintf(
+					__('Powered by <a href="%s" target="_blank">Simple Calendar</a>', 'google-calendar-events'),
+					simcal_get_url('home'),
+				) .
+				'</small>';
 		}
 	}
 }

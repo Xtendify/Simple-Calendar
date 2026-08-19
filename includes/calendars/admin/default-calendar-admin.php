@@ -152,6 +152,28 @@ class Default_Calendar_Admin
      ?>
 				</td>
 			</tr>
+			<tr class="simcal-panel-field simcal-default-calendar-grid" style="display: none;">
+				<th><label for="_default_calendar_grid_desktop_list_mobile"><?php _e(
+    	'Switch to List View on Mobile',
+    	'google-calendar-events',
+    ); ?></label></th>
+				<td>
+					<?php
+     $grid_desktop_list_mobile = get_post_meta($post_id, '_default_calendar_grid_desktop_list_mobile', true);
+
+     simcal_print_field([
+     	'type' => 'checkbox',
+     	'name' => '_default_calendar_grid_desktop_list_mobile',
+     	'id' => '_default_calendar_grid_desktop_list_mobile',
+     	'tooltip' => __(
+     		'Show the calendar grid on desktop and the list view on mobile (screens narrower than 768px).',
+     		'google-calendar-events',
+     	),
+     	'value' => 'yes' == $grid_desktop_list_mobile ? 'yes' : 'no',
+     ]);
+     ?>
+				</td>
+			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-list" style="display: none;">
 				<th><label for="_default_calendar_list_grouped_span"><?php _e('Span', 'google-calendar-events'); ?></label></th>
 				<td>
@@ -458,6 +480,10 @@ class Default_Calendar_Admin
 			? max(absint($_POST['_default_calendar_trim_titles_chars']), 1)
 			: 20;
 		update_post_meta($post_id, '_default_calendar_trim_titles_chars', $chars);
+
+		// Grid on desktop, list on mobile.
+		$responsive = isset($_POST['_default_calendar_grid_desktop_list_mobile']) ? 'yes' : 'no';
+		update_post_meta($post_id, '_default_calendar_grid_desktop_list_mobile', $responsive);
 
 		// Expand multiple day events on each day.
 		$multi_day =
