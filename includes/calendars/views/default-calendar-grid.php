@@ -460,6 +460,7 @@ class Default_Calendar_Grid implements Calendar_View
 		for ($day = 1; $day <= $days_in_month; $day++):
 			$count = 0;
 			$calendar_classes = [];
+			$bullet_colors = [];
 			$day_classes = 'simcal-day-' . $day . ' simcal-weekday-' . $week_day;
 
 			$border_style = $bg_color = $color = '';
@@ -479,8 +480,6 @@ class Default_Calendar_Grid implements Calendar_View
 
 			// Print events for the current day in loop, if found any.
 			if (isset($day_events[$day])):
-				$bullet_colors = [];
-
 				$list_events = '<ul class="simcal-events">';
 
 				usort($day_events[$day], [$this, 'cmp']);
@@ -513,7 +512,7 @@ class Default_Calendar_Grid implements Calendar_View
 									: $title;
 						}
 
-						// Event color.
+						// Event color. Always record a marker so mobile dots appear even without an event color.
 						$bullet = '';
 						$event_color = $event->get_color();
 						if (!empty($event_color)) {
@@ -522,6 +521,8 @@ class Default_Calendar_Grid implements Calendar_View
 								esc_attr($event_color) .
 								';" aria-hidden="true"></span> ';
 							$bullet_colors[] = $event_color;
+						} else {
+							$bullet_colors[] = '#000';
 						}
 
 						// Event contents.
@@ -583,7 +584,7 @@ class Default_Calendar_Grid implements Calendar_View
 			echo "\t\t";
 			echo '<span class="simcal-events-dots" style="display: none;">';
 
-			// Event color markers for calendar mobile mode (colored events only).
+			// Event color markers for calendar mobile mode.
 			foreach ($bullet_colors as $bullet_color) {
 				echo '<span class="simcal-event-color simcal-event-color-dot" style="background-color: ' .
 					esc_attr($bullet_color) .

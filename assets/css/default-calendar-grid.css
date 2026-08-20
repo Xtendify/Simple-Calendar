@@ -533,13 +533,15 @@
 }
 .simcal-default-calendar-grid .simcal-event-color-dot {
 	border-radius: 50%;
-	height: 0.55em;
-	margin: 0 1px;
-	width: 0.55em;
+	display: inline-block;
+	height: 8px;
+	margin: 0 2px;
+	vertical-align: middle;
+	width: 8px;
 }
 @media (forced-colors: active) {
 	.simcal-default-calendar-grid .simcal-event-color {
-		border: 1px solid currentcolor;
+		border: 1px solid CanvasText;
 		forced-color-adjust: none;
 	}
 }
@@ -570,7 +572,7 @@
 .simcal-default-calendar-grid .simcal-events-dots {
 	cursor: pointer;
 	display: block;
-	line-height: 0.7;
+	line-height: 1;
 	margin: 3px 0;
 	text-align: center;
 }
