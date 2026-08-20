@@ -84,7 +84,7 @@ jQuery(function ($) {
 						id: id,
 					},
 					beforeSend: function () {
-						spinner.fadeToggle();
+						spinner.fadeIn();
 						body.attr('aria-busy', 'true');
 					},
 					success: function (response) {
@@ -100,12 +100,16 @@ jQuery(function ($) {
 
 						body.replaceWith(response.data);
 						body = calendar.find('.simcal-month');
-						body.removeAttr('aria-busy');
+						calendar.removeAttr('aria-busy');
 
 						calendarBubbles(calendar);
 					},
+					complete: function () {
+						spinner.fadeOut();
+						calendar.removeAttr('aria-busy');
+					},
 					error: function (response) {
-						body.removeAttr('aria-busy');
+						calendar.removeAttr('aria-busy');
 						console.log(response);
 					},
 				});
@@ -128,19 +132,23 @@ jQuery(function ($) {
 						id: id,
 					},
 					beforeSend: function () {
-						spinner.fadeToggle();
-						list.attr('aria-busy', 'true');
+						spinner.fadeIn();
+						calendar.attr('aria-busy', 'true');
 					},
 					success: function (response) {
 						list.replaceWith(response.data);
 						list = calendar.find('.simcal-events-list-container');
-						list.removeAttr('aria-busy');
+						calendar.removeAttr('aria-busy');
 						current.attr('data-calendar-current', timestamp);
 
 						toggleListHeading(calendar);
 						toggleListNavButtons(buttons, calendar, start, end, direction, timestamp);
 
 						spinner.fadeToggle();
+					},
+					complete: function () {
+						spinner.fadeOut();
+						calendar.removeAttr('aria-busy');
 					},
 					error: function (response) {
 						list.removeAttr('aria-busy');

@@ -518,7 +518,7 @@ class Default_Calendar_Grid implements Calendar_View
 						if (!empty($event_color)) {
 							$bullet =
 								'<span class="simcal-event-color" style="background-color: ' .
-								esc_attr($event_color) .
+								$event_color .
 								';" aria-hidden="true"></span> ';
 							$bullet_colors[] = $event_color;
 						} else {

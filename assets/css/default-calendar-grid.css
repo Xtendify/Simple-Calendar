@@ -580,7 +580,7 @@
 .simcal-default-calendar-grid .simcal-events-toggle {
 	background: transparent;
 	display: block;
-	font-size: 12px;
+	font-size: max(0.75rem, 0.68em);
 	padding: 2px 0;
 }
 
