@@ -283,7 +283,12 @@
 	box-shadow: none;
 	outline: none;
 }
-
+.simcal-default-calendar .simcal-nav-button:focus-visible,
+.simcal-default-calendar .simcal-events-toggle:focus-visible,
+.simcal-default-calendar .simcal-nav-button:focus-visible {
+	outline: 2px solid currentcolor;
+	outline-offset: 2px;
+}
 .simcal-default-calendar ul.simcal-attachments,
 .simcal-default-calendar ul.simcal-attendees {
 	margin: 0;
@@ -434,6 +439,7 @@
 	width: 100%;
 }
 .simcal-default-calendar-grid > table thead th,
+.simcal-default-calendar-grid > table thead td,
 .simcal-default-calendar-grid > table tbody td {
 	text-align: center;
 	vertical-align: top;
@@ -509,12 +515,35 @@
 }
 
 .simcal-default-calendar-grid .simcal-events {
-	font-size: 0.68em;
+	font-size: max(0.75rem, 0.68em);
 	line-height: 1.4;
 	list-style: none;
 	margin: 0;
 	padding: 0;
 	text-align: left;
+}
+.simcal-default-calendar-grid .simcal-event-color {
+	background-color: currentcolor;
+	border-radius: 1px;
+	display: inline-block;
+	height: 0.65em;
+	margin-right: 0.35em;
+	vertical-align: middle;
+	width: 0.65em;
+}
+.simcal-default-calendar-grid .simcal-event-color-dot {
+	border-radius: 50%;
+	display: inline-block;
+	height: 8px;
+	margin: 0 2px;
+	vertical-align: middle;
+	width: 8px;
+}
+@media (forced-colors: active) {
+	.simcal-default-calendar-grid .simcal-event-color {
+		border: 1px solid CanvasText;
+		forced-color-adjust: none;
+	}
 }
 .simcal-default-calendar-grid .simcal-events > .simcal-event {
 	border-bottom-style: solid;
@@ -543,7 +572,7 @@
 .simcal-default-calendar-grid .simcal-events-dots {
 	cursor: pointer;
 	display: block;
-	line-height: 0.7;
+	line-height: 1;
 	margin: 3px 0;
 	text-align: center;
 }
@@ -551,7 +580,7 @@
 .simcal-default-calendar-grid .simcal-events-toggle {
 	background: transparent;
 	display: block;
-	font-size: 10px;
+	font-size: max(0.75rem, 0.68em);
 	padding: 2px 0;
 }
 

@@ -282,7 +282,12 @@
 	box-shadow: none;
 	outline: none;
 }
-
+.simcal-default-calendar .simcal-nav-button:focus-visible,
+.simcal-default-calendar .simcal-events-toggle:focus-visible,
+.simcal-default-calendar .simcal-nav-button:focus-visible {
+	outline: 2px solid currentcolor;
+	outline-offset: 2px;
+}
 .simcal-default-calendar ul.simcal-attachments,
 .simcal-default-calendar ul.simcal-attendees {
 	margin: 0;
