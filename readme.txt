@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 4.1.1 =
+* Dev: Added an administrator and editor-only frontend notice when a calendar has no events or a feed error, with a link to Google Calendar privacy prerequisites.
+
 = 4.1.0 =
 * Dev: ICS Feed Upload: Added support for importing local `.ics` files to import calendar events.
 * Dev: ICS Event Export: Added the ability to download/export calendar events as a static `.ics` file.
