@@ -841,7 +841,7 @@ abstract class Calendar
 			if (!empty($this->errors) && current_user_can('manage_options')) {
 				echo '<pre><code>';
 				foreach ($this->errors as $error) {
-					echo $error;
+					echo esc_html($error);
 				}
 				echo '</code></pre>';
 			}
@@ -977,8 +977,19 @@ abstract class Calendar
 			return;
 		}
 
-		$docs_url =
+		$docs_base =
 			simcal_get_url('docs') . '/why-the-google-calendar-pro-add-on-is-essential-for-displaying-private-events/';
+		$docs_url = function_exists('simcal_ga_campaign_url')
+			? simcal_ga_campaign_url($docs_base, 'core-plugin', 'empty-events-notice')
+			: add_query_arg(
+				[
+					'utm_source' => 'inside-plugin',
+					'utm_medium' => 'link',
+					'utm_campaign' => 'core-plugin',
+					'utm_content' => 'empty-events-notice',
+				],
+				$docs_base,
+			);
 
 		/**
 		 * Filter the prerequisites documentation URL shown in the empty-events notice.

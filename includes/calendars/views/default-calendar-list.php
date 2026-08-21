@@ -167,8 +167,13 @@ class Default_Calendar_List implements Calendar_View
 	public function styles()
 	{
 		return [
+			'simcal-default-calendar-common' => [
+				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/default-calendar-common.min.css',
+				'media' => 'all',
+			],
 			'simcal-default-calendar-list' => [
 				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/default-calendar-list.min.css',
+				'deps' => ['simcal-default-calendar-common'],
 				'media' => 'all',
 			],
 		];

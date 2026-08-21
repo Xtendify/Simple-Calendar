@@ -533,8 +533,9 @@ class Assets
 
 					$src = esc_url($v['src']);
 					$media = isset($v['media']) ? $v['media'] : 'all';
+					$deps = isset($v['deps']) ? $v['deps'] : [];
 
-					wp_enqueue_style($style, $src, [], SIMPLE_CALENDAR_VERSION, $media);
+					wp_enqueue_style($style, $src, $deps, SIMPLE_CALENDAR_VERSION, $media);
 				} elseif (is_string($v) && !empty($v)) {
 					wp_enqueue_style($v);
 				}
