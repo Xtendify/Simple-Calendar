@@ -864,7 +864,7 @@ abstract class Calendar
 	/**
 	 * Render a single calendar view shell.
 	 *
-	 * @since 4.1.1
+	 * @since 4.2.0
 	 *
 	 * @param Calendar_View $view        Calendar view instance.
 	 * @param bool          $powered_by  Whether to output the powered-by credit.
@@ -938,7 +938,7 @@ abstract class Calendar
 	 *
 	 * Administrators and Editors can see these notices. Site visitors cannot.
 	 *
-	 * @since 4.1.1
+	 * @since 4.2.0
 	 *
 	 * @return bool
 	 */
@@ -949,7 +949,7 @@ abstract class Calendar
 		/**
 		 * Filter whether the current user can see the empty-events diagnostic notice.
 		 *
-		 * @since 4.1.1
+		 * @since 4.2.0
 		 *
 		 * @param bool     $can_view Whether the user can view the notice.
 		 * @param Calendar $calendar Calendar instance.
@@ -963,7 +963,7 @@ abstract class Calendar
 	 * Helps administrators and editors diagnose missing events, commonly caused
 	 * by a private Google Calendar or private events.
 	 *
-	 * @since 4.1.1
+	 * @since 4.2.0
 	 */
 	protected function render_empty_events_notice()
 	{
@@ -978,7 +978,7 @@ abstract class Calendar
 		/**
 		 * Filter whether to display the empty-events diagnostic notice.
 		 *
-		 * @since 4.1.1
+		 * @since 4.2.0
 		 *
 		 * @param bool     $show_notice Whether to show the notice.
 		 * @param Calendar $calendar    Calendar instance.
@@ -1004,7 +1004,7 @@ abstract class Calendar
 		/**
 		 * Filter the prerequisites documentation URL shown in the empty-events notice.
 		 *
-		 * @since 4.1.1
+		 * @since 4.2.0
 		 *
 		 * @param string   $docs_url Documentation URL.
 		 * @param Calendar $calendar Calendar instance.
@@ -1040,7 +1040,7 @@ abstract class Calendar
 	/**
 	 * Output the powered-by credit.
 	 *
-	 * @since 4.1.1
+	 * @since 4.2.0
 	 */
 	protected function render_powered_by()
 	{

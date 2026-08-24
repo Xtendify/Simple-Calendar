@@ -300,13 +300,15 @@
 	width: 100%;
 }
 .simcal-default-calendar .simcal-events-toggle:active,
-.simcal-default-calendar .simcal-events-toggle:focus,
 .simcal-default-calendar .simcal-events-toggle:hover {
 	border: 0;
 	box-shadow: none;
 	outline: none;
 }
-
+.simcal-default-calendar .simcal-events-toggle:focus {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
 .simcal-default-calendar ul.simcal-attachments,
 .simcal-default-calendar ul.simcal-attendees {
 	margin: 0;
