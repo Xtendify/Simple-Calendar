@@ -153,14 +153,19 @@ class Default_Calendar_Grid implements Calendar_View
 				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/vendor/jquery.qtip.min.css',
 				'media' => 'all',
 			],
+			'simcal-default-calendar-common' => [
+				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/default-calendar-common.min.css',
+				'deps' => ['simcal-qtip'],
+				'media' => 'all',
+			],
 			'simcal-default-calendar-grid' => [
 				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/default-calendar-grid.min.css',
-				'deps' => ['simcal-qtip'],
+				'deps' => ['simcal-qtip', 'simcal-default-calendar-common'],
 				'media' => 'all',
 			],
 			'simcal-default-calendar-list' => [
 				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/default-calendar-list.min.css',
-				'deps' => ['simcal-qtip'],
+				'deps' => ['simcal-qtip', 'simcal-default-calendar-common'],
 				'media' => 'all',
 			],
 		];

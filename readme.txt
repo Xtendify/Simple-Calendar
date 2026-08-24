@@ -97,6 +97,16 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 4.2.0 =
+* Dev: Add option to automatically display List View on mobile devices when the screen width is below 768px when Grid View is selected as the default view.
+* Dev: Add an administrator and editor-only frontend notice when a calendar has no events or a feed error, with a link to Google Calendar privacy prerequisites.
+* Fix: Events were displayed in the incorrect order in List View when “Expand Multi-day Events” was set to “No.”
+* Fix: Event bubbles stopped working after cancelling the print action.
+* Fix: TypeError in bulk actions when the ids parameter was passed as an array instead of a comma-separated string. Bulk actions now correctly support both formats.
+* Fix: Missing fields in the Event Schema Markup to resolve search schema warnings.
+* Fix: “Add to Google Calendar” link was broken when event details contained Cyrillic or other non-Latin characters.
+* Fix: Accessibility to provide a more ADA-compliant experience.
+
 = 4.1.0 =
 * Dev: ICS Feed Upload: Added support for importing local `.ics` files to import calendar events.
 * Dev: ICS Event Export: Added the ability to download/export calendar events as a static `.ics` file.

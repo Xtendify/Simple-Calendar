@@ -169,7 +169,7 @@ class Default_Calendar extends Calendar
 	 * siblings and toggled via CSS at the mobile breakpoint. Only one view
 	 * is visible at a time; JS defers initializing the hidden sibling.
 	 *
-	 * @since 4.1.1
+	 * @since 4.2.0
 	 *
 	 * @param string $view The calendar view to display.
 	 */
@@ -203,6 +203,7 @@ class Default_Calendar extends Calendar
 		do_action('simcal_calendar_html_after', $this->id);
 
 		$this->render_powered_by();
+		$this->render_empty_events_notice();
 
 		echo '</div>';
 	}
