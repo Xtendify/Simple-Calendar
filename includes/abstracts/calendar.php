@@ -807,21 +807,31 @@ abstract class Calendar
 		// "location" (address) should work with an address, just a name or blank.
 		$params = [
 			'action' => 'TEMPLATE',
-			'text' => urlencode(strip_tags($event->title)),
+			'text' => rawurlencode(strip_tags((string) $event->title)),
 			'dates' => $gcal_dt_string,
-			'details' => urlencode($event->description),
-			'location' => urlencode($event->start_location['address']),
+			'details' => rawurlencode(strip_tags((string) $event->description)),
+			'location' => rawurlencode(strip_tags((string) ($event->start_location['address'] ?? ''))),
 			'trp' => 'false',
 		];
 
 		// "ctz" (timezone) arg should be included unless all-day OR 'UTC'.
 		if (!$is_all_day && 'UTC' !== $event->timezone) {
-			$params['ctz'] = urlencode($event->timezone);
+			$params['ctz'] = rawurlencode($event->timezone);
 		}
 
-		$params = array_map('sanitize_text_field', $params);
-
-		$url = esc_url(add_query_arg($params, sanitize_url($base_url)));
+		$url =
+			$base_url .
+			'?' .
+			implode(
+				'&',
+				array_map(
+					function ($k, $v) {
+						return $k . '=' . $v;
+					},
+					array_keys($params),
+					array_values($params),
+				),
+			);
 
 		return $url;
 	}

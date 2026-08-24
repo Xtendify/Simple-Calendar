@@ -993,9 +993,12 @@ class Event_Builder
 		 */
 		$additional_link_atts = apply_filters('simcal_additional_event_link_attributes', '', $attr);
 
+		// esc_url() strips percent-encoded non-ASCII octets; use esc_attr() for gcal links.
+		$href = 'add-to-gcal-link' === $tag ? esc_attr($url) : esc_url($url);
+
 		return false !== $anchor
 			? ' <a href="' .
-					esc_url($url) .
+					$href .
 					'" ' .
 					wp_kses_post($target) .
 					' ' .

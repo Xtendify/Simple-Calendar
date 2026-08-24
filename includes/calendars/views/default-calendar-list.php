@@ -219,7 +219,7 @@ class Default_Calendar_List implements Calendar_View
 					__('Previous', 'google-calendar-events') .
 					'">' .
 					"\n";
-				echo "\t\t\t" . '<i class="simcal-icon-left"></i>' . "\n";
+				echo "\t\t\t" . '<i class="simcal-icon-left" aria-hidden="true"></i>' . "\n";
 				echo "\t\t" . '</button>' . "\n";
 				echo "\t" . '</div>' . "\n";
 
@@ -230,7 +230,7 @@ class Default_Calendar_List implements Calendar_View
 				echo "\t" .
 					'<div class="simcal-nav simcal-current ' .
 					$header_class .
-					'" data-calendar-current="' .
+					'" aria-live="polite" aria-atomic="true" data-calendar-current="' .
 					$calendar->start .
 					'">' .
 					"\n";
@@ -246,7 +246,7 @@ class Default_Calendar_List implements Calendar_View
 					' aria-label="' .
 					__('Next', 'google-calendar-events') .
 					'">';
-				echo "\t\t\t" . '<i class="simcal-icon-right"></i>' . "\n";
+				echo "\t\t\t" . '<i class="simcal-icon-right" aria-hidden="true"></i>' . "\n";
 				echo "\t\t" . '</button>' . "\n";
 				echo "\t" . '</div>' . "\n";
 
@@ -754,7 +754,9 @@ class Default_Calendar_List implements Calendar_View
 				// If events visibility is limited, print the button toggle.
 				if ($calendar->events_limit > -1 && $count > $calendar->events_limit):
 					$list_events .=
-						'<button class="simcal-events-toggle"><i class="simcal-icon-down simcal-icon-animate"></i></button>';
+						'<button class="simcal-events-toggle" type="button" aria-expanded="false" aria-label="' .
+						esc_attr__('Show more events', 'google-calendar-events') .
+						'"><i class="simcal-icon-down simcal-icon-animate" aria-hidden="true"></i></button>';
 				endif;
 
 				// Print final list of events for the current day.
