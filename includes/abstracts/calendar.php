@@ -786,7 +786,7 @@ abstract class Calendar
 	 *
 	 * @return string
 	 */
-	public function get_add_to_gcal_url(Event $event)
+	public static function get_add_to_gcal_url(Event $event)
 	{
 		$base_url = 'https://calendar.google.com/calendar/render';
 		// Was https://www.google.com/calendar/render

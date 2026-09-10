@@ -198,6 +198,11 @@ function simcal_common_scripts_variables()
 		'meridiem' => simcal_get_calendar_names_i18n('meridiem'),
 		'expand_events' => __('Show more events', 'google-calendar-events'),
 		'collapse_events' => __('Hide additional events', 'google-calendar-events'),
+		'sc_event' => [
+			'start_required' => __('Start date/time is required.', 'google-calendar-events'),
+			'end_required' => __('End date/time is required.', 'google-calendar-events'),
+			'end_after_start' => __('End date/time must be greater than the start date/time.', 'google-calendar-events'),
+		],
 	];
 
 	return array_merge($vars, apply_filters('simcal_common_scripts_variables', []));

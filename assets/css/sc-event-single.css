@@ -1,0 +1,202 @@
+body.single-sc-event .wp-block-post-content.is-layout-constrained > .simcal-event-detail,
+body.single-sc-event .entry-content > .simcal-event-detail {
+	max-width: 100%;
+}
+
+/* Theme title sits above our layout; hide a duplicate theme featured image
+   and leftover author/category meta ("Written by … in …"). */
+body.single-sc-event .wp-block-post-featured-image,
+body.single-sc-event .wp-block-post-author,
+body.single-sc-event .wp-block-post-author-name,
+body.single-sc-event .wp-block-post-author-biography,
+body.single-sc-event .wp-block-post-terms,
+body.single-sc-event .wp-block-post-date,
+body.single-sc-event .entry-meta,
+body.single-sc-event .byline,
+body.single-sc-event .wp-block-post-title ~ .wp-block-group.has-small-font-size {
+	display: none !important;
+}
+
+.simcal-event-detail {
+	box-sizing: border-box;
+	color: #1f2937;
+	margin: 0 0 2rem;
+}
+
+.simcal-event-detail__featured {
+	margin: 0 0 2rem;
+	padding: 1.25rem 0 0;
+	border: 0;
+	border-top: 1px solid #e5e7eb;
+}
+
+.simcal-event-detail__featured-image {
+	display: block;
+	width: 100%;
+	height: auto;
+	border-radius: 12px;
+	object-fit: cover;
+}
+
+.simcal-event-detail__body {
+	display: grid;
+	grid-template-columns: minmax(0, 1.7fr) minmax(240px, 0.9fr);
+	gap: 2rem 2.5rem;
+	align-items: start;
+}
+
+.simcal-event-detail__meta {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 1.5rem 2rem;
+	padding-bottom: 1.75rem;
+	margin-bottom: 2rem;
+	border-bottom: 1px solid #e5e7eb;
+}
+
+.simcal-event-detail__meta-label {
+	margin: 0 0 0.65rem;
+	font-size: 1.125rem;
+	font-weight: 700;
+	line-height: 1.3;
+	color: #111827;
+}
+
+.simcal-event-detail__meta-value {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.55rem;
+	margin: 0;
+	font-size: 0.95rem;
+	line-height: 1.45;
+	color: #4b5563;
+}
+
+.simcal-event-detail__icon {
+	display: inline-flex;
+	flex-shrink: 0;
+	width: 1.15rem;
+	height: 1.15rem;
+	margin-top: 0.1rem;
+	color: #6b7280;
+}
+
+.simcal-event-detail__icon svg {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.simcal-event-detail__description-title,
+.simcal-event-detail__sidebar-title {
+	margin: 0 0 1rem;
+	font-size: 1.5rem;
+	font-weight: 700;
+	line-height: 1.25;
+	color: #111827;
+}
+
+.simcal-event-detail__description-content > *:first-child {
+	margin-top: 0;
+}
+
+.simcal-event-detail__description-content > *:last-child {
+	margin-bottom: 0;
+}
+
+.simcal-event-detail__sidebar-card {
+	background: #fff;
+	border: 1px solid #ececec;
+	border-radius: 4px;
+	padding: 1.35rem 1.5rem 1rem;
+	box-shadow: 0 1px 2px rgba(17, 24, 39, 0.04);
+}
+
+.simcal-event-detail__rows {
+	margin: 0;
+}
+
+.simcal-event-detail__row {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 1rem;
+	margin: 0;
+	padding: 0.9rem 0;
+	border-bottom: 1px solid #ececec;
+}
+
+.simcal-event-detail__row:last-child {
+	border-bottom: 0;
+}
+
+.simcal-event-detail__row dt {
+	margin: 0;
+	font-weight: 500;
+	color: #6b7c93;
+}
+
+.simcal-event-detail__row dd {
+	margin: 0;
+	text-align: right;
+	color: #374151;
+	word-break: break-word;
+}
+
+.simcal-event-detail__row dd a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.simcal-event-detail__row dd a:hover,
+.simcal-event-detail__row dd a:focus {
+	text-decoration: underline;
+}
+
+.simcal-event-detail__gcal {
+	margin: 1.25rem 0 0.25rem;
+}
+
+.simcal-event-detail__gcal-link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0.7rem 1rem;
+	border: 1px solid #d1d5db;
+	border-radius: 4px;
+	background: #f9fafb;
+	color: #1f2937;
+	font-weight: 500;
+	text-align: center;
+	text-decoration: none;
+}
+
+.simcal-event-detail__gcal-link:hover,
+.simcal-event-detail__gcal-link:focus {
+	background: #f3f4f6;
+	border-color: #9ca3af;
+	color: #111827;
+	text-decoration: none;
+}
+
+@media (max-width: 781px) {
+	.simcal-event-detail__body {
+		grid-template-columns: 1fr;
+	}
+
+	.simcal-event-detail__meta {
+		grid-template-columns: 1fr;
+		gap: 1.25rem;
+	}
+
+	.simcal-event-detail__row {
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+
+	.simcal-event-detail__row dd {
+		text-align: left;
+	}
+}

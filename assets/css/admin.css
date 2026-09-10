@@ -843,3 +843,17 @@ input.simcal-shortcode {
 	font-weight: bold;
 	text-align: center;
 }
+
+#simcal-sc-event-details .required {
+	color: #d63638;
+	margin-left: 2px;
+}
+
+#simcal-sc-event-details .simcal-sc-event-field-error {
+	border-color: #d63638 !important;
+	box-shadow: 0 0 0 1px #d63638;
+}
+
+#simcal-sc-event-details-errors {
+	margin: 0 0 12px;
+}

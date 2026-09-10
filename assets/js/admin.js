@@ -971,6 +971,115 @@
 
 		// Bind once for initial DOM (avoids document-level delegated click).
 		simcalBindCopyTargets($('#simcal-connect-page').length ? $('#simcal-connect-page') : $(document));
+
+		/* =========================
+		 * SC Event details validation
+		 * ========================= */
+		(function initScEventDetailsValidation() {
+			if (!$('body').hasClass('post-type-sc-event')) {
+				return;
+			}
+
+			var $start = $('#_sc_event_start');
+			var $end = $('#_sc_event_end');
+			var $errorBox = $('#simcal-sc-event-details-errors');
+
+			if ( !$start.length || !$end.length) {
+				return;
+			}
+
+			var strings =
+				window.simcal_admin && window.simcal_admin.sc_event
+					? window.simcal_admin.sc_event
+					: {
+							start_required: 'Start date/time is required.',
+							end_required: 'End date/time is required.',
+							end_after_start: 'End date/time must be greater than the start date/time.',
+						};
+
+			function clearFieldErrors() {
+				$start.removeClass('simcal-sc-event-field-error');
+				$end.removeClass('simcal-sc-event-field-error');
+				$errorBox.hide().find('p').text('');
+			}
+
+			function showErrors(messages, fields) {
+				$errorBox
+					.show()
+					.find('p')
+					.html(messages.map(function (msg) {
+						return $('<div/>').text(msg).html();
+					}).join('<br />'));
+
+				(fields || []).forEach(function ($field) {
+					$field.addClass('simcal-sc-event-field-error');
+				});
+
+				var metabox = document.getElementById('simcal-sc-event-details');
+				if (metabox && typeof metabox.scrollIntoView === 'function') {
+					metabox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+				}
+			}
+
+			function validateScEventDetails() {
+				clearFieldErrors();
+
+				var startVal = $.trim($start.val() || '');
+				var endVal = $.trim($end.val() || '');
+				var messages = [];
+				var fields = [];
+
+				if (!startVal) {
+					messages.push(strings.start_required);
+					fields.push($start);
+				}
+
+				if (!endVal) {
+					messages.push(strings.end_required);
+					fields.push($end);
+				}
+
+				if (startVal && endVal) {
+					var startTime = Date.parse(startVal);
+					var endTime = Date.parse(endVal);
+
+					if (!isNaN(startTime) && !isNaN(endTime) && endTime <= startTime) {
+						messages.push(strings.end_after_start);
+						fields.push($end);
+					}
+				}
+
+				if (messages.length) {
+					showErrors(messages, fields);
+					return false;
+				}
+
+				return true;
+			}
+
+			$start.add($end).on('change input', function () {
+				$(this).removeClass('simcal-sc-event-field-error');
+				if (!$('.simcal-sc-event-field-error').length) {
+					$errorBox.hide().find('p').text('');
+				}
+			});
+
+			$('#post').on('submit.simcalScEvent', function (e) {
+				if (!validateScEventDetails()) {
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					return false;
+				}
+			});
+
+			$('#publish, #save-post').on('click.simcalScEvent', function (e) {
+				if (!validateScEventDetails()) {
+					e.preventDefault();
+					e.stopImmediatePropagation();
+					return false;
+				}
+			});
+		})();
 	});
 
 	/* =========================================
