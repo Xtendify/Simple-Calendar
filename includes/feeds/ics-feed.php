@@ -81,6 +81,14 @@ class Ics_Feed extends Feed
 	protected $ics_timezone_aliases = [];
 
 	/**
+	 * Memoized normalize_ics_timezone() results for this feed parse.
+	 *
+	 * @access protected
+	 * @var array
+	 */
+	protected $ics_timezone_memo = [];
+
+	/**
 	 * Calendar-level timezone from X-WR-TIMEZONE, when valid.
 	 *
 	 * @access protected
@@ -362,6 +370,7 @@ class Ics_Feed extends Feed
 		$events = get_transient('_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type);
 
 		if (!empty($events)) {
+			$this->maybe_set_timezone_from_cached_events($events);
 			return is_array($events) ? $events : [];
 		}
 
@@ -468,6 +477,9 @@ class Ics_Feed extends Feed
 		$ics_content = str_replace(["\r\n", "\r"], "\n", $ics_content);
 		$ics_content = preg_replace("/\n[ \t]/", '', $ics_content);
 		$this->prime_ics_timezone_map($ics_content);
+		if ('use_calendar' === $this->timezone_setting) {
+			$this->apply_ics_file_timezone();
+		}
 		$blocks = preg_split('/(?=BEGIN:VEVENT)/', $ics_content);
 
 		if (empty($blocks) || !is_array($blocks)) {
@@ -486,28 +498,35 @@ class Ics_Feed extends Feed
 				continue;
 			}
 
+			$whole_day = $this->is_ics_whole_day_value($dtstart['value'], $dtstart['params']);
+			$raw_start_tzid = !empty($dtstart['params']['TZID']) ? $dtstart['params']['TZID'] : '';
+			// DATE values have no TZID; do not use X-WR-TIMEZONE unless timezone setting is use_calendar.
 			$start_timezone = $this->normalize_ics_timezone(
-				!empty($dtstart['params']['TZID']) ? $dtstart['params']['TZID'] : $this->get_ics_fallback_timezone(),
+				!$whole_day && '' !== $raw_start_tzid ? $raw_start_tzid : $this->get_ics_fallback_timezone(),
 			);
 			$start = $this->parse_ics_datetime($dtstart['value'], $start_timezone, $dtstart['params']);
 
 			$dtend = $this->get_ics_property($properties, 'DTEND');
+			$end_is_date =
+				!empty($dtend['value']) && $this->is_ics_whole_day_value($dtend['value'], $dtend['params']);
+			$raw_end_tzid = !empty($dtend['params']['TZID']) ? $dtend['params']['TZID'] : '';
 			$end_timezone = $this->normalize_ics_timezone(
-				!empty($dtend['params']['TZID']) ? $dtend['params']['TZID'] : $start_timezone,
+				!$end_is_date && '' !== $raw_end_tzid ? $raw_end_tzid : $start_timezone,
 			);
-			$end = !empty($dtend['value'])
-				? $this->parse_ics_datetime($dtend['value'], $end_timezone, $dtend['params'])
-				: $start;
+			$end = $start;
+			if (!empty($dtend['value'])) {
+				if ($whole_day && $end_is_date) {
+					// RFC 5545: DATE DTEND is exclusive. Derive from the date string so
+					// DST zones that skip local midnight cannot leave the end on DTEND's day.
+					$inclusive_end = $this->ics_date_to_inclusive_end($dtend['value'], $end_timezone);
+					$end = $inclusive_end && $inclusive_end->gte($start) ? $inclusive_end : $start->copy();
+				} else {
+					$end = $this->parse_ics_datetime($dtend['value'], $end_timezone, $dtend['params']);
+				}
+			}
 
 			if (!$start || !$end) {
 				continue;
-			}
-
-			$whole_day = $this->is_ics_whole_day_value($dtstart['value'], $dtstart['params']);
-			if ($whole_day && !empty($dtend['value']) && $this->is_ics_whole_day_value($dtend['value'], $dtend['params'])) {
-				//  DATE-valued DTEND is exclusive. Convert to last inclusive moment.
-				$inclusive_end = $end->copy()->startOfDay()->subSeconds(59);
-				$end = $inclusive_end->gte($start) ? $inclusive_end : $start->copy();
 			}
 			$title = sanitize_text_field($this->unescape_ics_text($this->get_ics_property_value($properties, 'SUMMARY')));
 			$description = wp_kses_post($this->unescape_ics_text($this->get_ics_property_value($properties, 'DESCRIPTION')));
@@ -1015,24 +1034,84 @@ class Ics_Feed extends Feed
 
 		try {
 			if ($this->is_ics_whole_day_value($value, $params)) {
-				$date = Carbon::createFromFormat('Ymd', substr($value, 0, 8), $timezone);
-				return $date ? $date->startOfDay()->addSeconds(59) : false;
+				$date = $this->ics_create_from_format('Ymd', substr($value, 0, 8), $timezone);
+				return $date ? $date->startOfDay() : false;
 			}
 
 			if (substr($value, -1) === 'Z') {
-				$date = Carbon::createFromFormat('Ymd\THis\Z', $value, 'UTC');
-				if (!$date) {
-					$date = Carbon::createFromFormat('Ymd\THi\Z', $value, 'UTC');
+				if (preg_match('/^\d{8}T\d{4}Z$/', $value)) {
+					$date = $this->ics_create_from_format('Ymd\THi\Z', $value, 'UTC');
+				} else {
+					$date = $this->ics_create_from_format('Ymd\THis\Z', $value, 'UTC');
+					if (!$date) {
+						$date = $this->ics_create_from_format('Ymd\THi\Z', $value, 'UTC');
+					}
 				}
 				return $date ? $date->setTimezone($timezone) : false;
 			}
 
-			$date = Carbon::createFromFormat('Ymd\THis', substr($value, 0, 15), $timezone);
-			if (!$date) {
-				$date = Carbon::createFromFormat('Ymd\THi', substr($value, 0, 13), $timezone);
+			if (preg_match('/^\d{8}T\d{4}$/', $value)) {
+				$date = $this->ics_create_from_format('Ymd\THi', $value, $timezone);
+			} else {
+				$date = $this->ics_create_from_format('Ymd\THis', substr($value, 0, 15), $timezone);
+				if (!$date) {
+					$date = $this->ics_create_from_format('Ymd\THi', substr($value, 0, 13), $timezone);
+				}
 			}
 
 			return $date ?: false;
+		} catch (\Exception $e) {
+			// InvalidTimeZoneException from setTimezone / startOfDay, etc.
+			return false;
+		}
+	}
+
+	/**
+	 * Create a Carbon instance from a format without aborting sibling fallbacks.
+	 *
+	 * Carbon 2 strict mode throws InvalidFormatException instead of returning
+	 * false, so each attempt must catch on its own.
+	 *
+	 * @since 4.2.1
+	 *
+	 * @param string $format   Date format.
+	 * @param string $value    Date string.
+	 * @param string $timezone Timezone name.
+	 * @return Carbon|false
+	 */
+	protected function ics_create_from_format($format, $value, $timezone)
+	{
+		try {
+			$date = Carbon::createFromFormat($format, $value, $timezone);
+
+			return $date ?: false;
+		} catch (\InvalidArgumentException $e) {
+			return false;
+		}
+	}
+
+	/**
+	 * Convert an exclusive DATE-valued DTEND to the last inclusive moment.
+	 *
+	 * Exclusive DATE DTEND is the next calendar day at 00:00; minus one second
+	 * is the prior day at 23:59:59. Uses subDay()->endOfDay() from the Ymd
+	 * string so DST zones that skip local midnight cannot leave the end on the
+	 * exclusive DTEND date.
+	 *
+	 * @since 4.2.1
+	 *
+	 * @param string $value    ICS DATE value (YYYYMMDD).
+	 * @param string $timezone Timezone for the DATE.
+	 * @return Carbon|false
+	 */
+	protected function ics_date_to_inclusive_end($value, $timezone)
+	{
+		$timezone = $this->normalize_ics_timezone($timezone);
+
+		try {
+			$date = $this->ics_create_from_format('Ymd', substr(trim($value), 0, 8), $timezone);
+
+			return $date ? $date->subDay()->endOfDay() : false;
 		} catch (\Exception $e) {
 			return false;
 		}
@@ -1048,10 +1127,11 @@ class Ics_Feed extends Feed
 	protected function prime_ics_timezone_map($ics_content)
 	{
 		$this->ics_timezone_aliases = [];
+		$this->ics_timezone_memo = [];
 		$this->ics_file_timezone = '';
 
 		if (preg_match('/^X-WR-TIMEZONE:(.+)$/mi', $ics_content, $matches)) {
-			$hint = $this->normalize_ics_timezone(trim($matches[1]), false);
+			$hint = $this->normalize_ics_timezone(trim($matches[1]), false, true);
 			if ('' !== $hint) {
 				$this->ics_file_timezone = $hint;
 			}
@@ -1074,7 +1154,13 @@ class Ics_Feed extends Feed
 				continue;
 			}
 
-			$resolved = $this->normalize_ics_timezone('' !== $location ? $location : $tzid, false);
+			$resolved = '';
+			if ('' !== $location) {
+				$resolved = $this->normalize_ics_timezone($location, false, true);
+			}
+			if ('' === $resolved) {
+				$resolved = $this->normalize_ics_timezone($tzid, false, true);
+			}
 			if ('' !== $resolved) {
 				$this->ics_timezone_aliases[$tzid] = $resolved;
 			}
@@ -1091,52 +1177,64 @@ class Ics_Feed extends Feed
 	 *
 	 * @param string $tzid        Raw TZID or X-WR-TIMEZONE value.
 	 * @param bool   $use_aliases Whether to consult VTIMEZONE aliases.
+	 * @param bool   $strict      When true, return '' instead of the calendar fallback.
 	 * @return string
 	 */
-	protected function normalize_ics_timezone($tzid, $use_aliases = true)
+	protected function normalize_ics_timezone($tzid, $use_aliases = true, $strict = false)
 	{
 		$tzid = html_entity_decode(trim((string) $tzid), ENT_QUOTES | ENT_HTML5, 'UTF-8');
 		$tzid = trim($tzid, "\"'");
 		$tzid = ltrim($tzid, '/');
 
 		if ('' === $tzid) {
-			return $this->get_ics_fallback_timezone();
+			return $strict ? '' : $this->get_ics_fallback_timezone();
 		}
 
+		$memo_key = $tzid . "\0" . (int) $use_aliases . "\0" . (int) $strict;
+		if (array_key_exists($memo_key, $this->ics_timezone_memo)) {
+			return $this->ics_timezone_memo[$memo_key];
+		}
+
+		$resolved = $tzid;
 		if ($this->is_valid_iana_timezone($tzid)) {
-			return $tzid;
+			$this->ics_timezone_memo[$memo_key] = $resolved;
+			return $resolved;
 		}
 
 		if ($use_aliases && !empty($this->ics_timezone_aliases[$tzid])) {
-			return $this->ics_timezone_aliases[$tzid];
-		}
-
-		if (
+			$resolved = $this->ics_timezone_aliases[$tzid];
+		} elseif (
 			preg_match(
 				'#((?:Africa|America|Antarctica|Arctic|Asia|Atlantic|Australia|Europe|Indian|Pacific|Etc)/[A-Za-z0-9_+\-/]+)$#',
 				$tzid,
 				$matches,
-			)
+			) &&
+			$this->is_valid_iana_timezone($matches[1])
 		) {
-			if ($this->is_valid_iana_timezone($matches[1])) {
-				return $matches[1];
+			$resolved = $matches[1];
+		} else {
+			$windows = $this->map_windows_timezone($tzid);
+			if ('' !== $windows) {
+				$resolved = $windows;
+			} elseif (preg_match('/^(UTC|GMT|Z)$/i', $tzid)) {
+				$resolved = 'UTC';
+			} else {
+				$resolved = $strict ? '' : $this->get_ics_fallback_timezone();
 			}
 		}
 
-		$windows = $this->map_windows_timezone($tzid);
-		if ('' !== $windows) {
-			return $windows;
-		}
+		$this->ics_timezone_memo[$memo_key] = $resolved;
 
-		if (preg_match('/^(UTC|GMT|Z)$/i', $tzid)) {
-			return 'UTC';
-		}
-
-		return $this->get_ics_fallback_timezone();
+		return $resolved;
 	}
 
 	/**
 	 * Fallback timezone when a TZID cannot be resolved.
+	 *
+	 * X-WR-TIMEZONE is used only when the calendar timezone setting is
+	 * "use_calendar", matching Google Calendar feeds. use_site / use_custom
+	 * keep the configured calendar timezone so DATE events stay on the
+	 * displayed calendar day.
 	 *
 	 * @since 4.2.1
 	 *
@@ -1144,7 +1242,11 @@ class Ics_Feed extends Feed
 	 */
 	protected function get_ics_fallback_timezone()
 	{
-		if ('' !== $this->ics_file_timezone && $this->is_valid_iana_timezone($this->ics_file_timezone)) {
+		if (
+			'use_calendar' === $this->timezone_setting &&
+			'' !== $this->ics_file_timezone &&
+			$this->is_valid_iana_timezone($this->ics_file_timezone)
+		) {
 			return $this->ics_file_timezone;
 		}
 
@@ -1156,7 +1258,55 @@ class Ics_Feed extends Feed
 	}
 
 	/**
+	 * Apply X-WR-TIMEZONE to the feed when timezone setting is use_calendar.
+	 *
+	 * Calendar::set_events copies $feed->timezone onto $calendar->timezone,
+	 * so DATE timestamps and grid placement share the same zone.
+	 *
+	 * @since 4.2.1
+	 */
+	protected function apply_ics_file_timezone()
+	{
+		if ('' === $this->ics_file_timezone || !$this->is_valid_iana_timezone($this->ics_file_timezone)) {
+			return;
+		}
+
+		$this->timezone = $this->ics_file_timezone;
+	}
+
+	/**
+	 * Restore use_calendar timezone from cached events.
+	 *
+	 * ICS transients store the events array only. Event rows include the
+	 * timezone used at parse time so grid placement can match on cache hits.
+	 *
+	 * @since 4.2.1
+	 *
+	 * @param array $events Cached events.
+	 */
+	protected function maybe_set_timezone_from_cached_events($events)
+	{
+		if ('use_calendar' !== $this->timezone_setting || !is_array($events) || empty($events)) {
+			return;
+		}
+
+		$group = reset($events);
+		if (!is_array($group) || empty($group[0]['timezone'])) {
+			return;
+		}
+
+		$tz = $group[0]['timezone'];
+		if ($this->is_valid_iana_timezone($tz)) {
+			$this->timezone = $tz;
+		}
+	}
+
+	/**
 	 * Whether a string is a valid IANA timezone identifier.
+	 *
+	 * Includes backward-compatible names (Asia/Calcutta, Europe/Kiev, Etc/GMT+N)
+	 * that PHP still accepts. timezone_identifiers_list() defaults to ALL, which
+	 * omits those and would silently fall back to the site timezone.
 	 *
 	 * @since 4.2.1
 	 *
@@ -1168,7 +1318,7 @@ class Ics_Feed extends Feed
 		static $iana = null;
 
 		if (null === $iana) {
-			$iana = array_flip(timezone_identifiers_list());
+			$iana = array_flip(timezone_identifiers_list(\DateTimeZone::ALL_WITH_BC));
 		}
 
 		return isset($iana[(string) $timezone]);
@@ -1184,18 +1334,21 @@ class Ics_Feed extends Feed
 	 */
 	protected function map_windows_timezone($tzid)
 	{
+		static $lower = null;
+
 		$map = $this->get_windows_timezone_map();
-		$candidates = [];
+		if (null === $lower) {
+			$lower = [];
+			foreach ($map as $name => $iana) {
+				$lower[strtolower((string) $name)] = $iana;
+			}
+		}
 
 		if (isset($map[$tzid])) {
 			$candidates = (array) $map[$tzid];
 		} else {
-			foreach ($map as $name => $iana) {
-				if (0 === strcasecmp((string) $name, $tzid)) {
-					$candidates = (array) $iana;
-					break;
-				}
-			}
+			$key = strtolower((string) $tzid);
+			$candidates = isset($lower[$key]) ? (array) $lower[$key] : [];
 		}
 
 		foreach ($candidates as $candidate) {
@@ -1216,6 +1369,12 @@ class Ics_Feed extends Feed
 	 */
 	protected function get_windows_timezone_map()
 	{
+		static $map = null;
+
+		if (null !== $map) {
+			return $map;
+		}
+
 		$map = [
 			'Afghanistan Standard Time' => ['Asia/Kabul'],
 			'Alaskan Standard Time' => ['America/Anchorage'],
@@ -1365,7 +1524,10 @@ class Ics_Feed extends Feed
 		 *
 		 * @param array $map Windows TZID => list of IANA candidates.
 		 */
-		return apply_filters('simcal_ics_windows_timezone_map', $map);
+		$filtered = apply_filters('simcal_ics_windows_timezone_map', $map);
+		$map = is_array($filtered) ? $filtered : $map;
+
+		return $map;
 	}
 
 	/**
