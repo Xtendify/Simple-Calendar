@@ -73,6 +73,30 @@ class Ics_Feed extends Feed
 	protected $ics_event_color = '';
 
 	/**
+	 * TZID aliases resolved from VTIMEZONE / Windows timezone names.
+	 *
+	 * @access protected
+	 * @var array
+	 */
+	protected $ics_timezone_aliases = [];
+
+	/**
+	 * Memoized normalize_ics_timezone() results for this feed parse.
+	 *
+	 * @access protected
+	 * @var array
+	 */
+	protected $ics_timezone_memo = [];
+
+	/**
+	 * Calendar-level timezone from X-WR-TIMEZONE, when valid.
+	 *
+	 * @access protected
+	 * @var string
+	 */
+	protected $ics_file_timezone = '';
+
+	/**
 	 * Set properties.
 	 *
 	 * @since 4.1.0
@@ -346,6 +370,7 @@ class Ics_Feed extends Feed
 		$events = get_transient('_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type);
 
 		if (!empty($events)) {
+			$this->maybe_set_timezone_from_cached_events($events);
 			return is_array($events) ? $events : [];
 		}
 
@@ -451,6 +476,10 @@ class Ics_Feed extends Feed
 		$events = [];
 		$ics_content = str_replace(["\r\n", "\r"], "\n", $ics_content);
 		$ics_content = preg_replace("/\n[ \t]/", '', $ics_content);
+		$this->prime_ics_timezone_map($ics_content);
+		if ('use_calendar' === $this->timezone_setting) {
+			$this->apply_ics_file_timezone();
+		}
 		$blocks = preg_split('/(?=BEGIN:VEVENT)/', $ics_content);
 
 		if (empty($blocks) || !is_array($blocks)) {
@@ -469,20 +498,35 @@ class Ics_Feed extends Feed
 				continue;
 			}
 
-			$start_timezone = !empty($dtstart['params']['TZID']) ? $dtstart['params']['TZID'] : $this->timezone;
+			$whole_day = $this->is_ics_whole_day_value($dtstart['value'], $dtstart['params']);
+			$raw_start_tzid = !empty($dtstart['params']['TZID']) ? $dtstart['params']['TZID'] : '';
+			// DATE values have no TZID; do not use X-WR-TIMEZONE unless timezone setting is use_calendar.
+			$start_timezone = $this->normalize_ics_timezone(
+				!$whole_day && '' !== $raw_start_tzid ? $raw_start_tzid : $this->get_ics_fallback_timezone(),
+			);
 			$start = $this->parse_ics_datetime($dtstart['value'], $start_timezone, $dtstart['params']);
 
 			$dtend = $this->get_ics_property($properties, 'DTEND');
-			$end_timezone = !empty($dtend['params']['TZID']) ? $dtend['params']['TZID'] : $start_timezone;
-			$end = !empty($dtend['value'])
-				? $this->parse_ics_datetime($dtend['value'], $end_timezone, $dtend['params'])
-				: $start;
+			$end_is_date = !empty($dtend['value']) && $this->is_ics_whole_day_value($dtend['value'], $dtend['params']);
+			$raw_end_tzid = !empty($dtend['params']['TZID']) ? $dtend['params']['TZID'] : '';
+			$end_timezone = $this->normalize_ics_timezone(
+				!$end_is_date && '' !== $raw_end_tzid ? $raw_end_tzid : $start_timezone,
+			);
+			$end = $start;
+			if (!empty($dtend['value'])) {
+				if ($whole_day && $end_is_date) {
+					// RFC 5545: DATE DTEND is exclusive. Derive from the date string so
+					// DST zones that skip local midnight cannot leave the end on DTEND's day.
+					$inclusive_end = $this->ics_date_to_inclusive_end($dtend['value'], $end_timezone);
+					$end = $inclusive_end && $inclusive_end->gte($start) ? $inclusive_end : $start->copy();
+				} else {
+					$end = $this->parse_ics_datetime($dtend['value'], $end_timezone, $dtend['params']);
+				}
+			}
 
 			if (!$start || !$end) {
 				continue;
 			}
-
-			$whole_day = $this->is_ics_whole_day_value($dtstart['value'], $dtstart['params']);
 			$title = sanitize_text_field($this->unescape_ics_text($this->get_ics_property_value($properties, 'SUMMARY')));
 			$description = wp_kses_post($this->unescape_ics_text($this->get_ics_property_value($properties, 'DESCRIPTION')));
 			$location = sanitize_text_field($this->unescape_ics_text($this->get_ics_property_value($properties, 'LOCATION')));
@@ -985,27 +1029,504 @@ class Ics_Feed extends Feed
 	protected function parse_ics_datetime($value, $timezone, $params = [])
 	{
 		$value = trim($value);
-		$timezone = !empty($timezone) ? $timezone : $this->timezone;
+		$timezone = $this->normalize_ics_timezone($timezone);
 
-		if ($this->is_ics_whole_day_value($value, $params)) {
-			$date = Carbon::createFromFormat('Ymd', substr($value, 0, 8), $timezone);
-			return $date ? $date->startOfDay()->addSeconds(59) : false;
-		}
-
-		if (substr($value, -1) === 'Z') {
-			$date = Carbon::createFromFormat('Ymd\THis\Z', $value, 'UTC');
-			if (!$date) {
-				$date = Carbon::createFromFormat('Ymd\THi\Z', $value, 'UTC');
+		try {
+			if ($this->is_ics_whole_day_value($value, $params)) {
+				$date = $this->ics_create_from_format('Ymd', substr($value, 0, 8), $timezone);
+				return $date ? $date->startOfDay() : false;
 			}
-			return $date ? $date->setTimezone($timezone) : false;
+
+			if (substr($value, -1) === 'Z') {
+				if (preg_match('/^\d{8}T\d{4}Z$/', $value)) {
+					$date = $this->ics_create_from_format('Ymd\THi\Z', $value, 'UTC');
+				} else {
+					$date = $this->ics_create_from_format('Ymd\THis\Z', $value, 'UTC');
+					if (!$date) {
+						$date = $this->ics_create_from_format('Ymd\THi\Z', $value, 'UTC');
+					}
+				}
+				return $date ? $date->setTimezone($timezone) : false;
+			}
+
+			if (preg_match('/^\d{8}T\d{4}$/', $value)) {
+				$date = $this->ics_create_from_format('Ymd\THi', $value, $timezone);
+			} else {
+				$date = $this->ics_create_from_format('Ymd\THis', substr($value, 0, 15), $timezone);
+				if (!$date) {
+					$date = $this->ics_create_from_format('Ymd\THi', substr($value, 0, 13), $timezone);
+				}
+			}
+
+			return $date ?: false;
+		} catch (\Exception $e) {
+			// InvalidTimeZoneException from setTimezone / startOfDay, etc.
+			return false;
+		}
+	}
+
+	/**
+	 * Create a Carbon instance from a format without aborting sibling fallbacks.
+	 *
+	 * Carbon 2 strict mode throws InvalidFormatException instead of returning
+	 * false, so each attempt must catch on its own.
+	 *
+	 * @since 4.2.1
+	 *
+	 * @param string $format   Date format.
+	 * @param string $value    Date string.
+	 * @param string $timezone Timezone name.
+	 * @return Carbon|false
+	 */
+	protected function ics_create_from_format($format, $value, $timezone)
+	{
+		try {
+			$date = Carbon::createFromFormat($format, $value, $timezone);
+
+			return $date ?: false;
+		} catch (\InvalidArgumentException $e) {
+			return false;
+		}
+	}
+
+	/**
+	 * Convert an exclusive DATE-valued DTEND to the last inclusive moment.
+	 *
+	 * Exclusive DATE DTEND is the next calendar day at 00:00; minus one second
+	 * is the prior day at 23:59:59. Uses subDay()->endOfDay() from the Ymd
+	 * string so DST zones that skip local midnight cannot leave the end on the
+	 * exclusive DTEND date.
+	 *
+	 * @since 4.2.1
+	 *
+	 * @param string $value    ICS DATE value (YYYYMMDD).
+	 * @param string $timezone Timezone for the DATE.
+	 * @return Carbon|false
+	 */
+	protected function ics_date_to_inclusive_end($value, $timezone)
+	{
+		$timezone = $this->normalize_ics_timezone($timezone);
+
+		try {
+			$date = $this->ics_create_from_format('Ymd', substr(trim($value), 0, 8), $timezone);
+
+			return $date ? $date->subDay()->endOfDay() : false;
+		} catch (\Exception $e) {
+			return false;
+		}
+	}
+
+	/**
+	 * Collect timezone aliases from VCALENDAR / VTIMEZONE data.
+	 *
+	 * @since 4.2.1
+	 *
+	 * @param string $ics_content Unfolded ICS content.
+	 */
+	protected function prime_ics_timezone_map($ics_content)
+	{
+		$this->ics_timezone_aliases = [];
+		$this->ics_timezone_memo = [];
+		$this->ics_file_timezone = '';
+
+		if (preg_match('/^X-WR-TIMEZONE:(.+)$/mi', $ics_content, $matches)) {
+			$hint = $this->normalize_ics_timezone(trim($matches[1]), false, true);
+			if ('' !== $hint) {
+				$this->ics_file_timezone = $hint;
+			}
 		}
 
-		$date = Carbon::createFromFormat('Ymd\THis', substr($value, 0, 15), $timezone);
-		if (!$date) {
-			$date = Carbon::createFromFormat('Ymd\THi', substr($value, 0, 13), $timezone);
+		if (!preg_match_all('/BEGIN:VTIMEZONE(.*?)END:VTIMEZONE/s', $ics_content, $zones)) {
+			return;
 		}
 
-		return $date ?: false;
+		foreach ($zones[1] as $zone) {
+			$tzid = '';
+			$location = '';
+			if (preg_match('/^TZID:(.+)$/mi', $zone, $matches)) {
+				$tzid = trim($matches[1]);
+			}
+			if (preg_match('/^X-LIC-LOCATION:(.+)$/mi', $zone, $matches)) {
+				$location = trim($matches[1]);
+			}
+			if ('' === $tzid) {
+				continue;
+			}
+
+			$resolved = '';
+			if ('' !== $location) {
+				$resolved = $this->normalize_ics_timezone($location, false, true);
+			}
+			if ('' === $resolved) {
+				$resolved = $this->normalize_ics_timezone($tzid, false, true);
+			}
+			if ('' !== $resolved) {
+				$this->ics_timezone_aliases[$tzid] = $resolved;
+			}
+		}
+	}
+
+	/**
+	 * Normalize an ICS TZID to a valid IANA timezone identifier.
+	 *
+	 * Maps Microsoft Windows names (e.g. "GMT Standard Time") and VTIMEZONE
+	 * aliases onto IANA IDs PHP/Carbon can use.
+	 *
+	 * @since 4.2.1
+	 *
+	 * @param string $tzid        Raw TZID or X-WR-TIMEZONE value.
+	 * @param bool   $use_aliases Whether to consult VTIMEZONE aliases.
+	 * @param bool   $strict      When true, return '' instead of the calendar fallback.
+	 * @return string
+	 */
+	protected function normalize_ics_timezone($tzid, $use_aliases = true, $strict = false)
+	{
+		$tzid = html_entity_decode(trim((string) $tzid), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+		$tzid = trim($tzid, "\"'");
+		$tzid = ltrim($tzid, '/');
+
+		if ('' === $tzid) {
+			return $strict ? '' : $this->get_ics_fallback_timezone();
+		}
+
+		$memo_key = $tzid . "\0" . (int) $use_aliases . "\0" . (int) $strict;
+		if (array_key_exists($memo_key, $this->ics_timezone_memo)) {
+			return $this->ics_timezone_memo[$memo_key];
+		}
+
+		$resolved = $tzid;
+		if ($this->is_valid_iana_timezone($tzid)) {
+			$this->ics_timezone_memo[$memo_key] = $resolved;
+			return $resolved;
+		}
+
+		if ($use_aliases && !empty($this->ics_timezone_aliases[$tzid])) {
+			$resolved = $this->ics_timezone_aliases[$tzid];
+		} elseif (
+			preg_match(
+				'#((?:Africa|America|Antarctica|Arctic|Asia|Atlantic|Australia|Europe|Indian|Pacific|Etc)/[A-Za-z0-9_+\-/]+)$#',
+				$tzid,
+				$matches,
+			) &&
+			$this->is_valid_iana_timezone($matches[1])
+		) {
+			$resolved = $matches[1];
+		} else {
+			$windows = $this->map_windows_timezone($tzid);
+			if ('' !== $windows) {
+				$resolved = $windows;
+			} elseif (preg_match('/^(UTC|GMT|Z)$/i', $tzid)) {
+				$resolved = 'UTC';
+			} else {
+				$resolved = $strict ? '' : $this->get_ics_fallback_timezone();
+			}
+		}
+
+		$this->ics_timezone_memo[$memo_key] = $resolved;
+
+		return $resolved;
+	}
+
+	/**
+	 * Fallback timezone when a TZID cannot be resolved.
+	 *
+	 * X-WR-TIMEZONE is used only when the calendar timezone setting is
+	 * "use_calendar", matching Google Calendar feeds. use_site / use_custom
+	 * keep the configured calendar timezone so DATE events stay on the
+	 * displayed calendar day.
+	 *
+	 * @since 4.2.1
+	 *
+	 * @return string
+	 */
+	protected function get_ics_fallback_timezone()
+	{
+		if (
+			'use_calendar' === $this->timezone_setting &&
+			'' !== $this->ics_file_timezone &&
+			$this->is_valid_iana_timezone($this->ics_file_timezone)
+		) {
+			return $this->ics_file_timezone;
+		}
+
+		if (!empty($this->timezone) && $this->is_valid_iana_timezone($this->timezone)) {
+			return $this->timezone;
+		}
+
+		return 'UTC';
+	}
+
+	/**
+	 * Apply X-WR-TIMEZONE to the feed when timezone setting is use_calendar.
+	 *
+	 * Calendar::set_events copies $feed->timezone onto $calendar->timezone,
+	 * so DATE timestamps and grid placement share the same zone.
+	 *
+	 * @since 4.2.1
+	 */
+	protected function apply_ics_file_timezone()
+	{
+		if ('' === $this->ics_file_timezone || !$this->is_valid_iana_timezone($this->ics_file_timezone)) {
+			return;
+		}
+
+		$this->timezone = $this->ics_file_timezone;
+	}
+
+	/**
+	 * Restore use_calendar timezone from cached events.
+	 *
+	 * ICS transients store the events array only. Event rows include the
+	 * timezone used at parse time so grid placement can match on cache hits.
+	 *
+	 * @since 4.2.1
+	 *
+	 * @param array $events Cached events.
+	 */
+	protected function maybe_set_timezone_from_cached_events($events)
+	{
+		if ('use_calendar' !== $this->timezone_setting || !is_array($events) || empty($events)) {
+			return;
+		}
+
+		$group = reset($events);
+		if (!is_array($group) || empty($group[0]['timezone'])) {
+			return;
+		}
+
+		$tz = $group[0]['timezone'];
+		if ($this->is_valid_iana_timezone($tz)) {
+			$this->timezone = $tz;
+		}
+	}
+
+	/**
+	 * Whether a string is a valid IANA timezone identifier.
+	 *
+	 * Includes backward-compatible names (Asia/Calcutta, Europe/Kiev, Etc/GMT+N)
+	 * that PHP still accepts. timezone_identifiers_list() defaults to ALL, which
+	 * omits those and would silently fall back to the site timezone.
+	 *
+	 * @since 4.2.1
+	 *
+	 * @param string $timezone Timezone ID.
+	 * @return bool
+	 */
+	protected function is_valid_iana_timezone($timezone)
+	{
+		static $iana = null;
+
+		if (null === $iana) {
+			$iana = array_flip(timezone_identifiers_list(\DateTimeZone::ALL_WITH_BC));
+		}
+
+		return isset($iana[(string) $timezone]);
+	}
+
+	/**
+	 * Map a Microsoft Windows timezone name to IANA.
+	 *
+	 * @since 4.2.1
+	 *
+	 * @param string $tzid Windows timezone ID.
+	 * @return string
+	 */
+	protected function map_windows_timezone($tzid)
+	{
+		static $lower = null;
+
+		$map = $this->get_windows_timezone_map();
+		if (null === $lower) {
+			$lower = [];
+			foreach ($map as $name => $iana) {
+				$lower[strtolower((string) $name)] = $iana;
+			}
+		}
+
+		if (isset($map[$tzid])) {
+			$candidates = (array) $map[$tzid];
+		} else {
+			$key = strtolower((string) $tzid);
+			$candidates = isset($lower[$key]) ? (array) $lower[$key] : [];
+		}
+
+		foreach ($candidates as $candidate) {
+			if ($this->is_valid_iana_timezone($candidate)) {
+				return $candidate;
+			}
+		}
+
+		return '';
+	}
+
+	/**
+	 * Windows timezone ID → IANA candidates (CLDR territory 001 defaults).
+	 *
+	 * @since 4.2.1
+	 *
+	 * @return array
+	 */
+	protected function get_windows_timezone_map()
+	{
+		static $map = null;
+
+		if (null !== $map) {
+			return $map;
+		}
+
+		$map = [
+			'Afghanistan Standard Time' => ['Asia/Kabul'],
+			'Alaskan Standard Time' => ['America/Anchorage'],
+			'Aleutian Standard Time' => ['America/Adak'],
+			'Altai Standard Time' => ['Asia/Barnaul'],
+			'Arab Standard Time' => ['Asia/Riyadh'],
+			'Arabian Standard Time' => ['Asia/Dubai'],
+			'Arabic Standard Time' => ['Asia/Baghdad'],
+			'Argentina Standard Time' => ['America/Argentina/Buenos_Aires', 'America/Buenos_Aires'],
+			'Astrakhan Standard Time' => ['Europe/Astrakhan'],
+			'Atlantic Standard Time' => ['America/Halifax'],
+			'AUS Central Standard Time' => ['Australia/Darwin'],
+			'Aus Central W. Standard Time' => ['Australia/Eucla'],
+			'AUS Eastern Standard Time' => ['Australia/Sydney'],
+			'Azerbaijan Standard Time' => ['Asia/Baku'],
+			'Azores Standard Time' => ['Atlantic/Azores'],
+			'Bahia Standard Time' => ['America/Bahia'],
+			'Bangladesh Standard Time' => ['Asia/Dhaka'],
+			'Belarus Standard Time' => ['Europe/Minsk'],
+			'Bougainville Standard Time' => ['Pacific/Bougainville'],
+			'Canada Central Standard Time' => ['America/Regina'],
+			'Cape Verde Standard Time' => ['Atlantic/Cape_Verde'],
+			'Caucasus Standard Time' => ['Asia/Yerevan'],
+			'Cen. Australia Standard Time' => ['Australia/Adelaide'],
+			'Central America Standard Time' => ['America/Guatemala'],
+			'Central Asia Standard Time' => ['Asia/Almaty'],
+			'Central Brazilian Standard Time' => ['America/Cuiaba'],
+			'Central Europe Standard Time' => ['Europe/Budapest'],
+			'Central European Standard Time' => ['Europe/Warsaw'],
+			'Central Pacific Standard Time' => ['Pacific/Guadalcanal'],
+			'Central Standard Time' => ['America/Chicago'],
+			'Central Standard Time (Mexico)' => ['America/Mexico_City'],
+			'Chatham Islands Standard Time' => ['Pacific/Chatham'],
+			'China Standard Time' => ['Asia/Shanghai'],
+			'Cuba Standard Time' => ['America/Havana'],
+			'Dateline Standard Time' => ['Etc/GMT+12'],
+			'E. Africa Standard Time' => ['Africa/Nairobi'],
+			'E. Australia Standard Time' => ['Australia/Brisbane'],
+			'E. Europe Standard Time' => ['Europe/Chisinau'],
+			'E. South America Standard Time' => ['America/Sao_Paulo'],
+			'Easter Island Standard Time' => ['Pacific/Easter'],
+			'Eastern Standard Time' => ['America/New_York'],
+			'Eastern Standard Time (Mexico)' => ['America/Cancun'],
+			'Egypt Standard Time' => ['Africa/Cairo'],
+			'Ekaterinburg Standard Time' => ['Asia/Yekaterinburg'],
+			'Fiji Standard Time' => ['Pacific/Fiji'],
+			'FLE Standard Time' => ['Europe/Kyiv', 'Europe/Kiev'],
+			'Georgian Standard Time' => ['Asia/Tbilisi'],
+			'GMT Standard Time' => ['Europe/London'],
+			'Greenland Standard Time' => ['America/Nuuk', 'America/Godthab'],
+			'Greenwich Standard Time' => ['Atlantic/Reykjavik'],
+			'GTB Standard Time' => ['Europe/Bucharest'],
+			'Haiti Standard Time' => ['America/Port-au-Prince'],
+			'Hawaiian Standard Time' => ['Pacific/Honolulu'],
+			'India Standard Time' => ['Asia/Kolkata', 'Asia/Calcutta'],
+			'Iran Standard Time' => ['Asia/Tehran'],
+			'Israel Standard Time' => ['Asia/Jerusalem'],
+			'Jordan Standard Time' => ['Asia/Amman'],
+			'Kaliningrad Standard Time' => ['Europe/Kaliningrad'],
+			'Korea Standard Time' => ['Asia/Seoul'],
+			'Libya Standard Time' => ['Africa/Tripoli'],
+			'Line Islands Standard Time' => ['Pacific/Kiritimati'],
+			'Lord Howe Standard Time' => ['Australia/Lord_Howe'],
+			'Magadan Standard Time' => ['Asia/Magadan'],
+			'Magallanes Standard Time' => ['America/Punta_Arenas'],
+			'Marquesas Standard Time' => ['Pacific/Marquesas'],
+			'Mauritius Standard Time' => ['Indian/Mauritius'],
+			'Middle East Standard Time' => ['Asia/Beirut'],
+			'Montevideo Standard Time' => ['America/Montevideo'],
+			'Morocco Standard Time' => ['Africa/Casablanca'],
+			'Mountain Standard Time' => ['America/Denver'],
+			'Mountain Standard Time (Mexico)' => ['America/Mazatlan'],
+			'Myanmar Standard Time' => ['Asia/Yangon', 'Asia/Rangoon'],
+			'N. Central Asia Standard Time' => ['Asia/Novosibirsk'],
+			'Namibia Standard Time' => ['Africa/Windhoek'],
+			'Nepal Standard Time' => ['Asia/Kathmandu', 'Asia/Katmandu'],
+			'New Zealand Standard Time' => ['Pacific/Auckland'],
+			'Newfoundland Standard Time' => ['America/St_Johns'],
+			'Norfolk Standard Time' => ['Pacific/Norfolk'],
+			'North Asia East Standard Time' => ['Asia/Irkutsk'],
+			'North Asia Standard Time' => ['Asia/Krasnoyarsk'],
+			'North Korea Standard Time' => ['Asia/Pyongyang'],
+			'Omsk Standard Time' => ['Asia/Omsk'],
+			'Pacific SA Standard Time' => ['America/Santiago'],
+			'Pacific Standard Time' => ['America/Los_Angeles'],
+			'Pacific Standard Time (Mexico)' => ['America/Tijuana'],
+			'Pakistan Standard Time' => ['Asia/Karachi'],
+			'Paraguay Standard Time' => ['America/Asuncion'],
+			'Qyzylorda Standard Time' => ['Asia/Qyzylorda'],
+			'Romance Standard Time' => ['Europe/Paris'],
+			'Russia Time Zone 3' => ['Europe/Samara'],
+			'Russia Time Zone 10' => ['Asia/Srednekolymsk'],
+			'Russia Time Zone 11' => ['Asia/Kamchatka'],
+			'Russian Standard Time' => ['Europe/Moscow'],
+			'SA Eastern Standard Time' => ['America/Cayenne'],
+			'SA Pacific Standard Time' => ['America/Bogota'],
+			'SA Western Standard Time' => ['America/La_Paz'],
+			'Saint Pierre Standard Time' => ['America/Miquelon'],
+			'Sakhalin Standard Time' => ['Asia/Sakhalin'],
+			'Samoa Standard Time' => ['Pacific/Apia'],
+			'Sao Tome Standard Time' => ['Africa/Sao_Tome'],
+			'Saratov Standard Time' => ['Europe/Saratov'],
+			'SE Asia Standard Time' => ['Asia/Bangkok'],
+			'Singapore Standard Time' => ['Asia/Singapore'],
+			'South Africa Standard Time' => ['Africa/Johannesburg'],
+			'South Sudan Standard Time' => ['Africa/Juba'],
+			'Sri Lanka Standard Time' => ['Asia/Colombo'],
+			'Sudan Standard Time' => ['Africa/Khartoum'],
+			'Syria Standard Time' => ['Asia/Damascus'],
+			'Taipei Standard Time' => ['Asia/Taipei'],
+			'Tasmania Standard Time' => ['Australia/Hobart'],
+			'Tocantins Standard Time' => ['America/Araguaina'],
+			'Tokyo Standard Time' => ['Asia/Tokyo'],
+			'Tomsk Standard Time' => ['Asia/Tomsk'],
+			'Tonga Standard Time' => ['Pacific/Tongatapu'],
+			'Transbaikal Standard Time' => ['Asia/Chita'],
+			'Turkey Standard Time' => ['Europe/Istanbul'],
+			'Turks And Caicos Standard Time' => ['America/Grand_Turk'],
+			'Ulaanbaatar Standard Time' => ['Asia/Ulaanbaatar'],
+			'US Eastern Standard Time' => ['America/Indiana/Indianapolis', 'America/Indianapolis'],
+			'US Mountain Standard Time' => ['America/Phoenix'],
+			'UTC' => ['UTC'],
+			'UTC-02' => ['Etc/GMT+2'],
+			'UTC-08' => ['Etc/GMT+8'],
+			'UTC-09' => ['Etc/GMT+9'],
+			'UTC-11' => ['Etc/GMT+11'],
+			'UTC+12' => ['Etc/GMT-12'],
+			'UTC+13' => ['Etc/GMT-13'],
+			'Venezuela Standard Time' => ['America/Caracas'],
+			'Vladivostok Standard Time' => ['Asia/Vladivostok'],
+			'Volgograd Standard Time' => ['Europe/Volgograd'],
+			'W. Australia Standard Time' => ['Australia/Perth'],
+			'W. Central Africa Standard Time' => ['Africa/Lagos'],
+			'W. Europe Standard Time' => ['Europe/Berlin'],
+			'W. Mongolia Standard Time' => ['Asia/Hovd'],
+			'West Asia Standard Time' => ['Asia/Tashkent'],
+			'West Bank Standard Time' => ['Asia/Hebron'],
+			'West Pacific Standard Time' => ['Pacific/Port_Moresby'],
+			'Yakutsk Standard Time' => ['Asia/Yakutsk'],
+			'Yukon Standard Time' => ['America/Whitehorse'],
+		];
+
+		/**
+		 * Filter Windows timezone ID to IANA mapping used by ICS Feed.
+		 *
+		 * @since 4.2.1
+		 *
+		 * @param array $map Windows TZID => list of IANA candidates.
+		 */
+		$filtered = apply_filters('simcal_ics_windows_timezone_map', $map);
+		$map = is_array($filtered) ? $filtered : $map;
+
+		return $map;
 	}
 
 	/**

@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 4.2.1 =
+* Fix: Resolved timezone handling issues for all-day events in ICS feeds.
+
 = 4.2.0 =
 * Dev: Add option to automatically display List View on mobile devices when the screen width is below 768px when Grid View is selected as the default view.
 * Dev: Add an administrator and editor-only frontend notice when a calendar has no events or a feed error, with a link to Google Calendar privacy prerequisites.
