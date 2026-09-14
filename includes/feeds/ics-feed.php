@@ -507,8 +507,7 @@ class Ics_Feed extends Feed
 			$start = $this->parse_ics_datetime($dtstart['value'], $start_timezone, $dtstart['params']);
 
 			$dtend = $this->get_ics_property($properties, 'DTEND');
-			$end_is_date =
-				!empty($dtend['value']) && $this->is_ics_whole_day_value($dtend['value'], $dtend['params']);
+			$end_is_date = !empty($dtend['value']) && $this->is_ics_whole_day_value($dtend['value'], $dtend['params']);
 			$raw_end_tzid = !empty($dtend['params']['TZID']) ? $dtend['params']['TZID'] : '';
 			$end_timezone = $this->normalize_ics_timezone(
 				!$end_is_date && '' !== $raw_end_tzid ? $raw_end_tzid : $start_timezone,
