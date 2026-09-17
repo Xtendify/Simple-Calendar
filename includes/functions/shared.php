@@ -202,6 +202,8 @@ function simcal_common_scripts_variables()
 			'start_required' => __('Start date/time is required.', 'google-calendar-events'),
 			'end_required' => __('End date/time is required.', 'google-calendar-events'),
 			'end_after_start' => __('End date/time must be greater than the start date/time.', 'google-calendar-events'),
+			'location_no_results' => __('No matching locations found.', 'google-calendar-events'),
+			'location_search_error' => __('Could not look up locations. Please try again.', 'google-calendar-events'),
 		],
 	];
 

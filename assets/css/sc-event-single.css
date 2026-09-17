@@ -47,7 +47,7 @@ body.single-sc-event .wp-block-post-title ~ .wp-block-group.has-small-font-size 
 
 .simcal-event-detail__meta {
 	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 1fr));
+	grid-template-columns: repeat(2, minmax(0, 1fr));
 	gap: 1.5rem 2rem;
 	padding-bottom: 1.75rem;
 	margin-bottom: 2rem;
@@ -104,12 +104,40 @@ body.single-sc-event .wp-block-post-title ~ .wp-block-group.has-small-font-size 
 	margin-bottom: 0;
 }
 
+.simcal-event-detail__sidebar {
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
+}
+
 .simcal-event-detail__sidebar-card {
 	background: #fff;
 	border: 1px solid #ececec;
 	border-radius: 4px;
 	padding: 1.35rem 1.5rem 1rem;
 	box-shadow: 0 1px 2px rgba(17, 24, 39, 0.04);
+}
+
+.simcal-event-detail__location-address {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.55rem;
+	margin: 0;
+	font-size: 0.95rem;
+	line-height: 1.45;
+	color: #4b5563;
+}
+
+.simcal-event-detail__map:empty {
+	display: none;
+}
+
+.simcal-event-detail__map:not(:empty) {
+	margin-top: 1rem;
+	overflow: hidden;
+	border-radius: 4px;
+	aspect-ratio: 4 / 3;
+	background: #f3f4f6;
 }
 
 .simcal-event-detail__rows {

@@ -298,7 +298,7 @@ class Sc_Event extends Feed
 	 */
 	protected function normalize_post_to_event($post, $timezone)
 	{
-		if (!$post instanceof \WP_Post) {
+		if (!($post instanceof \WP_Post)) {
 			return [];
 		}
 
@@ -336,7 +336,16 @@ class Sc_Event extends Feed
 		}
 
 		$location = sanitize_text_field((string) get_post_meta($post->ID, '_sc_event_location', true));
+		$lat = get_post_meta($post->ID, '_sc_event_lat', true);
+		$lng = get_post_meta($post->ID, '_sc_event_lng', true);
 		$categories = $this->get_event_categories($post->ID);
+
+		$location_data = [
+			'name' => $location,
+			'address' => $location,
+			'lat' => is_numeric($lat) ? (float) $lat : 0,
+			'lng' => is_numeric($lng) ? (float) $lng : 0,
+		];
 
 		return [
 			'type' => 'sc-event',
@@ -351,11 +360,11 @@ class Sc_Event extends Feed
 			'start' => $start_ts,
 			'start_utc' => $start_utc->getTimestamp(),
 			'start_timezone' => $timezone,
-			'start_location' => $location,
+			'start_location' => $location_data,
 			'end' => $end_ts,
 			'end_utc' => $end_utc->getTimestamp(),
 			'end_timezone' => $timezone,
-			'end_location' => $location,
+			'end_location' => $location_data,
 			'whole_day' => false,
 			'multiple_days' => $span > 0 ? $span : false,
 			'recurrence' => false,

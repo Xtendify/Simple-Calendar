@@ -8,6 +8,7 @@ namespace SimpleCalendar\Frontend;
 
 use SimpleCalendar\Abstracts\Calendar;
 use SimpleCalendar\Events\Event;
+use SimpleCalendar\Events\Event_Schema;
 use SimpleCalendar\Feeds\Sc_Event;
 
 if (!defined('ABSPATH')) {
@@ -17,8 +18,9 @@ if (!defined('ABSPATH')) {
 /**
  * Single SC Event page.
  *
- * Wraps the event content with an optional featured image, start/end/address
- * meta, a description block, and a sidebar with category, tags, and Add to GCal.
+ * Wraps the event content with an optional featured image, start/end meta,
+ * a description block, and a sidebar with address, category, tags, and Add to GCal.
+ * Sections are pluggable via actions/filters (similar to WooCommerce product pages).
  *
  * @since 4.2.0
  */
@@ -40,8 +42,80 @@ class Sc_Event_Single
 	{
 		add_filter('the_content', [$this, 'filter_content'], 20);
 		add_action('wp_enqueue_scripts', [$this, 'enqueue_styles']);
+		add_action('wp_head', [$this, 'print_schema_json_ld'], 5);
 		add_filter('pre_render_block', [$this, 'pre_render_theme_meta_blocks'], 10, 2);
 		add_filter('render_block', [$this, 'filter_theme_meta_blocks'], 10, 2);
+
+		$this->register_template_hooks();
+	}
+
+	/**
+	 * Register default event detail template parts (WooCommerce-style).
+	 *
+	 * Themes/plugins can remove or reorder these with remove_action()/add_action().
+	 *
+	 * @since 4.2.0
+	 */
+	protected function register_template_hooks()
+	{
+		/**
+		 * Before main column / featured image area.
+		 *
+		 * Default priorities:
+		 * - 10 featured image
+		 */
+		add_action('simcal_before_event_detail_summary', [$this, 'template_featured_image'], 10, 2);
+
+		/**
+		 * Main column (summary).
+		 *
+		 * Default priorities:
+		 * - 10 start/end meta
+		 * - 20 description
+		 */
+		add_action('simcal_event_detail_summary', [$this, 'template_meta'], 10, 2);
+		add_action('simcal_event_detail_summary', [$this, 'template_description'], 20, 2);
+
+		/**
+		 * Sidebar.
+		 *
+		 * Default priorities:
+		 * - 10 address / map
+		 * - 20 details (category, tags, add to gcal)
+		 */
+		add_action('simcal_event_detail_sidebar', [$this, 'template_location'], 10, 2);
+		add_action('simcal_event_detail_sidebar', [$this, 'template_details'], 20, 2);
+	}
+
+	/**
+	 * Output schema.org Event JSON-LD on SC Event single pages.
+	 *
+	 * @since 4.2.0
+	 */
+	public function print_schema_json_ld()
+	{
+		if (is_admin() || !is_singular('sc-event')) {
+			return;
+		}
+
+		$post = get_queried_object();
+
+		if (!($post instanceof \WP_Post) || 'sc-event' !== $post->post_type) {
+			return;
+		}
+
+		$event = $this->build_event_from_post($post);
+
+		if (!($event instanceof Event)) {
+			return;
+		}
+
+		$schema = new Event_Schema($event);
+		$script = $schema->get_json_ld_script();
+
+		if ('' !== $script) {
+			echo $script;
+		}
 	}
 
 	/**
@@ -194,13 +268,7 @@ class Sc_Event_Single
 		foreach ($inner as $inner_block) {
 			$inner_name = isset($inner_block['blockName']) ? (string) $inner_block['blockName'] : '';
 
-			if (
-				in_array(
-					$inner_name,
-					['core/post-author', 'core/post-author-name', 'core/post-terms'],
-					true,
-				)
-			) {
+			if (in_array($inner_name, ['core/post-author', 'core/post-author-name', 'core/post-terms'], true)) {
 				$has_author_or_terms = true;
 				break;
 			}
@@ -261,7 +329,7 @@ class Sc_Event_Single
 
 		global $post;
 
-		if (!$post instanceof \WP_Post || 'sc-event' !== $post->post_type) {
+		if (!($post instanceof \WP_Post) || 'sc-event' !== $post->post_type) {
 			return $content;
 		}
 
@@ -293,95 +361,443 @@ class Sc_Event_Single
 			$end = $start;
 		}
 
-		$start_label = $this->format_meta_datetime($start, $end, $timezone, true);
-		$end_label = $this->format_meta_datetime($end, $start, $timezone, false);
-		$address = $location ? $location : '—';
-		$categories = $this->get_term_links($post->ID, 'sc-event-category');
-		$tags = $this->get_term_links($post->ID, 'sc-event-tag');
-		$featured_image = $this->get_featured_image_html($post->ID);
-		$gcal_url = $this->get_add_to_gcal_url($post, $start, $end, $timezone, $location);
+		$lat = get_post_meta($post->ID, '_sc_event_lat', true);
+		$lng = get_post_meta($post->ID, '_sc_event_lng', true);
+		$lat = is_numeric($lat) ? (float) $lat : 0;
+		$lng = is_numeric($lng) ? (float) $lng : 0;
+
+		$context = [
+			'post' => $post,
+			'timezone' => $timezone,
+			'start' => $start,
+			'end' => $end,
+			'location' => $location,
+			'address' => $location ? $location : '—',
+			'lat' => $lat,
+			'lng' => $lng,
+			'start_label' => $this->format_meta_datetime($start, $end, $timezone, true),
+			'end_label' => $this->format_meta_datetime($end, $start, $timezone, false),
+			'categories' => $this->get_term_links($post->ID, 'sc-event-category'),
+			'tags' => $this->get_term_links($post->ID, 'sc-event-tag'),
+			'featured_image' => $this->get_featured_image_html($post->ID),
+			'gcal_url' => $this->get_add_to_gcal_url($post, $start, $end, $timezone, $location),
+			'content' => $content,
+		];
+
+		/**
+		 * Filter event detail template context.
+		 *
+		 * @since 4.2.0
+		 *
+		 * @param array    $context Template data.
+		 * @param \WP_Post $post    Event post.
+		 */
+		$context = apply_filters('simcal_event_detail_context', $context, $post);
+
+		/**
+		 * Filter event detail wrapper CSS classes.
+		 *
+		 * @since 4.2.0
+		 *
+		 * @param string[] $classes CSS classes.
+		 * @param \WP_Post $post    Event post.
+		 * @param array    $context Template data.
+		 */
+		$classes = apply_filters('simcal_event_detail_classes', ['simcal-event-detail'], $post, $context);
+		$classes = array_map('sanitize_html_class', array_filter((array) $classes));
 
 		ob_start();
+
+		/**
+		 * Before the event detail wrapper.
+		 *
+		 * @since 4.2.0
+		 *
+		 * @param \WP_Post $post    Event post.
+		 * @param array    $context Template data.
+		 */
+		do_action('simcal_before_event_detail', $post, $context);
 		?>
-		<div class="simcal-event-detail">
-			<?php if ($featured_image) : ?>
-				<figure class="simcal-event-detail__featured">
-					<?php echo $featured_image; ?>
-				</figure>
-			<?php endif; ?>
+		<div class="<?php echo esc_attr(implode(' ', $classes)); ?>">
+			<?php /**
+    * Before the main/summary column.
+    *
+    * @since 4.2.0
+    *
+    * @param \WP_Post $post    Event post.
+    * @param array    $context Template data.
+    */
+   do_action('simcal_before_event_detail_summary', $post, $context); ?>
 			<div class="simcal-event-detail__body">
 				<div class="simcal-event-detail__main">
-					<div class="simcal-event-detail__meta">
-						<div class="simcal-event-detail__meta-item">
-							<h3 class="simcal-event-detail__meta-label"><?php esc_html_e('Start Date', 'google-calendar-events'); ?></h3>
-							<p class="simcal-event-detail__meta-value">
-								<span class="simcal-event-detail__icon" aria-hidden="true"><?php echo $this->calendar_icon(); ?></span>
-								<span><?php echo esc_html($start_label); ?></span>
-							</p>
-						</div>
-						<div class="simcal-event-detail__meta-item">
-							<h3 class="simcal-event-detail__meta-label"><?php esc_html_e('End Date', 'google-calendar-events'); ?></h3>
-							<p class="simcal-event-detail__meta-value">
-								<span class="simcal-event-detail__icon" aria-hidden="true"><?php echo $this->calendar_icon(); ?></span>
-								<span><?php echo esc_html($end_label); ?></span>
-							</p>
-						</div>
-						<div class="simcal-event-detail__meta-item">
-							<h3 class="simcal-event-detail__meta-label"><?php esc_html_e('Address', 'google-calendar-events'); ?></h3>
-							<p class="simcal-event-detail__meta-value">
-								<span class="simcal-event-detail__icon" aria-hidden="true"><?php echo $this->pin_icon(); ?></span>
-								<span><?php echo esc_html($address); ?></span>
-							</p>
-						</div>
-					</div>
-					<div class="simcal-event-detail__description">
-						<h2 class="simcal-event-detail__description-title"><?php esc_html_e(
-       	'Description',
-       	'google-calendar-events',
-       ); ?></h2>
-						<div class="simcal-event-detail__description-content">
-							<?php echo $content; ?>
-						</div>
-					</div>
+					<?php /**
+      * Event detail main/summary column.
+      *
+      * Default callbacks: featured image (5), meta (10), description (20).
+      *
+      * @since 4.2.0
+      *
+      * @param \WP_Post $post    Event post.
+      * @param array    $context Template data.
+      */
+     do_action('simcal_event_detail_summary', $post, $context); ?>
 				</div>
+				<?php /**
+     * Before the sidebar.
+     *
+     * @since 4.2.0
+     *
+     * @param \WP_Post $post    Event post.
+     * @param array    $context Template data.
+     */
+    do_action('simcal_before_event_detail_sidebar', $post, $context); ?>
 				<aside class="simcal-event-detail__sidebar" aria-label="<?php esc_attr_e(
-    	'Details',
+    	'Event sidebar',
     	'google-calendar-events',
     ); ?>">
-					<div class="simcal-event-detail__sidebar-card">
-						<h2 class="simcal-event-detail__sidebar-title"><?php esc_html_e(
-       	'Details',
-       	'google-calendar-events',
-       ); ?></h2>
-						<dl class="simcal-event-detail__rows">
-							<?php if ($categories) : ?>
-								<div class="simcal-event-detail__row">
-									<dt><?php esc_html_e('Category', 'google-calendar-events'); ?></dt>
-									<dd><?php echo $categories; ?></dd>
-								</div>
-							<?php endif; ?>
-							<?php if ($tags) : ?>
-								<div class="simcal-event-detail__row">
-									<dt><?php esc_html_e('Tag', 'google-calendar-events'); ?></dt>
-									<dd><?php echo $tags; ?></dd>
-								</div>
-							<?php endif; ?>
-						</dl>
-						<?php if ($gcal_url) : ?>
-							<p class="simcal-event-detail__gcal">
-								<a
-									class="simcal-event-detail__gcal-link"
-									href="<?php echo esc_attr($gcal_url); ?>"
-									target="_blank"
-									rel="noopener noreferrer"
-								><?php esc_html_e('Add to gcal', 'google-calendar-events'); ?></a>
-							</p>
-						<?php endif; ?>
-					</div>
+					<?php /**
+      * Event detail sidebar.
+      *
+      * Default callbacks: location (10), details (20).
+      *
+      * @since 4.2.0
+      *
+      * @param \WP_Post $post    Event post.
+      * @param array    $context Template data.
+      */
+     do_action('simcal_event_detail_sidebar', $post, $context); ?>
 				</aside>
+				<?php /**
+     * After the sidebar.
+     *
+     * @since 4.2.0
+     *
+     * @param \WP_Post $post    Event post.
+     * @param array    $context Template data.
+     */
+    do_action('simcal_after_event_detail_sidebar', $post, $context); ?>
 			</div>
 		</div>
-		<?php return ob_get_clean();
+		<?php
+  /**
+   * After the event detail wrapper.
+   *
+   * @since 4.2.0
+   *
+   * @param \WP_Post $post    Event post.
+   * @param array    $context Template data.
+   */
+  do_action('simcal_after_event_detail', $post, $context);
+
+  $html = ob_get_clean();
+
+  /**
+   * Filter the full event detail HTML.
+   *
+   * @since 4.2.0
+   *
+   * @param string   $html    Rendered HTML.
+   * @param \WP_Post $post    Event post.
+   * @param array    $context Template data.
+   */
+  return apply_filters('simcal_event_detail_html', $html, $post, $context);
+	}
+
+	/**
+	 * Template: featured image.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param \WP_Post $post    Event post.
+	 * @param array    $context Template data.
+	 */
+	public function template_featured_image($post, $context)
+	{
+		$featured_image = isset($context['featured_image']) ? $context['featured_image'] : '';
+
+		if (!$featured_image) {
+			return;
+		}
+		?>
+		<figure class="simcal-event-detail__featured">
+			<?php echo $featured_image; ?>
+		</figure>
+		<?php
+	}
+
+	/**
+	 * Template: start/end meta row.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param \WP_Post $post    Event post.
+	 * @param array    $context Template data.
+	 */
+	public function template_meta($post, $context)
+	{
+		$start_label = isset($context['start_label']) ? $context['start_label'] : '—';
+		$end_label = isset($context['end_label']) ? $context['end_label'] : '—';
+
+		/**
+		 * Before the start/end meta section.
+		 *
+		 * @since 4.2.0
+		 *
+		 * @param \WP_Post $post    Event post.
+		 * @param array    $context Template data.
+		 */
+		do_action('simcal_before_event_detail_meta', $post, $context);
+		?>
+		<div class="simcal-event-detail__meta">
+			<div class="simcal-event-detail__meta-item">
+				<h3 class="simcal-event-detail__meta-label"><?php esc_html_e('Start', 'google-calendar-events'); ?></h3>
+				<p class="simcal-event-detail__meta-value">
+					<span class="simcal-event-detail__icon" aria-hidden="true"><?php echo $this->calendar_icon(); ?></span>
+					<span><?php echo esc_html($start_label); ?></span>
+				</p>
+			</div>
+			<div class="simcal-event-detail__meta-item">
+				<h3 class="simcal-event-detail__meta-label"><?php esc_html_e('End', 'google-calendar-events'); ?></h3>
+				<p class="simcal-event-detail__meta-value">
+					<span class="simcal-event-detail__icon" aria-hidden="true"><?php echo $this->calendar_icon(); ?></span>
+					<span><?php echo esc_html($end_label); ?></span>
+				</p>
+			</div>
+			<?php /**
+    * Inside the start/end meta section (after defaults).
+    *
+    * @since 4.2.0
+    *
+    * @param \WP_Post $post    Event post.
+    * @param array    $context Template data.
+    */
+   do_action('simcal_event_detail_meta', $post, $context); ?>
+		</div>
+		<?php /**
+   * After the start/end meta section.
+   *
+   * @since 4.2.0
+   *
+   * @param \WP_Post $post    Event post.
+   * @param array    $context Template data.
+   */
+  do_action('simcal_after_event_detail_meta', $post, $context);
+	}
+
+	/**
+	 * Template: description block.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param \WP_Post $post    Event post.
+	 * @param array    $context Template data.
+	 */
+	public function template_description($post, $context)
+	{
+		$content = isset($context['content']) ? $context['content'] : '';
+
+		/**
+		 * Before the description section.
+		 *
+		 * @since 4.2.0
+		 *
+		 * @param \WP_Post $post    Event post.
+		 * @param array    $context Template data.
+		 */
+		do_action('simcal_before_event_detail_description', $post, $context);
+		?>
+		<div class="simcal-event-detail__description">
+			<h2 class="simcal-event-detail__description-title"><?php esc_html_e('Description', 'google-calendar-events'); ?></h2>
+			<div class="simcal-event-detail__description-content">
+				<?php /**
+     * Filter description HTML before output.
+     *
+     * @since 4.2.0
+     *
+     * @param string   $content Description HTML.
+     * @param \WP_Post $post    Event post.
+     * @param array    $context Template data.
+     */
+    echo apply_filters('simcal_event_detail_description_html', $content, $post, $context); ?>
+			</div>
+		</div>
+		<?php /**
+   * After the description section.
+   *
+   * @since 4.2.0
+   *
+   * @param \WP_Post $post    Event post.
+   * @param array    $context Template data.
+   */
+  do_action('simcal_after_event_detail_description', $post, $context);
+	}
+
+	/**
+	 * Template: address / map sidebar card.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param \WP_Post $post    Event post.
+	 * @param array    $context Template data.
+	 */
+	public function template_location($post, $context)
+	{
+		$address = isset($context['address']) ? $context['address'] : '—';
+		$location = isset($context['location']) ? $context['location'] : '';
+		$lat = !empty($context['lat']) ? (float) $context['lat'] : 0;
+		$lng = !empty($context['lng']) ? (float) $context['lng'] : 0;
+
+		/**
+		 * Before the location sidebar card.
+		 *
+		 * @since 4.2.0
+		 *
+		 * @param \WP_Post $post    Event post.
+		 * @param array    $context Template data.
+		 */
+		do_action('simcal_before_event_detail_location', $post, $context);
+		?>
+		<div class="simcal-event-detail__sidebar-card simcal-event-detail__location">
+			<h2 class="simcal-event-detail__sidebar-title"><?php esc_html_e('Address', 'google-calendar-events'); ?></h2>
+			<p class="simcal-event-detail__location-address">
+				<span class="simcal-event-detail__icon" aria-hidden="true"><?php echo $this->pin_icon(); ?></span>
+				<span><?php echo esc_html($address); ?></span>
+			</p>
+			<?php
+   $map_html = sprintf(
+   	'<div class="simcal-event-detail__map" data-simcal-event-map%s></div>',
+   	$lat && $lng
+   		? sprintf(
+   			' data-lat="%1$s" data-lng="%2$s" data-address="%3$s"',
+   			esc_attr((string) $lat),
+   			esc_attr((string) $lng),
+   			esc_attr($location),
+   		)
+   		: '',
+   );
+
+   /**
+    * Filter the map placeholder HTML.
+    *
+    * @since 4.2.0
+    *
+    * @param string   $map_html Map markup.
+    * @param \WP_Post $post     Event post.
+    * @param array    $context  Template data.
+    */
+   echo apply_filters('simcal_event_detail_map_html', $map_html, $post, $context);
+
+   /**
+    * Inside the location card (after address/map).
+    *
+    * @since 4.2.0
+    *
+    * @param \WP_Post $post    Event post.
+    * @param array    $context Template data.
+    */
+   do_action('simcal_event_detail_location', $post, $context);
+   ?>
+		</div>
+		<?php /**
+   * After the location sidebar card.
+   *
+   * @since 4.2.0
+   *
+   * @param \WP_Post $post    Event post.
+   * @param array    $context Template data.
+   */
+  do_action('simcal_after_event_detail_location', $post, $context);
+	}
+
+	/**
+	 * Template: details sidebar card (category, tags, add to gcal).
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param \WP_Post $post    Event post.
+	 * @param array    $context Template data.
+	 */
+	public function template_details($post, $context)
+	{
+		$categories = isset($context['categories']) ? $context['categories'] : '';
+		$tags = isset($context['tags']) ? $context['tags'] : '';
+		$gcal_url = isset($context['gcal_url']) ? $context['gcal_url'] : '';
+
+		/**
+		 * Before the details sidebar card.
+		 *
+		 * @since 4.2.0
+		 *
+		 * @param \WP_Post $post    Event post.
+		 * @param array    $context Template data.
+		 */
+		do_action('simcal_before_event_detail_details', $post, $context);
+		?>
+		<div class="simcal-event-detail__sidebar-card">
+			<h2 class="simcal-event-detail__sidebar-title"><?php esc_html_e('Details', 'google-calendar-events'); ?></h2>
+			<dl class="simcal-event-detail__rows">
+				<?php if ($categories): ?>
+					<div class="simcal-event-detail__row">
+						<dt><?php esc_html_e('Category', 'google-calendar-events'); ?></dt>
+						<dd><?php echo $categories; ?></dd>
+					</div>
+				<?php endif; ?>
+				<?php if ($tags): ?>
+					<div class="simcal-event-detail__row">
+						<dt><?php esc_html_e('Tag', 'google-calendar-events'); ?></dt>
+						<dd><?php echo $tags; ?></dd>
+					</div>
+				<?php endif; ?>
+				<?php /**
+     * Extra detail rows inside the Details card.
+     *
+     * @since 4.2.0
+     *
+     * @param \WP_Post $post    Event post.
+     * @param array    $context Template data.
+     */
+    do_action('simcal_event_detail_details_rows', $post, $context); ?>
+			</dl>
+			<?php if ($gcal_url): ?>
+				<p class="simcal-event-detail__gcal">
+					<a
+						class="simcal-event-detail__gcal-link"
+						href="<?php echo esc_attr($gcal_url); ?>"
+						target="_blank"
+						rel="noopener noreferrer"
+					><?php /**
+      * Filter Add to Google Calendar link text.
+      *
+      * @since 4.2.0
+      *
+      * @param string   $text    Link text.
+      * @param \WP_Post $post    Event post.
+      * @param array    $context Template data.
+      */
+     echo esc_html(
+     	apply_filters('simcal_event_detail_gcal_text', __('Add to GCal', 'google-calendar-events'), $post, $context),
+     ); ?></a>
+				</p>
+			<?php endif; ?>
+			<?php /**
+    * Inside the details card (after rows / gcal).
+    *
+    * @since 4.2.0
+    *
+    * @param \WP_Post $post    Event post.
+    * @param array    $context Template data.
+    */
+   do_action('simcal_event_detail_details', $post, $context); ?>
+		</div>
+		<?php /**
+   * After the details sidebar card.
+   *
+   * @since 4.2.0
+   *
+   * @param \WP_Post $post    Event post.
+   * @param array    $context Template data.
+   */
+  do_action('simcal_after_event_detail_details', $post, $context);
 	}
 
 	/**
@@ -399,15 +815,11 @@ class Sc_Event_Single
 			return '';
 		}
 
-		return get_the_post_thumbnail(
-			$post_id,
-			'large',
-			[
-				'class' => 'simcal-event-detail__featured-image',
-				'loading' => 'eager',
-				'decoding' => 'async',
-			],
-		);
+		return get_the_post_thumbnail($post_id, 'large', [
+			'class' => 'simcal-event-detail__featured-image',
+			'loading' => 'eager',
+			'decoding' => 'async',
+		]);
 	}
 
 	/**
@@ -469,31 +881,88 @@ class Sc_Event_Single
 	 */
 	protected function get_add_to_gcal_url($post, $start, $end, $timezone, $location)
 	{
-		if ($start <= 0) {
+		$event = $this->build_event_from_post($post, $start, $end, $timezone, $location);
+
+		if (!($event instanceof Event)) {
 			return '';
+		}
+
+		return Calendar::get_add_to_gcal_url($event);
+	}
+
+	/**
+	 * Convert an SC Event post into an Event object for shared helpers.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param \WP_Post    $post     Event post.
+	 * @param int|null    $start    Optional start timestamp.
+	 * @param int|null    $end      Optional end timestamp.
+	 * @param string|null $timezone Optional timezone.
+	 * @param string|null $location Optional location.
+	 *
+	 * @return Event|null
+	 */
+	protected function build_event_from_post($post, $start = null, $end = null, $timezone = null, $location = null)
+	{
+		if (!($post instanceof \WP_Post) || 'sc-event' !== $post->post_type) {
+			return null;
+		}
+
+		$timezone = null !== $timezone ? $timezone : Sc_Event::esc_timezone_string(simcal_get_wp_timezone());
+		$start = null !== $start ? absint($start) : absint(get_post_meta($post->ID, '_sc_event_start', true));
+		$end = null !== $end ? absint($end) : absint(get_post_meta($post->ID, '_sc_event_end', true));
+		$location =
+			null !== $location
+				? sanitize_text_field((string) $location)
+				: sanitize_text_field((string) get_post_meta($post->ID, '_sc_event_location', true));
+		$lat = get_post_meta($post->ID, '_sc_event_lat', true);
+		$lng = get_post_meta($post->ID, '_sc_event_lng', true);
+
+		if ($start <= 0) {
+			return null;
 		}
 
 		if ($end <= 0) {
 			$end = $start;
 		}
 
+		$cover_image = '';
+		if (has_post_thumbnail($post->ID)) {
+			$cover_image = (string) get_the_post_thumbnail_url($post->ID, 'full');
+		}
+
+		$location_data = [
+			'name' => $location,
+			'address' => $location,
+			'lat' => is_numeric($lat) ? (float) $lat : 0,
+			'lng' => is_numeric($lng) ? (float) $lng : 0,
+		];
+
 		$event = new Event([
+			'uid' => (string) $post->ID,
+			'type' => 'sc-event',
 			'title' => get_the_title($post),
 			'description' => $post->post_content,
+			'link' => get_permalink($post),
 			'timezone' => $timezone,
 			'start' => $start,
 			'start_timezone' => $timezone,
-			'start_location' => $location,
+			'start_location' => $location_data,
 			'end' => $end,
 			'end_timezone' => $timezone,
+			'end_location' => $location_data,
 			'whole_day' => false,
+			'meta' => [
+				'cover_image' => $cover_image,
+			],
 		]);
 
 		if (!$event->start_dt || !$event->end_dt) {
-			return '';
+			return null;
 		}
 
-		return Calendar::get_add_to_gcal_url($event);
+		return $event;
 	}
 
 	/**
