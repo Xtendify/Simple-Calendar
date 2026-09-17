@@ -36,6 +36,14 @@ class Post_Types
 		// Process column contents for calendar feeds.
 		add_action('manage_calendar_posts_custom_column', [$this, 'calendar_feed_column_content'], 10, 2);
 
+		// SC Event list table columns.
+		add_filter('manage_sc-event_posts_columns', [$this, 'add_sc_event_column_headers']);
+		add_action('manage_sc-event_posts_custom_column', [$this, 'sc_event_column_content'], 10, 2);
+		add_filter('manage_edit-sc-event_sortable_columns', [$this, 'sc_event_sortable_columns']);
+		add_action('pre_get_posts', [$this, 'sc_event_orderby']);
+		add_action('restrict_manage_posts', [$this, 'sc_event_category_filters']);
+		add_filter('parse_query', [$this, 'sc_event_category_query']);
+
 		// Add actions in calendar feed rows.
 		add_filter('post_row_actions', [$this, 'row_actions'], 10, 2);
 		// Add bulk actions.
@@ -126,6 +134,178 @@ class Post_Types
 				simcal_print_shortcode_tip($post_id);
 				break;
 		}
+	}
+
+	/**
+	 * Add column headers to the SC Event list table.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param array $columns Default columns.
+	 *
+	 * @return array
+	 */
+	public function add_sc_event_column_headers($columns)
+	{
+		$new_columns = [];
+
+		foreach ($columns as $key => $label) {
+			$new_columns[$key] = $label;
+
+			if ('title' === $key) {
+				$new_columns['sc_event_location'] = __('Location', 'google-calendar-events');
+				$new_columns['sc_event_start'] = __('Start', 'google-calendar-events');
+				$new_columns['sc_event_end'] = __('End', 'google-calendar-events');
+			}
+		}
+
+		return $new_columns;
+	}
+
+	/**
+	 * Fill out the SC Event list table columns.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param string $column_name Column identifier.
+	 * @param int    $post_id     SC Event post ID.
+	 */
+	public function sc_event_column_content($column_name, $post_id)
+	{
+		if (!in_array($column_name, ['sc_event_location', 'sc_event_start', 'sc_event_end'], true)) {
+			return;
+		}
+
+		if ('sc_event_location' === $column_name) {
+			$location = sanitize_text_field((string) get_post_meta($post_id, '_sc_event_location', true));
+			echo $location ? esc_html($location) : '&mdash;';
+			return;
+		}
+
+		$meta_key = 'sc_event_start' === $column_name ? '_sc_event_start' : '_sc_event_end';
+		$timestamp = absint(get_post_meta($post_id, $meta_key, true));
+
+		if ($timestamp <= 0) {
+			echo '&mdash;';
+			return;
+		}
+
+		$format = get_option('date_format') . ' ' . get_option('time_format');
+		$utc = gmdate('Y-m-d H:i:s', $timestamp);
+
+		echo esc_html(get_date_from_gmt($utc, $format));
+	}
+
+	/**
+	 * Mark SC Event columns as sortable.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param array $columns Sortable columns.
+	 *
+	 * @return array
+	 */
+	public function sc_event_sortable_columns($columns)
+	{
+		$columns['sc_event_start'] = 'sc_event_start';
+		$columns['sc_event_end'] = 'sc_event_end';
+
+		return $columns;
+	}
+
+	/**
+	 * Sort SC Events by start or end timestamp.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param \WP_Query $query Query.
+	 */
+	public function sc_event_orderby($query)
+	{
+		if (!is_admin() || !$query->is_main_query()) {
+			return;
+		}
+
+		if ('sc-event' !== $query->get('post_type')) {
+			return;
+		}
+
+		$orderby = $query->get('orderby');
+
+		if ('sc_event_start' === $orderby) {
+			$query->set('meta_key', '_sc_event_start');
+			$query->set('orderby', 'meta_value_num');
+		} elseif ('sc_event_end' === $orderby) {
+			$query->set('meta_key', '_sc_event_end');
+			$query->set('orderby', 'meta_value_num');
+		}
+	}
+
+	/**
+	 * Add a category dropdown to the SC Event list table.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param string $post_type Current post type.
+	 */
+	public function sc_event_category_filters($post_type)
+	{
+		if ('sc-event' !== $post_type) {
+			return;
+		}
+
+		$selected = isset($_GET['sc_event_category']) ? absint($_GET['sc_event_category']) : 0;
+
+		wp_dropdown_categories([
+			'show_option_all' => __('All Event Categories', 'google-calendar-events'),
+			'taxonomy' => 'sc-event-category',
+			'name' => 'sc_event_category',
+			'orderby' => 'name',
+			'selected' => $selected,
+			'hierarchical' => true,
+			'show_count' => true,
+			'hide_empty' => false,
+			'value_field' => 'term_id',
+		]);
+	}
+
+	/**
+	 * Filter the SC Event list table by category.
+	 *
+	 * @since 4.2.0
+	 *
+	 * @param \WP_Query $query Query.
+	 */
+	public function sc_event_category_query($query)
+	{
+		global $pagenow;
+
+		if (!is_admin() || 'edit.php' !== $pagenow || !$query->is_main_query()) {
+			return;
+		}
+
+		if ('sc-event' !== $query->get('post_type')) {
+			return;
+		}
+
+		$term_id = isset($_GET['sc_event_category']) ? absint($_GET['sc_event_category']) : 0;
+
+		if ($term_id <= 0) {
+			return;
+		}
+
+		$tax_query = $query->get('tax_query');
+		if (!is_array($tax_query)) {
+			$tax_query = [];
+		}
+
+		$tax_query[] = [
+			'taxonomy' => 'sc-event-category',
+			'field' => 'term_id',
+			'terms' => [$term_id],
+		];
+
+		$query->set('tax_query', $tax_query);
 	}
 
 	/**
