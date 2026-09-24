@@ -97,6 +97,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 4.2.2 =
+* Dev: Use the add-on's version for cache busting.
+
 = 4.2.1 =
 * Fix: Resolved timezone handling issues for all-day events in ICS feeds.
 
