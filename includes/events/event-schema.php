@@ -57,8 +57,21 @@ class Event_Schema
 		$event = $this->event;
 		$html = '';
 
+		$name = trim(wp_strip_all_tags((string) $event->title));
+		if ('' !== $name) {
+			$html .= '<meta itemprop="name" content="' . esc_attr($name) . '" />';
+		}
+
+		if ($event->start_dt instanceof Carbon) {
+			$html .= '<meta itemprop="startDate" content="' . esc_attr($event->start_dt->toIso8601String()) . '" />';
+		}
+
 		if ($event->end_dt instanceof Carbon) {
 			$html .= '<meta itemprop="endDate" content="' . esc_attr($event->end_dt->toIso8601String()) . '" />';
+		}
+
+		if (!empty($event->link)) {
+			$html .= '<meta itemprop="url" content="' . esc_url($event->link) . '" />';
 		}
 
 		$html .= '<meta itemprop="eventStatus" content="https://schema.org/EventScheduled" />';
@@ -188,6 +201,11 @@ class Event_Schema
 			}
 		}
 
+		// SC Events: only use a real event image, not site icon / logo stand-ins.
+		if ('sc-event' === $this->event->type) {
+			return '';
+		}
+
 		$site_icon = get_site_icon_url(512);
 		if (!empty($site_icon)) {
 			return esc_url_raw($site_icon);
@@ -224,6 +242,11 @@ class Event_Schema
 			$html .= '</span>';
 
 			return $html;
+		}
+
+		// SC Events have no organizer field — do not invent one from the site name.
+		if ('sc-event' === $this->event->type) {
+			return '';
 		}
 
 		$site_name = get_bloginfo('name');
@@ -335,8 +358,7 @@ class Event_Schema
 	/**
 	 * Build offers microdata for Event schema.
 	 *
-	 * Uses verified ticket Offer data when present. When no ticket data exists,
-	 * falls back to a free Offer with price 0.
+	 * Only emitted when the event source provides verified ticket Offer data.
 	 *
 	 * @since  4.1.2
 	 * @access private
@@ -347,10 +369,7 @@ class Event_Schema
 	{
 		$offer = $this->get_verified_event_offer();
 		if (empty($offer)) {
-			$offer = $this->get_default_free_offer();
-			if (empty($offer)) {
-				return '';
-			}
+			return '';
 		}
 
 		$html = '<span itemprop="offers" itemscope itemtype="https://schema.org/Offer" style="display:none;">';
@@ -362,47 +381,6 @@ class Event_Schema
 		$html .= '</span>';
 
 		return $html;
-	}
-
-	/**
-	 * Build a free Offer fallback (price 0) when no verified ticket data exists.
-	 *
-	 * @since  4.1.2
-	 * @access private
-	 *
-	 * @return array Empty array when a purchase/event URL is unavailable.
-	 */
-	private function get_default_free_offer()
-	{
-		$offer_url = !empty($this->event->link) ? esc_url_raw($this->event->link) : '';
-		if ('' === $offer_url) {
-			$offer_url = esc_url_raw(home_url(add_query_arg([])));
-		}
-
-		if ('' === $offer_url) {
-			return [];
-		}
-
-		$currency = 'USD';
-		if (function_exists('get_woocommerce_currency')) {
-			$woo_currency = get_woocommerce_currency();
-			if (!empty($woo_currency)) {
-				$currency = $woo_currency;
-			}
-		}
-
-		$valid_from = $this->event->start_dt instanceof Carbon ? $this->event->start_dt->toIso8601String() : '';
-		if ('' === $valid_from) {
-			return [];
-		}
-
-		return [
-			'price' => '0',
-			'priceCurrency' => $currency,
-			'availability' => 'https://schema.org/InStock',
-			'url' => $offer_url,
-			'validFrom' => $valid_from,
-		];
 	}
 
 	/**

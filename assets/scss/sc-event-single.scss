@@ -1,0 +1,247 @@
+/* SC Event single page (frontend). */
+
+$color-text: #1f2937;
+$color-text-secondary: #4b5563;
+$color-border: #e5e7eb;
+$color-background: #fff;
+$color-background-secondary: #f3f4f6;
+$color-shadow: rgba(17, 24, 39, 0.04);
+
+body.single-sc-event {
+	.wp-block-post-content.is-layout-constrained > .simcal-event-detail,
+	.entry-content > .simcal-event-detail {
+		max-width: 100%;
+	}
+
+	/* Theme title sits above our layout; hide a duplicate theme featured image
+	   and leftover author/category meta ("Written by … in …"). */
+	.wp-block-post-featured-image,
+	.wp-block-post-author,
+	.wp-block-post-author-name,
+	.wp-block-post-author-biography,
+	.wp-block-post-terms,
+	.wp-block-post-date,
+	.entry-meta,
+	.byline,
+	.wp-block-post-title ~ .wp-block-group.has-small-font-size {
+		display: none !important;
+	}
+
+	.simcal-event-detail {
+		box-sizing: border-box;
+		color: $color-text;
+		margin: 0 0 2rem;
+
+		&__featured {
+			margin: 0 0 2rem;
+			padding: 1.25rem 0 0;
+			border: 0;
+			border-top: 1px solid $color-border;
+		}
+
+		&__featured-image {
+			display: block;
+			width: 100%;
+			height: auto;
+			border-radius: 12px;
+			object-fit: cover;
+		}
+
+		&__body {
+			display: grid;
+			grid-template-columns: minmax(0, 1.7fr) minmax(240px, 0.9fr);
+			gap: 2rem 2.5rem;
+			align-items: start;
+		}
+
+		&__meta {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 1.5rem 2rem;
+			padding-bottom: 1.75rem;
+			margin-bottom: 2rem;
+			border-bottom: 1px solid $color-border;
+		}
+
+		&__meta-label {
+			margin: 0 0 0.65rem;
+			font-size: 1.125rem;
+			font-weight: 700;
+			line-height: 1.3;
+			color: $color-text;
+		}
+
+		&__meta-value {
+			display: flex;
+			align-items: flex-start;
+			gap: 0.55rem;
+			margin: 0;
+			font-size: 0.95rem;
+			line-height: 1.45;
+			color: $color-text-secondary;
+		}
+
+		&__icon {
+			display: inline-flex;
+			flex-shrink: 0;
+			width: 1.15rem;
+			height: 1.15rem;
+			margin-top: 0.1rem;
+			color: $color-text-secondary;
+
+			svg {
+				display: block;
+				width: 100%;
+				height: 100%;
+			}
+		}
+
+		&__description-title,
+		&__sidebar-title {
+			margin: 0 0 1rem;
+			font-size: 1.5rem;
+			font-weight: 700;
+			line-height: 1.25;
+			color: $color-text;
+		}
+
+		&__description-content {
+			> *:first-child {
+				margin-top: 0;
+			}
+
+			> *:last-child {
+				margin-bottom: 0;
+			}
+		}
+
+		&__sidebar {
+			display: flex;
+			flex-direction: column;
+			gap: 1.25rem;
+		}
+
+		&__sidebar-card {
+			background: $color-background;
+			border: 1px solid $color-border;
+			border-radius: 4px;
+			padding: 1.35rem 1.5rem 1rem;
+			box-shadow: 0 1px 2px $color-shadow;
+		}
+
+		&__location-address {
+			display: flex;
+			align-items: flex-start;
+			gap: 0.55rem;
+			margin: 0;
+			font-size: 0.95rem;
+			line-height: 1.45;
+			color: $color-text-secondary;
+		}
+
+		&__map {
+			&:empty {
+				display: none;
+			}
+
+			&:not(:empty) {
+				margin-top: 1rem;
+				overflow: hidden;
+				border-radius: 4px;
+				aspect-ratio: 4 / 3;
+				background: $color-background-secondary;
+			}
+		}
+
+		&__rows {
+			margin: 0;
+		}
+
+		&__row {
+			display: flex;
+			align-items: flex-start;
+			justify-content: space-between;
+			gap: 1rem;
+			margin: 0;
+			padding: 0.9rem 0;
+			border-bottom: 1px solid $color-border;
+
+			&:last-child {
+				border-bottom: 0;
+			}
+
+			dt {
+				margin: 0;
+				font-weight: 500;
+				color: $color-text-secondary;
+			}
+
+			dd {
+				margin: 0;
+				text-align: right;
+				color: $color-text;
+				overflow-wrap: break-word;
+
+				a {
+					color: inherit;
+					text-decoration: none;
+
+					&:hover,
+					&:focus {
+						text-decoration: underline;
+					}
+				}
+			}
+		}
+
+		&__gcal {
+			margin: 1.25rem 0 0.25rem;
+		}
+
+		&__gcal-link {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			width: 100%;
+			box-sizing: border-box;
+			padding: 0.7rem 1rem;
+			border: 1px solid $color-border;
+			border-radius: 4px;
+			background: $color-background;
+			color: $color-text;
+			font-weight: 500;
+			text-align: center;
+			text-decoration: none;
+
+			&:hover,
+			&:focus {
+				background: $color-background-secondary;
+				border-color: $color-border;
+				color: $color-text;
+				text-decoration: none;
+			}
+		}
+	}
+
+	@media (max-width: 781px) {
+		.simcal-event-detail {
+			&__body {
+				grid-template-columns: 1fr;
+			}
+
+			&__meta {
+				grid-template-columns: 1fr;
+				gap: 1.25rem;
+			}
+
+			&__row {
+				flex-direction: column;
+				gap: 0.25rem;
+
+				dd {
+					text-align: left;
+				}
+			}
+		}
+	}
+}
