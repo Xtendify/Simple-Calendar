@@ -192,16 +192,19 @@ class Sc_Event extends Feed
 			'update_post_term_cache' => true,
 		];
 
-		if ($this->category_id > 0 && term_exists($this->category_id, 'sc-event-category')) {
-			$query_args['tax_query'] = [
-				[
-					'taxonomy' => 'sc-event-category',
-					'field' => 'term_id',
-					'terms' => [$this->category_id],
-					'include_children' => true,
-				],
-			];
+		if ($this->category_id > 0) {
+			if (!term_exists($this->category_id, 'sc-event-category')) {
+				return [];
+			}
 		}
+		$query_args['tax_query'] = [
+			[
+				'taxonomy' => 'sc-event-category',
+				'field' => 'term_id',
+				'terms' => [$this->category_id],
+				'include_children' => true,
+			],
+		];
 
 		$meta_query = [
 			'relation' => 'AND',

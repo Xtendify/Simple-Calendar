@@ -1,0 +1,88 @@
+/* SC Event admin (edit screen Details metabox). */
+
+#simcal-sc-event-details {
+	.required {
+		color: var(--color-error);
+		margin-left: 2px;
+	}
+
+	.simcal-sc-event-field-error {
+		border-color: var(--color-error) !important;
+		box-shadow: 0 0 0 1px var(--color-error);
+	}
+
+	.simcal-sc-event-location-wrap {
+		position: relative;
+		max-width: 100%;
+
+		#_sc_event_location {
+			padding-right: 2.25rem;
+		}
+	}
+
+	.simcal-sc-event-location-loader {
+		position: absolute;
+		top: 50%;
+		right: 10px;
+		z-index: 2;
+		width: 16px;
+		height: 16px;
+		margin-top: -8px;
+		border: 2px solid var(--color-border);
+		border-top-color: var(--color-primary);
+		border-radius: 50%;
+		animation: simcal-sc-event-location-spin 0.7s linear infinite;
+
+		&[hidden] {
+			display: none;
+		}
+	}
+
+	.simcal-sc-event-location-suggestions {
+		position: absolute;
+		z-index: 1000;
+		top: calc(100% + 2px);
+		left: 0;
+		right: 0;
+		margin: 0;
+		padding: 4px 0;
+		list-style: none;
+		background: var(--color-background);
+		border: 1px solid var(--color-border);
+		border-radius: 4px;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+		max-height: 240px;
+		overflow-y: auto;
+
+		li {
+			margin: 0;
+			padding: 8px 12px;
+			cursor: pointer;
+			line-height: 1.35;
+
+			&.is-active,
+			&:hover {
+				background: var(--color-background-hover);
+			}
+		}
+
+		.simcal-sc-event-location-empty {
+			cursor: default;
+			color: var(--color-text-secondary);
+
+			&:hover {
+				background: transparent;
+			}
+		}
+	}
+}
+
+#simcal-sc-event-details-errors {
+	margin: 0 0 12px;
+}
+
+@keyframes simcal-sc-event-location-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}

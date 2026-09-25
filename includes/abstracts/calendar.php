@@ -780,13 +780,33 @@ abstract class Calendar
 	/**
 	 * Get "Add to Google Calendar" link.
 	 *
+	 * Instance method so subclasses can override it. Prefer this when a
+	 * Calendar instance is available (e.g. template tags).
+	 *
 	 * @since  3.1.3
 	 *
 	 * @param  Event  $event    Event object to be parsed.
 	 *
 	 * @return string
 	 */
-	public static function get_add_to_gcal_url(Event $event)
+	public function get_add_to_gcal_url(Event $event)
+	{
+		return self::build_add_to_gcal_url($event);
+	}
+
+	/**
+	 * Build an "Add to Google Calendar" URL without a Calendar instance.
+	 *
+	 * Use when no Calendar object is available (e.g. SC Event single pages).
+	 * Subclasses that customize the URL should override get_add_to_gcal_url().
+	 *
+	 * @since 4.2.3
+	 *
+	 * @param Event $event Event object to be parsed.
+	 *
+	 * @return string
+	 */
+	public static function build_add_to_gcal_url(Event $event)
 	{
 		$base_url = 'https://calendar.google.com/calendar/render';
 		// Was https://www.google.com/calendar/render

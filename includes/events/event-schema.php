@@ -57,8 +57,21 @@ class Event_Schema
 		$event = $this->event;
 		$html = '';
 
+		$name = trim(wp_strip_all_tags((string) $event->title));
+		if ('' !== $name) {
+			$html .= '<meta itemprop="name" content="' . esc_attr($name) . '" />';
+		}
+
+		if ($event->start_dt instanceof Carbon) {
+			$html .= '<meta itemprop="startDate" content="' . esc_attr($event->start_dt->toIso8601String()) . '" />';
+		}
+
 		if ($event->end_dt instanceof Carbon) {
 			$html .= '<meta itemprop="endDate" content="' . esc_attr($event->end_dt->toIso8601String()) . '" />';
+		}
+
+		if (!empty($event->link)) {
+			$html .= '<meta itemprop="url" content="' . esc_url($event->link) . '" />';
 		}
 
 		$html .= '<meta itemprop="eventStatus" content="https://schema.org/EventScheduled" />';
@@ -75,106 +88,6 @@ class Event_Schema
 		$html .= $this->get_schema_offers_meta();
 
 		return $html;
-	}
-
-	/**
-	 * Build schema.org Event JSON-LD for standalone event pages.
-	 *
-	 * @since 4.2.0
-	 *
-	 * @return array Empty when required Event fields are missing.
-	 */
-	public function get_json_ld()
-	{
-		$event = $this->event;
-		$name = trim(wp_strip_all_tags((string) $event->title));
-
-		if ('' === $name || !($event->start_dt instanceof Carbon)) {
-			return [];
-		}
-
-		$data = [
-			'@context' => 'https://schema.org',
-			'@type' => 'Event',
-			'name' => $name,
-			'startDate' => $event->start_dt->toIso8601String(),
-			'eventStatus' => 'https://schema.org/EventScheduled',
-			'eventAttendanceMode' => $this->get_schema_attendance_mode(),
-		];
-
-		if ($event->end_dt instanceof Carbon) {
-			$data['endDate'] = $event->end_dt->toIso8601String();
-		}
-
-		$description = trim(wp_strip_all_tags((string) $event->description));
-		if ('' !== $description) {
-			$data['description'] = $description;
-		}
-
-		if (!empty($event->link)) {
-			$data['url'] = esc_url_raw($event->link);
-		}
-
-		$image_url = $this->get_schema_image_url();
-		if (!empty($image_url)) {
-			$data['image'] = [$image_url];
-		}
-
-		$location = $this->get_schema_location_data();
-		if (!empty($location)) {
-			$data['location'] = $location;
-		}
-
-		$organizer = $this->get_schema_organizer_data();
-		if (!empty($organizer)) {
-			$data['organizer'] = $organizer;
-		}
-
-		$performers = $this->get_schema_performer_data();
-		if (!empty($performers)) {
-			$data['performer'] = count($performers) === 1 ? $performers[0] : $performers;
-		}
-
-		$offer = $this->get_verified_event_offer();
-		if (empty($offer)) {
-			$offer = $this->get_default_free_offer();
-		}
-		if (!empty($offer)) {
-			$data['offers'] = [
-				'@type' => 'Offer',
-				'url' => $offer['url'],
-				'price' => $offer['price'],
-				'priceCurrency' => $offer['priceCurrency'],
-				'availability' => $offer['availability'],
-				'validFrom' => $offer['validFrom'],
-			];
-		}
-
-		return $data;
-	}
-
-	/**
-	 * Render a JSON-LD script tag for this event.
-	 *
-	 * @since 4.2.0
-	 *
-	 * @return string
-	 */
-	public function get_json_ld_script()
-	{
-		$data = $this->get_json_ld();
-
-		if (empty($data)) {
-			return '';
-		}
-
-		$json = wp_json_encode($data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
-
-		if (false === $json) {
-			return '';
-		}
-
-		return '<script type="application/ld+json">' . $json . '</script>' . "\n";
 	}
 
 	/**
@@ -198,119 +111,6 @@ class Event_Schema
 			return 'https://schema.org/OnlineEventAttendanceMode';
 		}
 		return 'https://schema.org/OfflineEventAttendanceMode';
-	}
-
-	/**
-	 * Location data for Event JSON-LD.
-	 *
-	 * @since 4.2.0
-	 * @access private
-	 *
-	 * @return array
-	 */
-	private function get_schema_location_data()
-	{
-		$address = !empty($this->event->start_location['address'])
-			? trim((string) $this->event->start_location['address'])
-			: '';
-		$name = !empty($this->event->start_location['name']) ? trim((string) $this->event->start_location['name']) : '';
-
-		if ('' === $address && '' === $name) {
-			return [];
-		}
-
-		$location = [
-			'@type' => 'Place',
-			'name' => '' !== $name ? $name : $address,
-		];
-
-		if ('' !== $address) {
-			$location['address'] = [
-				'@type' => 'PostalAddress',
-				'streetAddress' => $address,
-			];
-		}
-
-		$lat = !empty($this->event->start_location['lat']) ? (float) $this->event->start_location['lat'] : 0;
-		$lng = !empty($this->event->start_location['lng']) ? (float) $this->event->start_location['lng'] : 0;
-
-		if ($lat && $lng) {
-			$location['geo'] = [
-				'@type' => 'GeoCoordinates',
-				'latitude' => $lat,
-				'longitude' => $lng,
-			];
-		}
-
-		return $location;
-	}
-
-	/**
-	 * Organizer data for Event JSON-LD.
-	 *
-	 * @since 4.2.0
-	 * @access private
-	 *
-	 * @return array
-	 */
-	private function get_schema_organizer_data()
-	{
-		$organizer = $this->event->get_organizer();
-		if (!empty($organizer) && is_array($organizer) && !empty($organizer['name'])) {
-			$data = [
-				'@type' => 'Person',
-				'name' => (string) $organizer['name'],
-			];
-
-			if (!empty($organizer['email']) && $this->is_organizer_email_public()) {
-				$data['email'] = (string) $organizer['email'];
-			}
-
-			return $data;
-		}
-
-		$site_name = get_bloginfo('name');
-		if (empty($site_name)) {
-			$site_name = home_url('/');
-		}
-
-		return [
-			'@type' => 'Organization',
-			'name' => $site_name,
-			'url' => home_url('/'),
-		];
-	}
-
-	/**
-	 * Performer data for Event JSON-LD.
-	 *
-	 * @since 4.2.0
-	 * @access private
-	 *
-	 * @return array
-	 */
-	private function get_schema_performer_data()
-	{
-		$performers = $this->get_event_performers();
-		if (empty($performers)) {
-			return [];
-		}
-
-		$data = [];
-		foreach ($performers as $performer) {
-			$name = !empty($performer['name']) ? (string) $performer['name'] : '';
-			if ('' === $name) {
-				continue;
-			}
-
-			$type = !empty($performer['type']) && 'Organization' === $performer['type'] ? 'Organization' : 'Person';
-			$data[] = [
-				'@type' => $type,
-				'name' => $name,
-			];
-		}
-
-		return $data;
 	}
 
 	/**
@@ -401,6 +201,11 @@ class Event_Schema
 			}
 		}
 
+		// SC Events: only use a real event image, not site icon / logo stand-ins.
+		if ('sc-event' === $this->event->type) {
+			return '';
+		}
+
 		$site_icon = get_site_icon_url(512);
 		if (!empty($site_icon)) {
 			return esc_url_raw($site_icon);
@@ -437,6 +242,11 @@ class Event_Schema
 			$html .= '</span>';
 
 			return $html;
+		}
+
+		// SC Events have no organizer field — do not invent one from the site name.
+		if ('sc-event' === $this->event->type) {
+			return '';
 		}
 
 		$site_name = get_bloginfo('name');
@@ -548,8 +358,7 @@ class Event_Schema
 	/**
 	 * Build offers microdata for Event schema.
 	 *
-	 * Uses verified ticket Offer data when present. When no ticket data exists,
-	 * falls back to a free Offer with price 0.
+	 * Only emitted when the event source provides verified ticket Offer data.
 	 *
 	 * @since  4.1.2
 	 * @access private
@@ -560,10 +369,7 @@ class Event_Schema
 	{
 		$offer = $this->get_verified_event_offer();
 		if (empty($offer)) {
-			$offer = $this->get_default_free_offer();
-			if (empty($offer)) {
-				return '';
-			}
+			return '';
 		}
 
 		$html = '<span itemprop="offers" itemscope itemtype="https://schema.org/Offer" style="display:none;">';
@@ -575,47 +381,6 @@ class Event_Schema
 		$html .= '</span>';
 
 		return $html;
-	}
-
-	/**
-	 * Build a free Offer fallback (price 0) when no verified ticket data exists.
-	 *
-	 * @since  4.1.2
-	 * @access private
-	 *
-	 * @return array Empty array when a purchase/event URL is unavailable.
-	 */
-	private function get_default_free_offer()
-	{
-		$offer_url = !empty($this->event->link) ? esc_url_raw($this->event->link) : '';
-		if ('' === $offer_url) {
-			$offer_url = esc_url_raw(home_url(add_query_arg([])));
-		}
-
-		if ('' === $offer_url) {
-			return [];
-		}
-
-		$currency = 'USD';
-		if (function_exists('get_woocommerce_currency')) {
-			$woo_currency = get_woocommerce_currency();
-			if (!empty($woo_currency)) {
-				$currency = $woo_currency;
-			}
-		}
-
-		$valid_from = $this->event->start_dt instanceof Carbon ? $this->event->start_dt->toIso8601String() : '';
-		if ('' === $valid_from) {
-			return [];
-		}
-
-		return [
-			'price' => '0',
-			'priceCurrency' => $currency,
-			'availability' => 'https://schema.org/InStock',
-			'url' => $offer_url,
-			'validFrom' => $valid_from,
-		];
 	}
 
 	/**

@@ -17,6 +17,7 @@ const files = [
 		out: 'admin-add-calendar.min',
 	},
 	{ in: 'assets/js/admin.js', out: 'admin.min' },
+	{ in: 'assets/js/sc-event-admin.js', out: 'sc-event-admin.min' },
 	{ in: 'assets/js/default-calendar.js', out: 'default-calendar.min' },
 	{ in: 'assets/js/oauth-helper-admin.js', out: 'oauth-helper-admin.min' },
 	{ in: 'assets/css/admin-add-calendar.css', out: 'admin-add-calendar.min' },
@@ -30,6 +31,8 @@ const files = [
 	{ in: 'assets/scss/misc-settings.scss', out: 'misc-settings.min' },
 	{ in: 'assets/scss/add-ons.scss', out: 'add-ons.min' },
 	{ in: 'assets/scss/admin-global.scss', out: 'admin-global.min' },
+	{ in: 'assets/scss/sc-event-admin.scss', out: 'sc-event-admin.min' },
+	{ in: 'assets/scss/sc-event-single.scss', out: 'sc-event-single.min' },
 ];
 
 const defaultConfig = {
