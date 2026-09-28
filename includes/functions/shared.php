@@ -198,6 +198,13 @@ function simcal_common_scripts_variables()
 		'meridiem' => simcal_get_calendar_names_i18n('meridiem'),
 		'expand_events' => __('Show more events', 'google-calendar-events'),
 		'collapse_events' => __('Hide additional events', 'google-calendar-events'),
+		'sc_event' => [
+			'start_required' => __('Start datetime is required.', 'google-calendar-events'),
+			'end_required' => __('End datetime is required.', 'google-calendar-events'),
+			'end_after_start' => __('End datetime must be greater than the start datetime.', 'google-calendar-events'),
+			'location_no_results' => __('No matching locations found.', 'google-calendar-events'),
+			'location_search_error' => __('Could not look up locations. Please try again.', 'google-calendar-events'),
+		],
 	];
 
 	return array_merge($vars, apply_filters('simcal_common_scripts_variables', []));

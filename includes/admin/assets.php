@@ -86,6 +86,13 @@ class Assets
 			SIMPLE_CALENDAR_VERSION,
 			true,
 		);
+		wp_register_script(
+			'simcal-sc-event-admin',
+			$js_path . 'sc-event-admin.min.js',
+			['jquery'],
+			SIMPLE_CALENDAR_VERSION,
+			true,
+		);
 
 		$connect_screen_ids = [
 			'calendar_page_simple-calendar_settings',
@@ -128,6 +135,19 @@ class Assets
 			SIMPLE_CALENDAR_VERSION,
 		);
 		wp_register_style('sc-global-admin', $css_path . 'admin-global.min.css', [], SIMPLE_CALENDAR_VERSION);
+		wp_register_style('simcal-sc-event-admin', $css_path . 'sc-event-admin.min.css', [], SIMPLE_CALENDAR_VERSION);
+
+		$is_sc_event_edit =
+			$sc_screen instanceof \WP_Screen &&
+			'sc-event' === $sc_screen->post_type &&
+			'sc-event' === $sc_screen->id &&
+			in_array($sc_screen->base, ['post'], true);
+
+		if ($is_sc_event_edit) {
+			wp_enqueue_style('simcal-sc-event-admin');
+			wp_enqueue_script('simcal-sc-event-admin');
+			wp_localize_script('simcal-sc-event-admin', 'simcal_admin', simcal_common_scripts_variables());
+		}
 
 		if (simcal_is_admin_screen() !== false) {
 			// Global admin styles (e.g. menu badges) used outside plugin screens too.

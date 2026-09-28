@@ -191,6 +191,10 @@ function simcal_is_admin_screen()
 			'calendar_page_simple-calendar_tools',
 			'edit-calendar',
 			'edit-calendar_category',
+			'sc-event',
+			'edit-sc-event',
+			'edit-sc-event-category',
+			'edit-sc-event-tag',
 		];
 		if (in_array($view->id, $screens)) {
 			return $view->id;

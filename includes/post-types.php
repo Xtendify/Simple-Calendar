@@ -30,6 +30,10 @@ class Post_Types
 		add_action('init', [__CLASS__, 'register_taxonomies'], 5);
 		// Register custom post types.
 		add_action('init', [__CLASS__, 'register_post_types'], 5);
+		// Flush rewrite rules once after the SC Event post type is introduced.
+		// This can be removed in upcoming releases.
+		add_action('init', [__CLASS__, 'maybe_flush_rewrite_rules'], 99);
+		new Frontend\Sc_Event_Single();
 		// Filter the calendar feed post content to display a calendar view.
 		add_filter('the_content', [$this, 'filter_post_content'], 100);
 		// Delete calendar transients and notices upon post deletion.
@@ -147,6 +151,93 @@ class Post_Types
 
 			register_taxonomy('calendar_category', ['calendar'], $args);
 		}
+
+		if (!taxonomy_exists('sc-event-category')) {
+			$labels = [
+				'name' => __('Event Categories', 'google-calendar-events'),
+				'singular_name' => __('Event Category', 'google-calendar-events'),
+				'menu_name' => __('Categories', 'google-calendar-events'),
+				'all_items' => __('All Event Categories', 'google-calendar-events'),
+				'parent_item' => __('Parent Event Category', 'google-calendar-events'),
+				'parent_item_colon' => __('Parent Event Category:', 'google-calendar-events'),
+				'new_item_name' => __('New Event Category Name', 'google-calendar-events'),
+				'add_new_item' => __('Add New Event Category', 'google-calendar-events'),
+				'edit_item' => __('Edit Event Category', 'google-calendar-events'),
+				'update_item' => __('Update Event Category', 'google-calendar-events'),
+				'view_item' => __('View Event Category', 'google-calendar-events'),
+				'separate_items_with_commas' => __('Separate event categories with commas', 'google-calendar-events'),
+				'add_or_remove_items' => __('Add or remove event categories', 'google-calendar-events'),
+				'choose_from_most_used' => __('Choose from the most used event categories', 'google-calendar-events'),
+				'popular_items' => __('Popular Event Categories', 'google-calendar-events'),
+				'search_items' => __('Search Event Categories', 'google-calendar-events'),
+				'not_found' => __('No event categories found', 'google-calendar-events'),
+				'back_to_items' => __('Back to Event Categories', 'google-calendar-events'),
+			];
+
+			$args = [
+				'hierarchical' => true,
+				'labels' => $labels,
+				'public' => true,
+				'publicly_queryable' => true,
+				'show_admin_column' => true,
+				'show_in_nav_menus' => true,
+				'show_in_rest' => false,
+				'show_tagcloud' => false,
+				'show_ui' => true,
+				'show_in_menu' => true,
+				'rewrite' => [
+					'slug' => 'sc-event-category',
+					'with_front' => false,
+					'hierarchical' => true,
+				],
+			];
+
+			register_taxonomy(
+				'sc-event-category',
+				['sc-event'],
+				apply_filters('simcal_sc_event_category_taxonomy_args', $args),
+			);
+		}
+
+		if (!taxonomy_exists('sc-event-tag')) {
+			$labels = [
+				'name' => __('Event Tags', 'google-calendar-events'),
+				'singular_name' => __('Event Tag', 'google-calendar-events'),
+				'menu_name' => __('Tags', 'google-calendar-events'),
+				'all_items' => __('All Event Tags', 'google-calendar-events'),
+				'new_item_name' => __('New Event Tag Name', 'google-calendar-events'),
+				'add_new_item' => __('Add New Event Tag', 'google-calendar-events'),
+				'edit_item' => __('Edit Event Tag', 'google-calendar-events'),
+				'update_item' => __('Update Event Tag', 'google-calendar-events'),
+				'view_item' => __('View Event Tag', 'google-calendar-events'),
+				'separate_items_with_commas' => __('Separate event tags with commas', 'google-calendar-events'),
+				'add_or_remove_items' => __('Add or remove event tags', 'google-calendar-events'),
+				'choose_from_most_used' => __('Choose from the most used event tags', 'google-calendar-events'),
+				'popular_items' => __('Popular Event Tags', 'google-calendar-events'),
+				'search_items' => __('Search Event Tags', 'google-calendar-events'),
+				'not_found' => __('No event tags found', 'google-calendar-events'),
+				'back_to_items' => __('Back to Event Tags', 'google-calendar-events'),
+			];
+
+			$args = [
+				'hierarchical' => false,
+				'labels' => $labels,
+				'public' => true,
+				'publicly_queryable' => true,
+				'show_admin_column' => true,
+				'show_in_nav_menus' => true,
+				'show_in_rest' => false,
+				'show_tagcloud' => true,
+				'show_ui' => true,
+				'show_in_menu' => true,
+				'rewrite' => [
+					'slug' => 'sc-event-tag',
+					'with_front' => false,
+				],
+			];
+
+			register_taxonomy('sc-event-tag', ['sc-event'], apply_filters('simcal_sc_event_tag_taxonomy_args', $args));
+		}
 	}
 
 	/**
@@ -211,6 +302,72 @@ class Post_Types
 
 			register_post_type('calendar', apply_filters('simcal_post_type_registration_args', $args));
 		}
+
+		if (!post_type_exists('sc-event')) {
+			$labels = [
+				'name' => _x('Events', 'Post Type General Name', 'google-calendar-events'),
+				'singular_name' => _x('Event', 'Post Type Singular Name', 'google-calendar-events'),
+				'menu_name' => __('Events', 'google-calendar-events'),
+				'name_admin_bar' => __('Event', 'google-calendar-events'),
+				'parent_item_colon' => __('Parent Event:', 'google-calendar-events'),
+				'all_items' => __('All Events', 'google-calendar-events'),
+				'add_new_item' => __('Add New Event', 'google-calendar-events'),
+				'add_new' => __('Add New Event', 'google-calendar-events'),
+				'new_item' => __('New Event', 'google-calendar-events'),
+				'edit_item' => __('Edit Event', 'google-calendar-events'),
+				'update_item' => __('Update Event', 'google-calendar-events'),
+				'view_item' => __('View Event', 'google-calendar-events'),
+				'search_items' => __('Search Events', 'google-calendar-events'),
+				'not_found' => __('No events found.', 'google-calendar-events'),
+				'not_found_in_trash' => __('No events found in Trash.', 'google-calendar-events'),
+			];
+
+			$args = [
+				'capability_type' => 'post',
+				'exclude_from_search' => false,
+				'has_archive' => false,
+				'hierarchical' => false,
+				'label' => __('Event', 'google-calendar-events'),
+				'labels' => $labels,
+				'query_var' => true,
+				'public' => true,
+				'publicly_queryable' => true,
+				'rewrite' => [
+					'slug' => 'sc-event',
+					'with_front' => false,
+					'feeds' => false,
+					'pages' => false,
+				],
+				'menu_icon' => 'dashicons-calendar-alt',
+				'menu_position' => 26.9,
+				'show_in_admin_bar' => true,
+				'show_in_menu' => true,
+				'show_in_nav_menus' => true,
+				'show_in_rest' => false,
+				'show_ui' => true,
+				'supports' => ['title', 'editor', 'thumbnail'],
+				'taxonomies' => ['sc-event-category', 'sc-event-tag'],
+			];
+
+			register_post_type('sc-event', apply_filters('simcal_sc_event_post_type_args', $args));
+			register_taxonomy_for_object_type('sc-event-category', 'sc-event');
+			register_taxonomy_for_object_type('sc-event-tag', 'sc-event');
+		}
+	}
+
+	/**
+	 * Flush rewrite rules once after registering the SC Event post type.
+	 *
+	 * @since 4.2.0
+	 */
+	public static function maybe_flush_rewrite_rules()
+	{
+		if ('2' === (string) get_option('simple-calendar_flush_rewrite_sc_event')) {
+			return;
+		}
+
+		flush_rewrite_rules(false);
+		update_option('simple-calendar_flush_rewrite_sc_event', '2');
 	}
 
 	/**

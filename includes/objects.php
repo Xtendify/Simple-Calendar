@@ -34,7 +34,7 @@ class Objects
 		add_filter(
 			'simcal_get_feed_types',
 			function ($feed_types) {
-				return array_merge($feed_types, ['google', 'grouped-calendars', 'ics-feed']);
+				return array_merge($feed_types, ['google', 'grouped-calendars', 'ics-feed', 'sc-event']);
 			},
 			10,
 			1,
@@ -47,6 +47,7 @@ class Objects
 					'google' => __('Google Calendar', 'google-calendar-events'),
 					'grouped-calendars' => __('Grouped Calendar', 'google-calendar-events'),
 					'ics-feed' => __('ICS Feed', 'google-calendar-events'),
+					'sc-event' => __('SC Event', 'google-calendar-events'),
 				]);
 			},
 			10,
@@ -61,6 +62,18 @@ class Objects
 					return;
 				}
 				\SimpleCalendar\Feeds\Admin\Ics_Feed_Admin::register_hooks();
+			},
+			5,
+		);
+
+		// Register SC Event feed meta save hooks on admin requests.
+		add_action(
+			'admin_init',
+			function () {
+				if (!class_exists('SimpleCalendar\\Feeds\\Admin\\Sc_Event_Admin')) {
+					return;
+				}
+				\SimpleCalendar\Feeds\Admin\Sc_Event_Admin::register_hooks();
 			},
 			5,
 		);
