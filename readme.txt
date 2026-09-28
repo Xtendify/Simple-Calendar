@@ -98,7 +98,7 @@ We'd love your help! Here's a few things you can do:
 == Changelog ==
 
 = 4.3.0 =
-* Dev: Added custom "Event" post type—you can now create and display events directly on your site.
+* Dev: Added custom "Event" post type—you can now create and display events directly on your site without using Google Calendar.
 
 = 4.2.2 =
 * Dev: Use the add-on's version for cache busting.
