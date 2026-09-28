@@ -1,13 +1,11 @@
-/* SC Event single page (frontend). */
-
-$color-text: #1f2937;
-$color-text-secondary: #4b5563;
-$color-border: #e5e7eb;
-$color-background: #fff;
-$color-background-secondary: #f3f4f6;
-$color-shadow: rgba(17, 24, 39, 0.04);
-
 body.single-sc-event {
+	/* Local copies of design-system color tokens (no .sc_root / design-system CSS required). */
+	--sc-color-dark-gray: #353535;
+	--sc-color-medium-gray: #797979;
+	--sc-color-alabaster-grey: #e5e5e5;
+	--sc-color-off-white: #f6f5f4;
+	--sc-color-white: #ffffff;
+
 	.wp-block-post-content.is-layout-constrained > .simcal-event-detail,
 	.entry-content > .simcal-event-detail {
 		max-width: 100%;
@@ -29,14 +27,14 @@ body.single-sc-event {
 
 	.simcal-event-detail {
 		box-sizing: border-box;
-		color: $color-text;
+		color: var(--sc-color-dark-gray);
 		margin: 0 0 2rem;
 
 		&__featured {
 			margin: 0 0 2rem;
 			padding: 1.25rem 0 0;
 			border: 0;
-			border-top: 1px solid $color-border;
+			border-top: 1px solid var(--sc-color-alabaster-grey);
 		}
 
 		&__featured-image {
@@ -60,7 +58,7 @@ body.single-sc-event {
 			gap: 1.5rem 2rem;
 			padding-bottom: 1.75rem;
 			margin-bottom: 2rem;
-			border-bottom: 1px solid $color-border;
+			border-bottom: 1px solid var(--sc-color-alabaster-grey);
 		}
 
 		&__meta-label {
@@ -68,7 +66,7 @@ body.single-sc-event {
 			font-size: 1.125rem;
 			font-weight: 700;
 			line-height: 1.3;
-			color: $color-text;
+			color: var(--sc-color-dark-gray);
 		}
 
 		&__meta-value {
@@ -78,7 +76,7 @@ body.single-sc-event {
 			margin: 0;
 			font-size: 0.95rem;
 			line-height: 1.45;
-			color: $color-text-secondary;
+			color: var(--sc-color-medium-gray);
 		}
 
 		&__icon {
@@ -87,7 +85,7 @@ body.single-sc-event {
 			width: 1.15rem;
 			height: 1.15rem;
 			margin-top: 0.1rem;
-			color: $color-text-secondary;
+			color: var(--sc-color-medium-gray);
 
 			svg {
 				display: block;
@@ -102,7 +100,7 @@ body.single-sc-event {
 			font-size: 1.5rem;
 			font-weight: 700;
 			line-height: 1.25;
-			color: $color-text;
+			color: var(--sc-color-dark-gray);
 		}
 
 		&__description-content {
@@ -122,11 +120,11 @@ body.single-sc-event {
 		}
 
 		&__sidebar-card {
-			background: $color-background;
-			border: 1px solid $color-border;
+			background: var(--sc-color-white);
+			border: 1px solid var(--sc-color-alabaster-grey);
 			border-radius: 4px;
 			padding: 1.35rem 1.5rem 1rem;
-			box-shadow: 0 1px 2px $color-shadow;
+			box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 		}
 
 		&__location-address {
@@ -136,7 +134,7 @@ body.single-sc-event {
 			margin: 0;
 			font-size: 0.95rem;
 			line-height: 1.45;
-			color: $color-text-secondary;
+			color: var(--sc-color-medium-gray);
 		}
 
 		&__map {
@@ -149,7 +147,7 @@ body.single-sc-event {
 				overflow: hidden;
 				border-radius: 4px;
 				aspect-ratio: 4 / 3;
-				background: $color-background-secondary;
+				background: var(--sc-color-off-white);
 			}
 		}
 
@@ -164,7 +162,7 @@ body.single-sc-event {
 			gap: 1rem;
 			margin: 0;
 			padding: 0.9rem 0;
-			border-bottom: 1px solid $color-border;
+			border-bottom: 1px solid var(--sc-color-alabaster-grey);
 
 			&:last-child {
 				border-bottom: 0;
@@ -173,13 +171,13 @@ body.single-sc-event {
 			dt {
 				margin: 0;
 				font-weight: 500;
-				color: $color-text-secondary;
+				color: var(--sc-color-medium-gray);
 			}
 
 			dd {
 				margin: 0;
 				text-align: right;
-				color: $color-text;
+				color: var(--sc-color-dark-gray);
 				overflow-wrap: break-word;
 
 				a {
@@ -205,19 +203,19 @@ body.single-sc-event {
 			width: 100%;
 			box-sizing: border-box;
 			padding: 0.7rem 1rem;
-			border: 1px solid $color-border;
+			border: 1px solid var(--sc-color-alabaster-grey);
 			border-radius: 4px;
-			background: $color-background;
-			color: $color-text;
+			background: var(--sc-color-white);
+			color: var(--sc-color-dark-gray);
 			font-weight: 500;
 			text-align: center;
 			text-decoration: none;
 
 			&:hover,
 			&:focus {
-				background: $color-background-secondary;
-				border-color: $color-border;
-				color: $color-text;
+				background: var(--sc-color-off-white);
+				border-color: var(--sc-color-alabaster-grey);
+				color: var(--sc-color-dark-gray);
 				text-decoration: none;
 			}
 		}

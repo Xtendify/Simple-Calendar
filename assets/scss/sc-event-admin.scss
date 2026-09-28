@@ -1,14 +1,22 @@
-/* SC Event admin (edit screen Details metabox). */
+/* SC Event admin (edit screen Details metabox).
+ * Local copies of design-system color tokens (no .sc_root / design-system CSS required). */
 
 #simcal-sc-event-details {
+	--sc-color-red: #be1d1d;
+	--sc-color-light-blue: #4097e3;
+	--sc-color-medium-gray: #797979;
+	--sc-color-extra-light-gray: #dbdbdb;
+	--sc-color-off-white: #f6f5f4;
+	--sc-color-white: #ffffff;
+
 	.required {
-		color: var(--color-error);
+		color: var(--sc-color-red);
 		margin-left: 2px;
 	}
 
 	.simcal-sc-event-field-error {
-		border-color: var(--color-error) !important;
-		box-shadow: 0 0 0 1px var(--color-error);
+		border-color: var(--sc-color-red) !important;
+		box-shadow: 0 0 0 1px var(--sc-color-red);
 	}
 
 	.simcal-sc-event-location-wrap {
@@ -28,8 +36,8 @@
 		width: 16px;
 		height: 16px;
 		margin-top: -8px;
-		border: 2px solid var(--color-border);
-		border-top-color: var(--color-primary);
+		border: 2px solid var(--sc-color-extra-light-gray);
+		border-top-color: var(--sc-color-light-blue);
 		border-radius: 50%;
 		animation: simcal-sc-event-location-spin 0.7s linear infinite;
 
@@ -47,8 +55,8 @@
 		margin: 0;
 		padding: 4px 0;
 		list-style: none;
-		background: var(--color-background);
-		border: 1px solid var(--color-border);
+		background: var(--sc-color-white);
+		border: 1px solid var(--sc-color-extra-light-gray);
 		border-radius: 4px;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 		max-height: 240px;
@@ -62,13 +70,13 @@
 
 			&.is-active,
 			&:hover {
-				background: var(--color-background-hover);
+				background: var(--sc-color-off-white);
 			}
 		}
 
 		.simcal-sc-event-location-empty {
 			cursor: default;
-			color: var(--color-text-secondary);
+			color: var(--sc-color-medium-gray);
 
 			&:hover {
 				background: transparent;
