@@ -426,7 +426,7 @@ jQuery(function ($) {
 						my: 'top center',
 						at: 'bottom center',
 						target: $(i),
-						viewport: width < 60 ? $(window) : true,
+						viewport: true,
 						adjust: {
 							method: 'shift',
 							scroll: false,
