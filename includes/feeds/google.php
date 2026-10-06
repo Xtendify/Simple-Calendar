@@ -585,6 +585,7 @@ class Google extends Feed
 			$simple_calendar_auth_site_token = get_option('simple_calendar_auth_site_token');
 			$response = '';
 			$backgroundcolor = '';
+			$event_labels = [];
 			if (
 				isset($simple_calendar_auth_site_token) &&
 				!empty($simple_calendar_auth_site_token) &&
@@ -615,6 +616,9 @@ class Google extends Feed
 				if (isset($response_arr['backgroundcolor']) && !empty($response_arr['backgroundcolor'])) {
 					$backgroundcolor = $response_arr['backgroundcolor'];
 				}
+				if (isset($response_arr['event_labels']) && is_array($response_arr['event_labels'])) {
+					$event_labels = $response_arr['event_labels'];
+				}
 
 				if (is_array($response) && isset($response['Error']) && !empty($response['Error'])) {
 					throw new Google_Service_Exception($response['Error'], 1);
@@ -632,6 +636,7 @@ class Google extends Feed
 					'url' => esc_url('//www.google.com/calendar/embed?src=' . $id),
 					'events' => $response->getItems(),
 					'backgroundcolor' => $backgroundcolor,
+					'event_labels' => $event_labels,
 				];
 
 				// Expanded instances omit RRULE; fetch masters so ICS export can keep weekly series.
