@@ -97,6 +97,10 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 4.3.1 =
+* Fix: Return Google Calendar event label colors with calendar events so labeled event colors display correctly.
+* Fix: Calendar tooltips now use consistent viewport handling, regardless of calendar width, for more predictable positioning.
+
 = 4.3.0 =
 * Dev: Added custom "Event" post type—you can now create and display events directly on your site without using Google Calendar.
 
