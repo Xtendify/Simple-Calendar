@@ -548,6 +548,14 @@ function simcal_delete_feed_transients($id = '')
 				 * @param int $calendar_id Calendar post ID.
 				 */
 				do_action('simcal_clear_ics_feed_cache', $calendar->id);
+				/**
+				 * Fires after feed transients for a calendar are deleted.
+				 *
+				 * @since 4.3.2
+				 *
+				 * @param int $calendar_id Calendar post ID.
+				 */
+				do_action('simcal_deleted_feed_transients', $calendar->id);
 			}
 		}
 	} else {
@@ -558,6 +566,7 @@ function simcal_delete_feed_transients($id = '')
 				delete_transient('_simple-calendar_feed_id_' . strval($calendar->id) . '_' . $feed_type);
 			}
 			do_action('simcal_clear_ics_feed_cache', $calendar->id);
+			do_action('simcal_deleted_feed_transients', $calendar->id);
 		}
 	}
 
