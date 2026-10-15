@@ -61,6 +61,39 @@ function simcal_get_url($url)
 }
 
 /**
+ * Whether any premium add-on has a valid, verified license.
+ *
+ * Used to gate free-plugin features such as removing the "Powered by" credit.
+ *
+ * @since 4.3.2
+ *
+ * @return bool
+ */
+function simcal_has_valid_addon_license()
+{
+	$has_valid = false;
+	$statuses = get_option('simple-calendar_licenses_status', []);
+
+	if (is_array($statuses)) {
+		foreach ($statuses as $status) {
+			if ('valid' === $status) {
+				$has_valid = true;
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Filter whether a valid premium add-on license is active.
+	 *
+	 * @since 4.3.2
+	 *
+	 * @param bool $has_valid True when at least one add-on license status is "valid".
+	 */
+	return (bool) apply_filters('simcal_has_valid_addon_license', $has_valid);
+}
+
+/**
  * Get events feed types.
  *
  * @since  3.0.0
