@@ -106,15 +106,15 @@ class Grouped_Calendars extends Feed
 	public function get_events()
 	{
 		$ids = $this->calendars_ids;
-		$events = get_transient('_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type);
+		$transient_key = '_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type;
+		$events =
+			!empty($ids) && is_array($ids) ? simcal_feed_cache_get_or_wait($transient_key) : get_transient($transient_key);
 
-		if (empty($events) && !empty($ids) && is_array($ids)) {
+		if (!is_array($events) && !empty($ids) && is_array($ids)) {
 			$events = [];
 
 			foreach ($ids as $priority => $cal_id) {
 				$calendar = simcal_get_calendar(intval($cal_id));
-
-				simcal_delete_feed_transients($cal_id);
 
 				if ($calendar instanceof Calendar) {
 					foreach ($calendar->events as $event_group) {
@@ -134,25 +134,24 @@ class Grouped_Calendars extends Feed
 				}
 			}
 
-			if (!empty($events)) {
-				// Trim events to set the earliest one as specified in feed settings.
-				$earliest_event = intval($this->time_min);
-				if ($earliest_event > 0) {
-					$events = $this->array_filter_key($events, [$this, 'filter_events_before']);
-				}
-
-				// Trim events to set the latest one as specified in feed settings.
-				$latest_event = intval($this->time_max);
-				if ($latest_event > 0) {
-					$events = $this->array_filter_key($events, [$this, 'filter_events_after']);
-				}
-
-				set_transient(
-					'_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type,
-					$events,
-					absint($this->cache),
-				);
+			// Trim events to set the earliest one as specified in feed settings.
+			$earliest_event = intval($this->time_min);
+			if ($earliest_event > 0) {
+				$events = $this->array_filter_key($events, [$this, 'filter_events_before']);
 			}
+
+			// Trim events to set the latest one as specified in feed settings.
+			$latest_event = intval($this->time_max);
+			if ($latest_event > 0) {
+				$events = $this->array_filter_key($events, [$this, 'filter_events_after']);
+			}
+
+			set_transient($transient_key, $events, max(absint($this->cache), 60));
+			simcal_feed_lock_release($transient_key);
+		}
+
+		if (!is_array($events)) {
+			return [];
 		}
 
 		// Sort events by start time before returning

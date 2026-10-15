@@ -110,8 +110,9 @@ class Google extends Feed
 	 *
 	 * @param string|Calendar $calendar
 	 * @param bool $load_admin
+	 * @param bool $fetch_events Subclasses that fetch events themselves pass false to avoid a second request.
 	 */
-	public function __construct($calendar = '', $load_admin = true)
+	public function __construct($calendar = '', $load_admin = true, $fetch_events = true)
 	{
 		parent::__construct($calendar);
 
@@ -133,7 +134,7 @@ class Google extends Feed
 			$this->google_search_query = get_post_meta($this->post_id, '_google_events_search_query', true);
 			$this->google_max_results = max(absint(get_post_meta($this->post_id, '_google_events_max_results', true)), 1);
 
-			if (!is_admin() || defined('DOING_AJAX')) {
+			if ($fetch_events && (!is_admin() || defined('DOING_AJAX'))) {
 				$this->events = !empty($this->google_api_key) ? $this->get_events() : [];
 			}
 		}
@@ -169,9 +170,16 @@ class Google extends Feed
 	 */
 	public function get_events()
 	{
-		$calendar = get_transient('_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type);
+		$transient_key = '_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type;
+		$calendar = !empty($this->google_calendar_id)
+			? simcal_feed_cache_get_or_wait($transient_key)
+			: get_transient($transient_key);
 
-		if (empty($calendar) && !empty($this->google_calendar_id)) {
+		if (is_array($calendar) && !empty($calendar['error'])) {
+			return $this->events_error_message($calendar['error']);
+		}
+
+		if (!is_array($calendar) && !empty($this->google_calendar_id)) {
 			$error = '';
 
 			try {
@@ -449,24 +457,17 @@ class Google extends Feed
 					if (!empty($calendar['events'])) {
 						ksort($calendar['events'], SORT_NUMERIC);
 					}
-
-					set_transient(
-						'_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type,
-						$calendar,
-						max(absint($this->cache), 1), // Since a value of 0 means forever we set the minimum here to 1 if the user has set it to be 0
-					);
 				}
-			} else {
-				$message = __('While trying to retrieve events, Google returned an error:', 'google-calendar-events');
-				$message .= '<br><br>' . $error . '<br><br>';
-				$message .=
-					__(
-						'Please ensure that both your Google Calendar ID and API Key are valid and that the Google Calendar you want to display is public.',
-						'google-calendar-events',
-					) . '<br><br>';
-				$message .= __('Only you can see this notice.', 'google-calendar-events');
 
-				return $message;
+				// A value of 0 means forever, so the minimum is 1 when the user set it to 0.
+				set_transient($transient_key, $calendar, max(absint($this->cache), 1));
+				simcal_feed_lock_release($transient_key);
+			} else {
+				$error = '' !== $error ? $error : __('Unable to fetch calendar events.', 'google-calendar-events');
+				set_transient($transient_key, ['error' => $error], simcal_feed_error_cache_ttl());
+				simcal_feed_lock_release($transient_key);
+
+				return $this->events_error_message($error);
 			}
 		}
 
@@ -640,13 +641,54 @@ class Google extends Feed
 				];
 
 				// Expanded instances omit RRULE; fetch masters so ICS export can keep weekly series.
-				if (!empty($args['singleEvents'])) {
+				if (!empty($args['singleEvents']) && $this->has_recurring_instances($calendar['events'])) {
 					$calendar['recurrence_map'] = $this->fetch_recurrence_map($id, $args, $google);
 				}
 			}
 		}
 
 		return $calendar;
+	}
+
+	/**
+	 * Whether any expanded event is an instance of a recurring series.
+	 *
+	 * @since 4.3.2
+	 *
+	 * @param  mixed $events
+	 * @return bool
+	 */
+	private function has_recurring_instances($events)
+	{
+		foreach ((array) $events as $event) {
+			if ($event instanceof Google_Service_Calendar_Event && $event->getRecurringEventId()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Message shown to administrators when events could not be retrieved.
+	 *
+	 * @since 4.3.2
+	 *
+	 * @param  string $error
+	 * @return string
+	 */
+	protected function events_error_message($error)
+	{
+		$message = __('While trying to retrieve events, Google returned an error:', 'google-calendar-events');
+		$message .= '<br><br>' . $error . '<br><br>';
+		$message .=
+			__(
+				'Please ensure that both your Google Calendar ID and API Key are valid and that the Google Calendar you want to display is public.',
+				'google-calendar-events',
+			) . '<br><br>';
+		$message .= __('Only you can see this notice.', 'google-calendar-events');
+
+		return $message;
 	}
 
 	/**

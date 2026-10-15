@@ -500,8 +500,6 @@ function simcal_delete_plugin_transients()
  */
 function simcal_delete_feed_transients($id = '')
 {
-	$clear_plugin_transients = '' === $id;
-
 	$grouped_ids =
 		is_numeric($id) || $id instanceof WP_Post
 			? get_post_meta($id instanceof WP_Post ? $id->ID : $id, '_grouped_calendars_ids', true)
@@ -515,51 +513,174 @@ function simcal_delete_feed_transients($id = '')
 	}
 
 	if (is_numeric($id)) {
-		$id = intval($id) > 0 ? absint($id) : simcal_get_calendars();
+		$id = intval($id) > 0 ? absint($id) : array_keys(simcal_get_calendars());
 	} elseif ($id instanceof WP_Post) {
 		$id = $id->ID;
 	} elseif (is_array($id)) {
 		$id = array_map('absint', $id);
 	} else {
-		$id = simcal_get_calendars('', true);
+		$id = array_keys(simcal_get_calendars('', true));
 	}
 
 	$feed_types = simcal_get_feed_types();
 
 	if (is_array($id)) {
-		$posts = get_posts([
-			'post_type' => 'calendar',
-			'fields' => 'ids',
-			'post__in' => $id,
-			'nopaging' => true,
-		]);
-
-		foreach ($posts as $post) {
-			$calendar = simcal_get_calendar($post);
-			if ($calendar instanceof \SimpleCalendar\Abstracts\Calendar) {
-				foreach ($feed_types as $feed_type) {
-					delete_transient('_simple-calendar_feed_id_' . strval($calendar->id) . '_' . $feed_type);
-				}
-				/**
-				 * Clear Pro ICS subscription feed cache for this calendar.
-				 *
-				 * @since 4.1.0
-				 *
-				 * @param int $calendar_id Calendar post ID.
-				 */
-				do_action('simcal_clear_ics_feed_cache', $calendar->id);
-			}
-		}
+		$calendar_ids = empty($id)
+			? []
+			: get_posts([
+				'post_type' => 'calendar',
+				'fields' => 'ids',
+				'post__in' => $id,
+				'nopaging' => true,
+			]);
 	} else {
-		$post = get_post($id);
-		$calendar = simcal_get_calendar($post);
-		if ($calendar instanceof \SimpleCalendar\Abstracts\Calendar) {
-			foreach ($feed_types as $feed_type) {
-				delete_transient('_simple-calendar_feed_id_' . strval($calendar->id) . '_' . $feed_type);
-			}
-			do_action('simcal_clear_ics_feed_cache', $calendar->id);
+		$calendar_ids = 'calendar' === get_post_type($id) ? [$id] : [];
+	}
+
+	foreach ($calendar_ids as $calendar_id) {
+		foreach ($feed_types as $feed_type) {
+			$transient_key = '_simple-calendar_feed_id_' . strval($calendar_id) . '_' . $feed_type;
+			delete_transient($transient_key);
+			simcal_feed_lock_release($transient_key);
 		}
+		/**
+		 * Clear Pro ICS subscription feed cache for this calendar.
+		 *
+		 * @since 4.1.0
+		 *
+		 * @param int $calendar_id Calendar post ID.
+		 */
+		do_action('simcal_clear_ics_feed_cache', $calendar_id);
 	}
 
 	return delete_transient('_simple-calendar_feed_ids');
+}
+
+/**
+ * How long a failed events fetch is remembered before the feed is requested again.
+ *
+ * @since 4.3.2
+ *
+ * @return int Seconds.
+ */
+function simcal_feed_error_cache_ttl()
+{
+	/**
+	 * Filter how long a failed events fetch is cached.
+	 *
+	 * @since 4.3.2
+	 *
+	 * @param int $ttl Seconds.
+	 */
+	return absint(apply_filters('simcal_feed_error_cache_ttl', 2 * MINUTE_IN_SECONDS));
+}
+
+/**
+ * Read a transient straight from its backing store.
+ *
+ * WordPress remembers missing options for the rest of the request, so get_transient()
+ * can't observe a value another request wrote a moment ago.
+ *
+ * @since 4.3.2
+ *
+ * @param  string $transient_key
+ * @return mixed False when missing or expired.
+ */
+function simcal_read_transient_uncached($transient_key)
+{
+	if (wp_using_ext_object_cache()) {
+		return get_transient($transient_key);
+	}
+
+	global $wpdb;
+
+	$timeout = $wpdb->get_var(
+		$wpdb->prepare(
+			"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s",
+			'_transient_timeout_' . $transient_key,
+		),
+	);
+	if (null !== $timeout && (int) $timeout < time()) {
+		return false;
+	}
+
+	$value = $wpdb->get_var(
+		$wpdb->prepare("SELECT option_value FROM {$wpdb->options} WHERE option_name = %s", '_transient_' . $transient_key),
+	);
+
+	return null === $value ? false : maybe_unserialize($value);
+}
+
+/**
+ * Take the fetch lock for a feed transient.
+ *
+ * @since 4.3.2
+ *
+ * @param  string $transient_key
+ * @param  int    $ttl Seconds after which an abandoned lock expires.
+ * @return bool   True when this request holds the lock.
+ */
+function simcal_feed_lock_acquire($transient_key, $ttl = 30)
+{
+	$lock_key = $transient_key . '_lock';
+
+	if (false !== simcal_read_transient_uncached($lock_key)) {
+		return false;
+	}
+
+	set_transient($lock_key, time(), $ttl);
+
+	return true;
+}
+
+/**
+ * Release the fetch lock for a feed transient.
+ *
+ * @since 4.3.2
+ *
+ * @param string $transient_key
+ */
+function simcal_feed_lock_release($transient_key)
+{
+	delete_transient($transient_key . '_lock');
+}
+
+/**
+ * Get a cached feed, or wait briefly for the request that is already fetching it.
+ *
+ * Returns the cached value when one exists or appears while waiting. Returns false when
+ * the caller should fetch itself; the caller then owns the lock and releases it after
+ * writing the transient.
+ *
+ * @since 4.3.2
+ *
+ * @param  string $transient_key
+ * @param  int    $max_wait Seconds to wait for another request's fetch.
+ * @return mixed
+ */
+function simcal_feed_cache_get_or_wait($transient_key, $max_wait = 5)
+{
+	$cached = get_transient($transient_key);
+
+	if (false !== $cached || simcal_feed_lock_acquire($transient_key)) {
+		return $cached;
+	}
+
+	$deadline = microtime(true) + $max_wait;
+	while (microtime(true) < $deadline) {
+		usleep(250000);
+
+		$cached = simcal_read_transient_uncached($transient_key);
+		if (false !== $cached) {
+			return $cached;
+		}
+
+		if (false === simcal_read_transient_uncached($transient_key . '_lock')) {
+			break;
+		}
+	}
+
+	simcal_feed_lock_acquire($transient_key);
+
+	return false;
 }
