@@ -719,9 +719,15 @@ class Settings implements Meta_Box
 					</th>
 					<td>
 						<?php
+      $has_valid_license = simcal_has_valid_addon_license();
       $poweredby = get_post_meta($post->ID, '_poweredby', true);
 
-      simcal_print_field([
+      // Without a valid Pro add-on license the credit is mandatory.
+      if (!$has_valid_license) {
+      	$poweredby = 'yes';
+      }
+
+      $poweredby_field = [
       	'type' => 'checkbox',
       	'name' => '_poweredby',
       	'id' => '_poweredby',
@@ -730,7 +736,24 @@ class Settings implements Meta_Box
       		'Yes, Simple Calendar rocks! Show some love with a little link below this calendar.',
       		'google-calendar-events',
       	),
-      ]);?>
+      ];
+
+      if (!$has_valid_license) {
+      	$poweredby_field['attributes'] = [
+      		'disabled' => 'disabled',
+      	];
+      	$poweredby_field['description'] = sprintf(
+      		/* translators: %s: URL to Simple Calendar Pro add-ons */
+      		__(
+      			'To uncheck this option, please <a href="%s" target="_blank">purchase a Pro add-on</a> and activate a valid license.',
+      			'google-calendar-events',
+      		),
+      		esc_url(simcal_get_url('addons')),
+      	);
+      }
+
+      simcal_print_field($poweredby_field);
+      ?>
 					</td>
 				</tr>
 			</tbody>
@@ -1260,8 +1283,8 @@ class Settings implements Meta_Box
 			: 'preserve_linebreaks';
 		update_post_meta($post_id, '_event_formatting', $event_formatting);
 
-		// Powered by option
-		$poweredby = isset($_POST['_poweredby']) ? 'yes' : 'no';
+		// Powered by option (mandatory unless a Pro add-on has a valid license).
+		$poweredby = simcal_has_valid_addon_license() && !isset($_POST['_poweredby']) ? 'no' : 'yes';
 		update_post_meta($post_id, '_poweredby', $poweredby);
 
 		/* ======================= *
