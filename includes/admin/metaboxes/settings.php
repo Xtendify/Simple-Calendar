@@ -752,8 +752,7 @@ class Settings implements Meta_Box
       	);
       }
 
-      simcal_print_field($poweredby_field);
-      ?>
+      simcal_print_field($poweredby_field);?>
 					</td>
 				</tr>
 			</tbody>
