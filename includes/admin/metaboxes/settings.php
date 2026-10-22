@@ -715,7 +715,7 @@ class Settings implements Meta_Box
 				</tr>
 				<tr class="simcal-panel-field">
 					<th>
-						<label for="_poweredby"><?php _e('Powered By', 'google-calendar-events'); ?></label>
+						<label for="_poweredby"><?php _e('Spread the Word', 'google-calendar-events'); ?></label>
 					</th>
 					<td>
 						<?php
@@ -733,7 +733,7 @@ class Settings implements Meta_Box
       	'id' => '_poweredby',
       	'value' => 'yes' == $poweredby ? 'yes' : 'no',
       	'text' => __(
-      		'Yes, Simple Calendar rocks! Show some love with a little link below this calendar.',
+      		'Add "Powered by Simple Calendar" text below this calendar to invite more people to the project and make the application better.',
       		'google-calendar-events',
       	),
       ];
@@ -745,7 +745,7 @@ class Settings implements Meta_Box
       	$poweredby_field['description'] = sprintf(
       		/* translators: %s: URL to Simple Calendar Pro add-ons */
       		__(
-      			'To uncheck this option, please <a href="%s" target="_blank">purchase a Pro add-on</a> and activate a valid license.',
+      			'To turn this off, please <a href="%s" target="_blank">purchase a Pro add-on</a> and activate a valid license.',
       			'google-calendar-events',
       		),
       		esc_url(simcal_get_url('addons')),
