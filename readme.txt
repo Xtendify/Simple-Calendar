@@ -97,6 +97,10 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 4.3.2 =
+* Fix: Improved calendar feed loading so concurrent requests can reuse results, and temporary feed failures are cached briefly to reduce repeated failed requests.
+* Dev: Added an option to clear the color label cache when updating the calendar or manually clicking "Clear Cache" in the admin panel.
+
 = 4.3.1 =
 * Fix: Return Google Calendar event label colors with calendar events so labeled event colors display correctly.
 * Fix: Calendar tooltips now use consistent viewport handling, regardless of calendar width, for more predictable positioning.
