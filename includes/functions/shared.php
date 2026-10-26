@@ -525,23 +525,46 @@ function simcal_delete_feed_transients($id = '')
 	$feed_types = simcal_get_feed_types();
 
 	if (is_array($id)) {
-		$calendar_ids = empty($id)
-			? []
-			: get_posts([
-				'post_type' => 'calendar',
-				'fields' => 'ids',
-				'post__in' => $id,
-				'nopaging' => true,
-			]);
-	} else {
-		$calendar_ids = 'calendar' === get_post_type($id) ? [$id] : [];
-	}
+		$posts = get_posts([
+			'post_type' => 'calendar',
+			'fields' => 'ids',
+			'post__in' => $id,
+			'nopaging' => true,
+		]);
 
-	foreach ($calendar_ids as $calendar_id) {
-		foreach ($feed_types as $feed_type) {
-			$transient_key = '_simple-calendar_feed_id_' . strval($calendar_id) . '_' . $feed_type;
-			delete_transient($transient_key);
-			simcal_feed_lock_release($transient_key);
+		foreach ($posts as $post) {
+			$calendar = simcal_get_calendar($post);
+			if ($calendar instanceof \SimpleCalendar\Abstracts\Calendar) {
+				foreach ($feed_types as $feed_type) {
+					delete_transient('_simple-calendar_feed_id_' . strval($calendar->id) . '_' . $feed_type);
+				}
+				/**
+				 * Clear Pro ICS subscription feed cache for this calendar.
+				 *
+				 * @since 4.1.0
+				 *
+				 * @param int $calendar_id Calendar post ID.
+				 */
+				do_action('simcal_clear_ics_feed_cache', $calendar->id);
+				/**
+				 * Fires after feed transients for a calendar are deleted.
+				 *
+				 * @since 4.3.2
+				 *
+				 * @param int $calendar_id Calendar post ID.
+				 */
+				do_action('simcal_deleted_feed_transients', $calendar->id);
+			}
+		}
+	} else {
+		$post = get_post($id);
+		$calendar = simcal_get_calendar($post);
+		if ($calendar instanceof \SimpleCalendar\Abstracts\Calendar) {
+			foreach ($feed_types as $feed_type) {
+				delete_transient('_simple-calendar_feed_id_' . strval($calendar->id) . '_' . $feed_type);
+			}
+			do_action('simcal_clear_ics_feed_cache', $calendar->id);
+			do_action('simcal_deleted_feed_transients', $calendar->id);
 		}
 		/**
 		 * Clear Pro ICS subscription feed cache for this calendar.
