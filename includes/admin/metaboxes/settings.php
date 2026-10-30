@@ -713,6 +713,12 @@ class Settings implements Meta_Box
       ?>
 					</td>
 				</tr>
+				<?php
+      $is_new_calendar = simcal_is_powered_by_cutoff_calendar($post->ID);
+
+      // Old calendars keep the previous setting; new calendars show it only when a Pro add-on has a valid license.
+      if (simcal_can_manage_powered_by($post->ID)) :
+      ?>
 				<tr class="simcal-panel-field">
 					<th>
 						<label for="_poweredby"><?php _e('Powered By', 'google-calendar-events'); ?></label>
@@ -727,12 +733,13 @@ class Settings implements Meta_Box
       	'id' => '_poweredby',
       	'value' => 'yes' == $poweredby ? 'yes' : 'no',
       	'text' => __(
-      		'Yes, Simple Calendar rocks! Show some love with a little link below this calendar.',
-      		'google-calendar-events',
-      	),
+      			'Show a small “Powered by Simple Calendar” link below your calendar. It helps other site owners discover the plugin, supporting its growth and ongoing maintenance.',
+      			'google-calendar-events',
+      		),
       ]);?>
 					</td>
 				</tr>
+				<?php endif; ?>
 			</tbody>
 		</table>
 		<?php
@@ -1260,8 +1267,13 @@ class Settings implements Meta_Box
 			: 'preserve_linebreaks';
 		update_post_meta($post_id, '_event_formatting', $event_formatting);
 
-		// Powered by option
-		$poweredby = isset($_POST['_poweredby']) ? 'yes' : 'no';
+		// Powered by option. Old calendars keep the previous optional behavior.
+		// New calendars (created after the cutoff) are mandatory unless a Pro add-on has a valid license.
+		if (simcal_is_powered_by_mandatory($post_id)) {
+			$poweredby = 'yes';
+		} else {
+			$poweredby = isset($_POST['_poweredby']) ? 'yes' : 'no';
+		}
 		update_post_meta($post_id, '_poweredby', $poweredby);
 
 		/* ======================= *
