@@ -94,6 +94,121 @@ function simcal_has_valid_addon_license()
 }
 
 /**
+ * UTC cutoff for mandatory Powered by behavior on new calendars.
+ *
+ * Calendars created on or after this date use the new rules; older calendars keep the previous optional setting.
+ *
+ * @since 4.3.2
+ *
+ * @return string MySQL datetime in UTC.
+ */
+function simcal_get_powered_by_cutoff_datetime()
+{
+	/**
+	 * Filter the Powered by feature cutoff datetime (UTC).
+	 *
+	 * @since 4.3.2
+	 *
+	 * @param string $datetime MySQL datetime string in UTC.
+	 */
+	return (string) apply_filters('simcal_powered_by_cutoff_datetime', '2026-11-03 00:00:00');
+}
+
+/**
+ * Whether a calendar was created on or after the Powered by cutoff.
+ *
+ * @since 4.3.2
+ *
+ * @param int $calendar_id Calendar post ID.
+ *
+ * @return bool
+ */
+function simcal_is_powered_by_cutoff_calendar($calendar_id)
+{
+	$calendar_id = absint($calendar_id);
+	$post = get_post($calendar_id);
+
+	if (!$post || 'calendar' !== $post->post_type) {
+		return false;
+	}
+
+	$gmt = $post->post_date_gmt;
+	if (empty($gmt) || '0000-00-00 00:00:00' === $gmt) {
+		$gmt = get_gmt_from_date($post->post_date);
+	}
+
+	$is_cutoff = $gmt >= simcal_get_powered_by_cutoff_datetime();
+
+	/**
+	 * Filter whether a calendar is subject to the Powered by cutoff rules.
+	 *
+	 * @since 4.3.2
+	 *
+	 * @param bool $is_cutoff   Whether the calendar is on/after the cutoff.
+	 * @param int  $calendar_id Calendar post ID.
+	 */
+	return (bool) apply_filters('simcal_is_powered_by_cutoff_calendar', $is_cutoff, $calendar_id);
+}
+
+/**
+ * Whether the Powered by credit is mandatory for a calendar.
+ *
+ * True only for calendars created on/after the cutoff when no Pro add-on has a valid license.
+ * Old calendars are never mandatory and keep the previous optional behavior.
+ *
+ * @since 4.3.2
+ *
+ * @param int $calendar_id Calendar post ID.
+ *
+ * @return bool
+ */
+function simcal_is_powered_by_mandatory($calendar_id)
+{
+	$mandatory = simcal_is_powered_by_cutoff_calendar($calendar_id) && !simcal_has_valid_addon_license();
+
+	/**
+	 * Filter whether the Powered by credit is mandatory for a calendar.
+	 *
+	 * @since 4.3.2
+	 *
+	 * @param bool $mandatory   Whether the credit is mandatory.
+	 * @param int  $calendar_id Calendar post ID.
+	 */
+	return (bool) apply_filters('simcal_is_powered_by_mandatory', $mandatory, absint($calendar_id));
+}
+
+/**
+ * Whether the admin can show/manage the Spread the Word setting for a calendar.
+ *
+ * Old calendars: always visible. New calendars: only when a Pro add-on license is valid.
+ *
+ * @since 4.3.2
+ *
+ * @param int $calendar_id Calendar post ID.
+ *
+ * @return bool
+ */
+function simcal_can_manage_powered_by($calendar_id)
+{
+	$calendar_id = absint($calendar_id);
+	$can_manage = true;
+
+	if (simcal_is_powered_by_cutoff_calendar($calendar_id)) {
+		$can_manage = simcal_has_valid_addon_license();
+	}
+
+	/**
+	 * Filter whether the Spread the Word setting can be managed for a calendar.
+	 *
+	 * @since 4.3.2
+	 *
+	 * @param bool $can_manage  Whether the setting is shown and editable.
+	 * @param int  $calendar_id Calendar post ID.
+	 */
+	return (bool) apply_filters('simcal_can_manage_powered_by', $can_manage, $calendar_id);
+}
+
+/**
  * Get events feed types.
  *
  * @since  3.0.0

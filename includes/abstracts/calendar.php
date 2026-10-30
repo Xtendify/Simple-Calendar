@@ -1066,8 +1066,9 @@ abstract class Calendar
 	{
 		$poweredby = get_post_meta($this->id, '_poweredby', true);
 
-		// Always show the credit when no Pro add-on has a valid license.
-		if ('yes' == $poweredby || !simcal_has_valid_addon_license()) {
+		// Old calendars show the credit only when opted in, as before.
+		// New calendars created after the cutoff always show the credit when no Pro add-on has a valid license.
+		if ('yes' == $poweredby || simcal_is_powered_by_mandatory($this->id)) {
 			$align = is_rtl() ? 'left' : 'right';
 			echo '<small class="simcal-powered simcal-align-' .
 				$align .

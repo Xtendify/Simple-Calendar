@@ -713,48 +713,33 @@ class Settings implements Meta_Box
       ?>
 					</td>
 				</tr>
+				<?php
+      $is_new_calendar = simcal_is_powered_by_cutoff_calendar($post->ID);
+
+      // Old calendars keep the previous setting; new calendars show it only when a Pro add-on has a valid license.
+      if (simcal_can_manage_powered_by($post->ID)) :
+      ?>
 				<tr class="simcal-panel-field">
 					<th>
-						<label for="_poweredby"><?php _e('Spread the Word', 'google-calendar-events'); ?></label>
+						<label for="_poweredby"><?php _e('Powered By', 'google-calendar-events'); ?></label>
 					</th>
 					<td>
 						<?php
-      $has_valid_license = simcal_has_valid_addon_license();
       $poweredby = get_post_meta($post->ID, '_poweredby', true);
 
-      // Without a valid Pro add-on license the credit is mandatory.
-      if (!$has_valid_license) {
-      	$poweredby = 'yes';
-      }
-
-      $poweredby_field = [
+      simcal_print_field([
       	'type' => 'checkbox',
       	'name' => '_poweredby',
       	'id' => '_poweredby',
       	'value' => 'yes' == $poweredby ? 'yes' : 'no',
       	'text' => __(
-      		'Add "Powered by Simple Calendar" text below this calendar to invite more people to the project and make the application better.',
-      		'google-calendar-events',
-      	),
-      ];
-
-      if (!$has_valid_license) {
-      	$poweredby_field['attributes'] = [
-      		'disabled' => 'disabled',
-      	];
-      	$poweredby_field['description'] = sprintf(
-      		/* translators: %s: URL to Simple Calendar Pro add-ons */
-      		__(
-      			'To turn this off, please <a href="%s" target="_blank">purchase a Pro add-on</a> and activate a valid license.',
+      			'Show a small “Powered by Simple Calendar” link below your calendar. It helps other site owners discover the plugin, supporting its growth and ongoing maintenance.',
       			'google-calendar-events',
       		),
-      		esc_url(simcal_get_url('addons')),
-      	);
-      }
-
-      simcal_print_field($poweredby_field);?>
+      ]);?>
 					</td>
 				</tr>
+				<?php endif; ?>
 			</tbody>
 		</table>
 		<?php
@@ -1282,8 +1267,13 @@ class Settings implements Meta_Box
 			: 'preserve_linebreaks';
 		update_post_meta($post_id, '_event_formatting', $event_formatting);
 
-		// Powered by option (mandatory unless a Pro add-on has a valid license).
-		$poweredby = simcal_has_valid_addon_license() && !isset($_POST['_poweredby']) ? 'no' : 'yes';
+		// Powered by option. Old calendars keep the previous optional behavior.
+		// New calendars (created after the cutoff) are mandatory unless a Pro add-on has a valid license.
+		if (simcal_is_powered_by_mandatory($post_id)) {
+			$poweredby = 'yes';
+		} else {
+			$poweredby = isset($_POST['_poweredby']) ? 'yes' : 'no';
+		}
 		update_post_meta($post_id, '_poweredby', $poweredby);
 
 		/* ======================= *
