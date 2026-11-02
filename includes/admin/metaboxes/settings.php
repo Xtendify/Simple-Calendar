@@ -714,11 +714,10 @@ class Settings implements Meta_Box
 					</td>
 				</tr>
 				<?php
-      $is_new_calendar = simcal_is_powered_by_cutoff_calendar($post->ID);
+    $is_new_calendar = simcal_is_powered_by_cutoff_calendar($post->ID);
 
-      // Old calendars keep the previous setting; new calendars show it only when a Pro add-on has a valid license.
-      if (simcal_can_manage_powered_by($post->ID)) :
-      ?>
+    // Old calendars keep the previous setting; new calendars show it only when a Pro add-on has a valid license.
+    if (simcal_can_manage_powered_by($post->ID)): ?>
 				<tr class="simcal-panel-field">
 					<th>
 						<label for="_poweredby"><?php _e('Powered By', 'google-calendar-events'); ?></label>
@@ -733,13 +732,14 @@ class Settings implements Meta_Box
       	'id' => '_poweredby',
       	'value' => 'yes' == $poweredby ? 'yes' : 'no',
       	'text' => __(
-      			'Show a small “Powered by Simple Calendar” link below your calendar. It helps other site owners discover the plugin, supporting its growth and ongoing maintenance.',
-      			'google-calendar-events',
-      		),
-      ]);?>
+      		'Show a small “Powered by Simple Calendar” link below your calendar. It helps other site owners discover the plugin, supporting its growth and ongoing maintenance.',
+      		'google-calendar-events',
+      	),
+      ]);
+      ?>
 					</td>
 				</tr>
-				<?php endif; ?>
+				<?php endif;?>
 			</tbody>
 		</table>
 		<?php
