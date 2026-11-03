@@ -171,8 +171,9 @@ class Google extends Feed
 	public function get_events()
 	{
 		$transient_key = '_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type;
+		$owns_lock = false;
 		$calendar = !empty($this->google_calendar_id)
-			? simcal_feed_cache_get_or_wait($transient_key)
+			? simcal_feed_cache_get_or_wait($transient_key, 5, $owns_lock)
 			: get_transient($transient_key);
 
 		if (is_array($calendar) && !empty($calendar['error'])) {
@@ -184,8 +185,9 @@ class Google extends Feed
 
 			try {
 				$response = $this->make_request($this->google_calendar_id);
-			} catch (Google_Service_Exception $e) {
-				$error .= $e->getMessage();
+			} catch (\Exception $e) {
+				// Transport errors (Guzzle) include the request URI, which carries the API key.
+				$error .= preg_replace('/([?&]key=)[^&\s)`]+/', '$1REDACTED', $e->getMessage());
 			}
 
 			if (empty($error) && isset($response['events']) && isset($response['timezone'])) {
@@ -461,11 +463,15 @@ class Google extends Feed
 
 				// A value of 0 means forever, so the minimum is 1 when the user set it to 0.
 				set_transient($transient_key, $calendar, max(absint($this->cache), 1));
-				simcal_feed_lock_release($transient_key);
+				if ($owns_lock) {
+					simcal_feed_lock_release($transient_key);
+				}
 			} else {
 				$error = '' !== $error ? $error : __('Unable to fetch calendar events.', 'google-calendar-events');
 				set_transient($transient_key, ['error' => $error], simcal_feed_error_cache_ttl());
-				simcal_feed_lock_release($transient_key);
+				if ($owns_lock) {
+					simcal_feed_lock_release($transient_key);
+				}
 
 				return $this->events_error_message($error);
 			}

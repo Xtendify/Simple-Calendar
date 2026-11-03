@@ -107,8 +107,11 @@ class Grouped_Calendars extends Feed
 	{
 		$ids = $this->calendars_ids;
 		$transient_key = '_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type;
+		$owns_lock = false;
 		$events =
-			!empty($ids) && is_array($ids) ? simcal_feed_cache_get_or_wait($transient_key) : get_transient($transient_key);
+			!empty($ids) && is_array($ids)
+				? simcal_feed_cache_get_or_wait($transient_key, 5, $owns_lock)
+				: get_transient($transient_key);
 
 		if (!is_array($events) && !empty($ids) && is_array($ids)) {
 			$events = [];
@@ -147,7 +150,9 @@ class Grouped_Calendars extends Feed
 			}
 
 			set_transient($transient_key, $events, max(absint($this->cache), 60));
-			simcal_feed_lock_release($transient_key);
+			if ($owns_lock) {
+				simcal_feed_lock_release($transient_key);
+			}
 		}
 
 		if (!is_array($events)) {
