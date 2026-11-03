@@ -111,7 +111,7 @@ function simcal_get_powered_by_cutoff_datetime()
 	 *
 	 * @param string $datetime MySQL datetime string in UTC.
 	 */
-	return (string) apply_filters('simcal_powered_by_cutoff_datetime', '2026-11-03 00:00:00');
+	return (string) apply_filters('simcal_powered_by_cutoff_datetime', '2026-11-10 00:00:00');
 }
 
 /**
