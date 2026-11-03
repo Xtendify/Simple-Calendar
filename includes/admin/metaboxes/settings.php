@@ -714,8 +714,6 @@ class Settings implements Meta_Box
 					</td>
 				</tr>
 				<?php
-    $is_new_calendar = simcal_is_powered_by_cutoff_calendar($post->ID);
-
     // Old calendars keep the previous setting; new calendars show it only when a Pro add-on has a valid license.
     if (simcal_can_manage_powered_by($post->ID)): ?>
 				<tr class="simcal-panel-field">
