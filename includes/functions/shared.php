@@ -500,8 +500,6 @@ function simcal_delete_plugin_transients()
  */
 function simcal_delete_feed_transients($id = '')
 {
-	$clear_plugin_transients = '' === $id;
-
 	$grouped_ids =
 		is_numeric($id) || $id instanceof WP_Post
 			? get_post_meta($id instanceof WP_Post ? $id->ID : $id, '_grouped_calendars_ids', true)
@@ -515,20 +513,22 @@ function simcal_delete_feed_transients($id = '')
 	}
 
 	if (is_numeric($id)) {
-		$id = intval($id) > 0 ? absint($id) : simcal_get_calendars();
+		$id = intval($id) > 0 ? absint($id) : array_keys(simcal_get_calendars());
 	} elseif ($id instanceof WP_Post) {
 		$id = $id->ID;
 	} elseif (is_array($id)) {
 		$id = array_map('absint', $id);
 	} else {
-		$id = simcal_get_calendars('', true);
+		$id = array_keys(simcal_get_calendars('', true));
 	}
 
 	$feed_types = simcal_get_feed_types();
 
 	if (is_array($id)) {
+		// Calendars in any status can have cached feeds, not only published ones.
 		$posts = get_posts([
 			'post_type' => 'calendar',
+			'post_status' => ['draft', 'future', 'publish', 'pending', 'private', 'trash'],
 			'fields' => 'ids',
 			'post__in' => $id,
 			'nopaging' => true,
@@ -568,7 +568,186 @@ function simcal_delete_feed_transients($id = '')
 			do_action('simcal_clear_ics_feed_cache', $calendar->id);
 			do_action('simcal_deleted_feed_transients', $calendar->id);
 		}
+		/**
+		 * Clear Pro ICS subscription feed cache for this calendar.
+		 *
+		 * @since 4.1.0
+		 *
+		 * @param int $calendar_id Calendar post ID.
+		 */
+		do_action('simcal_clear_ics_feed_cache', $calendar_id);
 	}
 
 	return delete_transient('_simple-calendar_feed_ids');
+}
+
+/**
+ * How long a failed events fetch is remembered before the feed is requested again.
+ *
+ * @since 4.3.2
+ *
+ * @return int Seconds.
+ */
+function simcal_feed_error_cache_ttl()
+{
+	/**
+	 * Filter how long a failed events fetch is cached.
+	 *
+	 * @since 4.3.2
+	 *
+	 * @param int $ttl Seconds.
+	 */
+	return absint(apply_filters('simcal_feed_error_cache_ttl', 2 * MINUTE_IN_SECONDS));
+}
+
+/**
+ * Read a transient straight from its backing store.
+ *
+ * WordPress remembers missing options for the rest of the request, so get_transient()
+ * can't observe a value another request wrote a moment ago.
+ *
+ * @since 4.3.2
+ *
+ * @param  string $transient_key
+ * @return mixed False when missing or expired.
+ */
+function simcal_read_transient_uncached($transient_key)
+{
+	if (wp_using_ext_object_cache()) {
+		return get_transient($transient_key);
+	}
+
+	global $wpdb;
+
+	$timeout = $wpdb->get_var(
+		$wpdb->prepare(
+			"SELECT option_value FROM {$wpdb->options} WHERE option_name = %s",
+			'_transient_timeout_' . $transient_key,
+		),
+	);
+	if (null !== $timeout && (int) $timeout < time()) {
+		return false;
+	}
+
+	$value = $wpdb->get_var(
+		$wpdb->prepare("SELECT option_value FROM {$wpdb->options} WHERE option_name = %s", '_transient_' . $transient_key),
+	);
+
+	return null === $value ? false : maybe_unserialize($value);
+}
+
+/**
+ * Take the fetch lock for a feed transient.
+ *
+ * The lock is a single row whose value is its expiry time. Taking it is one conditional write,
+ * so only one request can succeed, and a lock abandoned by a crashed request is taken over once
+ * it expires. A persistent object cache gets the same guarantee from add().
+ *
+ * @since 4.3.2
+ *
+ * @param  string $transient_key
+ * @param  int    $ttl Seconds after which an abandoned lock expires.
+ * @return bool   True when this request holds the lock.
+ */
+function simcal_feed_lock_acquire($transient_key, $ttl = 30)
+{
+	global $wpdb;
+
+	$lock_key = $transient_key . '_lock';
+	$now = time();
+	$expires = $now + $ttl;
+
+	if (wp_using_ext_object_cache()) {
+		return (bool) wp_cache_add($lock_key, $expires, 'transient', $ttl);
+	}
+
+	$option = '_transient_' . $lock_key;
+
+	// Only inserts when no lock row exists. A duplicate is ignored and reports 0 rows.
+	$inserted = $wpdb->query(
+		$wpdb->prepare(
+			"INSERT IGNORE INTO {$wpdb->options} (option_name, option_value, autoload) VALUES (%s, %s, 'no')",
+			$option,
+			$expires,
+		),
+	);
+
+	if (1 === $inserted) {
+		return true;
+	}
+
+	// Takes over a row whose expiry has passed. Only the first of several concurrent UPDATEs matches,
+	// because it moves the expiry past the other requests' $now.
+	$taken_over = $wpdb->query(
+		$wpdb->prepare(
+			"UPDATE {$wpdb->options} SET option_value = %s WHERE option_name = %s AND CAST(option_value AS UNSIGNED) < %d",
+			$expires,
+			$option,
+			$now,
+		),
+	);
+
+	return 1 === $taken_over;
+}
+
+/**
+ * Release the fetch lock for a feed transient.
+ *
+ * @since 4.3.2
+ *
+ * @param string $transient_key
+ */
+function simcal_feed_lock_release($transient_key)
+{
+	delete_transient($transient_key . '_lock');
+}
+
+/**
+ * Get a cached feed, or wait briefly for the request that is already fetching it.
+ *
+ * Returns the cached value when one exists or appears while waiting. Returns false when
+ * the caller should fetch itself. Then $owns_lock tells whether this request holds the lock,
+ * and the caller must release it after writing the transient only when it does.
+ *
+ * @since 4.3.2
+ *
+ * @param  string $transient_key
+ * @param  int    $max_wait  Seconds to wait for another request's fetch.
+ * @param  bool   $owns_lock Set to true when this request acquired the fetch lock.
+ * @return mixed
+ */
+function simcal_feed_cache_get_or_wait($transient_key, $max_wait = 5, &$owns_lock = false)
+{
+	$owns_lock = false;
+	$cached = get_transient($transient_key);
+
+	if (false !== $cached) {
+		return $cached;
+	}
+
+	$owns_lock = simcal_feed_lock_acquire($transient_key);
+	if ($owns_lock) {
+		return false;
+	}
+
+	$deadline = microtime(true) + $max_wait;
+	while (microtime(true) < $deadline) {
+		usleep(250000);
+
+		$cached = simcal_read_transient_uncached($transient_key);
+		if (false !== $cached) {
+			return $cached;
+		}
+
+		// An expired lock row counts as released, the same as an expired transient.
+		$lock_expires = simcal_read_transient_uncached($transient_key . '_lock');
+		if (false === $lock_expires || (int) $lock_expires < time()) {
+			break;
+		}
+	}
+
+	// Still held by another request after waiting: fetch anyway, but own the lock only if it is free now.
+	$owns_lock = simcal_feed_lock_acquire($transient_key);
+
+	return false;
 }
