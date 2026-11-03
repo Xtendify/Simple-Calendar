@@ -714,7 +714,8 @@ class Settings implements Meta_Box
 					</td>
 				</tr>
 				<?php // Old calendars keep the previous setting; new calendars show it only when a Pro add-on has a valid license.
-    if (simcal_can_manage_powered_by($post->ID)): ?>
+
+		if (simcal_can_manage_powered_by($post->ID)): ?>
 				<tr class="simcal-panel-field">
 					<th>
 						<label for="_poweredby"><?php _e('Powered By', 'google-calendar-events'); ?></label>
