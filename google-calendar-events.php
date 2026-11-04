@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Simple Calendar
  * Plugin URI:  https://simplecalendar.io
- * Description: Add Google Calendar events to your WordPress site in minutes. Beautiful calendar displays. Fully responsive.
+ * Description: Display Google Calendar events on your WordPress site in real-time synchronization. Fully customizable and 100% mobile responsive.
  * Author:      Simple Calendar
  * Author URI:  https://simplecalendar.io
  * Version:    PACKAGE_VERSION

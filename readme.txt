@@ -1,6 +1,6 @@
-=== Simple Calendar - Google Calendar Plugin ===
+=== Simple Calendar - Google Calendar, Events, & ICS Feeds ===
 Contributors: simplecalendar, rosinghal, pderksen, nickyoung87, nekojira, rosshanney
-Tags: google calendar, events, website calendar, wp calendar, wp calendar widget
+Tags: google calendar, outlook, ical, events, add to calendar
 Requires at least: 4.2
 Requires PHP: 8.1
 Tested up to: 7.0
@@ -8,62 +8,139 @@ Stable tag: PACKAGE_VERSION
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Add Google Calendar events to your WordPress site in minutes. Beautiful calendar displays. Mobile responsive.
+Display Google Calendar events on your WordPress site in real-time synchronization. Fully customizable and 100% mobile responsive. 
 
 == Description ==
 
-[Simple Calendar](https://simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description) is the easiest way to add Google Calendar events to your WordPress site. Quick to setup. Fine tune to your needs. Mobile responsive. Beautifully designed.
+[Simple Calendar](https://simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=wordpress_org&utm_content=description) shows your events on your WordPress site, whether they live in Google Calendar, another calendar app that supports the iCalendar (ICS) format, or WordPress itself. No coding, no iframe embeds, and no hassle of maintaining the same events twice.
 
-= Simple Calendar Features =
+Start with the free plugin for clean grid, list, and mobile-friendly widget views. When your site needs more enhanced features, add only the addons you'll actually use, or save big with [Simple Calendar bundle pricing plans →](https://simplecalendar.io/addons/?utm_source=wordpress.org&utm_medium=link&utm_campaign=wordpress_org&utm_content=description)
 
-* Display events from any public Google Calendar.
-* Keep managing events in Google Calendar. No need to create events in WordPress.
-* Out-of-the-box designs that match your theme’s look and feel.
-* Fully responsive and mobile-friendly monthly grid and list views.
-* Customize event content display using simple tags. No coding required.
-* Combine multiple calendars into single displays explicitly or using categories.
-* Intuitive, simple display configuration changes for fine tuning.
-* Advanced settings to adjust time zones, date/time formats and start of the week.
-* Integration with [Event Calendar Newsletter](https://wordpress.org/plugins/event-calendar-newsletter/) for quickly turning your events into a newsletter-friendly format.
-* Additional functionality offered with [add-ons](https://simplecalendar.io/addons/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description).
-* Translations available with more being added on a regular basis. [Translations welcome!](https://translate.wordpress.org/projects/wp-plugins/google-calendar-events)
-* Open source with code hosted on GitHub. [Contributions welcome!](https://github.com/Xtendify/Simple-Calendar)
+[youtube https://www.youtube.com/watch?v=9HZI52pRXRA]
 
->**[Love using Simple Calendar? Consider purchasing a Premium Add-on](https://simplecalendar.io/addons/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)**
+= Choose your event source =
 
-= FullCalendar Add-on Features =
+Simple Calendar started as a Google Calendar plugin. Many of our users asked for more sources so they wouldn't have to switch plugins, so the free plugin now supports more event sources.
 
-* **Week and day views** added alongside the month view.
-* Display event titles and start times directly on your calendar.
-* Faster load times when navigating through months, weeks or days.
-* Configure header navigation buttons to allow site visitors to easily switch between views.
-* Intuitive design for multi-day events.
-* Customizable calendar heights with optional scroll bars.
-* Set default start time for week and day views.
-* Limit display times for week and day views.
-* Works with our Google Calendar Pro add-on to display **color-coded events** within each view.
-* Priority email support with a 24-hour response time during weekdays backed by a top-notch team.
+#### Google Calendar ####
 
-= Google Calendar Pro Add-on Features =
+Choose to display any public Google Calendar using a Google API key. It keeps your calendars in sync as you update, edit, or delete events in the source, i.e., Google Calendar.
 
-* Display events from both **private and public** Google Calendars.
-* **Highlight events with colors** that match assigned Google Calendar event colors.
-* Display attendee names, avatars and RSVP status for any private or public event.
-* Display event organizer information.
-* Display a list of attachments with links to their original source.
-* Secure connection established between your site and Google using the OAuth standard.
-* Works with our FullCalendar add-on to display beautiful month, week and day views with color-coded events.
-* Priority email support with a 24-hour response time during weekdays backed by a top-notch team.
+#### Other calendar apps (ICS) ####
 
->**[Get ALL these features with our Premium Add-ons](https://simplecalendar.io/addons/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)**
+You can now import events from any external calendar application other than Google Calendar via an ICS file, including Microsoft Outlook, Microsoft 365, Apple iCloud Calendar, Yahoo Calendar, Zoho Calendar, Proton Calendar, and more.
 
-Want to take Simple Calendar for a spin first? **[Try out a Live Demo](http://demo.simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=description)**
+#### Events created in WordPress ####
+
+If you'd rather not rely on an external calendar app, Simple Calendar lets you create custom events directly in WordPress. It doesn't require an external calendar source and lets you create and manage events in WordPress, then display them in a calendar format on your website.
+
+[See Simple Calendar live in our interactive demos →](https://simplecalendar.io/demos/?utm_source=wordpress.org&utm_medium=link&utm_campaign=wordpress_org&utm_content=description)
+
+= Simple Calendar free core plugin features =
+
+
+#### Flexible event sources & creation ####
+
+* Display any public Google Calendar
+* Import ICS files from Outlook, Microsoft 365, Apple Calendar, or any iCalendar app
+* Create events directly in WordPress
+* Combine several calendars into one view, by calendar or by category
+* Let visitors add events to their own Google Calendars
+
+
+#### Customize your calendars ####
+
+Responsive monthly grid, list views, and mobile widget views
+Event and text colors to match your site
+Use event template tags to customize your event information, such as title, time, location, etc.
+Timezone, date format, and start-of-week setting
+Integrates with [Event Calendar Newsletter](https://wordpress.org/plugins/event-calendar-newsletter/) to turn events into newsletter-ready content.
+
+
+#### Keeps your site loading speed fast as is ####
+
+* Place calendars with a shortcode or widget
+* Export your events as an ICS file
+* Scripts and styles load only on pages that include a calendar
+* Regular updates and security maintenance
+
+
+= Explore our premium addons to do more with Simple Calendar = 
+
+
+#### [Google Calendar Pro](https://simplecalendar.io/downloads/google-calendar-pro/?utm_source=wordpress.org&utm_medium=link&utm_campaign=wordpress_org&utm_content=description) ####
+
+* Show private Google Calendars without making them public or searchable
+* Connect in one click with secure Google sign-in OAuth, or use your own API key
+* Add a live ICS feed URL that stays in sync as you update events in your calendar app
+* Carry over the event colors you set in Google Calendar
+* Show event images when visitors hover over an event
+* Access more customization options to match your site
+
+
+#### [FullCalendar Extended](https://simplecalendar.io/downloads/fullcalendar/?utm_source=wordpress.org&utm_medium=link&utm_campaign=wordpress_org&utm_content=description) (*Built on open-source FullCalendar library*) ####
+
+* Interactive month, week, and day views visitors can switch between in one click
+* Show the calendar in your visitors' language
+* Settings for calendar height, timezone, event colors, and event text colors
+* Limit how many events and which hours are shown
+
+
+#### [Book an Appointment](https://simplecalendar.io/downloads/book-an-appointment/?utm_source=wordpress.org&utm_medium=link&utm_campaign=wordpress_org&utm_content=description) (*Lighter alternative to full booking plugins, for anyone who only needs synced appointments with Google Calendar*) ####
+
+* Set your available booking slots
+* Visitors book open slots right on your site
+* Each booking appears in both your Google Calendar and your visitor's
+* Booked slots hide automatically to prevent double bookings
+
+Need more than one addon? [Compare bundle plans](https://simplecalendar.io/addons/?utm_source=wordpress.org&utm_medium=link&utm_campaign=wordpress_org&utm_content=description), as they include multiple addons for less than buying them separately.
+
+
+= Who it's for =
+
+Simple Calendar plugin is for anyone who keeps their schedule in a calendar app, or wants to keep it in WordPress, and needs it on their website without maintaining it twice.
+
+* Churches publishing service times and ministry schedules
+* Tutors, coaches, and trainers showing availability and taking bookings
+* Studios, venues, and rentable spaces showing what's booked and what's open
+* Schools and educators posting class schedules and term dates
+* Nonprofits and community groups sharing event calendars
+* Small businesses showing opening hours, workshops, and team schedules
+* Remote teams sharing calendars on intranets and private portals
+* Agencies and freelancers who need a calendar that works on any client site
+
+
+= Documentation, support, and more resources =
+
+
+* [Read our documentation]( https://docs.simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=wordpress_org&utm_content=description ) to learn more about setup, customization, and how to access newly launched features.
+* [Watch step-by-step video tutorials](https://www.youtube.com/@SimpleCalendar-js6dv) to explore Simple Calendar’s setup, features, and other capabilities in action. 
+* [View our live, interactive demos](https://simplecalendar.io/demos/?utm_source=wordpress.org&utm_medium=link&utm_campaign=wordpress_org&utm_content=description) and play with different features to see how they look on real sites.
+* [Contact our responsive support](https://simplecalendar.io/contact/?utm_source=wordpress.org&utm_medium=link&utm_campaign=wordpress_org&utm_content=description) team if you’re stuck on anything related to setup, further customization, or any other issue.
+* Connect with us on [Instagram](https://instagram.com/simplecalendarwp?mdxt=MXR3YTQ5NDFzbHVmNA%3D%3D), [Facebook](https://www.facebook.com/share/14vKPkJHuyE/), [X](https://x.com/SimpleCalplugin), and [LinkedIn](https://www.linkedin.com/company/simple-calendar/) to learn more about the plugin’s possibilities and get early access to discounts.
+* Please feel free to ask your questions in our [community support forum](https://wordpress.org/support/plugin/google-calendar-events). 
+* Contribute to code, submit pull requests, or report bugs on [GitHub](https://github.com/Xtendify/Simple-Calendar).
+* Help add or update a [Simple Calendar plugin translation](https://translate.wordpress.org/projects/wp-plugins/google-calendar-events).
+
 
 == Installation ==
 
-[Plugin installation instructions](http://docs.simplecalendar.io/simple-calendar-installation/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=installation)
+#### From your WordPress dashboard: ####
 
-[Setup guide and video at WP Beginner](http://www.wpbeginner.com/plugins/how-to-add-google-calendar-in-wordpress/) (updated March 14, 2016)
+Go to **Plugins > Add New**.
+Search for '**Simple Calendar**'.
+Click **Install Now**, then **Activate**.
+You’ll see a new **Calendars** menu in your dashboard.
+
+#### Manual install: ####
+
+Download the plugin ZIP file from here.
+Upload it via **Plugins > Add New > Upload Plugin**.
+Activate the plugin.
+You’ll see a new **Calendars** menu in your dashboard.
+
+Need more guidance? Check out the [getting started documentation](https://docs.simplecalendar.io/getting-started/?utm_source=wordpress.org&utm_medium=link&utm_campaign=wordpress_org&utm_content=description) or enjoy priority support and advanced functionalities with [our premium addons](https://simplecalendar.io/addons/?utm_source=wordpress.org&utm_medium=link&utm_campaign=wordpress_org&utm_content=description).
+
 
 == Frequently Asked Questions ==
 
@@ -71,9 +148,55 @@ Want to take Simple Calendar for a spin first? **[Try out a Live Demo](http://de
 
 Find our docs at [docs.simplecalendar.io](http://docs.simplecalendar.io/?utm_source=wordpress.org&utm_medium=link&utm_campaign=simple-cal-readme&utm_content=faq)
 
-= Can I get notified by email of new releases? =
+= Do I need to know how to code? =
 
-[Subscribe here](https://www.getdrip.com/forms/9434542/submissions/new) to be notified by email of major features or updates.
+No. Set up your calendar from the WordPress dashboard, then add it to any page with a shortcode or widget.
+
+= Is Simple Calendar only for Google Calendar? =
+
+Not anymore. It started as a Google Calendar plugin, which is where the name comes from. The free plugin now also imports ICS files from Outlook, Microsoft 365, Apple iCloud, Yahoo, and other calendar apps, and lets you create events directly in WordPress.
+
+= Do I need a Google API key? =
+
+Yes, you need a [Google API key for public Google Calendars](https://docs.simplecalendar.io/google-api-key/?utm_source=wordpress.org&utm_medium=link&utm_campaign=wordpress_org&utm_content=description) in the free core plugin. Explore our [Google Calendar Pro addon to skip the API key entirely](https://docs.simplecalendar.io/authentication-using-oauth-helper/?utm_source=wordpress.org&utm_medium=link&utm_campaign=wordpress_org&utm_content=description) with a one-click secure Google sign-in.
+
+= Can I show a private Google Calendar? =
+
+Yes, you can easily [display a private Google Calendar](https://simplecalendar.io/downloads/google-calendar-pro/?utm_source=wordpress.org&utm_medium=link&utm_campaign=wordpress_org&utm_content=description) with Google Calendar Pro. It connects securely through Google sign-in (OAuth), so your calendar stays private in Google and out of search results.
+
+= My calendar is not showing events from my calendar. What should I check? =
+
+1. Make sure the Google Calendar is set to public (Google Calendar settings > Access permissions), or use Google Calendar Pro for private calendars.
+2. Check that individual events aren't marked ‘Private’ in Google. Events set to private visibility won't show on a public calendar.
+3. Confirm your API key and calendar ID are entered correctly.
+4. Check the date range in your calendar settings.
+5. [Clear the calendar cache](https://docs.simplecalendar.io/how-to-clear-calendar-cache/?utm_source=wordpress.org&utm_medium=link&utm_campaign=wordpress_org&utm_content=description).
+6. [Check our troubleshooting docs →](https://docs.simplecalendar.io/troubleshooting-theme-plugin-widget-conflicts/?utm_source=wordpress.org&utm_medium=link&utm_campaign=wordpress_org&utm_content=description)
+7. Still stuck? [Contact our support now →](https://simplecalendar.io/contact/?utm_source=wordpress.org&utm_medium=link&utm_campaign=wordpress_org&utm_content=description)
+
+= I updated an event, but my site still shows the old version. Why? =
+
+Simple Calendar caches events so your pages load quickly. Changes appear when the cache refreshes. Clear the cache from the calendar's settings to show them right away. If you use a caching plugin or a host with page caching, clear that too.
+
+= Why are my event times or dates wrong? = 
+
+Check three settings: the time zone in Settings > General in WordPress, the time zone of your Google Calendar, and the date format and start-of-week options in Simple Calendar. Different time zones between WordPress and Google are the most common cause.
+
+= Will Simple Calendar slow down my site? = 
+
+No. The core plugin is lightweight, and its scripts and styles load only on pages that include a calendar.
+
+= Is Simple Calendar still maintained? =
+
+Yes. We release regular updates, including recent ones that added ICS support and events created in WordPress. See the Changelog tab for every release.
+
+= How do I update safely? = 
+
+As with any plugin, we recommend backing up your site before updating and testing updates on a staging site first. If something breaks after an update, contact support, and we'll help you fix it or roll back.
+
+= Is Simple Calendar translated? =
+
+Yes, it's translation-ready. Language packs come from translate.wordpress.org. With FullCalendar Extended, you can also [set the calendar's display language](https://docs.simplecalendar.io/adding-support-for-multiple-languages-in-calendar-display-settings/?utm_source=wordpress.org&utm_medium=link&utm_campaign=wordpress_org&utm_content=description). Or, you can [help translate Simple Calendar into your language](https://translate.wordpress.org/projects/wp-plugins/google-calendar-events?utm_source=wordpress.org&utm_medium=link&utm_campaign=wordpress_org&utm_content=description).
 
 = How do I contribute to Simple Calendar? =
 
@@ -96,6 +219,11 @@ We'd love your help! Here's a few things you can do:
 8. Attach a calendar to a post or page
 
 == Changelog ==
+
+= 4.3.2 =
+* Dev: Added an option to clear the color label cache when updating the calendar or manually clicking "Clear Cache" in the admin panel.
+* Dev: Implemented a configurable cutoff date making "Powered by" credits mandatory for newly created calendars without a valid Pro license, while preserving optional credit behavior for existing calendars.
+* Dev: Updated plugin screenshots, media assets, and text content.
 
 = 4.3.1 =
 * Fix: Return Google Calendar event label colors with calendar events so labeled event colors display correctly.
