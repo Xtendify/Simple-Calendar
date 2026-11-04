@@ -54,7 +54,7 @@ class Standard extends Field
 		<input type="<?php echo $this->subtype; ?>"
 		       name="<?php echo $this->name; ?>"
 		       id="<?php echo $this->id; ?>"
-		       value="<?php echo $this->value; ?>"
+		       value="<?php echo esc_attr($this->value); ?>"
 		       class="<?php echo $this->class; ?>"<?php
 echo $this->style ? 'style="' . $this->style . '" ' : ' ';
 echo $this->placeholder ? 'placeholder="' . $this->placeholder . '"' : ' ';
