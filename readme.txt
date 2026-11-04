@@ -50,11 +50,11 @@ If you'd rather not rely on an external calendar app, Simple Calendar lets you c
 
 #### Customize your calendars ####
 
-Responsive monthly grid, list views, and mobile widget views
-Event and text colors to match your site
-Use event template tags to customize your event information, such as title, time, location, etc.
-Timezone, date format, and start-of-week setting
-Integrates with [Event Calendar Newsletter](https://wordpress.org/plugins/event-calendar-newsletter/) to turn events into newsletter-ready content.
+* Responsive monthly grid, list views, and mobile widget views
+* Event and text colors to match your site
+* Use event template tags to customize your event information, such as title, time, location, etc.
+* Timezone, date format, and start-of-week setting
+* Integrates with [Event Calendar Newsletter](https://wordpress.org/plugins/event-calendar-newsletter/) to turn events into newsletter-ready content.
 
 
 #### Keeps your site loading speed fast as is ####
@@ -117,7 +117,7 @@ Simple Calendar plugin is for anyone who keeps their schedule in a calendar app,
 * [Watch step-by-step video tutorials](https://www.youtube.com/@SimpleCalendar-js6dv) to explore Simple Calendar’s setup, features, and other capabilities in action. 
 * [View our live, interactive demos](https://simplecalendar.io/demos/?utm_source=wordpress.org&utm_medium=link&utm_campaign=wordpress_org&utm_content=description) and play with different features to see how they look on real sites.
 * [Contact our responsive support](https://simplecalendar.io/contact/?utm_source=wordpress.org&utm_medium=link&utm_campaign=wordpress_org&utm_content=description) team if you’re stuck on anything related to setup, further customization, or any other issue.
-* Connect with us on [Instagram](https://instagram.com/simplecalendarwp?mdxt=MXR3YTQ5NDFzbHVmNA%3D%3D), [Facebook](https://www.facebook.com/share/14vKPkJHuyE/), [X](https://x.com/SimpleCalplugin), and [LinkedIn](https://www.linkedin.com/company/simple-calendar/) to learn more about the plugin’s possibilities and get early access to discounts.
+* Connect with us on [Instagram](https://instagram.com/simplecalendarwp), [Facebook](https://www.facebook.com/share/14vKPkJHuyE/), [X](https://x.com/SimpleCalplugin), and [LinkedIn](https://www.linkedin.com/company/simple-calendar/) to learn more about the plugin’s possibilities and get early access to discounts.
 * Please feel free to ask your questions in our [community support forum](https://wordpress.org/support/plugin/google-calendar-events). 
 * Contribute to code, submit pull requests, or report bugs on [GitHub](https://github.com/Xtendify/Simple-Calendar).
 * Help add or update a [Simple Calendar plugin translation](https://translate.wordpress.org/projects/wp-plugins/google-calendar-events).
@@ -134,7 +134,7 @@ You’ll see a new **Calendars** menu in your dashboard.
 
 #### Manual install: ####
 
-Download the plugin ZIP file from here.
+[Download the plugin ZIP file](https://wordpress.org/plugins/google-calendar-events/)
 Upload it via **Plugins > Add New > Upload Plugin**.
 Activate the plugin.
 You’ll see a new **Calendars** menu in your dashboard.
