@@ -84,8 +84,7 @@ class Radio extends Field
 
 			<?php
    $allowed_tooltip = ['i' => ['class' => [], 'data-tip' => []]];
-   echo wp_kses($this->tooltip, $allowed_tooltip);
-   ?>
+   echo wp_kses($this->tooltip, $allowed_tooltip);?>
 
 		</fieldset>
 		<?php

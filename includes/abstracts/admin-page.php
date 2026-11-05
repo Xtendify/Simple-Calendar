@@ -159,7 +159,9 @@ abstract class Admin_Page
 		$description = isset($sections[$section['id']]['description']) ? $sections[$section['id']]['description'] : '';
 		$default = $description ? '<p>' . $description . '</p>' : '';
 
-		echo wp_kses_post(apply_filters('simcal_' . $this->option_group . '_' . $this->id . '_sections_callback', $default));
+		echo wp_kses_post(
+			apply_filters('simcal_' . $this->option_group . '_' . $this->id . '_sections_callback', $default),
+		);
 	}
 
 	/**

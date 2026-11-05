@@ -230,10 +230,12 @@ if (!$should_hide_progress) {
 					</span>
 				</li>
 			</ul>
-			<a href="<?php echo simcal_ga_campaign_url(
-   	'https://simplecalendar.io/downloads/google-calendar-pro/',
-   	'core-plugin',
-   	'connect-sidebar-pro-addon',
+			<a href="<?php echo esc_url(
+   	simcal_ga_campaign_url(
+   		'https://simplecalendar.io/downloads/google-calendar-pro/',
+   		'core-plugin',
+   		'connect-sidebar-pro-addon',
+   	),
    ); ?>" target="_blank" class="sc_btn sc_btn--blue sc_connect_pro_btn">
 				<?php esc_html_e('Upgrade to Pro', 'google-calendar-events'); ?>
 			</a>

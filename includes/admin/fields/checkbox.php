@@ -44,9 +44,15 @@ class Checkbox extends Field
 		if (!empty($this->options) && count((array) $this->options) > 1) {
 			if (!empty($this->description)) {
 				$allowed_tooltip = ['i' => ['class' => [], 'data-tip' => []]];
-				echo '<p class="description">' . wp_kses_post($this->description) . ' ' . wp_kses($this->tooltip, $allowed_tooltip) . '</p>';
+				echo '<p class="description">' .
+					wp_kses_post($this->description) .
+					' ' .
+					wp_kses($this->tooltip, $allowed_tooltip) .
+					'</p>';
 			} ?>
-			<fieldset class="<?php echo esc_attr($this->class); ?>" <?php echo !empty($this->style) ? 'style="' . esc_attr($this->style) . '"' : ''; ?>>
+			<fieldset class="<?php echo esc_attr($this->class); ?>" <?php echo !empty($this->style)
+	? 'style="' . esc_attr($this->style) . '"'
+	: ''; ?>>
 				<?php if (!empty($this->title)) {
     	echo '<legend class="screen-reader-text"><span>' . esc_html($this->title) . '</span></legend>';
     } ?>
@@ -80,7 +86,9 @@ class Checkbox extends Field
 				       class="simcal-field simcal-field-checkbox sc-chk-box <?php echo esc_attr($this->class); ?>"
 				       value="yes"
 					<?php checked($this->value, 'yes', true); ?>
-					<?php echo wp_kses_post($this->attributes); ?>/><?php echo !empty($this->text) ? esc_html($this->text) : esc_html__('Yes', 'google-calendar-events'); ?>
+					<?php echo wp_kses_post($this->attributes); ?>/><?php echo !empty($this->text)
+	? esc_html($this->text)
+	: esc_html__('Yes', 'google-calendar-events'); ?>
 			</span>
 			<?php
    $allowed_tooltip = ['i' => ['class' => [], 'data-tip' => []]];
