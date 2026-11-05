@@ -3,7 +3,7 @@
   "title": "Simple Calendar",
   "description": "Add Google Calendar events to your WordPress site.",
   "version": "4.3.2",
-  "license": "GPL-2.0-or-later",
+  "license": "GPLv2+",
   "homepage": "https://simplecalendar.io",
   "repository": {
     "type": "git",
