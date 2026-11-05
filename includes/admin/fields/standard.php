@@ -51,24 +51,25 @@ class Standard extends Field
 	public function html()
 	{
 		?>
-		<input type="<?php echo $this->subtype; ?>"
-		       name="<?php echo $this->name; ?>"
-		       id="<?php echo $this->id; ?>"
-		       value="<?php echo $this->value; ?>"
-		       class="<?php echo $this->class; ?>"<?php
-echo $this->style ? 'style="' . $this->style . '" ' : ' ';
-echo $this->placeholder ? 'placeholder="' . $this->placeholder . '"' : ' ';
-echo $this->attributes;
+		<input type="<?php echo esc_attr($this->subtype); ?>"
+		       name="<?php echo esc_attr($this->name); ?>"
+		       id="<?php echo esc_attr($this->id); ?>"
+		       value="<?php echo esc_attr($this->value); ?>"
+		       class="<?php echo esc_attr($this->class); ?>"<?php
+echo $this->style ? 'style="' . esc_attr($this->style) . '" ' : ' ';
+echo $this->placeholder ? 'placeholder="' . esc_attr($this->placeholder) . '"' : ' ';
+echo wp_kses_post($this->attributes);
 ?>/>
 		<?php
-  echo $this->tooltip;
+  $allowed_tooltip = ['i' => ['class' => [], 'data-tip' => []]];
+  echo wp_kses($this->tooltip, $allowed_tooltip);
 
   if (!empty($this->description)) {
   	echo '<p class="description">' . wp_kses_post($this->description) . '</p>';
   }
 
   if (is_string($this->validation) && !empty($this->validation)) {
-  	echo $this->validation;
+  	echo wp_kses_post($this->validation);
   }
 	}
 }

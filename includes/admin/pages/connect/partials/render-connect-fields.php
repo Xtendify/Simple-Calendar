@@ -85,7 +85,7 @@ foreach ($field_defs as $key => $def) {
 			<?php } ?>
 		</div>
 		<?php if (!empty($field_after[$key])) { ?>
-			<?php echo $field_after[$key]; ?>
+			<?php echo wp_kses_post($field_after[$key]); ?>
 		<?php } ?>
 	</div>
 	<?php

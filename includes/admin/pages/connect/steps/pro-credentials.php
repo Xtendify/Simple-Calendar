@@ -161,7 +161,7 @@ $google_pro_defs =
 					<span class="sc_connect_auth_status_line"></span>
 				</div>
 				<span id="sc_connect_oauth_status" class="sc_text--body_b2 sc_connect_oauth_status">
-					<?php echo $auth_status_text; ?>
+					<?php echo esc_html($auth_status_text); ?>
 				</span>
 			</div>
 			<div class="sc_connect_auth_status_icon_circle">

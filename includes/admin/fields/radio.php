@@ -52,28 +52,28 @@ class Radio extends Field
 	public function html()
 	{
 		?>
-		<fieldset id="<?php echo $this->id; ?>"
-		          class="<?php echo $this->class; ?>"
-			<?php echo $this->style ? 'style="' . $this->style . '"' : ''; ?>>
+		<fieldset id="<?php echo esc_attr($this->id); ?>"
+		          class="<?php echo esc_attr($this->class); ?>"
+			<?php echo $this->style ? 'style="' . esc_attr($this->style) . '"' : ''; ?>>
 			<?php
    echo $this->description ? '<p class="description">' . wp_kses_post($this->description) . '</p>' : '';
 
    if (!empty($this->title)): ?>
 				<legend class="screen-reader-text">
-					<span><?php echo $this->title; ?></span>
+					<span><?php echo esc_html($this->title); ?></span>
 				</legend>
 				<?php endif;
    ?>
 			<ul <?php echo $this->inline === true ? 'class="simcal-field-radios-inline"' : ''; ?>>
 				<?php foreach ($this->options as $option => $name): ?>
 					<li>
-						<label for="<?php echo $this->id . '-' . trim(strval($option)); ?>">
-							<input name="<?php echo $this->name; ?>"
-							       id="<?php echo $this->id . '-' . trim(strval($option)); ?>"
+						<label for="<?php echo esc_attr($this->id . '-' . trim(strval($option))); ?>">
+							<input name="<?php echo esc_attr($this->name); ?>"
+							       id="<?php echo esc_attr($this->id . '-' . trim(strval($option))); ?>"
 							       class="simcal-field simcal-field-radio"
 							       type="radio"
-							       value="<?php echo trim(strval($option)); ?>"
-								<?php echo $this->attributes; ?>
+							       value="<?php echo esc_attr(trim(strval($option))); ?>"
+								<?php echo wp_kses_post($this->attributes); ?>
 								<?php checked($option, $this->value, true); ?>
 								/>
 							<?php echo esc_attr($name); ?>
@@ -82,7 +82,9 @@ class Radio extends Field
 				<?php endforeach; ?>
 			</ul>
 
-			<?php echo $this->tooltip; ?>
+			<?php
+   $allowed_tooltip = ['i' => ['class' => [], 'data-tip' => []]];
+   echo wp_kses($this->tooltip, $allowed_tooltip);?>
 
 		</fieldset>
 		<?php
