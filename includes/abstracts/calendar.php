@@ -908,31 +908,31 @@ abstract class Calendar
 		);
 
 		echo '<div class="' .
-			$calendar_class .
+			esc_attr($calendar_class) .
 			'" ' .
 			'data-calendar-id="' .
-			$this->id .
+			esc_attr($this->id) .
 			'" ' .
 			'data-timezone="' .
-			$this->timezone .
+			esc_attr($this->timezone) .
 			'" ' .
 			'data-offset="' .
-			$this->offset .
+			esc_attr($this->offset) .
 			'" ' .
 			'data-week-start="' .
-			$this->week_starts .
+			esc_attr($this->week_starts) .
 			'" ' .
 			'data-calendar-start="' .
-			$this->start .
+			esc_attr($this->start) .
 			'" ' .
 			'data-calendar-end="' .
-			$this->end .
+			esc_attr($this->end) .
 			'" ' .
 			'data-events-first="' .
-			$this->earliest_event .
+			esc_attr($this->earliest_event) .
 			'" ' .
 			'data-events-last="' .
-			$this->latest_event .
+			esc_attr($this->latest_event) .
 			'"' .
 			'>';
 
@@ -1070,14 +1070,12 @@ abstract class Calendar
 		// New calendars created after the cutoff always show the credit when no Pro add-on has a valid license.
 		if ('yes' == $poweredby || simcal_is_powered_by_mandatory($this->id)) {
 			$align = is_rtl() ? 'left' : 'right';
-			echo '<small class="simcal-powered simcal-align-' .
-				$align .
-				'">' .
-				sprintf(
-					__('Powered by <a href="%s" target="_blank">Simple Calendar</a>', 'google-calendar-events'),
-					simcal_get_url('home'),
-				) .
-				'</small>';
+			$credit = sprintf(
+				__('Powered by <a href="%s" target="_blank">Simple Calendar</a>', 'google-calendar-events'),
+				esc_url(simcal_get_url('home')),
+			);
+
+			echo '<small class="simcal-powered simcal-align-' . esc_attr($align) . '">' . wp_kses_post($credit) . '</small>';
 		}
 	}
 }

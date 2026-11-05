@@ -67,15 +67,15 @@ class Datetime_Format extends Field
 	 */
 	public function html()
 	{
-		$id = $this->id ? ' id="' . $this->id . '" ' : '';
-		$class = $this->class ? ' class="' . $this->class . '" ' : '';
-		$style = $this->style ? ' style="' . $this->style . '" ' : '';
-		$attr = $this->attributes;
+		$id = $this->id ? ' id="' . esc_attr($this->id) . '" ' : '';
+		$class = $this->class ? ' class="' . esc_attr($this->class) . '" ' : '';
+		$style = $this->style ? ' style="' . esc_attr($this->style) . '" ' : '';
+		$attr = wp_kses_post($this->attributes);
 		?>
-		<div <?php echo $id . $class . $style . $attr; ?>>
+		<div <?php echo wp_kses_post($id . $class . $style . $attr); ?>>
 			<?php
    if (!empty($this->description)) {
-   	echo '<p class="description">' . $this->description . '</p>';
+   	echo '<p class="description">' . wp_kses_post($this->description) . '</p>';
    }
 
    $matches = array_unique(str_split($this->value));
@@ -89,11 +89,11 @@ class Datetime_Format extends Field
    }
    ?>
 			<input type="hidden"
-			       name="<?php echo $this->name; ?>"
-			       value="<?php echo trim($this->value); ?>" />
+			       name="<?php echo esc_attr($this->name); ?>"
+			       value="<?php echo esc_attr(trim($this->value)); ?>" />
 			<span>
-				<em><?php _e('Preview', 'google-calendar-events'); ?>:</em>&nbsp;&nbsp;
-				<code><?php echo date_i18n($this->value, $this->timestamp); ?></code>
+				<em><?php esc_html_e('Preview', 'google-calendar-events'); ?>:</em>&nbsp;&nbsp;
+				<code><?php echo esc_html(date_i18n($this->value, $this->timestamp)); ?></code>
 			</span>
 		</div>
 		<?php
@@ -193,18 +193,18 @@ class Datetime_Format extends Field
 	{
 		?>
 		<div>
-			<label for="<?php echo $this->id; ?>-weekday">
-				<?php _e('Weekday', 'google-calendar-events'); ?>
-				<select name="" id="<?php echo $this->id; ?>-weekday">
+			<label for="<?php echo esc_attr($this->id); ?>-weekday">
+				<?php esc_html_e('Weekday', 'google-calendar-events'); ?>
+				<select name="" id="<?php echo esc_attr($this->id); ?>-weekday">
 					<option value="" data-preview=""></option>
-					<option value="D" <?php selected('D', strpbrk('D', $this->value)); ?> data-preview="<?php echo date_i18n(
+					<option value="D" <?php selected('D', strpbrk('D', $this->value)); ?> data-preview="<?php echo esc_attr(date_i18n(
  	'D',
  	$this->timestamp,
- ); ?>"><?php echo date_i18n('D', $this->timestamp); ?></option>
-					<option value="l" <?php selected('l', strpbrk('l', $this->value)); ?> data-preview="<?php echo date_i18n(
+ )); ?>"><?php echo esc_html(date_i18n('D', $this->timestamp)); ?></option>
+					<option value="l" <?php selected('l', strpbrk('l', $this->value)); ?> data-preview="<?php echo esc_attr(date_i18n(
  	'l',
  	$this->timestamp,
- ); ?>"><?php echo date_i18n('l', $this->timestamp); ?></option>
+ )); ?>"><?php echo esc_html(date_i18n('l', $this->timestamp)); ?></option>
 				</select>
 			</label>
 		</div>
@@ -221,18 +221,18 @@ class Datetime_Format extends Field
 	{
 		?>
 		<div>
-			<label for="<?php echo $this->id; ?>-day">
-				<?php _e('Day', 'google-calendar-events'); ?>
-				<select name="" id="<?php echo $this->id; ?>-day">
+			<label for="<?php echo esc_attr($this->id); ?>-day">
+				<?php esc_html_e('Day', 'google-calendar-events'); ?>
+				<select name="" id="<?php echo esc_attr($this->id); ?>-day">
 					<option value="" data-preview=""></option>
-					<option value="j" <?php selected('j', strpbrk('j', $this->value)); ?> data-preview="<?php echo date(
+					<option value="j" <?php selected('j', strpbrk('j', $this->value)); ?> data-preview="<?php echo esc_attr(date(
  	'j',
  	$this->timestamp,
- ); ?>"><?php echo date('j', $this->timestamp); ?></option>
-					<option value="d" <?php selected('d', strpbrk('d', $this->value)); ?> data-preview="<?php echo date(
+ )); ?>"><?php echo esc_html(date('j', $this->timestamp)); ?></option>
+					<option value="d" <?php selected('d', strpbrk('d', $this->value)); ?> data-preview="<?php echo esc_attr(date(
  	'd',
  	$this->timestamp,
- ); ?>"><?php echo date('d', $this->timestamp); ?></option>
+ )); ?>"><?php echo esc_html(date('d', $this->timestamp)); ?></option>
 				</select>
 			</label>
 		</div>
@@ -249,26 +249,26 @@ class Datetime_Format extends Field
 	{
 		?>
 		<div>
-			<label for="<?php echo $this->id; ?>-month">
-				<?php _e('Month', 'google-calendar-events'); ?>
-				<select name="" id="<?php echo $this->id; ?>-month">
+			<label for="<?php echo esc_attr($this->id); ?>-month">
+				<?php esc_html_e('Month', 'google-calendar-events'); ?>
+				<select name="" id="<?php echo esc_attr($this->id); ?>-month">
 					<option value="" data-preview=""></option>
-					<option value="F" <?php selected('F', strpbrk('F', $this->value)); ?> data-preview="<?php echo date_i18n(
+					<option value="F" <?php selected('F', strpbrk('F', $this->value)); ?> data-preview="<?php echo esc_attr(date_i18n(
  	'F',
  	$this->timestamp,
- ); ?>"><?php echo date_i18n('F', $this->timestamp); ?></option>
-					<option value="M" <?php selected('M', strpbrk('M', $this->value)); ?> data-preview="<?php echo date_i18n(
+ )); ?>"><?php echo esc_html(date_i18n('F', $this->timestamp)); ?></option>
+					<option value="M" <?php selected('M', strpbrk('M', $this->value)); ?> data-preview="<?php echo esc_attr(date_i18n(
  	'M',
  	$this->timestamp,
- ); ?>"><?php echo date_i18n('M', $this->timestamp); ?></option>
-					<option value="m" <?php selected('m', strpbrk('m', $this->value)); ?> data-preview="<?php echo date(
+ )); ?>"><?php echo esc_html(date_i18n('M', $this->timestamp)); ?></option>
+					<option value="m" <?php selected('m', strpbrk('m', $this->value)); ?> data-preview="<?php echo esc_attr(date(
  	'm',
  	$this->timestamp,
- ); ?>"><?php echo date('m', $this->timestamp); ?></option>
-					<option value="n" <?php selected('n', strpbrk('n', $this->value)); ?> data-preview="<?php echo date(
+ )); ?>"><?php echo esc_html(date('m', $this->timestamp)); ?></option>
+					<option value="n" <?php selected('n', strpbrk('n', $this->value)); ?> data-preview="<?php echo esc_attr(date(
  	'n',
  	$this->timestamp,
- ); ?>"><?php echo date('n', $this->timestamp); ?></option>
+ )); ?>"><?php echo esc_html(date('n', $this->timestamp)); ?></option>
 				</select>
 			</label>
 		</div>
@@ -285,18 +285,18 @@ class Datetime_Format extends Field
 	{
 		?>
 		<div>
-			<label for="<?php echo $this->id; ?>-year">
-				<?php _e('Year', 'google-calendar-events'); ?>
-				<select name="" id="<?php echo $this->id; ?>-year">
+			<label for="<?php echo esc_attr($this->id); ?>-year">
+				<?php esc_html_e('Year', 'google-calendar-events'); ?>
+				<select name="" id="<?php echo esc_attr($this->id); ?>-year">
 					<option value="" data-preview=""></option>
-					<option value="Y" <?php selected('Y', strpbrk('Y', $this->value)); ?> data-preview="<?php echo date(
+					<option value="Y" <?php selected('Y', strpbrk('Y', $this->value)); ?> data-preview="<?php echo esc_attr(date(
  	'Y',
  	$this->timestamp,
- ); ?>"><?php echo date('Y', $this->timestamp); ?></option>
-					<option value="y" <?php selected('y', strpbrk('y', $this->value)); ?> data-preview="<?php echo date(
+ )); ?>"><?php echo esc_html(date('Y', $this->timestamp)); ?></option>
+					<option value="y" <?php selected('y', strpbrk('y', $this->value)); ?> data-preview="<?php echo esc_attr(date(
  	'y',
  	$this->timestamp,
- ); ?>"><?php echo date('y', $this->timestamp); ?></option>
+ )); ?>"><?php echo esc_html(date('y', $this->timestamp)); ?></option>
 				</select>
 			</label>
 		</div>
@@ -313,26 +313,26 @@ class Datetime_Format extends Field
 	{
 		?>
 		<div>
-			<label for="<?php echo $this->id; ?>-hours">
-				<?php _e('Hours', 'google-calendar-events'); ?>
-				<select name="" id="<?php echo $this->id; ?>-hours">
+			<label for="<?php echo esc_attr($this->id); ?>-hours">
+				<?php esc_html_e('Hours', 'google-calendar-events'); ?>
+				<select name="" id="<?php echo esc_attr($this->id); ?>-hours">
 					<option value="" data-preview=""></option>
-					<option value="g" <?php selected('g', strpbrk('g', $this->value)); ?> data-preview="<?php echo date(
+					<option value="g" <?php selected('g', strpbrk('g', $this->value)); ?> data-preview="<?php echo esc_attr(date(
  	'g',
  	$this->timestamp,
- ); ?>"><?php echo date('g', $this->timestamp) . ' (12h)'; ?></option>
-					<option value="G" <?php selected('G', strpbrk('G', $this->value)); ?> data-preview="<?php echo date(
+ )); ?>"><?php echo esc_html(date('g', $this->timestamp) . ' (12h)'); ?></option>
+					<option value="G" <?php selected('G', strpbrk('G', $this->value)); ?> data-preview="<?php echo esc_attr(date(
  	'G',
  	$this->timestamp - 43200,
- ); ?>"><?php echo date('G', $this->timestamp - 43200) . ' (24h)'; ?></option>
-					<option value="h" <?php selected('h', strpbrk('h', $this->value)); ?> data-preview="<?php echo date(
+ )); ?>"><?php echo esc_html(date('G', $this->timestamp - 43200) . ' (24h)'); ?></option>
+					<option value="h" <?php selected('h', strpbrk('h', $this->value)); ?> data-preview="<?php echo esc_attr(date(
  	'h',
  	$this->timestamp,
- ); ?>"><?php echo date('h', $this->timestamp) . ' (12h)'; ?></option>
-					<option value="H" <?php selected('H', strpbrk('H', $this->value)); ?> data-preview="<?php echo date(
+ )); ?>"><?php echo esc_html(date('h', $this->timestamp) . ' (12h)'); ?></option>
+					<option value="H" <?php selected('H', strpbrk('H', $this->value)); ?> data-preview="<?php echo esc_attr(date(
  	'H',
  	$this->timestamp - 43200,
- ); ?>"><?php echo date('H', $this->timestamp - 43200) . ' (24h)'; ?></option>
+ )); ?>"><?php echo esc_html(date('H', $this->timestamp - 43200) . ' (24h)'); ?></option>
 				</select>
 			</label>
 		</div>
@@ -349,14 +349,14 @@ class Datetime_Format extends Field
 	{
 		?>
 		<div>
-			<label for="<?php echo $this->id; ?>-minutes">
-				<?php _e('Minutes', 'google-calendar-events'); ?>
-				<select name="" id="<?php echo $this->id; ?>-minutes">
+			<label for="<?php echo esc_attr($this->id); ?>-minutes">
+				<?php esc_html_e('Minutes', 'google-calendar-events'); ?>
+				<select name="" id="<?php echo esc_attr($this->id); ?>-minutes">
 					<option value="" data-preview=""></option>
-					<option value="i" <?php selected('i', strpbrk('i', $this->value)); ?> data-preview="<?php echo date(
+					<option value="i" <?php selected('i', strpbrk('i', $this->value)); ?> data-preview="<?php echo esc_attr(date(
  	'i',
  	$this->timestamp,
- ); ?>"><?php echo date('i', $this->timestamp); ?></option>
+ )); ?>"><?php echo esc_html(date('i', $this->timestamp)); ?></option>
 				</select>
 			</label>
 		</div>
@@ -373,18 +373,18 @@ class Datetime_Format extends Field
 	{
 		?>
 		<div>
-			<label for="<?php echo $this->id; ?>-meridiem">
-				<?php _e('Meridiem', 'google-calendar-events'); ?>
-				<select name="" id="<?php echo $this->id; ?>-meridiem">
+			<label for="<?php echo esc_attr($this->id); ?>-meridiem">
+				<?php esc_html_e('Meridiem', 'google-calendar-events'); ?>
+				<select name="" id="<?php echo esc_attr($this->id); ?>-meridiem">
 					<option value="" data-preview=""></option>
-					<option value="a" <?php selected('a', strpbrk('a', $this->value)); ?> data-preview="<?php echo date(
+					<option value="a" <?php selected('a', strpbrk('a', $this->value)); ?> data-preview="<?php echo esc_attr(date(
  	'a',
  	$this->timestamp,
- ); ?>"><?php echo date('a', $this->timestamp); ?></option>
-					<option value="A" <?php selected('A', strpbrk('A', $this->value)); ?> data-preview="<?php echo date(
+ )); ?>"><?php echo esc_html(date('a', $this->timestamp)); ?></option>
+					<option value="A" <?php selected('A', strpbrk('A', $this->value)); ?> data-preview="<?php echo esc_attr(date(
  	'A',
  	$this->timestamp,
- ); ?>"><?php echo date('A', $this->timestamp); ?></option>
+ )); ?>"><?php echo esc_html(date('A', $this->timestamp)); ?></option>
 				</select>
 			</label>
 		</div>
@@ -401,9 +401,9 @@ class Datetime_Format extends Field
 	{
 		?>
 		<div>
-			<label for="<?php echo $this->id; ?>-divider">
-				<?php _ex('Divider', 'A character to separate two elements', 'google-calendar-events'); ?>
-				<select name="" id="<?php echo $this->id; ?>-divider">
+			<label for="<?php echo esc_attr($this->id); ?>-divider">
+				<?php echo esc_html_x('Divider', 'A character to separate two elements', 'google-calendar-events'); ?>
+				<select name="" id="<?php echo esc_attr($this->id); ?>-divider">
 					<option value="" data-preview=""></option>
 					<option value="."  <?php selected('.', strpbrk('.', $this->value)); ?> data-preview="."  data-trim="true">.</option>
 					<option value=", " <?php selected(',', strpbrk(',', $this->value)); ?> data-preview=", " data-trim="true">,</option>

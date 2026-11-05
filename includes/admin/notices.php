@@ -104,14 +104,14 @@ class Notices
 							: '';
 
 					echo '<div class="' .
-						$notice->type .
+						esc_attr($notice->type) .
 						' ' .
-						$notice->class .
+						esc_attr($notice->class) .
 						' simcal-admin-notice" data-notice-id="' .
-						$name .
+						esc_attr($name) .
 						'">' .
-						$dismiss_link .
-						$notice->content .
+						wp_kses_post($dismiss_link) .
+						wp_kses_post($notice->content) .
 						'</div>';
 				},
 			);

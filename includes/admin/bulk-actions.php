@@ -97,12 +97,8 @@ class Bulk_Actions
 			<script type="text/javascript">
 				jQuery( document ).ready( function() {
 					<?php foreach ($this->actions as $action_name => $action): ?>
-						jQuery( '<option>' ).val( '<?php echo $action_name; ?>' ).text( '<?php echo $action[
-	'menu_text'
-]; ?>').appendTo( 'select[name="action"]'  );
-						jQuery( '<option>' ).val( '<?php echo $action_name; ?>' ).text( '<?php echo $action[
-	'menu_text'
-]; ?>').appendTo( 'select[name="action2"]' );
+						jQuery( '<option>' ).val( '<?php echo esc_js( $action_name ); ?>' ).text( '<?php echo esc_js( $action['menu_text'] ); ?>' ).appendTo( 'select[name="action"]' );
+						jQuery( '<option>' ).val( '<?php echo esc_js( $action_name ); ?>' ).text( '<?php echo esc_js( $action['menu_text'] ); ?>' ).appendTo( 'select[name="action2"]' );
 					<?php endforeach; ?>
 				} );
 			</script>
@@ -227,7 +223,7 @@ class Bulk_Actions
 
 				$class = 'updated notice is-dismissible above-h2';
 				if (!empty($message)) {
-					echo "<div class=\"{$class}\"><p>{$message}</p></div>";
+				echo '<div class="' . esc_attr($class) . '"><p>' . esc_html($message) . '</p></div>';
 				}
 			}
 		}
