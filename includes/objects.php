@@ -83,7 +83,7 @@ class Objects
 			'simcal_get_calendar_types',
 			function ($calendar_types) {
 				return array_merge($calendar_types, [
-					'default-calendar' => ['grid', 'list'],
+					'default-calendar' => ['grid', 'list', 'grid-retro'],
 				]);
 			},
 			10,

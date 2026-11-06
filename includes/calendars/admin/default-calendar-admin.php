@@ -152,6 +152,28 @@ class Default_Calendar_Admin
      ?>
 				</td>
 			</tr>
+			<tr class="simcal-panel-field simcal-default-calendar-grid-retro" style="display: none;">
+				<th><label for="_default_calendar_hide_grid_event_time"><?php _e(
+    	'Hide Event Time',
+    	'google-calendar-events',
+    ); ?></label></th>
+				<td>
+					<?php
+     $hide_event_time = get_post_meta($post_id, '_default_calendar_hide_grid_event_time', true);
+
+     simcal_print_field([
+     	'type' => 'checkbox',
+     	'name' => '_default_calendar_hide_grid_event_time',
+     	'id' => '_default_calendar_hide_grid_event_time',
+     	'tooltip' => __(
+     		'Hide the time on each Grid Retro event card. The event title stays visible.',
+     		'google-calendar-events',
+     	),
+     	'value' => 'yes' == $hide_event_time ? 'yes' : 'no',
+     ]);
+     ?>
+				</td>
+			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-grid" style="display: none;">
 				<th><label for="_default_calendar_grid_desktop_list_mobile"><?php _e(
     	'Switch to List View on Mobile',
@@ -480,6 +502,10 @@ class Default_Calendar_Admin
 			? max(absint($_POST['_default_calendar_trim_titles_chars']), 1)
 			: 20;
 		update_post_meta($post_id, '_default_calendar_trim_titles_chars', $chars);
+
+		// Hide the time on Grid Retro event cards.
+		$hide_event_time = isset($_POST['_default_calendar_hide_grid_event_time']) ? 'yes' : 'no';
+		update_post_meta($post_id, '_default_calendar_hide_grid_event_time', $hide_event_time);
 
 		// Grid on desktop, list on mobile.
 		$responsive = isset($_POST['_default_calendar_grid_desktop_list_mobile']) ? 'yes' : 'no';
