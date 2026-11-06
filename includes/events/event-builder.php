@@ -1177,21 +1177,38 @@ class Event_Builder
 				// show/hide attendee photo
 				'email' => 'hide',
 				// show/hide attendee email address
+				'name' => 'show',
+				// show/hide organizer name
 			],
 			(array) shortcode_parse_atts($attr),
 		);
+
+		$email = !empty($organizer['email']) ? $organizer['email'] : '';
+		$name = !empty($organizer['name']) ? $organizer['name'] : '';
+		// The Pro add-on stores the email address as the name when the source has no display name.
+		$has_name = '' !== $name && 0 !== strcasecmp($name, $email);
+		// Print the name when it is available, otherwise print the email address in its place.
+		$display_name = $has_name ? $name : $email;
+		$show_name = '' !== $display_name && 'hide' != $attr['name'];
+		$show_email = '' !== $email && 'show' == $attr['email'];
 
 		$photo =
 			'hide' != $attr['photo']
 				? '<img class="avatar avatar-128 photo" src="' . $organizer['photo'] . '" itemprop="image"  />'
 				: '';
-		$organizer_html = $photo . '<span itemprop="name">' . $organizer['name'] . '</span>';
+		// Hidden name stays as meta so the organizer microdata keeps its name.
+		$name_html = $show_name
+			? '<span itemprop="name">' . esc_html($display_name) . '</span>'
+			: '<meta itemprop="name" content="' . esc_attr($name) . '" />';
+		$organizer_html = $photo . $name_html;
 
-		if (!empty($organizer['email']) && 'show' == $attr['email']) {
-			$organizer_html = sprintf(
-				'<a href="mailto:' . $organizer['email'] . '" itemprop="email">%s</a>',
-				$organizer_html,
-			);
+		if ($show_email) {
+			// With no visible name, the email address is the link text.
+			if (!$show_name) {
+				$organizer_html .= '<span>' . esc_html($email) . '</span>';
+			}
+
+			$organizer_html = '<a href="mailto:' . esc_attr($email) . '" itemprop="email">' . $organizer_html . '</a>';
 		}
 
 		return '<div class="simcal-organizer" itemprop="organizer" itemscope itemtype="https://schema.org/Person">' .
