@@ -33,6 +33,8 @@ const files = [
 	{ in: 'assets/scss/admin-global.scss', out: 'admin-global.min' },
 	{ in: 'assets/scss/sc-event-admin.scss', out: 'sc-event-admin.min' },
 	{ in: 'assets/scss/sc-event-single.scss', out: 'sc-event-single.min' },
+	{ in: 'assets/scss/default-calendar-grid-retro.scss', out: 'default-calendar-grid-retro.min' },
+	{ in: 'assets/scss/default-calendar-list-retro.scss', out: 'default-calendar-list-retro.min' },
 ];
 
 const defaultConfig = {

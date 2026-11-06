@@ -251,12 +251,16 @@
 		var defCalViews = $('#_calendar_view_default-calendar'),
 			defCalSettings = $('#default-calendar-settings'),
 			gridSettings = defCalSettings.find('.simcal-default-calendar-grid'),
+			gridRetroSettings = defCalSettings.find('.simcal-default-calendar-grid-retro'),
 			listSettings = defCalSettings.find('.simcal-default-calendar-list'),
 			groupedListSettings = defCalSettings.find('.simcal-default-calendar-list-grouped'),
 			listOnMobile = $('#_default_calendar_grid_desktop_list_mobile');
 
 		function toggleDefaultCalendarSettings() {
 			var selView = defCalViews.val();
+
+			// Rows with this class are not in the shared grid group, so show them only here.
+			gridRetroSettings.hide();
 
 			if ('grid' == selView) {
 				groupedListSettings.hide();
@@ -277,6 +281,20 @@
 				gridSettings.hide();
 				listSettings.hide();
 				groupedListSettings.show();
+			} else if ('grid-retro' == selView) {
+				groupedListSettings.hide();
+				gridSettings.show();
+				gridRetroSettings.show();
+
+				if (listOnMobile.is(':checked')) {
+					listSettings.show();
+				} else {
+					listSettings.not(gridSettings).hide();
+				}
+			} else if ('list-retro' == selView) {
+				gridSettings.hide();
+				groupedListSettings.hide();
+				listSettings.show();
 			}
 		}
 
