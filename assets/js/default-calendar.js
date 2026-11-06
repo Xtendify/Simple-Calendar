@@ -35,12 +35,16 @@ jQuery(function ($) {
 			action;
 
 		var isRetroGrid = calendar.hasClass('simcal-default-calendar-grid-retro');
+		var isRetroList = calendar.hasClass('simcal-default-calendar-list-retro');
 
 		if (isRetroGrid || calendar.hasClass('simcal-default-calendar-grid')) {
 			action = isRetroGrid ? 'simcal_default_calendar_draw_grid_retro' : 'simcal_default_calendar_draw_grid';
 			// Always use the first of the month in grid.
 			date = new Date(currentDate.year(), currentDate.month());
 			toggleGridNavButtons(buttons, date.getTime() / 1000, start, end);
+		} else if (isRetroList) {
+			action = 'simcal_default_calendar_draw_list_retro';
+			toggleListNavButtons(buttons, calendar, start, end, false, currentTime);
 		} else {
 			action = 'simcal_default_calendar_draw_list';
 			toggleListNavButtons(buttons, calendar, start, end, false, currentTime);
@@ -149,7 +153,14 @@ jQuery(function ($) {
 						calendar.removeAttr('aria-busy');
 						current.attr('data-calendar-current', timestamp);
 
-						toggleListHeading(calendar);
+						if (action == 'simcal_default_calendar_draw_list_retro') {
+							var retroHeading = list.data('heading');
+							if (retroHeading) {
+								calendar.find('.simcal-retro-heading').text(retroHeading);
+							}
+						} else {
+							toggleListHeading(calendar);
+						}
 						toggleListNavButtons(buttons, calendar, start, end, direction, timestamp);
 
 						spinner.fadeToggle();
@@ -184,7 +195,7 @@ jQuery(function ($) {
 				calendar.hasClass('simcal-default-calendar-grid') || calendar.hasClass('simcal-default-calendar-grid-retro')
 			);
 		}
-		return calendar.hasClass('simcal-default-calendar-list');
+		return calendar.hasClass('simcal-default-calendar-list') || calendar.hasClass('simcal-default-calendar-list-retro');
 	}
 
 	/**

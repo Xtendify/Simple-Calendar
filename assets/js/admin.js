@@ -291,6 +291,10 @@
 				} else {
 					listSettings.not(gridSettings).hide();
 				}
+			} else if ('list-retro' == selView) {
+				gridSettings.hide();
+				groupedListSettings.hide();
+				listSettings.show();
 			}
 		}
 
