@@ -666,7 +666,7 @@
 }
 
 /* Grid on desktop / list on mobile. Hidden view uses display:none (no layout/paint).
-   The sibling is List Classic until List Retro is the fallback. */
+   Grid Classic pairs with List Classic; Grid Retro pairs with List Retro. */
 .simcal-responsive-views .simcal-default-calendar-list,
 .simcal-responsive-views .simcal-default-calendar-list-retro {
 	display: none;

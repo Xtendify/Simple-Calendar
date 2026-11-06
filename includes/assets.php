@@ -796,8 +796,8 @@ class Assets
 				('grid' === $view->get_type() || 'grid-retro' === $view->get_type()) &&
 				'yes' === get_post_meta($id, '_default_calendar_grid_desktop_list_mobile', true)
 			) {
-				// Grid Retro renders List Classic until List Retro is the mobile fallback.
-				$names[] = 'default-calendar-list';
+				// Grid Classic → List Classic, Grid Retro → List Retro.
+				$names[] = 'grid-retro' === $view->get_type() ? 'default-calendar-list-retro' : 'default-calendar-list';
 			}
 
 			return $names;

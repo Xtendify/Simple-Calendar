@@ -196,7 +196,13 @@ class Settings implements Meta_Box
    	$calendar_view = get_post_meta($post->ID, '_calendar_view', true);
 
    	foreach ($calendar_views as $calendar => $views) {
-   		$calendar_type_view = isset($calendar_view[$calendar]) ? $calendar_view[$calendar] : ''; ?>
+
+   		$calendar_type_view = isset($calendar_view[$calendar]) ? $calendar_view[$calendar] : '';
+   		// Select Grid Retro in the editor only. Do not write meta until the calendar is saved.
+   		if ('' === $calendar_type_view && isset($views['grid-retro'])) {
+   			$calendar_type_view = 'grid-retro';
+   		}
+   		?>
 					<label for="_calendar_view_<?php echo $calendar; ?>">
 						<span><?php _e('View', 'google-calendar-events'); ?></span>
 						<select name="_calendar_view[<?php echo $calendar; ?>]"

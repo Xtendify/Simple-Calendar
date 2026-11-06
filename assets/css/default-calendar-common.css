@@ -454,6 +454,29 @@
 	color: rgba(255, 255, 255, 0.3);
 }
 
+/* Event template footer: [link] and [add-to-gcal-link] side by side. */
+.sc-event-footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 20px;
+}
+
+/* Link styles only apply where the theme sets nothing on <a>. */
+@layer simple-calendar-fallback {
+	.sc-event-footer a,
+	.event-see-more-details a,
+	.event-add-to-gcal-link a {
+		font-family: 'Roboto', sans-serif;
+		font-style: normal;
+		font-weight: 600;
+		font-size: 12px;
+		line-height: 15px;
+		color: #3c8595;
+		text-decoration: underline;
+	}
+}
+
 @media print {
 	.simcal-empty-events-notice {
 		display: none;
