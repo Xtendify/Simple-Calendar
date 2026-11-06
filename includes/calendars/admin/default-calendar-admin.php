@@ -188,7 +188,7 @@ class Default_Calendar_Admin
      	'name' => '_default_calendar_grid_desktop_list_mobile',
      	'id' => '_default_calendar_grid_desktop_list_mobile',
      	'tooltip' => __(
-     		'Show the calendar grid on desktop and the list view on mobile (screens narrower than 768px).',
+     		'Show the calendar grid on desktop and a list view on mobile (screens narrower than 768px). Grid Classic switches to List Classic; Grid Retro switches to List Retro.',
      		'google-calendar-events',
      	),
      	'value' => 'yes' == $grid_desktop_list_mobile ? 'yes' : 'no',
