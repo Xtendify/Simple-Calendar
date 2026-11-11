@@ -242,6 +242,7 @@ class Ajax
 		// Verify this request comes from the add-ons licenses activation settings page.
 		$nonce = isset($_POST['nonce']) ? esc_attr($_POST['nonce']) : '';
 		if (!wp_verify_nonce($nonce, 'simcal_rating_nonce')) {
+			/* translators: %s: error details */
 			wp_send_json_error(sprintf(__('An error occurred: %s', 'google-calendar-events'), 'Nonce verification failed.'));
 		}
 		update_option('simple-calendar_admin_footer_text_rated', date('Y-m-d', time()));
@@ -272,11 +273,13 @@ class Ajax
 		// Verify this request comes from the add-ons licenses activation settings page.
 		$nonce = isset($_POST['nonce']) ? esc_attr($_POST['nonce']) : '';
 		if (!wp_verify_nonce($nonce, 'simcal_license_manager')) {
+			/* translators: %s: error details */
 			wp_send_json_error(sprintf(__('An error occurred: %s', 'google-calendar-events'), 'Nonce verification failed.'));
 		}
 		// Check for user capabilities.
 		if (!current_user_can('edit_posts')) {
 			wp_send_json_error(
+				/* translators: %s: error details */
 				sprintf(__('An error occurred: %s', 'google-calendar-events'), 'You don\'t have permission to make changes.'),
 			);
 		}
@@ -320,6 +323,7 @@ class Ajax
 		if (is_wp_error($response)) {
 			wp_send_json_error(
 				sprintf(
+					/* translators: %s: error message */
 					__('There was an error processing your request: %s', 'google-calendar-events'),
 					$response->get_error_message(),
 				),
@@ -360,12 +364,14 @@ class Ajax
 
 		// Verify this request comes from the add-ons licenses activation settings page.
 		if (empty($nonce) || !wp_verify_nonce($nonce, 'simcal_license_manager')) {
+			/* translators: %s: error details */
 			wp_send_json_error(sprintf(__('An error occurred: %s', 'google-calendar-events'), 'Nonce verification failed.'));
 		}
 
 		// Check for user capabilities.
 		if (!current_user_can('edit_posts')) {
 			wp_send_json_error(
+				/* translators: %s: error details */
 				sprintf(__('An error occurred: %s', 'google-calendar-events'), 'You don\'t have permission to make changes.'),
 			);
 		}

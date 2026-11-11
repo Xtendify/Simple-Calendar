@@ -316,9 +316,7 @@ class Default_Calendar_Admin
      	'name' => '_default_calendar_expand_multi_day_events',
      	'id' => '_default_calendar_expand_multi_day_events',
      	'tooltip' => __(
-     		'For events spanning multiple days, you can display them on each day of the event, ' .
-     			'only on the first day of the event, or on all days of the event, but only up to the current day. ' .
-     			'Third option applies to list views only.',
+     		'For events spanning multiple days, you can display them on each day of the event, only on the first day of the event, or on all days of the event, but only up to the current day. Third option applies to list views only.',
      		'google-calendar-events',
      	),
      	'value' => $multi_day_value,

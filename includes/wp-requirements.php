@@ -11,6 +11,10 @@
  * @license GPL2+
  */
 
+if (!defined('ABSPATH')) {
+	exit();
+}
+
 if (!class_exists('SimCal_WP_Requirements')) {
 	class SimCal_WP_Requirements
 	{

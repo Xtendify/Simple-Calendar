@@ -785,6 +785,7 @@ class Default_Calendar_List implements Calendar_View
 						(string) apply_filters(
 							'simcal_no_events_message',
 							sprintf(
+								/* translators: 1: start date, 2: end date */
 								__('Nothing from %1$s to %2$s.', 'google-calendar-events'),
 								date_i18n($calendar->date_format, $from),
 								date_i18n($calendar->date_format, $to),

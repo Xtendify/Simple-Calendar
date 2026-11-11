@@ -1,0 +1,3 @@
+# Exclude bundled third-party libraries from Plugin Check scans.
+# Enable with: wp plugin check <plugin> --use-pcpignore
+third-party/

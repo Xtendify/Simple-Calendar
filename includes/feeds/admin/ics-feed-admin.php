@@ -272,6 +272,7 @@ class Ics_Feed_Admin
 
 		return sprintf(
 			'<p class="description">' .
+				/* translators: %1$s: URL to ICS feed import documentation */
 				__(
 					'Export or download an ICS/iCal file from your calendar. <a href="%1$s" target="_blank">Detailed instructions</a>',
 					'google-calendar-events',

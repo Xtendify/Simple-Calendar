@@ -922,6 +922,7 @@ class Settings implements Meta_Box
 									   value="<?php echo esc_attr($date_format_php); ?>"/>
 								<?php echo wp_kses_post(
         	sprintf(
+        		/* translators: %s: link to PHP date format documentation */
         		__('Enter a date format using %s values.', 'google-calendar-events'),
         		'<a href="//php.net/manual/en/function.date.php" target="_blank">PHP</a>',
         	),
@@ -1043,6 +1044,7 @@ class Settings implements Meta_Box
 									   value="<?php echo esc_attr($time_format_php); ?>"/>
 								<?php echo wp_kses_post(
         	sprintf(
+        		/* translators: %s: link to PHP date format documentation */
         		__('Enter a time format using %s values.', 'google-calendar-events'),
         		'<a href="//php.net/manual/en/function.date.php" target="_blank">PHP</a>',
         	),

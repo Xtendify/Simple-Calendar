@@ -998,6 +998,7 @@ function simcal_print_shortcode_tip($post_id)
 		$cmd = 'Ctrl&#43;C';
 	}
 
+	/* translators: %s: keyboard shortcut to copy (e.g. Ctrl+C) */
 	$shortcut = sprintf(__('Press %s to copy.', 'google-calendar-events'), $cmd);
 	$shortcode = sprintf('[calendar id="%s"]', $post_id);
 

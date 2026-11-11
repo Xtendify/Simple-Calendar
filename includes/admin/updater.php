@@ -220,8 +220,8 @@ class Updater
 
 			if (empty($version_info->download_link)) {
 				printf(
-					/* translators: 1: plugin name, 2: changelog URL, 3: new version number */
 					wp_kses(
+						/* translators: 1: plugin name, 2: changelog URL, 3: new version number */
 						__(
 							'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a>.',
 							'google-calendar-events',
@@ -234,8 +234,8 @@ class Updater
 				);
 			} else {
 				printf(
-					/* translators: 1: plugin name, 2: changelog URL, 3: new version number, 4: update URL */
 					wp_kses(
+						/* translators: 1: plugin name, 2: changelog URL, 3: new version number, 4: update URL */
 						__(
 							'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a> or <a href="%4$s">update now</a>.',
 							'google-calendar-events',

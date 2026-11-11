@@ -109,11 +109,16 @@ $google_pro_defs =
 	</div>
 	<p
 		class="sc_text--body_b2 sc_text--dark sc_connect_credentials_subtitle"
-		data-sc-subtitle-disconnected="<?php echo esc_attr__(
+		data-sc-subtitle-disconnected="<?php echo esc_attr(
   	$show_own_credentials
-  		? 'Enter your Google OAuth client credentials to get started. Your data is stored securely on your site and never on our servers.'
-  		: 'Almost there! Connect your Google Calendar events in a single click using authentication via Simple Calendar.',
-  	'google-calendar-events',
+  		? __(
+  			'Enter your Google OAuth client credentials to get started. Your data is stored securely on your site and never on our servers.',
+  			'google-calendar-events',
+  		)
+  		: __(
+  			'Almost there! Connect your Google Calendar events in a single click using authentication via Simple Calendar.',
+  			'google-calendar-events',
+  		),
   ); ?>"
 		data-sc-subtitle-connected="<?php echo esc_attr__(
   	'Google Calendar is connected and ready to sync your events.',

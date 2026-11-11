@@ -138,6 +138,7 @@ class System_Status extends Admin_Page
   	$memory =
   		'<mark class="error">' .
   		sprintf(
+  			/* translators: 1: memory limit, 2: Codex URL for increasing PHP memory */
   			__(
   				'%1$s - It is recomendend to set memory to at least 64MB. See: <a href="%2$s" target="_blank">Increasing memory allocated to PHP</a>',
   				'google-calendar-events',
@@ -249,6 +250,7 @@ class System_Status extends Admin_Page
   		'<mark class="error">' .
   		$theme_version .
   		' (' .
+  		/* translators: %s: available theme version number */
   		sprintf(__('%s is available', 'google-calendar-events'), esc_html($theme_update_version)) .
   		')</mark>';
   } else {
@@ -342,7 +344,8 @@ class System_Status extends Admin_Page
   							'<mark class="error">' .
   							$plugin_version .
   							' (' .
-  							sprintf(__('%s is available', 'google-calendar-events'), esc_html($plugin_update_version)) .
+  						/* translators: %s: available plugin version number */
+  						sprintf(__('%s is available', 'google-calendar-events'), esc_html($plugin_update_version)) .
   							')</mark>';
   					} else {
   						$plugin_version = '<mark class="ok">' . $plugin_version . '</mark>';
@@ -407,6 +410,7 @@ class System_Status extends Admin_Page
   if ('UTC' !== $default_timezone) {
   	$server_timezone =
   		'<mark class="error">' .
+  		/* translators: %s: server timezone name */
   		sprintf(__('Server default timezone is %s - it should be UTC', 'google-calendar-events'), $default_timezone) .
   		'</mark>';
   } else {

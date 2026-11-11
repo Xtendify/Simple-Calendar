@@ -1071,6 +1071,7 @@ abstract class Calendar
 		if ('yes' == $poweredby || simcal_is_powered_by_mandatory($this->id)) {
 			$align = is_rtl() ? 'left' : 'right';
 			$credit = sprintf(
+				/* translators: %s: URL to the Simple Calendar website */
 				__('Powered by <a href="%s" target="_blank">Simple Calendar</a>', 'google-calendar-events'),
 				esc_url(simcal_get_url('home')),
 			);
