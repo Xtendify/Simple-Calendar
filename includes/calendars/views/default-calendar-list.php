@@ -766,7 +766,6 @@ class Default_Calendar_List implements Calendar_View
 				echo '</' . tag_escape($tag) . '>' . "\n";
 			endforeach;
 			/* translators: 1: start date, 2: end date */
-			/* translators: 1: start date, 2: end date */
 		else:
 			echo "\t" . '<p>';
 
@@ -782,19 +781,14 @@ class Default_Calendar_List implements Calendar_View
 				} else {
 					$from = Carbon::createFromTimestamp($this->start, $calendar->timezone)->getTimestamp();
 					$to = Carbon::createFromTimestamp($this->end, $calendar->timezone)->getTimestamp();
+					$nothing_message = __('Nothing from %1$s to %2$s.', 'google-calendar-events');
+					$nothing_message = sprintf(
+						$nothing_message,
+						date_i18n($calendar->date_format, $from),
+						date_i18n($calendar->date_format, $to),
+					);
 					echo wp_kses_post(
-						(string) apply_filters(
-							'simcal_no_events_message',
-							sprintf(
-								/* translators: 1: start date, 2: end date */
-								__('Nothing from %1$s to %2$s.', 'google-calendar-events'),
-								date_i18n($calendar->date_format, $from),
-								date_i18n($calendar->date_format, $to),
-							),
-							$calendar->id,
-							$from,
-							$to,
-						),
+						(string) apply_filters('simcal_no_events_message', $nothing_message, $calendar->id, $from, $to),
 					);
 				}
 			}
