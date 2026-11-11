@@ -1187,19 +1187,22 @@ class Event_Builder
 		$name = !empty($organizer['name']) ? $organizer['name'] : '';
 		// The Pro add-on stores the email address as the name when the source has no display name.
 		$has_name = '' !== $name && 0 !== strcasecmp($name, $email);
-		// Print the name when it is available, otherwise print the email address in its place.
-		$display_name = $has_name ? $name : $email;
+		// Print the name when it is available. The address stands in only when the template says email="show".
+		$display_name = $has_name ? $name : ('show' == $attr['email'] ? $email : '');
 		$show_name = '' !== $display_name && 'hide' != $attr['name'];
 		$show_email = '' !== $email && 'show' == $attr['email'];
 
 		$photo =
-			'hide' != $attr['photo']
-				? '<img class="avatar avatar-128 photo" src="' . $organizer['photo'] . '" itemprop="image"  />'
+			'hide' != $attr['photo'] && !empty($organizer['photo'])
+				? '<img class="avatar avatar-128 photo" src="' . esc_url($organizer['photo']) . '" itemprop="image"  />'
 				: '';
-		// Hidden name stays as meta so the organizer microdata keeps its name.
-		$name_html = $show_name
-			? '<span itemprop="name">' . esc_html($display_name) . '</span>'
-			: '<meta itemprop="name" content="' . esc_attr($name) . '" />';
+		// A hidden real name stays in microdata. Event_Schema already emits the organizer name when this tag has none.
+		$name_html = '';
+		if ($show_name) {
+			$name_html = '<span itemprop="name">' . esc_html($display_name) . '</span>';
+		} elseif ($has_name) {
+			$name_html = '<meta itemprop="name" content="' . esc_attr($name) . '" />';
+		}
 		$organizer_html = $photo . $name_html;
 
 		if ($show_email) {
