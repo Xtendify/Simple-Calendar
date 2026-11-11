@@ -245,7 +245,7 @@ class Default_Calendar_Grid implements Calendar_View
       	echo ' <span class="simcal-current-' .
       		esc_attr($k) .
       		'">' .
-      		esc_html($this->format_timestamp($calendar->start, $v)) .
+      		esc_html(wp_date($v, $calendar->start, new \DateTimeZone($calendar->timezone))) .
       		'</span> ';
       }
 

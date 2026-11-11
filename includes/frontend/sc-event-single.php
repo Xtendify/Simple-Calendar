@@ -787,8 +787,7 @@ class Sc_Event_Single
 
 		$cover_image = '';
 		if (has_post_thumbnail($post->ID)) {
-			$thumb = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'full');
-			$cover_image = !empty($thumb[0]) ? (string) $thumb[0] : '';
+			$cover_image = (string) get_the_post_thumbnail_url($post->ID, 'full');
 		}
 
 		$location_data = [
@@ -838,10 +837,7 @@ class Sc_Event_Single
 	protected function format_in_timezone($timestamp, $timezone, $format)
 	{
 		try {
-			$datetime = new \DateTime('@' . (int) $timestamp);
-			$datetime->setTimezone(new \DateTimeZone($timezone));
-
-			return $datetime->format($format);
+			return wp_date($format, $timestamp, new \DateTimeZone($timezone));
 		} catch (\Exception $e) {
 			$utc = gmdate('Y-m-d H:i:s', $timestamp);
 

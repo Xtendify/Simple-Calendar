@@ -381,7 +381,7 @@ class System_Status extends Admin_Page
   	$php = '<mark class="ok">' . PHP_VERSION . '</mark>';
   }
 
-  $mysql_version = $wpdb->get_var('SELECT VERSION()');
+  $mysql_version = $wpdb->db_version();
   if ($mysql_version) {
   	$mysql = $mysql_version;
   } else {

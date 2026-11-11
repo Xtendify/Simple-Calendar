@@ -623,7 +623,7 @@ function simcal_prepare_connect_sidebar_scope()
 		$helper_domain = defined('SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN')
 			? (string) SIMPLE_CALENDAR_OAUTH_HELPER_AUTH_DOMAIN
 			: '';
-		$helper_host = $helper_domain ? parse_url($helper_domain, PHP_URL_HOST) : '';
+		$helper_host = $helper_domain ? wp_parse_url($helper_domain, PHP_URL_HOST) : '';
 
 		if ($auth_token && current_user_can('manage_options')) {
 			update_option('simple_calendar_auth_site_token', $auth_token, true);

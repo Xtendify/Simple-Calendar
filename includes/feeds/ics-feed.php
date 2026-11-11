@@ -249,6 +249,10 @@ class Ics_Feed extends Feed
 			return new \WP_Error('ics_upload_error', __('The ICS file could not be uploaded.', 'google-calendar-events'));
 		}
 
+		if (empty($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
+			return new \WP_Error('ics_upload_error', __('The ICS file could not be uploaded.', 'google-calendar-events'));
+		}
+
 		$filename = isset($file['name']) ? sanitize_file_name(wp_basename(wp_unslash($file['name']))) : '';
 		$extension = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
@@ -292,14 +296,42 @@ class Ics_Feed extends Feed
 		self::delete_post_ics_file($post_id);
 
 		$filename = self::build_timestamped_filename($filename, $extension);
-		$destination = trailingslashit($upload_dir) . $filename;
 
-		// Contents were already read for validation; write them directly (avoid move_uploaded_file for Plugin Check).
-		if (false === file_put_contents($destination, $contents)) {
-			return new \WP_Error('ics_move_failed', __('The ICS file could not be saved.', 'google-calendar-events'));
+		if (!function_exists('wp_handle_upload')) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
 		}
 
-		$relative_path = trailingslashit(self::get_upload_subdirectory()) . $filename;
+		$subdir_name = self::get_upload_subdirectory();
+		$filter_upload_dir = static function ($dirs) use ($subdir_name) {
+			$subdir = '/' . $subdir_name;
+			$dirs['subdir'] = $subdir;
+			$dirs['path'] = $dirs['basedir'] . $subdir;
+			$dirs['url'] = $dirs['baseurl'] . $subdir;
+
+			return $dirs;
+		};
+
+		$overrides = [
+			'test_form' => false,
+			'test_type' => false,
+			'mimes' => [
+				'ics' => 'text/calendar',
+				'ical' => 'text/calendar',
+			],
+			'unique_filename_callback' => static function () use ($filename) {
+				return $filename;
+			},
+		];
+
+		add_filter('upload_dir', $filter_upload_dir);
+		$uploaded = wp_handle_upload($file, $overrides);
+		remove_filter('upload_dir', $filter_upload_dir);
+
+		if (isset($uploaded['error'])) {
+			return new \WP_Error('ics_move_failed', $uploaded['error']);
+		}
+
+		$relative_path = trailingslashit(self::get_upload_subdirectory()) . wp_basename($uploaded['file']);
 		update_post_meta($post_id, '_ics_feed_file', $relative_path);
 		delete_post_meta($post_id, '_ics_feed_url');
 
