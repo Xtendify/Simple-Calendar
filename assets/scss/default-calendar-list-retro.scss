@@ -15,7 +15,7 @@
 		column-gap: var(--simcal-retro-rail-gap);
 		display: grid;
 		grid-template-columns: max-content 1px minmax(0, 1fr) 1px;
-		padding: 0;
+		padding: 0 0 28px;
 	}
 
 	.simcal-retro-list:has(.simcal-retro-list-compact) {
@@ -477,7 +477,7 @@
 		.simcal-retro-list {
 			--simcal-retro-day-gap: 20px;
 			--simcal-retro-rail-gap: 12px;
-			padding: 14px 12px 16px;
+			padding: 14px 12px 28px;
 		}
 
 		.simcal-retro-day-heading {

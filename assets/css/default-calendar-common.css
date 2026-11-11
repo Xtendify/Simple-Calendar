@@ -399,10 +399,12 @@
 .simcal-default-calendar-light .simcal-nav-button {
 	color: rgba(0, 0, 0, 0.6);
 }
-.simcal-default-calendar-light .simcal-nav-button:disabled {
+.simcal-default-calendar-light:not(.simcal-default-calendar-grid-retro):not(.simcal-default-calendar-list-retro)
+	.simcal-nav-button:disabled {
 	color: rgba(255, 255, 255, 0.9) !important;
 }
-.simcal-default-calendar-light .simcal-nav-button:disabled:hover {
+.simcal-default-calendar-light:not(.simcal-default-calendar-grid-retro):not(.simcal-default-calendar-list-retro)
+	.simcal-nav-button:disabled:hover {
 	color: rgba(255, 255, 255, 0.9) !important;
 }
 .simcal-default-calendar-light .simcal-nav-button:focus,
@@ -428,10 +430,12 @@
 .simcal-default-calendar-dark .simcal-nav-button {
 	color: rgba(255, 255, 255, 0.6);
 }
-.simcal-default-calendar-dark .simcal-nav-button:disabled {
+.simcal-default-calendar-dark:not(.simcal-default-calendar-grid-retro):not(.simcal-default-calendar-list-retro)
+	.simcal-nav-button:disabled {
 	color: rgba(0, 0, 0, 0.9) !important;
 }
-.simcal-default-calendar-dark .simcal-nav-button:disabled:hover {
+.simcal-default-calendar-dark:not(.simcal-default-calendar-grid-retro):not(.simcal-default-calendar-list-retro)
+	.simcal-nav-button:disabled:hover {
 	color: rgba(0, 0, 0, 0.9) !important;
 }
 .simcal-default-calendar-dark .simcal-nav-button:focus,
