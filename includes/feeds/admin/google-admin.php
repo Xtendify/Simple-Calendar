@@ -254,7 +254,7 @@ class Google_Admin
 		<div id="google-settings-panel" class="simcal-panel">
 			<table>
 				<thead>
-					<tr><th colspan="2"><?php _e('Google Calendar Settings', 'google-calendar-events'); ?></th></tr>
+					<tr><th colspan="2"><?php esc_html_e('Google Calendar Settings', 'google-calendar-events'); ?></th></tr>
 				</thead>
 				<?php Settings::print_panel_fields($inputs, $post_id); ?>
 			</table>

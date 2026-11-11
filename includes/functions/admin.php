@@ -1004,10 +1004,10 @@ function simcal_print_shortcode_tip($post_id)
 	echo "<input readonly='readonly' " .
 		"class='simcal-shortcode simcal-calendar-shortcode simcal-shortcode-tip' " .
 		"title='" .
-		$shortcut .
+		esc_attr($shortcut) .
 		"' " .
 		"onclick='this.select();' value='" .
-		$shortcode .
+		esc_attr($shortcode) .
 		"' />";
 }
 
@@ -1062,44 +1062,51 @@ function simcal_newsletter_signup()
 
 		$name = $current_user->user_firstname ? $current_user->user_firstname : '';
 		?>
-		<div id="simcal-drip" class="<?php echo $screen; ?>">
+		<div id="simcal-drip" class="<?php echo esc_attr($screen); ?>">
 			<div class="signup">
 				<p>
-					<?php _e(
-     	"Enter your name and email and we'll send you a coupon code for <strong>20% off</strong> all Pro Add-on purchases.",
-     	'google-calendar-events',
+					<?php echo wp_kses(
+     	__(
+     		"Enter your name and email and we'll send you a coupon code for <strong>20% off</strong> all Pro Add-on purchases.",
+     		'google-calendar-events',
+     	),
+     	[
+     		'strong' => [],
+     	],
      ); ?>
 				</p>
 
 				<p>
-					<label for="simcal-drip-field-email"><?php _e('Your Email', 'google-calendar-events'); ?></label><br />
+					<label for="simcal-drip-field-email"><?php esc_html_e('Your Email', 'google-calendar-events'); ?></label><br />
 					<input type="email"
 					       id="simcal-drip-field-email"
 					       name="fields[email]"
-					       value="<?php echo $current_user->user_email; ?>" />
+					       value="<?php echo esc_attr($current_user->user_email); ?>" />
 				</p>
 
 				<p>
-					<label for="simcal-drip-field-first_name"><?php _e('First Name', 'google-calendar-events'); ?></label><br />
+					<label for="simcal-drip-field-first_name"><?php esc_html_e('First Name', 'google-calendar-events'); ?></label><br />
 					<input type="text"
 					       id="simcal-drip-field-first_name"
 					       name="fields[first_name]"
-					       value="<?php echo $name; ?>" />
+					       value="<?php echo esc_attr($name); ?>" />
 				</p>
 				<p class="textright">
 					<a href="#"
 					   id="simcal-drip-signup"
-					   class="button button-primary"><?php _e('Send me the coupon', 'google-calendar-events'); ?></a>
+					   class="button button-primary"><?php esc_html_e('Send me the coupon', 'google-calendar-events'); ?></a>
 				</p>
 				<div class="textright">
-					<em><?php _e('No spam. Unsubscribe anytime.', 'google-calendar-events'); ?></em>
+					<em><?php esc_html_e('No spam. Unsubscribe anytime.', 'google-calendar-events'); ?></em>
 					<br/>
-					<a href="<?php echo simcal_ga_campaign_url(simcal_get_url('addons'), 'core-plugin', 'sidebar-link'); ?>"
-					   target="_blank"><?php _e('Just take me the add-ons', 'google-calendar-events'); ?></a>
+					<a href="<?php echo esc_url(
+     	simcal_ga_campaign_url(simcal_get_url('addons'), 'core-plugin', 'sidebar-link'),
+     ); ?>"
+					   target="_blank"><?php esc_html_e('Just take me the add-ons', 'google-calendar-events'); ?></a>
 				</div>
 			</div>
 			<div class="thank-you" style="display: none;">
-				<?php _e('Thank you!', 'google-calendar-events'); ?>
+				<?php esc_html_e('Thank you!', 'google-calendar-events'); ?>
 			</div>
 			<div class="clear">
 			</div>
@@ -1120,37 +1127,45 @@ function simcal_upgrade_to_premium()
 	if ($screen = simcal_is_admin_screen()) { ?>
 		<div class="main">
 			<p class="heading centered">
-				<?php _e('Some of the features included with our premium add-ons', 'google-calendar-events'); ?>
+				<?php esc_html_e('Some of the features included with our premium add-ons', 'google-calendar-events'); ?>
 			</p>
 
 			<ul>
-				<li><div class="dashicons dashicons-yes"></div> <?php _e(
+				<li><div class="dashicons dashicons-yes"></div> <?php esc_html_e(
     	'Display color coded events',
     	'google-calendar-events',
     ); ?></li>
-				<li><div class="dashicons dashicons-yes"></div> <?php _e('Show week & day views', 'google-calendar-events'); ?></li>
-				<li><div class="dashicons dashicons-yes"></div> <?php _e('Fast view switching', 'google-calendar-events'); ?></li>
-				<li><div class="dashicons dashicons-yes"></div> <?php _e(
+				<li><div class="dashicons dashicons-yes"></div> <?php esc_html_e(
+    	'Show week & day views',
+    	'google-calendar-events',
+    ); ?></li>
+				<li><div class="dashicons dashicons-yes"></div> <?php esc_html_e('Fast view switching', 'google-calendar-events'); ?></li>
+				<li><div class="dashicons dashicons-yes"></div> <?php esc_html_e(
     	'Event titles & start times in grid',
     	'google-calendar-events',
     ); ?></li>
-				<li><div class="dashicons dashicons-yes"></div> <?php _e('Limit event display times', 'google-calendar-events'); ?></li>
-				<li><div class="dashicons dashicons-yes"></div> <?php _e(
+				<li><div class="dashicons dashicons-yes"></div> <?php esc_html_e(
+    	'Limit event display times',
+    	'google-calendar-events',
+    ); ?></li>
+				<li><div class="dashicons dashicons-yes"></div> <?php esc_html_e(
     	'Display private calendar events',
     	'google-calendar-events',
     ); ?></li>
-				<li><div class="dashicons dashicons-yes"></div> <?php _e(
+				<li><div class="dashicons dashicons-yes"></div> <?php esc_html_e(
     	'Show attendees & RSVP status',
     	'google-calendar-events',
     ); ?></li>
-				<li><div class="dashicons dashicons-yes"></div> <?php _e('Display attachments', 'google-calendar-events'); ?></li>
-				<li><div class="dashicons dashicons-yes"></div> <?php _e('Priority email support', 'google-calendar-events'); ?></li>
+				<li><div class="dashicons dashicons-yes"></div> <?php esc_html_e('Display attachments', 'google-calendar-events'); ?></li>
+				<li><div class="dashicons dashicons-yes"></div> <?php esc_html_e('Priority email support', 'google-calendar-events'); ?></li>
 			</ul>
 
 			<div class="centered">
-				<a href="<?php echo simcal_ga_campaign_url(simcal_get_url('addons'), 'core-plugin', 'sidebar-link'); ?>"
+				<a href="<?php echo esc_url(
+    	simcal_ga_campaign_url(simcal_get_url('addons'), 'core-plugin', 'sidebar-link'),
+    ); ?>"
 				   class="button-primary button-large" target="_blank">
-					<?php _e('Upgrade to Premium Now', 'google-calendar-events'); ?></a>
+					<?php esc_html_e('Upgrade to Premium Now', 'google-calendar-events'); ?></a>
 			</div>
 		</div>
 		<?php }

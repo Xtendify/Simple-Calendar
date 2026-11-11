@@ -596,20 +596,20 @@ class Google extends Feed
 
 				if (!is_array($response_arr)) {
 					throw new Google_Service_Exception(
-						__('Unable to fetch calendar events via OAuth.', 'google-calendar-events'),
+						esc_html__('Unable to fetch calendar events via OAuth.', 'google-calendar-events'),
 						1,
 					);
 				}
 
 				if (isset($response_arr['Error']) && !empty($response_arr['Error'])) {
-					throw new Google_Service_Exception($response_arr['Error'], 1);
+					throw new Google_Service_Exception(esc_html((string) $response_arr['Error']), 1);
 				}
 
 				if (!isset($response_arr['data']) || !is_string($response_arr['data']) || $response_arr['data'] === '') {
 					$message = !empty($response_arr['message'])
 						? (string) $response_arr['message']
 						: __('Unable to fetch calendar events via OAuth.', 'google-calendar-events');
-					throw new Google_Service_Exception($message, 1);
+					throw new Google_Service_Exception(esc_html($message), 1);
 				}
 
 				$response = $this->oauth_unserialize_events_response($response_arr['data']);
@@ -621,7 +621,7 @@ class Google extends Feed
 				}
 
 				if (is_array($response) && isset($response['Error']) && !empty($response['Error'])) {
-					throw new Google_Service_Exception($response['Error'], 1);
+					throw new Google_Service_Exception(esc_html((string) $response['Error']), 1);
 				}
 			} else {
 				$response = $google->events->listEvents($id, $args);
