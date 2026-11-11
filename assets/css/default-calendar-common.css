@@ -399,10 +399,12 @@
 .simcal-default-calendar-light .simcal-nav-button {
 	color: rgba(0, 0, 0, 0.6);
 }
-.simcal-default-calendar-light .simcal-nav-button:disabled {
+.simcal-default-calendar-light:not(.simcal-default-calendar-grid-retro):not(.simcal-default-calendar-list-retro)
+	.simcal-nav-button:disabled {
 	color: rgba(255, 255, 255, 0.9) !important;
 }
-.simcal-default-calendar-light .simcal-nav-button:disabled:hover {
+.simcal-default-calendar-light:not(.simcal-default-calendar-grid-retro):not(.simcal-default-calendar-list-retro)
+	.simcal-nav-button:disabled:hover {
 	color: rgba(255, 255, 255, 0.9) !important;
 }
 .simcal-default-calendar-light .simcal-nav-button:focus,
@@ -428,10 +430,12 @@
 .simcal-default-calendar-dark .simcal-nav-button {
 	color: rgba(255, 255, 255, 0.6);
 }
-.simcal-default-calendar-dark .simcal-nav-button:disabled {
+.simcal-default-calendar-dark:not(.simcal-default-calendar-grid-retro):not(.simcal-default-calendar-list-retro)
+	.simcal-nav-button:disabled {
 	color: rgba(0, 0, 0, 0.9) !important;
 }
-.simcal-default-calendar-dark .simcal-nav-button:disabled:hover {
+.simcal-default-calendar-dark:not(.simcal-default-calendar-grid-retro):not(.simcal-default-calendar-list-retro)
+	.simcal-nav-button:disabled:hover {
 	color: rgba(0, 0, 0, 0.9) !important;
 }
 .simcal-default-calendar-dark .simcal-nav-button:focus,
@@ -452,6 +456,39 @@
 }
 .simcal-default-calendar-dark .simcal-ajax-loader > i {
 	color: rgba(255, 255, 255, 0.3);
+}
+
+/* Event template footer: [link] and [add-to-gcal-link] side by side. */
+.sc-event-footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 20px;
+}
+
+/* Link styles only apply where the theme sets nothing on <a>. */
+@layer simple-calendar-fallback {
+	.sc-event-footer a,
+	.event-see-more-details a,
+	.event-add-to-gcal-link a {
+		font-family: 'Roboto', sans-serif;
+		font-style: normal;
+		font-weight: 600;
+		font-size: 12px;
+		line-height: 15px;
+		color: #3c8595;
+		text-decoration: underline;
+	}
+}
+
+/* Retro color tokens shared by Grid Retro and List Retro. */
+.simcal-default-calendar.simcal-default-calendar-grid-retro,
+.simcal-default-calendar.simcal-default-calendar-list-retro {
+	--simcal-retro-heading: #1e293b;
+	--simcal-retro-nav-border: #e6e8ee;
+	--simcal-retro-nav-text: #64748b;
+	--simcal-retro-accent: #3c8595;
+	--simcal-retro-text: #4d5e80;
 }
 
 @media print {

@@ -679,7 +679,8 @@ class Assets
 		$meta = get_post_meta($id, '_calendar_view', true);
 		$saved = is_array($meta) && isset($meta['default-calendar']) ? $meta['default-calendar'] : '';
 		if (!is_wp_error($terms) && is_array($terms) && in_array('default-calendar', $terms, true) && '' === $saved) {
-			$names[] = 'default-calendar-grid-retro';
+			// Same calendars render through get_view()'s Grid Classic fallback.
+			$names[] = 'default-calendar-grid';
 		}
 
 		return $names;

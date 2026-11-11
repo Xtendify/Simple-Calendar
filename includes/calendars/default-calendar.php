@@ -135,6 +135,7 @@ class Default_Calendar extends Calendar
 		$this->name = __('Default', 'google-calendar-events');
 		$this->views = apply_filters('simcal_default_calendar_views', [
 			'grid-retro' => __('Grid Retro', 'google-calendar-events'),
+			'list-retro' => __('List Retro', 'google-calendar-events'),
 			'grid' => __('Grid Classic', 'google-calendar-events'),
 			'list' => __('List Classic', 'google-calendar-events'),
 		]);
@@ -205,11 +206,17 @@ class Default_Calendar extends Calendar
 		// Grid (desktop) — properties already set for grid in constructor.
 		$this->render_view_shell($view, false, false);
 
-		// Grid Retro uses List Classic until List Retro lands.
-		$list_slug = 'list';
+		// Mobile list matches the selected grid family:
+		// Grid Classic → List Classic, Grid Retro → List Retro.
+		$list_slug = 'grid-retro' === $grid_type ? 'list-retro' : 'list';
 		$this->set_properties($list_slug);
 		$list_view = $this->get_view($list_slug);
+		// Event tags resolve off $calendar->view. Point at the list sibling
+		// while it renders, then restore the grid view.
+		$saved_view = $this->view;
+		$this->view = $list_view;
 		$this->render_view_shell($list_view, false, false);
+		$this->view = $saved_view;
 
 		do_action('simcal_calendar_html_after', $this->id);
 
@@ -246,7 +253,7 @@ class Default_Calendar extends Calendar
 		}
 
 		// List settings are needed for list views and for grid+list-on-mobile AJAX navigation.
-		$is_list_view = 'list' === $view;
+		$is_list_view = 'list' === $view || 'list-retro' === $view;
 		$needs_list_props = $is_list_view || $this->grid_desktop_list_mobile;
 
 		// Expand multiple day events (once only when dual-rendering).
@@ -341,7 +348,8 @@ class Default_Calendar extends Calendar
 	 */
 	public function get_view($view = '')
 	{
-		// Saved identifiers are returned unchanged. Only a missing view uses Grid Classic.
+		// Saved identifiers are returned unchanged. A missing view stays Grid Classic.
+		// New calendars preselect Grid Retro in the editor; that is written only on save.
 		$view = !empty($view) ? $view : 'grid';
 
 		do_action('simcal_calendar_get_view', $this->type, $view);
@@ -352,6 +360,8 @@ class Default_Calendar extends Calendar
 			return new Views\Default_Calendar_List($this);
 		} elseif ('grid-retro' == $view) {
 			return new Views\Default_Calendar_Grid_Retro($this);
+		} elseif ('list-retro' == $view) {
+			return new Views\Default_Calendar_List_Retro($this);
 		}
 
 		return null;

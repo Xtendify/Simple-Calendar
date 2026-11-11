@@ -129,6 +129,10 @@ class Event_Builder
 				// A string with the raw event link URL.
 				'add-to-gcal-link',
 				// Link for viewers to add to their GCals.
+				'event-dropdown-menu',
+				// List Retro: three-dot event dropdown menu. Other views print a notice.
+				'time-location-common',
+				// Grid Retro and List Retro: date, time, and location with icons.
 
 				'calendar',
 				// The title of the source calendar.
@@ -367,6 +371,12 @@ class Event_Builder
 						return $this->make_link($tag, $url, $content, $attr);
 					}
 					break;
+
+				case 'event-dropdown-menu':
+					return $this->get_event_dropdown_menu($calendar, $event);
+
+				case 'time-location-common':
+					return $this->get_time_location_common($calendar, $event);
 
 				case 'calendar':
 				case 'feed-title':
@@ -1214,6 +1224,54 @@ class Event_Builder
 		return '<div class="simcal-organizer" itemprop="organizer" itemscope itemtype="https://schema.org/Person">' .
 			$organizer_html .
 			'</div>';
+	}
+
+	/**
+	 * Three-dot event dropdown menu for List Retro.
+	 *
+	 * Grid Retro and List Retro on one calendar share the event template.
+	 * Anywhere but List Retro the tag adds nothing, so the editor notice
+	 * does not appear in the desktop bubble.
+	 *
+	 * @param Calendar $calendar
+	 * @param Event    $event
+	 *
+	 * @return string
+	 */
+	private function get_event_dropdown_menu(Calendar $calendar, Event $event)
+	{
+		$view = $calendar->view;
+		if (is_object($view) && method_exists($view, 'get_type') && 'list-retro' === $view->get_type()) {
+			return \SimpleCalendar\Calendars\Views\Retro_Event::menu_html($calendar, $event);
+		}
+
+		return '';
+	}
+
+	/**
+	 * Date, time, and location row for the Retro views.
+	 *
+	 * Classic views print a notice instead of the Retro markup.
+	 *
+	 * @param Calendar $calendar
+	 * @param Event    $event
+	 *
+	 * @return string
+	 */
+	private function get_time_location_common(Calendar $calendar, Event $event)
+	{
+		$view = $calendar->view;
+		$type = is_object($view) && method_exists($view, 'get_type') ? $view->get_type() : '';
+		if ('grid-retro' === $type || 'list-retro' === $type) {
+			return \SimpleCalendar\Calendars\Views\Retro_Event::time_location_html($calendar, $event);
+		}
+
+		return '<span class="simcal-time-location-common-notice">' .
+			esc_html__(
+				'This event template tag "[time-location-common]" works only with Grid Retro and List Retro.',
+				'google-calendar-events',
+			) .
+			'</span>';
 	}
 
 	/**
