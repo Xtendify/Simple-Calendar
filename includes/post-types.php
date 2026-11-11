@@ -412,13 +412,13 @@ class Post_Types
 						ob_start();
 
 						if ('after' == $pos) {
-							echo $the_content;
+							echo wp_kses_post($the_content);
 							simcal_print_calendar($id);
 						} elseif ('before' == $pos) {
 							simcal_print_calendar($id);
-							echo $the_content;
+							echo wp_kses_post($the_content);
 						} else {
-							echo $the_content;
+							echo wp_kses_post($the_content);
 						}
 
 						return ob_get_clean();

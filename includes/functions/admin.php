@@ -1099,9 +1099,7 @@ function simcal_newsletter_signup()
 				<div class="textright">
 					<em><?php esc_html_e('No spam. Unsubscribe anytime.', 'google-calendar-events'); ?></em>
 					<br/>
-					<a href="<?php echo esc_url(
-     	simcal_ga_campaign_url(simcal_get_url('addons'), 'core-plugin', 'sidebar-link'),
-     ); ?>"
+					<a href="<?php echo esc_url(simcal_ga_campaign_url(simcal_get_url('addons'), 'core-plugin', 'sidebar-link')); ?>"
 					   target="_blank"><?php esc_html_e('Just take me the add-ons', 'google-calendar-events'); ?></a>
 				</div>
 			</div>
@@ -1139,7 +1137,10 @@ function simcal_upgrade_to_premium()
     	'Show week & day views',
     	'google-calendar-events',
     ); ?></li>
-				<li><div class="dashicons dashicons-yes"></div> <?php esc_html_e('Fast view switching', 'google-calendar-events'); ?></li>
+				<li><div class="dashicons dashicons-yes"></div> <?php esc_html_e(
+    	'Fast view switching',
+    	'google-calendar-events',
+    ); ?></li>
 				<li><div class="dashicons dashicons-yes"></div> <?php esc_html_e(
     	'Event titles & start times in grid',
     	'google-calendar-events',
@@ -1156,14 +1157,18 @@ function simcal_upgrade_to_premium()
     	'Show attendees & RSVP status',
     	'google-calendar-events',
     ); ?></li>
-				<li><div class="dashicons dashicons-yes"></div> <?php esc_html_e('Display attachments', 'google-calendar-events'); ?></li>
-				<li><div class="dashicons dashicons-yes"></div> <?php esc_html_e('Priority email support', 'google-calendar-events'); ?></li>
+				<li><div class="dashicons dashicons-yes"></div> <?php esc_html_e(
+    	'Display attachments',
+    	'google-calendar-events',
+    ); ?></li>
+				<li><div class="dashicons dashicons-yes"></div> <?php esc_html_e(
+    	'Priority email support',
+    	'google-calendar-events',
+    ); ?></li>
 			</ul>
 
 			<div class="centered">
-				<a href="<?php echo esc_url(
-    	simcal_ga_campaign_url(simcal_get_url('addons'), 'core-plugin', 'sidebar-link'),
-    ); ?>"
+				<a href="<?php echo esc_url(simcal_ga_campaign_url(simcal_get_url('addons'), 'core-plugin', 'sidebar-link')); ?>"
 				   class="button-primary button-large" target="_blank">
 					<?php esc_html_e('Upgrade to Premium Now', 'google-calendar-events'); ?></a>
 			</div>

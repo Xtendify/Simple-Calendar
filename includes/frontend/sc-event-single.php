@@ -482,20 +482,14 @@ class Sc_Event_Single
 			<div class="simcal-event-detail__meta-item">
 				<h3 class="simcal-event-detail__meta-label"><?php esc_html_e('Start', 'google-calendar-events'); ?></h3>
 				<p class="simcal-event-detail__meta-value">
-					<span class="simcal-event-detail__icon" aria-hidden="true"><?php echo wp_kses(
-     	$calendar_icon,
-     	$svg_allowed,
-     ); ?></span>
+					<span class="simcal-event-detail__icon" aria-hidden="true"><?php echo wp_kses($calendar_icon, $svg_allowed); ?></span>
 					<span><?php echo esc_html($start_label); ?></span>
 				</p>
 			</div>
 			<div class="simcal-event-detail__meta-item">
 				<h3 class="simcal-event-detail__meta-label"><?php esc_html_e('End', 'google-calendar-events'); ?></h3>
 				<p class="simcal-event-detail__meta-value">
-					<span class="simcal-event-detail__icon" aria-hidden="true"><?php echo wp_kses(
-     	$calendar_icon,
-     	$svg_allowed,
-     ); ?></span>
+					<span class="simcal-event-detail__icon" aria-hidden="true"><?php echo wp_kses($calendar_icon, $svg_allowed); ?></span>
 					<span><?php echo esc_html($end_label); ?></span>
 				</p>
 			</div>
@@ -584,10 +578,7 @@ class Sc_Event_Single
   ): ?> itemprop="location" itemscope itemtype="https://schema.org/Place"<?php endif; ?>>
 			<h2 class="simcal-event-detail__sidebar-title"><?php esc_html_e('Address', 'google-calendar-events'); ?></h2>
 			<p class="simcal-event-detail__location-address">
-				<span class="simcal-event-detail__icon" aria-hidden="true"><?php echo wp_kses(
-    	$pin_icon,
-    	$svg_allowed,
-    ); ?></span>
+				<span class="simcal-event-detail__icon" aria-hidden="true"><?php echo wp_kses($pin_icon, $svg_allowed); ?></span>
 				<?php if ($location): ?>
 					<meta itemprop="name" content="<?php echo esc_attr($location); ?>" />
 					<meta itemprop="address" content="<?php echo esc_attr($location); ?>" />

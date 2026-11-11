@@ -578,12 +578,7 @@ class Default_Calendar_Grid implements Calendar_View
 			endif;
 
 			// The actual days with numbers and events in each row cell.
-			echo '<td class="' .
-				esc_attr($day_classes) .
-				'" data-events-count="' .
-				esc_attr(strval($count)) .
-				'">' .
-				"\n";
+			echo '<td class="' . esc_attr($day_classes) . '" data-events-count="' . esc_attr(strval($count)) . '">' . "\n";
 
 			if ($color) {
 				$day_style = 'background-color: ' . $bg_color . '; color: ' . $color;
@@ -596,11 +591,7 @@ class Default_Calendar_Grid implements Calendar_View
 				$day_style = '';
 			}
 
-			echo "\t" .
-				'<div' .
-				($border_style ? ' style="' . esc_attr($border_style) . '"' : '') .
-				'>' .
-				"\n";
+			echo "\t" . '<div' . ($border_style ? ' style="' . esc_attr($border_style) . '"' : '') . '>' . "\n";
 			echo "\t\t" .
 				'<span class="simcal-day-label simcal-day-number"' .
 				($day_style ? ' style="' . esc_attr($day_style) . '"' : '') .

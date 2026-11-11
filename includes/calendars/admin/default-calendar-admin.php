@@ -115,7 +115,10 @@ class Default_Calendar_Admin
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-grid" style="display: none;">
-				<th><label for="_default_calendar_trim_titles"><?php esc_html_e('Trim Event Titles', 'google-calendar-events'); ?></label></th>
+				<th><label for="_default_calendar_trim_titles"><?php esc_html_e(
+    	'Trim Event Titles',
+    	'google-calendar-events',
+    ); ?></label></th>
 				<td>
 					<?php
      $trim = get_post_meta($post_id, '_default_calendar_trim_titles', true);
@@ -212,7 +215,10 @@ class Default_Calendar_Admin
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-list" style="display: none;">
-				<th><label for="_default_calendar_list_header"><?php esc_html_e('Hide Header', 'google-calendar-events'); ?></label></th>
+				<th><label for="_default_calendar_list_header"><?php esc_html_e(
+    	'Hide Header',
+    	'google-calendar-events',
+    ); ?></label></th>
 				<td>
 					<?php
      $header = get_post_meta($post_id, '_default_calendar_list_header', true);
@@ -228,7 +234,10 @@ class Default_Calendar_Admin
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-list" style="display: none;">
-				<th><label for="_default_calendar_compact_list"><?php esc_html_e('Compact List', 'google-calendar-events'); ?></label></th>
+				<th><label for="_default_calendar_compact_list"><?php esc_html_e(
+    	'Compact List',
+    	'google-calendar-events',
+    ); ?></label></th>
 				<td>
 					<?php
      $compact = get_post_meta($post_id, '_default_calendar_compact_list', true);

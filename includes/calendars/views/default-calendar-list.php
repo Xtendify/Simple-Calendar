@@ -215,10 +215,7 @@ class Default_Calendar_List implements Calendar_View
 					esc_attr__('Previous', 'google-calendar-events') .
 					'"';
 				disabled($is_nav_disabled);
-				echo ' aria-label="' .
-					esc_attr__('Previous', 'google-calendar-events') .
-					'">' .
-					"\n";
+				echo ' aria-label="' . esc_attr__('Previous', 'google-calendar-events') . '">' . "\n";
 				echo "\t\t\t" . '<i class="simcal-icon-left" aria-hidden="true"></i>' . "\n";
 				echo "\t\t" . '</button>' . "\n";
 				echo "\t" . '</div>' . "\n";
@@ -243,9 +240,7 @@ class Default_Calendar_List implements Calendar_View
 					esc_attr__('Next', 'google-calendar-events') .
 					'"';
 				disabled($is_nav_disabled);
-				echo ' aria-label="' .
-					esc_attr__('Next', 'google-calendar-events') .
-					'">';
+				echo ' aria-label="' . esc_attr__('Next', 'google-calendar-events') . '">';
 				echo "\t\t\t" . '<i class="simcal-icon-right" aria-hidden="true"></i>' . "\n";
 				echo "\t\t" . '</button>' . "\n";
 				echo "\t" . '</div>' . "\n";
@@ -623,13 +618,7 @@ class Default_Calendar_List implements Calendar_View
 						? '<span class="simcal-date-format" data-date-format="' .
 							esc_attr($format) .
 							'">' .
-							esc_html(
-								date_i18n(
-									$format,
-									$day_date_ts_offset,
-									strtotime($day_date_offset->toDateTimeString()),
-								),
-							) .
+							esc_html(date_i18n($format, $day_date_ts_offset, strtotime($day_date_offset->toDateTimeString()))) .
 							'</span> '
 						: ' ';
 
@@ -776,6 +765,7 @@ class Default_Calendar_List implements Calendar_View
 				echo "\t" . wp_kses_post($list_events) . "\n";
 				echo '</' . tag_escape($tag) . '>' . "\n";
 			endforeach;
+			/* translators: 1: start date, 2: end date */
 		else:
 			echo "\t" . '<p>';
 
@@ -795,7 +785,6 @@ class Default_Calendar_List implements Calendar_View
 						(string) apply_filters(
 							'simcal_no_events_message',
 							sprintf(
-								/* translators: 1: start date, 2: end date */
 								__('Nothing from %1$s to %2$s.', 'google-calendar-events'),
 								date_i18n($calendar->date_format, $from),
 								date_i18n($calendar->date_format, $to),

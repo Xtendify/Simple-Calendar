@@ -527,7 +527,10 @@ class Post_Types
 		// @see https://core.trac.wordpress.org/ticket/17249
 		if (in_array($post_type, $post_types)) { ?>
 			<a href="#TB_inline?height=250&width=500&inlineId=simcal-insert-shortcode-panel" id="simcal-insert-shortcode-button" class="thickbox button insert-calendar add_calendar">
-				<span class="wp-media-buttons-icon dashicons-before dashicons-calendar-alt"></span> <?php esc_html_e('Add Calendar', 'google-calendar-events'); ?>
+				<span class="wp-media-buttons-icon dashicons-before dashicons-calendar-alt"></span> <?php esc_html_e(
+    	'Add Calendar',
+    	'google-calendar-events',
+    ); ?>
 			</a>
 			<?php }
 	}
