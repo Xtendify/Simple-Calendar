@@ -1229,8 +1229,9 @@ class Event_Builder
 	/**
 	 * Three-dot event dropdown menu for List Retro.
 	 *
-	 * Other views print a notice so the tag is visible on the front end
-	 * without rendering the List Retro menu.
+	 * Grid Retro and List Retro on one calendar share the event template.
+	 * Anywhere but List Retro the tag adds nothing, so the editor notice
+	 * does not appear in the desktop bubble.
 	 *
 	 * @param Calendar $calendar
 	 * @param Event    $event
@@ -1244,12 +1245,7 @@ class Event_Builder
 			return \SimpleCalendar\Calendars\Views\Retro_Event::menu_html($calendar, $event);
 		}
 
-		return '<span class="simcal-event-dropdown-menu-notice">' .
-			esc_html__(
-				'This event template tag "[event-dropdown-menu]" works only with List Retro.',
-				'google-calendar-events',
-			) .
-			'</span>';
+		return '';
 	}
 
 	/**

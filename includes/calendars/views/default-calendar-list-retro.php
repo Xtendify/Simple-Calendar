@@ -228,7 +228,9 @@ class Default_Calendar_List_Retro implements Calendar_View
 		}
 
 		$grouped = $this->get_events((int) $timestamp);
-		$heading = $this->heading_text((int) $this->start);
+		// First paint texturizes "November - 2026" to an en dash. AJAX copies
+		// data-heading into the heading, so the attribute has to be texturized too.
+		$heading = wptexturize($this->heading_text((int) $this->start));
 		$this->heading = $heading;
 
 		ob_start();
@@ -289,7 +291,8 @@ class Default_Calendar_List_Retro implements Calendar_View
 
 		echo '</div>';
 
-		return ob_get_clean();
+		// AJAX inserts this markup without the_content, so event times keep the same dashes.
+		return wptexturize(ob_get_clean());
 	}
 
 	/**
