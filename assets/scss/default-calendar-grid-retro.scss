@@ -1,5 +1,5 @@
-.simcal-default-calendar.simcal-default-calendar-grid-retro {
-	/* Retro color tokens. Reuses the design-system white (#fff) where it matches. */
+/* Retro color tokens. Reuses the design-system white (#fff) where it matches. */
+@mixin retro-tokens {
 	--simcal-retro-heading: #1e293b;
 	--simcal-retro-nav-border: #e6e8ee;
 	--simcal-retro-nav-text: #64748b;
@@ -11,6 +11,10 @@
 	--simcal-retro-event-border: #cbd5e1;
 	--simcal-retro-focus: #1f8a4c;
 	--simcal-retro-today: #14948c;
+}
+
+.simcal-default-calendar.simcal-default-calendar-grid-retro {
+	@include retro-tokens;
 
 	.simcal-retro-sr {
 		position: absolute;
@@ -138,7 +142,8 @@
 	}
 
 	.simcal-day {
-		min-height: 108px;
+		// On a table cell, height is the minimum. min-height is ignored.
+		height: 108px;
 		padding: 8px 8px 6px;
 	}
 
@@ -257,7 +262,7 @@
 		}
 
 		.simcal-day {
-			min-height: 88px;
+			height: 88px;
 			padding: 4px;
 		}
 
@@ -355,7 +360,7 @@
 		// Hairline, under 1px, so each day reads as its own box on a narrow grid.
 		.simcal-day {
 			border: 0.5px solid var(--simcal-retro-nav-border);
-			min-height: 0;
+			height: auto;
 			padding: 2px 0 0px;
 			text-align: center;
 		}
@@ -436,19 +441,8 @@
 
 .simcal-event-bubble.simcal-retro-bubble {
 	/* qTip bubbles are rendered on <body>, outside the calendar container, so
-	   the Retro tokens scoped to the calendar do not inherit here. Define
-	   the same tokens on the bubble so its var() values resolve. */
-	--simcal-retro-heading: #1e293b;
-	--simcal-retro-nav-border: #e6e8ee;
-	--simcal-retro-nav-text: #64748b;
-	--simcal-retro-accent: #3c8595;
-	--simcal-retro-grid-border: #eef0f4;
-	--simcal-retro-muted: #94a3b8;
-	--simcal-retro-text: #4d5e80;
-	--simcal-retro-event-bg: #f8fafc;
-	--simcal-retro-event-border: #cbd5e1;
-	--simcal-retro-focus: #1f8a4c;
-	--simcal-retro-today: #14948c;
+	   the Retro tokens scoped to the calendar do not inherit here. */
+	@include retro-tokens;
 
 	background: #fff;
 	border: 0;

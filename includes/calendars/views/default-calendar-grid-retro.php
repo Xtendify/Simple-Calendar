@@ -177,11 +177,24 @@ class Default_Calendar_Grid_Retro implements Calendar_View
 				<div class="simcal-nav simcal-current simcal-retro-heading" aria-live="polite" aria-atomic="true" data-calendar-current="<?php echo esc_attr(
     	$start->getTimestamp(),
     ); ?>">
-					<h2><span class="simcal-current-month"><?php echo esc_html(
-     	Retro_Event::local_date('F', $start->getTimestamp(), $calendar->timezone),
-     ); ?></span><span class="simcal-retro-comma" aria-hidden="true">,</span> <span class="simcal-current-year"><?php echo esc_html(
-	Retro_Event::local_date('Y', $start->getTimestamp(), $calendar->timezone),
-); ?></span></h2>
+					<h2><?php
+     // Same order Grid Classic uses: whichever of year or month appears first in the date format.
+     $year_pos = strcspn($calendar->date_format, 'Y y');
+     $month_pos = strcspn($calendar->date_format, 'F M m n');
+     $month_html =
+     	'<span class="simcal-current-month">' .
+     	esc_html(Retro_Event::local_date('F', $start->getTimestamp(), $calendar->timezone)) .
+     	'</span>';
+     $year_html =
+     	'<span class="simcal-current-year">' .
+     	esc_html(Retro_Event::local_date('Y', $start->getTimestamp(), $calendar->timezone)) .
+     	'</span>';
+     if ($year_pos < $month_pos) {
+     	echo $year_html . ' ' . $month_html;
+     } else {
+     	echo $month_html . '<span class="simcal-retro-comma" aria-hidden="true">,</span> ' . $year_html;
+     }
+     ?></h2>
 				</div>
 				<button type="button" class="simcal-nav-button simcal-next" title="<?php esc_attr_e(
     	'Next Month',
@@ -476,6 +489,14 @@ class Default_Calendar_Grid_Retro implements Calendar_View
 		}
 
 		$html .= '</ul>';
+
+		if ($limit > -1 && $index > $limit) {
+			$html .=
+				'<button class="simcal-events-toggle" type="button" aria-expanded="false" aria-label="' .
+				esc_attr__('Show more events', 'google-calendar-events') .
+				'"><i class="simcal-icon-down simcal-icon-animate" aria-hidden="true"></i></button>';
+		}
+
 		$html .= '<span class="simcal-events-dots" style="display: none;">';
 		foreach ($bullet_colors as $dot_index => $bullet_color) {
 			$dot_label = isset($bullet_labels[$dot_index])
@@ -489,13 +510,6 @@ class Default_Calendar_Grid_Retro implements Calendar_View
 				';"></span>';
 		}
 		$html .= '</span>';
-
-		if ($limit > -1 && $index > $limit) {
-			$html .=
-				'<button class="simcal-events-toggle" type="button" aria-expanded="false" aria-label="' .
-				esc_attr__('Show more events', 'google-calendar-events') .
-				'"><i class="simcal-icon-down simcal-icon-animate" aria-hidden="true"></i></button>';
-		}
 
 		return $html;
 	}
