@@ -405,6 +405,12 @@ class Sc_Event_Single
    		'itemprop' => true,
    		'content' => true,
    	],
+   	'span' => [
+   		'itemprop' => true,
+   		'itemscope' => true,
+   		'itemtype' => true,
+   		'style' => true,
+   	],
    ]); ?>
 			<?php do_action('simcal_before_event_detail_summary', $post, $context); ?>
 			<div class="simcal-event-detail__body">
@@ -891,7 +897,7 @@ class Sc_Event_Single
 	/**
 	 * Allowed HTML for inline SVG icons.
 	 *
-	 * @since 4.2.2
+	 * @since 4.3.2
 	 *
 	 * @return array
 	 */

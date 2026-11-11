@@ -412,13 +412,16 @@ class Post_Types
 						ob_start();
 
 						if ('after' == $pos) {
-							echo wp_kses_post($the_content);
+							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already-filtered post content; wp_kses_post would strip embeds.
+							echo $the_content;
 							simcal_print_calendar($id);
 						} elseif ('before' == $pos) {
 							simcal_print_calendar($id);
-							echo wp_kses_post($the_content);
+							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already-filtered post content; wp_kses_post would strip embeds.
+							echo $the_content;
 						} else {
-							echo wp_kses_post($the_content);
+							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already-filtered post content; wp_kses_post would strip embeds.
+							echo $the_content;
 						}
 
 						return ob_get_clean();

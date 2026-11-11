@@ -258,7 +258,7 @@ class Ics_Export
 	/**
 	 * Allowed HTML for calendar action SVG icons.
 	 *
-	 * @since 4.2.2
+	 * @since 4.3.2
 	 *
 	 * @return array
 	 */

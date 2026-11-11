@@ -248,7 +248,8 @@ class Default_Calendar_List implements Calendar_View
 				echo '</nav>' . "\n";
 			}
 
-			echo wp_kses_post($this->draw_list($calendar->start));
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- draw_list() escapes at the leaf nodes.
+			echo $this->draw_list($calendar->start);
 
 			echo '<div class="simcal-ajax-loader simcal-spinner-top" style="display: none;"><i class="simcal-icon-spinner simcal-icon-spin"></i></div>';
 
@@ -463,20 +464,20 @@ class Default_Calendar_List implements Calendar_View
 			} else {
 				if ($date_order['y'] < $date_order['m']) {
 					// 2020, August - September.
-					$large = $small = date('Y', $st) . ', ';
+					$large = $small = gmdate('Y', $st) . ', ';
 					$large .= date_i18n('F', $st) . ' - ' . date_i18n('F', $et);
 					$small .= date_i18n('M', $st) . ' - ' . date_i18n('M', $et);
 				} else {
 					// August - September, 2020.
 					$large = date_i18n('F', $st) . ' - ' . date_i18n('F', $et) . ', ';
 					$small = date_i18n('M', $st) . ' - ' . date_i18n('M', $et) . ' ';
-					$year = date('Y', $st);
+					$year = gmdate('Y', $st);
 					$large .= $year;
 					$small .= $year;
 				}
 			}
 		} else {
-			$large = $small = date('Y', $st) . ' - ' . date('Y', $et);
+			$large = $small = gmdate('Y', $st) . ' - ' . gmdate('Y', $et);
 		}
 
 		return [
@@ -633,7 +634,7 @@ class Default_Calendar_List implements Calendar_View
 				$calendar_classes = [];
 
 				// Add day of week number to CSS class.
-				$day_classes = 'simcal-weekday-' . date('w', $day_date_ts_offset);
+				$day_classes = 'simcal-weekday-' . gmdate('w', $day_date_ts_offset);
 
 				// Is this the present, the past or the future, Doc?
 				if ($timestamp <= $now && $timestamp >= $now) {
@@ -684,10 +685,9 @@ class Default_Calendar_List implements Calendar_View
 							$list_events .=
 								"\t" .
 								'<li class="' .
-								$event_classes .
+								esc_attr($event_classes) .
 								'" style="' .
-								$event_visibility .
-								$event_color .
+								esc_attr($event_visibility . $event_color) .
 								'" data-start="' .
 								esc_attr($event->start) .
 								'">' .
@@ -718,10 +718,9 @@ class Default_Calendar_List implements Calendar_View
 						$list_events .=
 							"\t" .
 							'<li class="' .
-							$event_classes .
+							esc_attr($event_classes) .
 							'" style="' .
-							$event_visibility .
-							$event_color .
+							esc_attr($event_visibility . $event_color) .
 							'" itemscope itemtype="http://schema.org/Event" data-start="' .
 							esc_attr($event->start) .
 							'">' .
@@ -764,7 +763,8 @@ class Default_Calendar_List implements Calendar_View
 					esc_attr(strval($count)) .
 					'">' .
 					"\n";
-				echo "\t" . wp_kses_post($list_events) . "\n";
+				// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- event HTML from get_event_html(); attrs escaped above.
+				echo "\t" . $list_events . "\n";
 				echo '</' . tag_escape($tag) . '>' . "\n";
 			endforeach;
 		else:

@@ -129,7 +129,7 @@ class Event_Schema
 			return false;
 		}
 
-		$host = wp_parse_url($url, PHP_URL_HOST);
+		$host = parse_url($url, PHP_URL_HOST);
 		if (empty($host)) {
 			return false;
 		}
@@ -206,16 +206,19 @@ class Event_Schema
 			return '';
 		}
 
-		$site_icon = get_site_icon_url(512);
-		if (!empty($site_icon)) {
-			return esc_url_raw($site_icon);
+		$site_icon_id = (int) get_option('site_icon');
+		if ($site_icon_id) {
+			$site_icon = wp_get_attachment_image_src($site_icon_id, [512, 512]);
+			if (!empty($site_icon[0])) {
+				return esc_url_raw($site_icon[0]);
+			}
 		}
 
 		$custom_logo_id = get_theme_mod('custom_logo');
 		if ($custom_logo_id) {
-			$logo_url = wp_get_attachment_image_url($custom_logo_id, 'full');
-			if (!empty($logo_url)) {
-				return esc_url_raw($logo_url);
+			$logo = wp_get_attachment_image_src((int) $custom_logo_id, 'full');
+			if (!empty($logo[0])) {
+				return esc_url_raw($logo[0]);
 			}
 		}
 

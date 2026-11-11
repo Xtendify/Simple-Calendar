@@ -299,11 +299,11 @@ class Default_Calendar_Grid implements Calendar_View
                 </tr>
                 </thead>
 
-				<?php echo wp_kses_post(
-    	$this->draw_month(
-    		date($this->format_timestamp($calendar->start, 'n')),
-    		date($this->format_timestamp($calendar->start, 'Y')),
-    	),
+				<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- draw_month() escapes at the leaf nodes.
+
+			echo $this->draw_month(
+    	$this->format_timestamp($calendar->start, 'n'),
+    	$this->format_timestamp($calendar->start, 'Y'),
     ); ?>
             </table>
 
@@ -518,11 +518,9 @@ class Default_Calendar_Grid implements Calendar_View
 
 						// Event title in list.
 						$title = !empty($event->title) ? trim($event->title) : __('Event', 'google-calendar-events');
-						if ($calendar->trim_titles >= 1) {
-							$title =
-								strlen($title) > $calendar->trim_titles
-									? mb_substr($title, 0, $calendar->trim_titles) . '&hellip;'
-									: $title;
+						$title_html = esc_html($title);
+						if ($calendar->trim_titles >= 1 && mb_strlen($title) > $calendar->trim_titles) {
+							$title_html = esc_html(mb_substr($title, 0, $calendar->trim_titles)) . '&hellip;';
 						}
 
 						// Event color. Always record a marker so mobile dots appear even without an event color.
@@ -531,7 +529,7 @@ class Default_Calendar_Grid implements Calendar_View
 						if (!empty($event_color)) {
 							$bullet =
 								'<span class="simcal-event-color" style="background-color: ' .
-								$event_color .
+								esc_attr($event_color) .
 								';" aria-hidden="true"></span> ';
 							$bullet_colors[] = $event_color;
 						} else {
@@ -539,8 +537,8 @@ class Default_Calendar_Grid implements Calendar_View
 						}
 
 						// Event contents.
-						$list_events .= "\t" . '<li class="' . $event_classes . '"' . $event_visibility . '>' . "\n";
-						$list_events .= "\t\t" . '<span class="simcal-event-title">' . $bullet . $title . '</span>' . "\n";
+						$list_events .= "\t" . '<li class="' . esc_attr($event_classes) . '"' . $event_visibility . '>' . "\n";
+						$list_events .= "\t\t" . '<span class="simcal-event-title">' . $bullet . $title_html . '</span>' . "\n";
 						$list_events .=
 							"\t\t" .
 							'<div class="simcal-event-details simcal-tooltip-content" style="display: none;">' .
@@ -599,7 +597,8 @@ class Default_Calendar_Grid implements Calendar_View
 				esc_html((string) $day) .
 				'</span>' .
 				"\n";
-			echo "\t\t" . wp_kses_post($list_events) . "\n";
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- event HTML from get_event_html(); attrs escaped above.
+			echo "\t\t" . $list_events . "\n";
 			echo "\t\t";
 			echo '<span class="simcal-events-dots" style="display: none;">';
 

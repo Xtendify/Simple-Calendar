@@ -221,19 +221,11 @@ class System_Status extends Admin_Page
 
   include_once ABSPATH . 'wp-admin/includes/theme-install.php';
 
-  if (version_compare($wp_version, '3.4', '<')) {
-  	$active_theme = get_theme_data(get_stylesheet_directory() . '/style.css');
-  	$theme_name = '<a href="' . $active_theme['URI'] . '" target="_blank">' . $active_theme['Name'] . '</a>';
-  	$theme_version = $active_theme['Version'];
-  	$theme_author = '<a href="' . $active_theme['AuthorURI'] . '" target="_blank">' . $active_theme['Author'] . '</a>';
-  	$theme_export = $active_theme['Name'] . ' - ' . $theme_version;
-  } else {
-  	$active_theme = wp_get_theme();
-  	$theme_name = '<a href="' . $active_theme->ThemeURI . '" target="_blank">' . $active_theme->Name . '</a>';
-  	$theme_version = $active_theme->Version;
-  	$theme_author = $active_theme->Author;
-  	$theme_export = $active_theme->Name . ' - ' . $theme_version;
-  }
+  $active_theme = wp_get_theme();
+  $theme_name = '<a href="' . $active_theme->ThemeURI . '" target="_blank">' . $active_theme->Name . '</a>';
+  $theme_version = $active_theme->Version;
+  $theme_author = $active_theme->Author;
+  $theme_export = $active_theme->Name . ' - ' . $theme_version;
 
   $theme_update_version = $theme_version;
 
@@ -270,21 +262,17 @@ class System_Status extends Admin_Page
   $parent_theme = $parent_theme_export = '-';
 
   if ($is_child_theme) {
-  	if (version_compare($wp_version, '3.4', '<')) {
-  		$parent_theme = $parent_theme_export = $active_theme['Template'];
-  	} else {
-  		$parent = wp_get_theme($active_theme->Template);
-  		$parent_theme = '<dl>';
-  		$parent_theme .= '<dt>' . __('Name', 'google-calendar-events') . '</dt>';
-  		$parent_theme .= '<dd>' . $parent->Name . '</dd>';
-  		$parent_theme .= '<dt>' . __('Author', 'google-calendar-events') . '</dt>';
-  		$parent_theme .= '<dd>' . $parent->Author . '</dd>';
-  		$parent_theme .= '<dt>' . __('Version', 'google-calendar-events') . '</dt>';
-  		$parent_theme .= '<dd>' . $parent->Version . '</dd>';
-  		$parent_theme .= '</dl>';
+  	$parent = wp_get_theme($active_theme->Template);
+  	$parent_theme = '<dl>';
+  	$parent_theme .= '<dt>' . __('Name', 'google-calendar-events') . '</dt>';
+  	$parent_theme .= '<dd>' . $parent->Name . '</dd>';
+  	$parent_theme .= '<dt>' . __('Author', 'google-calendar-events') . '</dt>';
+  	$parent_theme .= '<dd>' . $parent->Author . '</dd>';
+  	$parent_theme .= '<dt>' . __('Version', 'google-calendar-events') . '</dt>';
+  	$parent_theme .= '<dd>' . $parent->Version . '</dd>';
+  	$parent_theme .= '</dl>';
 
-  		$parent_theme_export = strip_tags($parent->Name) . ' - ' . $parent->Version;
-  	}
+  	$parent_theme_export = wp_strip_all_tags($parent->Name) . ' - ' . $parent->Version;
   }
 
   $sections['theme'] = [
@@ -361,9 +349,9 @@ class System_Status extends Admin_Page
   		$plugin .= '<dd>' . $plugin_version . '</dd>';
   		$plugin .= '</dl>';
 
-  		$sections['plugins'][sanitize_key(strip_tags($plugin_name))] = [
+  		$sections['plugins'][sanitize_key(wp_strip_all_tags($plugin_name))] = [
   			'label' => $plugin_name,
-  			'label_export' => strip_tags($plugin_data['Title']),
+  			'label_export' => wp_strip_all_tags($plugin_data['Title']),
   			'result' => $plugin,
   			'result_export' => $plugin_data['Version'],
   		];
@@ -393,8 +381,9 @@ class System_Status extends Admin_Page
   	$php = '<mark class="ok">' . PHP_VERSION . '</mark>';
   }
 
-  if ($wpdb->use_mysqli) {
-  	$mysql = @mysqli_get_server_info($wpdb->dbh);
+  $mysql_version = $wpdb->get_var('SELECT VERSION()');
+  if ($mysql_version) {
+  	$mysql = $mysql_version;
   } else {
   	$mysql = '<mark class="error">' . __('Cannot connect to MySQL database.', 'google-calendar-events') . '</mark>';
   }
@@ -706,7 +695,7 @@ class System_Status extends Admin_Page
 				jQuery( this ).attr( 'href', URL.createObjectURL( file ) );
 				jQuery( this ).attr( 'download', '<?php echo esc_attr(
     	sanitize_title(
-    		str_replace(['http://', 'https://'], '', get_bloginfo('url')) . '-system-report-' . date('Y-m-d', time()),
+    		str_replace(['http://', 'https://'], '', get_bloginfo('url')) . '-system-report-' . gmdate('Y-m-d', time()),
     	),
     ); ?>' );
 			} );
