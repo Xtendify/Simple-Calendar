@@ -216,6 +216,10 @@ class Default_Calendar_List_Retro implements Calendar_View
 			$this->calendar = $calendar;
 		}
 
+		// AJAX reloads the calendar from its id, whose saved view is Grid Retro.
+		// Tags such as [event-dropdown-menu] resolve off $calendar->view.
+		$calendar->view = $this;
+
 		if (!$calendar->group_type) {
 			$calendar->group_type = 'monthly';
 		}

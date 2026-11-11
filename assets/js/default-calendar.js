@@ -216,6 +216,11 @@ jQuery(function ($) {
 				calendar.off('change.simcalBubbles').on('change.simcalBubbles', function () {
 					calendarBubbles(this);
 				});
+			} else if (calendar.hasClass('simcal-default-calendar-list-retro')) {
+				var retroHeading = calendar.find('.simcal-events-list-container').data('heading');
+				if (retroHeading) {
+					calendar.find('.simcal-retro-heading').text(retroHeading);
+				}
 			} else {
 				toggleListHeading(calendar);
 			}
@@ -486,7 +491,7 @@ jQuery(function ($) {
 		var list = calendar.find('.simcal-events-list-container'),
 			prev = list.data('prev'),
 			next = list.data('next'),
-			last_event = list.find('li.simcal-event:last').data('start');
+			last_event = list.find('.simcal-event:last').data('start');
 
 		buttons.each(function (e, b) {
 			var button = $(b);

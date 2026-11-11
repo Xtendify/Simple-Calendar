@@ -211,7 +211,12 @@ class Default_Calendar extends Calendar
 		$list_slug = 'grid-retro' === $grid_type ? 'list-retro' : 'list';
 		$this->set_properties($list_slug);
 		$list_view = $this->get_view($list_slug);
+		// Event tags resolve off $calendar->view. Point at the list sibling
+		// while it renders, then restore the grid view.
+		$saved_view = $this->view;
+		$this->view = $list_view;
 		$this->render_view_shell($list_view, false, false);
+		$this->view = $saved_view;
 
 		do_action('simcal_calendar_html_after', $this->id);
 
@@ -343,8 +348,9 @@ class Default_Calendar extends Calendar
 	 */
 	public function get_view($view = '')
 	{
-		// Saved identifiers are returned unchanged. Only a missing view uses Grid Retro.
-		$view = !empty($view) ? $view : 'grid-retro';
+		// Saved identifiers are returned unchanged. A missing view stays Grid Classic.
+		// New calendars preselect Grid Retro in the editor; that is written only on save.
+		$view = !empty($view) ? $view : 'grid';
 
 		do_action('simcal_calendar_get_view', $this->type, $view);
 
