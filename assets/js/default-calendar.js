@@ -34,8 +34,10 @@ jQuery(function ($) {
 			date,
 			action;
 
-		if (calendar.hasClass('simcal-default-calendar-grid')) {
-			action = 'simcal_default_calendar_draw_grid';
+		var isRetroGrid = calendar.hasClass('simcal-default-calendar-grid-retro');
+
+		if (isRetroGrid || calendar.hasClass('simcal-default-calendar-grid')) {
+			action = isRetroGrid ? 'simcal_default_calendar_draw_grid_retro' : 'simcal_default_calendar_draw_grid';
 			// Always use the first of the month in grid.
 			date = new Date(currentDate.year(), currentDate.month());
 			toggleGridNavButtons(buttons, date.getTime() / 1000, start, end);
@@ -49,7 +51,7 @@ jQuery(function ($) {
 		buttons.on('click', function () {
 			var direction = $(this).hasClass('simcal-next') ? 'next' : 'prev';
 
-			if (action == 'simcal_default_calendar_draw_grid') {
+			if (action == 'simcal_default_calendar_draw_grid' || action == 'simcal_default_calendar_draw_grid_retro') {
 				// Monthly grid calendars.
 
 				var body = calendar.find('.simcal-month'),
@@ -102,7 +104,13 @@ jQuery(function ($) {
 						body = calendar.find('.simcal-month');
 						calendar.removeAttr('aria-busy');
 
-						calendarBubbles(calendar);
+						if (action == 'simcal_default_calendar_draw_grid') {
+							calendarBubbles(calendar);
+						} else if (action == 'simcal_default_calendar_draw_grid_retro') {
+							calendar.removeData('simcalRetroMode');
+							clearRetroTips(calendar);
+							retroCalendarBubbles(calendar);
+						}
 					},
 					complete: function () {
 						spinner.fadeOut();
@@ -172,7 +180,9 @@ jQuery(function ($) {
 		}
 		var isMobile = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
 		if (isMobile) {
-			return calendar.hasClass('simcal-default-calendar-grid');
+			return (
+				calendar.hasClass('simcal-default-calendar-grid') || calendar.hasClass('simcal-default-calendar-grid-retro')
+			);
 		}
 		return calendar.hasClass('simcal-default-calendar-list');
 	}
@@ -188,7 +198,9 @@ jQuery(function ($) {
 			}
 			calendar.removeAttr('data-simcal-deferred');
 			initDefaultCalendarNav(calendar);
-			if (calendar.hasClass('simcal-default-calendar-grid')) {
+			if (calendar.hasClass('simcal-default-calendar-grid-retro')) {
+				retroCalendarBubbles(calendar);
+			} else if (calendar.hasClass('simcal-default-calendar-grid')) {
 				calendarBubbles(calendar);
 				calendar.off('change.simcalBubbles').on('change.simcalBubbles', function () {
 					calendarBubbles(this);
@@ -210,6 +222,207 @@ jQuery(function ($) {
 
 		initDefaultCalendarNav(calendar);
 	});
+
+	/**
+	 * Remove Grid Retro qTips before rebinding.
+	 *
+	 * @param {Element|jQuery} calendar
+	 */
+	function clearRetroTips(calendar) {
+		if (!$.fn.qtip) {
+			return;
+		}
+		$(calendar)
+			.find('[data-hasqtip]')
+			.each(function () {
+				$(this).qtip('destroy', true);
+			});
+	}
+
+	/**
+	 * Classic grid uses a day cell under 60px as the widget / phone layout.
+	 *
+	 * @param {jQuery} root
+	 * @return {boolean}
+	 */
+	function retroGridIsCompact(root) {
+		var table = root.find('table.simcal-retro-table');
+		if (!table.length || !root.is(':visible')) {
+			return false;
+		}
+		return table.width() / 7 < 60;
+	}
+
+	/**
+	 * Shared qTip options for Grid Retro bubbles.
+	 *
+	 * @param {string} bubbleTrigger
+	 * @param {jQuery} target
+	 * @param {Function} text
+	 * @param {Function} onShow
+	 * @param {Function} onHide
+	 * @return {Object}
+	 */
+	function retroQtipOptions(bubbleTrigger, target, text, onShow, onHide) {
+		return {
+			content: {
+				text: text,
+			},
+			position: {
+				my: 'top center',
+				at: 'bottom center',
+				// Card mode: below the event card border. Compact: below the color dot.
+				target: target,
+				viewport: $(window),
+				adjust: {
+					// Shift sideways only. A vertical shift pulls a tall bubble above the event.
+					method: 'shift none',
+					scroll: false,
+				},
+			},
+			style: {
+				def: false,
+				width: 257,
+				classes: 'simcal-default-calendar simcal-event-bubble simcal-retro-bubble',
+				tip: false,
+			},
+			show: {
+				solo: true,
+				effect: false,
+				event: bubbleTrigger == 'hover' ? 'mouseenter' : 'click',
+			},
+			hide: {
+				fixed: true,
+				effect: false,
+				event: bubbleTrigger == 'click' ? 'unfocus' : 'mouseleave',
+				delay: 100,
+			},
+			events: {
+				render: function (event, api) {
+					setTimeout(function () {
+						api.reposition();
+					}, 10);
+				},
+				show: function () {
+					if (onShow) {
+						onShow();
+					}
+				},
+				hide: function () {
+					if (onHide) {
+						onHide();
+					}
+				},
+			},
+			overwrite: false,
+		};
+	}
+
+	/**
+	 * Grid Retro event bubbles.
+	 *
+	 * Uses the same qTip trigger as Grid Classic. The setting is click or hover,
+	 * check classic grid uses for a phone or widget — shows event dots.
+	 * Classic binds the bubble to those dots, not the day cell. Each dot
+	 * opens its own event so a day with several events stays selectable.
+	 *
+	 * @param {Element|jQuery} calendar
+	 */
+	function retroCalendarBubbles(calendar) {
+		var root = $(calendar);
+		var compact = retroGridIsCompact(root);
+		var mode = compact ? 'compact' : 'cards';
+
+		root.toggleClass('simcal-retro-compact', compact);
+
+		if (!$.fn.qtip) {
+			return;
+		}
+		if (root.data('simcalRetroMode') === mode && root.find('[data-hasqtip]').length) {
+			return;
+		}
+
+		root.data('simcalRetroMode', mode);
+		clearRetroTips(root);
+
+		var bubbleTrigger = root.find('[data-event-bubble-trigger]').first().data('event-bubble-trigger');
+		if (bubbleTrigger !== 'hover') {
+			bubbleTrigger = 'click';
+		}
+		if (compact || (window.matchMedia && window.matchMedia('(max-width: 768px)').matches)) {
+			bubbleTrigger = 'click';
+		}
+
+		if (compact) {
+			root.find('.simcal-day-has-events').removeAttr('tabindex');
+			root.find('.simcal-day-has-events').each(function () {
+				var cell = $(this);
+				var events = cell.find('.simcal-tooltip');
+				cell.find('.simcal-event-color-dot').each(function (index) {
+					var dot = $(this);
+					var tip = events.eq(index);
+					if (!tip.length) {
+						return;
+					}
+					dot.attr('tabindex', '0');
+					dot.qtip(
+						retroQtipOptions(
+							bubbleTrigger,
+							dot,
+							function () {
+								var content = tip.find('> .simcal-tooltip-content').clone(true, true).css({ display: 'block' })[0];
+								return content || 'No event info available';
+							},
+							function () {
+								cell.addClass('simcal-retro-day-open');
+							},
+							function () {
+								cell.removeClass('simcal-retro-day-open');
+							}
+						)
+					);
+				});
+			});
+			return;
+		}
+
+		root.find('.simcal-day-has-events').removeAttr('tabindex').removeClass('simcal-retro-day-open');
+		root.find('.simcal-tooltip').each(function () {
+			var tip = $(this);
+			tip.attr('tabindex', '0');
+			tip.qtip(
+				retroQtipOptions(bubbleTrigger, tip, function () {
+					var content = tip.find('> .simcal-tooltip-content').clone(true, true).css({ display: 'block' })[0];
+					return content || 'No event info available';
+				})
+			);
+		});
+	}
+
+	$('.simcal-default-calendar-grid-retro').each(function () {
+		var calendar = $(this);
+		if (calendar.attr('data-simcal-deferred') === '1' || isDeferredResponsiveSibling(calendar)) {
+			return;
+		}
+		retroCalendarBubbles(calendar);
+	});
+
+	$(document).on(
+		'keydown',
+		'.simcal-default-calendar-grid-retro .simcal-tooltip, .simcal-default-calendar-grid-retro.simcal-retro-compact .simcal-event-color-dot',
+		function (event) {
+			if (event.key !== 'Enter' && event.key !== ' ' && event.keyCode !== 13 && event.keyCode !== 32) {
+				return;
+			}
+			event.preventDefault();
+			var calendar = $(this).closest('.simcal-default-calendar-grid-retro');
+			var trigger = calendar.find('[data-event-bubble-trigger]').first().data('event-bubble-trigger');
+			var narrow =
+				calendar.hasClass('simcal-retro-compact') ||
+				(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
+			$(this).trigger(trigger === 'hover' && !narrow ? 'mouseenter' : 'click');
+		}
+	);
 
 	/**
 	 * Enable or disable grid calendar navigation buttons.
@@ -491,6 +704,9 @@ jQuery(function ($) {
 					calendarBubbles(calendar);
 				}
 			});
+			$('.simcal-default-calendar-grid-retro:visible').each(function () {
+				retroCalendarBubbles(this);
+			});
 		}, 150);
 	};
 
@@ -502,6 +718,9 @@ jQuery(function ($) {
 				if ($(calendar).is(':visible')) {
 					calendarBubbles(calendar);
 				}
+			});
+			$('.simcal-default-calendar-grid-retro:visible').each(function () {
+				retroCalendarBubbles(this);
 			});
 		};
 		if (responsiveViewsMq.addEventListener) {
