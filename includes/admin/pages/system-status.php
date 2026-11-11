@@ -344,8 +344,8 @@ class System_Status extends Admin_Page
   							'<mark class="error">' .
   							$plugin_version .
   							' (' .
-  						/* translators: %s: available plugin version number */
-  						sprintf(__('%s is available', 'google-calendar-events'), esc_html($plugin_update_version)) .
+  							/* translators: %s: available plugin version number */
+  							sprintf(__('%s is available', 'google-calendar-events'), esc_html($plugin_update_version)) .
   							')</mark>';
   					} else {
   						$plugin_version = '<mark class="ok">' . $plugin_version . '</mark>';

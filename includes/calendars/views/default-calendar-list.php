@@ -766,6 +766,7 @@ class Default_Calendar_List implements Calendar_View
 				echo '</' . tag_escape($tag) . '>' . "\n";
 			endforeach;
 			/* translators: 1: start date, 2: end date */
+			/* translators: 1: start date, 2: end date */
 		else:
 			echo "\t" . '<p>';
 
