@@ -540,6 +540,8 @@ class Default_Calendar_List implements Calendar_View
 		$now = $calendar->now;
 		$current_events = $this->get_events($timestamp);
 		$format = $calendar->date_format;
+		/* translators: 1: start date, 2: end date */
+		$nothing_from_to_format = __('Nothing from %1$s to %2$s.', 'google-calendar-events');
 
 		ob_start();
 
@@ -765,7 +767,6 @@ class Default_Calendar_List implements Calendar_View
 				echo "\t" . wp_kses_post($list_events) . "\n";
 				echo '</' . tag_escape($tag) . '>' . "\n";
 			endforeach;
-			/* translators: 1: start date, 2: end date */
 		else:
 			echo "\t" . '<p>';
 
@@ -781,9 +782,8 @@ class Default_Calendar_List implements Calendar_View
 				} else {
 					$from = Carbon::createFromTimestamp($this->start, $calendar->timezone)->getTimestamp();
 					$to = Carbon::createFromTimestamp($this->end, $calendar->timezone)->getTimestamp();
-					$nothing_message = __('Nothing from %1$s to %2$s.', 'google-calendar-events');
 					$nothing_message = sprintf(
-						$nothing_message,
+						$nothing_from_to_format,
 						date_i18n($calendar->date_format, $from),
 						date_i18n($calendar->date_format, $to),
 					);

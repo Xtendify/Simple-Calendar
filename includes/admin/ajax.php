@@ -245,7 +245,7 @@ class Ajax
 			/* translators: %s: error details */
 			wp_send_json_error(sprintf(__('An error occurred: %s', 'google-calendar-events'), 'Nonce verification failed.'));
 		}
-		update_option('simple-calendar_admin_footer_text_rated', date('Y-m-d', time()));
+		update_option('simple-calendar_admin_footer_text_rated', gmdate('Y-m-d', time()));
 	}
 
 	/**

@@ -827,10 +827,10 @@ abstract class Calendar
 		// "location" (address) should work with an address, just a name or blank.
 		$params = [
 			'action' => 'TEMPLATE',
-			'text' => rawurlencode(strip_tags((string) $event->title)),
+			'text' => rawurlencode(wp_strip_all_tags((string) $event->title)),
 			'dates' => $gcal_dt_string,
-			'details' => rawurlencode(strip_tags((string) $event->description)),
-			'location' => rawurlencode(strip_tags((string) ($event->start_location['address'] ?? ''))),
+			'details' => rawurlencode(wp_strip_all_tags((string) $event->description)),
+			'location' => rawurlencode(wp_strip_all_tags((string) ($event->start_location['address'] ?? ''))),
 			'trp' => 'false',
 		];
 

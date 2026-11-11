@@ -8,7 +8,9 @@
  * Version:    PACKAGE_VERSION
  * Text Domain: google-calendar-events
  * Domain Path: /i18n
- *
+ * License: GPLv2 or later
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
+ * 
  * @copyright   2013-2023 Xtendify Technologies. All rights reserved.
  */
 
