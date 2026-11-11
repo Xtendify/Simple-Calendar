@@ -207,7 +207,7 @@ class Google extends Feed
 
 							// Event title & description.
 							$title = $event->getSummary() ?? '';
-							$title = strip_tags($title);
+							$title = wp_strip_all_tags($title);
 							$title = !empty($title)
 								? sanitize_text_field(iconv(mb_detect_encoding($title, mb_detect_order(), true), 'UTF-8', $title))
 								: '';

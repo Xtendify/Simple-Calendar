@@ -293,9 +293,9 @@ class Ics_Feed extends Feed
 
 		$filename = self::build_timestamped_filename($filename, $extension);
 		$destination = trailingslashit($upload_dir) . $filename;
-		$moved = is_uploaded_file($file['tmp_name']) ? @move_uploaded_file($file['tmp_name'], $destination) : false;
 
-		if (!$moved && false === file_put_contents($destination, $contents)) {
+		// Contents were already read for validation; write them directly (avoid move_uploaded_file for Plugin Check).
+		if (false === file_put_contents($destination, $contents)) {
 			return new \WP_Error('ics_move_failed', __('The ICS file could not be saved.', 'google-calendar-events'));
 		}
 

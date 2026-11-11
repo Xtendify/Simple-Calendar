@@ -245,7 +245,7 @@ class Default_Calendar_Grid implements Calendar_View
       	echo ' <span class="simcal-current-' .
       		esc_attr($k) .
       		'">' .
-      		esc_html(wp_date($v, $calendar->start)) .
+      		esc_html($this->format_timestamp($calendar->start, $v)) .
       		'</span> ';
       }
 
@@ -299,12 +299,14 @@ class Default_Calendar_Grid implements Calendar_View
                 </tr>
                 </thead>
 
-				<?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- draw_month() escapes at the leaf nodes.
-
-			echo $this->draw_month(
+				<?php
+    $month_html = $this->draw_month(
     	$this->format_timestamp($calendar->start, 'n'),
     	$this->format_timestamp($calendar->start, 'Y'),
-    ); ?>
+    );
+    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- draw_month() escapes at the leaf nodes.
+    echo $month_html;
+    ?>
             </table>
 
 			<?php \SimpleCalendar\Ics_Export::print_actions($calendar->id);}

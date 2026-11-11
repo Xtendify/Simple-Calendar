@@ -95,7 +95,7 @@ if (!class_exists('SimCal_WP_Requirements')) {
 		 */
 		public function __construct($name, $plugin, $requirements)
 		{
-			$this->name = htmlspecialchars(strip_tags($name));
+			$this->name = htmlspecialchars(wp_strip_all_tags($name));
 			$this->plugin = $plugin;
 			$this->requirements = $requirements;
 
