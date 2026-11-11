@@ -1,4 +1,6 @@
-/* Retro color tokens. Reuses the design-system white (#fff) where it matches. */
+/* Retro color tokens. Reuses the design-system white (#fff) where it matches.
+   Shared colors also live in default-calendar-common.css for List Retro.
+   Bubbles are rendered on body, so they still need this mixin. */
 @mixin retro-tokens {
 	--simcal-retro-heading: #1e293b;
 	--simcal-retro-nav-border: #e6e8ee;

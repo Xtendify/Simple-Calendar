@@ -1,10 +1,5 @@
 .simcal-default-calendar.simcal-default-calendar-list-retro {
-	/* Retro color tokens. Reuses the design-system white where it matches. */
-	--simcal-retro-heading: #1e293b;
-	--simcal-retro-nav-border: #e6e8ee;
-	--simcal-retro-nav-text: #64748b;
-	--simcal-retro-accent: #3c8595;
-	--simcal-retro-text: #4d5e80;
+	/* Shared Retro colors are in default-calendar-common.css. */
 	--simcal-retro-divider: #dedede;
 	--simcal-retro-desc-text: #475569;
 	--simcal-retro-dark: #0f172a;

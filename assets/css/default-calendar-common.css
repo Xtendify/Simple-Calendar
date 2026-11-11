@@ -477,6 +477,16 @@
 	}
 }
 
+/* Retro color tokens shared by Grid Retro and List Retro. */
+.simcal-default-calendar.simcal-default-calendar-grid-retro,
+.simcal-default-calendar.simcal-default-calendar-list-retro {
+	--simcal-retro-heading: #1e293b;
+	--simcal-retro-nav-border: #e6e8ee;
+	--simcal-retro-nav-text: #64748b;
+	--simcal-retro-accent: #3c8595;
+	--simcal-retro-text: #4d5e80;
+}
+
 @media print {
 	.simcal-empty-events-notice {
 		display: none;
