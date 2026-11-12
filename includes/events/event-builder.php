@@ -1194,7 +1194,7 @@ class Event_Builder
 
 		$photo =
 			'hide' != $attr['photo'] && !empty($organizer['photo'])
-				? '<img class="avatar avatar-128 photo" src="' . esc_url($organizer['photo']) . '" itemprop="image"  />'
+				? '<img class="avatar avatar-128 photo" src="' . esc_url($organizer['photo']) . '" alt="" itemprop="image" />'
 				: '';
 		// A hidden real name stays in microdata. Event_Schema already emits the organizer name when this tag has none.
 		$name_html = '';
