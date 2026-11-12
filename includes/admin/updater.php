@@ -199,7 +199,7 @@ class Updater
 			// build a plugin list row, with update notification
 			$wp_list_table = _get_list_table('WP_Plugins_List_Table');
 			echo '<tr class="plugin-update-tr"><td colspan="' .
-				$wp_list_table->get_column_count() .
+				esc_attr((string) $wp_list_table->get_column_count()) .
 				'" class="plugin-update colspanchange"><div class="update-message">';
 
 			$changelog_link = self_admin_url(
@@ -210,11 +210,23 @@ class Updater
 					'&TB_iframe=true&width=772&height=911',
 			);
 
+			$allowed_html = [
+				'a' => [
+					'href' => true,
+					'target' => true,
+					'class' => true,
+				],
+			];
+
 			if (empty($version_info->download_link)) {
 				printf(
-					__(
-						'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a>.',
-						'google-calendar-events',
+					wp_kses(
+						/* translators: 1: plugin name, 2: changelog URL, 3: new version number */
+						__(
+							'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a>.',
+							'google-calendar-events',
+						),
+						$allowed_html,
 					),
 					esc_html($version_info->name),
 					esc_url($changelog_link),
@@ -222,9 +234,13 @@ class Updater
 				);
 			} else {
 				printf(
-					__(
-						'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a> or <a href="%4$s">update now</a>.',
-						'google-calendar-events',
+					wp_kses(
+						/* translators: 1: plugin name, 2: changelog URL, 3: new version number, 4: update URL */
+						__(
+							'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a> or <a href="%4$s">update now</a>.',
+							'google-calendar-events',
+						),
+						$allowed_html,
 					),
 					esc_html($version_info->name),
 					esc_url($changelog_link),
@@ -372,8 +388,8 @@ class Updater
 
 		if (!current_user_can('update_plugins')) {
 			wp_die(
-				__('You do not have permission to install plugin updates', 'google-calendar-events'),
-				__('Error', 'google-calendar-events'),
+				esc_html__('You do not have permission to install plugin updates', 'google-calendar-events'),
+				esc_html__('Error', 'google-calendar-events'),
 				['response' => 403],
 			);
 		}
@@ -381,7 +397,7 @@ class Updater
 		$response = $this->api_request('plugin_latest_version', ['slug' => $_REQUEST['slug']]);
 
 		if ($response && isset($response->sections['changelog'])) {
-			echo '<div style="background:#fff;padding:10px;">' . $response->sections['changelog'] . '</div>';
+			echo '<div style="background:#fff;padding:10px;">' . wp_kses_post($response->sections['changelog']) . '</div>';
 		}
 
 		exit();

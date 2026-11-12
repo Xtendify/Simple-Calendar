@@ -101,18 +101,18 @@ class License extends Field
 						<h3 class="sc_h5 sc_addon_item_title"><?php echo esc_html($this->title); ?></h3>
 					</div>
 					<?php if (!empty($this->card_description)) { ?>
-						<p class="sc_text--body_b3 sc_addon_item_desc"><?php echo $this->card_description; ?></p>
+						<p class="sc_text--body_b3 sc_addon_item_desc"><?php echo wp_kses_post($this->card_description); ?></p>
 					<?php } ?>
 			<?php } ?>
 
-			<div class="simcal-addon-manage-license-field" data-addon="<?php echo $this->addon; ?>">
+			<div class="simcal-addon-manage-license-field" data-addon="<?php echo esc_attr($this->addon); ?>">
 				<input
 					type="text"
-					<?php echo $disabled; ?>
-					name="<?php echo $this->name; ?>"
-					id="<?php echo $this->id; ?>"
-					value="<?php echo $this->value; ?>"
-					class="<?php echo trim('sc_input sc_input_muted sc_input_full ' . $this->class); ?>"
+					<?php echo wp_kses_post($disabled); ?>
+					name="<?php echo esc_attr($this->name); ?>"
+					id="<?php echo esc_attr($this->id); ?>"
+					value="<?php echo esc_attr($this->value); ?>"
+					class="<?php echo esc_attr(trim('sc_input sc_input_muted sc_input_full ' . $this->class)); ?>"
 				/>
 
 				<div class="simcal-addon-manage-license-buttons">
@@ -120,7 +120,7 @@ class License extends Field
 						class="sc_btn sc_btn--blue-loading simcal-addon-manage-license deactivate<?php echo $show_deactivate
       	? ''
       	: ' is_hidden'; ?>"
-						data-add-on="<?php echo $this->addon; ?>"
+						data-add-on="<?php echo esc_attr($this->addon); ?>"
 					>
 						<span class="sc_btn_submit"><?php esc_html_e('Deactivate', 'google-calendar-events'); ?></span>
 						<span class="sc_btn_loading" aria-hidden="true">
@@ -135,7 +135,7 @@ class License extends Field
 						class="sc_btn sc_btn--blue-loading simcal-addon-manage-license activate<?php echo $show_activate
       	? ''
       	: ' is_hidden'; ?>"
-						data-add-on="<?php echo $this->addon; ?>"
+						data-add-on="<?php echo esc_attr($this->addon); ?>"
 					>
 						<span class="sc_btn_submit"><?php esc_html_e('Activate', 'google-calendar-events'); ?></span>
 						<span class="sc_btn_loading" aria-hidden="true">
@@ -148,7 +148,7 @@ class License extends Field
 
 					<span class="error sc-error-notice is_hidden"></span>
 					<strong class="label sc_license_active_label<?php echo $show_active_label ? '' : ' is_hidden'; ?>">
-						<?php _e('(active)', 'google-calendar-events'); ?>
+						<?php esc_html_e('(active)', 'google-calendar-events'); ?>
 					</strong>
 				</div>
 			</div>

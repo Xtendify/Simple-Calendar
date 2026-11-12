@@ -159,10 +159,12 @@ $api_key_field_item_class = $is_credentials_core ? 'sc_item sc_core_item_spaced'
 			<?php if (!$is_credentials_core) { ?>
 				
 				<?php esc_html_e('Connect in a single click without API keys, available in the&nbsp;', 'google-calendar-events'); ?>
-				<a href="<?php echo simcal_ga_campaign_url(
-    	'https://simplecalendar.io/downloads/google-calendar-pro/',
-    	'core-plugin',
-    	'connect-api-key-pro-addon',
+				<a href="<?php echo esc_url(
+    	simcal_ga_campaign_url(
+    		'https://simplecalendar.io/downloads/google-calendar-pro/',
+    		'core-plugin',
+    		'connect-api-key-pro-addon',
+    	),
     ); ?>" target="_blank" class="sc_connect_pro_link">
 					<img src="<?php echo esc_url($assets_base . 'crown.svg'); ?>" alt="" />
 					<span class="sc_link"><?php esc_html_e('Pro version', 'google-calendar-events'); ?></span>

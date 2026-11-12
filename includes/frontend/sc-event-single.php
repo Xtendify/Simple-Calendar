@@ -396,11 +396,22 @@ class Sc_Event_Single
 		 */
 		do_action('simcal_before_event_detail', $post, $context);
 
-		$wrapper_class = esc_attr(implode(' ', $classes));
+		$wrapper_class = implode(' ', $classes);
 		$schema_meta_html = !empty($context['schema_meta']) ? $context['schema_meta'] : '';
 		?>
-		<div class="<?php echo $wrapper_class; ?>" itemscope itemtype="https://schema.org/Event">
-			<?php echo $schema_meta_html; ?>
+		<div class="<?php echo esc_attr($wrapper_class); ?>" itemscope itemtype="https://schema.org/Event">
+			<?php echo wp_kses($schema_meta_html, [
+   	'meta' => [
+   		'itemprop' => true,
+   		'content' => true,
+   	],
+   	'span' => [
+   		'itemprop' => true,
+   		'itemscope' => true,
+   		'itemtype' => true,
+   		'style' => true,
+   	],
+   ]); ?>
 			<?php do_action('simcal_before_event_detail_summary', $post, $context); ?>
 			<div class="simcal-event-detail__body">
 				<div class="simcal-event-detail__main">
@@ -450,7 +461,7 @@ class Sc_Event_Single
 		}
 		?>
 		<figure class="simcal-event-detail__featured">
-			<?php echo $featured_image; ?>
+			<?php echo wp_kses_post($featured_image); ?>
 		</figure>
 		<?php
 	}
@@ -469,19 +480,22 @@ class Sc_Event_Single
 		$end_label = isset($context['end_label']) ? $context['end_label'] : '—';
 
 		do_action('simcal_before_event_detail_meta', $post, $context);
+
+		$calendar_icon = $this->calendar_icon();
+		$svg_allowed = $this->get_svg_allowed_html();
 		?>
 		<div class="simcal-event-detail__meta">
 			<div class="simcal-event-detail__meta-item">
 				<h3 class="simcal-event-detail__meta-label"><?php esc_html_e('Start', 'google-calendar-events'); ?></h3>
 				<p class="simcal-event-detail__meta-value">
-					<span class="simcal-event-detail__icon" aria-hidden="true"><?php echo $this->calendar_icon(); ?></span>
+					<span class="simcal-event-detail__icon" aria-hidden="true"><?php echo wp_kses($calendar_icon, $svg_allowed); ?></span>
 					<span><?php echo esc_html($start_label); ?></span>
 				</p>
 			</div>
 			<div class="simcal-event-detail__meta-item">
 				<h3 class="simcal-event-detail__meta-label"><?php esc_html_e('End', 'google-calendar-events'); ?></h3>
 				<p class="simcal-event-detail__meta-value">
-					<span class="simcal-event-detail__icon" aria-hidden="true"><?php echo $this->calendar_icon(); ?></span>
+					<span class="simcal-event-detail__icon" aria-hidden="true"><?php echo wp_kses($calendar_icon, $svg_allowed); ?></span>
 					<span><?php echo esc_html($end_label); ?></span>
 				</p>
 			</div>
@@ -518,7 +532,7 @@ class Sc_Event_Single
 		<div class="simcal-event-detail__description">
 			<h2 class="simcal-event-detail__description-title"><?php esc_html_e('Description', 'google-calendar-events'); ?></h2>
 			<div class="simcal-event-detail__description-content" itemprop="description">
-				<?php echo $description_html; ?>
+				<?php echo wp_kses_post($description_html); ?>
 			</div>
 		</div>
 		<?php do_action('simcal_after_event_detail_description', $post, $context);
@@ -538,8 +552,6 @@ class Sc_Event_Single
 		$location = isset($context['location']) ? $context['location'] : '';
 		$lat = !empty($context['lat']) ? (float) $context['lat'] : 0;
 		$lng = !empty($context['lng']) ? (float) $context['lng'] : 0;
-		$location_attrs = $location ? ' itemprop="location" itemscope itemtype="https://schema.org/Place"' : '';
-
 		do_action('simcal_before_event_detail_location', $post, $context);
 
 		$map_html = sprintf(
@@ -564,11 +576,15 @@ class Sc_Event_Single
 		 * @param array    $context  Template data.
 		 */
 		$map_html = apply_filters('simcal_event_detail_map_html', $map_html, $post, $context);
+		$pin_icon = $this->pin_icon();
+		$svg_allowed = $this->get_svg_allowed_html();
 		?>
-		<div class="simcal-event-detail__sidebar-card simcal-event-detail__location"<?php echo $location_attrs; ?>>
+		<div class="simcal-event-detail__sidebar-card simcal-event-detail__location"<?php if (
+  	$location
+  ): ?> itemprop="location" itemscope itemtype="https://schema.org/Place"<?php endif; ?>>
 			<h2 class="simcal-event-detail__sidebar-title"><?php esc_html_e('Address', 'google-calendar-events'); ?></h2>
 			<p class="simcal-event-detail__location-address">
-				<span class="simcal-event-detail__icon" aria-hidden="true"><?php echo $this->pin_icon(); ?></span>
+				<span class="simcal-event-detail__icon" aria-hidden="true"><?php echo wp_kses($pin_icon, $svg_allowed); ?></span>
 				<?php if ($location): ?>
 					<meta itemprop="name" content="<?php echo esc_attr($location); ?>" />
 					<meta itemprop="address" content="<?php echo esc_attr($location); ?>" />
@@ -581,7 +597,7 @@ class Sc_Event_Single
 				<?php endif; ?>
 				<span><?php echo esc_html($address); ?></span>
 			</p>
-			<?php echo $map_html; ?>
+			<?php echo wp_kses_post($map_html); ?>
 			<?php do_action('simcal_event_detail_location', $post, $context); ?>
 		</div>
 		<?php do_action('simcal_after_event_detail_location', $post, $context);
@@ -625,13 +641,13 @@ class Sc_Event_Single
 				<?php if ($categories): ?>
 					<div class="simcal-event-detail__row">
 						<dt><?php esc_html_e('Category', 'google-calendar-events'); ?></dt>
-						<dd><?php echo $categories; ?></dd>
+						<dd><?php echo wp_kses_post($categories); ?></dd>
 					</div>
 				<?php endif; ?>
 				<?php if ($tags): ?>
 					<div class="simcal-event-detail__row">
 						<dt><?php esc_html_e('Tag', 'google-calendar-events'); ?></dt>
-						<dd><?php echo $tags; ?></dd>
+						<dd><?php echo wp_kses_post($tags); ?></dd>
 					</div>
 				<?php endif; ?>
 				<?php do_action('simcal_event_detail_details_rows', $post, $context); ?>
@@ -820,17 +836,13 @@ class Sc_Event_Single
 	 */
 	protected function format_in_timezone($timestamp, $timezone, $format)
 	{
-		if (function_exists('wp_date')) {
-			try {
-				return wp_date($format, $timestamp, new \DateTimeZone($timezone));
-			} catch (\Exception $e) {
-				return wp_date($format, $timestamp);
-			}
+		try {
+			return wp_date($format, $timestamp, new \DateTimeZone($timezone));
+		} catch (\Exception $e) {
+			$utc = gmdate('Y-m-d H:i:s', $timestamp);
+
+			return get_date_from_gmt($utc, $format);
 		}
-
-		$utc = gmdate('Y-m-d H:i:s', $timestamp);
-
-		return get_date_from_gmt($utc, $format);
 	}
 
 	/**
@@ -876,5 +888,42 @@ class Sc_Event_Single
 	protected function pin_icon()
 	{
 		return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6-5.3-6-10a6 6 0 1 1 12 0c0 4.7-6 10-6 10z"/><circle cx="12" cy="11" r="2.2"/></svg>';
+	}
+
+	/**
+	 * Allowed HTML for inline SVG icons.
+	 *
+	 * @since 4.3.2
+	 *
+	 * @return array
+	 */
+	protected function get_svg_allowed_html()
+	{
+		return [
+			'svg' => [
+				'xmlns' => true,
+				'viewbox' => true,
+				'fill' => true,
+				'stroke' => true,
+				'stroke-width' => true,
+				'stroke-linecap' => true,
+				'stroke-linejoin' => true,
+			],
+			'rect' => [
+				'x' => true,
+				'y' => true,
+				'width' => true,
+				'height' => true,
+				'rx' => true,
+			],
+			'path' => [
+				'd' => true,
+			],
+			'circle' => [
+				'cx' => true,
+				'cy' => true,
+				'r' => true,
+			],
+		];
 	}
 }

@@ -123,7 +123,7 @@ class Ics_Feed_Admin
 		<div id="ics-feed-settings-panel" class="simcal-panel">
 			<table>
 				<thead>
-					<tr><th colspan="2"><?php _e('ICS Feed Settings', 'google-calendar-events'); ?></th></tr>
+					<tr><th colspan="2"><?php esc_html_e('ICS Feed Settings', 'google-calendar-events'); ?></th></tr>
 				</thead>
 				<?php do_action('simcal_ics_feed_settings_fields_before', $post_id); ?>
 				<tbody class="simcal-panel-section simcal-panel-section-ics-feed-file">
@@ -272,6 +272,7 @@ class Ics_Feed_Admin
 
 		return sprintf(
 			'<p class="description">' .
+				/* translators: %1$s: URL to ICS feed import documentation */
 				__(
 					'Export or download an ICS/iCal file from your calendar. <a href="%1$s" target="_blank">Detailed instructions</a>',
 					'google-calendar-events',

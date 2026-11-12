@@ -97,12 +97,12 @@ class Bulk_Actions
 			<script type="text/javascript">
 				jQuery( document ).ready( function() {
 					<?php foreach ($this->actions as $action_name => $action): ?>
-						jQuery( '<option>' ).val( '<?php echo $action_name; ?>' ).text( '<?php echo $action[
-	'menu_text'
-]; ?>').appendTo( 'select[name="action"]'  );
-						jQuery( '<option>' ).val( '<?php echo $action_name; ?>' ).text( '<?php echo $action[
-	'menu_text'
-]; ?>').appendTo( 'select[name="action2"]' );
+						jQuery( '<option>' ).val( '<?php echo esc_js($action_name); ?>' ).text( '<?php echo esc_js(
+	$action['menu_text'],
+); ?>' ).appendTo( 'select[name="action"]' );
+						jQuery( '<option>' ).val( '<?php echo esc_js($action_name); ?>' ).text( '<?php echo esc_js(
+	$action['menu_text'],
+); ?>' ).appendTo( 'select[name="action2"]' );
 					<?php endforeach; ?>
 				} );
 			</script>
@@ -211,23 +211,14 @@ class Bulk_Actions
 			return;
 		}
 
-		$post_ids_count = is_array($post_ids) ? count($post_ids) : 1;
-
 		if ($pagenow == 'edit.php' && $post_type == $this->bulk_action_post_type) {
 			if (isset($_REQUEST['success_action'])) {
-				// Print notice in admin bar.
+				// Print notice in admin bar. Message must be a translated string literal at registration.
 				$message = $this->actions[$_REQUEST['success_action']]['admin_notice'];
-
-				if (is_array($message)) {
-					$message = sprintf(
-						_n($message['single'], $message['plural'], $post_ids_count, 'google-calendar-events'),
-						$post_ids_count,
-					);
-				}
 
 				$class = 'updated notice is-dismissible above-h2';
 				if (!empty($message)) {
-					echo "<div class=\"{$class}\"><p>{$message}</p></div>";
+					echo '<div class="' . esc_attr($class) . '"><p>' . esc_html($message) . '</p></div>';
 				}
 			}
 		}

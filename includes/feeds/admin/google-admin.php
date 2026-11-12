@@ -93,6 +93,7 @@ class Google_Admin
 				'</div><br/><br/>' .
 				'<em style="font-size: 14px;">' .
 				sprintf(
+					/* translators: %s: URL to Google Calendar Pro add-on */
 					__(
 						'<strong>Note:</strong> Calendars configured to use the <a href="%s" class=" hover:simcal-text-green-600 simcal-underline" target="_blank">Google Calendar Pro add-on</a> use a different method of authorization.',
 						'google-calendar-events',
@@ -145,6 +146,7 @@ class Google_Admin
 		$message =
 			'<p class="description">' .
 			sprintf(
+				/* translators: %s: URL to Google API key documentation */
 				__(
 					'<a href="%s" class="simcal-underline hover:simcal-text-green-600 simcal-text-[13px]" target="_blank">Step-by-step instructions</a> ',
 					'google-calendar-events',
@@ -152,6 +154,7 @@ class Google_Admin
 				simcal_ga_campaign_url(simcal_get_url('docs') . '/google-api-key/', 'core-plugin', 'settings-link'),
 			) .
 			sprintf(
+				/* translators: %s: URL to Google Developers Console */
 				__(
 					'<a href="%s" class="simcal-pl-[20px] simcal-underline hover:simcal-text-green-600 simcal-text-[13px]" target="_blank">Google Developers Console</a> ',
 					'google-calendar-events',
@@ -254,7 +257,7 @@ class Google_Admin
 		<div id="google-settings-panel" class="simcal-panel">
 			<table>
 				<thead>
-					<tr><th colspan="2"><?php _e('Google Calendar Settings', 'google-calendar-events'); ?></th></tr>
+					<tr><th colspan="2"><?php esc_html_e('Google Calendar Settings', 'google-calendar-events'); ?></th></tr>
 				</thead>
 				<?php Settings::print_panel_fields($inputs, $post_id); ?>
 			</table>
@@ -273,13 +276,15 @@ class Google_Admin
 	{
 		return sprintf(
 			'<p class="description">' .
+				/* translators: %1$s: URL to documentation for making a Google Calendar public */
 				__(
-					'Step 1: Set the Google Calendar you want to use as <strong>"public."</strong> <a href="%1s" target="_blank">Detailed instructions</a>',
+					'Step 1: Set the Google Calendar you want to use as <strong>"public."</strong> <a href="%1$s" target="_blank">Detailed instructions</a>',
 					'google-calendar-events',
 				) .
 				'<br />' .
+				/* translators: %2$s: URL to documentation for finding a Google Calendar ID */
 				__(
-					'Step 2: Copy and paste your Google Calendar ID here. <a href="%2s" target="_blank">Detailed instructions</a>',
+					'Step 2: Copy and paste your Google Calendar ID here. <a href="%2$s" target="_blank">Detailed instructions</a>',
 					'google-calendar-events',
 				) .
 				'</p>',
@@ -375,6 +380,7 @@ class Google_Admin
 					'<p>' .
 					'<i class="simcal-icon-warning"></i> ' .
 					sprintf(
+						/* translators: %s: URL to Simple Calendar settings page */
 						__(
 							'Your Google Calendar events will not show up until you <a href="%s">create and save a Google API key</a>.',
 							'google-calendar-events',

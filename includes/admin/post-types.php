@@ -106,7 +106,7 @@ class Post_Types
 		switch ($column_name) {
 			case 'feed':
 				$feed = simcal_get_feed($post_id);
-				echo isset($feed->name) ? $feed->name : '&mdash;';
+				echo isset($feed->name) ? esc_html($feed->name) : '&mdash;';
 				break;
 
 			case 'calendar':
@@ -127,7 +127,7 @@ class Post_Types
 					}
 				}
 
-				echo $info;
+				echo wp_kses_post($info);
 				break;
 
 			case 'shortcode':
@@ -496,10 +496,10 @@ class Post_Types
 
 		if ($post_type == 'calendar' && isset($post->ID)) {
 			echo '<a id="simcal-clear-cache" class="button" data-id="' .
-				$post->ID .
+				absint($post->ID) .
 				' ">' .
 				'<i class="simcal-icon-spinner simcal-icon-spin" style="display: none;"></i> ' .
-				__('Clear cache', 'google-calendar-events') .
+				esc_html__('Clear cache', 'google-calendar-events') .
 				'</a>';
 		}
 	}
@@ -527,7 +527,7 @@ class Post_Types
 		// @see https://core.trac.wordpress.org/ticket/17249
 		if (in_array($post_type, $post_types)) { ?>
 			<a href="#TB_inline?height=250&width=500&inlineId=simcal-insert-shortcode-panel" id="simcal-insert-shortcode-button" class="thickbox button insert-calendar add_calendar">
-				<span class="wp-media-buttons-icon dashicons-before dashicons-calendar-alt"></span> <?php _e(
+				<span class="wp-media-buttons-icon dashicons-before dashicons-calendar-alt"></span> <?php esc_html_e(
     	'Add Calendar',
     	'google-calendar-events',
     ); ?>
@@ -547,28 +547,28 @@ class Post_Types
 		$calendars = simcal_get_calendars(); ?>
 		<div id="simcal-insert-shortcode-panel" style="display:none;">
 			<div class="simcal-insert-shortcode-panel">
-				<h1><?php _e('Add Calendar', 'google-calendar-events'); ?></h1>
-				<?php _e('Add a calendar to your post.', 'google-calendar-events'); ?>
+				<h1><?php esc_html_e('Add Calendar', 'google-calendar-events'); ?></h1>
+				<?php esc_html_e('Add a calendar to your post.', 'google-calendar-events'); ?>
 				<?php if (!empty($calendars) && is_array($calendars)): ?>
 					<p>
 						<label for="simcal-choose-calendar">
 							<?php $multiselect = count($calendars) > 15 ? ' simcal-field-select-enhanced' : ''; ?>
 							<select id="simcal-choose-calendar"
-							        class="simcal-field simcal-field-select<?php echo $multiselect; ?>"
+							        class="simcal-field simcal-field-select<?php echo esc_attr($multiselect); ?>"
 							        name="">
 								<?php foreach ($calendars as $id => $title): ?>
-									<option value="<?php echo $id; ?>"><?php echo $title; ?></option>
+									<option value="<?php echo esc_attr($id); ?>"><?php echo esc_html($title); ?></option>
 								<?php endforeach; ?>
 							</select>
 						</label>
 					</p>
-					<p><input type="button" value="<?php _e(
+					<p><input type="button" value="<?php esc_attr_e(
      	'Insert Calendar',
      	'google-calendar-events',
      ); ?>" id="simcal-insert-shortcode" class="button button-primary button-large" name="" /></p>
 				<?php else: ?>
-					<p><em><?php _e('Could not find any calendars to add to this post.', 'google-calendar-events'); ?></em></p>
-					<strong><a href="post-new.php?post_type=calendar"><?php _e(
+					<p><em><?php esc_html_e('Could not find any calendars to add to this post.', 'google-calendar-events'); ?></em></p>
+					<strong><a href="post-new.php?post_type=calendar"><?php esc_html_e(
      	'Please add and configure new calendar first.',
      	'google-calendar-events',
      ); ?></a></strong>

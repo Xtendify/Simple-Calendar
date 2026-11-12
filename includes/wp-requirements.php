@@ -11,6 +11,10 @@
  * @license GPL2+
  */
 
+if (!defined('ABSPATH')) {
+	exit();
+}
+
 if (!class_exists('SimCal_WP_Requirements')) {
 	class SimCal_WP_Requirements
 	{
@@ -91,7 +95,7 @@ if (!class_exists('SimCal_WP_Requirements')) {
 		 */
 		public function __construct($name, $plugin, $requirements)
 		{
-			$this->name = htmlspecialchars(strip_tags($name));
+			$this->name = htmlspecialchars(wp_strip_all_tags($name));
 			$this->plugin = $plugin;
 			$this->requirements = $requirements;
 
@@ -188,25 +192,26 @@ if (!class_exists('SimCal_WP_Requirements')) {
 			if (!empty($failures) && is_array($failures)) {
 				$notice = '<div class="error">' . "\n";
 				$notice .= "\t" . '<p>' . "\n";
-				$notice .= '<strong>' . sprintf('%s could not be activated.', $name) . '</strong><br>';
+				$notice .= '<strong>' . esc_html(sprintf('%s could not be activated.', $name)) . '</strong><br>';
 
 				foreach ($failures as $requirement => $found) {
 					$required = $this->requirements[$requirement];
 
 					if ('Extensions' == $requirement) {
 						if (is_array($found)) {
-							$notice .= sprintf('Required PHP Extension(s) not found: %s.', join(', ', $found)) . '<br>';
+							$notice .= esc_html(sprintf('Required PHP Extension(s) not found: %s.', join(', ', $found))) . '<br>';
 						}
 					} else {
 						$notice .=
-							sprintf('Required %1$s version: %2$s - Version found: %3$s', $requirement, $required, $found) . '<br>';
+							esc_html(sprintf('Required %1$s version: %2$s - Version found: %3$s', $requirement, $required, $found)) .
+							'<br>';
 					}
 				}
 
-				$notice .= '<em>' . sprintf('Please update to meet %s requirements.', $name) . '</em>' . "\n";
+				$notice .= '<em>' . esc_html(sprintf('Please update to meet %s requirements.', $name)) . '</em>' . "\n";
 				$notice .= "\t" . '</p>' . "\n";
 				if ($message) {
-					$notice .= $message;
+					$notice .= wp_kses_post($message);
 				}
 				$notice .= '</div>';
 			}
@@ -219,7 +224,7 @@ if (!class_exists('SimCal_WP_Requirements')) {
 		 */
 		public function print_notice()
 		{
-			echo $this->notice;
+			echo wp_kses_post($this->notice);
 		}
 
 		/**

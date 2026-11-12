@@ -82,12 +82,12 @@ class Default_Calendar_Admin
 		?>
 		<table id="default-calendar-settings">
 			<thead>
-			<tr><th colspan="2"><?php _e('Default Calendar', 'google-calendar-events'); ?></th></tr>
+			<tr><th colspan="2"><?php esc_html_e('Default Calendar', 'google-calendar-events'); ?></th></tr>
 			</thead>
 			<tbody class="simcal-panel-section">
 
 			<tr class="simcal-panel-field simcal-default-calendar-grid" style="display: none;">
-				<th><label for="_default_calendar_event_bubbles_action"><?php _e(
+				<th><label for="_default_calendar_event_bubbles_action"><?php esc_html_e(
     	'Event Bubbles',
     	'google-calendar-events',
     ); ?></label></th>
@@ -115,7 +115,10 @@ class Default_Calendar_Admin
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-grid" style="display: none;">
-				<th><label for="_default_calendar_trim_titles"><?php _e('Trim Event Titles', 'google-calendar-events'); ?></label></th>
+				<th><label for="_default_calendar_trim_titles"><?php esc_html_e(
+    	'Trim Event Titles',
+    	'google-calendar-events',
+    ); ?></label></th>
 				<td>
 					<?php
      $trim = get_post_meta($post_id, '_default_calendar_trim_titles', true);
@@ -153,7 +156,7 @@ class Default_Calendar_Admin
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-grid" style="display: none;">
-				<th><label for="_default_calendar_grid_desktop_list_mobile"><?php _e(
+				<th><label for="_default_calendar_grid_desktop_list_mobile"><?php esc_html_e(
     	'Switch to List View on Mobile',
     	'google-calendar-events',
     ); ?></label></th>
@@ -175,7 +178,7 @@ class Default_Calendar_Admin
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-list" style="display: none;">
-				<th><label for="_default_calendar_list_grouped_span"><?php _e('Span', 'google-calendar-events'); ?></label></th>
+				<th><label for="_default_calendar_list_grouped_span"><?php esc_html_e('Span', 'google-calendar-events'); ?></label></th>
 				<td>
 					<?php
      $list_span = max(absint(get_post_meta($post_id, '_default_calendar_list_range_span', true)), 1);
@@ -212,7 +215,10 @@ class Default_Calendar_Admin
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-list" style="display: none;">
-				<th><label for="_default_calendar_list_header"><?php _e('Hide Header', 'google-calendar-events'); ?></label></th>
+				<th><label for="_default_calendar_list_header"><?php esc_html_e(
+    	'Hide Header',
+    	'google-calendar-events',
+    ); ?></label></th>
 				<td>
 					<?php
      $header = get_post_meta($post_id, '_default_calendar_list_header', true);
@@ -228,7 +234,10 @@ class Default_Calendar_Admin
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-list" style="display: none;">
-				<th><label for="_default_calendar_compact_list"><?php _e('Compact List', 'google-calendar-events'); ?></label></th>
+				<th><label for="_default_calendar_compact_list"><?php esc_html_e(
+    	'Compact List',
+    	'google-calendar-events',
+    ); ?></label></th>
 				<td>
 					<?php
      $compact = get_post_meta($post_id, '_default_calendar_compact_list', true);
@@ -247,7 +256,7 @@ class Default_Calendar_Admin
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list"  style="display: none;">
-				<th><label for="_default_calendar_limit_visible_events"><?php _e(
+				<th><label for="_default_calendar_limit_visible_events"><?php esc_html_e(
     	'Limit Visible Events',
     	'google-calendar-events',
     ); ?></label></th>
@@ -288,7 +297,7 @@ class Default_Calendar_Admin
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list" style="display: none;">
-				<th><label for="_default_calendar_event_bubbles_action"><?php _e(
+				<th><label for="_default_calendar_event_bubbles_action"><?php esc_html_e(
     	'Expand Multi-day Events',
     	'google-calendar-events',
     ); ?></label></th>
@@ -307,9 +316,7 @@ class Default_Calendar_Admin
      	'name' => '_default_calendar_expand_multi_day_events',
      	'id' => '_default_calendar_expand_multi_day_events',
      	'tooltip' => __(
-     		'For events spanning multiple days, you can display them on each day of the event, ' .
-     			'only on the first day of the event, or on all days of the event, but only up to the current day. ' .
-     			'Third option applies to list views only.',
+     		'For events spanning multiple days, you can display them on each day of the event, only on the first day of the event, or on all days of the event, but only up to the current day. Third option applies to list views only.',
      		'google-calendar-events',
      	),
      	'value' => $multi_day_value,
@@ -340,7 +347,7 @@ class Default_Calendar_Admin
    ?>
 			<tbody class="simcal-panel-section">
 			<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list" style="display: none;">
-				<th><label for="_default_calendar_style_theme"><?php _e('Theme', 'google-calendar-events'); ?></label></th>
+				<th><label for="_default_calendar_style_theme"><?php esc_html_e('Theme', 'google-calendar-events'); ?></label></th>
 				<td>
 					<?php
      $saved = get_post_meta($post_id, '_default_calendar_style_theme', true);
@@ -361,7 +368,7 @@ class Default_Calendar_Admin
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list" style="display: none;">
-				<th><label for="_default_calendar_style_today"><?php _e('Today', 'google-calendar-events'); ?></label></th>
+				<th><label for="_default_calendar_style_today"><?php esc_html_e('Today', 'google-calendar-events'); ?></label></th>
 				<td>
 					<?php
      $saved = get_post_meta($post_id, '_default_calendar_style_today', true);
@@ -382,7 +389,7 @@ class Default_Calendar_Admin
 				</td>
 			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-list" style="display: none;">
-				<th><label for="_default_calendar_style_days_events"><?php _e(
+				<th><label for="_default_calendar_style_days_events"><?php esc_html_e(
     	'Days with Events',
     	'google-calendar-events',
     ); ?></label></th>

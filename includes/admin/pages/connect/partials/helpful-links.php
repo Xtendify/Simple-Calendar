@@ -24,10 +24,8 @@ $support_url = $is_pro_active
 			<?php esc_html_e('Helpful links', 'google-calendar-events'); ?>
 		</h3>
 		<div class="sc_helpful_links_cards_wrapper">
-			<a href="<?php echo simcal_ga_campaign_url(
-   	'https://docs.simplecalendar.io/',
-   	'core-plugin',
-   	'connect-documentation',
+			<a href="<?php echo esc_url(
+   	simcal_ga_campaign_url('https://docs.simplecalendar.io/', 'core-plugin', 'connect-documentation'),
    ); ?>" target="_blank" class="sc_helpful_link_card">
 				<span class="sc_icon--circle">
 					<img src="<?php echo esc_url($assets_base . 'document.svg'); ?>" alt="" />

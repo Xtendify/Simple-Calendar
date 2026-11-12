@@ -97,15 +97,15 @@ class Select extends Field
 		}
 		?>
 		<select name="<?php
-  echo $this->name;
+  echo esc_attr($this->name);
   if ($this->multiselect === true) {
   	echo '[]';
   }
   ?>"
-		        id="<?php echo $this->id; ?>"
-		        style="<?php echo $this->style; ?>"
-		        class="<?php echo $this->class; ?>"
-				<?php echo $this->attributes; ?>
+		        id="<?php echo esc_attr($this->id); ?>"
+		        style="<?php echo esc_attr($this->style); ?>"
+		        class="<?php echo esc_attr($this->class); ?>"
+				<?php echo wp_kses_post($this->attributes); ?>
 				<?php echo $this->multiselect === true ? ' multiple="multiple"' : ''; ?>>
 			<?php
    if ($this->allow_void === true) {
@@ -118,12 +118,15 @@ class Select extends Field
    	} else {
    		$selected = selected($this->value, trim(strval($option)), false);
    	}
-   	echo '<option value="' . $option . '" ' . $selected . '>' . esc_attr($name) . '</option>';
+   	echo '<option value="' . esc_attr($option) . '" ';
+   	echo wp_kses_post($selected);
+   	echo '>' . esc_attr($name) . '</option>';
    }
    ?>
 		</select>
 		<?php
-  echo $this->tooltip;
+  $allowed_tooltip = ['i' => ['class' => [], 'data-tip' => []]];
+  echo wp_kses($this->tooltip, $allowed_tooltip);
 
   if (!empty($this->description)) {
   	echo '<p class="description">' . wp_kses_post($this->description) . '</p>';
