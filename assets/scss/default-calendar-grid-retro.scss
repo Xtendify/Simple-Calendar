@@ -668,7 +668,9 @@
 	border-radius: 50%;
 }
 
-/* Grid on desktop / list on mobile. Hidden view uses display:none (no layout/paint). */
+/* Grid on desktop / list on mobile. Hidden view uses display:none (no layout/paint).
+   The sibling is List Classic until List Retro is the fallback. */
+.simcal-responsive-views .simcal-default-calendar-list,
 .simcal-responsive-views .simcal-default-calendar-list-retro {
 	display: none;
 }
@@ -678,6 +680,7 @@
 		display: none;
 	}
 
+	.simcal-responsive-views .simcal-default-calendar-list,
 	.simcal-responsive-views .simcal-default-calendar-list-retro {
 		display: block;
 	}
