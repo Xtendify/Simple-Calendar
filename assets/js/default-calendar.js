@@ -407,22 +407,83 @@ jQuery(function ($) {
 		retroCalendarBubbles(calendar);
 	});
 
+	/**
+	 * Show or hide a Grid Retro bubble from the keyboard.
+	 *
+	 * Hover mode listens for mouseenter and mouseleave only. Firing mouseenter
+	 * from Enter/Space opens the bubble, and mouseleave never runs without a pointer.
+	 *
+	 * @param {jQuery} target
+	 * @param {boolean} forceHide
+	 */
+	function toggleRetroBubble(target, forceHide) {
+		if (!$.fn.qtip || !target || !target.length) {
+			return false;
+		}
+		var api = target.qtip('api');
+		if (!api) {
+			return false;
+		}
+		var tip = api.rendered && api.tooltip ? api.tooltip[0] : null;
+		var open = !!(tip && api.tooltip.is(':visible'));
+		if (forceHide && !open) {
+			return false;
+		}
+		if (forceHide || open) {
+			var active = document.activeElement;
+			if (tip && active && (tip === active || tip.contains(active))) {
+				target.trigger('focus');
+			}
+			api.hide();
+		} else {
+			api.show();
+		}
+		return true;
+	}
+
 	$(document).on(
 		'keydown',
 		'.simcal-default-calendar-grid-retro .simcal-tooltip, .simcal-default-calendar-grid-retro.simcal-retro-compact .simcal-event-color-dot',
 		function (event) {
-			if (event.key !== 'Enter' && event.key !== ' ' && event.keyCode !== 13 && event.keyCode !== 32) {
+			if (event.repeat) {
 				return;
 			}
-			event.preventDefault();
-			var calendar = $(this).closest('.simcal-default-calendar-grid-retro');
-			var trigger = calendar.find('[data-event-bubble-trigger]').first().data('event-bubble-trigger');
-			var narrow =
-				calendar.hasClass('simcal-retro-compact') ||
-				(window.matchMedia && window.matchMedia('(max-width: 768px)').matches);
-			$(this).trigger(trigger === 'hover' && !narrow ? 'mouseenter' : 'click');
+			var isEscape = event.key === 'Escape' || event.key === 'Esc' || event.keyCode === 27;
+			var isActivate = event.key === 'Enter' || event.key === ' ' || event.keyCode === 13 || event.keyCode === 32;
+			if (!isEscape && !isActivate) {
+				return;
+			}
+			// Enter/Space toggles in both click and hover mode. Escape only hides.
+			if (isActivate) {
+				event.preventDefault();
+			}
+			if (toggleRetroBubble($(this), isEscape)) {
+				event.preventDefault();
+			}
 		}
 	);
+
+	// Escape still dismisses when focus has moved into the bubble.
+	$(document).on('keydown', function (event) {
+		if (event.repeat) {
+			return;
+		}
+		if (event.key !== 'Escape' && event.key !== 'Esc' && event.keyCode !== 27) {
+			return;
+		}
+		$('.simcal-retro-bubble:visible').each(function () {
+			var qtipId = this.getAttribute('data-qtip-id');
+			if (!qtipId) {
+				return;
+			}
+			var target = $('[data-hasqtip]').filter(function () {
+				return this.getAttribute('data-hasqtip') === qtipId;
+			});
+			if (toggleRetroBubble(target, true)) {
+				event.preventDefault();
+			}
+		});
+	});
 
 	/**
 	 * Enable or disable grid calendar navigation buttons.
