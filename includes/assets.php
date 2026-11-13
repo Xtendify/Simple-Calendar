@@ -564,6 +564,15 @@ class Assets
 	{
 		$ids = [];
 		$unknown = false;
+		$shortcodes = ['calendar', 'simple_calendar', 'gcal'];
+		// Meta keys we can attribute to calendar ids when stored as strings.
+		$attributed_fields = [
+			'_fusion_builder_content',
+			'_fusion_builder_content_backup',
+			'_elementor_data',
+			'_wpb_shortcodes_content',
+			'_et_pb_old_content',
+		];
 
 		if (is_singular('calendar')) {
 			$ids[] = (int) get_queried_object_id();
@@ -573,20 +582,24 @@ class Assets
 			$post = get_post();
 			if ($post instanceof \WP_Post) {
 				$ids = array_merge($ids, $this->calendar_ids_in_content($post->post_content, $unknown));
-				$fields = [
-					'_fusion_builder_content',
-					'_fusion_builder_content_backup',
-					'_elementor_data',
-					'_wpb_shortcodes_content',
-					'_et_pb_old_content',
-				];
-				foreach ($fields as $field) {
+				foreach ($attributed_fields as $field) {
 					$content = get_post_meta($post->ID, $field, true);
 					if (is_string($content)) {
 						$ids = array_merge($ids, $this->calendar_ids_in_content($content, $unknown));
+					} elseif (!empty($content) && $this->content_has_calendar_shortcode($content, $shortcodes)) {
+						// Array/object builder meta: presence known, calendar id is not.
+						$unknown = true;
 					}
 				}
+
+				if ($this->broader_sources_have_unattributed_shortcode($post->ID, $attributed_fields, $shortcodes)) {
+					$unknown = true;
+				}
 			}
+		}
+
+		if ($this->theme_mods_have_calendar_shortcode($shortcodes)) {
+			$unknown = true;
 		}
 
 		$instances = get_option('widget_gce_widget');
@@ -623,6 +636,119 @@ class Assets
 	}
 
 	/**
+	 * Whether check_load_assets()-only sources contain a calendar shortcode we cannot map to an id.
+	 *
+	 * @param int      $post_id
+	 * @param string[] $attributed_fields Meta keys already scanned for ids.
+	 * @param string[] $shortcodes
+	 * @return bool
+	 */
+	private function broader_sources_have_unattributed_shortcode($post_id, $attributed_fields, $shortcodes)
+	{
+		$unattributed_fields = [
+			'panels_data',
+			'_beaver_builder_data',
+			'_fl_builder_data',
+			'_avada_page_options',
+			'_fusion_page_options',
+			'_fusion',
+			'_page_bg_color',
+			'_content_bg_color',
+			'fusion_builder_custom_css',
+		];
+
+		foreach ($unattributed_fields as $field) {
+			$content = get_post_meta($post_id, $field, true);
+			if (!empty($content) && $this->content_has_calendar_shortcode($content, $shortcodes)) {
+				return true;
+			}
+		}
+
+		$skip = array_fill_keys(array_merge($attributed_fields, $unattributed_fields), true);
+		$all_meta = get_post_meta($post_id);
+		if (!empty($all_meta) && is_array($all_meta)) {
+			foreach ($all_meta as $meta_key => $meta_value) {
+				if (isset($skip[$meta_key])) {
+					continue;
+				}
+				$value_string = is_array($meta_value) ? wp_json_encode($meta_value) : (string) reset($meta_value);
+				if (!empty($value_string) && strlen($value_string) > 10) {
+					foreach ($shortcodes as $shortcode) {
+						if (false !== strpos($value_string, '[' . $shortcode) || has_shortcode($value_string, $shortcode)) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Theme mods scanned by check_load_assets() but not mapped to calendar ids.
+	 *
+	 * @param string[] $shortcodes
+	 * @return bool
+	 */
+	private function theme_mods_have_calendar_shortcode($shortcodes)
+	{
+		foreach (['custom_css', 'footer_text'] as $mod) {
+			$content = get_theme_mod($mod, '');
+			if (!is_string($content) || '' === $content) {
+				continue;
+			}
+			foreach ($shortcodes as $shortcode) {
+				if (has_shortcode($content, $shortcode)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Whether mixed builder meta content contains a calendar shortcode.
+	 *
+	 * @param mixed    $content
+	 * @param string[] $shortcodes
+	 * @return bool
+	 */
+	private function content_has_calendar_shortcode($content, $shortcodes)
+	{
+		if (is_string($content)) {
+			if ('' !== $content && ('{' === $content[0] || '[' === $content[0])) {
+				$decoded = json_decode($content, true);
+				if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+					return $this->search_shortcode_in_array($decoded, $shortcodes);
+				}
+			}
+			foreach ($shortcodes as $shortcode) {
+				if (has_shortcode($content, $shortcode)) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		if (is_array($content)) {
+			return $this->search_shortcode_in_array($content, $shortcodes);
+		}
+
+		if (is_object($content)) {
+			$content_string = print_r($content, true);
+			foreach ($shortcodes as $shortcode) {
+				if (false !== strpos($content_string, '[' . $shortcode)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Calendar ids referenced by shortcodes in a string.
 	 *
 	 * @param string $content
@@ -641,7 +767,8 @@ class Assets
 		}
 
 		foreach ($matches as $match) {
-			if (preg_match('/\bid\s*=\s*["\']?(\d+)/', $match[2], $id_match)) {
+			// Builder meta (e.g. _elementor_data) stores attributes JSON-escaped: id=\"5\".
+			if (preg_match('/\bid\s*=\s*\\\\?["\']?(\d+)/', $match[2], $id_match)) {
 				$ids[] = (int) $id_match[1];
 			} else {
 				$unknown = true;
@@ -679,7 +806,8 @@ class Assets
 		$meta = get_post_meta($id, '_calendar_view', true);
 		$saved = is_array($meta) && isset($meta['default-calendar']) ? $meta['default-calendar'] : '';
 		if (!is_wp_error($terms) && is_array($terms) && in_array('default-calendar', $terms, true) && '' === $saved) {
-			$names[] = 'default-calendar-grid-retro';
+			// Matches Default_Calendar::get_view('') which defaults to grid.
+			$names[] = 'default-calendar-grid';
 		}
 
 		return $names;

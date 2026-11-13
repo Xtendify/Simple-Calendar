@@ -244,16 +244,13 @@ class Retro_Event
 	}
 
 	/**
-	 * Three-dot menu for the [event-dropdown-menu] event template tag.
-	 *
-	 * Anchors to the top-right of the List Retro card. Hover and keyboard
-	 * focus open the event link and the Add to Google Calendar link.
+	 * See more details and Add to GCal links.
 	 *
 	 * @param Default_Calendar $calendar
 	 * @param Event            $event
 	 * @return string
 	 */
-	public static function menu_html(Default_Calendar $calendar, Event $event)
+	private static function action_links(Default_Calendar $calendar, Event $event)
 	{
 		$links = '';
 
@@ -270,6 +267,26 @@ class Retro_Event
 		);
 
 		if ('' === trim(wp_strip_all_tags($links))) {
+			return '';
+		}
+
+		return $links;
+	}
+
+	/**
+	 * Three-dot menu for the [event-dropdown-menu] event template tag.
+	 *
+	 * Anchors to the top-right of the List Retro card. Hover and keyboard
+	 * focus open the event link and the Add to Google Calendar link.
+	 *
+	 * @param Default_Calendar $calendar
+	 * @param Event            $event
+	 * @return string
+	 */
+	public static function menu_html(Default_Calendar $calendar, Event $event)
+	{
+		$links = self::action_links($calendar, $event);
+		if ('' === $links) {
 			return '';
 		}
 
@@ -291,21 +308,8 @@ class Retro_Event
 	 */
 	public static function actions_html(Default_Calendar $calendar, Event $event)
 	{
-		$links = '';
-
-		if (!empty($event->link)) {
-			$links .= $calendar->get_event_html(
-				$event,
-				'[link newwindow="yes"]' . __('See more details', 'google-calendar-events') . '[/link]',
-			);
-		}
-
-		$links .= $calendar->get_event_html(
-			$event,
-			'[add-to-gcal-link]' . __('Add To GCal', 'google-calendar-events') . '[/add-to-gcal-link]',
-		);
-
-		if ('' === trim(wp_strip_all_tags($links))) {
+		$links = self::action_links($calendar, $event);
+		if ('' === $links) {
 			return '';
 		}
 
@@ -339,10 +343,10 @@ class Retro_Event
 		}
 
 		if ($include_schedule) {
-			$html .= '<p class="simcal-time-location-common">';
-			$html .= self::icon_calendar();
-			$html .= '<span>' . self::date_html($calendar, $event) . ' ' . self::time_html($calendar, $event) . '</span>';
-			$html .= '</p>';
+			$schedule = self::schedule_text($calendar, $event);
+			if ('' !== $schedule) {
+				$html .= '<p class="simcal-time-location-common">' . $schedule . '</p>';
+			}
 
 			$address = self::address($event);
 			if ('' !== $address) {
@@ -408,18 +412,11 @@ class Retro_Event
 			return '';
 		}
 
-		$address = isset($event->start_location['address'])
-			? trim(wp_strip_all_tags(html_entity_decode((string) $event->start_location['address'], ENT_QUOTES, 'UTF-8')))
-			: '';
-		if ('' !== $address) {
-			return $address;
+		if (!isset($event->start_location['address'])) {
+			return '';
 		}
 
-		$name = isset($event->start_location['name'])
-			? trim(wp_strip_all_tags(html_entity_decode((string) $event->start_location['name'], ENT_QUOTES, 'UTF-8')))
-			: '';
-
-		return $name;
+		return trim(wp_strip_all_tags(html_entity_decode((string) $event->start_location['address'], ENT_QUOTES, 'UTF-8')));
 	}
 
 	/**
@@ -445,16 +442,6 @@ class Retro_Event
 	public static function icon_calendar()
 	{
 		return '<svg class="simcal-retro-icon" viewBox="0 0 14 14" width="14" height="14" aria-hidden="true" focusable="false"><rect x="0.8" y="2.8" width="12.4" height="10.4" rx="2.4" fill="none" stroke="currentColor" stroke-width="1.6"></rect><path d="M4.4 0.8v2.8M9.6 0.8v2.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></path><circle cx="3.9" cy="7.6" r="0.95" fill="currentColor"></circle><circle cx="7" cy="7.6" r="0.95" fill="currentColor"></circle><circle cx="10.1" cy="7.6" r="0.95" fill="currentColor"></circle></svg>';
-	}
-
-	/**
-	 * Clock icon.
-	 *
-	 * @return string
-	 */
-	public static function icon_clock()
-	{
-		return '<svg class="simcal-retro-icon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.6"></circle><polyline points="12 8 12 12 15 14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"></polyline></svg>';
 	}
 
 	/**
