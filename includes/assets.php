@@ -390,23 +390,29 @@ class Assets
 	 */
 	public function load()
 	{
-		$types = simcal_get_calendar_types();
+		$detected = $this->detect_calendar_views();
+		$use_detected = !empty($detected['views']) && empty($detected['unknown']);
+		$names = $use_detected ? $detected['views'] : $this->all_calendar_view_names();
 
-		foreach ($types as $calendar => $views) {
-			foreach ($views as $key => $view) {
-				$view = simcal_get_calendar_view(0, $calendar . '-' . $view);
-
-				$scripts[] = $view->scripts();
-				$styles[] = $view->styles();
+		$scripts = [];
+		$styles = [];
+		foreach ($names as $name) {
+			$view = simcal_get_calendar_view(0, $name);
+			if (!($view instanceof Calendar_View)) {
+				continue;
 			}
+
+			$scripts[] = $view->scripts();
+			$styles[] = $view->styles();
 		}
 
-		// Prevent duplicate localization variables for default calendar.
-		if (isset($scripts[1]['simcal-default-calendar']['localize'])) {
-			unset($scripts[1]['simcal-default-calendar']['localize']);
+		// Widget views are already included when detection succeeds.
+		if (!$use_detected) {
+			$this->get_widgets_assets();
 		}
 
-		$this->get_widgets_assets();
+		$scripts = $this->align_shared_script_dependencies($scripts);
+		$scripts = $this->dedupe_script_localization($scripts);
 		$this->scripts = apply_filters('simcal_front_end_scripts', $scripts);
 		// First check if there is a multi-dimensional array of scripts
 		if (isset($this->scripts[0])) {
@@ -545,5 +551,347 @@ class Assets
 				}
 			}
 		}
+	}
+
+	/**
+	 * Calendar views rendered on the current page.
+	 *
+	 * An unidentifiable shortcode sets unknown so every view can still load.
+	 *
+	 * @return array{views:string[],unknown:bool}
+	 */
+	private function detect_calendar_views()
+	{
+		$ids = [];
+		$unknown = false;
+		$shortcodes = ['calendar', 'simple_calendar', 'gcal'];
+		// Meta keys we can attribute to calendar ids when stored as strings.
+		$attributed_fields = [
+			'_fusion_builder_content',
+			'_fusion_builder_content_backup',
+			'_elementor_data',
+			'_wpb_shortcodes_content',
+			'_et_pb_old_content',
+		];
+
+		if (is_singular('calendar')) {
+			$ids[] = (int) get_queried_object_id();
+		}
+
+		if (is_singular()) {
+			$post = get_post();
+			if ($post instanceof \WP_Post) {
+				$ids = array_merge($ids, $this->calendar_ids_in_content($post->post_content, $unknown));
+				foreach ($attributed_fields as $field) {
+					$content = get_post_meta($post->ID, $field, true);
+					if (is_string($content)) {
+						$ids = array_merge($ids, $this->calendar_ids_in_content($content, $unknown));
+					} elseif (!empty($content) && $this->content_has_calendar_shortcode($content, $shortcodes)) {
+						// Array/object builder meta: presence known, calendar id is not.
+						$unknown = true;
+					}
+				}
+
+				if ($this->broader_sources_have_unattributed_shortcode($post->ID, $attributed_fields, $shortcodes)) {
+					$unknown = true;
+				}
+			}
+		}
+
+		if ($this->theme_mods_have_calendar_shortcode($shortcodes)) {
+			$unknown = true;
+		}
+
+		$instances = get_option('widget_gce_widget');
+		$sidebars = wp_get_sidebars_widgets();
+		if (is_array($instances) && is_array($sidebars)) {
+			foreach ($sidebars as $sidebar => $widgets) {
+				if ('wp_inactive_widgets' === $sidebar || !is_array($widgets)) {
+					continue;
+				}
+				foreach ($widgets as $widget_id) {
+					if (!preg_match('/^gce_widget-(\d+)$/', $widget_id, $match)) {
+						continue;
+					}
+					$settings = isset($instances[$match[1]]) ? $instances[$match[1]] : null;
+					if (is_array($settings) && !empty($settings['calendar_id'])) {
+						$ids[] = absint($settings['calendar_id']);
+					}
+				}
+			}
+		}
+
+		$names = [];
+		foreach (array_unique($ids) as $id) {
+			if ($id < 1) {
+				continue;
+			}
+			$names = array_merge($names, $this->asset_view_names_for_calendar($id));
+		}
+
+		return [
+			'views' => array_values(array_unique($names)),
+			'unknown' => $unknown,
+		];
+	}
+
+	/**
+	 * Whether check_load_assets()-only sources contain a calendar shortcode we cannot map to an id.
+	 *
+	 * @param int      $post_id
+	 * @param string[] $attributed_fields Meta keys already scanned for ids.
+	 * @param string[] $shortcodes
+	 * @return bool
+	 */
+	private function broader_sources_have_unattributed_shortcode($post_id, $attributed_fields, $shortcodes)
+	{
+		$unattributed_fields = [
+			'panels_data',
+			'_beaver_builder_data',
+			'_fl_builder_data',
+			'_avada_page_options',
+			'_fusion_page_options',
+			'_fusion',
+			'_page_bg_color',
+			'_content_bg_color',
+			'fusion_builder_custom_css',
+		];
+
+		foreach ($unattributed_fields as $field) {
+			$content = get_post_meta($post_id, $field, true);
+			if (!empty($content) && $this->content_has_calendar_shortcode($content, $shortcodes)) {
+				return true;
+			}
+		}
+
+		$skip = array_fill_keys(array_merge($attributed_fields, $unattributed_fields), true);
+		$all_meta = get_post_meta($post_id);
+		if (!empty($all_meta) && is_array($all_meta)) {
+			foreach ($all_meta as $meta_key => $meta_value) {
+				if (isset($skip[$meta_key])) {
+					continue;
+				}
+				$value_string = is_array($meta_value) ? wp_json_encode($meta_value) : (string) reset($meta_value);
+				if (!empty($value_string) && strlen($value_string) > 10) {
+					foreach ($shortcodes as $shortcode) {
+						if (false !== strpos($value_string, '[' . $shortcode) || has_shortcode($value_string, $shortcode)) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Theme mods scanned by check_load_assets() but not mapped to calendar ids.
+	 *
+	 * @param string[] $shortcodes
+	 * @return bool
+	 */
+	private function theme_mods_have_calendar_shortcode($shortcodes)
+	{
+		foreach (['custom_css', 'footer_text'] as $mod) {
+			$content = get_theme_mod($mod, '');
+			if (!is_string($content) || '' === $content) {
+				continue;
+			}
+			foreach ($shortcodes as $shortcode) {
+				if (has_shortcode($content, $shortcode)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Whether mixed builder meta content contains a calendar shortcode.
+	 *
+	 * @param mixed    $content
+	 * @param string[] $shortcodes
+	 * @return bool
+	 */
+	private function content_has_calendar_shortcode($content, $shortcodes)
+	{
+		if (is_string($content)) {
+			if ('' !== $content && ('{' === $content[0] || '[' === $content[0])) {
+				$decoded = json_decode($content, true);
+				if (json_last_error() === JSON_ERROR_NONE && is_array($decoded)) {
+					return $this->search_shortcode_in_array($decoded, $shortcodes);
+				}
+			}
+			foreach ($shortcodes as $shortcode) {
+				if (has_shortcode($content, $shortcode)) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		if (is_array($content)) {
+			return $this->search_shortcode_in_array($content, $shortcodes);
+		}
+
+		if (is_object($content)) {
+			$content_string = print_r($content, true);
+			foreach ($shortcodes as $shortcode) {
+				if (false !== strpos($content_string, '[' . $shortcode)) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Calendar ids referenced by shortcodes in a string.
+	 *
+	 * @param string $content
+	 * @param bool   $unknown Set when a shortcode has no calendar id.
+	 * @return int[]
+	 */
+	private function calendar_ids_in_content($content, &$unknown)
+	{
+		$ids = [];
+		if (!is_string($content) || '' === $content) {
+			return $ids;
+		}
+
+		if (!preg_match_all('/\[(calendar|simple_calendar|gcal)\b([^\]]*)\]/', $content, $matches, PREG_SET_ORDER)) {
+			return $ids;
+		}
+
+		foreach ($matches as $match) {
+			// Builder meta (e.g. _elementor_data) stores attributes JSON-escaped: id=\"5\".
+			if (preg_match('/\bid\s*=\s*\\\\?["\']?(\d+)/', $match[2], $id_match)) {
+				$ids[] = (int) $id_match[1];
+			} else {
+				$unknown = true;
+			}
+		}
+
+		return $ids;
+	}
+
+	/**
+	 * Asset view names for one calendar, including a mobile list sibling.
+	 *
+	 * @param int $id
+	 * @return string[]
+	 */
+	private function asset_view_names_for_calendar($id)
+	{
+		$names = [];
+		$view = simcal_get_calendar_view($id);
+
+		if ($view instanceof Calendar_View) {
+			$names[] = $view->get_parent() . '-' . $view->get_type();
+			if (
+				'default-calendar' === $view->get_parent() &&
+				('grid' === $view->get_type() || 'grid-retro' === $view->get_type()) &&
+				'yes' === get_post_meta($id, '_default_calendar_grid_desktop_list_mobile', true)
+			) {
+				$names[] = 'grid-retro' === $view->get_type() ? 'default-calendar-list-retro' : 'default-calendar-list';
+			}
+
+			return $names;
+		}
+
+		$terms = wp_get_object_terms($id, 'calendar_type', ['fields' => 'slugs']);
+		$meta = get_post_meta($id, '_calendar_view', true);
+		$saved = is_array($meta) && isset($meta['default-calendar']) ? $meta['default-calendar'] : '';
+		if (!is_wp_error($terms) && is_array($terms) && in_array('default-calendar', $terms, true) && '' === $saved) {
+			// Matches Default_Calendar::get_view('') which defaults to grid.
+			$names[] = 'default-calendar-grid';
+		}
+
+		return $names;
+	}
+
+	/**
+	 * Every registered calendar view, used when the page views cannot be identified.
+	 *
+	 * @return string[]
+	 */
+	private function all_calendar_view_names()
+	{
+		$names = [];
+		$types = simcal_get_calendar_types();
+
+		foreach ($types as $calendar => $views) {
+			foreach ($views as $view) {
+				$names[] = $calendar . '-' . $view;
+			}
+		}
+
+		return $names;
+	}
+
+	/**
+	 * Keep qTip as a dependency of the shared calendar script when any view needs it.
+	 *
+	 * @param array $scripts
+	 * @return array
+	 */
+	private function align_shared_script_dependencies($scripts)
+	{
+		$needs_qtip = false;
+		foreach ($scripts as $group) {
+			if (is_array($group) && isset($group['simcal-qtip'])) {
+				$needs_qtip = true;
+				break;
+			}
+		}
+
+		if (!$needs_qtip) {
+			return $scripts;
+		}
+
+		foreach ($scripts as $index => $group) {
+			if (!is_array($group) || empty($group['simcal-default-calendar']['deps'])) {
+				continue;
+			}
+			$deps = $group['simcal-default-calendar']['deps'];
+			if (!in_array('simcal-qtip', $deps, true)) {
+				$deps[] = 'simcal-qtip';
+				$scripts[$index]['simcal-default-calendar']['deps'] = $deps;
+			}
+		}
+
+		return $scripts;
+	}
+
+	/**
+	 * Localize each shared script handle once.
+	 *
+	 * @param array $scripts
+	 * @return array
+	 */
+	private function dedupe_script_localization($scripts)
+	{
+		$seen = [];
+
+		foreach ($scripts as $index => $group) {
+			if (!is_array($group)) {
+				continue;
+			}
+			foreach ($group as $handle => $script) {
+				if (!is_array($script) || empty($script['localize'])) {
+					continue;
+				}
+				if (isset($seen[$handle])) {
+					unset($scripts[$index][$handle]['localize']);
+				} else {
+					$seen[$handle] = true;
+				}
+			}
+		}
+
+		return $scripts;
 	}
 }
