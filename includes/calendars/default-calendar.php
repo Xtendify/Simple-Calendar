@@ -126,8 +126,8 @@ class Default_Calendar extends Calendar
 		$this->type = 'default-calendar';
 		$this->name = __('Default', 'google-calendar-events');
 		$this->views = apply_filters('simcal_default_calendar_views', [
-			'grid' => __('Grid', 'google-calendar-events'),
-			'list' => __('List', 'google-calendar-events'),
+			'grid' => __('Grid Classic', 'google-calendar-events'),
+			'list' => __('List Classic', 'google-calendar-events'),
 		]);
 
 		parent::__construct($calendar);
