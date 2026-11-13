@@ -294,7 +294,7 @@ class Retro_Event
 			'<button type="button" class="simcal-retro-menu-button" aria-haspopup="true" aria-label="' .
 			esc_attr__('Event actions', 'google-calendar-events') .
 			'"><span aria-hidden="true"></span></button>' .
-			'<span class="simcal-retro-menu-actions">' .
+			'<span class="simcal-retro-actions">' .
 			$links .
 			'</span></span>';
 	}
