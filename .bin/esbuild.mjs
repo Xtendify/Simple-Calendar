@@ -23,7 +23,6 @@ const files = [
 	{ in: 'assets/css/admin-add-calendar.css', out: 'admin-add-calendar.min' },
 	{ in: 'assets/css/admin.css', out: 'admin.min' },
 	{ in: 'assets/css/default-calendar-common.css', out: 'default-calendar-common.min' },
-	{ in: 'assets/css/default-calendar-retro-common.css', out: 'default-calendar-retro-common.min' },
 	{ in: 'assets/css/default-calendar-grid.css', out: 'default-calendar-grid.min' },
 	{ in: 'assets/css/default-calendar-list.css', out: 'default-calendar-list.min' },
 

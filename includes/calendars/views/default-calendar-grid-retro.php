@@ -132,14 +132,14 @@ class Default_Calendar_Grid_Retro implements Calendar_View
 				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/vendor/jquery.qtip.min.css',
 				'media' => 'all',
 			],
-			'simcal-default-calendar-retro-common' => [
-				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/default-calendar-retro-common.min.css',
+			'simcal-default-calendar-common' => [
+				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/default-calendar-common.min.css',
 				'deps' => ['simcal-qtip'],
 				'media' => 'all',
 			],
 			'simcal-default-calendar-grid-retro' => [
 				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/default-calendar-grid-retro.min.css',
-				'deps' => ['simcal-qtip', 'simcal-default-calendar-retro-common'],
+				'deps' => ['simcal-qtip', 'simcal-default-calendar-common'],
 				'media' => 'all',
 			],
 		];

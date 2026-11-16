@@ -225,7 +225,7 @@
 		word-break: break-word;
 	}
 
-	.simcal-time-location {
+	.simcal-time-location-common {
 		color: var(--simcal-retro-text);
 		display: flex;
 		flex-direction: column;
@@ -237,23 +237,23 @@
 		margin: 0 0 8px;
 	}
 
-	.simcal-time-location-row {
+	.simcal-time-location-common-row {
 		align-items: flex-start;
 		display: flex;
 		gap: 8px;
 	}
 
-	.simcal-time-location .simcal-retro-icon {
+	.simcal-time-location-common .simcal-retro-icon {
 		flex: 0 0 14px;
 		height: 14px;
 		margin-top: 3px;
 		width: 14px;
 	}
 
-	.simcal-time-location-text,
-	.simcal-time-location .simcal-event-start,
-	.simcal-time-location .simcal-event-end,
-	.simcal-time-location .simcal-event-address {
+	.simcal-time-location-common-text,
+	.simcal-time-location-common .simcal-event-start,
+	.simcal-time-location-common .simcal-event-end,
+	.simcal-time-location-common .simcal-event-address {
 		color: var(--simcal-retro-text);
 		font-family: Roboto, sans-serif;
 		font-size: 12px;

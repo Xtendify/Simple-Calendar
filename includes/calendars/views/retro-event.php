@@ -153,7 +153,7 @@ class Retro_Event
 	}
 
 	/**
-	 * Date, time, and location for the [time-location] tag.
+	 * Date, time, and location for the [time-location-common] tag.
 	 *
 	 * Date and time use the calendar's admin date and time formats, the same
 	 * formats as [start-date], [start-time], and [end-time].
@@ -169,9 +169,9 @@ class Retro_Event
 		$location = '';
 		if ('' !== $address) {
 			$location =
-				'<span class="simcal-time-location-row">' .
+				'<span class="simcal-time-location-common-row">' .
 				self::icon_pin() .
-				'<span class="simcal-time-location-text simcal-event-address simcal-event-start-location">' .
+				'<span class="simcal-time-location-common-text simcal-event-address simcal-event-start-location">' .
 				esc_html($address) .
 				'</span></span>';
 		}
@@ -180,7 +180,7 @@ class Retro_Event
 			return '';
 		}
 
-		return '<span class="simcal-time-location">' . $schedule . $location . '</span>';
+		return '<span class="simcal-time-location-common">' . $schedule . $location . '</span>';
 	}
 
 	/**
@@ -236,9 +236,9 @@ class Retro_Event
 			return '';
 		}
 
-		return '<span class="simcal-time-location-row">' .
+		return '<span class="simcal-time-location-common-row">' .
 			self::icon_calendar() .
-			'<span class="simcal-time-location-text">' .
+			'<span class="simcal-time-location-common-text">' .
 			$text .
 			'</span></span>';
 	}
@@ -339,7 +339,7 @@ class Retro_Event
 		}
 
 		if ($include_schedule) {
-			$html .= '<p class="simcal-time-location">';
+			$html .= '<p class="simcal-time-location-common">';
 			$html .= self::icon_calendar();
 			$html .= '<span>' . self::date_html($calendar, $event) . ' ' . self::time_html($calendar, $event) . '</span>';
 			$html .= '</p>';
