@@ -225,8 +225,8 @@ function simcal_get_feed_types()
  * Check if the SC Event post type is enabled.
  *
  * The post type is visible by default. Site owners who do not author local events
- * can hide it from Settings > Event Sources > SC Event, which removes its admin
- * menu item and drops "SC Event" from the calendar event source dropdown.
+ * can hide it from Settings > General, which removes its admin menu item and drops
+ * "SC Event" from the calendar event source dropdown.
  *
  * @since  4.3.2
  *
@@ -234,8 +234,9 @@ function simcal_get_feed_types()
  */
 function simcal_is_sc_event_post_type_enabled()
 {
-	$settings = get_option('simple-calendar_settings_feeds');
-	$hidden = isset($settings['sc-event']['hide_post_type']) && 'yes' === $settings['sc-event']['hide_post_type'];
+	$settings = get_option('simple-calendar_settings_calendars');
+	$hidden =
+		isset($settings['general']['hide_sc_event_post_type']) && 'yes' === $settings['general']['hide_sc_event_post_type'];
 
 	/**
 	 * Filter whether the SC Event post type is enabled.
@@ -269,7 +270,9 @@ function simcal_has_calendars_using_feed_type($feed_type)
 
 	$query = new WP_Query([
 		'post_type' => 'calendar',
-		'post_status' => 'any',
+		// Every status, trash included: a trashed calendar can be restored later, so it
+		// still counts as using the source.
+		'post_status' => array_keys(get_post_stati()),
 		'posts_per_page' => 1,
 		'fields' => 'ids',
 		'no_found_rows' => true,

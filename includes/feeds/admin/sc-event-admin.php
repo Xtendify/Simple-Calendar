@@ -68,38 +68,7 @@ class Sc_Event_Admin
 	}
 
 	/**
-	 * Input fields for the settings page.
-	 *
-	 * @since  4.3.2
-	 *
-	 * @return array
-	 */
-	public function settings_fields()
-	{
-		return [
-			'name' => $this->feed->name,
-			'description' =>
-				'<div class="simcal-text-sm simcal-font-poppins simcal-font-normal simcal-text-sc_grey-100 simcal-mt-[5px]">' .
-				__(
-					'Create and display events directly on your site, without pulling them from a remote calendar.',
-					'google-calendar-events',
-				) .
-				'</div>',
-			'fields' => [
-				'hide_post_type' => [
-					'type' => 'checkbox',
-					'title' => __('Hide Events', 'google-calendar-events'),
-					'tooltip' => __(
-						'If ticked, the Events post type is hidden: its admin menu item is removed and "SC Event" is no longer offered as a calendar event source. Existing events are kept in the database. This cannot be ticked while a calendar still uses the SC Event source.',
-						'google-calendar-events',
-					),
-				],
-			],
-		];
-	}
-
-	/**
-	 * Validate the SC Event section of the Event Sources settings.
+	 * Validate the "hide post type" setting on the general calendar settings.
 	 *
 	 * The post type cannot be hidden while a calendar still reads its events from
 	 * it, as that would leave the calendar pointing at a source its own Event
@@ -107,7 +76,7 @@ class Sc_Event_Admin
 	 *
 	 * @since  4.3.2
 	 *
-	 * @param  array $values Submitted values for the `sc-event` section.
+	 * @param  array $values Submitted values for the `general` section.
 	 *
 	 * @return array
 	 */
@@ -117,16 +86,16 @@ class Sc_Event_Admin
 			return $values;
 		}
 
-		$hide = isset($values['hide_post_type']) && 'yes' === $values['hide_post_type'];
+		$hide = isset($values['hide_sc_event_post_type']) && 'yes' === $values['hide_sc_event_post_type'];
 
 		if ($hide && simcal_has_calendars_using_feed_type('sc-event')) {
-			unset($values['hide_post_type']);
+			unset($values['hide_sc_event_post_type']);
 
 			add_settings_error(
-				'simple-calendar_settings_feeds',
+				'simple-calendar_settings_calendars',
 				'simcal-sc-event-in-use',
 				__(
-					'The Events post type cannot be hidden while one or more calendars still use the SC Event source. Change those calendars to another event source first.',
+					'Events cannot be hidden while one or more calendars (including any in the trash) still use the SC Event source. Change those calendars to another event source first.',
 					'google-calendar-events',
 				),
 				'error',

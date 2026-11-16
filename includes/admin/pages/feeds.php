@@ -8,7 +8,6 @@ namespace SimpleCalendar\Admin\Pages;
 
 use SimpleCalendar\Abstracts\Feed;
 use SimpleCalendar\Abstracts\Admin_Page;
-use SimpleCalendar\Feeds\Admin\Sc_Event_Admin;
 
 if (!defined('ABSPATH')) {
 	exit();
@@ -81,10 +80,7 @@ class Feeds extends Admin_Page
 			];
 		}
 
-		// Sort by feed type, matching simcal_get_feed_types(). Previously arsort() compared
-		// the section arrays themselves, which was a no-op while only one feed declared
-		// settings and became an arbitrary order as soon as a second one did.
-		ksort($sections);
+		arsort($sections);
 
 		return apply_filters('simcal_add_' . $this->option_group . '_' . $this->id . '_sections', $sections);
 	}
@@ -115,27 +111,5 @@ class Feeds extends Admin_Page
 		endforeach;
 
 		return apply_filters('simcal_add_' . $this->option_group . '_' . $this->id . '_fields', $fields);
-	}
-
-	/**
-	 * Register setting callback.
-	 *
-	 * Lets a feed veto its own section values after the generic sanitization pass.
-	 *
-	 * @since  4.3.2
-	 *
-	 * @param  array $settings Settings inputs.
-	 *
-	 * @return array Sanitized settings.
-	 */
-	public function validate($settings)
-	{
-		$settings = parent::validate($settings);
-
-		if (is_array($settings) && isset($settings['sc-event'])) {
-			$settings['sc-event'] = Sc_Event_Admin::validate_settings($settings['sc-event']);
-		}
-
-		return $settings;
 	}
 }
