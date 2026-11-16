@@ -64,7 +64,8 @@ class Sc_Event extends Feed
 		}
 
 		if (is_admin() && $load_admin && !defined('DOING_AJAX')) {
-			new Sc_Event_Admin($this);
+			$admin = new Sc_Event_Admin($this);
+			$this->settings = $admin->settings_fields();
 		} elseif (is_admin() && $load_admin) {
 			Sc_Event_Admin::register_hooks();
 		}

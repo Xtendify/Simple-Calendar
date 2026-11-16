@@ -222,6 +222,75 @@ function simcal_get_feed_types()
 }
 
 /**
+ * Check if the SC Event post type is enabled.
+ *
+ * The post type is visible by default. Site owners who do not author local events
+ * can hide it from Settings > Event Sources > SC Event, which removes its admin
+ * menu item and drops "SC Event" from the calendar event source dropdown.
+ *
+ * @since  4.3.2
+ *
+ * @return bool
+ */
+function simcal_is_sc_event_post_type_enabled()
+{
+	$settings = get_option('simple-calendar_settings_feeds');
+	$hidden = isset($settings['sc-event']['hide_post_type']) && 'yes' === $settings['sc-event']['hide_post_type'];
+
+	/**
+	 * Filter whether the SC Event post type is enabled.
+	 *
+	 * @since 4.3.2
+	 *
+	 * @param bool $enabled
+	 */
+	return (bool) apply_filters('simcal_is_sc_event_post_type_enabled', !$hidden);
+}
+
+/**
+ * Check if any calendar uses a given event source type.
+ *
+ * The event source of a calendar is stored as a `calendar_feed` term on the
+ * calendar post, so this looks for a single calendar carrying that term.
+ *
+ * @since  4.3.2
+ *
+ * @param  string $feed_type Feed type slug, e.g. 'sc-event'.
+ *
+ * @return bool
+ */
+function simcal_has_calendars_using_feed_type($feed_type)
+{
+	$feed_type = sanitize_title($feed_type);
+
+	if (empty($feed_type) || !taxonomy_exists('calendar_feed')) {
+		return false;
+	}
+
+	$query = new WP_Query([
+		'post_type' => 'calendar',
+		'post_status' => 'any',
+		'posts_per_page' => 1,
+		'fields' => 'ids',
+		'no_found_rows' => true,
+		'update_post_meta_cache' => false,
+		'update_post_term_cache' => false,
+		'tax_query' => [
+			[
+				'taxonomy' => 'calendar_feed',
+				'field' => 'slug',
+				'terms' => $feed_type,
+			],
+		],
+	]);
+
+	$has_calendars = $query->have_posts();
+	wp_reset_postdata();
+
+	return $has_calendars;
+}
+
+/**
  * Get human-readable feed type labels without bootstrapping feed objects.
  *
  * @since  4.0.6
@@ -237,6 +306,11 @@ function simcal_get_feed_type_labels()
 		if (!isset($labels[$type])) {
 			$labels[$type] = ucwords(str_replace('-', ' ', $type));
 		}
+	}
+
+	// Hide the local events source when the SC Event post type is disabled.
+	if (!simcal_is_sc_event_post_type_enabled()) {
+		unset($labels['sc-event']);
 	}
 
 	return $labels;
