@@ -131,7 +131,7 @@ class Event_Builder
 				// Link for viewers to add to their GCals.
 				'event-dropdown-menu',
 				// List Retro: three-dot event dropdown menu. Other views print a notice.
-				'time-location-common',
+				'time-location',
 				// Grid Retro and List Retro: date, time, and location with icons.
 
 				'calendar',
@@ -375,8 +375,8 @@ class Event_Builder
 				case 'event-dropdown-menu':
 					return $this->get_event_dropdown_menu($calendar, $event);
 
-				case 'time-location-common':
-					return $this->get_time_location_common($calendar, $event);
+				case 'time-location':
+					return $this->get_time_location($calendar, $event);
 
 				case 'calendar':
 				case 'feed-title':
@@ -1262,7 +1262,7 @@ class Event_Builder
 	 *
 	 * @return string
 	 */
-	private function get_time_location_common(Calendar $calendar, Event $event)
+	private function get_time_location(Calendar $calendar, Event $event)
 	{
 		$view = $calendar->view;
 		$type = is_object($view) && method_exists($view, 'get_type') ? $view->get_type() : '';
@@ -1270,9 +1270,9 @@ class Event_Builder
 			return \SimpleCalendar\Calendars\Views\Retro_Event::time_location_html($calendar, $event);
 		}
 
-		return '<span class="simcal-time-location-common-notice">' .
+		return '<span class="simcal-time-location-notice">' .
 			esc_html__(
-				'This event template tag "[time-location-common]" works only with Grid Retro and List Retro.',
+				'This event template tag "[time-location]" works only with Grid Retro and List Retro.',
 				'google-calendar-events',
 			) .
 			'</span>';

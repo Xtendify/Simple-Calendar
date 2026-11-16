@@ -502,7 +502,7 @@
 }
 
 .simcal-event-bubble.simcal-retro-bubble .simcal-event-title,
-.simcal-event-bubble.simcal-retro-bubble .simcal-time-location-common,
+.simcal-event-bubble.simcal-retro-bubble .simcal-time-location,
 .simcal-event-bubble.simcal-retro-bubble .simcal-organizer,
 .simcal-event-bubble.simcal-retro-bubble .simcal-attendees,
 .simcal-event-bubble.simcal-retro-bubble .event-description,
@@ -531,7 +531,7 @@
 	line-height: 21px;
 }
 
-.simcal-event-bubble.simcal-retro-bubble .simcal-time-location-common {
+.simcal-event-bubble.simcal-retro-bubble .simcal-time-location {
 	color: var(--simcal-retro-text);
 	display: flex;
 	flex-direction: column;
@@ -543,13 +543,13 @@
 	margin: 0 0 8px;
 }
 
-.simcal-event-bubble.simcal-retro-bubble .simcal-time-location-common-row {
+.simcal-event-bubble.simcal-retro-bubble .simcal-time-location-row {
 	align-items: flex-start;
 	display: flex;
 	gap: 10px;
 }
 
-.simcal-event-bubble.simcal-retro-bubble .simcal-time-location-common .simcal-retro-icon {
+.simcal-event-bubble.simcal-retro-bubble .simcal-time-location .simcal-retro-icon {
 	color: var(--simcal-retro-accent);
 	flex: 0 0 14px;
 	height: 14px;
@@ -557,10 +557,10 @@
 	width: 14px;
 }
 
-.simcal-event-bubble.simcal-retro-bubble .simcal-time-location-common-text,
-.simcal-event-bubble.simcal-retro-bubble .simcal-time-location-common .simcal-event-start,
-.simcal-event-bubble.simcal-retro-bubble .simcal-time-location-common .simcal-event-end,
-.simcal-event-bubble.simcal-retro-bubble .simcal-time-location-common .simcal-event-address {
+.simcal-event-bubble.simcal-retro-bubble .simcal-time-location-text,
+.simcal-event-bubble.simcal-retro-bubble .simcal-time-location .simcal-event-start,
+.simcal-event-bubble.simcal-retro-bubble .simcal-time-location .simcal-event-end,
+.simcal-event-bubble.simcal-retro-bubble .simcal-time-location .simcal-event-address {
 	color: var(--simcal-retro-text);
 	font-family: Roboto, sans-serif;
 	font-size: 12px;
