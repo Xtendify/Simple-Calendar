@@ -155,65 +155,54 @@ class Default_Calendar_Grid_Retro implements Calendar_View
 			return;
 		}
 
-		$start = Carbon::createFromTimestamp($calendar->start, $calendar->timezone)->startOfMonth();
-		$disabled = $calendar->static ? ' disabled="disabled"' : '';
-
 		edit_post_link(
 			__('Edit Calendar', 'google-calendar-events'),
 			'<p class="simcal-align-right"><small>',
 			'</small></p>',
 			$calendar->id,
 		);
+
+		$start = Carbon::createFromTimestamp($calendar->start, $calendar->timezone)->startOfMonth();
+		echo $this->grid_html($calendar, $start);
+
+		\SimpleCalendar\Ics_Export::print_actions($calendar->id);
+	}
+
+	/**
+	 * Outer grid: heading, loader, and the month table.
+	 *
+	 * @param Default_Calendar $calendar
+	 * @param Carbon            $start First day of the visible month.
+	 * @return string
+	 */
+	private function grid_html(Default_Calendar $calendar, Carbon $start)
+	{
+		$timestamp = (int) $start->getTimestamp();
+		$month_name = Retro_Event::local_date('F', $timestamp, $calendar->timezone);
+		$year_name = Retro_Event::local_date('Y', $timestamp, $calendar->timezone);
+		$disabled = $calendar->static ? ' disabled="disabled"' : '';
+		$caption = sprintf(
+			/* translators: 1: month name, 2: year. */
+			__('%1$s %2$s', 'google-calendar-events'),
+			$month_name,
+			$year_name,
+		);
+
+		ob_start();
 		?>
 		<div class="simcal-retro-grid">
 			<header class="simcal-calendar-head simcal-retro-header">
-				<button type="button" class="simcal-nav-button simcal-prev" title="<?php esc_attr_e(
-    	'Previous Month',
-    	'google-calendar-events',
-    ); ?>" aria-label="<?php esc_attr_e(
-	'Previous Month',
-	'google-calendar-events',
-); ?>"<?php echo $disabled; ?>><?php echo Retro_Event::chevron('prev'); ?></button>
+				<?php echo $this->nav_button('prev', $disabled); ?>
 				<div class="simcal-nav simcal-current simcal-retro-heading" aria-live="polite" aria-atomic="true" data-calendar-current="<?php echo esc_attr(
-    	$start->getTimestamp(),
+    	$timestamp,
     ); ?>">
-					<h2><?php
-     // Same order Grid Classic uses: whichever of year or month appears first in the date format.
-     $year_pos = strcspn($calendar->date_format, 'Y y');
-     $month_pos = strcspn($calendar->date_format, 'F M m n');
-     $month_html =
-     	'<span class="simcal-current-month">' .
-     	esc_html(Retro_Event::local_date('F', $start->getTimestamp(), $calendar->timezone)) .
-     	'</span>';
-     $year_html =
-     	'<span class="simcal-current-year">' .
-     	esc_html(Retro_Event::local_date('Y', $start->getTimestamp(), $calendar->timezone)) .
-     	'</span>';
-     if ($year_pos < $month_pos) {
-     	echo $year_html . ' ' . $month_html;
-     } else {
-     	echo $month_html . '<span class="simcal-retro-comma" aria-hidden="true">,</span> ' . $year_html;
-     }
-     ?></h2>
+					<h2><?php echo $this->heading_html($calendar, $month_name, $year_name); ?></h2>
 				</div>
-				<button type="button" class="simcal-nav-button simcal-next" title="<?php esc_attr_e(
-    	'Next Month',
-    	'google-calendar-events',
-    ); ?>" aria-label="<?php esc_attr_e(
-	'Next Month',
-	'google-calendar-events',
-); ?>"<?php echo $disabled; ?>><?php echo Retro_Event::chevron('next'); ?></button>
+				<?php echo $this->nav_button('next', $disabled); ?>
 			</header>
 			<div class="simcal-ajax-loader simcal-retro-loader" style="display: none;" aria-hidden="true"><i class="simcal-icon-spinner simcal-icon-spin"></i></div>
 			<table class="simcal-retro-table" data-event-bubble-trigger="<?php echo esc_attr($calendar->event_bubble_trigger); ?>">
-				<caption class="simcal-retro-sr"><?php echo esc_html(
-    	sprintf(
-    		/* translators: 1: month name, 2: year. */
-    		__('%1$s %2$s', 'google-calendar-events'),
-    		Retro_Event::local_date('F', $start->getTimestamp(), $calendar->timezone),
-    		Retro_Event::local_date('Y', $start->getTimestamp(), $calendar->timezone),
-    	),
-    ); ?></caption>
+				<caption class="simcal-retro-sr"><?php echo esc_html($caption); ?></caption>
 				<thead>
 					<tr>
 						<?php echo $this->weekday_headings($calendar); ?>
@@ -222,7 +211,56 @@ class Default_Calendar_Grid_Retro implements Calendar_View
 				<?php echo $this->draw_month((int) $start->month, (int) $start->year); ?>
 			</table>
 		</div>
-		<?php \SimpleCalendar\Ics_Export::print_actions($calendar->id);
+		<?php return ob_get_clean();
+	}
+
+	/**
+	 * Previous or next month button.
+	 *
+	 * @param string $direction prev|next
+	 * @param string $disabled  Empty, or a disabled attribute, for a static calendar.
+	 * @return string
+	 */
+	private function nav_button($direction, $disabled)
+	{
+		$is_prev = 'prev' === $direction;
+		$label = $is_prev ? __('Previous Month', 'google-calendar-events') : __('Next Month', 'google-calendar-events');
+
+		return '<button type="button" class="simcal-nav-button simcal-' .
+			($is_prev ? 'prev' : 'next') .
+			'" title="' .
+			esc_attr($label) .
+			'" aria-label="' .
+			esc_attr($label) .
+			'"' .
+			$disabled .
+			'>' .
+			Retro_Event::chevron($is_prev ? 'prev' : 'next') .
+			'</button>';
+	}
+
+	/**
+	 * Month and year heading.
+	 *
+	 * Same order Grid Classic uses: whichever of year or month appears first in the date format.
+	 *
+	 * @param Default_Calendar $calendar
+	 * @param string           $month_name
+	 * @param string           $year_name
+	 * @return string
+	 */
+	private function heading_html(Default_Calendar $calendar, $month_name, $year_name)
+	{
+		$month_html = '<span class="simcal-current-month">' . esc_html($month_name) . '</span>';
+		$year_html = '<span class="simcal-current-year">' . esc_html($year_name) . '</span>';
+		$year_pos = strcspn($calendar->date_format, 'Y y');
+		$month_pos = strcspn($calendar->date_format, 'F M m n');
+
+		if ($year_pos < $month_pos) {
+			return $year_html . ' ' . $month_html;
+		}
+
+		return $month_html . '<span class="simcal-retro-comma" aria-hidden="true">,</span> ' . $year_html;
 	}
 
 	/**

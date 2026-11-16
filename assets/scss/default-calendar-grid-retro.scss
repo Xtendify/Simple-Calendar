@@ -439,9 +439,10 @@
 	}
 }
 
+/* qTip appends this bubble to <body>, outside the calendar, so every tooltip
+   rule lives under this parent and cannot reach another view. */
 .simcal-event-bubble.simcal-retro-bubble {
-	/* qTip bubbles are rendered on <body>, outside the calendar container, so
-	   the Retro tokens scoped to the calendar do not inherit here. */
+	/* Retro tokens are scoped to the calendar, so they do not inherit here. */
 	@include retro-tokens;
 
 	background: #fff;
@@ -458,214 +459,210 @@
 	max-width: min(257px, calc(100vw - 24px));
 	width: 257px;
 	z-index: 100001;
-}
 
-.simcal-event-bubble.simcal-retro-bubble .qtip-content {
-	background: #fff;
-	border-color: #fff;
-	border-radius: 10px;
-	box-sizing: border-box;
-	max-width: 100%;
-	overflow-wrap: anywhere;
-	padding: 16px;
-	word-break: break-word;
-}
-
-.simcal-event-bubble.simcal-retro-bubble .simcal-event-details {
-	max-width: 100%;
-	min-width: 0;
-}
-
-.simcal-event-bubble.simcal-retro-bubble .simcal-event-details p,
-.simcal-event-bubble.simcal-retro-bubble .simcal-event-details .simcal-event-description {
-	color: var(--simcal-retro-text);
-	font-size: 12px;
-	font-weight: 400;
-	letter-spacing: 0;
-	line-height: 21px;
-	margin: 0 0 12px;
-}
-
-.simcal-event-bubble.simcal-retro-bubble .simcal-event-details p:last-child,
-.simcal-event-bubble.simcal-retro-bubble .simcal-event-description:last-child {
-	margin-bottom: 0;
-}
-
-.simcal-event-bubble.simcal-retro-bubble .event-divider {
-	margin: 15px 0;
-}
-
-.simcal-event-bubble.simcal-retro-bubble .simcal-event-title,
-.simcal-event-bubble.simcal-retro-bubble .simcal-time-location-common,
-.simcal-event-bubble.simcal-retro-bubble .simcal-organizer,
-.simcal-event-bubble.simcal-retro-bubble .simcal-attendees,
-.simcal-event-bubble.simcal-retro-bubble .event-description,
-.simcal-event-bubble.simcal-retro-bubble .sc-event-footer {
-	padding-bottom: 12px;
-}
-
-.simcal-event-bubble.simcal-retro-bubble strong {
-	color: var(--simcal-retro-text);
-	display: inline;
-	font-size: 14px;
-	font-weight: 800;
-	letter-spacing: 0;
-	line-height: 15px;
-	overflow: visible;
-	white-space: normal;
-}
-
-.simcal-event-bubble.simcal-retro-bubble .simcal-event-start,
-.simcal-event-bubble.simcal-retro-bubble .simcal-event-end,
-.simcal-event-bubble.simcal-retro-bubble .simcal-event-address {
-	color: var(--simcal-retro-text);
-	font-size: 12px;
-	font-weight: 400;
-	letter-spacing: 0;
-	line-height: 21px;
-}
-
-.simcal-event-bubble.simcal-retro-bubble .simcal-time-location-common {
-	color: var(--simcal-retro-text);
-	display: flex;
-	flex-direction: column;
-	font-family: Roboto, sans-serif;
-	font-size: 12px;
-	font-weight: 400;
-	gap: 2px;
-	line-height: 21px;
-	margin: 0 0 8px;
-}
-
-.simcal-event-bubble.simcal-retro-bubble .simcal-time-location-common-row {
-	align-items: flex-start;
-	display: flex;
-	gap: 10px;
-}
-
-.simcal-event-bubble.simcal-retro-bubble .simcal-time-location-common .simcal-retro-icon {
-	color: var(--simcal-retro-accent);
-	flex: 0 0 14px;
-	height: 14px;
-	margin-top: 3.5px;
-	width: 14px;
-}
-
-.simcal-event-bubble.simcal-retro-bubble .simcal-time-location-common-text,
-.simcal-event-bubble.simcal-retro-bubble .simcal-time-location-common .simcal-event-start,
-.simcal-event-bubble.simcal-retro-bubble .simcal-time-location-common .simcal-event-end,
-.simcal-event-bubble.simcal-retro-bubble .simcal-time-location-common .simcal-event-address {
-	color: var(--simcal-retro-text);
-	font-family: Roboto, sans-serif;
-	font-size: 12px;
-	font-weight: 400;
-	letter-spacing: 0;
-	line-height: 21px;
-}
-
-.simcal-event-bubble.simcal-retro-bubble .simcal-event-description p,
-.simcal-event-bubble.simcal-retro-bubble
-	.simcal-event-details
-	> p:not(:has(strong)):not(:has(.simcal-event-start)):not(:has(.simcal-event-address)) {
-	color: #92a1ad;
-}
-
-/* Links use the theme's styles first. These values only apply where the theme sets nothing. */
-@layer simple-calendar-fallback {
-	.simcal-event-bubble.simcal-retro-bubble a {
-		color: var(--simcal-retro-today);
-		font-size: 12px;
-		font-weight: 600;
-		line-height: 21px;
-		text-decoration: underline;
+	.qtip-content {
+		background: #fff;
+		border-color: #fff;
+		border-radius: 10px;
+		box-sizing: border-box;
+		max-width: 100%;
+		overflow-wrap: anywhere;
+		padding: 16px;
+		word-break: break-word;
 	}
-}
 
-.simcal-event-bubble.simcal-retro-bubble .simcal-retro-people {
-	margin: 12px 0;
-}
+	.simcal-event-details {
+		max-width: 100%;
+		min-width: 0;
+	}
 
-.simcal-event-bubble.simcal-retro-bubble .simcal-retro-people-label {
-	color: var(--simcal-retro-text);
-	display: block;
-	font-family: Roboto, sans-serif;
-	font-size: 14px;
-	font-weight: 700;
-	letter-spacing: 0;
-	line-height: 21px;
-	margin: 0 0 8px;
-}
-
-.simcal-event-bubble.simcal-retro-bubble .simcal-attendees {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-	list-style: none;
-	margin: 0;
-	max-width: 100%;
-	min-width: 0;
-	padding: 0;
-}
-
-.simcal-event-bubble.simcal-retro-bubble .simcal-organizer,
-.simcal-event-bubble.simcal-retro-bubble .simcal-attendee {
-	align-items: center;
-	color: var(--simcal-retro-text);
-	display: flex;
-	font-family: Roboto, sans-serif;
-	font-size: 12px;
-	font-weight: 500;
-	gap: 6px;
-	letter-spacing: 0;
-	line-height: 21px;
-	max-width: 100%;
-	min-width: 0;
-}
-
-.simcal-event-bubble.simcal-retro-bubble .simcal-organizer > a,
-.simcal-event-bubble.simcal-retro-bubble .simcal-attendee > a {
-	align-items: center;
-	display: flex;
-	gap: 6px;
-	max-width: 100%;
-	min-width: 0;
-}
-
-@layer simple-calendar-fallback {
-	.simcal-event-bubble.simcal-retro-bubble .simcal-organizer > a,
-	.simcal-event-bubble.simcal-retro-bubble .simcal-attendee > a {
+	.simcal-event-details p,
+	.simcal-event-details .simcal-event-description {
 		color: var(--simcal-retro-text);
+		font-size: 12px;
+		font-weight: 400;
+		letter-spacing: 0;
+		line-height: 21px;
+		margin: 0 0 12px;
+	}
+
+	.simcal-event-details p:last-child,
+	.simcal-event-description:last-child {
+		margin-bottom: 0;
+	}
+
+	.event-divider {
+		margin: 15px 0;
+	}
+
+	.simcal-event-title,
+	.simcal-time-location-common,
+	.simcal-organizer,
+	.simcal-attendees,
+	.event-description,
+	.sc-event-footer {
+		padding-bottom: 12px;
+	}
+
+	strong {
+		color: var(--simcal-retro-text);
+		display: inline;
+		font-size: 14px;
+		font-weight: 800;
+		letter-spacing: 0;
+		line-height: 15px;
+		overflow: visible;
+		white-space: normal;
+	}
+
+	.simcal-event-start,
+	.simcal-event-end,
+	.simcal-event-address {
+		color: var(--simcal-retro-text);
+		font-size: 12px;
+		font-weight: 400;
+		letter-spacing: 0;
+		line-height: 21px;
+	}
+
+	.simcal-time-location-common {
+		color: var(--simcal-retro-text);
+		display: flex;
+		flex-direction: column;
+		font-family: Roboto, sans-serif;
+		font-size: 12px;
+		font-weight: 400;
+		gap: 2px;
+		line-height: 21px;
+		margin: 0 0 8px;
+	}
+
+	.simcal-time-location-common-row {
+		align-items: flex-start;
+		display: flex;
+		gap: 10px;
+	}
+
+	.simcal-time-location-common .simcal-retro-icon {
+		color: var(--simcal-retro-accent);
+		flex: 0 0 14px;
+		height: 14px;
+		margin-top: 3.5px;
+		width: 14px;
+	}
+
+	.simcal-time-location-common-text,
+	.simcal-time-location-common .simcal-event-start,
+	.simcal-time-location-common .simcal-event-end,
+	.simcal-time-location-common .simcal-event-address {
+		color: var(--simcal-retro-text);
+		font-family: Roboto, sans-serif;
+		font-size: 12px;
+		font-weight: 400;
+		letter-spacing: 0;
+		line-height: 21px;
+	}
+
+	.simcal-event-description p,
+	.simcal-event-details > p:not(:has(strong)):not(:has(.simcal-event-start)):not(:has(.simcal-event-address)) {
+		color: #92a1ad;
+	}
+
+	@layer simple-calendar-fallback {
+		a {
+			/* Theme link styles win. These apply only where the theme sets nothing. */
+			color: var(--simcal-retro-today);
+			font-size: 12px;
+			font-weight: 600;
+			line-height: 21px;
+			text-decoration: underline;
+		}
+
+		.simcal-organizer > a,
+		.simcal-attendee > a {
+			color: var(--simcal-retro-text);
+			font-weight: 500;
+			text-decoration: none;
+		}
+
+		.simcal-organizer > a:hover,
+		.simcal-organizer > a:focus-visible,
+		.simcal-attendee > a:hover,
+		.simcal-attendee > a:focus-visible {
+			text-decoration: underline;
+		}
+	}
+
+	.simcal-retro-people {
+		margin: 12px 0;
+	}
+
+	.simcal-retro-people-label {
+		color: var(--simcal-retro-text);
+		display: block;
+		font-family: Roboto, sans-serif;
+		font-size: 14px;
+		font-weight: 700;
+		letter-spacing: 0;
+		line-height: 21px;
+		margin: 0 0 8px;
+	}
+
+	.simcal-attendees {
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		list-style: none;
+		margin: 0;
+		max-width: 100%;
+		min-width: 0;
+		padding: 0;
+	}
+
+	.simcal-organizer,
+	.simcal-attendee {
+		align-items: center;
+		color: var(--simcal-retro-text);
+		display: flex;
+		font-family: Roboto, sans-serif;
+		font-size: 12px;
 		font-weight: 500;
-		text-decoration: none;
+		gap: 6px;
+		letter-spacing: 0;
+		line-height: 21px;
+		max-width: 100%;
+		min-width: 0;
 	}
 
-	.simcal-event-bubble.simcal-retro-bubble .simcal-organizer > a:hover,
-	.simcal-event-bubble.simcal-retro-bubble .simcal-organizer > a:focus-visible,
-	.simcal-event-bubble.simcal-retro-bubble .simcal-attendee > a:hover,
-	.simcal-event-bubble.simcal-retro-bubble .simcal-attendee > a:focus-visible {
-		text-decoration: underline;
+	.simcal-organizer > a,
+	.simcal-attendee > a {
+		align-items: center;
+		display: flex;
+		gap: 6px;
+		max-width: 100%;
+		min-width: 0;
 	}
-}
 
-.simcal-event-bubble.simcal-retro-bubble .simcal-organizer span,
-.simcal-event-bubble.simcal-retro-bubble .simcal-attendee span {
-	min-width: 0;
-	overflow-wrap: anywhere;
-	word-break: break-word;
-}
+	.simcal-organizer span,
+	.simcal-attendee span {
+		min-width: 0;
+		overflow-wrap: anywhere;
+		word-break: break-word;
+	}
 
-.simcal-event-bubble.simcal-retro-bubble .simcal-organizer img,
-.simcal-event-bubble.simcal-retro-bubble .simcal-attendee img,
-.simcal-event-bubble.simcal-retro-bubble .avatar {
-	border-radius: 5px;
-	flex: 0 0 24px;
-	height: 24px;
-	object-fit: cover;
-	width: 24px;
-}
+	.simcal-organizer img,
+	.simcal-attendee img,
+	.avatar {
+		border-radius: 5px;
+		flex: 0 0 24px;
+		height: 24px;
+		object-fit: cover;
+		width: 24px;
+	}
 
-.simcal-event-bubble.simcal-retro-bubble .simcal-organizer img {
-	border-radius: 50%;
+	.simcal-organizer img {
+		border-radius: 50%;
+	}
 }
 
 /* Grid on desktop / list on mobile. Hidden view uses display:none (no layout/paint). */
