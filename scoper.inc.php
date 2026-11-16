@@ -11,6 +11,13 @@ declare(strict_types=1);
  * @link      https://sitekit.withgoogle.com
  */
 
+if (!defined('ABSPATH')) {
+	// Allow CLI (php-scoper build); block direct web access.
+	if (PHP_SAPI !== 'cli' && PHP_SAPI !== 'phpdbg') {
+		exit();
+	}
+}
+
 use Isolated\Symfony\Component\Finder\Finder;
 
 // Google API services to include classes for.

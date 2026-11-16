@@ -71,19 +71,20 @@ class Date_Picker extends Field
 		if (!empty($this->description)) {
 			echo '<p class="description">' . wp_kses_post($this->description) . '</p>';
 		} ?>
-		<div id="<?php echo $this->id; ?>"
-		     class="<?php echo $this->class; ?>"
-		     <?php echo $this->style ? 'style="' . $this->style . '"' : ''; ?>
-			 <?php echo $this->attributes; ?>>
+		<div id="<?php echo esc_attr($this->id); ?>"
+		     class="<?php echo esc_attr($this->class); ?>"
+		     <?php echo $this->style ? 'style="' . esc_attr($this->style) . '"' : ''; ?>
+			 <?php echo wp_kses_post($this->attributes); ?>>
 			<?php if (false === $this->range) { ?>
 				<i class="simcal-icon-calendar"></i>
 				<input type="<?php echo $this->inline === true ? 'text' : 'hidden'; ?>"
-				       name="<?php echo $this->name; ?>"
-				       value="<?php echo $this->value; ?>"
+				       name="<?php echo esc_attr($this->name); ?>"
+				       value="<?php echo esc_attr($this->value); ?>"
 				       placeholder="..."
 				       readonly="readonly" />
 				<?php if (true === $this->inline) {
-    	echo $this->tooltip;
+    	$allowed_tooltip = ['i' => ['class' => [], 'data-tip' => []]];
+    	echo wp_kses($this->tooltip, $allowed_tooltip);
     }} ?>
 		</div>
 		<?php
