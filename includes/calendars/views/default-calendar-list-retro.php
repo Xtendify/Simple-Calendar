@@ -122,13 +122,13 @@ class Default_Calendar_List_Retro implements Calendar_View
 	public function styles()
 	{
 		return [
-			'simcal-default-calendar-common' => [
-				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/default-calendar-common.min.css',
+			'simcal-default-calendar-retro-common' => [
+				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/default-calendar-retro-common.min.css',
 				'media' => 'all',
 			],
 			'simcal-default-calendar-list-retro' => [
 				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/default-calendar-list-retro.min.css',
-				'deps' => ['simcal-default-calendar-common'],
+				'deps' => ['simcal-default-calendar-retro-common'],
 				'ver' => file_exists(SIMPLE_CALENDAR_PATH . 'assets/generated/default-calendar-list-retro.min.css')
 					? filemtime(SIMPLE_CALENDAR_PATH . 'assets/generated/default-calendar-list-retro.min.css')
 					: SIMPLE_CALENDAR_VERSION,

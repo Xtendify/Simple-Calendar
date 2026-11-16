@@ -1,0 +1,320 @@
+/**
+ * Shared styles for Grid Retro and List Retro.
+ *
+ * Classic grid and list keep assets/css/default-calendar-common.css.
+ * Retro views do not load that file. This sheet keeps the pieces Retro
+ * markup still uses: the icon font for the loader and show-more control,
+ * the loader overlay, the powered-by credit, the empty-events notice,
+ * the shared color tokens, and the event-template footer.
+ */
+
+@font-face {
+	font-family: 'simple-calendar';
+	src: url('../fonts/simple-calendar.eot?43976014');
+	src:
+		url('../fonts/simple-calendar.eot?43976014#iefix') format('embedded-opentype'),
+		url('../fonts/simple-calendar.woff?43976014') format('woff'),
+		url('../fonts/simple-calendar.ttf?43976014') format('truetype'),
+		url('../fonts/simple-calendar.svg?43976014#simple-calendar') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^='simcal-icon-']:before,
+[class*=' simcal-icon-']:before {
+	display: inline-block;
+	font-family: 'simple-calendar';
+	font-style: normal;
+	font-weight: normal;
+	margin-right: 0.2em;
+	speak: none;
+	text-decoration: inherit;
+	text-align: center;
+	width: 1em;
+	font-variant: normal;
+	text-transform: none;
+	margin-left: 0.2em;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.simcal-icon-spin {
+	-moz-animation: spin 2s infinite linear;
+	-o-animation: spin 2s infinite linear;
+	-webkit-animation: spin 2s infinite linear;
+	animation: spin 2s infinite linear;
+	display: inline-block;
+}
+
+@-moz-keyframes spin {
+	0% {
+		-moz-transform: rotate(0deg);
+		-o-transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-moz-transform: rotate(359deg);
+		-o-transform: rotate(359deg);
+		-webkit-transform: rotate(359deg);
+		transform: rotate(359deg);
+	}
+}
+
+@-webkit-keyframes spin {
+	0% {
+		-moz-transform: rotate(0deg);
+		-o-transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-moz-transform: rotate(359deg);
+		-o-transform: rotate(359deg);
+		-webkit-transform: rotate(359deg);
+		transform: rotate(359deg);
+	}
+}
+
+@-o-keyframes spin {
+	0% {
+		-moz-transform: rotate(0deg);
+		-o-transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-moz-transform: rotate(359deg);
+		-o-transform: rotate(359deg);
+		-webkit-transform: rotate(359deg);
+		transform: rotate(359deg);
+	}
+}
+
+@-ms-keyframes spin {
+	0% {
+		-moz-transform: rotate(0deg);
+		-o-transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-moz-transform: rotate(359deg);
+		-o-transform: rotate(359deg);
+		-webkit-transform: rotate(359deg);
+		transform: rotate(359deg);
+	}
+}
+
+@keyframes spin {
+	0% {
+		-moz-transform: rotate(0deg);
+		-o-transform: rotate(0deg);
+		-webkit-transform: rotate(0deg);
+		transform: rotate(0deg);
+	}
+	100% {
+		-moz-transform: rotate(359deg);
+		-o-transform: rotate(359deg);
+		-webkit-transform: rotate(359deg);
+		transform: rotate(359deg);
+	}
+}
+
+.simcal-icon-animate:before {
+	transition: all 0.2s ease-in-out;
+}
+
+.simcal-icon-rotate-180:before {
+	transform: rotate(180deg);
+}
+
+.simcal-icon-down:before {
+	content: '\e80d';
+}
+
+.simcal-icon-spinner:before {
+	content: '\e810';
+}
+
+.simcal-calendar {
+	position: relative;
+}
+
+.simcal-powered {
+	display: block;
+	margin: -10px 0 20px;
+}
+
+.simcal-empty-events-notice {
+	margin: 12px 0 0;
+	padding: 10px 12px;
+	border-left: 4px solid #2271b1;
+	background: #f0f6fc;
+	color: #1d2327;
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+.simcal-empty-events-notice p {
+	margin: 0;
+}
+
+.simcal-empty-events-notice p + p {
+	margin-top: 6px;
+}
+
+.simcal-empty-events-notice-meta {
+	opacity: 0.75;
+	font-size: 12px;
+}
+
+.simcal-align-left {
+	text-align: left;
+}
+
+.simcal-align-right {
+	text-align: right;
+}
+
+/* Retro color tokens shared by Grid Retro and List Retro. */
+.simcal-default-calendar.simcal-default-calendar-grid-retro,
+.simcal-default-calendar.simcal-default-calendar-list-retro {
+	--simcal-retro-heading: #1e293b;
+	--simcal-retro-nav-border: #e6e8ee;
+	--simcal-retro-nav-text: #64748b;
+	--simcal-retro-accent: #3c8595;
+	--simcal-retro-text: #4d5e80;
+}
+
+.simcal-default-calendar-grid-retro .simcal-events-toggle,
+.simcal-default-calendar-list-retro .simcal-events-toggle {
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+	color: #64748b;
+	cursor: pointer;
+	margin: 0;
+	padding: 2px 0;
+	text-align: center;
+	width: 100%;
+}
+
+.simcal-default-calendar-grid-retro .simcal-events-toggle:active,
+.simcal-default-calendar-grid-retro .simcal-events-toggle:hover,
+.simcal-default-calendar-list-retro .simcal-events-toggle:active,
+.simcal-default-calendar-list-retro .simcal-events-toggle:hover {
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+	outline: none;
+}
+
+.simcal-default-calendar-grid-retro .simcal-events-toggle:focus,
+.simcal-default-calendar-list-retro .simcal-events-toggle:focus {
+	outline: 2px solid currentColor;
+	outline-offset: 2px;
+}
+
+.simcal-default-calendar-grid-retro .simcal-cover-image,
+.simcal-default-calendar-list-retro .simcal-cover-image {
+	display: block;
+	margin: 0 0 8px;
+	max-width: 100%;
+}
+
+.simcal-default-calendar-grid-retro .simcal-cover-image a,
+.simcal-default-calendar-list-retro .simcal-cover-image a {
+	border-bottom: 0;
+	display: block;
+	text-decoration: none;
+}
+
+.simcal-default-calendar-grid-retro .simcal-cover-img,
+.simcal-default-calendar-list-retro .simcal-cover-img {
+	display: block;
+	height: auto;
+	max-height: 220px;
+	max-width: 100%;
+	object-fit: contain;
+	width: auto;
+}
+
+.simcal-default-calendar-grid-retro .simcal-ajax-loader,
+.simcal-default-calendar-list-retro .simcal-ajax-loader {
+	height: 100%;
+	left: 0;
+	position: absolute;
+	top: 0;
+	width: 100%;
+}
+
+.simcal-default-calendar-grid-retro .simcal-ajax-loader > i,
+.simcal-default-calendar-list-retro .simcal-ajax-loader > i {
+	font-size: 48px;
+	left: 50%;
+	line-height: 1;
+	margin: -36px 0 0 -36px;
+	position: absolute;
+	top: 50%;
+}
+
+.simcal-default-calendar-grid-retro .simcal-ajax-loader.simcal-spinner-top > i,
+.simcal-default-calendar-list-retro .simcal-ajax-loader.simcal-spinner-top > i {
+	top: 20%;
+}
+
+.simcal-default-calendar-grid-retro .simcal-ajax-loader.simcal-spinner-bottom > i,
+.simcal-default-calendar-list-retro .simcal-ajax-loader.simcal-spinner-bottom > i {
+	bottom: 20%;
+	top: auto;
+}
+
+.simcal-default-calendar-grid-retro.simcal-default-calendar-light .simcal-ajax-loader,
+.simcal-default-calendar-list-retro.simcal-default-calendar-light .simcal-ajax-loader {
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+.simcal-default-calendar-grid-retro.simcal-default-calendar-light .simcal-ajax-loader > i,
+.simcal-default-calendar-list-retro.simcal-default-calendar-light .simcal-ajax-loader > i {
+	color: rgba(0, 0, 0, 0.3);
+}
+
+.simcal-default-calendar-grid-retro.simcal-default-calendar-dark .simcal-ajax-loader,
+.simcal-default-calendar-list-retro.simcal-default-calendar-dark .simcal-ajax-loader {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+.simcal-default-calendar-grid-retro.simcal-default-calendar-dark .simcal-ajax-loader > i,
+.simcal-default-calendar-list-retro.simcal-default-calendar-dark .simcal-ajax-loader > i {
+	color: rgba(255, 255, 255, 0.3);
+}
+
+/* Event template footer: [link] and [add-to-gcal-link] side by side. */
+.sc-event-footer {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-top: 20px;
+}
+
+/* Link styles only apply where the theme sets nothing on <a>. */
+@layer simple-calendar-fallback {
+	.sc-event-footer a,
+	.event-see-more-details a,
+	.event-add-to-gcal-link a {
+		font-family: 'Roboto', sans-serif;
+		font-style: normal;
+		font-weight: 600;
+		font-size: 12px;
+		line-height: 15px;
+		color: #3c8595;
+		text-decoration: underline;
+	}
+}
+
+@media print {
+	.simcal-empty-events-notice {
+		display: none;
+	}
+}
