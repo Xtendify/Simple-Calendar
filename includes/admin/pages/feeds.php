@@ -81,7 +81,10 @@ class Feeds extends Admin_Page
 			];
 		}
 
-		arsort($sections);
+		// Sort by feed type, matching simcal_get_feed_types(). Previously arsort() compared
+		// the section arrays themselves, which was a no-op while only one feed declared
+		// settings and became an arbitrary order as soon as a second one did.
+		ksort($sections);
 
 		return apply_filters('simcal_add_' . $this->option_group . '_' . $this->id . '_sections', $sections);
 	}
