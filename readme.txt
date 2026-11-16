@@ -220,6 +220,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 4.3.3 =
+* Fix: An stored Cross-Site Scripting (XSS) vulnerability. 
+
 = 4.3.2 =
 * Dev: Added an option to clear the color label cache when updating the calendar or manually clicking "Clear Cache" in the admin panel.
 * Dev: Implemented a configurable cutoff date making "Powered by" credits mandatory for newly created calendars without a valid Pro license, while preserving optional credit behavior for existing calendars.
