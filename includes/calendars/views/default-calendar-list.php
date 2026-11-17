@@ -725,6 +725,13 @@ class Default_Calendar_List implements Calendar_View
 							esc_attr($event->start) .
 							'">' .
 							"\n";
+						// Event template tags leave the recommended eventStatus,
+						// eventAttendanceMode, image, organizer, performer and offers
+						// properties off the Event node. Already wp_kses()'d.
+						$schema_meta = $calendar->get_event_schema_meta($event);
+						if (!empty($schema_meta)) {
+							$list_events .= "\t\t" . $schema_meta . "\n";
+						}
 						$list_events .=
 							"\t\t" . '<div class="simcal-event-details">' . $calendar->get_event_html($event) . '</div>' . "\n";
 						$list_events .= "\t" . '</li>' . "\n";

@@ -400,18 +400,7 @@ class Sc_Event_Single
 		$schema_meta_html = !empty($context['schema_meta']) ? $context['schema_meta'] : '';
 		?>
 		<div class="<?php echo esc_attr($wrapper_class); ?>" itemscope itemtype="https://schema.org/Event">
-			<?php echo wp_kses($schema_meta_html, [
-   	'meta' => [
-   		'itemprop' => true,
-   		'content' => true,
-   	],
-   	'span' => [
-   		'itemprop' => true,
-   		'itemscope' => true,
-   		'itemtype' => true,
-   		'style' => true,
-   	],
-   ]); ?>
+			<?php echo wp_kses($schema_meta_html, Event_Schema::get_allowed_html()); ?>
 			<?php do_action('simcal_before_event_detail_summary', $post, $context); ?>
 			<div class="simcal-event-detail__body">
 				<div class="simcal-event-detail__main">
