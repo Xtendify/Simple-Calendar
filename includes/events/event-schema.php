@@ -74,7 +74,26 @@ class Event_Schema
 			$html .= '<meta itemprop="url" content="' . esc_url($event->link) . '" />';
 		}
 
-		$html .= '<meta itemprop="eventStatus" content="https://schema.org/EventScheduled" />';
+		return $html . $this->get_supplemental_schema_meta();
+	}
+
+	/**
+	 * Build only the Event schema meta that event template tags never supply.
+	 *
+	 * Calendar views wrap each event in a schema.org/Event item and fill the
+	 * core properties (name, startDate, endDate, url) from the event template
+	 * tags. Those tags have no equivalent for eventStatus, eventAttendanceMode,
+	 * image, performer or offers, so Google reports them as missing. This
+	 * returns that supplementary set only, to avoid emitting a second
+	 * conflicting value for a property the template already provides.
+	 *
+	 * @since  4.3.3
+	 *
+	 * @return string
+	 */
+	public function get_supplemental_schema_meta()
+	{
+		$html = '<meta itemprop="eventStatus" content="https://schema.org/EventScheduled" />';
 
 		$html .= '<meta itemprop="eventAttendanceMode" content="' . esc_attr($this->get_schema_attendance_mode()) . '" />';
 
@@ -83,11 +102,45 @@ class Event_Schema
 			$html .= '<meta itemprop="image" content="' . esc_url($image_url) . '" />';
 		}
 
-		$html .= $this->get_schema_organizer_meta();
+		// Skip the organizer only when the [organizer] template tag will actually
+		// render one: that tag outputs nothing unless the event source supplied
+		// organizer data, which core feeds never do.
+		$organizer = $this->event->get_organizer();
+		if (empty($organizer) || !$this->template_has_tag('organizer')) {
+			$html .= $this->get_schema_organizer_meta();
+		}
+
 		$html .= $this->get_schema_performer_meta();
 		$html .= $this->get_schema_offers_meta();
 
 		return $html;
+	}
+
+	/**
+	 * Allowed HTML for schema microdata built by this class.
+	 *
+	 * Shared by every caller that echoes get_schema_meta() output, so the
+	 * allowlist cannot drift between the SC Event single template and the
+	 * calendar views.
+	 *
+	 * @since  4.3.3
+	 *
+	 * @return array
+	 */
+	public static function get_allowed_html()
+	{
+		return [
+			'meta' => [
+				'itemprop' => true,
+				'content' => true,
+			],
+			'span' => [
+				'itemprop' => true,
+				'itemscope' => true,
+				'itemtype' => true,
+				'style' => true,
+			],
+		];
 	}
 
 	/**
@@ -146,7 +199,7 @@ class Event_Schema
 		];
 
 		foreach ($virtual_hosts as $virtual_host) {
-			if ($host === $virtual_host || substr($host, -(1 - strlen($virtual_host))) === '.' . $virtual_host) {
+			if ($host === $virtual_host || substr($host, -(strlen($virtual_host) + 1)) === '.' . $virtual_host) {
 				return true;
 			}
 		}
@@ -276,6 +329,25 @@ class Event_Schema
 	 */
 	private function is_organizer_email_public()
 	{
+		$template = $this->get_event_template();
+
+		if ('' === $template) {
+			return false;
+		}
+
+		return (bool) preg_match('/\[organizer\b[^\]]*email\s*=\s*([\'"]?)show\1/i', $template);
+	}
+
+	/**
+	 * Resolve the event template this event is rendered with.
+	 *
+	 * @since  4.3.3
+	 * @access private
+	 *
+	 * @return string Empty string when no template can be resolved.
+	 */
+	private function get_event_template()
+	{
 		$template = !empty($this->event->template) ? (string) $this->event->template : '';
 
 		if ('' === $template && !empty($this->event->calendar)) {
@@ -285,11 +357,28 @@ class Event_Schema
 			}
 		}
 
+		return $template;
+	}
+
+	/**
+	 * Whether the event template uses a given template tag.
+	 *
+	 * @since  4.3.3
+	 * @access private
+	 *
+	 * @param  string $tag Tag name without brackets, e.g. "organizer".
+	 *
+	 * @return bool
+	 */
+	private function template_has_tag($tag)
+	{
+		$template = $this->get_event_template();
+
 		if ('' === $template) {
 			return false;
 		}
 
-		return (bool) preg_match('/\[organizer\b[^\]]*email\s*=\s*([\'"]?)show\1/i', $template);
+		return (bool) preg_match('/\[' . preg_quote($tag, '/') . '\b/i', $template);
 	}
 
 	/**
