@@ -196,7 +196,17 @@ class Settings implements Meta_Box
    	$calendar_view = get_post_meta($post->ID, '_calendar_view', true);
 
    	foreach ($calendar_views as $calendar => $views) {
-   		$calendar_type_view = isset($calendar_view[$calendar]) ? $calendar_view[$calendar] : ''; ?>
+
+   		$calendar_type_view = isset($calendar_view[$calendar]) ? $calendar_view[$calendar] : '';
+   		// Grid Retro is the first option, so an unselected list still posts it.
+   		// Preselect it only for a new post. An existing calendar with no saved
+   		// view keeps Grid Classic, so Update does not change its appearance.
+   		if ('' === $calendar_type_view && isset($views['grid-retro']) && 'auto-draft' === $post->post_status) {
+   			$calendar_type_view = 'grid-retro';
+   		} elseif ('' === $calendar_type_view && isset($views['grid'])) {
+   			$calendar_type_view = 'grid';
+   		}
+   		?>
 					<label for="_calendar_view_<?php echo $calendar; ?>">
 						<span><?php _e('View', 'google-calendar-events'); ?></span>
 						<select name="_calendar_view[<?php echo $calendar; ?>]"

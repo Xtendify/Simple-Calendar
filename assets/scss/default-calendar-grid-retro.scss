@@ -1,4 +1,6 @@
-/* Retro color tokens. Reuses the design-system white (#fff) where it matches. */
+/* Retro color tokens. Reuses the design-system white (#fff) where it matches.
+   Shared colors also live in default-calendar-retro-common.css for List Retro.
+   Bubbles are rendered on body, so they still need this mixin. */
 @mixin retro-tokens {
 	--simcal-retro-heading: #1e293b;
 	--simcal-retro-nav-border: #e6e8ee;
@@ -496,7 +498,7 @@
 	}
 
 	.simcal-event-title,
-	.simcal-time-location-common,
+	.simcal-time-location,
 	.simcal-organizer,
 	.simcal-attendees,
 	.event-description,
@@ -525,7 +527,7 @@
 		line-height: 21px;
 	}
 
-	.simcal-time-location-common {
+	.simcal-time-location {
 		color: var(--simcal-retro-text);
 		display: flex;
 		flex-direction: column;
@@ -537,13 +539,13 @@
 		margin: 0 0 8px;
 	}
 
-	.simcal-time-location-common-row {
+	.simcal-time-location-row {
 		align-items: flex-start;
 		display: flex;
 		gap: 10px;
 	}
 
-	.simcal-time-location-common .simcal-retro-icon {
+	.simcal-time-location .simcal-retro-icon {
 		color: var(--simcal-retro-accent);
 		flex: 0 0 14px;
 		height: 14px;
@@ -551,10 +553,10 @@
 		width: 14px;
 	}
 
-	.simcal-time-location-common-text,
-	.simcal-time-location-common .simcal-event-start,
-	.simcal-time-location-common .simcal-event-end,
-	.simcal-time-location-common .simcal-event-address {
+	.simcal-time-location-text,
+	.simcal-time-location .simcal-event-start,
+	.simcal-time-location .simcal-event-end,
+	.simcal-time-location .simcal-event-address {
 		color: var(--simcal-retro-text);
 		font-family: Roboto, sans-serif;
 		font-size: 12px;
@@ -666,7 +668,7 @@
 }
 
 /* Grid on desktop / list on mobile. Hidden view uses display:none (no layout/paint).
-   The sibling is List Classic until List Retro is the fallback. */
+   Grid Classic pairs with List Classic; Grid Retro pairs with List Retro. */
 .simcal-responsive-views .simcal-default-calendar-list,
 .simcal-responsive-views .simcal-default-calendar-list-retro {
 	display: none;
