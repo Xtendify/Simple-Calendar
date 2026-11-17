@@ -342,11 +342,13 @@ class Oauth_Ajax
 				'fileid' => $fileid,
 				'arguments' => $args,
 			]),
+			8,
 		);
 
 		if (is_wp_error($request)) {
 			return [
 				'response' => false,
+				'network_error' => true,
 				'message' => __('Network issue.', 'google-calendar-events'),
 			];
 		}

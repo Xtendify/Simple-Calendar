@@ -95,7 +95,7 @@ class Default_Calendar_Grid implements Calendar_View
 	 */
 	public function get_name()
 	{
-		return __('Grid', 'google-calendar-events');
+		return __('Grid Classic', 'google-calendar-events');
 	}
 
 	/**
@@ -160,11 +160,6 @@ class Default_Calendar_Grid implements Calendar_View
 			],
 			'simcal-default-calendar-grid' => [
 				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/default-calendar-grid.min.css',
-				'deps' => ['simcal-qtip', 'simcal-default-calendar-common'],
-				'media' => 'all',
-			],
-			'simcal-default-calendar-list' => [
-				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/default-calendar-list.min.css',
 				'deps' => ['simcal-qtip', 'simcal-default-calendar-common'],
 				'media' => 'all',
 			],

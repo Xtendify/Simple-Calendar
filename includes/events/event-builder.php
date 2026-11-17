@@ -129,6 +129,10 @@ class Event_Builder
 				// A string with the raw event link URL.
 				'add-to-gcal-link',
 				// Link for viewers to add to their GCals.
+				'event-dropdown-menu',
+				// List Retro: three-dot event dropdown menu. Other views print a notice.
+				'time-location',
+				// Grid Retro and List Retro: date, time, and location with icons.
 
 				'calendar',
 				// The title of the source calendar.
@@ -367,6 +371,12 @@ class Event_Builder
 						return $this->make_link($tag, $url, $content, $attr);
 					}
 					break;
+
+				case 'event-dropdown-menu':
+					return $this->get_event_dropdown_menu($calendar, $event);
+
+				case 'time-location':
+					return $this->get_time_location($calendar, $event);
 
 				case 'calendar':
 				case 'feed-title':
@@ -1180,26 +1190,94 @@ class Event_Builder
 				// show/hide attendee photo
 				'email' => 'hide',
 				// show/hide attendee email address
+				'name' => 'show',
+				// show/hide organizer name
 			],
 			(array) shortcode_parse_atts($attr),
 		);
 
-		$photo =
-			'hide' != $attr['photo']
-				? '<img class="avatar avatar-128 photo" src="' . $organizer['photo'] . '" itemprop="image"  />'
-				: '';
-		$organizer_html = $photo . '<span itemprop="name">' . $organizer['name'] . '</span>';
+		$email = !empty($organizer['email']) ? $organizer['email'] : '';
+		$name = !empty($organizer['name']) ? $organizer['name'] : '';
+		// The Pro add-on stores the email address as the name when the source has no display name.
+		$has_name = '' !== $name && 0 !== strcasecmp($name, $email);
+		// Print the name when it is available. The address stands in only when the template says email="show".
+		$display_name = $has_name ? $name : ('show' == $attr['email'] ? $email : '');
+		$show_name = '' !== $display_name && 'hide' != $attr['name'];
+		$show_email = '' !== $email && 'show' == $attr['email'];
 
-		if (!empty($organizer['email']) && 'show' == $attr['email']) {
-			$organizer_html = sprintf(
-				'<a href="mailto:' . $organizer['email'] . '" itemprop="email">%s</a>',
-				$organizer_html,
-			);
+		$photo =
+			'hide' != $attr['photo'] && !empty($organizer['photo'])
+				? '<img class="avatar avatar-128 photo" src="' . esc_url($organizer['photo']) . '" alt="" itemprop="image" />'
+				: '';
+		// A hidden real name stays in microdata. Event_Schema already emits the organizer name when this tag has none.
+		$name_html = '';
+		if ($show_name) {
+			$name_html = '<span itemprop="name">' . esc_html($display_name) . '</span>';
+		} elseif ($has_name) {
+			$name_html = '<meta itemprop="name" content="' . esc_attr($name) . '" />';
+		}
+		$organizer_html = $photo . $name_html;
+
+		if ($show_email) {
+			// With no visible name, the email address is the link text.
+			if (!$show_name) {
+				$organizer_html .= '<span>' . esc_html($email) . '</span>';
+			}
+
+			$organizer_html = '<a href="mailto:' . esc_attr($email) . '" itemprop="email">' . $organizer_html . '</a>';
 		}
 
 		return '<div class="simcal-organizer" itemprop="organizer" itemscope itemtype="https://schema.org/Person">' .
 			$organizer_html .
 			'</div>';
+	}
+
+	/**
+	 * Three-dot event dropdown menu for List Retro.
+	 *
+	 * Grid Retro and List Retro on one calendar share the event template.
+	 * Anywhere but List Retro the tag adds nothing, so the editor notice
+	 * does not appear in the desktop bubble.
+	 *
+	 * @param Calendar $calendar
+	 * @param Event    $event
+	 *
+	 * @return string
+	 */
+	private function get_event_dropdown_menu(Calendar $calendar, Event $event)
+	{
+		$view = $calendar->view;
+		if (is_object($view) && method_exists($view, 'get_type') && 'list-retro' === $view->get_type()) {
+			return \SimpleCalendar\Calendars\Views\Retro_Event::menu_html($calendar, $event);
+		}
+
+		return '';
+	}
+
+	/**
+	 * Date, time, and location row for the Retro views.
+	 *
+	 * Classic views print a notice instead of the Retro markup.
+	 *
+	 * @param Calendar $calendar
+	 * @param Event    $event
+	 *
+	 * @return string
+	 */
+	private function get_time_location(Calendar $calendar, Event $event)
+	{
+		$view = $calendar->view;
+		$type = is_object($view) && method_exists($view, 'get_type') ? $view->get_type() : '';
+		if ('grid-retro' === $type || 'list-retro' === $type) {
+			return \SimpleCalendar\Calendars\Views\Retro_Event::time_location_html($calendar, $event);
+		}
+
+		return '<span class="simcal-time-location-notice">' .
+			esc_html__(
+				'This event template tag "[time-location]" works only with Grid Retro and List Retro.',
+				'google-calendar-events',
+			) .
+			'</span>';
 	}
 
 	/**

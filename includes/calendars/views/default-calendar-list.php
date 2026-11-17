@@ -113,7 +113,7 @@ class Default_Calendar_List implements Calendar_View
 	 */
 	public function get_name()
 	{
-		return __('List', 'google-calendar-events');
+		return __('List Classic', 'google-calendar-events');
 	}
 
 	/**
@@ -140,7 +140,7 @@ class Default_Calendar_List implements Calendar_View
 	{
 		return [
 			'simcal-qtip' => [
-				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/vendor/qtip.min.js',
+				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/vendor/jquery.qtip.min.js',
 				'deps' => ['jquery'],
 				'in_footer' => true,
 			],
@@ -167,13 +167,18 @@ class Default_Calendar_List implements Calendar_View
 	public function styles()
 	{
 		return [
+			'simcal-qtip' => [
+				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/vendor/jquery.qtip.min.css',
+				'media' => 'all',
+			],
 			'simcal-default-calendar-common' => [
 				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/default-calendar-common.min.css',
+				'deps' => ['simcal-qtip'],
 				'media' => 'all',
 			],
 			'simcal-default-calendar-list' => [
 				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/default-calendar-list.min.css',
-				'deps' => ['simcal-default-calendar-common'],
+				'deps' => ['simcal-qtip', 'simcal-default-calendar-common'],
 				'media' => 'all',
 			],
 		];
@@ -675,38 +680,6 @@ class Default_Calendar_List implements Calendar_View
 						if ($calendar->events_limit > -1 && $count >= $calendar->events_limit):
 							$event_classes .= ' simcal-event-toggled';
 							$event_visibility = ' display: none;';
-
-							$event_color = $event->get_color();
-							if (!empty($event_color)) {
-								$side = is_rtl() ? 'right' : 'left';
-								$event_color = ' border-' . $side . ': 4px solid ' . $event_color . '; padding-' . $side . ': 8px;';
-							}
-
-							$list_events .=
-								"\t" .
-								'<li class="' .
-								esc_attr($event_classes) .
-								'" style="' .
-								esc_attr($event_visibility . $event_color) .
-								'" data-start="' .
-								esc_attr($event->start) .
-								'">' .
-								"\n";
-							$list_events .=
-								"\t\t" . '<div class="simcal-event-details">' . $calendar->get_event_html($event) . '</div>' . "\n";
-							$list_events .= "\t" . '</li>' . "\n";
-
-							$count++;
-
-							// Event falls within today.
-							if ($this->end <= $now && $this->start >= $now):
-								$day_classes .= ' simcal-today-has-events';
-							endif;
-							$day_classes .= ' simcal-day-has-events simcal-day-has-' . strval($count) . '-events';
-
-							if ($calendar_classes):
-								$day_classes .= ' ' . trim(implode(' ', array_unique($calendar_classes)));
-							endif;
 						endif;
 
 						$event_color = $event->get_color();
