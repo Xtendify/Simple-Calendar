@@ -79,11 +79,14 @@ class Grouped_Calendars_Admin
 		<div id="grouped-calendars-settings-panel" class="simcal-panel">
 			<table>
 				<thead>
-				<tr><th colspan="2"><?php _e('Grouped Calendar Settings', 'google-calendar-events'); ?></th></tr>
+				<tr><th colspan="2"><?php esc_html_e('Grouped Calendar Settings', 'google-calendar-events'); ?></th></tr>
 				</thead>
 				<tbody class="simcal-panel-section">
 				<tr class="simcal-panel-field">
-					<th><label for="_grouped_calendars_source"><?php _e('Get Calendars From', 'google-calendar-events'); ?></label></th>
+					<th><label for="_grouped_calendars_source"><?php esc_html_e(
+     	'Get Calendars From',
+     	'google-calendar-events',
+     ); ?></label></th>
 					<td>
 						<?php
       $source = esc_attr(get_post_meta($post_id, '_grouped_calendars_source', true));
@@ -97,14 +100,14 @@ class Grouped_Calendars_Admin
        	'ids',
        	$source,
        	true,
-       ); ?>><?php _e('Manual selection', 'google-calendar-events'); ?></option>
+       ); ?>><?php esc_html_e('Manual selection', 'google-calendar-events'); ?></option>
 							<option value="category" data-show-field="_grouped_calendars_category" <?php selected(
        	'category',
        	$source,
        	true,
-       ); ?>><?php _e('Category', 'google-calendar-events'); ?></option>
+       ); ?>><?php esc_html_e('Category', 'google-calendar-events'); ?></option>
 						</select>
-						<i class="simcal-icon-help simcal-help-tip" data-tip="<?php _e(
+						<i class="simcal-icon-help simcal-help-tip" data-tip="<?php esc_attr_e(
       	'Choose from which calendar feeds you want to get events from. Choose them individually or select all those belonging to calendar feed categories.',
       	'google-calendar-events',
       ); ?>"></i>
@@ -170,9 +173,9 @@ class Grouped_Calendars_Admin
       	$style = 'category' == $source ? '' : 'display: none;';
       	$style .= ' width: 100%; max-width: 500px';
       	echo '<input type="text" disabled="disabled" name="_grouped_calendars_category" id="_grouped_calendars_category" style="' .
-      		$style .
+      		esc_attr($style) .
       		'" placeholder="' .
-      		__('There are no calendar categories yet.', 'google-calendar-events') .
+      		esc_attr__('There are no calendar categories yet.', 'google-calendar-events') .
       		'" />';
       }?>
 					</td>

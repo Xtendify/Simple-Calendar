@@ -541,7 +541,7 @@ class Events
 	{
 		$y = intval($year);
 		$w = absint($week);
-		$m = date('n', strtotime(strval($y) . '-W' . strval($w)));
+		$m = gmdate('n', strtotime(strval($y) . '-W' . strval($w)));
 		$month_dt = Carbon::createFromDate($y, $m, 2, $this->timezone);
 		$days = [];
 		for ($d = 1; $d < $month_dt->daysInMonth; $d++) {

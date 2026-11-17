@@ -373,8 +373,8 @@ UPDATE {$table} SET `post_type`='calendar' WHERE `post_type`='gce_feed';
 	 */
 	private function convert_legacy_range($date)
 	{
-		$date = empty($date) ? date('m/d/Y', time()) : $date;
+		$date = empty($date) ? gmdate('m/d/Y', time()) : $date;
 		$timestamp = Carbon::createFromFormat('m/d/Y', $date)->getTimestamp();
-		return date('Y-m-d', $timestamp);
+		return gmdate('Y-m-d', $timestamp);
 	}
 }

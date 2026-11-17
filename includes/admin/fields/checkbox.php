@@ -43,23 +43,30 @@ class Checkbox extends Field
 	{
 		if (!empty($this->options) && count((array) $this->options) > 1) {
 			if (!empty($this->description)) {
-				echo '<p class="description">' . wp_kses_post($this->description) . ' ' . $this->tooltip . '</p>';
+				$allowed_tooltip = ['i' => ['class' => [], 'data-tip' => []]];
+				echo '<p class="description">' .
+					wp_kses_post($this->description) .
+					' ' .
+					wp_kses($this->tooltip, $allowed_tooltip) .
+					'</p>';
 			} ?>
-			<fieldset class="<?php echo $this->class; ?>" <?php echo !empty($this->style) ? 'style="' . $this->style . '"' : ''; ?>>
+			<fieldset class="<?php echo esc_attr($this->class); ?>" <?php echo !empty($this->style)
+	? 'style="' . esc_attr($this->style) . '"'
+	: ''; ?>>
 				<?php if (!empty($this->title)) {
-    	echo '<legend class="screen-reader-text"><span>' . $this->title . '</span></legend>';
+    	echo '<legend class="screen-reader-text"><span>' . esc_html($this->title) . '</span></legend>';
     } ?>
 				<ul>
 					<?php foreach ($this->options as $option => $name): ?>
 						<li>
-							<label for="<?php echo $this->id . '-' . trim(strval($option)); ?>">
-								<input name="<?php echo $this->name; ?>"
-								       id="<?php echo $this->id . '-' . trim(strval($option)); ?>"
+							<label for="<?php echo esc_attr($this->id . '-' . trim(strval($option))); ?>">
+								<input name="<?php echo esc_attr($this->name); ?>"
+								       id="<?php echo esc_attr($this->id . '-' . trim(strval($option))); ?>"
 								       class="simcal-field simcal-field-checkbox"
 								       type="checkbox"
-								       value="<?php echo trim(strval($option)); ?>"
+								       value="<?php echo esc_attr(trim(strval($option))); ?>"
 										<?php checked($this->value, 'yes', true); ?>
-									<?php echo $this->attributes; ?>
+									<?php echo wp_kses_post($this->attributes); ?>
 									/><?php echo esc_attr($name); ?>
 							</label>
 						</li>
@@ -69,20 +76,23 @@ class Checkbox extends Field
 			<?php
 		} else {
 			 ?>
-			<span class="simcal-field-bool" <?php echo $this->style ? 'style="' . $this->style . '"' : ''; ?>>
+			<span class="simcal-field-bool" <?php echo $this->style ? 'style="' . esc_attr($this->style) . '"' : ''; ?>>
 				<?php if (!empty($this->title)): ?>
-					<span class="screen-reader-text"><?php echo $this->title; ?></span>
+					<span class="screen-reader-text"><?php echo esc_html($this->title); ?></span>
 				<?php endif; ?>
-				<input name="<?php echo $this->name; ?>"
+				<input name="<?php echo esc_attr($this->name); ?>"
 				       type="checkbox"
-				       id="<?php echo $this->id; ?>"
-				       class="simcal-field simcal-field-checkbox sc-chk-box <?php echo $this->class; ?>"
+				       id="<?php echo esc_attr($this->id); ?>"
+				       class="simcal-field simcal-field-checkbox sc-chk-box <?php echo esc_attr($this->class); ?>"
 				       value="yes"
 					<?php checked($this->value, 'yes', true); ?>
-					<?php echo $this->attributes; ?>/><?php echo !empty($this->text) ? $this->text : __('Yes', 'google-calendar-events'); ?>
-			</span>					
+					<?php echo wp_kses_post($this->attributes); ?>/><?php echo !empty($this->text)
+	? esc_html($this->text)
+	: esc_html__('Yes', 'google-calendar-events'); ?>
+			</span>
 			<?php
-   echo $this->tooltip;
+   $allowed_tooltip = ['i' => ['class' => [], 'data-tip' => []]];
+   echo wp_kses($this->tooltip, $allowed_tooltip);
    if (!empty($this->description)) {
    	echo '<p class="description">' . wp_kses_post($this->description) . '</p>';
    }
