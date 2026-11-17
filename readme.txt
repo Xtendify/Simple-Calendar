@@ -221,7 +221,7 @@ We'd love your help! Here's a few things you can do:
 == Changelog ==
 
 = 4.3.3 =
-* Fix: List View events were missing the recommended Event schema fields (image, eventStatus, organizer, performer, offers), causing warnings in the Google Rich Results Test.
+* Fix: List View events were missing recommended Event schema fields, causing warnings in the Google Rich Results Test. Event status, attendance mode, image and organizer are now always included, and performer and ticket offers are included when the event source provides them.
 * Fix: An stored Cross-Site Scripting (XSS) vulnerability. 
 
 = 4.3.2 =

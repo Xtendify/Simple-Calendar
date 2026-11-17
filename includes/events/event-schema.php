@@ -102,8 +102,11 @@ class Event_Schema
 			$html .= '<meta itemprop="image" content="' . esc_url($image_url) . '" />';
 		}
 
-		// The [organizer] template tag already emits an Event-level organizer.
-		if (!$this->template_has_tag('organizer')) {
+		// Skip the organizer only when the [organizer] template tag will actually
+		// render one: that tag outputs nothing unless the event source supplied
+		// organizer data, which core feeds never do.
+		$organizer = $this->event->get_organizer();
+		if (empty($organizer) || !$this->template_has_tag('organizer')) {
 			$html .= $this->get_schema_organizer_meta();
 		}
 
@@ -196,7 +199,7 @@ class Event_Schema
 		];
 
 		foreach ($virtual_hosts as $virtual_host) {
-			if ($host === $virtual_host || substr($host, -(1 - strlen($virtual_host))) === '.' . $virtual_host) {
+			if ($host === $virtual_host || substr($host, -(strlen($virtual_host) + 1)) === '.' . $virtual_host) {
 				return true;
 			}
 		}

@@ -762,13 +762,10 @@ abstract class Calendar
 	}
 
 	/**
-	 * Get Event schema microdata to supplement an event wrapper.
+	 * Get always-on Event schema microdata for an event wrapper.
 	 *
-	 * Returns only the properties no event template tag supplies, so it can be
-	 * emitted alongside the parsed event template without conflicting with the
-	 * core properties that template already provides. The markup is already
-	 * filtered through wp_kses(), so views can echo it directly inside their
-	 * schema.org/Event wrapper.
+	 * Returns the complete Event node. Callers are responsible for escaping;
+	 * Event_Schema::get_allowed_html() is the matching wp_kses() allowlist.
 	 *
 	 * @since  4.1.2
 	 *
@@ -777,6 +774,28 @@ abstract class Calendar
 	 * @return string
 	 */
 	public function get_event_schema_meta(Event $event)
+	{
+		$event_schema = new Event_Schema($event);
+
+		return $event_schema->get_schema_meta();
+	}
+
+	/**
+	 * Get Event schema microdata to supplement a parsed event template.
+	 *
+	 * Returns only the properties no event template tag supplies, so it can be
+	 * emitted alongside the parsed event template without adding a second value
+	 * for a property that template already provides. The markup is already
+	 * filtered through wp_kses(), so views can echo it directly inside their
+	 * schema.org/Event wrapper.
+	 *
+	 * @since  4.3.3
+	 *
+	 * @param  Event $event Event object.
+	 *
+	 * @return string
+	 */
+	public function get_event_supplemental_schema_meta(Event $event)
 	{
 		$event_schema = new Event_Schema($event);
 

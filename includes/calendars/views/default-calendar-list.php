@@ -728,7 +728,7 @@ class Default_Calendar_List implements Calendar_View
 						// Event template tags leave the recommended eventStatus,
 						// eventAttendanceMode, image, organizer, performer and offers
 						// properties off the Event node. Already wp_kses()'d.
-						$schema_meta = $calendar->get_event_schema_meta($event);
+						$schema_meta = $calendar->get_event_supplemental_schema_meta($event);
 						if (!empty($schema_meta)) {
 							$list_events .= "\t\t" . $schema_meta . "\n";
 						}
