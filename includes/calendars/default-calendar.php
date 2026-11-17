@@ -43,6 +43,14 @@ class Default_Calendar extends Calendar
 	public $trim_titles = -1;
 
 	/**
+	 * Hide the time on Grid Retro event cards.
+	 *
+	 * @access public
+	 * @var bool
+	 */
+	public $hide_grid_event_time = false;
+
+	/**
 	 * Event bubbles action trigger.
 	 *
 	 * @access public
@@ -127,6 +135,7 @@ class Default_Calendar extends Calendar
 		$this->name = __('Default', 'google-calendar-events');
 		$this->views = apply_filters('simcal_default_calendar_views', [
 			'grid' => __('Grid Classic', 'google-calendar-events'),
+			'grid-retro' => __('Grid Retro', 'google-calendar-events'),
 			'list' => __('List Classic', 'google-calendar-events'),
 		]);
 
@@ -136,7 +145,10 @@ class Default_Calendar extends Calendar
 			$this->grid_desktop_list_mobile =
 				'yes' === get_post_meta($this->id, '_default_calendar_grid_desktop_list_mobile', true);
 
-			$this->set_properties($this->view->get_type());
+			// An unrecognized view returns null. Do not fatal while resolving it.
+			if ($this->view instanceof Calendar_View) {
+				$this->set_properties($this->view->get_type());
+			}
 
 			$id = $this->id;
 			$theme = $this->theme;
@@ -178,11 +190,9 @@ class Default_Calendar extends Calendar
 		$requested = $view;
 		$view = empty($view) ? $this->view : $this->get_view($view);
 
-		$load_grid_view_only =
-			!($view instanceof Calendar_View) ||
-			!$this->grid_desktop_list_mobile ||
-			'grid' !== $view->get_type() ||
-			!empty($this->errors);
+		$grid_type = $view instanceof Calendar_View ? $view->get_type() : '';
+		$is_grid_family = 'grid' === $grid_type || 'grid-retro' === $grid_type;
+		$load_grid_view_only = !$is_grid_family || !$this->grid_desktop_list_mobile || !empty($this->errors);
 		if ($load_grid_view_only) {
 			parent::html($requested);
 			return;
@@ -195,9 +205,10 @@ class Default_Calendar extends Calendar
 		// Grid (desktop) — properties already set for grid in constructor.
 		$this->render_view_shell($view, false, false);
 
-		// List (mobile) — apply list properties once, then render.
-		$this->set_properties('list');
-		$list_view = $this->get_view('list');
+		// Grid Retro uses List Classic until List Retro lands.
+		$list_slug = 'list';
+		$this->set_properties($list_slug);
+		$list_view = $this->get_view($list_slug);
 		$this->render_view_shell($list_view, false, false);
 
 		do_action('simcal_calendar_html_after', $this->id);
@@ -234,23 +245,24 @@ class Default_Calendar extends Calendar
 			$this->events_limit = absint(get_post_meta($this->id, '_default_calendar_visible_events', true));
 		}
 
-		// List settings are needed for list view and for grid+list-on-mobile AJAX navigation.
-		$needs_list_props = 'list' === $view || $this->grid_desktop_list_mobile;
+		// List settings are needed for list views and for grid+list-on-mobile AJAX navigation.
+		$is_list_view = 'list' === $view;
+		$needs_list_props = $is_list_view || $this->grid_desktop_list_mobile;
 
 		// Expand multiple day events (once only when dual-rendering).
 		// current_day_only is list-view-only; do not expand during the grid pass.
 		if (
 			!$this->events_expanded &&
 			('yes' == get_post_meta($this->id, '_default_calendar_expand_multi_day_events', true) ||
-				('list' === $view &&
+				($is_list_view &&
 					'current_day_only' == get_post_meta($this->id, '_default_calendar_expand_multi_day_events', true)))
 		) {
 			$this->events = $this->expand_multiple_days_events();
 			$this->events_expanded = true;
 		}
 
-		if ('grid' == $view) {
-			// Use hover to open event bubbles.
+		if ('grid' == $view || 'grid-retro' == $view) {
+			// Use hover to open event bubbles. Click is the property default.
 			if ('hover' == get_post_meta($this->id, '_default_calendar_event_bubble_trigger', true)) {
 				$this->event_bubble_trigger = 'hover';
 			}
@@ -259,6 +271,10 @@ class Default_Calendar extends Calendar
 			if ('yes' == get_post_meta($this->id, '_default_calendar_trim_titles', true)) {
 				$this->trim_titles = max(absint(get_post_meta($this->id, '_default_calendar_trim_titles_chars', true)), 1);
 			}
+
+			// Grid Retro cards print a time above the title. Classic grid cards do not.
+			$this->hide_grid_event_time =
+				'grid-retro' == $view && 'yes' == get_post_meta($this->id, '_default_calendar_hide_grid_event_time', true);
 		}
 
 		if ($needs_list_props) {
@@ -325,6 +341,7 @@ class Default_Calendar extends Calendar
 	 */
 	public function get_view($view = '')
 	{
+		// Saved identifiers are returned unchanged. Only a missing view uses Grid Classic.
 		$view = !empty($view) ? $view : 'grid';
 
 		do_action('simcal_calendar_get_view', $this->type, $view);
@@ -333,6 +350,8 @@ class Default_Calendar extends Calendar
 			return new Views\Default_Calendar_Grid($this);
 		} elseif ('list' == $view) {
 			return new Views\Default_Calendar_List($this);
+		} elseif ('grid-retro' == $view) {
+			return new Views\Default_Calendar_Grid_Retro($this);
 		}
 
 		return null;
