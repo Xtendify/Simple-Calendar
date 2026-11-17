@@ -140,7 +140,7 @@ class Default_Calendar_List implements Calendar_View
 	{
 		return [
 			'simcal-qtip' => [
-				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/vendor/qtip.min.js',
+				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/vendor/jquery.qtip.min.js',
 				'deps' => ['jquery'],
 				'in_footer' => true,
 			],
@@ -167,13 +167,18 @@ class Default_Calendar_List implements Calendar_View
 	public function styles()
 	{
 		return [
+			'simcal-qtip' => [
+				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/vendor/jquery.qtip.min.css',
+				'media' => 'all',
+			],
 			'simcal-default-calendar-common' => [
 				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/default-calendar-common.min.css',
+				'deps' => ['simcal-qtip'],
 				'media' => 'all',
 			],
 			'simcal-default-calendar-list' => [
 				'src' => SIMPLE_CALENDAR_ASSETS . 'generated/default-calendar-list.min.css',
-				'deps' => ['simcal-default-calendar-common'],
+				'deps' => ['simcal-qtip', 'simcal-default-calendar-common'],
 				'media' => 'all',
 			],
 		];
