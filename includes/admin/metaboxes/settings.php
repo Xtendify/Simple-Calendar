@@ -202,6 +202,7 @@ class Settings implements Meta_Box
    	$calendar_view = get_post_meta($post->ID, '_calendar_view', true);
 
    	foreach ($calendar_views as $calendar => $views) {
+
    		$calendar_type_view = isset($calendar_view[$calendar]) ? $calendar_view[$calendar] : '';
    		// Grid Retro is the first option, so an unselected list still posts it.
    		// Preselect it only for a new post. An existing calendar with no saved
