@@ -149,11 +149,16 @@ class Grouped_Calendars extends Feed
 					$events = $this->array_filter_key($events, [$this, 'filter_events_after']);
 				}
 
-				set_transient($transient_key, $events, absint($this->cache));
+				set_transient($transient_key, $events, max(absint($this->cache), 1));
 			} elseif ($force_refresh) {
 				delete_transient($transient_key);
 			}
+		} elseif ($force_refresh) {
+			delete_transient($transient_key);
 		}
+
+		// A forced refresh with no child calendars leaves $events false. Sorting that fatals.
+		$events = is_array($events) ? $events : [];
 
 		// Sort events by start time before returning
 		uasort($events, [$this, 'sort_by_start_time']);

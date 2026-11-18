@@ -403,9 +403,12 @@ class Ics_Feed extends Feed
 		$force_refresh = simcal_request_updates_feed_cache();
 		$events = $force_refresh ? false : get_transient($transient_key);
 
-		if (!empty($events)) {
-			$this->maybe_set_timezone_from_cached_events($events);
-			return is_array($events) ? $events : [];
+		// An empty array is a successful parse that was cached. false means there is no cache.
+		if (is_array($events)) {
+			if (!empty($events)) {
+				$this->maybe_set_timezone_from_cached_events($events);
+			}
+			return $events;
 		}
 
 		$body = $this->get_ics_source_content();
@@ -414,6 +417,7 @@ class Ics_Feed extends Feed
 		}
 
 		$events = $this->parse_ics_events($body);
+		$parsed_calendar = is_string($body) && false !== stripos($body, 'BEGIN:VCALENDAR');
 
 		if (!empty($events)) {
 			$events = $this->filter_events_by_range($events);
@@ -422,12 +426,12 @@ class Ics_Feed extends Feed
 			if (!empty($events)) {
 				ksort($events, SORT_NUMERIC);
 				$events = $this->limit_events($events, $this->ics_max_results);
-				set_transient($transient_key, $events, max(absint($this->cache), 1));
 			}
 		}
 
-		if ($force_refresh && empty($events)) {
-			delete_transient($transient_key);
+		// A truncated body is not a calendar. Leave the previous cache in place.
+		if (!empty($events) || ($force_refresh && $parsed_calendar)) {
+			set_transient($transient_key, is_array($events) ? $events : [], max(absint($this->cache), 1));
 		}
 
 		return is_array($events) ? $events : [];
