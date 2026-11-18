@@ -1160,7 +1160,7 @@ class Settings implements Meta_Box
 						</select>
 						<i class="simcal-icon-help simcal-help-tip"
 						   data-tip="<?php esc_attr_e(
-         	'If you add, edit or remove events in your calendar very often, you can set a lower interval to refresh the events displayed. Set a higher interval for best performance.',
+         	'If you add, edit or remove events in your calendar very often, you can set a lower interval to refresh the events displayed. Set a higher interval for best performance. To fetch the latest events immediately, view the calendar page while logged in as an editor or administrator and add ?update_cache=true to the URL. That refreshes the cache for visitors as well.',
          	'google-calendar-events',
          ); ?>"></i>
 					</td>
