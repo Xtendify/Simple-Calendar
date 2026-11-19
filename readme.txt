@@ -220,6 +220,9 @@ We'd love your help! Here's a few things you can do:
 
 == Changelog ==
 
+= 4.3.4 =
+* Dev: Pro add-on license statuses are now re-checked automatically once a day, so a license that expires, is revoked, or is deactivated at the store no longer keeps Pro-only behavior unlocked.
+
 = 4.3.3 =
 * Fix: An stored Cross-Site Scripting (XSS) vulnerability. 
 
