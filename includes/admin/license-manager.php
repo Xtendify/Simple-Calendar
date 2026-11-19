@@ -68,6 +68,7 @@ class License_Manager
 		'site_inactive',
 		'item_name_mismatch',
 		'no_activations_left',
+		'failed',
 	];
 
 	/**
@@ -129,15 +130,30 @@ class License_Manager
 	public function check_licenses()
 	{
 		$keys = $this->get_license_keys();
-		$stored = get_option(self::STATUS_OPTION, []);
-		$stored = is_array($stored) ? $stored : [];
-		$statuses = $stored;
+		$checked = [];
 
 		foreach ($keys as $addon => $key) {
 			$status = $this->get_remote_status($addon, $key);
 
 			if (is_null($status)) {
-				// Store unreachable or answer unreadable: keep what we already have.
+				// Store unreachable or answer unreadable: keep whatever we already have.
+				continue;
+			}
+
+			$checked[$addon] = $status;
+		}
+
+		// Re-read now that the (possibly slow) store calls are done: a license may have been
+		// activated, deactivated or reset from the Add-ons screen while we were waiting, and that
+		// is fresher than anything we hold.
+		$stored = get_option(self::STATUS_OPTION, []);
+		$stored = is_array($stored) ? $stored : [];
+		$current_keys = $this->get_license_keys();
+		$statuses = $stored;
+
+		foreach ($checked as $addon => $status) {
+			if (!isset($current_keys[$addon]) || $current_keys[$addon] !== $keys[$addon]) {
+				// The key changed under us, so this answer is about a key the site no longer uses.
 				continue;
 			}
 
@@ -146,7 +162,7 @@ class License_Manager
 
 		// A status without a license key can no longer be verified, so it must not keep gates open.
 		foreach (array_keys($statuses) as $addon) {
-			if (!isset($keys[$addon])) {
+			if (!isset($current_keys[$addon])) {
 				unset($statuses[$addon]);
 			}
 		}
