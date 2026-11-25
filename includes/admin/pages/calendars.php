@@ -131,9 +131,7 @@ class Calendars extends Admin_Page
 				// the list above. Keep any already-saved selection in the list, otherwise saving this form
 				// would silently remove it from attach_calendars_posts.
 				$saved_post_types = $this->get_option_value($section, 'attach_calendars_posts');
-				$saved_post_types = is_array($saved_post_types)
-					? $saved_post_types
-					: explode(',', (string) $saved_post_types);
+				$saved_post_types = is_array($saved_post_types) ? $saved_post_types : explode(',', (string) $saved_post_types);
 				foreach ($saved_post_types as $saved_slug) {
 					$saved_slug = sanitize_key(trim((string) $saved_slug));
 					if ('' === $saved_slug || isset($options[$saved_slug])) {
