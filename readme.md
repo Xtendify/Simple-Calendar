@@ -2,7 +2,7 @@
 
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
-Add Google Calendar events to your WordPress site in minutes. Beautiful calendar displays. Mobile responsive.
+Display Google Calendar events on your WordPress site in real-time synchronization. Fully customizable and 100% mobile responsive.
 
 [![Download from WordPress.org](https://raw.githubusercontent.com/Xtendify/Simple-Calendar/main/assets/images/wp/fullcalendar-google-calendar-pro-grid-view.png)](https://wordpress.org/plugins/google-calendar-events/)
 

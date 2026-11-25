@@ -72,10 +72,13 @@ class Calendar extends \WP_Widget implements Widget
 	 */
 	public function widget($args, $instance)
 	{
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- HTML wrappers provided by WordPress/theme.
 		echo $args['before_widget'];
 
 		if (!empty($instance['title'])) {
-			echo $args['before_title'] . apply_filters('widget_title', $instance['title']) . $args['after_title'];
+			$title = apply_filters('widget_title', $instance['title'], $instance, $this->id_base);
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- before/after_title from theme; title escaped below.
+			echo $args['before_title'] . esc_html($title) . $args['after_title'];
 		}
 
 		$id = isset($instance['calendar_id']) ? absint($instance['calendar_id']) : 0;
@@ -83,6 +86,7 @@ class Calendar extends \WP_Widget implements Widget
 			simcal_print_calendar($id);
 		}
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- HTML wrappers provided by WordPress/theme.
 		echo $args['after_widget'];
 	}
 
@@ -131,27 +135,31 @@ class Calendar extends \WP_Widget implements Widget
 		<div class="simcal-calendar-widget-settings">
 
 			<p>
-				<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:', 'google-calendar-events'); ?></label>
+				<label for="<?php echo esc_attr(
+    	$this->get_field_id('title'),
+    ); ?>"><?php esc_html_e('Title:', 'google-calendar-events'); ?></label>
 				<br>
 				<input type="text"
-				       name="<?php echo $this->get_field_name('title'); ?>"
-				       id="<?php echo $this->get_field_id('title'); ?>"
+				       name="<?php echo esc_attr($this->get_field_name('title')); ?>"
+				       id="<?php echo esc_attr($this->get_field_id('title')); ?>"
 				       class="widefat simcal-field simcal-field-standard simcal-field-text"
-				       value="<?php echo $title; ?>">
+				       value="<?php echo esc_attr($title); ?>">
 			</p>
 
 			<p>
-				<label for="<?php echo $this->get_field_id(
-    	'calendar_id',
-    ); ?>"><?php _e('Calendar:', 'google-calendar-events'); ?></label>
+				<label for="<?php echo esc_attr(
+    	$this->get_field_id('calendar_id'),
+    ); ?>"><?php esc_html_e('Calendar:', 'google-calendar-events'); ?></label>
 				<br>
 				<?php $multiselect = count($this->calendars) > 15 ? ' simcal-field-select-enhanced' : ''; ?>
-				<select name="<?php echo $this->get_field_name('calendar_id'); ?>"
-				        id="<?php echo $this->get_field_id('calendar_id'); ?>"
-						class="simcal-field simcal-field-select<?php echo $multiselect; ?>"
-						data-noresults="<?php __('No calendars found.', 'google-calendar-events'); ?>">
+				<select name="<?php echo esc_attr($this->get_field_name('calendar_id')); ?>"
+				        id="<?php echo esc_attr($this->get_field_id('calendar_id')); ?>"
+						class="simcal-field simcal-field-select<?php echo esc_attr($multiselect); ?>"
+						data-noresults="<?php echo esc_attr__('No calendars found.', 'google-calendar-events'); ?>">
 						<?php foreach ($this->calendars as $id => $name): ?>
-							<option value="<?php echo $id; ?>" <?php selected($id, $calendar_id, true); ?>><?php echo $name; ?></option>
+							<option value="<?php echo esc_attr((string) $id); ?>" <?php selected($id, $calendar_id, true); ?>><?php echo esc_html(
+	$name,
+); ?></option>
 						<?php endforeach; ?>
 				</select>
 			</p>

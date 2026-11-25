@@ -55,7 +55,7 @@ $circle_class = $percent >= 100 ? '100' : ($percent >= 67 ? '67' : '33');
     	$li_attrs = $item_id ? ' id="' . esc_attr($item_id) . '"' : '';
     	$li_class = 'sc_checklist_item' . ($item_completed ? ' is_completed' : '');
     	?>
-					<li<?php echo $li_attrs; ?> class="<?php echo esc_attr($li_class); ?>">
+					<li<?php echo wp_kses_post($li_attrs); ?> class="<?php echo esc_attr($li_class); ?>">
 						<span class="sc_checklist_checkbox">
 							<?php if ($item_completed) { ?>
 								<img src="<?php echo esc_url($icon_src); ?>" alt="" class="sc_checklist_icon" />

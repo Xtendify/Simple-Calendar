@@ -2,12 +2,14 @@
 /**
  * Plugin Name: Simple Calendar
  * Plugin URI:  https://simplecalendar.io
- * Description: Add Google Calendar events to your WordPress site in minutes. Beautiful calendar displays. Fully responsive.
+ * Description: Display Google Calendar events on your WordPress site in real-time synchronization. Fully customizable and 100% mobile responsive.
  * Author:      Simple Calendar
  * Author URI:  https://simplecalendar.io
  * Version:    PACKAGE_VERSION
  * Text Domain: google-calendar-events
  * Domain Path: /i18n
+ * License: GPLv2 or later
+ * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  *
  * @copyright   2013-2023 Xtendify Technologies. All rights reserved.
  */
@@ -42,7 +44,7 @@ include_once 'includes/wp-requirements.php';
 // Check plugin requirements before loading plugin.
 $this_plugin_checks = new SimCal_WP_Requirements('Simple Calendar', plugin_basename(__FILE__), [
 	'PHP' => '7.3',
-	'WordPress' => '4.2',
+	'WordPress' => '5.3',
 	'Extensions' => ['curl', 'iconv', 'json', 'mbstring'],
 ]);
 if ($this_plugin_checks->pass() === false) {

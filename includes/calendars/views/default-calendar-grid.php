@@ -204,28 +204,29 @@ class Default_Calendar_Grid implements Calendar_View
    ); ?>
 
             <table class="simcal-calendar-grid"
-                   data-event-bubble-trigger="<?php echo $calendar->event_bubble_trigger; ?>">
+                   data-event-bubble-trigger="<?php echo esc_attr($calendar->event_bubble_trigger); ?>">
                 <thead class="simcal-calendar-head">
                 <tr>
 					<?php if (!$calendar->static) { ?>
-                        <td class="simcal-nav simcal-prev-wrapper" colspan="<?php echo apply_filters(
-                        	'simcal_prev_cols',
-                        	'1',
+                        <td class="simcal-nav simcal-prev-wrapper" colspan="<?php echo esc_attr(
+                        	(string) apply_filters('simcal_prev_cols', '1'),
                         ); ?>">
-                            <button class="simcal-nav-button simcal-month-nav simcal-prev" title="<?php _e(
+                            <button class="simcal-nav-button simcal-month-nav simcal-prev" title="<?php esc_attr_e(
                             	'Previous Month',
                             	'google-calendar-events',
-                            ); ?>" aria-label="<?php _e(
+                            ); ?>" aria-label="<?php esc_attr_e(
 	'Previous Month',
 	'google-calendar-events',
 ); ?>"><i class="simcal-icon-left" aria-hidden="true"></i></button>
                         </td>
 					<?php } ?>
-                    <td colspan="<?php echo apply_filters('simcal_current_cols', $calendar->static ? '7' : '5'); ?>"
+                    <td colspan="<?php echo esc_attr(
+                    	(string) apply_filters('simcal_current_cols', $calendar->static ? '7' : '5'),
+                    ); ?>"
                         class="simcal-nav simcal-current"
                         aria-live="polite"
                         aria-atomic="true"
-                        data-calendar-current="<?php echo $calendar->start; ?>">
+                        data-calendar-current="<?php echo esc_attr((string) $calendar->start); ?>">
 						<?php
       echo '<h3>';
 
@@ -241,21 +242,24 @@ class Default_Calendar_Grid implements Calendar_View
       }
 
       foreach ($current as $k => $v) {
-      	echo ' <span class="simcal-current-' . $k, '">' . wp_date($v, $calendar->start) . '</span> ';
+      	echo ' <span class="simcal-current-' .
+      		esc_attr($k) .
+      		'">' .
+      		esc_html(wp_date($v, $calendar->start, new \DateTimeZone($calendar->timezone))) .
+      		'</span> ';
       }
 
       echo '</h3>';
       ?>
                     </td>
 					<?php if (!$calendar->static) { ?>
-                        <td class="simcal-nav simcal-next-wrapper" colspan="<?php echo apply_filters(
-                        	'simcal_next_cols',
-                        	'1',
+                        <td class="simcal-nav simcal-next-wrapper" colspan="<?php echo esc_attr(
+                        	(string) apply_filters('simcal_next_cols', '1'),
                         ); ?>">
-                            <button class="simcal-nav-button simcal-month-nav simcal-next" title="<?php _e(
+                            <button class="simcal-nav-button simcal-month-nav simcal-next" title="<?php esc_attr_e(
                             	'Next Month',
                             	'google-calendar-events',
-                            ); ?>" aria-label="<?php _e(
+                            ); ?>" aria-label="<?php esc_attr_e(
 	'Next Month',
 	'google-calendar-events',
 ); ?>"><i class="simcal-icon-right" aria-hidden="true"></i></button>
@@ -271,32 +275,38 @@ class Default_Calendar_Grid implements Calendar_View
      $week_days_full = simcal_get_calendar_names_i18n('day', 'full');
 
      for ($i = $week_starts; $i <= 6; $i++): ?>
-                        <th class="simcal-week-day simcal-week-day-<?php echo $i; ?>"
-                            data-screen-small="<?php echo mb_substr($week_days_short[$i], 0, 1, 'UTF-8'); ?>"
-                            data-screen-medium="<?php echo $week_days_short[$i]; ?>"
-                            data-screen-large="<?php echo $week_days_full[$i]; ?>"><?php echo $week_days_short[
-	$i
-]; ?></th>
+                        <th class="simcal-week-day simcal-week-day-<?php echo esc_attr((string) $i); ?>"
+                            data-screen-small="<?php echo esc_attr(mb_substr($week_days_short[$i], 0, 1, 'UTF-8')); ?>"
+                            data-screen-medium="<?php echo esc_attr($week_days_short[$i]); ?>"
+                            data-screen-large="<?php echo esc_attr($week_days_full[$i]); ?>"><?php echo esc_html(
+	$week_days_short[$i],
+); ?></th>
 						<?php endfor;
 
      if ($week_starts !== 0):
      	for ($i = 0; $i < $week_starts; $i++): ?>
-                            <th class="simcal-week-day simcal-week-day-<?php echo $i; ?>"
-                                data-screen-small="<?php echo mb_substr($week_days_short[$i], 0, 1, 'UTF-8'); ?>"
-                                data-screen-medium="<?php echo $week_days_short[$i]; ?>"
-                                data-screen-large="<?php echo $week_days_full[$i]; ?>"><?php echo $week_days_short[
-	$i
-]; ?></th>
+                            <th class="simcal-week-day simcal-week-day-<?php echo esc_attr((string) $i); ?>"
+                                data-screen-small="<?php echo esc_attr(
+                                	mb_substr($week_days_short[$i], 0, 1, 'UTF-8'),
+                                ); ?>"
+                                data-screen-medium="<?php echo esc_attr($week_days_short[$i]); ?>"
+                                data-screen-large="<?php echo esc_attr($week_days_full[$i]); ?>"><?php echo esc_html(
+	$week_days_short[$i],
+); ?></th>
 							<?php endfor;
      endif;
      ?>
                 </tr>
                 </thead>
 
-				<?php echo $this->draw_month(
-    	date($this->format_timestamp($calendar->start, 'n')),
-    	date($this->format_timestamp($calendar->start, 'Y')),
-    ); ?>
+				<?php
+    $month_html = $this->draw_month(
+    	$this->format_timestamp($calendar->start, 'n'),
+    	$this->format_timestamp($calendar->start, 'Y'),
+    );
+    // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- draw_month() escapes at the leaf nodes.
+    echo $month_html;
+    ?>
             </table>
 
 			<?php \SimpleCalendar\Ics_Export::print_actions($calendar->id);}
@@ -431,8 +441,8 @@ class Default_Calendar_Grid implements Calendar_View
 
 		ob_start();
 
-		echo '<tbody class="simcal-month simcal-month-' . $month . '">' . "\n";
-		echo "\t" . '<tr class="simcal-week simcal-week-' . $week_of_year . '">';
+		echo '<tbody class="simcal-month simcal-month-' . esc_attr((string) $month) . '">' . "\n";
+		echo "\t" . '<tr class="simcal-week simcal-week-' . esc_attr((string) $week_of_year) . '">';
 
 		$days_in_row = 0;
 		// Week may start on an arbitrary day (sun, 0 - sat, 6).
@@ -447,7 +457,7 @@ class Default_Calendar_Grid implements Calendar_View
 		for ($a = 0; $a < $void_days_needed; $a++):
 			$last_void_day_class = $a === $void_days_needed - 1 ? 'simcal-day-void-last' : '';
 
-			echo '<td class="simcal-day simcal-day-void ' . $last_void_day_class . '"></td>' . "\n";
+			echo '<td class="simcal-day simcal-day-void ' . esc_attr($last_void_day_class) . '"></td>' . "\n";
 
 			// Reset day of the week count (sun, 0 - sat, 6).
 			if ($week_day === 6) {
@@ -476,7 +486,7 @@ class Default_Calendar_Grid implements Calendar_View
 				$the_color = new Color($calendar->today_color);
 				$bg_color = '#' . $the_color->getHex();
 				$color = $the_color->isDark() ? '#ffffff' : '#000000';
-				$border_style = ' style="border: 1px solid ' . $bg_color . ';"';
+				$border_style = 'border: 1px solid ' . $bg_color . ';';
 			} elseif ($current_max < $now) {
 				$day_classes .= ' simcal-past simcal-day';
 			} elseif ($current_min > $now) {
@@ -510,11 +520,9 @@ class Default_Calendar_Grid implements Calendar_View
 
 						// Event title in list.
 						$title = !empty($event->title) ? trim($event->title) : __('Event', 'google-calendar-events');
-						if ($calendar->trim_titles >= 1) {
-							$title =
-								strlen($title) > $calendar->trim_titles
-									? mb_substr($title, 0, $calendar->trim_titles) . '&hellip;'
-									: $title;
+						$title_html = esc_html($title);
+						if ($calendar->trim_titles >= 1 && mb_strlen($title) > $calendar->trim_titles) {
+							$title_html = esc_html(mb_substr($title, 0, $calendar->trim_titles)) . '&hellip;';
 						}
 
 						// Event color. Always record a marker so mobile dots appear even without an event color.
@@ -523,7 +531,7 @@ class Default_Calendar_Grid implements Calendar_View
 						if (!empty($event_color)) {
 							$bullet =
 								'<span class="simcal-event-color" style="background-color: ' .
-								$event_color .
+								esc_attr($event_color) .
 								';" aria-hidden="true"></span> ';
 							$bullet_colors[] = $event_color;
 						} else {
@@ -531,8 +539,8 @@ class Default_Calendar_Grid implements Calendar_View
 						}
 
 						// Event contents.
-						$list_events .= "\t" . '<li class="' . $event_classes . '"' . $event_visibility . '>' . "\n";
-						$list_events .= "\t\t" . '<span class="simcal-event-title">' . $bullet . $title . '</span>' . "\n";
+						$list_events .= "\t" . '<li class="' . esc_attr($event_classes) . '"' . $event_visibility . '>' . "\n";
+						$list_events .= "\t\t" . '<span class="simcal-event-title">' . $bullet . $title_html . '</span>' . "\n";
 						$list_events .=
 							"\t\t" .
 							'<div class="simcal-event-details simcal-tooltip-content" style="display: none;">' .
@@ -570,21 +578,28 @@ class Default_Calendar_Grid implements Calendar_View
 			endif;
 
 			// The actual days with numbers and events in each row cell.
-			echo '<td class="' . $day_classes . '" data-events-count="' . strval($count) . '">' . "\n";
+			echo '<td class="' . esc_attr($day_classes) . '" data-events-count="' . esc_attr(strval($count)) . '">' . "\n";
 
 			if ($color) {
-				$day_style = ' style="background-color: ' . $bg_color . '; color: ' . $color . '"';
+				$day_style = 'background-color: ' . $bg_color . '; color: ' . $color;
 			} elseif ($count > 0) {
 				$the_color = new Color($calendar->days_events_color);
 				$color = !$color ? ($the_color->isDark() ? '#ffffff' : '#000000') : $color;
 				$bg_color = !$bg_color ? '#' . $the_color->getHex() : $bg_color;
-				$day_style = ' style="background-color: ' . $bg_color . '; color: ' . $color . '"';
+				$day_style = 'background-color: ' . $bg_color . '; color: ' . $color;
 			} else {
 				$day_style = '';
 			}
 
-			echo "\t" . '<div' . $border_style . '>' . "\n";
-			echo "\t\t" . '<span class="simcal-day-label simcal-day-number"' . $day_style . '>' . $day . '</span>' . "\n";
+			echo "\t" . '<div' . ($border_style ? ' style="' . esc_attr($border_style) . '"' : '') . '>' . "\n";
+			echo "\t\t" .
+				'<span class="simcal-day-label simcal-day-number"' .
+				($day_style ? ' style="' . esc_attr($day_style) . '"' : '') .
+				'>' .
+				esc_html((string) $day) .
+				'</span>' .
+				"\n";
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- event HTML from get_event_html(); attrs escaped above.
 			echo "\t\t" . $list_events . "\n";
 			echo "\t\t";
 			echo '<span class="simcal-events-dots" style="display: none;">';
@@ -613,7 +628,7 @@ class Default_Calendar_Grid implements Calendar_View
 
 				// Open a new week row.
 				if ($day < $days_in_month) {
-					echo '<tr class="simcal-week simcal-week-' . $week_of_year++ . '">' . "\n";
+					echo '<tr class="simcal-week simcal-week-' . esc_attr((string) $week_of_year++) . '">' . "\n";
 				}
 
 				$days_in_row = -1;
@@ -631,7 +646,7 @@ class Default_Calendar_Grid implements Calendar_View
 		for ($i = 0; $i <= $remainder_days; $i++) {
 			$last_void_day_class = $i == $remainder_days ? 'simcal-day-void-last' : '';
 
-			echo '<td class="simcal-day simcal-day-void ' . $last_void_day_class . '"></td>' . "\n";
+			echo '<td class="simcal-day simcal-day-void ' . esc_attr($last_void_day_class) . '"></td>' . "\n";
 
 			$week_day++;
 		}

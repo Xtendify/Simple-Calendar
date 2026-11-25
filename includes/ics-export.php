@@ -82,6 +82,7 @@ class Ics_Export
 		header('Content-Disposition: attachment; filename="' . $filename . '"');
 		header('Content-Length: ' . strlen($ics));
 
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- ICS download body (text/calendar), not HTML.
 		echo $ics;
 		exit();
 	}
@@ -187,23 +188,20 @@ class Ics_Export
 			esc_attr__('Calendar actions', 'google-calendar-events') .
 			'">';
 
-		if ($show_ics_export) {
-			$export_url = esc_url(self::get_export_url($calendar_id));
-			$export_tooltip = esc_attr__(
-				'By pressing this you will get an ICS file of this calendar.',
-				'google-calendar-events',
-			);
+		$svg_allowed = self::get_svg_allowed_html();
 
+		if ($show_ics_export) {
+			$export_icon = self::render_icon('export');
 			echo '<a href="' .
-				$export_url .
+				esc_url(self::get_export_url($calendar_id)) .
 				'" id="simcal-ics-export-' .
 				esc_attr($uid) .
 				'" class="button simcal-calendar-action simcal-ics-export-button" data-calendar-id="' .
 				esc_attr((string) $calendar_id) .
 				'" title="' .
-				$export_tooltip .
+				esc_attr__('By pressing this you will get an ICS file of this calendar.', 'google-calendar-events') .
 				'">';
-			echo self::render_icon('export');
+			echo wp_kses($export_icon, $svg_allowed);
 			echo '<span class="simcal-calendar-action-label">' . esc_html__('Export', 'google-calendar-events') . '</span>';
 			echo '</a>';
 		}
@@ -211,16 +209,15 @@ class Ics_Export
 		echo $extra_buttons; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by add-on callbacks.
 
 		if ($show_print) {
-			$print_tooltip = esc_attr__('Print a copy of this calendar view.', 'google-calendar-events');
-
+			$print_icon = self::render_icon('print');
 			echo '<button type="button" id="simcal-print-' .
 				esc_attr($uid) .
 				'" class="button simcal-calendar-action simcal-print-calendar-button" data-calendar-id="' .
 				esc_attr((string) $calendar_id) .
 				'" title="' .
-				$print_tooltip .
+				esc_attr__('Print a copy of this calendar view.', 'google-calendar-events') .
 				'">';
-			echo self::render_icon('print');
+			echo wp_kses($print_icon, $svg_allowed);
 			echo '<span class="simcal-calendar-action-label">' . esc_html__('Print', 'google-calendar-events') . '</span>';
 			echo '</button>';
 		}
@@ -256,6 +253,50 @@ class Ics_Export
 		];
 
 		return isset($icons[$icon]) ? $icons[$icon] : '';
+	}
+
+	/**
+	 * Allowed HTML for calendar action SVG icons.
+	 *
+	 * @since 4.3.2
+	 *
+	 * @return array
+	 */
+	public static function get_svg_allowed_html()
+	{
+		return [
+			'svg' => [
+				'class' => true,
+				'xmlns' => true,
+				'width' => true,
+				'height' => true,
+				'viewbox' => true,
+				'fill' => true,
+				'stroke' => true,
+				'stroke-width' => true,
+				'stroke-linecap' => true,
+				'stroke-linejoin' => true,
+				'aria-hidden' => true,
+			],
+			'path' => [
+				'd' => true,
+			],
+			'polyline' => [
+				'points' => true,
+			],
+			'line' => [
+				'x1' => true,
+				'y1' => true,
+				'x2' => true,
+				'y2' => true,
+			],
+			'rect' => [
+				'x' => true,
+				'y' => true,
+				'width' => true,
+				'height' => true,
+			],
+		];
 	}
 
 	/**

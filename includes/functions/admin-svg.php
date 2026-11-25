@@ -6,6 +6,11 @@
  *
  *
  */
+
+if (!defined('ABSPATH')) {
+	exit();
+}
+
 function svgfillstar()
 {
 	?>

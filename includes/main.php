@@ -270,12 +270,9 @@ final class Plugin
 			if (defined('SC_OAUTH_HELPER_VERSION')) {
 				add_action('admin_notices', function () {
 					echo '<div class="error"><p>' .
-						sprintf(
-							__(
-								'The Simple Calendar plugin now includes the features previously provided by the Google Calendar OAuth Helper add-on. Please deactivate and remove the OAuth Helper add-on to avoid redundancy.',
-								'google-calendar-events',
-							),
-							simcal_ga_campaign_url(simcal_get_url('addons'), 'core-plugin', 'admin-notice'),
+						esc_html__(
+							'The Simple Calendar plugin now includes the features previously provided by the Google Calendar OAuth Helper add-on. Please deactivate and remove the OAuth Helper add-on to avoid redundancy.',
+							'google-calendar-events',
 						) .
 						'</p></div>';
 				});
