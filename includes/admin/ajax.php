@@ -351,13 +351,21 @@ class Ajax
 				update_option('simple-calendar_licenses_status', $status);
 
 				$messages = [
-					'expired' => __('This license key has expired. Please renew it to keep using your add-on.', 'google-calendar-events'),
+					'expired' => __(
+						'This license key has expired. Please renew it to keep using your add-on.',
+						'google-calendar-events',
+					),
 					'disabled' => __('This license key has been disabled.', 'google-calendar-events'),
 					'revoked' => __('This license key has been revoked.', 'google-calendar-events'),
 				];
 				wp_send_json_error($messages[$license_data->license]);
 			} else {
-				wp_send_json_error(__('The license could not be activated. Please check your license key and try again.', 'google-calendar-events'));
+				wp_send_json_error(
+					__(
+						'The license could not be activated. Please check your license key and try again.',
+						'google-calendar-events',
+					),
+				);
 			}
 		} else {
 			wp_send_json_error(__('An error has occurred, please try again.', 'google-calendar-events'));
