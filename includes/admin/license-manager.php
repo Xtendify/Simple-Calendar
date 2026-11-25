@@ -47,11 +47,6 @@ class License_Manager
 	const STATUS_OPTION = 'simple-calendar_licenses_status';
 
 	/**
-	 * Option holding a short report about the last completed check.
-	 */
-	const LAST_CHECK_OPTION = 'simple-calendar_licenses_last_check';
-
-	/**
 	 * Transient guarding against two checks running at once.
 	 */
 	const LOCK_TRANSIENT = 'simple-calendar_licenses_checking';
@@ -171,6 +166,11 @@ class License_Manager
 		$settled = [];
 		$unresolved = [];
 
+		// Snapshot taken before any store call, to tell afterwards which statuses were cleared while
+		// we were waiting.
+		$before = get_option(self::STATUS_OPTION, []);
+		$before = is_array($before) ? $before : [];
+
 		foreach ($keys as $addon => $key) {
 			$reported = $this->get_remote_status($addon, $key);
 
@@ -203,6 +203,12 @@ class License_Manager
 				continue;
 			}
 
+			if (array_key_exists($addon, $before) && !array_key_exists($addon, $stored)) {
+				// The license was deactivated from the Add-ons screen while we were waiting. That
+				// keeps the key but clears the status, and our pre-call answer would resurrect it.
+				continue;
+			}
+
 			$statuses[$addon] = $status;
 		}
 
@@ -213,16 +219,6 @@ class License_Manager
 		// Statuses are never removed here. A key disappearing from the settings is not evidence that
 		// entitlement ended, and deactivating or resetting a license already clears the status
 		// synchronously, so pruning would only add a destructive edge with nothing to gain.
-
-		update_option(
-			self::LAST_CHECK_OPTION,
-			[
-				'time' => time(),
-				'settled' => count($settled),
-				'unresolved' => $unresolved,
-			],
-			false,
-		);
 
 		delete_transient(self::LOCK_TRANSIENT);
 
