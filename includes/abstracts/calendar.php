@@ -176,6 +176,15 @@ abstract class Calendar
 	protected $errors = [];
 
 	/**
+	 * Notice for a forced refresh that left the saved feed in place.
+	 *
+	 * @since 4.3.4
+	 *
+	 * @var string
+	 */
+	protected $cache_refresh_notice = '';
+
+	/**
 	 * Earliest event.
 	 *
 	 * @access public
@@ -258,6 +267,10 @@ abstract class Calendar
 			// Get events source data.
 			$feed = simcal_get_feed($this);
 			if ($feed instanceof Feed) {
+				if (is_string($feed->cache_refresh_notice) && '' !== $feed->cache_refresh_notice) {
+					$this->cache_refresh_notice = $feed->cache_refresh_notice;
+				}
+
 				if (!empty($feed->events)) {
 					if (is_array($feed->events)) {
 						$this->set_events($feed->events);
@@ -988,6 +1001,17 @@ abstract class Calendar
 	protected function render_empty_events_notice()
 	{
 		if (!$this->user_can_view_empty_events_notice()) {
+			return;
+		}
+
+		// A failed refresh must not look like a private Google Calendar.
+		if ('' !== $this->cache_refresh_notice) {
+			echo '<div class="simcal-empty-events-notice" role="note">';
+			echo '<p>' . esc_html($this->cache_refresh_notice) . '</p>';
+			echo '<p class="simcal-empty-events-notice-meta">';
+			echo esc_html__('Only administrators and editors can see this notice.', 'google-calendar-events');
+			echo '</p>';
+			echo '</div>';
 			return;
 		}
 
