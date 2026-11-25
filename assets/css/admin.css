@@ -355,16 +355,18 @@ body .simcal-field-textarea {
 }
 
 .simcal-field-bool > input[data-sc-locked='yes'] {
-	opacity: 0.5;
 	cursor: not-allowed;
 }
 
-/* Some settings screens lay cells out as a flex row; let the notice drop onto its own line. */
-td:has(> .simcal-locked-notice) {
+/*
+ * Reason printed next to a locked (natively disabled) setting. Some settings screens lay cells
+ * out as a flex row, so let the reason drop onto its own line below the field.
+ */
+td:has(.simcal-field-bool > input[data-sc-locked='yes']) {
 	flex-wrap: wrap;
 }
 
-.simcal-locked-notice {
+td:has(.simcal-field-bool > input[data-sc-locked='yes']) > .description {
 	display: flex;
 	align-items: flex-start;
 	gap: 8px;
@@ -383,27 +385,13 @@ td:has(> .simcal-locked-notice) {
 	line-height: 1.5;
 }
 
-.simcal-locked-notice::before {
+td:has(.simcal-field-bool > input[data-sc-locked='yes']) > .description::before {
 	content: '\f534';
 	flex: 0 0 auto;
 	font-family: dashicons;
 	font-size: 18px;
 	line-height: 1.2;
 	color: #d63638;
-}
-
-.simcal-locked-notice-flash {
-	animation: simcal-locked-notice-flash 0.6s ease-in-out;
-}
-
-@keyframes simcal-locked-notice-flash {
-	0%,
-	100% {
-		background: #fff7f7;
-	}
-	50% {
-		background: #fbd9da;
-	}
 }
 
 .simcal-field-date-picker > input[type='text'] {

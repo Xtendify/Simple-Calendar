@@ -166,8 +166,9 @@ class Calendars extends Admin_Page
 
 				$hide_events_value = $this->get_option_value($section, 'hide_sc_event_post_type');
 
-				// The setting cannot be turned on while a calendar uses the SC Event source. Lock the
-				// checkbox on the client (see admin.js) and explain why; the save is validated server side too.
+				// The setting cannot be turned on while a calendar uses the SC Event source. Render the
+				// checkbox natively disabled and print the reason next to it; the save is validated
+				// server side as well (see validate()).
 				$hide_events_locked = 'yes' !== $hide_events_value && simcal_has_calendars_using_feed_type('sc-event');
 
 				$fields[$section][] = [
@@ -175,14 +176,16 @@ class Calendars extends Admin_Page
 					'title' => __('Hide Events', 'google-calendar-events'),
 					'attributes' => $hide_events_locked
 						? [
+							'disabled' => 'disabled',
 							'data-sc-locked' => 'yes',
-							'aria-disabled' => 'true',
-							'data-sc-locked-message' => __(
-								'Events cannot be hidden while one or more calendars still use the SC Event source. Change those calendars to another event source first.',
-								'google-calendar-events',
-							),
 						]
 						: [],
+					'description' => $hide_events_locked
+						? __(
+							'Events cannot be hidden while one or more calendars still use the SC Event source. Change those calendars to another event source first.',
+							'google-calendar-events',
+						)
+						: '',
 					'tooltip' => __(
 						'If ticked, the Events post type is hidden from the admin: its menu item is removed and "SC Event" is no longer offered as a calendar event source. Existing events stay in the database and their pages remain publicly accessible. This cannot be ticked while a calendar still uses the SC Event source.',
 						'google-calendar-events',
