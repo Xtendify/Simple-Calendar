@@ -1,9 +1,9 @@
 === Simple Calendar - Google Calendar, Events, & ICS Feeds ===
 Contributors: simplecalendar, rosinghal, pderksen, nickyoung87, nekojira, rosshanney
 Tags: google calendar, outlook, ical, events, add to calendar
-Requires at least: 4.2
+Requires at least: 5.3
 Requires PHP: 8.1
-Tested up to: 7.0
+Tested up to: 7.1
 Stable tag: PACKAGE_VERSION
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -219,6 +219,9 @@ We'd love your help! Here's a few things you can do:
 8. Attach a calendar to a post or page
 
 == Changelog ==
+
+= 4.3.3 =
+* Fix: An stored Cross-Site Scripting (XSS) vulnerability. 
 
 = 4.3.2 =
 * Dev: Added a "Hide Events" option under Settings > General that removes the Events post type from the admin menu and from the calendar event source dropdown, for sites that do not author local events. It cannot be enabled while a calendar still uses the SC Event source.

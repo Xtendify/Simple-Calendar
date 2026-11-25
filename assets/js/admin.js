@@ -127,6 +127,59 @@
 			}
 		})();
 
+		/* ======================================= *
+		 * Locked checkboxes (setting not allowed) *
+		 * ======================================= */
+		(function lockedCheckboxes() {
+			var $locked = $('input[type="checkbox"][data-sc-locked="yes"]');
+			if (!$locked.length) return;
+
+			function showNotice($input) {
+				var message = $input.attr('data-sc-locked-message');
+				var $holder = $input.closest('.simcal-field-bool');
+				var $container = $holder.parent();
+				var $notice = $container.children('.simcal-locked-notice').first();
+
+				if (!$notice.length) {
+					$notice = $('<p class="simcal-locked-notice" role="alert"></p>').text(message);
+					// Append after the tooltip icon so the notice sits on its own line below the field.
+					$container.append($notice);
+				}
+
+				// Restart the highlight animation on repeated attempts.
+				$notice.removeClass('simcal-locked-notice-flash');
+				void $notice[0].offsetWidth;
+				$notice.addClass('simcal-locked-notice-flash');
+			}
+
+			$locked.each(function () {
+				var $input = $(this);
+
+				// The checkbox can never be ticked while locked, whatever the user does.
+				$input.prop('checked', false);
+
+				// Block mouse clicks, including those on the surrounding label/text.
+				$input.closest('.simcal-field-bool').on('click', function (event) {
+					event.preventDefault();
+					$input.prop('checked', false);
+					showNotice($input);
+				});
+
+				// Block keyboard toggling (space) while keeping the field focusable.
+				$input.on('keydown', function (event) {
+					if (event.key === ' ' || event.key === 'Spacebar' || event.key === 'Enter') {
+						event.preventDefault();
+						showNotice($input);
+					}
+				});
+			});
+
+			// Last line of defence before submitting the settings form.
+			$locked.closest('form').on('submit', function () {
+				$locked.prop('checked', false);
+			});
+		})();
+
 		/* ======== *
 		 * Tooltips *
 		 * ======== */

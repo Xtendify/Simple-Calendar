@@ -1105,13 +1105,16 @@ class Event_Builder
 
 		if ($unknown > 0) {
 			if ($known > 0) {
-				/* translators: One more person attending the event. */
-				$others = sprintf(_n('1 more attendee', '%s more attendees', $unknown, 'google-calendar-events'), $unknown);
-			} else {
-				/* translators: One or more persons attending the event whose name is unknown. */
 				$others = sprintf(
-					_n('1 anonymous attendee', '%s anonymous attendees', $unknown, 'google-calendar-events'),
-					$unknown,
+					/* translators: %s: number of additional attendees */
+					_n('%s more attendee', '%s more attendees', $unknown, 'google-calendar-events'),
+					number_format_i18n($unknown),
+				);
+			} else {
+				$others = sprintf(
+					/* translators: %s: number of anonymous attendees */
+					_n('%s anonymous attendee', '%s anonymous attendees', $unknown, 'google-calendar-events'),
+					number_format_i18n($unknown),
 				);
 			}
 			$photo = $attr['photo'] !== 'hide' ? get_avatar('', 128) : '';

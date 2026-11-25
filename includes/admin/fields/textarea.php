@@ -49,16 +49,17 @@ class Textarea extends Field
 	{
 		?>
 		<textarea
-			name="<?php echo $this->name; ?>"
-			id="<?php echo $this->id; ?>"
+			name="<?php echo esc_attr($this->name); ?>"
+			id="<?php echo esc_attr($this->id); ?>"
 			<?php
-   echo $this->class ? 'class="' . $this->class . '" ' : '';
-   echo $this->placeholder ? 'placeholder="' . $this->placeholder . '" ' : '';
-   echo $this->style ? 'style="' . $this->style . '" ' : '';
-   echo $this->attributes;
-   ?>><?php echo $this->value; ?></textarea>
+   echo $this->class ? 'class="' . esc_attr($this->class) . '" ' : '';
+   echo $this->placeholder ? 'placeholder="' . esc_attr($this->placeholder) . '" ' : '';
+   echo $this->style ? 'style="' . esc_attr($this->style) . '" ' : '';
+   echo wp_kses_post($this->attributes);
+   ?>><?php echo esc_textarea($this->value); ?></textarea>
 		<?php
-  echo $this->tooltip;
+  $allowed_tooltip = ['i' => ['class' => [], 'data-tip' => []]];
+  echo wp_kses($this->tooltip, $allowed_tooltip);
 
   if (!empty($this->description)) {
   	echo '<p class="description">' . wp_kses_post($this->description) . '</p>';
