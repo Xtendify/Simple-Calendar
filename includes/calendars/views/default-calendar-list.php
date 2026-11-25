@@ -423,7 +423,10 @@ class Default_Calendar_List implements Calendar_View
 		if ('monthly' == $calendar->group_type) {
 			// Monthly spans: use the displayed month(s), not the events they contain.
 			$start = Carbon::createFromTimestamp($this->start, $calendar->timezone)->startOfMonth();
-			$end = $start->copy()->addMonths(max(absint($calendar->group_span), 1) - 1)->endOfMonth();
+			$end = $start
+				->copy()
+				->addMonths(max(absint($calendar->group_span), 1) - 1)
+				->endOfMonth();
 		} else {
 			if ($this->first_event !== 0) {
 				$start = Carbon::createFromTimestamp($this->first_event, $calendar->timezone);
