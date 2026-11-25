@@ -228,7 +228,7 @@ function simcal_get_feed_types()
  * can hide it from Settings > General, which removes its admin menu item and drops
  * "SC Event" from the calendar event source dropdown.
  *
- * @since  4.3.2
+ * @since  4.3.3
  *
  * @return bool
  */
@@ -241,7 +241,7 @@ function simcal_is_sc_event_post_type_enabled()
 	/**
 	 * Filter whether the SC Event post type is enabled.
 	 *
-	 * @since 4.3.2
+	 * @since 4.3.3
 	 *
 	 * @param bool $enabled
 	 */
@@ -254,7 +254,7 @@ function simcal_is_sc_event_post_type_enabled()
  * The event source of a calendar is stored as a `calendar_feed` term on the
  * calendar post, so this looks for a single calendar carrying that term.
  *
- * @since  4.3.2
+ * @since  4.3.3
  *
  * @param  string $feed_type Feed type slug, e.g. 'sc-event'.
  *

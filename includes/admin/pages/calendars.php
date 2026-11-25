@@ -126,6 +126,25 @@ class Calendars extends Admin_Page
 				foreach ($post_types as $slug => $post_type) {
 					$options[$slug] = $post_type->label;
 				}
+
+				// Post types hidden from the admin (e.g. SC Event when "Hide Events" is ticked) drop out of
+				// the list above. Keep any already-saved selection in the list, otherwise saving this form
+				// would silently remove it from attach_calendars_posts.
+				$saved_post_types = $this->get_option_value($section, 'attach_calendars_posts');
+				$saved_post_types = is_array($saved_post_types)
+					? $saved_post_types
+					: explode(',', (string) $saved_post_types);
+				foreach ($saved_post_types as $saved_slug) {
+					$saved_slug = sanitize_key(trim((string) $saved_slug));
+					if ('' === $saved_slug || isset($options[$saved_slug])) {
+						continue;
+					}
+					$saved_post_type = get_post_type_object($saved_slug);
+					if ($saved_post_type) {
+						$options[$saved_slug] = $saved_post_type->label;
+					}
+				}
+
 				asort($options);
 
 				$fields[$section][] = [
@@ -164,7 +183,6 @@ class Calendars extends Admin_Page
 							),
 						]
 						: [],
-					'class' => $hide_events_locked ? 'simcal-field-locked' : '',
 					'tooltip' => __(
 						'If ticked, the Events post type is hidden from the admin: its menu item is removed and "SC Event" is no longer offered as a calendar event source. Existing events stay in the database and their pages remain publicly accessible. This cannot be ticked while a calendar still uses the SC Event source.',
 						'google-calendar-events',
@@ -191,7 +209,7 @@ class Calendars extends Admin_Page
 	/**
 	 * Register setting callback.
 	 *
-	 * @since  4.3.2
+	 * @since  4.3.3
 	 *
 	 * @param  array $settings Settings inputs.
 	 *

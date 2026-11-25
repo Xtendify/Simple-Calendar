@@ -222,9 +222,9 @@ We'd love your help! Here's a few things you can do:
 
 = 4.3.3 =
 * Fix: An stored Cross-Site Scripting (XSS) vulnerability. 
+* Dev: Added a "Hide Events" option under Settings > General that removes the Events post type from the admin menu and from the calendar event source dropdown, for sites that do not author local events. It cannot be enabled while a calendar still uses the SC Event source.
 
 = 4.3.2 =
-* Dev: Added a "Hide Events" option under Settings > General that removes the Events post type from the admin menu and from the calendar event source dropdown, for sites that do not author local events. It cannot be enabled while a calendar still uses the SC Event source.
 * Dev: Added an option to clear the color label cache when updating the calendar or manually clicking "Clear Cache" in the admin panel.
 * Dev: Implemented a configurable cutoff date making "Powered by" credits mandatory for newly created calendars without a valid Pro license, while preserving optional credit behavior for existing calendars.
 * Dev: Updated plugin screenshots, media assets, and text content.

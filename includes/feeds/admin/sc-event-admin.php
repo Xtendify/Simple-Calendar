@@ -74,7 +74,7 @@ class Sc_Event_Admin
 	 * it, as that would leave the calendar pointing at a source its own Event
 	 * Source dropdown no longer offers.
 	 *
-	 * @since  4.3.2
+	 * @since  4.3.3
 	 *
 	 * @param  array $values Submitted values for the `general` section.
 	 *
