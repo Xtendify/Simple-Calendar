@@ -458,8 +458,74 @@
 	color: rgba(255, 255, 255, 0.3);
 }
 
+/* Dynamic view: visitor switches between Grid Classic, Grid Retro, List Classic, and List Retro. */
+.simcal-dynamic-switcher {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px;
+	margin: 0 0 12px;
+}
+
+.simcal-dynamic-switch {
+	appearance: none;
+	border: 1px solid #e6e8ee;
+	background: #fff;
+	color: #4d5e80;
+	border-radius: 999px;
+	padding: 6px 14px;
+	font: inherit;
+	font-size: 13px;
+	line-height: 1.2;
+	cursor: pointer;
+}
+
+.simcal-dynamic-switch:hover,
+.simcal-dynamic-switch:focus {
+	border-color: #3c8595;
+	color: #1e293b;
+}
+
+.simcal-dynamic-switch:focus {
+	outline: 2px solid #3c8595;
+	outline-offset: 2px;
+}
+
+.simcal-dynamic-switch.is-active,
+.simcal-dynamic-switch[aria-selected='true'] {
+	background: #3c8595;
+	border-color: #3c8595;
+	color: #fff;
+}
+
+.simcal-dynamic-views-dark .simcal-dynamic-switch {
+	background: #1e293b;
+	border-color: #334155;
+	color: rgba(255, 255, 255, 0.85);
+}
+
+.simcal-dynamic-views-dark .simcal-dynamic-switch:hover,
+.simcal-dynamic-views-dark .simcal-dynamic-switch:focus {
+	border-color: #3c8595;
+	color: #fff;
+}
+
+.simcal-dynamic-views-dark .simcal-dynamic-switch.is-active,
+.simcal-dynamic-views-dark .simcal-dynamic-switch[aria-selected='true'] {
+	background: #3c8595;
+	border-color: #3c8595;
+	color: #fff;
+}
+
+.simcal-dynamic-pane[hidden] {
+	display: none !important;
+}
+
 @media print {
 	.simcal-empty-events-notice {
+		display: none;
+	}
+
+	.simcal-dynamic-switcher {
 		display: none;
 	}
 }

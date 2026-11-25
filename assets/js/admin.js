@@ -254,6 +254,8 @@
 			gridRetroSettings = defCalSettings.find('.simcal-default-calendar-grid-retro'),
 			listSettings = defCalSettings.find('.simcal-default-calendar-list'),
 			groupedListSettings = defCalSettings.find('.simcal-default-calendar-list-grouped'),
+			dynamicSettings = defCalSettings.find('.simcal-default-calendar-dynamic'),
+			responsiveRow = defCalSettings.find('.simcal-default-calendar-responsive'),
 			listOnMobile = $('#_default_calendar_grid_desktop_list_mobile');
 
 		function toggleDefaultCalendarSettings() {
@@ -261,10 +263,12 @@
 
 			// Rows with this class are not in the shared grid group, so show them only here.
 			gridRetroSettings.hide();
+			dynamicSettings.hide();
 
 			if ('grid' == selView) {
 				groupedListSettings.hide();
 				gridSettings.show();
+				responsiveRow.show();
 
 				// When list-on-mobile is enabled, also show list-only settings.
 				if (listOnMobile.is(':checked')) {
@@ -285,6 +289,7 @@
 				groupedListSettings.hide();
 				gridSettings.show();
 				gridRetroSettings.show();
+				responsiveRow.show();
 
 				if (listOnMobile.is(':checked')) {
 					listSettings.show();
@@ -295,6 +300,15 @@
 				gridSettings.hide();
 				groupedListSettings.hide();
 				listSettings.show();
+			} else if ('dynamic' == selView) {
+				// Visitors can open any of these views, so keep each view's settings.
+				groupedListSettings.hide();
+				gridSettings.show();
+				gridRetroSettings.show();
+				listSettings.show();
+				dynamicSettings.show();
+				// The visitor switcher replaces the automatic mobile list.
+				responsiveRow.hide();
 			}
 		}
 

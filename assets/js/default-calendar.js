@@ -199,39 +199,99 @@ jQuery(function ($) {
 	}
 
 	/**
+	 * Whether a calendar sits in a Dynamic pane that is not the selected view.
+	 *
+	 * @param {jQuery} calendar
+	 * @return {boolean}
+	 */
+	function isHiddenDynamicPane(calendar) {
+		var pane = calendar.closest('.simcal-dynamic-pane');
+		if (!pane.length) {
+			return false;
+		}
+		return pane[0].hasAttribute('hidden') || !pane.hasClass('is-active');
+	}
+
+	/**
+	 * Initialize a calendar that was skipped while hidden.
+	 *
+	 * @param {jQuery} calendar
+	 */
+	function revealDeferredCalendar(calendar) {
+		if (calendar.attr('data-simcal-deferred') !== '1') {
+			return;
+		}
+		if (isDeferredResponsiveSibling(calendar) || isHiddenDynamicPane(calendar)) {
+			return;
+		}
+		calendar.removeAttr('data-simcal-deferred');
+		initDefaultCalendarNav(calendar);
+		if (calendar.hasClass('simcal-default-calendar-grid-retro')) {
+			retroCalendarBubbles(calendar);
+		} else if (calendar.hasClass('simcal-default-calendar-grid')) {
+			calendarBubbles(calendar);
+			calendar.off('change.simcalBubbles').on('change.simcalBubbles', function () {
+				calendarBubbles(this);
+			});
+		} else if (calendar.hasClass('simcal-default-calendar-list-retro')) {
+			var retroHeading = calendar.find('.simcal-events-list-container').data('heading');
+			if (retroHeading) {
+				calendar.find('.simcal-retro-heading').text(retroHeading);
+			}
+		} else {
+			toggleListHeading(calendar);
+		}
+	}
+
+	/**
 	 * Init any deferred responsive siblings that are now visible.
 	 */
 	function initDeferredResponsiveViews() {
 		$('.simcal-responsive-views .simcal-default-calendar[data-simcal-deferred="1"]').each(function (e, el) {
-			var calendar = $(el);
-			if (isDeferredResponsiveSibling(calendar)) {
-				return;
-			}
-			calendar.removeAttr('data-simcal-deferred');
-			initDefaultCalendarNav(calendar);
-			if (calendar.hasClass('simcal-default-calendar-grid-retro')) {
-				retroCalendarBubbles(calendar);
-			} else if (calendar.hasClass('simcal-default-calendar-grid')) {
-				calendarBubbles(calendar);
-				calendar.off('change.simcalBubbles').on('change.simcalBubbles', function () {
-					calendarBubbles(this);
-				});
-			} else if (calendar.hasClass('simcal-default-calendar-list-retro')) {
-				var retroHeading = calendar.find('.simcal-events-list-container').data('heading');
-				if (retroHeading) {
-					calendar.find('.simcal-retro-heading').text(retroHeading);
-				}
-			} else {
-				toggleListHeading(calendar);
-			}
+			revealDeferredCalendar($(el));
 		});
+	}
+
+	/**
+	 * Show one Dynamic view and initialize it the first time it is opened.
+	 *
+	 * @param {jQuery} wrap
+	 * @param {string} view
+	 * @param {boolean} persist
+	 */
+	function activateDynamicView(wrap, view, persist) {
+		var button = wrap.find('.simcal-dynamic-switch').filter(function () {
+			return $(this).attr('data-view') === view;
+		});
+		var pane = wrap.find('.simcal-dynamic-pane').filter(function () {
+			return $(this).attr('data-view') === view;
+		});
+		if (!button.length || !pane.length) {
+			return;
+		}
+
+		wrap.find('.simcal-dynamic-switch').attr('aria-selected', 'false').removeClass('is-active');
+		button.attr('aria-selected', 'true').addClass('is-active');
+		wrap.find('.simcal-dynamic-pane').removeClass('is-active').attr('hidden', 'hidden');
+		pane.addClass('is-active').removeAttr('hidden');
+
+		pane.find('.simcal-default-calendar').each(function () {
+			revealDeferredCalendar($(this));
+		});
+
+		if (!persist) {
+			return;
+		}
+		try {
+			window.localStorage.setItem('simcal-dynamic-view-' + wrap.attr('data-calendar-id'), view);
+		} catch (err) {}
 	}
 
 	// Browse calendar pages — skip hidden dual-view siblings until shown (keeps load light).
 	$('.simcal-default-calendar').each(function (e, i) {
 		var calendar = $(i);
 
-		if (isDeferredResponsiveSibling(calendar)) {
+		if (isDeferredResponsiveSibling(calendar) || isHiddenDynamicPane(calendar)) {
 			calendar.attr('data-simcal-deferred', '1');
 			return;
 		}
@@ -417,7 +477,11 @@ jQuery(function ($) {
 
 	$('.simcal-default-calendar-grid-retro').each(function () {
 		var calendar = $(this);
-		if (calendar.attr('data-simcal-deferred') === '1' || isDeferredResponsiveSibling(calendar)) {
+		if (
+			calendar.attr('data-simcal-deferred') === '1' ||
+			isDeferredResponsiveSibling(calendar) ||
+			isHiddenDynamicPane(calendar)
+		) {
 			return;
 		}
 		retroCalendarBubbles(calendar);
@@ -759,7 +823,11 @@ jQuery(function ($) {
 	// Event bubbles and calendar UI triggers (skip deferred/hidden dual-view grids).
 	gridCalendars.each(function (e, calendar) {
 		var $calendar = $(calendar);
-		if ($calendar.attr('data-simcal-deferred') === '1' || isDeferredResponsiveSibling($calendar)) {
+		if (
+			$calendar.attr('data-simcal-deferred') === '1' ||
+			isDeferredResponsiveSibling($calendar) ||
+			isHiddenDynamicPane($calendar)
+		) {
 			return;
 		}
 		calendarBubbles(calendar);
@@ -806,6 +874,26 @@ jQuery(function ($) {
 			responsiveViewsMq.addListener(onResponsiveViewsChange);
 		}
 	}
+
+	$(document).on('click', '.simcal-dynamic-switch', function () {
+		var button = $(this);
+		activateDynamicView(button.closest('.simcal-dynamic-views'), button.attr('data-view'), true);
+	});
+
+	// Restore the view this visitor last chose for each Dynamic calendar.
+	$('.simcal-dynamic-views').each(function () {
+		var wrap = $(this);
+		var saved = null;
+		try {
+			saved = window.localStorage.getItem('simcal-dynamic-view-' + wrap.attr('data-calendar-id'));
+		} catch (err) {
+			saved = null;
+		}
+		if (!saved || saved === wrap.find('.simcal-dynamic-pane.is-active').attr('data-view')) {
+			return;
+		}
+		activateDynamicView(wrap, saved, false);
+	});
 	/*
 	 * Calendar action buttons (Export, URL, Print).
 	 */

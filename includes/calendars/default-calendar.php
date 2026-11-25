@@ -138,6 +138,7 @@ class Default_Calendar extends Calendar
 			'grid-retro' => __('Grid Retro', 'google-calendar-events'),
 			'list' => __('List Classic', 'google-calendar-events'),
 			'list-retro' => __('List Retro', 'google-calendar-events'),
+			'dynamic' => __('Dynamic', 'google-calendar-events'),
 		]);
 
 		parent::__construct($calendar);
@@ -188,6 +189,12 @@ class Default_Calendar extends Calendar
 	 */
 	public function html($view = '')
 	{
+		// Dynamic prints every switchable view plus a visitor control.
+		if ('' === $view && $this->view instanceof Calendar_View && 'dynamic' === $this->view->get_type()) {
+			$this->html_dynamic();
+			return;
+		}
+
 		$requested = $view;
 		$view = empty($view) ? $this->view : $this->get_view($view);
 
@@ -216,6 +223,114 @@ class Default_Calendar extends Calendar
 		$saved_view = $this->view;
 		$this->view = $list_view;
 		$this->render_view_shell($list_view, false, false);
+		$this->view = $saved_view;
+
+		do_action('simcal_calendar_html_after', $this->id);
+
+		$this->render_powered_by();
+		$this->render_empty_events_notice();
+
+		echo '</div>';
+	}
+
+	/**
+	 * Views a visitor can switch between when the calendar view is Dynamic.
+	 *
+	 * @since 4.3.3
+	 *
+	 * @return string[]
+	 */
+	protected function dynamic_switch_views()
+	{
+		return ['grid', 'grid-retro', 'list', 'list-retro'];
+	}
+
+	/**
+	 * Output every switchable view and a control so visitors can change it.
+	 *
+	 * The calendar opens on Grid Retro. Hidden views stay in the page and are
+	 * initialized when the visitor selects them.
+	 *
+	 * @since 4.3.3
+	 */
+	protected function html_dynamic()
+	{
+		$slugs = $this->dynamic_switch_views();
+		$default = 'grid-retro';
+
+		if (!empty($this->errors) && current_user_can('manage_options')) {
+			echo '<pre><code>';
+			foreach ($this->errors as $error) {
+				echo esc_html($error);
+			}
+			echo '</code></pre>';
+		}
+
+		// Theme is read while the switcher is printed.
+		$this->set_properties($default);
+		$theme_class = 'dark' === $this->theme ? ' simcal-dynamic-views-dark' : '';
+
+		echo '<div class="simcal-dynamic-views' .
+			esc_attr($theme_class) .
+			'" data-calendar-id="' .
+			esc_attr($this->id) .
+			'" data-default-view="' .
+			esc_attr($default) .
+			'">';
+
+		echo '<div class="simcal-dynamic-switcher" role="tablist" aria-label="' .
+			esc_attr__('Calendar view', 'google-calendar-events') .
+			'">';
+		foreach ($slugs as $slug) {
+			$label = isset($this->views[$slug]) ? $this->views[$slug] : $slug;
+			$active = $slug === $default;
+			$tab_id = 'simcal-dynamic-tab-' . $this->id . '-' . $slug;
+			$panel_id = 'simcal-dynamic-panel-' . $this->id . '-' . $slug;
+			echo '<button type="button" class="simcal-dynamic-switch' .
+				($active ? ' is-active' : '') .
+				'" id="' .
+				esc_attr($tab_id) .
+				'" role="tab" aria-selected="' .
+				($active ? 'true' : 'false') .
+				'" aria-controls="' .
+				esc_attr($panel_id) .
+				'" data-view="' .
+				esc_attr($slug) .
+				'">' .
+				esc_html($label) .
+				'</button>';
+		}
+		echo '</div>';
+
+		do_action('simcal_calendar_html_before', $this->id);
+
+		$saved_view = $this->view;
+		foreach ($slugs as $slug) {
+			$this->set_properties($slug);
+			$child = $this->get_view($slug);
+			if (!($child instanceof Calendar_View)) {
+				continue;
+			}
+
+			// Event tags resolve off $calendar->view while that sibling renders.
+			$this->view = $child;
+			$active = $slug === $default;
+			$panel_id = 'simcal-dynamic-panel-' . $this->id . '-' . $slug;
+			$tab_id = 'simcal-dynamic-tab-' . $this->id . '-' . $slug;
+			echo '<div class="simcal-dynamic-pane' .
+				($active ? ' is-active' : '') .
+				'" id="' .
+				esc_attr($panel_id) .
+				'" role="tabpanel" aria-labelledby="' .
+				esc_attr($tab_id) .
+				'" data-view="' .
+				esc_attr($slug) .
+				'"' .
+				($active ? '' : ' hidden') .
+				'>';
+			$this->render_view_shell($child, false, false);
+			echo '</div>';
+		}
 		$this->view = $saved_view;
 
 		do_action('simcal_calendar_html_after', $this->id);
@@ -362,6 +477,8 @@ class Default_Calendar extends Calendar
 			return new Views\Default_Calendar_Grid_Retro($this);
 		} elseif ('list-retro' == $view) {
 			return new Views\Default_Calendar_List_Retro($this);
+		} elseif ('dynamic' == $view) {
+			return new Views\Default_Calendar_Dynamic($this);
 		}
 
 		return null;

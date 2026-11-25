@@ -86,6 +86,17 @@ class Default_Calendar_Admin
 			</thead>
 			<tbody class="simcal-panel-section">
 
+			<tr class="simcal-panel-field simcal-default-calendar-dynamic" style="display: none;">
+				<th><?php esc_html_e('Visitor view switcher', 'google-calendar-events'); ?></th>
+				<td>
+					<p class="description">
+						<?php esc_html_e(
+      	'Visitors can switch this calendar between Grid Classic, Grid Retro, List Classic, and List Retro. It opens on Grid Retro.',
+      	'google-calendar-events',
+      ); ?>
+					</p>
+				</td>
+			</tr>
 			<tr class="simcal-panel-field simcal-default-calendar-grid" style="display: none;">
 				<th><label for="_default_calendar_event_bubbles_action"><?php esc_html_e(
     	'Event Bubbles',
@@ -177,7 +188,7 @@ class Default_Calendar_Admin
      ?>
 				</td>
 			</tr>
-			<tr class="simcal-panel-field simcal-default-calendar-grid" style="display: none;">
+			<tr class="simcal-panel-field simcal-default-calendar-grid simcal-default-calendar-responsive" style="display: none;">
 				<th><label for="_default_calendar_grid_desktop_list_mobile"><?php esc_html_e(
     	'Switch to List View on Mobile',
     	'google-calendar-events',
