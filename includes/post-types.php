@@ -412,12 +412,15 @@ class Post_Types
 						ob_start();
 
 						if ('after' == $pos) {
+							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already-filtered post content; wp_kses_post would strip embeds.
 							echo $the_content;
 							simcal_print_calendar($id);
 						} elseif ('before' == $pos) {
 							simcal_print_calendar($id);
+							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already-filtered post content; wp_kses_post would strip embeds.
 							echo $the_content;
 						} else {
+							// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already-filtered post content; wp_kses_post would strip embeds.
 							echo $the_content;
 						}
 
