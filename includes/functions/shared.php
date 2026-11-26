@@ -222,6 +222,78 @@ function simcal_get_feed_types()
 }
 
 /**
+ * Check if the SC Event post type is enabled.
+ *
+ * The post type is visible by default. Site owners who do not author local events
+ * can hide it from Settings > General, which removes its admin menu item and drops
+ * "SC Event" from the calendar event source dropdown.
+ *
+ * @since  4.3.3
+ *
+ * @return bool
+ */
+function simcal_is_sc_event_post_type_enabled()
+{
+	$settings = get_option('simple-calendar_settings_calendars');
+	$hidden =
+		isset($settings['general']['hide_sc_event_post_type']) && 'yes' === $settings['general']['hide_sc_event_post_type'];
+
+	/**
+	 * Filter whether the SC Event post type is enabled.
+	 *
+	 * @since 4.3.3
+	 *
+	 * @param bool $enabled
+	 */
+	return (bool) apply_filters('simcal_is_sc_event_post_type_enabled', !$hidden);
+}
+
+/**
+ * Check if any calendar uses a given event source type.
+ *
+ * The event source of a calendar is stored as a `calendar_feed` term on the
+ * calendar post, so this looks for a single calendar carrying that term.
+ *
+ * @since  4.3.3
+ *
+ * @param  string $feed_type Feed type slug, e.g. 'sc-event'.
+ *
+ * @return bool
+ */
+function simcal_has_calendars_using_feed_type($feed_type)
+{
+	$feed_type = sanitize_title($feed_type);
+
+	if (empty($feed_type) || !taxonomy_exists('calendar_feed')) {
+		return false;
+	}
+
+	$query = new WP_Query([
+		'post_type' => 'calendar',
+		// Every status, trash included: a trashed calendar can be restored later, so it
+		// still counts as using the source.
+		'post_status' => array_keys(get_post_stati()),
+		'posts_per_page' => 1,
+		'fields' => 'ids',
+		'no_found_rows' => true,
+		'update_post_meta_cache' => false,
+		'update_post_term_cache' => false,
+		'tax_query' => [
+			[
+				'taxonomy' => 'calendar_feed',
+				'field' => 'slug',
+				'terms' => $feed_type,
+			],
+		],
+	]);
+
+	$has_calendars = $query->have_posts();
+	wp_reset_postdata();
+
+	return $has_calendars;
+}
+
+/**
  * Get human-readable feed type labels without bootstrapping feed objects.
  *
  * @since  4.0.6
@@ -237,6 +309,11 @@ function simcal_get_feed_type_labels()
 		if (!isset($labels[$type])) {
 			$labels[$type] = ucwords(str_replace('-', ' ', $type));
 		}
+	}
+
+	// Hide the local events source when the SC Event post type is disabled.
+	if (!simcal_is_sc_event_post_type_enabled()) {
+		unset($labels['sc-event']);
 	}
 
 	return $labels;
@@ -636,6 +713,56 @@ function simcal_delete_plugin_transients()
 
 	do_action('simcal_delete_plugin_transients');
 }
+
+/**
+ * Whether this request should ignore feed transients and store a fresh copy.
+ *
+ * Logged-in users who can edit posts may append `update_cache=true` to a
+ * front-end URL. Each calendar on that page loads the latest events and
+ * writes them back to the feed cache so later visitors see the update.
+ * Public visitors keep using the existing cache.
+ *
+ * @since 4.3.4
+ *
+ * @return bool
+ */
+function simcal_request_updates_feed_cache()
+{
+	if (empty($_GET['update_cache'])) {
+		return false;
+	}
+
+	$flag = strtolower(sanitize_text_field(wp_unslash($_GET['update_cache'])));
+	if (!in_array($flag, ['1', 'true', 'yes'], true)) {
+		return false;
+	}
+
+	if (!is_user_logged_in() || !current_user_can('edit_posts')) {
+		return false;
+	}
+
+	/**
+	 * Filter whether the current request refreshes calendar feed caches.
+	 *
+	 * @since 4.3.4
+	 *
+	 * @param bool $refresh True when an authorized update_cache request is active.
+	 */
+	return (bool) apply_filters('simcal_request_updates_feed_cache', true);
+}
+
+/**
+ * Keep a forced feed refresh out of page caches.
+ *
+ * @since 4.3.4
+ */
+function simcal_send_feed_cache_refresh_headers()
+{
+	if (simcal_request_updates_feed_cache()) {
+		nocache_headers();
+	}
+}
+add_action('template_redirect', 'simcal_send_feed_cache_refresh_headers', 0);
 
 /**
  * Clear feed transients cache.

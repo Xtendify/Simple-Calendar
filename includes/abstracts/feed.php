@@ -70,6 +70,15 @@ abstract class Feed
 	public $events = [];
 
 	/**
+	 * Notice for a forced refresh that left the saved feed in place.
+	 *
+	 * @since 4.3.4
+	 *
+	 * @var string
+	 */
+	public $cache_refresh_notice = '';
+
+	/**
 	 * Events template.
 	 *
 	 * @access protected

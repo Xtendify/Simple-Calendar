@@ -399,19 +399,26 @@ class Ics_Feed extends Feed
 	 */
 	public function get_events()
 	{
-		$events = get_transient('_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type);
+		$transient_key = '_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type;
+		$force_refresh = simcal_request_updates_feed_cache();
+		$events = $force_refresh ? false : get_transient($transient_key);
 
-		if (!empty($events)) {
-			$this->maybe_set_timezone_from_cached_events($events);
-			return is_array($events) ? $events : [];
+		// An empty array is a successful parse that was cached. false means there is no cache.
+		if (is_array($events)) {
+			if (!empty($events)) {
+				$this->maybe_set_timezone_from_cached_events($events);
+			}
+			return $events;
 		}
 
 		$body = $this->get_ics_source_content();
 		if (empty($body)) {
-			return [];
+			// A missing file is not an empty calendar. Keep whatever was already saved.
+			return $force_refresh ? $this->events_from_kept_cache($transient_key) : [];
 		}
 
 		$events = $this->parse_ics_events($body);
+		$parsed_calendar = is_string($body) && false !== stripos($body, 'BEGIN:VCALENDAR');
 
 		if (!empty($events)) {
 			$events = $this->filter_events_by_range($events);
@@ -420,15 +427,46 @@ class Ics_Feed extends Feed
 			if (!empty($events)) {
 				ksort($events, SORT_NUMERIC);
 				$events = $this->limit_events($events, $this->ics_max_results);
-				set_transient(
-					'_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type,
-					$events,
-					max(absint($this->cache), 1),
-				);
 			}
 		}
 
+		// A truncated body is not a calendar. Leave the previous cache in place.
+		if (!empty($events) || ($force_refresh && $parsed_calendar)) {
+			set_transient($transient_key, is_array($events) ? $events : [], max(absint($this->cache), 1));
+		} elseif ($force_refresh) {
+			return $this->events_from_kept_cache($transient_key);
+		}
+
 		return is_array($events) ? $events : [];
+	}
+
+	/**
+	 * Keep the saved feed when a forced refresh cannot read a calendar.
+	 *
+	 * The editor who asked for the refresh sees the same events as visitors,
+	 * plus a notice that the source was left unchanged.
+	 *
+	 * @since 4.3.4
+	 *
+	 * @param string $transient_key Feed transient key.
+	 *
+	 * @return array
+	 */
+	protected function events_from_kept_cache($transient_key)
+	{
+		$cached = get_transient($transient_key);
+		$cached = is_array($cached) ? $cached : [];
+
+		if (!empty($cached)) {
+			$this->maybe_set_timezone_from_cached_events($cached);
+		}
+
+		$this->cache_refresh_notice = __(
+			'Could not reach the calendar source. The existing cache was kept.',
+			'google-calendar-events',
+		);
+
+		return $cached;
 	}
 
 	/**

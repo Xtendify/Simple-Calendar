@@ -155,6 +155,16 @@ class Settings implements Meta_Box
 				$default = apply_filters('simcal_default_feed_type', 'google');
 				$feed_type = sanitize_title($default);
 			}
+
+			// Always offer the source this calendar already uses, even if that source is
+			// currently hidden or provided by an inactive add-on, so saving the calendar
+			// cannot silently switch it to another source.
+			if (!isset($feed_options[$feed_type])) {
+				$known_labels = apply_filters('simcal_feed_type_labels', []);
+				$feed_options[$feed_type] = isset($known_labels[$feed_type])
+					? $known_labels[$feed_type]
+					: ucwords(str_replace('-', ' ', $feed_type));
+			}
 			?>
 			<label for="_feed_type"><span><?php esc_html_e('Event Source', 'google-calendar-events'); ?></span>
 				<select name="_feed_type" id="_feed_type">
@@ -1159,9 +1169,11 @@ class Settings implements Meta_Box
        ); ?>><?php esc_html_e('Week(s)', 'google-calendar-events'); ?></option>
 						</select>
 						<i class="simcal-icon-help simcal-help-tip"
-						   data-tip="<?php esc_attr_e(
-         	'If you add, edit or remove events in your calendar very often, you can set a lower interval to refresh the events displayed. Set a higher interval for best performance.',
-         	'google-calendar-events',
+						   data-tip="<?php echo esc_attr(
+         	__(
+         		'If you add, edit or remove events in your calendar very often, you can set a lower interval to refresh the events displayed. Set a higher interval for best performance. To fetch the latest events immediately, view the calendar page while logged in with permission to edit posts and add <code>?update_cache=true</code> to the URL. That refreshes the cache for visitors as well.',
+         		'google-calendar-events',
+         	),
          ); ?>"></i>
 					</td>
 				</tr>

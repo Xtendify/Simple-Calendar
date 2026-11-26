@@ -349,6 +349,15 @@ class Post_Types
 				'taxonomies' => ['sc-event-category', 'sc-event-tag'],
 			];
 
+			if (!simcal_is_sc_event_post_type_enabled()) {
+				// Keep the post type registered so existing events and their permalinks
+				// keep working, but take it out of the admin UI entirely.
+				$args['show_in_admin_bar'] = false;
+				$args['show_in_menu'] = false;
+				$args['show_in_nav_menus'] = false;
+				$args['show_ui'] = false;
+			}
+
 			register_post_type('sc-event', apply_filters('simcal_sc_event_post_type_args', $args));
 			register_taxonomy_for_object_type('sc-event-category', 'sc-event');
 			register_taxonomy_for_object_type('sc-event-tag', 'sc-event');
