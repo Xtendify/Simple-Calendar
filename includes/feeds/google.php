@@ -442,6 +442,7 @@ class Google extends Feed
 								'multiple_days' => $multiple_days,
 								'recurrence' => $recurrence,
 								'template' => $this->events_template,
+								'meta' => $this->get_google_event_meta($event),
 							];
 						}
 					}
@@ -647,6 +648,126 @@ class Google extends Feed
 		}
 
 		return $calendar;
+	}
+
+	/**
+	 * Build event meta for a Google Calendar event.
+	 *
+	 * Carries through the event properties the Google Calendar API reports but
+	 * no event template tag has an equivalent for, so Event_Schema can emit
+	 * accurate schema.org values instead of static stand-ins. Core maps the
+	 * event status, the virtual meeting URL and the organizer; Pro can override
+	 * this to add attachments, attendees and further meta.
+	 *
+	 * @since 4.3.3
+	 *
+	 * @param  Google_Service_Calendar_Event $event
+	 *
+	 * @return array
+	 */
+	protected function get_google_event_meta($event)
+	{
+		$meta = [];
+
+		$status = strtolower(trim((string) $event->getStatus()));
+		if ('' !== $status) {
+			$meta['status'] = $status;
+		}
+
+		$virtual_url = $this->get_google_event_virtual_url($event);
+		if ('' !== $virtual_url) {
+			$meta['virtual_url'] = $virtual_url;
+		}
+
+		$organizer = $this->get_google_event_organizer($event);
+		if (!empty($organizer)) {
+			$meta['organizer'] = $organizer;
+		}
+
+		return $meta;
+	}
+
+	/**
+	 * Resolve the virtual meeting URL of a Google Calendar event.
+	 *
+	 * Prefers the Hangout/Meet link, then the first video conferencing entry
+	 * point. The event's own htmlLink is a permalink to the event page, not to
+	 * the meeting, so it is deliberately not used here.
+	 *
+	 * @since 4.3.3
+	 *
+	 * @param  Google_Service_Calendar_Event $event
+	 *
+	 * @return string Empty string when the event has no meeting URL.
+	 */
+	protected function get_google_event_virtual_url($event)
+	{
+		$hangout_link = trim((string) $event->getHangoutLink());
+		if ('' !== $hangout_link) {
+			return esc_url_raw($hangout_link);
+		}
+
+		$conference_data = $event->getConferenceData();
+		if (empty($conference_data) || !method_exists($conference_data, 'getEntryPoints')) {
+			return '';
+		}
+
+		$entry_points = $conference_data->getEntryPoints();
+		if (empty($entry_points) || !is_array($entry_points)) {
+			return '';
+		}
+
+		foreach ($entry_points as $entry_point) {
+			if (!is_object($entry_point) || !method_exists($entry_point, 'getUri')) {
+				continue;
+			}
+
+			if (method_exists($entry_point, 'getEntryPointType')) {
+				$type = strtolower(trim((string) $entry_point->getEntryPointType()));
+				if ('' !== $type && 'video' !== $type) {
+					continue;
+				}
+			}
+
+			$uri = trim((string) $entry_point->getUri());
+			if ('' !== $uri) {
+				return esc_url_raw($uri);
+			}
+		}
+
+		return '';
+	}
+
+	/**
+	 * Resolve the organizer of a Google Calendar event.
+	 *
+	 * Only reports an organizer that has a real display name. A Google
+	 * Calendar organizer with no display name is identified by email address
+	 * alone, and publishing that address in page markup would expose it.
+	 * Event_Schema gates the email separately.
+	 *
+	 * @since 4.3.3
+	 *
+	 * @param  Google_Service_Calendar_Event $event
+	 *
+	 * @return array Empty array when the event has no named organizer.
+	 */
+	protected function get_google_event_organizer($event)
+	{
+		$organizer = $event->getOrganizer();
+		if (empty($organizer) || !method_exists($organizer, 'getDisplayName')) {
+			return [];
+		}
+
+		$name = trim((string) $organizer->getDisplayName());
+		if ('' === $name) {
+			return [];
+		}
+
+		return [
+			'name' => $name,
+			'email' => method_exists($organizer, 'getEmail') ? trim((string) $organizer->getEmail()) : '',
+		];
 	}
 
 	/**

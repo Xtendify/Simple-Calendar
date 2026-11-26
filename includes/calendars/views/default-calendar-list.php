@@ -672,41 +672,11 @@ class Default_Calendar_List implements Calendar_View
 						$event_classes .= 'simcal-event ' . $recurring . $has_location . $calendar_class;
 
 						// Toggle some events visibility if more than optional limit.
+						// Only the CSS classes differ: the event itself is rendered once,
+						// by the shared block below, so it keeps its schema.org/Event node.
 						if ($calendar->events_limit > -1 && $count >= $calendar->events_limit):
 							$event_classes .= ' simcal-event-toggled';
 							$event_visibility = ' display: none;';
-
-							$event_color = $event->get_color();
-							if (!empty($event_color)) {
-								$side = is_rtl() ? 'right' : 'left';
-								$event_color = ' border-' . $side . ': 4px solid ' . $event_color . '; padding-' . $side . ': 8px;';
-							}
-
-							$list_events .=
-								"\t" .
-								'<li class="' .
-								esc_attr($event_classes) .
-								'" style="' .
-								esc_attr($event_visibility . $event_color) .
-								'" data-start="' .
-								esc_attr($event->start) .
-								'">' .
-								"\n";
-							$list_events .=
-								"\t\t" . '<div class="simcal-event-details">' . $calendar->get_event_html($event) . '</div>' . "\n";
-							$list_events .= "\t" . '</li>' . "\n";
-
-							$count++;
-
-							// Event falls within today.
-							if ($this->end <= $now && $this->start >= $now):
-								$day_classes .= ' simcal-today-has-events';
-							endif;
-							$day_classes .= ' simcal-day-has-events simcal-day-has-' . strval($count) . '-events';
-
-							if ($calendar_classes):
-								$day_classes .= ' ' . trim(implode(' ', array_unique($calendar_classes)));
-							endif;
 						endif;
 
 						$event_color = $event->get_color();
@@ -721,7 +691,7 @@ class Default_Calendar_List implements Calendar_View
 							esc_attr($event_classes) .
 							'" style="' .
 							esc_attr($event_visibility . $event_color) .
-							'" itemscope itemtype="http://schema.org/Event" data-start="' .
+							'" itemscope itemtype="https://schema.org/Event" data-start="' .
 							esc_attr($event->start) .
 							'">' .
 							"\n";

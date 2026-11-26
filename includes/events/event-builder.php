@@ -1184,15 +1184,18 @@ class Event_Builder
 			(array) shortcode_parse_atts($attr),
 		);
 
+		// An event source does not have to supply a photo, and the organizer
+		// details come from the calendar feed, so escape them on the way out.
 		$photo =
-			'hide' != $attr['photo']
-				? '<img class="avatar avatar-128 photo" src="' . $organizer['photo'] . '" itemprop="image"  />'
+			'hide' != $attr['photo'] && !empty($organizer['photo'])
+				? '<img class="avatar avatar-128 photo" src="' . esc_url($organizer['photo']) . '" itemprop="image"  />'
 				: '';
-		$organizer_html = $photo . '<span itemprop="name">' . $organizer['name'] . '</span>';
+		$organizer_name = !empty($organizer['name']) ? $organizer['name'] : '';
+		$organizer_html = $photo . '<span itemprop="name">' . esc_html($organizer_name) . '</span>';
 
 		if (!empty($organizer['email']) && 'show' == $attr['email']) {
 			$organizer_html = sprintf(
-				'<a href="mailto:' . $organizer['email'] . '" itemprop="email">%s</a>',
+				'<a href="' . esc_url('mailto:' . $organizer['email']) . '" itemprop="email">%s</a>',
 				$organizer_html,
 			);
 		}

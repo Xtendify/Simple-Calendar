@@ -222,6 +222,11 @@ We'd love your help! Here's a few things you can do:
 
 = 4.3.3 =
 * Fix: List View events were missing recommended Event schema fields, causing warnings in the Google Rich Results Test. Event status, attendance mode, image and organizer are now always included, and performer and ticket offers are included when the event source provides them.
+* Fix: Event schema reported every event as scheduled, even one cancelled in Google Calendar. The event status reported by the calendar is now used.
+* Fix: Event schema treated online events as in-person, because it only looked at the event permalink. The Google Meet or conferencing link is now used for event attendance mode, and an online-only event gets a VirtualLocation.
+* Fix: List View rendered every event past the “Events limit” twice, once hidden and once visible.
+* Fix: The [organizer] tag assumed the event source always supplied a photo, and printed the organizer name, photo and email without escaping.
+* Dev: New simcal_event_schema_performers, simcal_event_schema_offers and simcal_event_schema_image_url filters to supply Event schema data no calendar feed provides.
 * Fix: An stored Cross-Site Scripting (XSS) vulnerability. 
 
 = 4.3.2 =
