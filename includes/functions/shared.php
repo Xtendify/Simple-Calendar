@@ -638,6 +638,56 @@ function simcal_delete_plugin_transients()
 }
 
 /**
+ * Whether this request should ignore feed transients and store a fresh copy.
+ *
+ * Logged-in users who can edit posts may append `update_cache=true` to a
+ * front-end URL. Each calendar on that page loads the latest events and
+ * writes them back to the feed cache so later visitors see the update.
+ * Public visitors keep using the existing cache.
+ *
+ * @since 4.3.4
+ *
+ * @return bool
+ */
+function simcal_request_updates_feed_cache()
+{
+	if (empty($_GET['update_cache'])) {
+		return false;
+	}
+
+	$flag = strtolower(sanitize_text_field(wp_unslash($_GET['update_cache'])));
+	if (!in_array($flag, ['1', 'true', 'yes'], true)) {
+		return false;
+	}
+
+	if (!is_user_logged_in() || !current_user_can('edit_posts')) {
+		return false;
+	}
+
+	/**
+	 * Filter whether the current request refreshes calendar feed caches.
+	 *
+	 * @since 4.3.4
+	 *
+	 * @param bool $refresh True when an authorized update_cache request is active.
+	 */
+	return (bool) apply_filters('simcal_request_updates_feed_cache', true);
+}
+
+/**
+ * Keep a forced feed refresh out of page caches.
+ *
+ * @since 4.3.4
+ */
+function simcal_send_feed_cache_refresh_headers()
+{
+	if (simcal_request_updates_feed_cache()) {
+		nocache_headers();
+	}
+}
+add_action('template_redirect', 'simcal_send_feed_cache_refresh_headers', 0);
+
+/**
  * Clear feed transients cache.
  *
  * @since  3.0.0
