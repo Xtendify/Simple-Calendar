@@ -319,6 +319,24 @@ class Event_Builder
 					$location = 'end-location' == $tag ? $event->end_location['address'] : $event->start_location['address'];
 					$location_class = 'end-location' == $tag ? 'end' : 'start';
 
+					// An online event with no physical address: point schema.org at the
+					// meeting itself. Falling through would emit a Place whose name and
+					// address are the event title, which contradicts an online
+					// eventAttendanceMode and tells Google the event happens at a venue
+					// named after itself.
+					if (empty($location)) {
+						$virtual_url = $event->get_virtual_url();
+						if ('' !== $virtual_url) {
+							return ' <span class="simcal-event-address simcal-event-' .
+								$location_class .
+								'-location" itemprop="location" itemscope itemtype="https://schema.org/VirtualLocation">' .
+								'<meta itemprop="url" content="' .
+								esc_url($virtual_url) .
+								'" />' .
+								'</span>';
+						}
+					}
+
 					// location, location.name, location.address (type PostalAddress) all required for schema data.
 					// Need to use event name where location data doesn't exist.
 					// Since we have 1 location field, use it as the name and address.
@@ -1071,24 +1089,29 @@ class Event_Builder
 		$unknown = 0;
 
 		foreach ($attendees as $attendee) {
-			if ('yes' == $attr['response'] && 'yes' != $attendee['response']) {
+			// An event source does not have to supply a photo or an rsvp response,
+			// and the attendee details come from the calendar feed, so default the
+			// optional keys and escape them on the way out.
+			$attendee_response = !empty($attendee['response']) ? $attendee['response'] : '';
+
+			if ('yes' == $attr['response'] && 'yes' != $attendee_response) {
 				continue;
-			} elseif ('no' == $attr['response'] && 'no' != $attendee['response']) {
+			} elseif ('no' == $attr['response'] && 'no' != $attendee_response) {
 				continue;
-			} elseif ('maybe' == $attr['response'] && !in_array($attendee['response'], ['yes', 'maybe'])) {
+			} elseif ('maybe' == $attr['response'] && !in_array($attendee_response, ['yes', 'maybe'])) {
 				continue;
 			}
 
 			if (!empty($attendee['name'])) {
 				$photo =
-					'hide' != $attr['photo']
-						? '<img class="avatar avatar-128 photo" src="' . $attendee['photo'] . '" itemprop="image" />'
+					'hide' != $attr['photo'] && !empty($attendee['photo'])
+						? '<img class="avatar avatar-128 photo" src="' . esc_url($attendee['photo']) . '" itemprop="image" />'
 						: '';
-				$response = 'hide' != $attr['rsvp'] ? $this->get_rsvp_response($attendee['response']) : '';
-				$guest = $photo . '<span itemprop="name">' . $attendee['name'] . $response . '</span>';
+				$response = 'hide' != $attr['rsvp'] ? $this->get_rsvp_response($attendee_response) : '';
+				$guest = $photo . '<span itemprop="name">' . esc_html($attendee['name']) . $response . '</span>';
 
 				if (!empty($attendee['email']) && 'show' == $attr['email']) {
-					$guest = sprintf('<a href="mailto:' . $attendee['email'] . '" itemprop="email">%s</a>', $guest);
+					$guest = sprintf('<a href="' . esc_url('mailto:' . $attendee['email']) . '" itemprop="email">%s</a>', $guest);
 				}
 
 				$html .=

@@ -652,4 +652,28 @@ class Event
 	{
 		return isset($this->meta['organizer']) ? $this->meta['organizer'] : [];
 	}
+
+	/**
+	 * Get the event's virtual meeting URL.
+	 *
+	 * Only returns a usable http(s) URL. A feed or filter can put anything in
+	 * this meta, and an online event whose location carries no URL is rejected
+	 * by Google, so an unusable value counts as "not a virtual event" rather
+	 * than being emitted as an empty location.
+	 *
+	 * @since  4.3.3
+	 *
+	 * @return string Empty string when the event source reported no meeting URL.
+	 */
+	public function get_virtual_url()
+	{
+		$url = isset($this->meta['virtual_url']) ? trim((string) $this->meta['virtual_url']) : '';
+		if ('' === $url) {
+			return '';
+		}
+
+		$url = esc_url_raw($url);
+
+		return preg_match('#^https?://#i', $url) ? $url : '';
+	}
 }

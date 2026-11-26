@@ -116,10 +116,11 @@ class Event_Schema
 		$html .= $this->get_schema_virtual_location_meta();
 
 		// Skip the organizer only when the [organizer] template tag will actually
-		// render one: that tag outputs nothing unless the event source supplied
-		// organizer data, so otherwise the Event node would have no organizer at all.
+		// render one. That tag needs an organizer name to render anything, so an
+		// organizer known only by email address still falls to the schema below
+		// rather than leaving the Event node with no organizer at all.
 		$organizer = $this->event->get_organizer();
-		if (empty($organizer) || !$this->template_has_tag('organizer')) {
+		if (empty($organizer['name']) || !$this->template_has_tag('organizer')) {
 			$html .= $this->get_schema_organizer_meta();
 		}
 
@@ -224,7 +225,7 @@ class Event_Schema
 	 */
 	private function get_schema_virtual_url()
 	{
-		$virtual_url = isset($this->event->meta['virtual_url']) ? trim((string) $this->event->meta['virtual_url']) : '';
+		$virtual_url = $this->event->get_virtual_url();
 
 		if ('' !== $virtual_url) {
 			return $virtual_url;
@@ -255,7 +256,9 @@ class Event_Schema
 			return '';
 		}
 
-		if (!empty($this->event->start_location['address']) || $this->template_has_tag('location')) {
+		// [location], [start-location] and [end-location] all emit an itemprop="location",
+		// and the tag itself emits the VirtualLocation when the event has no address.
+		if (!empty($this->event->start_location['address']) || $this->template_has_location_tag()) {
 			return '';
 		}
 
@@ -479,6 +482,29 @@ class Event_Schema
 		}
 
 		return (bool) preg_match('/\[' . preg_quote($tag, '/') . '\b/i', $template);
+	}
+
+	/**
+	 * Whether the event template emits a location of its own.
+	 *
+	 * [location], [start-location] and [end-location] share one handler and all
+	 * emit an itemprop="location", so a plain [location] check would miss two of
+	 * them and allow a second, conflicting location onto the Event node.
+	 *
+	 * @since  4.3.3
+	 * @access private
+	 *
+	 * @return bool
+	 */
+	private function template_has_location_tag()
+	{
+		$template = $this->get_event_template();
+
+		if ('' === $template) {
+			return false;
+		}
+
+		return (bool) preg_match('/\[(start-|end-)?location\b/i', $template);
 	}
 
 	/**

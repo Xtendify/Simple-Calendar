@@ -222,10 +222,11 @@ We'd love your help! Here's a few things you can do:
 
 = 4.3.3 =
 * Fix: List View events were missing recommended Event schema fields, causing warnings in the Google Rich Results Test. Event status, attendance mode, image and organizer are now always included, and performer and ticket offers are included when the event source provides them.
-* Fix: Event schema reported every event as scheduled, even one cancelled in Google Calendar. The event status reported by the calendar is now used.
-* Fix: Event schema treated online events as in-person, because it only looked at the event permalink. The Google Meet or conferencing link is now used for event attendance mode, and an online-only event gets a VirtualLocation.
+* Fix: Event schema treated online events as in-person, because it only looked at the event permalink. The Google Meet or conferencing link is now used for event attendance mode, and an online event with no street address is now described as a VirtualLocation instead of a venue named after the event.
+* Fix: Event schema always reported the status as scheduled. A status reported by the event source is now mapped to the matching schema.org value. Google Calendar feeds skip cancelled events before this point, so in practice this affects other event sources.
+* Fix: The [organizer] tag never rendered for Google Calendar feeds, because the feed supplied no organizer data. It now does, so a calendar whose event template contains [organizer] will start showing the organizer name - and, only where the template opts in with [organizer email="show"], the organizer email address.
 * Fix: List View rendered every event past the “Events limit” twice, once hidden and once visible.
-* Fix: The [organizer] tag assumed the event source always supplied a photo, and printed the organizer name, photo and email without escaping.
+* Fix: The [organizer] and [attendees] tags assumed the event source always supplied a photo and an rsvp response, and printed names, photos and email addresses from the calendar feed without escaping.
 * Dev: New simcal_event_schema_performers, simcal_event_schema_offers and simcal_event_schema_image_url filters to supply Event schema data no calendar feed provides.
 * Fix: An stored Cross-Site Scripting (XSS) vulnerability. 
 
