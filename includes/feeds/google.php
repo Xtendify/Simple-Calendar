@@ -169,7 +169,9 @@ class Google extends Feed
 	 */
 	public function get_events()
 	{
-		$calendar = get_transient('_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type);
+		$transient_key = '_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type;
+		$force_refresh = simcal_request_updates_feed_cache();
+		$calendar = $force_refresh ? false : get_transient($transient_key);
 
 		if (empty($calendar) && !empty($this->google_calendar_id)) {
 			$error = '';
@@ -451,10 +453,13 @@ class Google extends Feed
 					}
 
 					set_transient(
-						'_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type,
+						$transient_key,
 						$calendar,
 						max(absint($this->cache), 1), // Since a value of 0 means forever we set the minimum here to 1 if the user has set it to be 0
 					);
+				} elseif ($force_refresh) {
+					// A successful response with no events should replace a stale cache.
+					set_transient($transient_key, $calendar, max(absint($this->cache), 1));
 				}
 			} else {
 				$message = __('While trying to retrieve events, Google returned an error:', 'google-calendar-events');
