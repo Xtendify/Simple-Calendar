@@ -721,7 +721,10 @@ class Event_Builder
 				$description = wp_kses_post($description);
 			} elseif ($allow_md) {
 				$markdown = new Parsedown();
-				$description = $markdown->text(wp_strip_all_tags($description));
+				// Safe mode neutralizes unsafe URL schemes (e.g. javascript:) in links and images.
+				$markdown->setSafeMode(true);
+				// Defense in depth: also filter the rendered HTML through the post allow-list.
+				$description = wp_kses_post($markdown->text(wp_strip_all_tags($description)));
 			}
 		} else {
 			$description = wpautop($description);

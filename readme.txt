@@ -221,7 +221,10 @@ We'd love your help! Here's a few things you can do:
 == Changelog ==
 
 = 4.3.4 =
-* Dev: Users who can edit posts can add ?update_cache=true to a calendar page to fetch the latest events and refresh the cache for visitors.
+* Dev: Added a “Hide Events” option under Settings > General that removes the Events post type from the admin menu and from the calendar event source dropdown, for sites that do not author local events. It cannot be enabled while a calendar still uses the SC Event source.
+* Dev: Pro add-on license statuses are now re-checked automatically once a day, so a license that expires, is revoked, or is deactivated at the store no longer keeps Pro-only behavior unlocked.
+* Dev: Fixed a stored Cross-Site Scripting (XSS) vulnerability in event descriptions when rendering Markdown content from ICS feeds.
+* Dev: Ability to manually refresh the calendar event cache directly from the front-end page by appending ?update_cache=true to the URL (requires edit_posts capability).
 
 = 4.3.3 =
 * Fix: An stored Cross-Site Scripting (XSS) vulnerability. 
