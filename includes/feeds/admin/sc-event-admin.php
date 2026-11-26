@@ -68,6 +68,44 @@ class Sc_Event_Admin
 	}
 
 	/**
+	 * Validate the "hide post type" setting on the general calendar settings.
+	 *
+	 * The post type cannot be hidden while a calendar still reads its events from
+	 * it, as that would leave the calendar pointing at a source its own Event
+	 * Source dropdown no longer offers.
+	 *
+	 * @since  4.3.3
+	 *
+	 * @param  array $values Submitted values for the `general` section.
+	 *
+	 * @return array
+	 */
+	public static function validate_settings($values)
+	{
+		if (!is_array($values)) {
+			return $values;
+		}
+
+		$hide = isset($values['hide_sc_event_post_type']) && 'yes' === $values['hide_sc_event_post_type'];
+
+		if ($hide && simcal_has_calendars_using_feed_type('sc-event')) {
+			unset($values['hide_sc_event_post_type']);
+
+			add_settings_error(
+				'simple-calendar_settings_calendars',
+				'simcal-sc-event-in-use',
+				__(
+					'Events cannot be hidden while one or more calendars (including any in the trash) still use the SC Event source. Change those calendars to another event source first.',
+					'google-calendar-events',
+				),
+				'error',
+			);
+		}
+
+		return $values;
+	}
+
+	/**
 	 * Add a tab to the settings meta box.
 	 *
 	 * Inserted at priority 5 so the tab sits immediately after Appearance.

@@ -358,6 +358,46 @@ body .simcal-field-textarea {
 	line-height: 2.4;
 }
 
+.simcal-field-bool > input[data-sc-locked='yes'] {
+	cursor: not-allowed;
+}
+
+/*
+ * Reason printed next to a locked (natively disabled) setting. Some settings screens lay cells
+ * out as a flex row, so let the reason drop onto its own line below the field.
+ */
+td:has(.simcal-field-bool > input[data-sc-locked='yes']) {
+	flex-wrap: wrap;
+}
+
+td:has(.simcal-field-bool > input[data-sc-locked='yes']) > .description {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	box-sizing: border-box;
+	flex: 0 0 100%;
+	width: 100%;
+	max-width: 460px;
+	margin: 6px 0 0;
+	padding: 10px 14px;
+	border: 1px solid #f1d4d5;
+	border-left: 3px solid #d63638;
+	border-radius: 6px;
+	background: #fff7f7;
+	color: #7a1f21;
+	font-size: 13px;
+	line-height: 1.5;
+}
+
+td:has(.simcal-field-bool > input[data-sc-locked='yes']) > .description::before {
+	content: '\f534';
+	flex: 0 0 auto;
+	font-family: dashicons;
+	font-size: 18px;
+	line-height: 1.2;
+	color: #d63638;
+}
+
 .simcal-field-date-picker > input[type='text'] {
 	max-width: 120px;
 }

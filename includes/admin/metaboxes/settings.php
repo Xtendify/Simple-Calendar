@@ -155,6 +155,16 @@ class Settings implements Meta_Box
 				$default = apply_filters('simcal_default_feed_type', 'google');
 				$feed_type = sanitize_title($default);
 			}
+
+			// Always offer the source this calendar already uses, even if that source is
+			// currently hidden or provided by an inactive add-on, so saving the calendar
+			// cannot silently switch it to another source.
+			if (!isset($feed_options[$feed_type])) {
+				$known_labels = apply_filters('simcal_feed_type_labels', []);
+				$feed_options[$feed_type] = isset($known_labels[$feed_type])
+					? $known_labels[$feed_type]
+					: ucwords(str_replace('-', ' ', $feed_type));
+			}
 			?>
 			<label for="_feed_type"><span><?php esc_html_e('Event Source', 'google-calendar-events'); ?></span>
 				<select name="_feed_type" id="_feed_type">

@@ -176,6 +176,9 @@ final class Plugin
 		// Add Widgets.
 		new Widgets();
 
+		// Keep add-on license statuses in sync with the store (front end too, so cron runs it).
+		new License_Manager();
+
 		// Deprecated functions for backwards compatibility.
 		include_once 'functions/deprecated.php';
 	}
