@@ -800,9 +800,7 @@ class Sc_Event_Single
 			'end_timezone' => $timezone,
 			'end_location' => $location_data,
 			'whole_day' => false,
-			'meta' => [
-				'cover_image' => $cover_image,
-			],
+			'meta' => array_merge(['cover_image' => $cover_image], Sc_Event::get_schema_source_meta($post)),
 		]);
 
 		if (!$event->start_dt || !$event->end_dt) {

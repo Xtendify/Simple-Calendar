@@ -55,6 +55,20 @@ class Sc_Event_Details implements Meta_Box
 		$lng = is_numeric($lng) ? (string) $lng : '';
 		$start = Sc_Event::format_datetime(absint(get_post_meta($post->ID, '_sc_event_start', true)), $timezone);
 		$end = Sc_Event::format_datetime(absint(get_post_meta($post->ID, '_sc_event_end', true)), $timezone);
+		$performers = Sc_Event::get_performers_meta($post->ID);
+		$performer_names = [];
+		foreach ($performers as $performer) {
+			$performer_names[] = $performer['name'];
+		}
+		$performer_names = implode(', ', $performer_names);
+		$performer_type =
+			!empty($performers[0]['type']) && 'Organization' === $performers[0]['type'] ? 'Organization' : 'Person';
+		$offer = Sc_Event::get_offer_meta($post->ID);
+		$offer_url = isset($offer['url']) ? $offer['url'] : '';
+		$offer_price = isset($offer['price']) ? $offer['price'] : '';
+		$offer_currency = isset($offer['priceCurrency']) ? $offer['priceCurrency'] : '';
+		$offer_availability = isset($offer['availability']) ? $offer['availability'] : 'InStock';
+		$offer_valid_from = isset($offer['validFrom']) ? $offer['validFrom'] : '';
 		?>
 		<p class="description">
 			<?php printf(
@@ -142,6 +156,145 @@ class Sc_Event_Details implements Meta_Box
 						/>
 					</td>
 				</tr>
+				<tr>
+					<th scope="row">
+						<label for="_sc_event_performers"><?php esc_html_e('Performer', 'google-calendar-events'); ?></label>
+					</th>
+					<td>
+						<input
+							type="text"
+							class="large-text"
+							name="_sc_event_performers"
+							id="_sc_event_performers"
+							value="<?php echo esc_attr($performer_names); ?>"
+							placeholder="<?php esc_attr_e('e.g. Jane Doe, The String Quartet', 'google-calendar-events'); ?>"
+						/>
+						<p class="description">
+							<?php esc_html_e(
+       	'Who performs at this event. Separate several performers with commas. Leave empty if the event has no performer — search engines list this field as recommended, not required.',
+       	'google-calendar-events',
+       ); ?>
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">
+						<label for="_sc_event_performer_type">
+							<?php esc_html_e('Performer Type', 'google-calendar-events'); ?>
+						</label>
+					</th>
+					<td>
+						<select name="_sc_event_performer_type" id="_sc_event_performer_type">
+							<option value="Person" <?php selected($performer_type, 'Person'); ?>>
+								<?php esc_html_e('Person', 'google-calendar-events'); ?>
+							</option>
+							<option value="Organization" <?php selected($performer_type, 'Organization'); ?>>
+								<?php esc_html_e('Organization', 'google-calendar-events'); ?>
+							</option>
+						</select>
+						<p class="description">
+							<?php esc_html_e('Applies to every performer listed above.', 'google-calendar-events'); ?>
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">
+						<label for="_sc_event_offer_url"><?php esc_html_e('Ticket URL', 'google-calendar-events'); ?></label>
+					</th>
+					<td>
+						<input
+							type="url"
+							class="large-text"
+							name="_sc_event_offer_url"
+							id="_sc_event_offer_url"
+							value="<?php echo esc_url($offer_url); ?>"
+							placeholder="https://"
+						/>
+						<p class="description">
+							<?php esc_html_e(
+       	'Where visitors buy or register for tickets. Ticket URL, price and currency are published together, so fill in all three or leave all three empty.',
+       	'google-calendar-events',
+       ); ?>
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">
+						<label for="_sc_event_offer_price"><?php esc_html_e('Ticket Price', 'google-calendar-events'); ?></label>
+					</th>
+					<td>
+						<input
+							type="text"
+							class="small-text"
+							name="_sc_event_offer_price"
+							id="_sc_event_offer_price"
+							value="<?php echo esc_attr($offer_price); ?>"
+							inputmode="decimal"
+						/>
+						<p class="description">
+							<?php esc_html_e('Use 0 for an event that is free to attend.', 'google-calendar-events'); ?>
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">
+						<label for="_sc_event_offer_currency">
+							<?php esc_html_e('Ticket Currency', 'google-calendar-events'); ?>
+						</label>
+					</th>
+					<td>
+						<input
+							type="text"
+							class="small-text"
+							name="_sc_event_offer_currency"
+							id="_sc_event_offer_currency"
+							value="<?php echo esc_attr($offer_currency); ?>"
+							maxlength="3"
+							placeholder="USD"
+						/>
+						<p class="description">
+							<?php esc_html_e('Three-letter currency code, for example USD or EUR.', 'google-calendar-events'); ?>
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">
+						<label for="_sc_event_offer_availability">
+							<?php esc_html_e('Ticket Availability', 'google-calendar-events'); ?>
+						</label>
+					</th>
+					<td>
+						<select name="_sc_event_offer_availability" id="_sc_event_offer_availability">
+							<?php foreach (Sc_Event::get_availability_options() as $availability_value => $availability_label) {
+       	echo '<option value="' .
+       		esc_attr($availability_value) .
+       		'"' .
+       		selected($offer_availability, $availability_value, false) .
+       		'>' .
+       		esc_html($availability_label) .
+       		'</option>';
+       } ?>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row">
+						<label for="_sc_event_offer_valid_from">
+							<?php esc_html_e('Tickets On Sale From', 'google-calendar-events'); ?>
+						</label>
+					</th>
+					<td>
+						<input
+							type="date"
+							name="_sc_event_offer_valid_from"
+							id="_sc_event_offer_valid_from"
+							value="<?php echo esc_attr($offer_valid_from); ?>"
+						/>
+						<p class="description">
+							<?php esc_html_e('Optional. When left empty, the date this event was published is used.', 'google-calendar-events'); ?>
+						</p>
+					</td>
+				</tr>
 			</tbody>
 		</table>
 		<?php
@@ -184,6 +337,76 @@ class Sc_Event_Details implements Meta_Box
 			$errors[] = __('End date/time must be greater than the start date/time.', 'google-calendar-events');
 		}
 
+		$performer_names = isset($_POST['_sc_event_performers'])
+			? sanitize_text_field(wp_unslash($_POST['_sc_event_performers']))
+			: '';
+		$performer_type = isset($_POST['_sc_event_performer_type'])
+			? sanitize_text_field(wp_unslash($_POST['_sc_event_performer_type']))
+			: 'Person';
+		$performer_type = 'Organization' === $performer_type ? 'Organization' : 'Person';
+
+		$performers = [];
+		foreach (explode(',', $performer_names) as $performer_name) {
+			$performer_name = trim($performer_name);
+
+			if ('' === $performer_name) {
+				continue;
+			}
+
+			$performers[] = [
+				'name' => $performer_name,
+				'type' => $performer_type,
+			];
+		}
+
+		// esc_url_raw, not sanitize_text_field: the latter strips percent-encoded
+		// octets, which would quietly corrupt a ticket URL containing them.
+		$offer_url =
+			isset($_POST['_sc_event_offer_url']) && is_string($_POST['_sc_event_offer_url'])
+				? esc_url_raw(trim(wp_unslash($_POST['_sc_event_offer_url'])))
+				: '';
+		$offer_price = isset($_POST['_sc_event_offer_price'])
+			? trim(sanitize_text_field(wp_unslash($_POST['_sc_event_offer_price'])))
+			: '';
+		$offer_currency = isset($_POST['_sc_event_offer_currency'])
+			? strtoupper(trim(sanitize_text_field(wp_unslash($_POST['_sc_event_offer_currency']))))
+			: '';
+		$offer_availability = isset($_POST['_sc_event_offer_availability'])
+			? sanitize_text_field(wp_unslash($_POST['_sc_event_offer_availability']))
+			: 'InStock';
+		$offer_valid_from = isset($_POST['_sc_event_offer_valid_from'])
+			? trim(sanitize_text_field(wp_unslash($_POST['_sc_event_offer_valid_from'])))
+			: '';
+
+		if (!array_key_exists($offer_availability, Sc_Event::get_availability_options())) {
+			$offer_availability = 'InStock';
+		}
+
+		// Ticket URL, price and currency are published as one Offer, so a
+		// partially filled ticket is a mistake rather than a smaller offer.
+		$offer_filled = '' !== $offer_url || '' !== $offer_price || '' !== $offer_currency;
+
+		if ($offer_filled) {
+			if ('' === $offer_url) {
+				$errors[] = __('Ticket URL is required when a ticket price or currency is set.', 'google-calendar-events');
+			}
+
+			if ('' === $offer_price || !is_numeric($offer_price) || (float) $offer_price < 0) {
+				$errors[] = __('Ticket price must be a number of 0 or more.', 'google-calendar-events');
+			}
+
+			if (!preg_match('/^[A-Z]{3}$/', $offer_currency)) {
+				$errors[] = __(
+					'Ticket currency must be a three-letter currency code, for example USD.',
+					'google-calendar-events',
+				);
+			}
+		}
+
+		if ('' !== $offer_valid_from && !self::is_valid_date($offer_valid_from)) {
+			$errors[] = __('Tickets on sale from must be a valid date.', 'google-calendar-events');
+		}
+
 		if (!empty($errors)) {
 			set_transient(self::VALIDATION_TRANSIENT . get_current_user_id(), $errors, 45);
 			return;
@@ -209,8 +432,47 @@ class Sc_Event_Details implements Meta_Box
 			update_post_meta($post_id, '_sc_event_lng', $lng);
 		}
 
+		if (empty($performers)) {
+			delete_post_meta($post_id, '_sc_event_performers');
+		} else {
+			update_post_meta($post_id, '_sc_event_performers', $performers);
+		}
+
+		if ($offer_filled) {
+			update_post_meta($post_id, '_sc_event_offer', [
+				'url' => $offer_url,
+				// is_numeric() also accepts "1e3" and "+10"; normalize so a price
+				// Google would reject can never reach the schema.
+				'price' => (string) (float) $offer_price,
+				'priceCurrency' => $offer_currency,
+				'availability' => $offer_availability,
+				'validFrom' => $offer_valid_from,
+			]);
+		} else {
+			delete_post_meta($post_id, '_sc_event_offer');
+		}
+
 		update_post_meta($post_id, '_sc_event_start', $start);
 		update_post_meta($post_id, '_sc_event_end', $end);
+	}
+
+	/**
+	 * Whether a string is a real calendar date in Y-m-d form.
+	 *
+	 * @since  4.3.3
+	 * @access protected
+	 *
+	 * @param  string $value
+	 *
+	 * @return bool
+	 */
+	protected static function is_valid_date($value)
+	{
+		if (!preg_match('/^(\d{4})-(\d{2})-(\d{2})$/', $value, $matches)) {
+			return false;
+		}
+
+		return checkdate((int) $matches[2], (int) $matches[3], (int) $matches[1]);
 	}
 
 	/**

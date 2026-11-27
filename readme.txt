@@ -227,6 +227,7 @@ We'd love your help! Here's a few things you can do:
 * Fix: The [organizer] tag never rendered for Google Calendar feeds, because the feed supplied no organizer data. It now does, so a calendar whose event template contains [organizer] will start showing the organizer name - and, only where the template opts in with [organizer email="show"], the organizer email address.
 * Fix: List View rendered every event past the “Events limit” twice, once hidden and once visible.
 * Fix: The [organizer] and [attendees] tags assumed the event source always supplied a photo and an rsvp response, and printed names, photos and email addresses from the calendar feed without escaping.
+* New: Performer and ticket fields (performer name and type; ticket URL, price, currency, availability and on-sale date) on the event editor, so events created in Simple Calendar can supply the performer and offers values search engines recommend for Event results.
 * Dev: New simcal_event_schema_performers, simcal_event_schema_offers and simcal_event_schema_image_url filters to supply Event schema data no calendar feed provides.
 * Fix: An stored Cross-Site Scripting (XSS) vulnerability. 
 
