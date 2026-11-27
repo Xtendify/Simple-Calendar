@@ -106,7 +106,9 @@ class Grouped_Calendars extends Feed
 	public function get_events()
 	{
 		$ids = $this->calendars_ids;
-		$events = get_transient('_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type);
+		$transient_key = '_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type;
+		$force_refresh = simcal_request_updates_feed_cache();
+		$events = $force_refresh ? false : get_transient($transient_key);
 
 		if (empty($events) && !empty($ids) && is_array($ids)) {
 			$events = [];
@@ -147,13 +149,16 @@ class Grouped_Calendars extends Feed
 					$events = $this->array_filter_key($events, [$this, 'filter_events_after']);
 				}
 
-				set_transient(
-					'_simple-calendar_feed_id_' . strval($this->post_id) . '_' . $this->type,
-					$events,
-					absint($this->cache),
-				);
+				set_transient($transient_key, $events, max(absint($this->cache), 1));
+			} elseif ($force_refresh) {
+				delete_transient($transient_key);
 			}
+		} elseif ($force_refresh) {
+			delete_transient($transient_key);
 		}
+
+		// A forced refresh with no child calendars leaves $events false. Sorting that fatals.
+		$events = is_array($events) ? $events : [];
 
 		// Sort events by start time before returning
 		uasort($events, [$this, 'sort_by_start_time']);

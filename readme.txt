@@ -176,7 +176,7 @@ Yes, you can easily [display a private Google Calendar](https://simplecalendar.i
 
 = I updated an event, but my site still shows the old version. Why? =
 
-Simple Calendar caches events so your pages load quickly. Changes appear when the cache refreshes. Clear the cache from the calendar's settings to show them right away. If you use a caching plugin or a host with page caching, clear that too.
+Simple Calendar caches events so your pages load quickly. Changes appear when the cache refreshes. Clear the cache from the calendar's settings to show them right away, or open the calendar page while logged in with permission to edit posts and add ?update_cache=true to the URL. That refreshes the cache for visitors as well. If you use a caching plugin or a host with page caching, clear that too.
 
 = Why are my event times or dates wrong? = 
 
@@ -219,6 +219,12 @@ We'd love your help! Here's a few things you can do:
 8. Attach a calendar to a post or page
 
 == Changelog ==
+
+= 4.3.4 =
+* Dev: Added a “Hide Events” option under Settings > General that removes the Events post type from the admin menu and from the calendar event source dropdown, for sites that do not author local events. It cannot be enabled while a calendar still uses the SC Event source.
+* Dev: Pro add-on license statuses are now re-checked automatically once a day, so a license that expires, is revoked, or is deactivated at the store no longer keeps Pro-only behavior unlocked.
+* Dev: Fixed a stored Cross-Site Scripting (XSS) vulnerability in event descriptions when rendering Markdown content from ICS feeds.
+* Dev: Ability to manually refresh the calendar event cache directly from the front-end page by appending ?update_cache=true to the URL (requires edit_posts capability).
 
 = 4.3.3 =
 * Fix: An stored Cross-Site Scripting (XSS) vulnerability. 
