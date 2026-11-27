@@ -225,15 +225,10 @@ class Event_Schema
 	 */
 	private function get_schema_virtual_url()
 	{
-		$virtual_url = $this->event->get_virtual_url();
-
-		if ('' !== $virtual_url) {
-			return $virtual_url;
-		}
-
-		$link = !empty($this->event->link) ? $this->event->link : '';
-
-		return $this->is_virtual_event_url($link) ? $link : '';
+		// Event::get_resolved_virtual_url() is shared with the [location]
+		// template tag so the two can never disagree about whether this event
+		// is online.
+		return $this->event->get_resolved_virtual_url();
 	}
 
 	/**
@@ -267,47 +262,6 @@ class Event_Schema
 			esc_url($virtual_url) .
 			'" />' .
 			'</span>';
-	}
-
-	/**
-	 * Whether a URL looks like a virtual meeting link.
-	 *
-	 * @since  4.1.2
-	 * @access private
-	 *
-	 * @param  string $url
-	 *
-	 * @return bool
-	 */
-	private function is_virtual_event_url($url)
-	{
-		if (empty($url) || !is_string($url)) {
-			return false;
-		}
-
-		$host = wp_parse_url($url, PHP_URL_HOST);
-		if (empty($host)) {
-			return false;
-		}
-
-		$host = strtolower($host);
-		$virtual_hosts = [
-			'meet.google.com',
-			'zoom.us',
-			'teams.microsoft.com',
-			'webex.com',
-			'gotomeeting.com',
-			'goto.com',
-			'whereby.com',
-		];
-
-		foreach ($virtual_hosts as $virtual_host) {
-			if ($host === $virtual_host || substr($host, -(strlen($virtual_host) + 1)) === '.' . $virtual_host) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	/**
@@ -504,7 +458,12 @@ class Event_Schema
 			return false;
 		}
 
-		return (bool) preg_match('/\[(start-|end-)?location\b/i', $template);
+		// (?![\w-]) and not \b: \b matches before the hyphen in
+		// [start-location-link] / [end-location-link], which render a plain
+		// anchor and no itemprop="location" at all. Treating those as a
+		// location would suppress the VirtualLocation below and leave an
+		// online event with no location, which Google rejects.
+		return (bool) preg_match('/\[(start-|end-)?location(?![\w-])/i', $template);
 	}
 
 	/**

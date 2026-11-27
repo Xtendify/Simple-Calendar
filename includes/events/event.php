@@ -676,4 +676,73 @@ class Event
 
 		return preg_match('#^https?://#i', $url) ? $url : '';
 	}
+
+	/**
+	 * Resolve the meeting URL to describe this event's virtual location.
+	 *
+	 * Prefers the meeting URL the event source reported, because the event link
+	 * itself is usually a permalink to the event page rather than to the
+	 * meeting. Falls back to recognising a well-known meeting host in the event
+	 * link.
+	 *
+	 * Event_Schema and the [location] template tag MUST agree on this, or an
+	 * event can be labelled as online while the template still renders a Place
+	 * named after the event.
+	 *
+	 * @since  4.3.3
+	 *
+	 * @return string Empty string when the event has no virtual location.
+	 */
+	public function get_resolved_virtual_url()
+	{
+		$virtual_url = $this->get_virtual_url();
+
+		if ('' !== $virtual_url) {
+			return $virtual_url;
+		}
+
+		$link = !empty($this->link) ? $this->link : '';
+
+		return self::is_virtual_event_url($link) ? $link : '';
+	}
+
+	/**
+	 * Whether a URL looks like a virtual meeting link.
+	 *
+	 * @since  4.3.3
+	 *
+	 * @param  string $url
+	 *
+	 * @return bool
+	 */
+	public static function is_virtual_event_url($url)
+	{
+		if (empty($url) || !is_string($url)) {
+			return false;
+		}
+
+		$host = wp_parse_url($url, PHP_URL_HOST);
+		if (empty($host)) {
+			return false;
+		}
+
+		$host = strtolower($host);
+		$virtual_hosts = [
+			'meet.google.com',
+			'zoom.us',
+			'teams.microsoft.com',
+			'webex.com',
+			'gotomeeting.com',
+			'goto.com',
+			'whereby.com',
+		];
+
+		foreach ($virtual_hosts as $virtual_host) {
+			if ($host === $virtual_host || substr($host, -(strlen($virtual_host) + 1)) === '.' . $virtual_host) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

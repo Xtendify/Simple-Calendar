@@ -60,15 +60,26 @@ class Sc_Event_Details implements Meta_Box
 		foreach ($performers as $performer) {
 			$performer_names[] = $performer['name'];
 		}
-		$performer_names = implode(', ', $performer_names);
+		// One per line rather than comma separated: commas are common inside the
+		// names themselves ("Acme, Inc."), and a comma-joined field would split
+		// such a name into two performers on the next save.
+		$performer_names = implode("\n", $performer_names);
 		$performer_type =
 			!empty($performers[0]['type']) && 'Organization' === $performers[0]['type'] ? 'Organization' : 'Person';
-		$offer = Sc_Event::get_offer_meta($post->ID);
-		$offer_url = isset($offer['url']) ? $offer['url'] : '';
-		$offer_price = isset($offer['price']) ? $offer['price'] : '';
-		$offer_currency = isset($offer['priceCurrency']) ? $offer['priceCurrency'] : '';
-		$offer_availability = isset($offer['availability']) ? $offer['availability'] : 'InStock';
-		$offer_valid_from = isset($offer['validFrom']) ? $offer['validFrom'] : '';
+		// The raw meta, not Sc_Event::get_offer_meta(): that returns nothing for a
+		// stored offer which fails validation, so the fields would render blank and
+		// the next save of an unrelated field would silently delete the offer.
+		$offer = get_post_meta($post->ID, '_sc_event_offer', true);
+		$offer = is_array($offer) ? $offer : [];
+		$offer_url = isset($offer['url']) ? (string) $offer['url'] : '';
+		$offer_price = isset($offer['price']) ? (string) $offer['price'] : '';
+		$offer_currency = isset($offer['priceCurrency']) ? (string) $offer['priceCurrency'] : '';
+		$offer_availability = isset($offer['availability']) ? (string) $offer['availability'] : 'InStock';
+		$offer_valid_from = isset($offer['validFrom']) ? (string) $offer['validFrom'] : '';
+
+		if (!array_key_exists($offer_availability, Sc_Event::get_availability_options())) {
+			$offer_availability = 'InStock';
+		}
 		?>
 		<p class="description">
 			<?php printf(
@@ -161,17 +172,16 @@ class Sc_Event_Details implements Meta_Box
 						<label for="_sc_event_performers"><?php esc_html_e('Performer', 'google-calendar-events'); ?></label>
 					</th>
 					<td>
-						<input
-							type="text"
+						<textarea
 							class="large-text"
 							name="_sc_event_performers"
 							id="_sc_event_performers"
-							value="<?php echo esc_attr($performer_names); ?>"
-							placeholder="<?php esc_attr_e('e.g. Jane Doe, The String Quartet', 'google-calendar-events'); ?>"
-						/>
+							rows="3"
+							placeholder="<?php esc_attr_e("Jane Doe\nThe String Quartet", 'google-calendar-events'); ?>"
+						><?php echo esc_textarea($performer_names); ?></textarea>
 						<p class="description">
 							<?php esc_html_e(
-       	'Who performs at this event. Separate several performers with commas. Leave empty if the event has no performer — search engines list this field as recommended, not required.',
+       	'Who performs at this event, one per line. Leave empty if the event has no performer — search engines list this field as recommended, not required.',
        	'google-calendar-events',
        ); ?>
 						</p>
@@ -207,7 +217,7 @@ class Sc_Event_Details implements Meta_Box
 							class="large-text"
 							name="_sc_event_offer_url"
 							id="_sc_event_offer_url"
-							value="<?php echo esc_url($offer_url); ?>"
+							value="<?php echo esc_attr($offer_url); ?>"
 							placeholder="https://"
 						/>
 						<p class="description">
@@ -337,8 +347,10 @@ class Sc_Event_Details implements Meta_Box
 			$errors[] = __('End date/time must be greater than the start date/time.', 'google-calendar-events');
 		}
 
+		// sanitize_textarea_field, not sanitize_text_field: the latter collapses
+		// the newlines that separate the performers.
 		$performer_names = isset($_POST['_sc_event_performers'])
-			? sanitize_text_field(wp_unslash($_POST['_sc_event_performers']))
+			? sanitize_textarea_field(wp_unslash($_POST['_sc_event_performers']))
 			: '';
 		$performer_type = isset($_POST['_sc_event_performer_type'])
 			? sanitize_text_field(wp_unslash($_POST['_sc_event_performer_type']))
@@ -346,7 +358,7 @@ class Sc_Event_Details implements Meta_Box
 		$performer_type = 'Organization' === $performer_type ? 'Organization' : 'Person';
 
 		$performers = [];
-		foreach (explode(',', $performer_names) as $performer_name) {
+		foreach (preg_split('/\R/', $performer_names) as $performer_name) {
 			$performer_name = trim($performer_name);
 
 			if ('' === $performer_name) {

@@ -325,7 +325,10 @@ class Event_Builder
 					// eventAttendanceMode and tells Google the event happens at a venue
 					// named after itself.
 					if (empty($location)) {
-						$virtual_url = $event->get_virtual_url();
+						// Must match Event_Schema's resolution, or an event whose own
+						// permalink is the meeting link gets eventAttendanceMode=Online
+						// alongside a Place named after the event.
+						$virtual_url = $event->get_resolved_virtual_url();
 						if ('' !== $virtual_url) {
 							return ' <span class="simcal-event-address simcal-event-' .
 								$location_class .
@@ -429,7 +432,10 @@ class Event_Builder
 
 				case 'organizer':
 					$organizer = $event->get_organizer();
-					if (!empty($organizer)) {
+					// Gate on the name, not just a non-empty array: without one this
+					// renders a Person with an empty itemprop="name", and Event_Schema
+					// then adds a second, conflicting organizer node.
+					if (!empty($organizer['name'])) {
 						return $this->get_organizer($organizer, $attr);
 					}
 					break;
@@ -1111,7 +1117,10 @@ class Event_Builder
 				$guest = $photo . '<span itemprop="name">' . esc_html($attendee['name']) . $response . '</span>';
 
 				if (!empty($attendee['email']) && 'show' == $attr['email']) {
-					$guest = sprintf('<a href="' . esc_url('mailto:' . $attendee['email']) . '" itemprop="email">%s</a>', $guest);
+					// The href is an argument, not part of the format string: esc_url
+					// turns a space into %20, and a % in the format string is a fatal
+					// ValueError in PHP 8.
+					$guest = sprintf('<a href="%s" itemprop="email">%s</a>', esc_url('mailto:' . $attendee['email']), $guest);
 				}
 
 				$html .=
@@ -1217,8 +1226,11 @@ class Event_Builder
 		$organizer_html = $photo . '<span itemprop="name">' . esc_html($organizer_name) . '</span>';
 
 		if (!empty($organizer['email']) && 'show' == $attr['email']) {
+			// See the attendee branch: the href must be an argument, because esc_url
+			// can introduce a % that would be read as a format specifier.
 			$organizer_html = sprintf(
-				'<a href="' . esc_url('mailto:' . $organizer['email']) . '" itemprop="email">%s</a>',
+				'<a href="%s" itemprop="email">%s</a>',
+				esc_url('mailto:' . $organizer['email']),
 				$organizer_html,
 			);
 		}
