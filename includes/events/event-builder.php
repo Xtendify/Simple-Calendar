@@ -319,6 +319,27 @@ class Event_Builder
 					$location = 'end-location' == $tag ? $event->end_location['address'] : $event->start_location['address'];
 					$location_class = 'end-location' == $tag ? 'end' : 'start';
 
+					// An online event with no physical address: point schema.org at the
+					// meeting itself. Falling through would emit a Place whose name and
+					// address are the event title, which contradicts an online
+					// eventAttendanceMode and tells Google the event happens at a venue
+					// named after itself.
+					if (empty($location)) {
+						// Must match Event_Schema's resolution, or an event whose own
+						// permalink is the meeting link gets eventAttendanceMode=Online
+						// alongside a Place named after the event.
+						$virtual_url = $event->get_resolved_virtual_url();
+						if ('' !== $virtual_url) {
+							return ' <span class="simcal-event-address simcal-event-' .
+								$location_class .
+								'-location" itemprop="location" itemscope itemtype="https://schema.org/VirtualLocation">' .
+								'<meta itemprop="url" content="' .
+								esc_url($virtual_url) .
+								'" />' .
+								'</span>';
+						}
+					}
+
 					// location, location.name, location.address (type PostalAddress) all required for schema data.
 					// Need to use event name where location data doesn't exist.
 					// Since we have 1 location field, use it as the name and address.
@@ -411,7 +432,10 @@ class Event_Builder
 
 				case 'organizer':
 					$organizer = $event->get_organizer();
-					if (!empty($organizer)) {
+					// Gate on the name, not just a non-empty array: without one this
+					// renders a Person with an empty itemprop="name", and Event_Schema
+					// then adds a second, conflicting organizer node.
+					if (!empty($organizer['name'])) {
 						return $this->get_organizer($organizer, $attr);
 					}
 					break;
@@ -1074,24 +1098,32 @@ class Event_Builder
 		$unknown = 0;
 
 		foreach ($attendees as $attendee) {
-			if ('yes' == $attr['response'] && 'yes' != $attendee['response']) {
+			// An event source does not have to supply a photo or an rsvp response,
+			// and the attendee details come from the calendar feed, so default the
+			// optional keys and escape them on the way out.
+			$attendee_response = !empty($attendee['response']) ? $attendee['response'] : '';
+
+			if ('yes' == $attr['response'] && 'yes' != $attendee_response) {
 				continue;
-			} elseif ('no' == $attr['response'] && 'no' != $attendee['response']) {
+			} elseif ('no' == $attr['response'] && 'no' != $attendee_response) {
 				continue;
-			} elseif ('maybe' == $attr['response'] && !in_array($attendee['response'], ['yes', 'maybe'])) {
+			} elseif ('maybe' == $attr['response'] && !in_array($attendee_response, ['yes', 'maybe'])) {
 				continue;
 			}
 
 			if (!empty($attendee['name'])) {
 				$photo =
-					'hide' != $attr['photo']
-						? '<img class="avatar avatar-128 photo" src="' . $attendee['photo'] . '" itemprop="image" />'
+					'hide' != $attr['photo'] && !empty($attendee['photo'])
+						? '<img class="avatar avatar-128 photo" src="' . esc_url($attendee['photo']) . '" itemprop="image" />'
 						: '';
-				$response = 'hide' != $attr['rsvp'] ? $this->get_rsvp_response($attendee['response']) : '';
-				$guest = $photo . '<span itemprop="name">' . $attendee['name'] . $response . '</span>';
+				$response = 'hide' != $attr['rsvp'] ? $this->get_rsvp_response($attendee_response) : '';
+				$guest = $photo . '<span itemprop="name">' . esc_html($attendee['name']) . $response . '</span>';
 
 				if (!empty($attendee['email']) && 'show' == $attr['email']) {
-					$guest = sprintf('<a href="mailto:' . $attendee['email'] . '" itemprop="email">%s</a>', $guest);
+					// The href is an argument, not part of the format string: esc_url
+					// turns a space into %20, and a % in the format string is a fatal
+					// ValueError in PHP 8.
+					$guest = sprintf('<a href="%s" itemprop="email">%s</a>', esc_url('mailto:' . $attendee['email']), $guest);
 				}
 
 				$html .=
@@ -1187,15 +1219,21 @@ class Event_Builder
 			(array) shortcode_parse_atts($attr),
 		);
 
+		// An event source does not have to supply a photo, and the organizer
+		// details come from the calendar feed, so escape them on the way out.
 		$photo =
-			'hide' != $attr['photo']
-				? '<img class="avatar avatar-128 photo" src="' . $organizer['photo'] . '" itemprop="image"  />'
+			'hide' != $attr['photo'] && !empty($organizer['photo'])
+				? '<img class="avatar avatar-128 photo" src="' . esc_url($organizer['photo']) . '" itemprop="image"  />'
 				: '';
-		$organizer_html = $photo . '<span itemprop="name">' . $organizer['name'] . '</span>';
+		$organizer_name = !empty($organizer['name']) ? $organizer['name'] : '';
+		$organizer_html = $photo . '<span itemprop="name">' . esc_html($organizer_name) . '</span>';
 
 		if (!empty($organizer['email']) && 'show' == $attr['email']) {
+			// See the attendee branch: the href must be an argument, because esc_url
+			// can introduce a % that would be read as a format specifier.
 			$organizer_html = sprintf(
-				'<a href="mailto:' . $organizer['email'] . '" itemprop="email">%s</a>',
+				'<a href="%s" itemprop="email">%s</a>',
+				esc_url('mailto:' . $organizer['email']),
 				$organizer_html,
 			);
 		}

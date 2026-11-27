@@ -372,9 +372,7 @@ class Sc_Event extends Feed
 			'multiple_days' => $span > 0 ? $span : false,
 			'recurrence' => false,
 			'template' => $this->events_template,
-			'meta' => [
-				'categories' => $categories,
-			],
+			'meta' => array_merge(['categories' => $categories], self::get_schema_source_meta($post)),
 		];
 	}
 
@@ -406,5 +404,140 @@ class Sc_Event extends Feed
 		}
 
 		return $categories;
+	}
+
+	/**
+	 * Schema.org ticket availability values an SC Event can declare.
+	 *
+	 * Keyed by the bare schema.org enum name; Event_Schema normalizes the key
+	 * to a full schema.org URL when it emits the Offer.
+	 *
+	 * @since 4.3.3
+	 *
+	 * @return array
+	 */
+	public static function get_availability_options()
+	{
+		return [
+			'InStock' => __('In stock', 'google-calendar-events'),
+			'LimitedAvailability' => __('Limited availability', 'google-calendar-events'),
+			'PreOrder' => __('Pre-order', 'google-calendar-events'),
+			'SoldOut' => __('Sold out', 'google-calendar-events'),
+		];
+	}
+
+	/**
+	 * Read the performers stored on an SC Event.
+	 *
+	 * @since 4.3.3
+	 *
+	 * @param int $post_id SC Event post ID.
+	 *
+	 * @return array List of ['name' => string, 'type' => 'Person'|'Organization'].
+	 */
+	public static function get_performers_meta($post_id)
+	{
+		$performers = get_post_meta(absint($post_id), '_sc_event_performers', true);
+
+		if (empty($performers) || !is_array($performers)) {
+			return [];
+		}
+
+		$clean = [];
+
+		foreach ($performers as $performer) {
+			if (!is_array($performer) || empty($performer['name'])) {
+				continue;
+			}
+
+			$name = sanitize_text_field((string) $performer['name']);
+
+			if ('' === $name) {
+				continue;
+			}
+
+			$clean[] = [
+				'name' => $name,
+				'type' => !empty($performer['type']) && 'Organization' === $performer['type'] ? 'Organization' : 'Person',
+			];
+		}
+
+		return $clean;
+	}
+
+	/**
+	 * Read the ticket offer stored on an SC Event.
+	 *
+	 * Returns an empty array unless the offer carries the fields Google needs,
+	 * so a half-filled offer is never advertised as a real ticket.
+	 *
+	 * @since 4.3.3
+	 *
+	 * @param int $post_id SC Event post ID.
+	 *
+	 * @return array
+	 */
+	public static function get_offer_meta($post_id)
+	{
+		$offer = get_post_meta(absint($post_id), '_sc_event_offer', true);
+
+		if (empty($offer) || !is_array($offer)) {
+			return [];
+		}
+
+		$price = isset($offer['price']) ? trim((string) $offer['price']) : '';
+		$currency = !empty($offer['priceCurrency']) ? strtoupper(trim((string) $offer['priceCurrency'])) : '';
+		$url = !empty($offer['url']) ? esc_url_raw((string) $offer['url']) : '';
+
+		if ('' === $price || !is_numeric($price) || !preg_match('/^[A-Z]{3}$/', $currency) || '' === $url) {
+			return [];
+		}
+
+		$availability = !empty($offer['availability']) ? (string) $offer['availability'] : 'InStock';
+
+		if (!array_key_exists($availability, self::get_availability_options())) {
+			$availability = 'InStock';
+		}
+
+		return [
+			'url' => $url,
+			'price' => $price,
+			'priceCurrency' => $currency,
+			'availability' => $availability,
+			'validFrom' => !empty($offer['validFrom']) ? (string) $offer['validFrom'] : '',
+		];
+	}
+
+	/**
+	 * Event meta that exists only to supply Event schema.
+	 *
+	 * Shared by this feed and the SC Event single template so a calendar and
+	 * the event's own page describe the same event identically.
+	 *
+	 * @since 4.3.3
+	 *
+	 * @param \WP_Post $post SC Event post.
+	 *
+	 * @return array
+	 */
+	public static function get_schema_source_meta($post)
+	{
+		if (!($post instanceof \WP_Post)) {
+			return ['performers' => [], 'offers' => []];
+		}
+
+		$offer = self::get_offer_meta($post->ID);
+
+		if (!empty($offer) && '' === $offer['validFrom']) {
+			// Tickets have been obtainable since the event was published. The
+			// site owner can override this with an explicit sale start date.
+			$published = get_post_time('Y-m-d', true, $post);
+			$offer['validFrom'] = !empty($published) ? (string) $published : '';
+		}
+
+		return [
+			'performers' => self::get_performers_meta($post->ID),
+			'offers' => !empty($offer) ? [$offer] : [],
+		];
 	}
 }

@@ -74,20 +74,87 @@ class Event_Schema
 			$html .= '<meta itemprop="url" content="' . esc_url($event->link) . '" />';
 		}
 
-		$html .= '<meta itemprop="eventStatus" content="https://schema.org/EventScheduled" />';
+		return $html . $this->get_supplemental_schema_meta();
+	}
+
+	/**
+	 * Build only the Event schema meta that event template tags never supply.
+	 *
+	 * Calendar views wrap each event in a schema.org/Event item and fill the
+	 * core properties (name, startDate, endDate, url) from the event template
+	 * tags. Those tags have no equivalent for eventStatus, eventAttendanceMode,
+	 * image, performer or offers, so Google reports them as missing. This
+	 * returns that supplementary set only, to avoid emitting a second
+	 * conflicting value for a property the template already provides.
+	 *
+	 * @since  4.3.3
+	 *
+	 * @return string
+	 */
+	public function get_supplemental_schema_meta()
+	{
+		$html = '<meta itemprop="eventStatus" content="' . esc_attr($this->get_schema_event_status()) . '" />';
 
 		$html .= '<meta itemprop="eventAttendanceMode" content="' . esc_attr($this->get_schema_attendance_mode()) . '" />';
 
-		$image_url = $this->get_schema_image_url();
+		/**
+		 * Filter the image URL used for Event schema.
+		 *
+		 * Lets a site supply a real event image when the event source has none,
+		 * instead of falling back to the site icon or logo.
+		 *
+		 * @since 4.3.3
+		 *
+		 * @param string $image_url Resolved image URL, empty when none was found.
+		 * @param Event  $event     Event the schema is built for.
+		 */
+		$image_url = apply_filters('simcal_event_schema_image_url', $this->get_schema_image_url(), $this->event);
 		if (!empty($image_url)) {
 			$html .= '<meta itemprop="image" content="' . esc_url($image_url) . '" />';
 		}
 
-		$html .= $this->get_schema_organizer_meta();
+		$html .= $this->get_schema_virtual_location_meta();
+
+		// Skip the organizer only when the [organizer] template tag will actually
+		// render one. That tag needs an organizer name to render anything, so an
+		// organizer known only by email address still falls to the schema below
+		// rather than leaving the Event node with no organizer at all.
+		$organizer = $this->event->get_organizer();
+		if (empty($organizer['name']) || !$this->template_has_tag('organizer')) {
+			$html .= $this->get_schema_organizer_meta();
+		}
+
 		$html .= $this->get_schema_performer_meta();
 		$html .= $this->get_schema_offers_meta();
 
 		return $html;
+	}
+
+	/**
+	 * Allowed HTML for schema microdata built by this class.
+	 *
+	 * Shared by every caller that echoes get_schema_meta() output, so the
+	 * allowlist cannot drift between the SC Event single template and the
+	 * calendar views.
+	 *
+	 * @since  4.3.3
+	 *
+	 * @return array
+	 */
+	public static function get_allowed_html()
+	{
+		return [
+			'meta' => [
+				'itemprop' => true,
+				'content' => true,
+			],
+			'span' => [
+				'itemprop' => true,
+				'itemscope' => true,
+				'itemtype' => true,
+				'style' => true,
+			],
+		];
 	}
 
 	/**
@@ -100,10 +167,8 @@ class Event_Schema
 	 */
 	private function get_schema_attendance_mode()
 	{
-		$location = !empty($this->event->start_location['address']) ? $this->event->start_location['address'] : '';
-		$link = !empty($this->event->link) ? $this->event->link : '';
-		$has_location = !empty($location);
-		$has_virtual_location = $this->is_virtual_event_url($link);
+		$has_location = !empty($this->event->start_location['address']);
+		$has_virtual_location = '' !== $this->get_schema_virtual_url();
 		if ($has_location && $has_virtual_location) {
 			return 'https://schema.org/MixedEventAttendanceMode';
 		}
@@ -114,44 +179,89 @@ class Event_Schema
 	}
 
 	/**
-	 * Whether a URL looks like a virtual meeting link.
+	 * Resolve schema.org eventStatus for the event.
 	 *
-	 * @since  4.1.2
+	 * Google treats a missing eventStatus as EventScheduled, so that stays the
+	 * default, but a status reported by the event source is honoured: a
+	 * cancelled event must not keep advertising itself as going ahead.
+	 *
+	 * @since  4.3.3
 	 * @access private
 	 *
-	 * @param  string $url
-	 *
-	 * @return bool
+	 * @return string
 	 */
-	private function is_virtual_event_url($url)
+	private function get_schema_event_status()
 	{
-		if (empty($url) || !is_string($url)) {
-			return false;
+		$status = isset($this->event->meta['status']) ? strtolower(trim((string) $this->event->meta['status'])) : '';
+
+		switch ($status) {
+			case 'cancelled':
+			case 'canceled':
+				return 'https://schema.org/EventCancelled';
+			case 'postponed':
+				return 'https://schema.org/EventPostponed';
+			case 'rescheduled':
+				return 'https://schema.org/EventRescheduled';
+			case 'moved-online':
+			case 'moved_online':
+				return 'https://schema.org/EventMovedOnline';
+			default:
+				// Google Calendar's "tentative" is still a scheduled event.
+				return 'https://schema.org/EventScheduled';
+		}
+	}
+
+	/**
+	 * Resolve the event's virtual meeting URL.
+	 *
+	 * Prefers the meeting URL the event source reported, because the event
+	 * link itself is a permalink to the event page rather than to the meeting.
+	 * Falls back to recognising a well-known meeting host in the event link.
+	 *
+	 * @since  4.3.3
+	 * @access private
+	 *
+	 * @return string Empty string when the event has no virtual location.
+	 */
+	private function get_schema_virtual_url()
+	{
+		// Event::get_resolved_virtual_url() is shared with the [location]
+		// template tag so the two can never disagree about whether this event
+		// is online.
+		return $this->event->get_resolved_virtual_url();
+	}
+
+	/**
+	 * Build VirtualLocation microdata for an online event.
+	 *
+	 * Google requires an online event's location to be a VirtualLocation
+	 * carrying the meeting URL. Only emitted when the event has no physical
+	 * address and the event template has no [location] tag of its own, so this
+	 * never adds a second, conflicting location to the Event node.
+	 *
+	 * @since  4.3.3
+	 * @access private
+	 *
+	 * @return string
+	 */
+	private function get_schema_virtual_location_meta()
+	{
+		$virtual_url = $this->get_schema_virtual_url();
+		if ('' === $virtual_url) {
+			return '';
 		}
 
-		$host = wp_parse_url($url, PHP_URL_HOST);
-		if (empty($host)) {
-			return false;
+		// [location], [start-location] and [end-location] all emit an itemprop="location",
+		// and the tag itself emits the VirtualLocation when the event has no address.
+		if (!empty($this->event->start_location['address']) || $this->template_has_location_tag()) {
+			return '';
 		}
 
-		$host = strtolower($host);
-		$virtual_hosts = [
-			'meet.google.com',
-			'zoom.us',
-			'teams.microsoft.com',
-			'webex.com',
-			'gotomeeting.com',
-			'goto.com',
-			'whereby.com',
-		];
-
-		foreach ($virtual_hosts as $virtual_host) {
-			if ($host === $virtual_host || substr($host, -(1 - strlen($virtual_host))) === '.' . $virtual_host) {
-				return true;
-			}
-		}
-
-		return false;
+		return '<span itemprop="location" itemscope itemtype="https://schema.org/VirtualLocation" style="display:none;">' .
+			'<meta itemprop="url" content="' .
+			esc_url($virtual_url) .
+			'" />' .
+			'</span>';
 	}
 
 	/**
@@ -276,6 +386,25 @@ class Event_Schema
 	 */
 	private function is_organizer_email_public()
 	{
+		$template = $this->get_event_template();
+
+		if ('' === $template) {
+			return false;
+		}
+
+		return (bool) preg_match('/\[organizer\b[^\]]*email\s*=\s*([\'"]?)show\1/i', $template);
+	}
+
+	/**
+	 * Resolve the event template this event is rendered with.
+	 *
+	 * @since  4.3.3
+	 * @access private
+	 *
+	 * @return string Empty string when no template can be resolved.
+	 */
+	private function get_event_template()
+	{
 		$template = !empty($this->event->template) ? (string) $this->event->template : '';
 
 		if ('' === $template && !empty($this->event->calendar)) {
@@ -285,11 +414,56 @@ class Event_Schema
 			}
 		}
 
+		return $template;
+	}
+
+	/**
+	 * Whether the event template uses a given template tag.
+	 *
+	 * @since  4.3.3
+	 * @access private
+	 *
+	 * @param  string $tag Tag name without brackets, e.g. "organizer".
+	 *
+	 * @return bool
+	 */
+	private function template_has_tag($tag)
+	{
+		$template = $this->get_event_template();
+
 		if ('' === $template) {
 			return false;
 		}
 
-		return (bool) preg_match('/\[organizer\b[^\]]*email\s*=\s*([\'"]?)show\1/i', $template);
+		return (bool) preg_match('/\[' . preg_quote($tag, '/') . '\b/i', $template);
+	}
+
+	/**
+	 * Whether the event template emits a location of its own.
+	 *
+	 * [location], [start-location] and [end-location] share one handler and all
+	 * emit an itemprop="location", so a plain [location] check would miss two of
+	 * them and allow a second, conflicting location onto the Event node.
+	 *
+	 * @since  4.3.3
+	 * @access private
+	 *
+	 * @return bool
+	 */
+	private function template_has_location_tag()
+	{
+		$template = $this->get_event_template();
+
+		if ('' === $template) {
+			return false;
+		}
+
+		// (?![\w-]) and not \b: \b matches before the hyphen in
+		// [start-location-link] / [end-location-link], which render a plain
+		// anchor and no itemprop="location" at all. Treating those as a
+		// location would suppress the VirtualLocation below and leave an
+		// online event with no location, which Google rejects.
+		return (bool) preg_match('/\[(start-|end-)?location(?![\w-])/i', $template);
 	}
 
 	/**
@@ -305,8 +479,20 @@ class Event_Schema
 	 */
 	private function get_schema_performer_meta()
 	{
-		$performers = $this->get_event_performers();
-		if (empty($performers)) {
+		/**
+		 * Filter the performers used for Event schema.
+		 *
+		 * No core event source supplies performers, so Google reports the
+		 * recommended "performer" field as missing. Rather than inventing a
+		 * value, this lets a site declare the real performers per event.
+		 *
+		 * @since 4.3.3
+		 *
+		 * @param array $performers List of ['name' => string, 'type' => 'Person'|'Organization'].
+		 * @param Event $event      Event the schema is built for.
+		 */
+		$performers = apply_filters('simcal_event_schema_performers', $this->get_event_performers(), $this->event);
+		if (empty($performers) || !is_array($performers)) {
 			return '';
 		}
 
@@ -408,6 +594,26 @@ class Event_Schema
 
 		if (!empty($this->event->meta['offer']) && is_array($this->event->meta['offer'])) {
 			$candidates[] = $this->event->meta['offer'];
+		}
+
+		/**
+		 * Filter the candidate ticket Offers used for Event schema.
+		 *
+		 * No core event source supplies ticket data, so Google reports the
+		 * recommended "offers" field as missing. Rather than inventing a price,
+		 * this lets a site declare the real offers per event. Google accepts a
+		 * price of 0 for an event that is genuinely free to attend. Each
+		 * candidate still has to carry price, priceCurrency, availability, url
+		 * and validFrom to be emitted.
+		 *
+		 * @since 4.3.3
+		 *
+		 * @param array $candidates Candidate offers from the event source.
+		 * @param Event $event      Event the schema is built for.
+		 */
+		$candidates = apply_filters('simcal_event_schema_offers', $candidates, $this->event);
+		if (empty($candidates) || !is_array($candidates)) {
+			return [];
 		}
 
 		foreach ($candidates as $candidate) {

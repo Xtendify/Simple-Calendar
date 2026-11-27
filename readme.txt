@@ -227,6 +227,18 @@ We'd love your help! Here's a few things you can do:
 * Dev: Ability to manually refresh the calendar event cache directly from the front-end page by appending ?update_cache=true to the URL (requires edit_posts capability).
 
 = 4.3.3 =
+* Fix: List View events were missing recommended Event schema fields, causing warnings in the Google Rich Results Test. Event status, attendance mode, image and organizer are now always included, and performer and ticket offers are included when the event source provides them.
+* Fix: Event schema treated online events as in-person, because it only looked at the event permalink. The Google Meet or conferencing link is now used for event attendance mode, and an online event with no street address is now described as a VirtualLocation instead of a venue named after the event.
+* Fix: Event schema always reported the status as scheduled. A status reported by the event source is now mapped to the matching schema.org value. Google Calendar feeds skip cancelled events before this point, so in practice this affects other event sources.
+* Fix: The [organizer] tag never rendered for Google Calendar feeds, because the feed supplied no organizer data. It now does, so a calendar whose event template contains [organizer] will start showing the organizer name - and, only where the template opts in with [organizer email="show"], the organizer email address.
+* Fix: List View rendered every event past the “Events limit” twice — two hidden copies, one of them missing the schema.org Event wrapper — and counted both towards the limit.
+* Fix: An online event was published with an online attendance mode but no location at all when its event template used [start-location-link] or [end-location-link].
+* Fix: An event whose own link was the meeting link was published as online while still describing a venue named after the event.
+* Fix: The [organizer] tag rendered an empty organizer name when the event source supplied an organizer without one, which also put a second, conflicting organizer into the structured data.
+* Fix: Showing an attendee or organizer email address could stop the page rendering when the address contained a character that had to be escaped.
+* Fix: The [organizer] and [attendees] tags assumed the event source always supplied a photo and an rsvp response, and printed names, photos and email addresses from the calendar feed without escaping.
+* New: Performer and ticket fields (performer name and type; ticket URL, price, currency, availability and on-sale date) on the event editor, so events created in Simple Calendar can supply the performer and offers values search engines recommend for Event results.
+* Dev: New simcal_event_schema_performers, simcal_event_schema_offers and simcal_event_schema_image_url filters to supply Event schema data no calendar feed provides.
 * Fix: An stored Cross-Site Scripting (XSS) vulnerability. 
 
 = 4.3.2 =
